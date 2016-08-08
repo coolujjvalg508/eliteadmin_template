@@ -1,0 +1,159 @@
+<!-- All Dashboard Start -->
+<section class="clearfix container-fluid-full">
+  <div class="row-fluid">
+	<div class="sidebar-left">
+	<%= render 'layouts/navigation' %>
+</div>
+    
+    <div class="content clearfix">
+      <div class="submenutabs-dashboard clearfix margin">
+         <%= render 'layouts/dashboard_feed' %>
+      </div>
+      
+      <!-- User Followers Start -->
+      <section class="clearfix notificationwrap">
+        
+        <div class="clearfix notification-heading">
+        <span class="noti-title">Notifications</span> <button type="button" class="blue-btn">Notification Settings</button>
+        
+        </div>
+        
+        <div class="clearfix">
+          
+          <div class="notification-wrap clearfix col-sm-12 col-xs-12">
+          <div class="row">
+            <div class="noti-top clearfix">All Notifications</div>
+            
+            <div class="clearfix notification-indent">
+             
+             <div class="clearfix marginB15 noti-comment">
+              <div class="notileft"><%= image_tag("noti-profile.jpg", :alt => "Notification") %>
+				  </div>
+              <div class="notiright">
+              <div class="marginB10"><span class="blue-txt">Arturius Lazer</span> has published new artwork <span class="blue-txt">June</span>.</div>
+              <div><em class="txt12">8 days ago</em></div>
+              </div>
+             </div>
+             
+             <div class="notification-profile clearfix"><%= image_tag("database/notification-profile.jpg", :class=>"img-responsive", :alt => "Notification") %>
+				</div>
+             
+             <div class="clearfix marginB15 noti-comment">
+              <div class="notileft"><img src="images/noti-profile.jpg" alt="Notification"></div>
+              <div class="notiright">
+              <div class="marginB10"><span class="blue-txt">Arturius Lazer</span> has published new artwork <span class="blue-txt">June</span>.</div>
+              <div><em class="txt12">8 days ago</em></div>
+              </div>
+             </div>
+             
+             <div class="notification-profile clearfix">
+				 <%= image_tag("database/notification-profile1.jpg", :class=>"img-responsive", :alt => "Notification") %>
+				 </div>
+             
+             <div class="clearfix marginB15 noti-comment">
+              <div class="notileft"><%= image_tag("noti-profile.jpg", :alt => "Notification") %></div>
+              <div class="notiright">
+              <div class="marginB10"><span class="blue-txt">Arturius Lazer</span> has published new artwork <span class="blue-txt">June</span>.</div>
+              <div><em class="txt12">8 days ago</em></div>
+              </div>
+             </div>
+             
+             <div class="notification-profile clearfix">
+				  <%= image_tag("database/notification-profile2.jpg", :class=>"img-responsive", :alt => "Notification") %></div> 
+             
+             <div class="clearfix marginB15 noti-comment">
+              <div class="notileft"><img src="images/noti-profile.jpg" alt="Notification"></div>
+              <div class="notiright">
+              <div class="marginB10"><span class="blue-txt">Arturius Lazer</span> has published new artwork <span class="blue-txt">June</span>.</div>
+              <div><em class="txt12">8 days ago</em></div>
+              </div>
+             </div>
+             
+             <div class="notification-profile clearfix">
+				 <%= image_tag("database/bianca-resende-skater.jpg", :class=>"img-responsive", :alt => "Notification") %></div>      
+            
+            </div>
+            
+            
+            </div>
+          </div>
+
+	<div class="aside col-sm-12 col-xs-12 padding">
+            
+            <div class="marginB15 clearfix">
+            <h2>Featured</h2>
+            </div>
+             <%= image_tag("database/ilm.jpg", :class=>"img-responsive", :alt => "ILM") %>
+            <div class="marginB15 clearfix latest-notification">
+            <h2>Latest Industry Jobs</h2>
+             <ul>
+               <li class="clearfix">
+                <div class="col-md-3 col-sm-4 col-xs-4 latestimg">  <%= image_tag("goodgame.jpg", :class=>"img-responsive", :alt => "Good") %>
+				</div>
+                <div class="col-md-9 col-sm-8 col-xs-8">
+                <div class="blue-txt marginB5">Concept Artist - Casual Studio</div>
+                <div class="latest-txt">Goodgame Studios</div>
+                <div class="latest-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>
+                </div>
+               </li>
+               <li class="clearfix">
+                <div class="col-md-3 col-sm-4 col-xs-4 latestimg">
+					<%= image_tag("goodgame.jpg", :class=>"img-responsive", :alt => "Good") %></div>
+                <div class="col-md-9 col-sm-8 col-xs-8">
+                <div class="blue-txt marginB5">User Interface Artist - Master of Whisperers (m/f)</div>
+                <div class="latest-txt">Goodgame Studios</div>
+                <div class="latest-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>
+                </div>
+               </li>	
+           	   <li class="clearfix">
+                <div class="col-md-3 col-sm-4 col-xs-4 latestimg"><%= image_tag("goodgame.jpg", :class=>"img-responsive", :alt => "Good") %></div>
+                <div class="col-md-9 col-sm-8 col-xs-8">
+                <div class="blue-txt marginB5">Concept Artist - Casual Studio</div>
+                <div class="latest-txt">Goodgame Studios</div>
+                <div class="latest-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>
+                </div>
+               </li>
+           	   <li class="clearfix">
+                <div class="col-md-3 col-sm-4 col-xs-4 latestimg"><%= image_tag("goodgame.jpg", :class=>"img-responsive", :alt => "Good") %></div>
+                <div class="col-md-9 col-sm-8 col-xs-8">
+                <div class="blue-txt marginB5">User Interface Artist - Master of Whisperers (m/f)</div>
+                <div class="latest-txt">Goodgame Studios</div>
+                <div class="latest-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>
+                </div>
+               </li>	
+           	   <li class="clearfix">
+                <div class="col-md-3 col-sm-4 col-xs-4 latestimg"><%= image_tag("goodgame.jpg", :class=>"img-responsive", :alt => "Good") %></div>
+                <div class="col-md-9 col-sm-8 col-xs-8">
+                <div class="blue-txt marginB5">Concept Artist - Casual Studio</div>
+                <div class="latest-txt">Goodgame Studios</div>
+                <div class="latest-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>
+                </div>
+               </li>
+               <li class="clearfix">
+                <div class="col-md-3 col-sm-4 col-xs-4 latestimg"><%= image_tag("goodgame.jpg", :class=>"img-responsive", :alt => "Good") %></div>
+                <div class="col-md-9 col-sm-8 col-xs-8">
+                <div class="blue-txt marginB5">User Interface Artist - Master of Whisperers (m/f)</div>
+                <div class="latest-txt">Goodgame Studios</div>
+                <div class="latest-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>
+                </div>
+               </li>	 
+            </ul>
+            </div>
+           
+          </div>
+          
+          
+          
+        </div>
+      </section>
+    </div>
+  
+  </div>
+  
+</section>
+
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+ <%= render 'layouts/lastfooter' %>
+</footer>
+<%= javascript_include_tag "jquery.min","bootstrap.min" %>

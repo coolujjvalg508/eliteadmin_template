@@ -1,0 +1,229 @@
+<!-- New Profile Section -->
+<div class="artist-profile ng-scope">
+<div style="background-image: url(<%= asset_path 'artist-profile-masthead-gradient.png' %>), url(<%= asset_path 'profile-user.jpg' %>);" class="artist-masthead">
+<div class="change-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-upload"></i><span class="text ng-binding">Change background (1920x640)</span></a></div>
+<div class="remove-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Remove Cover Art</span></a></div>
+<div class="container artist-info clearfix">
+  <div class="row">
+    <div class="col-sm-9 col-md-8 col-xs-12">
+      <div class="avatar">
+        <center>
+          <%= image_tag("userprofile.jpg", :alt => "profile",:class=>"img-thumbnail") %> <span class="user-pro-pic"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Update Profile <span class="hidden-xs">Picture</span></span></a></span>
+        </center>
+      </div>
+      <div class="artist-info-texts pull-left">
+        <h2 class="artist-name ng-binding">Maciej Kuciara <i class="fa fa-check-circle"></i></h2>
+        <div class="artist-additional-info">
+          <ul>
+            <li class="ng-binding"> <i class="fa fa-briefcase"></i> Artist, Instructor </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="artist-additional-info">
+          <ul>
+            <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> Irvine, United States of America </li>
+            <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
+            <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> 41,241 Likes </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
+      <ul class="list-inline pull-right">
+        <li class="ng-scope">
+          <div aria-label="..." role="group" class="btn-group">
+            <button type="button" title="Follow this user (F)" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
+            <button class="btn btn-sm user-follow" type="button">4216</button>
+          </div>
+        </li>
+        <li ng-if="artistCanContact" class="ng-scope">
+          <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button>
+        </li>
+        <li ng-if="artistCanContact" class="ng-scope">
+          <button href="" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+<!-- User Profile Menu -->
+<section class="usernavivation clearfix">
+<nav class="navbar-default clearfix">
+<div class="container">
+<div class="navbar-artist-profile clearfix">
+  <ul class="nav navbar-nav">
+    <li class="dropdown ng-scope"> <a href="user-profile.html">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
+    <li class="active"> <a href="user-profile-info.html">About</a> </li>
+    <li> <a href="user-following.html"> Following <span class="counter-number ng-binding">(13)</span> </a> </li>
+    <li> <a href="user-followers.html"> Followers<span class="counter-number ng-binding">(20)</span> </a> </li>
+    <li> <a href="user-like.html"> Like<span class="counter-number ng-binding">(20)</span> </a> </li>
+    <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+      <ul class="dropdown-menu ng-scope">
+        <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Forum Post (12) </a> </li>
+        <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Followers (13) </a> </li>
+        <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Jobs (7) </a> </li>
+        <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-bar-chart"></i> Stats </a> </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+</div>
+</nav>
+</section>
+
+<!-- User Profile start -->
+<section class="userprofileinfo celarfix">
+<div class="container">
+<div class="row">
+<div class="clearfix col-md-12 col-xs-12 col-sm-12 edit-pro text-right"><a href="#" class="lightbtn"><i class="fa fa-pencil-square-o blue-txt marginR5" aria-hidden="true"></i>  Edit Profile</a></div>
+
+<div class="col-md-8 col-sm-7 col-xs-12">
+
+<div class="clearfix marginB40">
+<h2>Summary</h2>
+<div class="about-txt">I'm a creative artist animator with a wide range of 3D and 2D skill from 3D  modelling and animation, 3D and 2D character design and animation</div>
+</div>
+
+<div class="clearfix marginB40">
+<h2>Demo Reel</h2>
+<div class="about-txt"><%= image_tag("database/youtube-img.jpg", :alt => "Youtube",:class=>"img-responsive") %></div>
+</div>
+
+<div class="clearfix marginB40">
+<h2>Professional Experience</h2>
+
+<div class="clearfix marginB15 row experience-wrap">
+<div class="col-md-3 col-sm-3 col-xs-4"><%= image_tag("youtube-img.jpg", :alt => "crytek",:class=>"img-responsive") %></div>
+<div class="col-md-5 col-sm-9 col-xs-8">
+<h3>Animator at illumination Studio</h3>
+<div class="experience-txt">Paris, France</div>
+</div>
+<div class="col-md-4 col-sm-12 col-xs-12 text-right">
+<a href="#" class="lightbtn">February 2013- January 2016</a>
+</div>
+</div>
+
+<div class="clearfix marginB15 row experience-wrap">
+<div class="col-md-3 col-sm-3 col-xs-4"><%= image_tag("gameloft.jpg", :alt => "gameloft",:class=>"img-responsive") %></div>
+<div class="col-md-5 col-sm-9 col-xs-8">
+<h3>Animator at R&H</h3>
+<div class="experience-txt">Los Angeles, United States of America<br>
+<br>
+As Animator for the film</div>
+</div>
+<div class="col-md-4 col-sm-12 col-xs-12 text-right">
+<a href="#" class="lightbtn">March 2004- February 2005</a>
+</div>
+</div>
+
+
+</div>
+
+<div class="clearfix marginB40">
+<h2>Production Experience</h2>
+
+<div class="clearfix marginB15 row production-wrap">
+<div class="col-md-3 col-sm-3 col-xs-3"><%= image_tag("johb-carter.jpg", :alt => "johb-carter",:class=>"img-responsive") %></div>
+<div class="col-md-9 col-sm-9 col-xs-9">
+<ul>
+<li><span>Movie</span>   The Chronicles of Narnia : The Lion,  the Witch and the Aardrobe</li>
+<li><span>Year</span>   2005</li>
+<li><span>Role </span>   Animator</li>
+<li><span>Company</span>   R&H</li>
+
+
+
+
+</ul>
+</div>
+ 
+</div>
+
+ 
+
+
+</div>
+
+<div class="clearfix marginB40">
+<h2>Education Experience</h2>
+
+<div class="clearfix row">
+<div class="col-md-8 col-sm-12 col-xs-12">
+<div class="edu-title">M.D.U.S. India</div>
+<div class="edu-degree marginB10">Bachelor's degree of Arts</div>
+<div class="edu-degree marginB10">2007  –  2010</div>
+<div class="edu-activitie">Activities and Societies: </div>
+<div class="edu-degree marginB10">Finding activities that you're passionate about is just as important in college ... <br>Go outside of your comfort zone when looking</div>
+</div>
+
+<div class="col-md-4 col-sm-12 col-xs-12 add-btn">
+<a href="#" class="lightbtn"><i class="fa fa-plus" aria-hidden="true"></i> Add education</a>
+<a href="#" class="lightbtn arrow-full"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
+
+</div>
+
+
+</div>
+</div>
+
+<div class="clearfix marginB40 skills-userprofile">
+<h2>Skills</h2>
+
+<a href="#">Facial Rigging &amp; Animation</a>
+<a href="#">Rigging</a>
+<a href="#">3D Animation</a>
+
+</div>
+
+<div class="clearfix marginB40 soft-userprofile">
+<h2>Software</h2>
+
+<a href="#"><%= image_tag("ps-icon.jpg", :alt => "Photoshop") %> Photoshop</a>
+<a href="#"><%= image_tag("maya-icon.jpg", :alt => "Maya") %> Maya</a>
+<a href="#"><%= image_tag("quixel-icon.jpg", :alt => "Quixel Suite") %> Quixel Suite</a>
+<a href="#"><%= image_tag("marvelous-icon.jpg", :alt => "Marvelous Designer") %> Marvelous Designer</a>
+
+</div>
+
+
+
+</div>
+
+<div class="col-md-4 col-sm-5 col-xs-12 user-prowrap">
+
+<div class="panel panel-default marginB15">
+  <div class="panel-heading">Hiring Information</div>
+  <div class="panel-body user-right-wrap">
+  <a href="#">Interested in:</a>
+  <a href="#">Freelance</a>
+  <button class="btn btn-success col-md-12 border-radius" type="button"><i class="fa fa-envelope marginR5" aria-hidden="true"></i> Send Message</button>
+  </div>
+</div>
+
+<div class="panel panel-default marginB15">
+  <div class="panel-heading">Connect</div>
+  <div class="panel-body connect-wrap">
+  <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a> 
+  <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+  <a href="#"><i class="fa fa-globe" aria-hidden="true"></i></a>
+  <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+<div class="panel panel-default marginB15">
+  <div class="panel-heading">Artist Stast</div>
+  <div class="panel-body artist-wrap-stast">
+   <div class="marginB15"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 114,660 Atwork Views</div>
+   <div class="marginB15"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 41,241 Atwork Likes</div>
+   <div class="marginB5"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 41,241 Followers</div>   
+  </div>
+</div>
+
+</div>
+</div>
+</section>
+ <%= javascript_include_tag "jquery.min","angular","bootstrap.min","wow.min" %>

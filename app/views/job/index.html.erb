@@ -1,0 +1,355 @@
+<!-- New Profile Section -->
+<div class="artist-profile ng-scope">
+<div style="background-image: url(<%= asset_path 'artist-profile-masthead-gradient.png' %> ), url(<%= asset_path 'profile-user.jpg?1452532143' %> );" class="artist-masthead">
+<div class="change-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-upload"></i><span class="text ng-binding">Change background (1920x640)</span></a></div>
+<div class="remove-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Remove Cover Art</span></a></div>
+<div class="container artist-info clearfix">
+  <div class="row">
+    <div class="col-sm-9 col-md-8 col-xs-12">
+      <div class="avatar">
+        <center>
+          <%= image_tag("userprofile.jpg", :alt => "profile",:class=>"img-thumbnail") %><span class="user-pro-pic"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Update Profile <span class="hidden-xs">Picture</span></span></a></span>
+        </center>
+      </div>
+      <div class="artist-info-texts pull-left">
+        <h2 class="artist-name ng-binding">Maciej Kuciara <i class="fa fa-check-circle"></i></h2>
+        <div class="artist-additional-info">
+          <ul>
+            <li class="ng-binding"> <i class="fa fa-briefcase"></i> Artist, Instructor </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <div class="artist-additional-info">
+          <ul>
+            <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> Irvine, United States of America </li>
+            <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
+            <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> 41,241 Likes </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
+      <ul class="list-inline pull-right">
+        <li class="ng-scope">
+          <div aria-label="..." role="group" class="btn-group">
+            <button type="button" title="Follow this user (F)" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
+            <button class="btn btn-sm user-follow" type="button">4216</button>
+          </div>
+        </li>
+        <li ng-if="artistCanContact" class="ng-scope">
+          <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button>
+        </li>
+        <li ng-if="artistCanContact" class="ng-scope">
+          <button href="" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+<!-- User Profile Menu -->
+<section class="usernavivation clearfix">
+<nav class="navbar-default clearfix">
+ <div class="container">
+ <div class="navbar-artist-profile clearfix">
+<ul class="nav navbar-nav">
+  <li class="dropdown ng-scope"> <a href="user-profile.html">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
+  <li> <a href="user-profile-info.html">About</a> </li>
+  <li class="active"> <a href="jobs.html"> Jobs </a> </li>
+  <li> <a href="user-following.html"> Following <span class="counter-number ng-binding">(13)</span> </a> </li>
+  <li> <a href="user-like.html"> Like<span class="counter-number ng-binding">(20)</span> </a> </li>
+  <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+    <ul class="dropdown-menu ng-scope">
+      <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Forum Post (12) </a> </li>
+      <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Followers (13) </a> </li>
+      <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Jobs (7) </a> </li>
+      <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-bar-chart"></i> Stats </a> </li>
+    </ul>
+  </li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="clearfix hidden-xs">
+<ul class="nav nav-pills">
+  <li class="paddinT10 paddinB10">
+    <input type="text" placeholder="Search" class="form-control from-input">
+  </li>
+  
+  <li class="dropdown pull-right recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+    <ul class="dropdown-menu">
+      <li><a href="#">Last Name</a></li>
+      <li><a href="#">Recent </a></li>
+    </ul>
+  </li>
+  
+  <li class="dropdown pull-right recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Job Type <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+    <ul class="dropdown-menu">
+      <li><a href="#">Last Name</a></li>
+      <li><a href="#">Recent </a></li>
+    </ul>
+  </li>
+
+  <li class="pull-right location-txt-drop"> Location</li>
+  
+</ul>
+</div>
+</section>
+
+<!-- User Followers Start -->
+<section class="clearfix jobs-wrap">
+<div class="col-md-12">
+<ul class="margin"> 
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Art Director  (m/f) - Hamburg - 4272</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-status txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Full Time</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img1.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Associate Technical Artist (m/f) - Hamburg - 4157</a></div>
+ <div class="white-txt marginB15">Bigpoint GmbH</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-yallow txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Internship</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li> 
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img2.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Freelance Environment Artist</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-blue txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Freelance</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>  
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img3.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Video Compositor (Marketing Art)</a></div>
+ <div class="white-txt marginB15">MZ</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-part txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Part Time</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Art Director  (m/f) - Hamburg - 4272</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-temporary txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Temporary</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>
+
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Art Director  (m/f) - Hamburg - 4272</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-status txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Full Time</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img1.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Associate Technical Artist (m/f) - Hamburg - 4157</a></div>
+ <div class="white-txt marginB15">Bigpoint GmbH</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-yallow txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Internship</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li> 
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img2.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Freelance Environment Artist</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-blue txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Freelance</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>  
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img3.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Video Compositor (Marketing Art)</a></div>
+ <div class="white-txt marginB15">MZ</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-part txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Part Time</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Art Director  (m/f) - Hamburg - 4272</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-temporary txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Temporary</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>
+
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Art Director  (m/f) - Hamburg - 4272</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-status txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Full Time</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img1.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Associate Technical Artist (m/f) - Hamburg - 4157</a></div>
+ <div class="white-txt marginB15">Bigpoint GmbH</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-yallow txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Internship</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li> 
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img2.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Freelance Environment Artist</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-blue txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Freelance</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>  
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img3.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Video Compositor (Marketing Art)</a></div>
+ <div class="white-txt marginB15">MZ</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-part txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Part Time</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+ 
+</li>
+<li class="clearfix">
+ 
+ <div class="jobs-post-left pull-left"><%= image_tag("database/jobs-img.jpg", :alt => "Jobs",:class=>"img-responsive") %></div>
+ 
+ <div class="jobs-content clearfix pull-left">
+ <div class="jobs-title marginB15"><a href="#">Art Director  (m/f) - Hamburg - 4272</a></div>
+ <div class="white-txt marginB15">Classcraft</div>
+ <div class="jobs-view-txt txt12 marginB15">05 August 2015 - 5,116 views</div>
+ <div class="jobs-temporary txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Temporary</div>
+ 
+ 
+ </div>
+          
+ <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Hamburg, Germany</div>         
+</li>
+</ul>    
+</div>
+<%= render 'layouts/paging' %>
+</section>
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+<%= render 'layouts/lastfooter' %>
+</footer>
+<%= javascript_include_tag "jquery.min","angular","bootstrap.min","wow.min","custom" %>

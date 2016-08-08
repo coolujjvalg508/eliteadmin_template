@@ -1,0 +1,109 @@
+<header>
+ <nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+	<div class="navbar-header">
+	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+
+	<%= link_to image_tag("logo.png", border: 0,alt:"CGMeetup"), {action: 'index', controller: 'gallery'}, {class: 'navbar-brand'} %>
+	<!-- <a class="navbar-brand" href="#"><img src="images/logo.png" alt="CGMeetup"></a> -->
+	</div>
+	<div class="collapse navbar-collapse" id="myNavbar">
+	<form class="navbar-form navbar-left" role="search">
+	  <div class="form-group">
+		<input type="text" class="form-control" placeholder="Search">
+	  </div>
+	</form>
+	<ul class="nav navbar-nav text-uppercase">
+	  <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">community <span class="fa fa-chevron-down"></span></a>
+		<ul class="dropdown-menu text-uppercase">
+		  <li><a href="#"><i class="fa fa-fw fa-picture-o fa-pad-right"></i> Browse art</a></li>
+		  <li><a href="#" target="_self"><i class="fa fa-fw fa-search fa-pad-right"></i> Search</a></li>
+		  <li class="divider hidden-xs hidden-sm"></li>
+		  <li><a href="#"><i class="fa fa-heartbeat fa-lg fa-pad-right"></i> Activity</a></li>
+		  <li><a href="#"><i class="fa fa-trophy fa-lg fa-pad-right"></i> Challenges</a></li>
+		  <li>	<%= link_to '<i class="fa fa-fw fa-bookmark fa-pad-right"></i> BookMarks'.html_safe, {controller:'user',action:'bookmark'} %></li>
+		  <li><a href="#"><i class="fa fa-fw fa-bar-chart fa-pad-right"></i> Stats</a></li>
+		</ul>
+	  </li>
+	  <li><a href="#">news</a></li>
+	  <li><%= link_to 'downloads'.html_safe, {controller:'gallery',action:'download'} %></li>
+	  <li><a href="#">tutorials</a></li>
+	  <li><a href="#">jobs</a></li>
+	  <li><a href="#">forum</a></li>
+	  <li>
+		<button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button>
+		<ul class="dropdown-menu">
+		  <li><a href="#">Action</a></li>
+		  <li><a href="#">Another action</a></li>
+		  <li><a href="#">Something else here</a></li>
+		  <li role="separator" class="divider"></li>
+		  <li><a href="#">Separated link</a></li>
+		</ul>
+	  </li>
+	</ul>
+	<ul class="nav navbar-nav navbar-right text-uppercase">
+	  <li> <%= link_to '<span class="fa fa-users marginR5"></span>Signup'.html_safe, controller: 'user',action:'signup' %>
+		<!-- <a href="signup.html"><span class="fa fa-users marginR5"></span> Signup</a></li> -->
+	  <li><a data-toggle="modal" href="#login-popup"><span class="glyphicon glyphicon-log-in marginR5 "></span> SignIn</a></li>
+	  <li class="hidden-xs userprofile-rightside"><a href="#" class="dropdown-toggle threedots" data-toggle="dropdown" ><i class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></i></a>
+		<ul class="dropdown-menu  text-uppercase">
+		  <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> About CGMeetup</a></li>
+		  <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Advertise</a></li>
+		  <li class="divider"></li>
+		  <li><a href="#"><i class="fa fa-question" aria-hidden="true"></i> Help</a></li>
+		  <li class="divider"></li>
+		  <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> Newsletter</a></li>
+		  <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+		  <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
+		  <li><a href="#"><i class="fa fa-youtube-square" aria-hidden="true"></i> Youtube</a></li>
+		  <li><a href="#"><i class="fa fa-play-circle" aria-hidden="true"></i> Dailymotion</a></li>
+		  <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+		  <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i> Google+</a></li>
+		  <li class="divider"></li>
+		  <li><a href="#"><i class="fa fa-gavel" aria-hidden="true"></i> Tearms of Services</a></li>
+		  <li><a href="#"><i class="fa fa-lock" aria-hidden="true"></i> Privacy Policy</a></li>
+		</ul>
+	  </li>
+	  <li class="hidden-lg hidden-md hidden-sm text-uppercase"><a href="#" type="button">Sign out</a></li>
+	  <li class="hidden-lg hidden-md hidden-sm text-uppercase"><a href="#" type="button">About</a></li>
+	</ul>
+	</div>
+	</div>
+	</nav>
+</header>
+	<!-- Login Popup -->
+	<div class="modal fade" id="login-popup" role="dialog">
+		<div class="modal-dialog"> 
+
+		<!-- Modal content-->
+		<div class="modal-content">
+		<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"></button>
+		<h4 class="modal-title text-uppercase">Sign In</h4>
+		</div>
+		<div class="modal-body">
+		<form role="form">
+		  <div class="form-group">
+			<label for="email">Your email</label>
+			<input type="email" class="form-control" id="email" placeholder="email@example.com">
+		  </div>
+		  <div class="form-group">
+			<label for="pwd">Password:</label>
+			<input type="password" class="form-control" id="pwd" placeholder="password">
+		  </div>
+		  <div class="checkbox">
+			<div class="checkbox-btn">
+			  <input type="checkbox" value="value-1" id="rc3" name="rc3" />
+			  <label for="rc3" onclick>Stay signed in </label>
+			 <%= link_to 'Forgot password?'.html_safe, {controller:'user',action:'forgotpassword'}, class:'pull-right blue-txt'%>  
+			  </div>
+		  </div>
+		  <button type="submit" class="lightbtn txt16"><i class="fa fa-sign-in blue-txt" aria-hidden="true"></i> Submit</button>
+		</form>
+		<div class="follow-loginwrap clearfix text-center">
+		  <div class="or-txt">or</div>
+		  <a href="#" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> <a href="#" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a> </div>
+		</div>
+		</div>
+		</div>
+	</div>

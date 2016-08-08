@@ -1,0 +1,328 @@
+<!-- New Profile Section -->
+<div class="artist-profile ng-scope">
+ <div style="background-image: url(<%= asset_path 'artist-profile-masthead-gradient.png' %>), url(<%= asset_path 'profile-user.jpg' %>);" class="artist-masthead">
+    <div class="change-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-upload"></i><span class="text ng-binding">Change background (1920x640)</span></a></div>
+    <div class="remove-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Remove Cover Art</span></a></div>
+    <div class="container artist-info clearfix">
+      <div class="row">
+        <div class="col-sm-9 col-md-8 col-xs-12">
+          <div class="avatar">
+            <center>
+              <%= image_tag("userprofile.jpg",:class=>"img-thumbnail" ,:alt => "profile") %> <span class="user-pro-pic"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Update Profile <span class="hidden-xs">Picture</span></span></a></span>
+            </center>
+          </div>
+          <div class="artist-info-texts pull-left">
+            <h2 class="artist-name ng-binding">Maciej Kuciara <i class="fa fa-check-circle blue-txt"></i></h2>
+            <div class="artist-additional-info">
+              <ul>
+                <li class="ng-binding"> <i class="fa fa-briefcase"></i> Artist, Instructor </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="artist-additional-info">
+              <ul>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> Irvine, United States of America </li>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> 41,241 Likes </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
+          <ul class="list-inline pull-right">
+            <li class="ng-scope">
+              <div aria-label="..." role="group" class="btn-group">
+                <button type="button" title="Follow this user (F)" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
+                <button class="btn btn-sm user-follow" type="button">4216</button>
+              </div>
+            </li>
+            <li ng-if="artistCanContact" class="ng-scope">
+              <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button>
+            </li>
+            <li ng-if="artistCanContact" class="ng-scope">
+              <button href="" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- User Profile Menu -->
+<section class="usernavivation clearfix">
+  <nav class="navbar-default clearfix">
+    <div class="container">
+      <div class="navbar-artist-profile clearfix">
+        <ul class="nav navbar-nav">
+          <li><a href="user-profile.html">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
+          <li><a href="user-profile-info.html">About</a> </li>
+          <li><a href="user-following.html"> Following <span class="counter-number ng-binding">(13)</span> </a> </li>
+          <li><a href="user-followers.html"> Followers<span class="counter-number ng-binding">(20)</span> </a> </li>
+          <li><a href="user-likes.html"> Like<span class="counter-number ng-binding">(20)</span> </a> </li>
+          <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+            <ul class="dropdown-menu ng-scope">
+              <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Forum Post (12) </a> </li>
+              <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Followers (13) </a> </li>
+              <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Jobs (7) </a> </li>
+              <li class="ng-scope"> <a href="user-statistics.html" class="ng-binding"> <i class="fa fa-bar-chart"></i> Stats </a> </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+
+<!-- User Statistics Start -->
+<section class="clearfix userstatisticswrap">
+  <div class="container">
+    <div class="clearfix marginB15">
+      <div class="userstat-indent clearfix">
+        <div class="col-md-12 col-sm-12 col-xs-12 white-txt txt16 marginB15">All Time Statistics</div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+          <div class="viewbdr clearfix">
+            <div class="userview-title blue-txt">140608</div>
+            <div class="text-uppercase view-txt">project views</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+          <div class="viewbdr clearfix">
+            <div class="userview-title blue-txt">30483</div>
+            <div class="text-uppercase view-txt">Profile view</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+          <div class="viewbdr clearfix">
+            <div class="userview-title greencolor">18789</div>
+            <div class="text-uppercase view-txt">project Likes</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+          <div class="userview-title darkcolor">13856</div>
+          <div class="text-uppercase view-txt">project comments</div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix marginB15">
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="userstat-indent1 clearfix">
+            <div class="white-txt txt16 marginB15">Project Views</div>
+            <div><img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="userstat-indent1 clearfix">
+            <div class="white-txt txt16 marginB15">Project Likes</div>
+            <div><img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix marginB15 userstat-indent1 hidden-xs">
+      <div class="clearfix marginB15">
+        <div class="row">
+          <div class="col-md-8 col-sm-7 col-xs-8 white-txt txt16">Project Monthly Review</div>
+          <div class="col-md-4 col-sm-5 col-xs-4 white-txt txt16 text-right lightcolor">(In last 30 days)</div>
+        </div>
+      </div>
+      <div class="clearfix reviewuser">
+        <div class="reviewfisrt lightcolor pull-left">Project</div>
+        <div class="reviewsec pull-left txt16 lightcolor text-center"><i class="fa fa-eye" aria-hidden="true"></i></div>
+        <div class="reviewsec pull-left txt16 lightcolor text-center"><i class="fa fa-thumbs-up" aria-hidden="true"></i></div>
+        <div class="reviewsec pull-left txt16 lightcolor text-center"><i class="fa fa-comments" aria-hidden="true"></i></div>
+        <div class="reviewlast lightcolor pull-left">Liked BY:</div>
+      </div>
+      <div class="user-portfolio-wrap clearfix">
+        <div class="clearfix user-portfolio-first pull-left">
+          <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+          <div class="pull-left">
+            <h3>Carlos Siqueira</h3>
+            <div class="appr-txt">Published: 5/06/16</div>
+          </div>
+        </div>
+        <div class="user-portfolio-sec pull-left text-center">9903</div>
+        <div class="user-portfolio-sec pull-left text-center">1211</div>
+        <div class="user-portfolio-sec pull-left text-center">97</div>
+        <div class="clearfix user-portfolio-first pull-left"> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/32.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><img src="images/database/user-stat.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> </div>
+      </div>
+      <div class="user-portfolio-wrap clearfix">
+        <div class="clearfix user-portfolio-first pull-left">
+          <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat1.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+          <div class="pull-left">
+            <h3>Etihad airways / LowPoly World</h3>
+            <div class="appr-txt">Published: 5/06/16</div>
+          </div>
+        </div>
+        <div class="user-portfolio-sec pull-left text-center">9903</div>
+        <div class="user-portfolio-sec pull-left text-center">1211</div>
+        <div class="user-portfolio-sec pull-left text-center">97</div>
+        <div class="clearfix user-portfolio-first pull-left"> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/32.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><img src="images/database/user-stat.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> </div>
+      </div>
+      <div class="user-portfolio-wrap clearfix">
+        <div class="clearfix user-portfolio-first pull-left">
+          <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+          <div class="pull-left">
+            <h3>the PolyWood v1.0</h3>
+            <div class="appr-txt">Published: 5/06/16</div>
+          </div>
+        </div>
+        <div class="user-portfolio-sec pull-left text-center">9903</div>
+        <div class="user-portfolio-sec pull-left text-center">1211</div>
+        <div class="user-portfolio-sec pull-left text-center">97</div>
+        <div class="clearfix user-portfolio-first pull-left"> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/32.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><img src="images/database/user-stat.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> </div>
+      </div>
+      <div class="user-portfolio-wrap clearfix">
+        <div class="clearfix user-portfolio-first pull-left">
+          <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat1.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+          <div class="pull-left">
+            <h3>Etihad airways / LowPoly World</h3>
+            <div class="appr-txt">Published: 5/06/16</div>
+          </div>
+        </div>
+        <div class="user-portfolio-sec pull-left text-center">9903</div>
+        <div class="user-portfolio-sec pull-left text-center">1211</div>
+        <div class="user-portfolio-sec pull-left text-center">97</div>
+        <div class="clearfix user-portfolio-first pull-left"> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/32.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><img src="images/database/user-stat.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> </div>
+      </div>
+      <div class="user-portfolio-wrap clearfix">
+        <div class="clearfix user-portfolio-first pull-left">
+          <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+          <div class="pull-left">
+            <h3>the PolyWood v1.0</h3>
+            <div class="appr-txt">Published: 5/06/16</div>
+          </div>
+        </div>
+        <div class="user-portfolio-sec pull-left text-center">9903</div>
+        <div class="user-portfolio-sec pull-left text-center">1211</div>
+        <div class="user-portfolio-sec pull-left text-center">97</div>
+        <div class="clearfix user-portfolio-first pull-left"> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/32.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><img src="images/database/user-stat.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="img"></a> <a href="#" class="marginR5"><%= image_tag("database/30.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> <a href="#" class="marginR5"><%= image_tag("database/31.jpg", :alt => "img",:width=>"51",:height=>"51") %></a> </div>
+      </div>
+    </div>
+    <div class="clearfix marginB15 userstat-indent1">
+      <div class="row">
+        <div class="col-md-6 col-xs-12 col-sm-6">
+          <div class="marginB10 white-txt txt16"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</div>
+          <div class="userstatapp clearfix">
+            <ul class="row">
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Carlos Siqueira</h3>
+                  <div class="appr-txt">27 Likes</div>
+                </div>
+              </li>
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat1.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Dariusz Palarczyk</h3>
+                  <div class="appr-txt">27 Likes</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="userstatapp clearfix">
+            <ul class="row">
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat2.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Carlos Siqueira</h3>
+                  <div class="appr-txt">27 Likes</div>
+                </div>
+              </li>
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat3.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Dariusz Palarczyk</h3>
+                  <div class="appr-txt">27 Likes</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="userstatapp clearfix">
+            <ul class="row">
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Carlos Siqueira</h3>
+                  <div class="appr-txt">27 Likes</div>
+                </div>
+              </li>
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat1.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Dariusz Palarczyk</h3>
+                  <div class="appr-txt">27 Likes</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6 col-xs-12 col-sm-6 userappmobi">
+          <div class="marginB10 white-txt txt16"><i class="fa fa-comments" aria-hidden="true"></i> Commenters</div>
+          <div class="userstatapp clearfix">
+            <ul class="row">
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Carlos Siqueira</h3>
+                  <div class="appr-txt">27 comments</div>
+                </div>
+              </li>
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat1.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Dariusz Palarczyk</h3>
+                  <div class="appr-txt">27 comments</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="userstatapp clearfix">
+            <ul class="row">
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat2.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Carlos Siqueira</h3>
+                  <div class="appr-txt">27 comments</div>
+                </div>
+              </li>
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat3.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Dariusz Palarczyk</h3>
+                  <div class="appr-txt">27 comments</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="userstatapp clearfix">
+            <ul class="row">
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Carlos Siqueira</h3>
+                  <div class="appr-txt">27 comments</div>
+                </div>
+              </li>
+              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                <div class="user-stat-pic pull-left"><%= image_tag("database/user-stat1.jpg", :alt => "User",:width=>"51",:height=>"51",:class=>"img-responsive") %></div>
+                <div class="pull-left">
+                  <h3>Dariusz Palarczyk</h3>
+                  <div class="appr-txt">27 comments</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+ <%= render 'layouts/paging' %>
+</footer>
+<%= javascript_include_tag "jquery.min","angular","bootstrap.min","wow.min" %>
