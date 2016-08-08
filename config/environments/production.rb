@@ -25,6 +25,8 @@ Rails.application.configure do
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   config.assets.compile = true
+  
+  config.action_mailer.default_url_options = { :host => 'cgmeetupdev.herokuapp.com' }
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
