@@ -1,4 +1,6 @@
 ActiveAdmin.register Faq do
+ 
+ menu label: 'Faq'
  config.sort_order = 'position_asc'
  permit_params :question, :answer, :active, :bootsy_image_gallery_id
 

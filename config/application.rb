@@ -1,6 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require "rails"
+require 'carrierwave'
+require 'carrierwave/orm/activerecord'
 # Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
@@ -17,7 +19,7 @@ Bundler.require(*Rails.groups)
 
 module Cgmeetuplatest
   class Application < Rails::Application
-  config.assets.paths << Rails.root.join("app", "assets", "fonts","images")
+    config.assets.paths << Rails.root.join("app", "assets", "fonts","images")
 	config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 	
     # Settings in config/environments/* take precedence over those specified here.
