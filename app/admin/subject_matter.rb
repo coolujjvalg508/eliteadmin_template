@@ -49,7 +49,8 @@ ActiveAdmin.register SubjectMatter do
       f.input :name
       f.input :description
       f.input :slug
-    end
+     
+      end
 
     f.actions
   end
@@ -65,7 +66,9 @@ ActiveAdmin.register SubjectMatter do
   show do
     attributes_table do
       row :name
-      row :parent_id
+       row :parent do |cat|
+        SubjectMatter.find_by(id: cat.parent_id).try(:name)
+      end
       row :image do |cat|
         unless !cat.image.present?
           image_tag(cat.try(:image).try(:url, :event_small))

@@ -67,7 +67,9 @@ ActiveAdmin.register MediumCategory do
   show do
     attributes_table do
       row :name
-      row :parent_id
+      row :parent do |cat|
+       MediumCategory.find_by(id: cat.parent_id).try(:name)
+     end
       row :image do |cat|
         unless !cat.image.present?
           image_tag(cat.try(:image).try(:url, :event_small))
