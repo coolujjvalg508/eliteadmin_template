@@ -3,7 +3,7 @@ ActiveAdmin.register StaticPage do
     menu label: 'CMS'
 	permit_params :title, :description, :page_url
 	config.sort_order = 'updated_at_desc'
-    actions :all, except: [:new, :destroy]
+   # actions :all, except: [:new, :destroy]
     
     
   index :download_links => ['csv'] do
