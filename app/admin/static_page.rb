@@ -3,7 +3,7 @@ ActiveAdmin.register StaticPage do
     menu label: 'CMS'
 	permit_params :title, :description, :page_url
 	config.sort_order = 'updated_at_desc'
-   # actions :all, except: [:new, :destroy]
+    actions :all, except: [:new, :destroy]
     
     
   index :download_links => ['csv'] do
@@ -26,8 +26,8 @@ ActiveAdmin.register StaticPage do
   form do |f|
     f.inputs "Static Page" do
     	f.input :title
-     # f.input :page_url, :label => 'Page Url', :as => :string, :input_html => { :disabled => true } 
-      f.input :page_url, :label => 'Page Url', :as => :string
+      f.input :page_url, :label => 'Page Url', :as => :string, :input_html => { :disabled => true } 
+     # f.input :page_url, :label => 'Page Url', :as => :string
       li do
         insert_tag(Arbre::HTML::Label, "Content") { content_tag(:abbr, "*", title: "required") }
         f.bootsy_area :description, :rows => 25, :cols => 25, editor_options: { html: true }
