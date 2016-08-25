@@ -51,9 +51,8 @@ ActiveAdmin.register Faq do
     # Filters
   filter :question
   filter :answer
-  filter :active, as: :select, collection: [['Active',1], ['InActive', 0]], label: "Status"
+  filter :active, as: :select, collection: [['Active',1], ['Inactive', 0]], label: "Status"
   filter :created_at
-  filter :updated_at
   
     # Show Page
   show :title => 'FAQ' do 

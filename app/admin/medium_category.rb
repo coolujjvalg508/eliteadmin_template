@@ -56,11 +56,9 @@ ActiveAdmin.register MediumCategory do
     f.actions
   end
   
-  filter :name
-  filter :parent_id
- 
+  filter :name 
   filter :created_at
-  filter :updated_at
+
 
 
   # Show Page

@@ -59,10 +59,7 @@ ActiveAdmin.register Category do
   end
   
   filter :name
-  filter :parent_id
- 
   filter :created_at
-  filter :updated_at
 
 
   # Show Page

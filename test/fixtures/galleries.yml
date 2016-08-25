@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  post_type_cat_id: MyString
+  medium_type_cat_id: MyString
+  subject_type_cat_id: MyString
+  has_adult_content: MyString
+  used_software: MyString
+  tags: MyString
+  use_tag_from_previous_upload: MyString
+  is_featured_post: MyString
+
+two:
+  title: MyString
+  description: MyText
+  post_type_cat_id: MyString
+  medium_type_cat_id: MyString
+  subject_type_cat_id: MyString
+  has_adult_content: MyString
+  used_software: MyString
+  tags: MyString
+  use_tag_from_previous_upload: MyString
+  is_featured_post: MyString
