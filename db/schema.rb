@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825102836) do
+ActiveRecord::Schema.define(version: 20160830071915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,38 @@ ActiveRecord::Schema.define(version: 20160825102836) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+
+  create_table "galleries", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "post_type_category_id",        default: 0
+    t.integer  "medium_category_id",           default: 0
+    t.integer  "subject_matter_id",            default: 0
+    t.integer  "has_adult_content",            default: 0
+    t.string   "software_used"
+    t.string   "tags"
+    t.integer  "use_tag_from_previous_upload", default: 0
+    t.integer  "is_featured",                  default: 0
+    t.integer  "status",                       default: 1
+    t.integer  "is_save_to_draft",             default: 0
+    t.integer  "visibility",                   default: 1
+    t.integer  "publish",                      default: 1
+    t.string   "company_logo"
+    t.integer  "where_to_show",                default: 1
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string   "image"
+    t.integer  "imageable_id",   null: false
+    t.string   "imageable_type", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "images", ["imageable_id"], name: "index_images_on_imageable_id", using: :btree
+  add_index "images", ["imageable_type"], name: "index_images_on_imageable_type", using: :btree
 
   create_table "medium_categories", force: :cascade do |t|
     t.string   "name"

@@ -32,7 +32,7 @@ ActiveAdmin.register Category do
   end
 
 	
-    controller do
+   controller do
 			def create
 			  unless params[:category][:image].present?
 				params[:category][:image] = params[:category][:image_cache]

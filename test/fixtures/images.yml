@@ -1,9 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  gallery_id: 1
   image: MyString
 
 two:
-  gallery_id: 1
   image: MyString
