@@ -125,6 +125,46 @@ ActiveAdmin.register Gallery do
     end
 
 
+	csv do
+		column :title
+		column :description
+		column 'Post Type' do |cat|
+			Category.find_by(id: cat.post_type_category_id).try(:name)
+		end
+		column :medium_category_id do |cat|
+		    MediumCategory.find_by(id: cat.medium_category_id).try(:name)
+		  end
+		column :subject_matter_id do |cat|
+		    SubjectMatter.find_by(id: cat.subject_matter_id).try(:name)
+		  end
+		column :has_adult_content do |hac|
+		    hac.has_adult_content? ? 'Yes' : 'No'
+		  end
+
+		column :software_used
+		column :tags
+	    column :use_tag_from_previous_upload do |utag|
+		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
+		  end
+		column :is_featured do |ifeature|
+			ifeature.is_featured? ? 'Yes' : 'No'
+		  end
+		column :status do |st|
+			st.status? ? 'Active' : 'Inactive'
+		  end
+		column :is_save_to_draft do |st|
+			st.is_save_to_draft? ? 'Yes' : 'No'
+		  end
+		column :visibility do |st|
+			st.visibility? ? 'Private' : 'Public'
+		  end
+		column :publish do |st|
+			st.publish? ? 'Yes' : 'No'
+		  end
+		  
+		column :created_at
+		
+  end
 
 
 # See permitted parameters documentation:

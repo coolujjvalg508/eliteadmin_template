@@ -48,6 +48,18 @@ ActiveAdmin.register Faq do
     actions
   end
   
+   csv do
+		column :question
+		column :answer
+		column :active
+		column :created_at
+	end
+  
+  
+  
+  
+  
+  
     # Filters
   filter :question
   filter :answer
