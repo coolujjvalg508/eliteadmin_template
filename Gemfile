@@ -40,7 +40,6 @@ gem 'active_admin_theme'
 gem 'active_admin-awesome_nested_set'
 
 gem "just-datetime-picker"
-gem 'carrierwave'
 gem "nested_form"
 
 # Use ActiveModel has_secure_password

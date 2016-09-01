@@ -4,7 +4,7 @@ ActiveAdmin.register Gallery do
 	:medium_category_id, :subject_matter_id, :has_adult_content, 
 	:software_used, :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo, 
-	:where_to_show, image_attributes: [:id, :image, :imageable_id, :imageable_type, :image_cache]
+	:where_to_show, :images_attributes => [:id,:image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache]
 	
 
 	form multipart: true do |f|
@@ -26,16 +26,45 @@ ActiveAdmin.register Gallery do
 		  f.input :publish, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false
 		  f.input :company_logo
 			  
+		  f.inputs 'Images' do
+			f.has_many :images, allow_destroy: true, new_record: true do |ff|
+			  ff.input :image, label: "Image", hint: ff.template.image_tag(ff.object.image.try(:url,:thumb))
+			  ff.input :image_cache, :as => :hidden
+			end
+		  end	
 		end
 		
-		f.inputs "Image", for: [:image, f.object.image || Image.new] do |image|
-			image.input :image, as: :file
-			image.input :image_cache, :as => :hidden
-		end
-    
-    f.actions
+	f.actions
   end
+  
+  controller do
+	  def create
+			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
+			params[:gallery][:images_attributes].each do |index,img|
+			  unless params[:gallery][:images_attributes][index][:image].present?
+				params[:gallery][:images_attributes][index][:image] = params[:gallery][:images_attributes][index][:image_cache]
+			  end
+			end
+			super
+		  else
+			super
+		  end
+		end
 
+		def update
+			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
+			
+			params[:gallery][:images_attributes].each do |index,img|
+			  unless params[:gallery][:images_attributes][index][:image].present?
+				params[:gallery][:images_attributes][index][:image] = params[:gallery][:images_attributes][index][:image_cache]
+			  end
+			end
+			super
+		  else
+			super
+		  end
+		end
+  end
 
   filter :title
   filter :tags
@@ -117,6 +146,21 @@ ActiveAdmin.register Gallery do
 			  image_tag('/assets/default-blog.png', height: '50', width: '50')
 			end
 		  end
+		  
+		  row 'Images' do
+			ul class: "image-blk" do
+				if gallery.images.present?
+				  gallery.images.each do |img|
+					span do
+					  image_tag(img.try(:image).try(:thumb).try(:url), class: "show-img")
+					end
+				  end
+				end
+			end
+		  end
+		  
+		  
+		  
 		  row :where_to_show do |st|
 		    st.where_to_show? ? 'On CGmeetup' : 'On Website'
 		  end

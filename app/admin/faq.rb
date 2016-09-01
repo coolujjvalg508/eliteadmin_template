@@ -57,9 +57,6 @@ ActiveAdmin.register Faq do
   
   
   
-  
-  
-  
     # Filters
   filter :question
   filter :answer
