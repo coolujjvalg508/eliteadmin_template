@@ -28,7 +28,20 @@ $(document).ready(function() {
     }
   });
 
-
+ $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
+	  
+    if($("input[type='text'][id^=gallery_videos_attributes_][id$=_video]").length >= 9)
+    {
+      $("li.has_many_container a.has_many_add").hide()
+    }
+  });
+  
+  $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_remove', function() {
+    if($("input[type='text'][id^=gallery_videos_attributes_][id$=_video]").length <= 10)
+    {
+      $("li.has_many_container a.has_many_add").show()
+    }
+  });
 
 
 

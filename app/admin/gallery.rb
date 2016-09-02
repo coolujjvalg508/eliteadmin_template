@@ -4,7 +4,7 @@ ActiveAdmin.register Gallery do
 	:medium_category_id, :subject_matter_id, :has_adult_content, 
 	:software_used, :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo, 
-	:where_to_show, :images_attributes => [:id,:image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache]
+	:where_to_show, :images_attributes => [:id,:image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache]
 	
 
 	form multipart: true do |f|
@@ -32,7 +32,14 @@ ActiveAdmin.register Gallery do
 			  ff.input :image_cache, :as => :hidden
 			end
 		  end	
+		  
+		 f.inputs 'Add Video' do
+			f.has_many :videos, allow_destroy: true, new_record: true do |ff|
+			  ff.input :video, label: "Video"
+			end
+		  end	  
 		end
+		
 		
 	f.actions
   end
@@ -40,30 +47,44 @@ ActiveAdmin.register Gallery do
   controller do
 	  def create
 			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
-			params[:gallery][:images_attributes].each do |index,img|
-			  unless params[:gallery][:images_attributes][index][:image].present?
-				params[:gallery][:images_attributes][index][:image] = params[:gallery][:images_attributes][index][:image_cache]
-			  end
-			end
-			super
+					params[:gallery][:images_attributes].each do |index,img|
+						  unless params[:gallery][:images_attributes][index][:image].present?
+							params[:gallery][:images_attributes][index][:image] = params[:gallery][:images_attributes][index][:image_cache]
+						  end
+					end
+				super
+			elsif (params[:gallery].present? && params[:gallery][:videos_attributes].present?)
+					params[:gallery][:videos_attributes].each do |index,img|
+						  unless params[:gallery][:videos_attributes][index][:video].present?
+							params[:gallery][:videos_attributes][index][:video] = params[:gallery][:videos_attributes][index][:video_cache]
+						  end
+					end
+				super
 		  else
-			super
+				super
 		  end
 		end
 
 		def update
 			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
-			
-			params[:gallery][:images_attributes].each do |index,img|
-			  unless params[:gallery][:images_attributes][index][:image].present?
-				params[:gallery][:images_attributes][index][:image] = params[:gallery][:images_attributes][index][:image_cache]
-			  end
-			end
-			super
+				params[:gallery][:images_attributes].each do |index,img|
+					  unless params[:gallery][:images_attributes][index][:image].present?
+						params[:gallery][:images_attributes][index][:image] = params[:gallery][:images_attributes][index][:image_cache]
+					  end
+				end
+				super
+			elsif (params[:gallery].present? && params[:gallery][:videos_attributes].present?)
+					params[:gallery][:videos_attributes].each do |index,img|
+						  unless params[:gallery][:videos_attributes][index][:video].present?
+							params[:gallery][:videos_attributes][index][:video] = params[:gallery][:videos_attributes][index][:video_cache]
+						  end
+					end
+				super
 		  else
-			super
+				super
 		  end
 		end
+	
   end
 
   filter :title
@@ -158,7 +179,25 @@ ActiveAdmin.register Gallery do
 				end
 			end
 		  end
-		  
+		  row 'Videos' do
+			ul class: "image-blk" do
+				if gallery.videos.present?
+				  gallery.videos.each do |img|
+					span do
+						if img.video[/youtu\.be\/([^\?]*)/]
+							youtube_id = $1
+						  else
+							img.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+							youtube_id = $5
+						  end
+						
+						raw('<iframe title="Gallery Video" width="300" height="200" src="http://www.youtube.com/embed/' + youtube_id + '" frameborder="0" allowfullscreen></iframe>')
+					
+					end
+				  end
+				end
+			end
+		  end
 		  
 		  
 		  row :where_to_show do |st|
@@ -167,7 +206,7 @@ ActiveAdmin.register Gallery do
 		  row :created_at
 		end
     end
-
+    
 
 	csv do
 		column :title
