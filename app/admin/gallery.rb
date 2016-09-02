@@ -191,7 +191,7 @@ ActiveAdmin.register Gallery do
 							youtube_id = $5
 						  end
 						
-						raw('<iframe title="Gallery Video" width="300" height="200" src="http://www.youtube.com/embed/' + youtube_id + '" frameborder="0" allowfullscreen></iframe>')
+						raw('<iframe title="Gallery Video" width="300" height="200" src="https://www.youtube.com/embed/' + youtube_id + '" frameborder="0" allowfullscreen></iframe>')
 					
 					end
 				  end
