@@ -10,10 +10,38 @@
 // Active Admin's got SASS!
  @import "active_admin/mixins";
  @import "active_admin/base";
+ @import "wigu/active_admin_theme";
  @import "bootstrap.css";
+ @import "bootsy";
+ @import "responsive_active_admin";
 
-@import "bootsy";
 
+
+$skinMainFirstColor: #A5A7AA!default;
+$skinMainSecondColor: #0066CC!default;
+$skinBorderWindowColor: #B8BABE!default;
+
+#wrapper .flashes .flash_notice{
+	color: #3c763d;
+	background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+
+
+.pagination li{
+	display: inline;
+}
+.pagination li.active a{
+	color: #5ea3d3;
+}
+
+
+
+div.error-msg{
+  color: #cc0000;
+  font-size: 12px;
+}
 
 
 iframe.wysihtml5-sandbox {
@@ -159,6 +187,17 @@ body.active_admin .input.just_datetime_picker input.just-datetime-picker-time-mi
 }
 .bootsy-upload-form.form-inline .input-group-btn input.btn-default { font-size: 12px; }
 
+/* Custom CSS */
+
+.breadcrumb{
+ background-color:#343C46;
+}
+
+#site_title_image{
+ 
+ padding-top:10px;
+
+}
 
 
 // Overriding any non-variable SASS must be done after the fact.
