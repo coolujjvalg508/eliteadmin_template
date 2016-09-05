@@ -48,6 +48,7 @@ GEM
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
     active_admin-awesome_nested_set (0.0.8)
       rails (>= 3.2.5, < 5.0)
+    active_admin_flat_skin (0.1.2)
     active_admin_theme (1.0.3)
     activejob (4.2.6)
       activesupport (= 4.2.6)
@@ -243,6 +244,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_admin-awesome_nested_set
+  active_admin_flat_skin
   active_admin_theme
   activeadmin!
   awesome_nested_set

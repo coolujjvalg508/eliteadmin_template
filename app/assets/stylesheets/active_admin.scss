@@ -10,16 +10,24 @@
 // Active Admin's got SASS!
  @import "active_admin/mixins";
  @import "active_admin/base";
- @import "wigu/active_admin_theme";
  @import "bootstrap.css";
  @import "bootsy";
  @import "responsive_active_admin";
+ @import "active_admin_flat_skin";
+ @import "font-awesome";
 
 
-
-$skinMainFirstColor: #A5A7AA!default;
-$skinMainSecondColor: #0066CC!default;
-$skinBorderWindowColor: #B8BABE!default;
+$panelBorder: #babdc5;
+$skinActiveColor: #e73c3c;
+$bodyColor: rgba(236, 240, 241, 0.48);
+$skinBlack: rgb(55, 71, 79);
+$panelHeaderBck: $skinBlack;
+$skinBlackLight: rgb(69, 90, 100);
+$textGray: rgb(174, 179, 181);
+$skinTextColor: #1e2a33;
+$skinTextActiveColor: white;
+$skinTextTable: #7f8c8d;
+$skinHeaderBck: #1e2a33;
 
 #wrapper .flashes .flash_notice{
 	color: #3c763d;
@@ -189,15 +197,15 @@ body.active_admin .input.just_datetime_picker input.just-datetime-picker-time-mi
 
 /* Custom CSS */
 
-.breadcrumb{
- background-color:#343C46;
-}
+
 
 #site_title_image{
  
  padding-top:10px;
 
 }
+
+
 
 
 // Overriding any non-variable SASS must be done after the fact.

@@ -5,6 +5,7 @@
 //= require bootstrap
 //= require bootsy
 //= require jquery-ui-timepicker-addon
+//= require active_admin_flat_skin
 
 
 $(document).ready(function() {
