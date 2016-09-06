@@ -16,8 +16,8 @@ ActiveAdmin.register Gallery do
 		  f.input :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Medium'
 		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Subject Matter'
 		  f.input :has_adult_content, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
-		  f.input :software_used, label: 'Add the software used on this project'
-		  f.input :tags, label:'Tags (use tags to add more detailed subject matter)'
+		  f.input :software_used, label: 'Software used on this project'
+		  f.input :tags, label:'Use Tags'
 		  f.input :use_tag_from_previous_upload, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
 		  f.input :is_featured, as: :select, collection: [['Yes',1],['No',0]], include_blank: false, label: 'Feature this Post'
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false

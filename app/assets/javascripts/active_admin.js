@@ -10,6 +10,7 @@
 
 $(document).ready(function() {
 
+  $("#diplay-filter").html('Filter');
   jQuery('input.datepicker').datetimepicker({
     dateFormat: "dd-mm-yy",
   });

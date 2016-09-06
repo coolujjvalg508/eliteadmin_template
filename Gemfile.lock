@@ -198,8 +198,6 @@ GEM
       json (~> 1.4)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
-    responsive_active_admin (0.0.5)
-      activeadmin
     rmagick (2.16.0)
     sass (3.4.22)
     sass-rails (5.0.6)
@@ -262,7 +260,6 @@ DEPENDENCIES
   nested_form
   pg (~> 0.15)
   rails (= 4.2.6)
-  responsive_active_admin
   rmagick
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

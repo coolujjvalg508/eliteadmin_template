@@ -12,22 +12,9 @@
  @import "active_admin/base";
  @import "bootstrap.css";
  @import "bootsy";
- @import "responsive_active_admin";
  @import "active_admin_flat_skin";
  @import "font-awesome";
 
-
-$panelBorder: #babdc5;
-$skinActiveColor: #e73c3c;
-$bodyColor: rgba(236, 240, 241, 0.48);
-$skinBlack: rgb(55, 71, 79);
-$panelHeaderBck: $skinBlack;
-$skinBlackLight: rgb(69, 90, 100);
-$textGray: rgb(174, 179, 181);
-$skinTextColor: #1e2a33;
-$skinTextActiveColor: white;
-$skinTextTable: #7f8c8d;
-$skinHeaderBck: #1e2a33;
 
 #wrapper .flashes .flash_notice{
 	color: #3c763d;
@@ -197,18 +184,93 @@ body.active_admin .input.just_datetime_picker input.just-datetime-picker-time-mi
 
 /* Custom CSS */
 
-
-
 #site_title_image{
- 
- padding-top:10px;
-
+	padding-top:10px;
 }
-
-
-
 
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+
+
+/* ************ CUSTOM CSS *************/
+
+#active_admin_content {
+  float: right;
+  margin-bottom: 30px;
+  width: 84% !important;
+}
+
+#header.header .header-item.tabs {
+  overflow-x: hidden;
+}
+
+#header.header #tabs.header-item.tabs li a {
+  color: #aeb3b5 !important;
+  font-size: 14px;
+  height: 31px;
+  line-height: 25px;
+  transition: all 0.3s ease 0s;
+}
+
+#header.header #tabs.header-item.tabs li {
+  display: block;
+  margin-bottom: 10px !important;
+}
+html #header ul.tabs > li {
+  font-size: 12px;
+  margin: 0;
+}
+
+html #header ul.tabs > li:hover > a, html #header ul.tabs > li.current > a {
+  background: #e73c3c none repeat scroll 0 0;
+  border-radius: 5px !important;
+  color: white;
+  display: block;
+  margin-bottom: -10px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0 !important;
+}
+
+html #header ul.tabs > li {
+  font-size: 12px;
+  margin: 0;
+  min-height: 34px !important;
+}
+
+#filters_sidebar_section {
+  display: none;
+  position: fixed;
+  right: 42%;
+  top: 5%;
+  width: 21%;
+  z-index: 2000;
+  overflow-y:auto;
+  max-height:100%
+}
+
+label, .label{
+  border-radius: 0.25em;
+  color: #fff;
+  display: inline;
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0.2em 0.6em 0.3em;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+form fieldset ol > li label {
+  color: #5e6469;
+  display: block;
+  float: left;
+  font-size: 75%;
+  font-weight: bold;
+  width: 20%;
+}
+

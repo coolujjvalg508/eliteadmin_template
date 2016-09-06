@@ -27,3 +27,4 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w( jquery.mCustomScrollbar.concat.min.js )
  Rails.application.config.assets.precompile += %w( jquery.bootstrap-responsive-tabs.min.js )
  Rails.application.config.assets.precompile += %w( pgwslideshow.js )
+ 

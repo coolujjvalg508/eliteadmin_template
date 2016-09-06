@@ -3086,304 +3086,6 @@ body.bootsy_text_area.form-control {
   box-shadow: none;
 }
 
-@media only screen and (max-width: 480px) {
-  /* line 1, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_blank_slates.scss */
-  .with_sidebar .blank_slate_container .blank_slate {
-    margin-top: 20px;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 2, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_columns.scss */
-  .column {
-    float: none;
-    width: 100% !important;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 2, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_footer.scss */
-  #index_footer {
-    text-align: left;
-  }
-}
-
-/* line 1, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_forms.scss */
-form {
-  /* Nested Fieldsets and Legends */
-  /* Text Fields */
-}
-@media only screen and (max-width: 480px) {
-  /* line 4, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_forms.scss */
-  form fieldset ol > li label {
-    width: 100%;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 15, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_forms.scss */
-  form fieldset > ol > li fieldset legend {
-    position: static;
-    width: 100%;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 21, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_forms.scss */
-  form fieldset > ol > li fieldset legend.label label {
-    position: static;
-    float: none;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 29, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_forms.scss */
-  form fieldset > ol > li fieldset:not(.has_many_fields) ol {
-    padding-left: 0;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 36, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_forms.scss */
-  form fieldset > ol > li p.inline-hints {
-    margin-left: 0;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 44, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_forms.scss */
-  form input[type=text], form input[type=password], form input[type=email], form input[type=number], form input[type=url], form input[type=tel], form textarea {
-    width: calc(100% - 22px);
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 50, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_forms.scss */
-  form select {
-    width: 100%;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 1, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_header.scss */
-  #header {
-    box-sizing: border-box;
-    display: block;
-    height: auto;
-    padding: 10px 22px;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 11, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_header.scss */
-  #header h1 {
-    padding-left: 10px;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 17, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_header.scss */
-  #header ul.tabs {
-    display: block;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 22, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_header.scss */
-  #header ul.tabs > li {
-    display: block;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 29, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_header.scss */
-  #header #utility_nav {
-    display: block;
-    margin-top: 5px;
-    padding-top: 5px;
-    border-top: #444 1px solid;
-    text-align: left;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 41, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_header.scss */
-  #header #utility_nav li {
-    display: block;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 1, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_main_structure.scss */
-  .index #wrapper {
-    display: block;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 8, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_main_structure.scss */
-  #active_admin_content #main_content_wrapper {
-    float: none;
-  }
-  /* line 12, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_main_structure.scss */
-  #active_admin_content #main_content_wrapper #main_content {
-    margin-right: inherit;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 18, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_main_structure.scss */
-  #active_admin_content #sidebar {
-    float: none;
-    width: 100%;
-    margin-top: 20px;
-    margin-left: inherit;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 1, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_pagination.scss */
-  .pagination_information {
-    float: none;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 7, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_pagination.scss */
-  .download_links {
-    float: none;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 2, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table {
-    display: block;
-    position: relative;
-  }
-  /* line 9, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table th, table.index_table td {
-    margin: 0;
-    vertical-align: top;
-    border-left: 0;
-    border-top: solid 1px #e6e6e6;
-    height: 1.5em;
-    padding: 5px 10px 3px 10px;
-  }
-  /* line 20, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table th {
-    display: block;
-    text-align: right;
-  }
-  /* line 24, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table th > * {
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  /* line 30, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table td {
-    display: block;
-    text-align: left;
-    border-right: 0;
-  }
-  /* line 37, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table thead {
-    display: block;
-    float: left;
-    max-width: 40%;
-  }
-  /* line 43, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table thead tr {
-    display: block;
-  }
-  /* line 48, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table tbody {
-    display: block;
-    width: auto;
-    position: relative;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    font-size: 0;
-    /* remove space between rows */
-  }
-  /* line 61, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table tbody tr {
-    font-size: 11.5px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  /* line 69, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_tables.scss */
-  table.index_table th:last-child, table.index_table td:last-child {
-    border-bottom: 1px solid #d4d4d4;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 2, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_title_bar.scss */
-  #title_bar #titlebar_left, #title_bar #titlebar_right, #title_bar #page_title {
-    height: auto;
-    display: block;
-  }
-}
-@media only screen and (max-width: 480px) {
-  /* line 9, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_title_bar.scss */
-  #title_bar #titlebar_right {
-    text-align: left;
-    margin-top: 10px;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  /* line 2, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_logged_out.scss */
-  body.logged_out #content_wrapper {
-    width: auto;
-    margin: 0;
-  }
-}
-/* line 9, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_logged_out.scss */
-body.logged_out h2 {
-  background-color: #efefef;
-  background-image: linear-gradient(180deg, #efefef, #dfe1e2);
-  text-shadow: #fff 0 1px 0;
-  border: solid 1px #cdcdcd;
-  border-color: #d4d4d4;
-  border-top-color: #e6e6e6;
-  border-right-color: #d4d4d4;
-  border-bottom-color: #cdcdcd;
-  border-left-color: #d4d4d4;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 1px #FFF inset;
-  font-size: 1em;
-  font-weight: bold;
-  line-height: 18px;
-  margin-bottom: 0.5em;
-  color: #5E6469;
-  padding: 5px 10px 3px 10px;
-  background-color: #6a7176;
-  background-image: linear-gradient(180deg, #6a7176, #4d5256);
-  border-bottom: 1px solid #44484b;
-  text-shadow: #000 0 1px 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  border: none;
-  color: #fff;
-  margin: -13px -30px 20px -30px;
-}
-/* line 19, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_logged_out.scss */
-body.logged_out #login {
-  /* Login Form */
-}
-/* line 22, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_logged_out.scss */
-body.logged_out #login form fieldset {
-  box-shadow: none;
-  background: none;
-  padding: 0;
-  margin-bottom: 0;
-}
-/* line 26, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_logged_out.scss */
-body.logged_out #login form fieldset li {
-  padding: 10px 0;
-}
-/* line 28, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_logged_out.scss */
-body.logged_out #login form fieldset input[type=text], body.logged_out #login form fieldset input[type=email], body.logged_out #login form fieldset input[type=password] {
-  width: 70%;
-}
-/* line 31, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_logged_out.scss */
-body.logged_out #login form fieldset.buttons {
-  margin-left: 20%;
-}
-/* line 36, /home/ubuntu/.rvm/gems/ruby-2.2.4/gems/responsive_active_admin-0.0.5/app/assets/stylesheets/responsive_active_admin/_logged_out.scss */
-body.logged_out #login a {
-  float: right;
-  margin-top: -32px;
-}
-
 /*!
 Animate.css - http://daneden.me/animate
 Licensed under the MIT license - http://opensource.org/licenses/MIT
@@ -10558,6 +10260,83 @@ body.active_admin .input.just_datetime_picker input.just-datetime-picker-time-mi
 /* line 202, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
 #site_title_image {
   padding-top: 10px;
+}
+
+/* ************ CUSTOM CSS *************/
+/* line 216, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+#active_admin_content {
+  float: right;
+  margin-bottom: 30px;
+  width: 84% !important;
+}
+
+/* line 222, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+#header.header .header-item.tabs {
+  overflow-x: hidden;
+}
+
+/* line 226, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+#header.header #tabs.header-item.tabs li a {
+  color: #aeb3b5 !important;
+  font-size: 14px;
+  height: 31px;
+  line-height: 25px;
+  transition: all 0.3s ease 0s;
+}
+
+/* line 234, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+#header.header #tabs.header-item.tabs li {
+  display: block;
+  margin-bottom: 10px !important;
+}
+
+/* line 238, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+html #header ul.tabs > li {
+  font-size: 12px;
+  margin: 0;
+}
+
+/* line 243, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+html #header ul.tabs > li:hover > a, html #header ul.tabs > li.current > a {
+  background: #e73c3c none repeat scroll 0 0;
+  border-radius: 5px !important;
+  color: white;
+  display: block;
+  margin-bottom: -10px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0 !important;
+}
+
+/* line 254, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+html #header ul.tabs > li {
+  font-size: 12px;
+  margin: 0;
+  min-height: 34px !important;
+}
+
+/* line 260, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+#filters_sidebar_section {
+  display: none;
+  position: fixed;
+  right: 42%;
+  top: 5%;
+  width: 18%;
+  z-index: 2000;
+}
+
+/* line 269, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/active_admin.scss */
+.label {
+  border-radius: 0.25em;
+  color: #fff;
+  display: inline;
+  font-size: 85%;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0.2em 0.6em 0.3em;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
 }
 
 /*!
