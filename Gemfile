@@ -44,6 +44,7 @@ gem "nested_form"
 gem 'active_admin_flat_skin'
 
 
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

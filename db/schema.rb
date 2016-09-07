@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902045336) do
+ActiveRecord::Schema.define(version: 20160907045913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,17 @@ ActiveRecord::Schema.define(version: 20160902045336) do
   end
 
   add_index "subject_matters", ["parent_id"], name: "index_subject_matters_on_parent_id", using: :btree
+
+  create_table "upload_videos", force: :cascade do |t|
+    t.string   "video"
+    t.integer  "videoable_id",   null: false
+    t.string   "videoable_type", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "upload_videos", ["videoable_id"], name: "index_upload_videos_on_videoable_id", using: :btree
+  add_index "upload_videos", ["videoable_type"], name: "index_upload_videos_on_videoable_type", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

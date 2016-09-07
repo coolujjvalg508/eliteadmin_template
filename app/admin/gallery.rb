@@ -4,8 +4,7 @@ ActiveAdmin.register Gallery do
 	:medium_category_id, :subject_matter_id, :has_adult_content, 
 	:software_used, :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo, 
-	:where_to_show, :images_attributes => [:id,:image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache]
-	
+	:where_to_show, :images_attributes => [:id,:image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache]
 
 	form multipart: true do |f|
 		
@@ -33,11 +32,19 @@ ActiveAdmin.register Gallery do
 			end
 		  end	
 		  
-		 f.inputs 'Add Video' do
+		  f.inputs 'Add Video' do
 			f.has_many :videos, allow_destroy: true, new_record: true do |ff|
 			  ff.input :video, label: "Video"
 			end
-		  end	  
+		  end	
+		  
+		 f.inputs 'Upload Video' do
+			f.has_many :upload_videos, allow_destroy: true, new_record: true do |ff|
+			  ff.input :uploadvideo, label: "Video", hint: ff.template.video_tag(ff.object.uploadvideo.try(:url), :size => "150x150")
+			  ff.input :uploadvideo_cache, :as => :hidden
+			end
+		 end	
+		    
 		end
 		
 		
@@ -60,12 +67,22 @@ ActiveAdmin.register Gallery do
 						  end
 					end
 				super
+				
+			elsif (params[:gallery].present? && params[:gallery][:upload_videos_attributes].present?)
+					params[:gallery][:upload_videos_attributes].each do |index,img|
+						  unless params[:gallery][:upload_videos_attributes][index][:uploadvideo].present?
+							params[:gallery][:upload_videos_attributes][index][:uploadvideo] = params[:gallery][:upload_videos_attributes][index][:uploadvideo_cache]
+						  end
+					end
+				super	
+				
 		  else
 				super
 		  end
 		end
 
 		def update
+			
 			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
 				params[:gallery][:images_attributes].each do |index,img|
 					  unless params[:gallery][:images_attributes][index][:image].present?
@@ -80,6 +97,14 @@ ActiveAdmin.register Gallery do
 						  end
 					end
 				super
+			
+			elsif (params[:gallery].present? && params[:gallery][:upload_videos_attributes].present?)
+					params[:gallery][:upload_videos_attributes].each do |index,img|
+						  unless params[:gallery][:upload_videos_attributes][index][:uploadvideo].present?
+							params[:gallery][:upload_videos_attributes][index][:uploadvideo] = params[:gallery][:upload_videos_attributes][index][:uploadvideo_cache]
+						  end
+					end
+				super	
 		  else
 				super
 		  end
@@ -192,6 +217,19 @@ ActiveAdmin.register Gallery do
 						  end
 						
 						raw('<iframe title="Gallery Video" width="300" height="200" src="https://www.youtube.com/embed/' + youtube_id + '" frameborder="0" allowfullscreen></iframe>')
+					
+					end
+				  end
+				end
+			end
+		  end
+		  
+		  row 'Uploaded Videos' do
+			ul class: "image-blk" do
+				if gallery.upload_videos.present?
+				  gallery.upload_videos.each do |img|
+					span do
+						raw('<iframe title="Gallery Video" width="300" height="200" src="'+img.uploadvideo.url+'" frameborder="0" allowfullscreen></iframe>')
 					
 					end
 				  end

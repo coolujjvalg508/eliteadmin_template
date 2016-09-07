@@ -39,7 +39,7 @@ class VideoUploader < CarrierWave::Uploader::Base
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
    def extension_white_list
-    %w(mp4 ogg)
+     %w(mp4 avi 3gp mov mkv wmv flv ogg vob ogv qt rm asf mpeg mpe)
    end
 
   # Override the filename of the uploaded files:
