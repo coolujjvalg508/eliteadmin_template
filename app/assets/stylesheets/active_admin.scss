@@ -252,25 +252,7 @@ html #header ul.tabs > li {
   max-height:100%
 }
 
-label, .label{
-  border-radius: 0.25em;
-  color: #fff;
-  display: inline;
-  font-size: 75%;
-  font-weight: bold;
-  line-height: 1;
-  padding: 0.2em 0.6em 0.3em;
-  text-align: center;
-  vertical-align: baseline;
-  white-space: nowrap;
-}
 
-form fieldset ol > li label {
-  color: #5e6469;
-  display: block;
-  float: left;
-  font-size: 75%;
-  font-weight: bold;
-  width: 20%;
+html input[type="text"], html input[type="password"], html input[type="email"], html input[type="date"], html input[type="tel"], html input[type="number"], html button {
+height: 30px !important;
 }
-

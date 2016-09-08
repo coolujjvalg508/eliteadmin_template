@@ -260,7 +260,7 @@ ActiveAdmin.register Gallery do
 		  end
 		column :has_adult_content do |hac|
 		    hac.has_adult_content? ? 'Yes' : 'No'
-		  end
+		 end
 
 		column :software_used
 		column :tags
