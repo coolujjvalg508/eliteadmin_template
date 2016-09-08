@@ -1,6 +1,6 @@
 ActiveAdmin.register MediumCategory do
 
-    menu label: 'Medium Category', parent: 'Category',priority: 2
+    menu label: 'Medium Category', parent: 'Projects',priority: 3
 	permit_params :name, :parent_id, :image, :description, :slug
 	
 # See permitted parameters documentation:

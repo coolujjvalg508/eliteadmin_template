@@ -1,6 +1,6 @@
 ActiveAdmin.register Category do
 	
-    menu label: 'Post Type Category', parent: 'Category',priority: 1
+    menu label: 'Post Type Category', parent: 'Projects',priority: 2
 	permit_params :name, :parent_id, :image, :description, :slug
 
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907045913) do
+ActiveRecord::Schema.define(version: 20160908103502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,28 @@ ActiveRecord::Schema.define(version: 20160907045913) do
   add_index "images", ["imageable_id"], name: "index_images_on_imageable_id", using: :btree
   add_index "images", ["imageable_type"], name: "index_images_on_imageable_type", using: :btree
 
+  create_table "marmo_sets", force: :cascade do |t|
+    t.string   "marmoset"
+    t.integer  "marmosetable_id",   null: false
+    t.string   "marmosetable_type", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "marmo_sets", ["marmosetable_id"], name: "index_marmo_sets_on_marmosetable_id", using: :btree
+  add_index "marmo_sets", ["marmosetable_type"], name: "index_marmo_sets_on_marmosetable_type", using: :btree
+
+  create_table "marmosets", force: :cascade do |t|
+    t.string   "marmoset"
+    t.integer  "marmosetable_id",   null: false
+    t.string   "marmosetable_type", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "marmosets", ["marmosetable_id"], name: "index_marmosets_on_marmosetable_id", using: :btree
+  add_index "marmosets", ["marmosetable_type"], name: "index_marmosets_on_marmosetable_type", using: :btree
+
   create_table "medium_categories", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -121,6 +143,17 @@ ActiveRecord::Schema.define(version: 20160907045913) do
   end
 
   add_index "medium_categories", ["parent_id"], name: "index_medium_categories_on_parent_id", using: :btree
+
+  create_table "sketchfebs", force: :cascade do |t|
+    t.string   "sketchfeb"
+    t.integer  "sketchfebable_id",   null: false
+    t.string   "sketchfebable_type", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "sketchfebs", ["sketchfebable_id"], name: "index_sketchfebs_on_sketchfebable_id", using: :btree
+  add_index "sketchfebs", ["sketchfebable_type"], name: "index_sketchfebs_on_sketchfebable_type", using: :btree
 
   create_table "static_pages", force: :cascade do |t|
     t.string   "title"
@@ -144,15 +177,15 @@ ActiveRecord::Schema.define(version: 20160907045913) do
   add_index "subject_matters", ["parent_id"], name: "index_subject_matters_on_parent_id", using: :btree
 
   create_table "upload_videos", force: :cascade do |t|
-    t.string   "video"
-    t.integer  "videoable_id",   null: false
-    t.string   "videoable_type", null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.string   "uploadvideo"
+    t.integer  "uploadvideoable_id",   null: false
+    t.string   "uploadvideoable_type", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
-  add_index "upload_videos", ["videoable_id"], name: "index_upload_videos_on_videoable_id", using: :btree
-  add_index "upload_videos", ["videoable_type"], name: "index_upload_videos_on_videoable_type", using: :btree
+  add_index "upload_videos", ["uploadvideoable_id"], name: "index_upload_videos_on_videoable_id", using: :btree
+  add_index "upload_videos", ["uploadvideoable_type"], name: "index_upload_videos_on_videoable_type", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

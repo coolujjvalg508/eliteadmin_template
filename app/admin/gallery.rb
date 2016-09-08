@@ -1,16 +1,19 @@
 ActiveAdmin.register Gallery do
-    menu label: 'Gallery'
+    menu label: 'Project', parent: 'Projects',priority: 1
 	permit_params :title,:image, :description, :post_type_category_id, 
 	:medium_category_id, :subject_matter_id, :has_adult_content, 
 	:software_used, :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo, 
-	:where_to_show, :images_attributes => [:id,:image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache]
+	:where_to_show, :images_attributes => [:id,:image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
 
 	form multipart: true do |f|
 		
 		f.inputs "Gallery" do
 		  f.input :title
-		  f.input :description
+		  li do
+			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
+			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
+		  end
 		  f.input :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Post Type'
 		  f.input :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Medium'
 		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Subject Matter'
@@ -44,8 +47,22 @@ ActiveAdmin.register Gallery do
 			  ff.input :uploadvideo_cache, :as => :hidden
 			end
 		 end	
-		    
-		end
+		 
+		 f.inputs 'Sketchfeb' do
+			f.has_many :sketchfebs, allow_destroy: true, new_record: true do |ff|
+			  ff.input :sketchfeb, label: "Sketchfeb"
+			end
+		  end	
+		
+		f.inputs 'Marmoset' do
+			f.has_many :marmo_sets, allow_destroy: true, new_record: true do |ff|
+			  ff.input :marmoset, label: "Marmoset", hint: ff.template.video_tag(ff.object.marmoset.try(:url), :size => "150x150")
+			  ff.input :marmoset_cache, :as => :hidden
+			end
+		 end	
+		 
+		
+	 end
 		
 		
 	f.actions
@@ -75,7 +92,21 @@ ActiveAdmin.register Gallery do
 						  end
 					end
 				super	
+			elsif (params[:gallery].present? && params[:gallery][:sketchfebs_attributes].present?)
+					params[:gallery][:sketchfebs_attributes].each do |index,img|
+						  unless params[:gallery][:sketchfebs_attributes][index][:sketchfeb].present?
+							params[:gallery][:sketchfebs_attributes][index][:sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:sketchfeb_cache]
+						  end
+					end
+				super
 				
+			elsif (params[:gallery].present? && params[:gallery][:marmosets_attributes].present?)
+					params[:gallery][:marmosets_attributes].each do |index,img|
+						  unless params[:gallery][:marmosets_attributes][index][:marmoset].present?
+							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:marmoset_cache]
+						  end
+					end
+				super
 		  else
 				super
 		  end
@@ -105,7 +136,24 @@ ActiveAdmin.register Gallery do
 						  end
 					end
 				super	
-		  else
+			
+			elsif (params[:gallery].present? && params[:gallery][:sketchfebs_attributes].present?)
+					params[:gallery][:sketchfebs_attributes].each do |index,img|
+						  unless params[:gallery][:sketchfebs_attributes][index][:sketchfeb].present?
+							params[:gallery][:sketchfebs_attributes][index][:sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:sketchfeb_cache]
+						  end
+					end
+				super	
+			
+			elsif (params[:gallery].present? && params[:gallery][:marmosets_attributes].present?)
+					params[:gallery][:marmosets_attributes].each do |index,img|
+						  unless params[:gallery][:marmosets_attributes][index][:marmoset].present?
+							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:marmoset_cache]
+						  end
+					end
+				super	
+				
+		 else
 				super
 		  end
 		end
