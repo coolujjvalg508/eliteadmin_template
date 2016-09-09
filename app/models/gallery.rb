@@ -2,6 +2,7 @@ class Gallery < ActiveRecord::Base
  mount_uploader :company_logo, ImageUploader
  #mount_uploader :image, ImageUploader
  validates :title, presence: true
+ validates :paramlink, presence: true
  
  has_many :images, as: :imageable, dependent: :destroy
  has_many :videos, as: :videoable, dependent: :destroy

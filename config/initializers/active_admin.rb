@@ -270,6 +270,14 @@ ActiveAdmin.setup do |config|
   #
   # config.include_default_association_filters = true
   
+  config.namespace :admin do |admin|
+	  admin.build_menu do |menu|
+		menu.add label: "Gallery" do |sites|
+		  sites.add label: "Add New", priority: 2,   url: "/admin/projects/new"
+		end
+	  end
+end
+  
 end
 
 module ActiveAdmin::ViewHelpers

@@ -6,6 +6,8 @@
 //= require bootsy
 //= require jquery-ui-timepicker-addon
 //= require active_admin_flat_skin
+//= require marmoset
+//= require sketchfab-viewer-1.0.0
 
 
 $(document).ready(function() {
@@ -17,14 +19,14 @@ $(document).ready(function() {
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
 	  
-    if($("input[type='file'][id^=gallery_images_attributes_][id$=_image]").length >= 29)
+    if($("input[type='file'][id^=gallery_images_attributes_][id$=_image]").length >= 19)
     {
       $("li.has_many_container a.has_many_add").hide()
     }
   });
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_remove', function() {
-    if($("input[type='file'][id^=gallery_images_attributes_][id$=_image]").length <= 30)
+    if($("input[type='file'][id^=gallery_images_attributes_][id$=_image]").length <= 20)
     {
       $("li.has_many_container a.has_many_add").show()
     }
@@ -32,14 +34,14 @@ $(document).ready(function() {
 
  $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
 	  
-    if($("input[type='text'][id^=gallery_videos_attributes_][id$=_video]").length >= 29)
+    if($("input[type='text'][id^=gallery_videos_attributes_][id$=_video]").length >= 19)
     {
       $("li.has_many_container a.has_many_add").hide()
     }
   });
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_remove', function() {
-    if($("input[type='text'][id^=gallery_videos_attributes_][id$=_video]").length <= 30)
+    if($("input[type='text'][id^=gallery_videos_attributes_][id$=_video]").length <= 20)
     {
       $("li.has_many_container a.has_many_add").show()
     }
@@ -49,14 +51,14 @@ $(document).ready(function() {
 
  $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
 	  
-    if($("input[type='file'][id^=gallery_upload_videos_attributes_][id$=_uploadvideo]").length >= 29)
+    if($("input[type='file'][id^=gallery_upload_videos_attributes_][id$=_uploadvideo]").length >= 19)
     {
       $("li.has_many_container a.has_many_add").hide()
     }
   });
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_remove', function() {
-    if($("input[type='file'][id^=gallery_upload_videos_attributes_][id$=_uploadvideo]").length <= 30)
+    if($("input[type='file'][id^=gallery_upload_videos_attributes_][id$=_uploadvideo]").length <= 20)
     {
       $("li.has_many_container a.has_many_add").show()
     }
@@ -69,14 +71,14 @@ $(document).ready(function() {
 
  $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
 	  
-    if($("input[type='text'][id^=gallery_sketchfebs_attributes_][id$=_sketchfeb]").length >= 29)
+    if($("input[type='text'][id^=gallery_sketchfebs_attributes_][id$=_sketchfeb]").length >= 19)
     {
       $("li.has_many_container a.has_many_add").hide()
     }
   });
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_remove', function() {
-    if($("input[type='text'][id^=gallery_sketchfebs_attributes_][id$=_sketchfeb]").length <= 30)
+    if($("input[type='text'][id^=gallery_sketchfebs_attributes_][id$=_sketchfeb]").length <= 20)
     {
       $("li.has_many_container a.has_many_add").show()
     }
@@ -84,14 +86,14 @@ $(document).ready(function() {
 
  $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
 	  
-    if($("input[type='file'][id^=gallery_marmo_sets_attributes_][id$=_marmoset]").length >= 29)
+    if($("input[type='file'][id^=gallery_marmo_sets_attributes_][id$=_marmoset]").length >= 19)
     {
       $("li.has_many_container a.has_many_add").hide()
     }
   });
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_remove', function() {
-    if($("input[type='file'][id^=gallery_marmo_sets_attributes_][id$=_marmoset]").length <= 30)
+    if($("input[type='file'][id^=gallery_marmo_sets_attributes_][id$=_marmoset]").length <= 20)
     {
       $("li.has_many_container a.has_many_add").show()
     }

@@ -1,6 +1,7 @@
-ActiveAdmin.register Gallery do
-    menu label: 'Project', parent: 'Projects',priority: 1
-	permit_params :title,:image, :description, :post_type_category_id, 
+ActiveAdmin.register Gallery , as: "Project" do
+    menu label: 'Projects', parent: 'Gallery',priority: 1
+
+	permit_params :title,:paramlink,:image, :description, :post_type_category_id, 
 	:medium_category_id, :subject_matter_id, :has_adult_content, 
 	:software_used, :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo, 
@@ -8,8 +9,9 @@ ActiveAdmin.register Gallery do
 
 	form multipart: true do |f|
 		
-		f.inputs "Gallery" do
+		f.inputs "Project" do
 		  f.input :title
+		  f.input :paramlink,label:'Permalink'
 		  li do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
@@ -114,41 +116,41 @@ ActiveAdmin.register Gallery do
 
 		def update
 			
-			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
-				params[:gallery][:images_attributes].each do |index,img|
-					  unless params[:gallery][:images_attributes][index][:image].present?
-						params[:gallery][:images_attributes][index][:image] = params[:gallery][:images_attributes][index][:image_cache]
+			if (params[:projects].present? && params[:projects][:images_attributes].present?)
+				params[:projects][:images_attributes].each do |index,img|
+					  unless params[:projects][:images_attributes][index][:image].present?
+						params[:projects][:images_attributes][index][:image] = params[:projects][:images_attributes][index][:image_cache]
 					  end
 				end
 				super
-			elsif (params[:gallery].present? && params[:gallery][:videos_attributes].present?)
-					params[:gallery][:videos_attributes].each do |index,img|
-						  unless params[:gallery][:videos_attributes][index][:video].present?
-							params[:gallery][:videos_attributes][index][:video] = params[:gallery][:videos_attributes][index][:video_cache]
+			elsif (params[:projects].present? && params[:projects][:videos_attributes].present?)
+					params[:projects][:videos_attributes].each do |index,img|
+						  unless params[:projects][:videos_attributes][index][:video].present?
+							params[:projects][:videos_attributes][index][:video] = params[:projects][:videos_attributes][index][:video_cache]
 						  end
 					end
 				super
 			
-			elsif (params[:gallery].present? && params[:gallery][:upload_videos_attributes].present?)
-					params[:gallery][:upload_videos_attributes].each do |index,img|
-						  unless params[:gallery][:upload_videos_attributes][index][:uploadvideo].present?
-							params[:gallery][:upload_videos_attributes][index][:uploadvideo] = params[:gallery][:upload_videos_attributes][index][:uploadvideo_cache]
+			elsif (params[:projects].present? && params[:projects][:upload_videos_attributes].present?)
+					params[:projects][:upload_videos_attributes].each do |index,img|
+						  unless params[:projects][:upload_videos_attributes][index][:uploadvideo].present?
+							params[:projects][:upload_videos_attributes][index][:uploadvideo] = params[:projects][:upload_videos_attributes][index][:uploadvideo_cache]
 						  end
 					end
 				super	
 			
-			elsif (params[:gallery].present? && params[:gallery][:sketchfebs_attributes].present?)
-					params[:gallery][:sketchfebs_attributes].each do |index,img|
-						  unless params[:gallery][:sketchfebs_attributes][index][:sketchfeb].present?
-							params[:gallery][:sketchfebs_attributes][index][:sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:sketchfeb_cache]
+			elsif (params[:projects].present? && params[:projects][:sketchfebs_attributes].present?)
+					params[:projects][:sketchfebs_attributes].each do |index,img|
+						  unless params[:projects][:sketchfebs_attributes][index][:sketchfeb].present?
+							params[:projects][:sketchfebs_attributes][index][:sketchfeb] = params[:projects][:sketchfebs_attributes][index][:sketchfeb_cache]
 						  end
 					end
 				super	
 			
-			elsif (params[:gallery].present? && params[:gallery][:marmosets_attributes].present?)
-					params[:gallery][:marmosets_attributes].each do |index,img|
-						  unless params[:gallery][:marmosets_attributes][index][:marmoset].present?
-							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:marmoset_cache]
+			elsif (params[:projects].present? && params[:projects][:marmosets_attributes].present?)
+					params[:projects][:marmosets_attributes].each do |index,img|
+						  unless params[:projects][:marmosets_attributes][index][:marmoset].present?
+							params[:projects][:marmosets_attributes][index][:marmoset] = params[:projects][:marmosets_attributes][index][:marmoset_cache]
 						  end
 					end
 				super	
@@ -243,8 +245,8 @@ ActiveAdmin.register Gallery do
 		  
 		  row 'Images' do
 			ul class: "image-blk" do
-				if gallery.images.present?
-				  gallery.images.each do |img|
+				if project.images.present?
+				  project.images.each do |img|
 					span do
 					  image_tag(img.try(:image).try(:thumb).try(:url), class: "show-img")
 					end
@@ -254,8 +256,8 @@ ActiveAdmin.register Gallery do
 		  end
 		  row 'Videos' do
 			ul class: "image-blk" do
-				if gallery.videos.present?
-				  gallery.videos.each do |img|
+				if project.videos.present?
+				  project.videos.each do |img|
 					span do
 						if img.video[/youtu\.be\/([^\?]*)/]
 							youtube_id = $1
@@ -274,8 +276,8 @@ ActiveAdmin.register Gallery do
 		  
 		  row 'Uploaded Videos' do
 			ul class: "image-blk" do
-				if gallery.upload_videos.present?
-				  gallery.upload_videos.each do |img|
+				if project.upload_videos.present?
+				  project.upload_videos.each do |img|
 					span do
 						raw('<iframe title="Gallery Video" width="300" height="200" src="'+img.uploadvideo.url+'" frameborder="0" allowfullscreen></iframe>')
 					

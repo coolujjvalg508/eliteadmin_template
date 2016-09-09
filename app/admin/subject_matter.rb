@@ -1,6 +1,6 @@
 ActiveAdmin.register SubjectMatter do
 
-    menu label: 'Subject Matter Category', parent: 'Projects',priority: 4
+    menu label: 'Subject Matter Category', parent: 'Gallery',priority: 4
 	permit_params :name, :parent_id, :image, :description, :slug
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
