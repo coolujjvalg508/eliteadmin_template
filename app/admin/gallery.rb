@@ -28,7 +28,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
 		  f.input :visibility, as: :select, collection: [['Private',1], ['Public', 0]], include_blank: false
 		  f.input :publish, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false
-		  f.input :company_logo
+		  f.input :company_logo,label: "Project Thumbnail"
 			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
