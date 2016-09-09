@@ -35,7 +35,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 			  ff.input :image, label: "Image", hint: ff.template.image_tag(ff.object.image.try(:url,:thumb))
 			  ff.input :image_cache, :as => :hidden
 			end
-		  end	
+		  end	 
 		  
 		  f.inputs 'Add Video' do
 			f.has_many :videos, allow_destroy: true, new_record: true do |ff|
