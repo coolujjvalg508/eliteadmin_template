@@ -20,14 +20,20 @@ ActiveAdmin.register SubjectMatter do
     
 		column :name
 		column :parent do |cat|
-		  SubjectMatter.find_by(id: cat.parent_id).try(:name)
+		  Category.find_by(id: cat.parent_id).try(:name)
 		end
 		column 'Image' do |img|
 		  image_tag img.try(:image).try(:url, :thumb), height: 50, width: 50
 		end
 		column :created_at
 		actions
+	end	
+	
+	collection_action :categories, method: :get do
+		category = SubjectMatter.where(parent_id: params[:id].to_i).order('name asc').pluck(:name, :id)
+		render json: category, status: 200
 	end
+	
 	
 	controller do
 			def create
@@ -38,12 +44,13 @@ ActiveAdmin.register SubjectMatter do
 				super
 			  end
 			end
+		
 	 end
 	 
 	 
   form multipart: true do |f|
       f.inputs "Subject Matter" do
-      f.input :parent_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
+      f.input :parent_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
       #f.input :parent_id, :as => :select
       f.input :image
       f.input :name
@@ -65,7 +72,7 @@ ActiveAdmin.register SubjectMatter do
     attributes_table do
       row :name
        row :parent do |cat|
-        SubjectMatter.find_by(id: cat.parent_id).try(:name)
+        Category.find_by(id: cat.parent_id).try(:name)
       end
       row :image do |cat|
         unless !cat.image.present?

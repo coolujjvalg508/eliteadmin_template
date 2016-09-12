@@ -16,9 +16,9 @@ ActiveAdmin.register Gallery , as: "Project" do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
-		  f.input :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Post Type'
+		  f.input :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Post Type Category', label: 'Post Type'
 		  f.input :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Medium'
-		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Subject Matter'
+		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Subject Matter', label: 'Subject Matter'
 		  f.input :has_adult_content, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
 		  f.input :software_used, label: 'Software used on this project'
 		  f.input :tags, label:'Use Tags'
@@ -27,8 +27,11 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
 		  f.input :visibility, as: :select, collection: [['Private',1], ['Public', 0]], include_blank: false
-		  f.input :publish, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false
+		  f.input :publish, as: :select, collection: [['Immediately',1], ['Schedule', 0]], include_blank: false
+		  f.input :schedule_time,label: "Schedule Time"
 		  f.input :company_logo,label: "Project Thumbnail"
+		  f.input :where_to_show,as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,label: "Where do you want to show?"
+		  
 			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|

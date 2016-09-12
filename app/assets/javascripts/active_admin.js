@@ -99,6 +99,54 @@ $(document).ready(function() {
     }
   });
 
+   var gallery_post_type_category_id = $("#gallery_post_type_category_id").val();
+   $.getJSON("/admin/subject_matters/categories",{id: gallery_post_type_category_id, ajax: 'true'}, function(response){
+			
+		  var options = '';
+		  for (var i = 0; i < response.length; i++) {
+			options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
+		  }
+		 $("select#gallery_subject_matter_id").html('<option value="">Select Subject Matter</option>'+options);
+		 $('#gallery_subject_matter_id option[value='+gallery_post_type_category_id+']').attr('selected', true);
+	 })
+  
+    $("#gallery_post_type_category_id").change(function(e){
+		$.getJSON("/admin/subject_matters/categories",{id: $(this).val(), ajax: 'true'}, function(response){
+			
+		  var options = '';
+		  for (var i = 0; i < response.length; i++) {
+			options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
+		  }
+		
+		  $("select#gallery_subject_matter_id").html('<option>Select Subject Matter</option>'+options);
+	 })
+  })
+  
+	var fieldval	=	$('#gallery_publish').val();
+	  if(fieldval == 0){
+		   $('li#gallery_schedule_time_input').css({'display':'block'});
+		 //  $('#gallery_schedule_time').addClass('datepicker');
+	  }else{
+		  $('li#gallery_schedule_time_input').css({'display':'none'});
+		 // $('#gallery_schedule_time').removeClass('datepicker');
+	 }
+  
+
+   //$('#gallery_publish').css({'display':'none'});
+   $("#gallery_publish").change(function(e){
+	  var fieldval1	=	$(this).val();
+	  if(fieldval1 == 0){
+		   $('li#gallery_schedule_time_input').css({'display':'block'});
+		 // $('#gallery_schedule_time').addClass('datepicker');
+	  }else{
+		  $('li#gallery_schedule_time_input').css({'display':'none'});
+		  //$('#gallery_schedule_time').removeClass('datepicker');
+	 }
+  })
+  
+  
+  
+  
   
   
 /*
