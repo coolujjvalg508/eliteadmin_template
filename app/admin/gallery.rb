@@ -1,11 +1,11 @@
 ActiveAdmin.register Gallery , as: "Project" do
     menu label: 'Projects', parent: 'Gallery',priority: 1
 
-	permit_params :title,:paramlink,:image, :description, :post_type_category_id, 
+	permit_params :title,:paramlink, :schedule_time, :description, :post_type_category_id, 
 	:medium_category_id, :subject_matter_id, :has_adult_content, 
 	:software_used, :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo, 
-	:where_to_show, :images_attributes => [:id,:image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
+	:where_to_show, :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
 
 	form multipart: true do |f|
 		
@@ -28,21 +28,23 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
 		  f.input :visibility, as: :select, collection: [['Private',1], ['Public', 0]], include_blank: false
 		  f.input :publish, as: :select, collection: [['Immediately',1], ['Schedule', 0]], include_blank: false
-		  f.input :schedule_time,label: "Schedule Time"
+		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Project Thumbnail"
-		  f.input :where_to_show,as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,label: "Where do you want to show?"
+		  f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,label: "Where do you want to show?"
 		  
 			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
 			  ff.input :image, label: "Image", hint: ff.template.image_tag(ff.object.image.try(:url,:thumb))
 			  ff.input :image_cache, :as => :hidden
+			  ff.input :caption_image
 			end 
 		  end	 
 		  
 		  f.inputs 'Add Video' do
 			f.has_many :videos, allow_destroy: true, new_record: true do |ff|
 			  ff.input :video, label: "Video"
+			  ff.input :caption_video
 			end
 		  end	
 		  
@@ -50,6 +52,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 			f.has_many :upload_videos, allow_destroy: true, new_record: true do |ff|
 			  ff.input :uploadvideo, label: "Video", hint: ff.template.video_tag(ff.object.uploadvideo.try(:url), :size => "150x150")
 			  ff.input :uploadvideo_cache, :as => :hidden
+			  ff.input :caption_upload_video
 			end
 		 end	
 		 
@@ -79,6 +82,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:images_attributes].each do |index,img|
 						  unless params[:gallery][:images_attributes][index][:image].present?
 							params[:gallery][:images_attributes][index][:image] = params[:gallery][:images_attributes][index][:image_cache]
+							params[:gallery][:images_attributes][index][:caption_image] = params[:gallery][:images_attributes][index][:caption_image]
 						  end
 					end
 				super
@@ -86,6 +90,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:videos_attributes].each do |index,img|
 						  unless params[:gallery][:videos_attributes][index][:video].present?
 							params[:gallery][:videos_attributes][index][:video] = params[:gallery][:videos_attributes][index][:video_cache]
+							params[:gallery][:videos_attributes][index][:caption_video] = params[:gallery][:videos_attributes][index][:caption_video]
 						  end
 					end
 				super
@@ -94,6 +99,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:upload_videos_attributes].each do |index,img|
 						  unless params[:gallery][:upload_videos_attributes][index][:uploadvideo].present?
 							params[:gallery][:upload_videos_attributes][index][:uploadvideo] = params[:gallery][:upload_videos_attributes][index][:uploadvideo_cache]
+							params[:gallery][:upload_videos_attributes][index][:caption_upload_video] = params[:gallery][:upload_videos_attributes][index][:caption_upload_video]
 						  end
 					end
 				super	
@@ -118,42 +124,46 @@ ActiveAdmin.register Gallery , as: "Project" do
 		end
 
 		def update
+		#abort(params.to_json)
 			
-			if (params[:projects].present? && params[:projects][:images_attributes].present?)
-				params[:projects][:images_attributes].each do |index,img|
-					  unless params[:projects][:images_attributes][index][:image].present?
-						params[:projects][:images_attributes][index][:image] = params[:projects][:images_attributes][index][:image_cache]
-					  end
+			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
+					params[:gallery][:images_attributes].each do |index,img|
+						  unless params[:gallery][:images_attributes][index][:image].present?
+							params[:gallery][:images_attributes][index][:image]  = params[:gallery][:images_attributes][index][:image_cache]
+						  end
+				 
+					params[:gallery][:images_attributes][index][:caption_image]  = params[:gallery][:images_attributes][index][:caption_image]
+
 				end
-				super
-			elsif (params[:projects].present? && params[:projects][:videos_attributes].present?)
-					params[:projects][:videos_attributes].each do |index,img|
-						  unless params[:projects][:videos_attributes][index][:video].present?
-							params[:projects][:videos_attributes][index][:video] = params[:projects][:videos_attributes][index][:video_cache]
+			super
+			elsif (params[:gallery].present? && params[:gallery][:videos_attributes].present?)
+					params[:gallery][:videos_attributes].each do |index,img|
+						  unless params[:gallery][:videos_attributes][index][:video].present?
+							params[:gallery][:videos_attributes][index][:video] = params[:gallery][:videos_attributes][index][:video_cache]
 						  end
 					end
 				super
 			
-			elsif (params[:projects].present? && params[:projects][:upload_videos_attributes].present?)
-					params[:projects][:upload_videos_attributes].each do |index,img|
-						  unless params[:projects][:upload_videos_attributes][index][:uploadvideo].present?
-							params[:projects][:upload_videos_attributes][index][:uploadvideo] = params[:projects][:upload_videos_attributes][index][:uploadvideo_cache]
+			elsif (params[:gallery].present? && params[:gallery][:upload_videos_attributes].present?)
+					params[:gallery][:upload_videos_attributes].each do |index,img|
+						  unless params[:gallery][:upload_videos_attributes][index][:uploadvideo].present?
+							params[:gallery][:upload_videos_attributes][index][:uploadvideo] = params[:gallery][:upload_videos_attributes][index][:uploadvideo_cache]
 						  end
 					end
 				super	
 			
-			elsif (params[:projects].present? && params[:projects][:sketchfebs_attributes].present?)
-					params[:projects][:sketchfebs_attributes].each do |index,img|
-						  unless params[:projects][:sketchfebs_attributes][index][:sketchfeb].present?
-							params[:projects][:sketchfebs_attributes][index][:sketchfeb] = params[:projects][:sketchfebs_attributes][index][:sketchfeb_cache]
+			elsif (params[:gallery].present? && params[:gallery][:sketchfebs_attributes].present?)
+					params[:gallery][:sketchfebs_attributes].each do |index,img|
+						  unless params[:gallery][:sketchfebs_attributes][index][:sketchfeb].present?
+							params[:gallery][:sketchfebs_attributes][index][:sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:sketchfeb_cache]
 						  end
 					end
 				super	
 			
-			elsif (params[:projects].present? && params[:projects][:marmosets_attributes].present?)
-					params[:projects][:marmosets_attributes].each do |index,img|
-						  unless params[:projects][:marmosets_attributes][index][:marmoset].present?
-							params[:projects][:marmosets_attributes][index][:marmoset] = params[:projects][:marmosets_attributes][index][:marmoset_cache]
+			elsif (params[:gallery].present? && params[:gallery][:marmosets_attributes].present?)
+					params[:gallery][:marmosets_attributes].each do |index,img|
+						  unless params[:gallery][:marmosets_attributes][index][:marmoset].present?
+							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:marmoset_cache]
 						  end
 					end
 				super	

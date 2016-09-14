@@ -42,6 +42,7 @@ gem 'active_admin-awesome_nested_set'
 gem "just-datetime-picker"
 gem "nested_form"
 gem 'active_admin_flat_skin'
+gem 'active_admin_datetimepicker'
 
 
 

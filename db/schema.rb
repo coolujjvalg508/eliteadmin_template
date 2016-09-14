@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912105605) do
+ActiveRecord::Schema.define(version: 20160914103906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20160912105605) do
     t.string   "imageable_type", null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "caption_image"
   end
 
   add_index "images", ["imageable_id"], name: "index_images_on_imageable_id", using: :btree
@@ -184,6 +185,7 @@ ActiveRecord::Schema.define(version: 20160912105605) do
     t.string   "uploadvideoable_type", null: false
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.string   "caption_upload_video"
   end
 
   add_index "upload_videos", ["uploadvideoable_id"], name: "index_upload_videos_on_videoable_id", using: :btree
@@ -214,6 +216,7 @@ ActiveRecord::Schema.define(version: 20160912105605) do
     t.string   "videoable_type", null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "caption_video"
   end
 
   add_index "videos", ["videoable_id"], name: "index_videos_on_videoable_id", using: :btree

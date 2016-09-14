@@ -8,14 +8,16 @@
 //= require active_admin_flat_skin
 //= require marmoset
 //= require sketchfab-viewer-1.0.0
+//= require active_admin_datetimepicker
 
 
 $(document).ready(function() {
 
   $("#diplay-filter").html('Filter');
-  jQuery('input.datepicker').datetimepicker({
+  /* jQuery('input.datepicker').datetimepicker({
 		dateFormat: "dd-mm-yy",
   });
+   */
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
 	  
@@ -125,10 +127,8 @@ $(document).ready(function() {
 	var fieldval	=	$('#gallery_publish').val();
 	  if(fieldval == 0){
 		   $('li#gallery_schedule_time_input').css({'display':'block'});
-		 //  $('#gallery_schedule_time').addClass('datepicker');
 	  }else{
 		  $('li#gallery_schedule_time_input').css({'display':'none'});
-		 // $('#gallery_schedule_time').removeClass('datepicker');
 	 }
   
 
@@ -137,10 +137,8 @@ $(document).ready(function() {
 	  var fieldval1	=	$(this).val();
 	  if(fieldval1 == 0){
 		   $('li#gallery_schedule_time_input').css({'display':'block'});
-		 // $('#gallery_schedule_time').addClass('datepicker');
 	  }else{
 		  $('li#gallery_schedule_time_input').css({'display':'none'});
-		  //$('#gallery_schedule_time').removeClass('datepicker');
 	 }
   })
   
