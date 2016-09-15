@@ -95,6 +95,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 					end
 				super
 				
+				
 			elsif (params[:gallery].present? && params[:gallery][:upload_videos_attributes].present?)
 					params[:gallery][:upload_videos_attributes].each do |index,img|
 						  unless params[:gallery][:upload_videos_attributes][index][:uploadvideo].present?
@@ -103,6 +104,8 @@ ActiveAdmin.register Gallery , as: "Project" do
 						  end
 					end
 				super	
+				
+				
 			elsif (params[:gallery].present? && params[:gallery][:sketchfebs_attributes].present?)
 					params[:gallery][:sketchfebs_attributes].each do |index,img|
 						  unless params[:gallery][:sketchfebs_attributes][index][:sketchfeb].present?
@@ -131,16 +134,17 @@ ActiveAdmin.register Gallery , as: "Project" do
 						  unless params[:gallery][:images_attributes][index][:image].present?
 							params[:gallery][:images_attributes][index][:image]  = params[:gallery][:images_attributes][index][:image_cache]
 						  end
-				 
 					params[:gallery][:images_attributes][index][:caption_image]  = params[:gallery][:images_attributes][index][:caption_image]
-
+			
 				end
 			super
+		
 			elsif (params[:gallery].present? && params[:gallery][:videos_attributes].present?)
 					params[:gallery][:videos_attributes].each do |index,img|
 						  unless params[:gallery][:videos_attributes][index][:video].present?
 							params[:gallery][:videos_attributes][index][:video] = params[:gallery][:videos_attributes][index][:video_cache]
 						  end
+					params[:gallery][:videos_attributes][index][:caption_video]  = params[:gallery][:videos_attributes][index][:caption_video]	  
 					end
 				super
 			
@@ -149,6 +153,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 						  unless params[:gallery][:upload_videos_attributes][index][:uploadvideo].present?
 							params[:gallery][:upload_videos_attributes][index][:uploadvideo] = params[:gallery][:upload_videos_attributes][index][:uploadvideo_cache]
 						  end
+					params[:gallery][:upload_videos_attributes][index][:uploadvideo]  = params[:gallery][:upload_videos_attributes][index][:uploadvideo]	  
 					end
 				super	
 			
@@ -167,12 +172,12 @@ ActiveAdmin.register Gallery , as: "Project" do
 						  end
 					end
 				super	
-				
 		 else
 				super
 		  end
+		  
 		end
-	
+			
   end
 
   filter :title
@@ -270,19 +275,37 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  row 'Videos' do
 			ul class: "image-blk" do
 				if project.videos.present?
-				  project.videos.each do |img|
-					span do
-						if img.video[/youtu\.be\/([^\?]*)/]
-							youtube_id = $1
-						  else
-							img.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
-							youtube_id = $5
-						  end
-						
-						raw('<iframe title="Gallery Video" width="300" height="200" src="https://www.youtube.com/embed/' + youtube_id + '" frameborder="0" allowfullscreen></iframe>')
-					
+					project.videos.each do |img|
+						span do
+								if(img.video.include?('youtube'))	
+										if img.video[/youtu\.be\/([^\?]*)/]
+											youtube_id = $1
+										  else
+											img.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+											youtube_id = $5
+										  end
+										raw('<iframe title="Gallery Video" width="300" height="200" src="https://www.youtube.com/embed/' + youtube_id + '" frameborder="0" allowfullscreen></iframe>')
+	
+								 elsif(img.video.include?('vimeo'))	
+											match = img.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
+
+											if match.present?
+												vimeoid	=	match[:id]
+											end
+											raw('<iframe width="300" height="200" src="https://player.vimeo.com/video/'+vimeoid+'" width="640" height="270" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+							
+								  elsif(img.video.include?('dailymotion'))	
+											#match = img.video.match(/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/)
+
+											#if match.present?
+											#dailymotionid	=	match[:video]
+										#	end	
+									
+											#raw('<iframe width="300" height="200" frameborder="0"  src="//www.dailymotion.com/embed/video/'+ dailymotionid +'" allowfullscreen></iframe>')	
+							
+								  end
+						 end
 					end
-				  end
 				end
 			end
 		  end
