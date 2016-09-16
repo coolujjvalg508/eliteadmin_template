@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914103906) do
+ActiveRecord::Schema.define(version: 20160916065038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,8 @@ ActiveRecord::Schema.define(version: 20160914103906) do
     t.datetime "updated_at",                               null: false
     t.string   "paramlink"
     t.string   "schedule_time"
+    t.string   "skill"
+    t.string   "location"
   end
 
   create_table "images", force: :cascade do |t|
@@ -178,6 +180,13 @@ ActiveRecord::Schema.define(version: 20160914103906) do
   end
 
   add_index "subject_matters", ["parent_id"], name: "index_subject_matters_on_parent_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "title"
+    t.text     "tags"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "upload_videos", force: :cascade do |t|
     t.string   "uploadvideo"

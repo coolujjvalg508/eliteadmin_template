@@ -1,7 +1,7 @@
 ActiveAdmin.register Gallery , as: "Project" do
     menu label: 'Projects', parent: 'Gallery',priority: 1
 
-	permit_params :title,:paramlink, :schedule_time, :description, :post_type_category_id, 
+	permit_params :title,:paramlink, :skill,:location, :schedule_time, :description, :post_type_category_id, 
 	:medium_category_id, :subject_matter_id, :has_adult_content, 
 	:software_used, :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo, 
@@ -19,9 +19,13 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Post Type Category', label: 'Post Type'
 		  f.input :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Medium'
 		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Subject Matter', label: 'Subject Matter'
+		  
+		  f.input :skill, label:'Skills'
+		  f.input :location, label:'Location'
+		  
 		  f.input :has_adult_content, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
 		  f.input :software_used, label: 'Software used on this project'
-		  f.input :tags, label:'Use Tags'
+		  f.input :tags, as: :select, collection: Tag.where("status = 1 ").pluck(:tags, :tags), include_blank:'Select Tags'
 		  f.input :use_tag_from_previous_upload, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
 		  f.input :is_featured, as: :select, collection: [['Yes',1],['No',0]], include_blank: false, label: 'Feature this Post'
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
@@ -86,6 +90,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 						  end
 					end
 				super
+			
 			elsif (params[:gallery].present? && params[:gallery][:videos_attributes].present?)
 					params[:gallery][:videos_attributes].each do |index,img|
 						  unless params[:gallery][:videos_attributes][index][:video].present?
@@ -228,6 +233,8 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  row :subject_matter_id do |cat|
 		    SubjectMatter.find_by(id: cat.subject_matter_id).try(:name)
 		  end
+		  row :skill
+		  row :location
 		  row :has_adult_content do |hac|
 		    hac.has_adult_content? ? 'Yes' : 'No'
 		  end
@@ -295,13 +302,14 @@ ActiveAdmin.register Gallery , as: "Project" do
 											raw('<iframe width="300" height="200" src="https://player.vimeo.com/video/'+vimeoid+'" width="640" height="270" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
 							
 								  elsif(img.video.include?('dailymotion'))	
-											#match = img.video.match(/^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/)
-
-											#if match.present?
-											#dailymotionid	=	match[:video]
-										#	end	
+											match =  img.video.gsub('http://www.dailymotion.com/video/', "")
+											match1	= match.index('_')
+											match	= match[0...match1]
+											if match.present?
+												dailymotionid	=	match
+											end	
 									
-											#raw('<iframe width="300" height="200" frameborder="0"  src="//www.dailymotion.com/embed/video/'+ dailymotionid +'" allowfullscreen></iframe>')	
+										raw('<iframe width="300" height="200" frameborder="0"  src="//www.dailymotion.com/embed/video/'+ dailymotionid +'" allowfullscreen></iframe>')	
 							
 								  end
 						 end
