@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916065038) do
+ActiveRecord::Schema.define(version: 20160917093757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,37 @@ ActiveRecord::Schema.define(version: 20160916065038) do
   add_index "images", ["imageable_id"], name: "index_images_on_imageable_id", using: :btree
   add_index "images", ["imageable_type"], name: "index_images_on_imageable_type", using: :btree
 
+  create_table "jobs", force: :cascade do |t|
+    t.string   "title"
+    t.string   "paramlink"
+    t.text     "description"
+    t.string   "company_name"
+    t.integer  "job_type",                     default: 0
+    t.string   "from_amount"
+    t.string   "to_amount"
+    t.string   "job_category"
+    t.string   "application_email_or_url"
+    t.string   "country"
+    t.string   "city"
+    t.integer  "work_remotely",                default: 1
+    t.integer  "relocation_asistance",         default: 1
+    t.string   "closing_date"
+    t.string   "skill"
+    t.string   "software_expertise"
+    t.string   "tags"
+    t.integer  "use_tag_from_previous_upload", default: 0
+    t.integer  "is_featured",                  default: 0
+    t.integer  "status",                       default: 1
+    t.integer  "is_save_to_draft",             default: 1
+    t.integer  "visibility",                   default: 1
+    t.integer  "publish",                      default: 1
+    t.string   "company_logo"
+    t.integer  "where_to_show",                default: 1
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "schedule_time"
+  end
+
   create_table "marmo_sets", force: :cascade do |t|
     t.string   "marmoset"
     t.integer  "marmosetable_id",   null: false
@@ -184,8 +215,9 @@ ActiveRecord::Schema.define(version: 20160916065038) do
   create_table "tags", force: :cascade do |t|
     t.string   "title"
     t.text     "tags"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "status",     default: 1
   end
 
   create_table "upload_videos", force: :cascade do |t|

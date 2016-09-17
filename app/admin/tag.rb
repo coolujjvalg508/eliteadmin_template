@@ -18,10 +18,19 @@ ActiveAdmin.register Tag do
     # Users List View
   index :download_links => ['csv'] do
 	   selectable_column
-	   column 'title' 
-	   column 'tags' 
-	   column 'created_at' 
-	   column 'updated_at' 
+	    column 'Title' do |title|
+		 title.title
+	   end
+	    column 'Tags' do |title|
+		 title.tags
+	   end
+	    column 'Updated' do |title|
+		 title.updated_at
+	   end
+	    column 'Created' do |title|
+		 title.created_at
+	   end
+	  
 	  actions
   end
   

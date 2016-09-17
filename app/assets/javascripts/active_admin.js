@@ -45,7 +45,7 @@ $(document).ready(function() {
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_remove', function() {
     if($("input[type='text'][id^=gallery_videos_attributes_][id$=_video]").length <= 20)
     {
-      $("li.has_many_container a.has_many_add").show()
+		$("li.has_many_container a.has_many_add").show()
     }
   });
 
@@ -55,14 +55,14 @@ $(document).ready(function() {
 	  
     if($("input[type='file'][id^=gallery_upload_videos_attributes_][id$=_uploadvideo]").length >= 19)
     {
-      $("li.has_many_container a.has_many_add").hide()
+		$("li.has_many_container a.has_many_add").hide()
     }
   });
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_remove', function() {
     if($("input[type='file'][id^=gallery_upload_videos_attributes_][id$=_uploadvideo]").length <= 20)
     {
-      $("li.has_many_container a.has_many_add").show()
+		$("li.has_many_container a.has_many_add").show()
     }
   });
 
@@ -141,6 +141,107 @@ $(document).ready(function() {
 		  $('li#gallery_schedule_time_input').css({'display':'none'});
 	 }
   })
+  
+  
+  
+  
+  
+  $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_add', function() {
+	  
+    if($("input[type='file'][id^=job_images_attributes_][id$=_image]").length >= 19)
+    {
+      $("li.has_many_container a.has_many_add").hide()
+    }
+  });
+  
+  $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_remove', function() {
+    if($("input[type='file'][id^=job_images_attributes_][id$=_image]").length <= 20)
+    {
+      $("li.has_many_container a.has_many_add").show()
+    }
+  });
+
+ $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_add', function() {
+	  
+    if($("input[type='text'][id^=job_videos_attributes_][id$=_video]").length >= 19)
+    {
+      $("li.has_many_container a.has_many_add").hide()
+    }
+  });
+  
+  $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_remove', function() {
+    if($("input[type='text'][id^=job_videos_attributes_][id$=_video]").length <= 20)
+    {
+      $("li.has_many_container a.has_many_add").show()
+    }
+  });
+
+
+
+ $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_add', function() {
+	  
+    if($("input[type='file'][id^=job_upload_videos_attributes_][id$=_uploadvideo]").length >= 19)
+    {
+      $("li.has_many_container a.has_many_add").hide()
+    }
+  });
+  
+  $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_remove', function() {
+    if($("input[type='file'][id^=job_upload_videos_attributes_][id$=_uploadvideo]").length <= 20)
+    {
+      $("li.has_many_container a.has_many_add").show()
+    }
+  });
+
+ $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_add', function() {
+	  
+    if($("input[type='text'][id^=job_sketchfebs_attributes_][id$=_sketchfeb]").length >= 19)
+    {
+      $("li.has_many_container a.has_many_add").hide()
+    }
+  });
+  
+  $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_remove', function() {
+    if($("input[type='text'][id^=job_sketchfebs_attributes_][id$=_sketchfeb]").length <= 20)
+    {
+      $("li.has_many_container a.has_many_add").show()
+    }
+  });
+
+ $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_add', function() {
+	  
+    if($("input[type='file'][id^=job_marmo_sets_attributes_][id$=_marmoset]").length >= 19)
+    {
+      $("li.has_many_container a.has_many_add").hide()
+    }
+  });
+  
+  $('form#new_job, form#edit_job').on('click', 'li.has_many_container a.has_many_remove', function() {
+    if($("input[type='file'][id^=job_marmo_sets_attributes_][id$=_marmoset]").length <= 20)
+    {
+      $("li.has_many_container a.has_many_add").show()
+    }
+  });
+  
+  
+  var fieldval	=	$('#job_publish').val();
+	  if(fieldval == 0){
+		   $('li#job_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#job_schedule_time_input').css({'display':'none'});
+	 }
+  
+
+   //$('#gallery_publish').css({'display':'none'});
+   $("#job_publish").change(function(e){
+	  var fieldval1	=	$(this).val();
+	  if(fieldval1 == 0){
+		   $('li#job_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#job_schedule_time_input').css({'display':'none'});
+	 }
+  })
+  
   
   
   
