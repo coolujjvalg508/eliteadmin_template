@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160917093757) do
+ActiveRecord::Schema.define(version: 20160920102034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,28 @@ ActiveRecord::Schema.define(version: 20160917093757) do
     t.datetime "updated_at",              null: false
   end
 
+  create_table "category_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "education_experiences", force: :cascade do |t|
+    t.string   "school_name"
+    t.string   "field_of_study"
+    t.string   "month_val"
+    t.string   "year_val"
+    t.text     "description"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "faqs", force: :cascade do |t|
     t.text     "question"
     t.text     "answer"
@@ -114,6 +136,18 @@ ActiveRecord::Schema.define(version: 20160917093757) do
   add_index "images", ["imageable_id"], name: "index_images_on_imageable_id", using: :btree
   add_index "images", ["imageable_type"], name: "index_images_on_imageable_type", using: :btree
 
+  create_table "job_categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "job_skills", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "jobs", force: :cascade do |t|
     t.string   "title"
     t.string   "paramlink"
@@ -129,8 +163,6 @@ ActiveRecord::Schema.define(version: 20160917093757) do
     t.integer  "work_remotely",                default: 1
     t.integer  "relocation_asistance",         default: 1
     t.string   "closing_date"
-    t.string   "skill"
-    t.string   "software_expertise"
     t.string   "tags"
     t.integer  "use_tag_from_previous_upload", default: 0
     t.integer  "is_featured",                  default: 0
@@ -139,10 +171,12 @@ ActiveRecord::Schema.define(version: 20160917093757) do
     t.integer  "visibility",                   default: 1
     t.integer  "publish",                      default: 1
     t.string   "company_logo"
-    t.integer  "where_to_show",                default: 1
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "schedule_time"
+    t.json     "skill"
+    t.json     "software_expertise"
+    t.json     "where_to_show"
   end
 
   create_table "marmo_sets", force: :cascade do |t|
@@ -180,6 +214,30 @@ ActiveRecord::Schema.define(version: 20160917093757) do
 
   add_index "medium_categories", ["parent_id"], name: "index_medium_categories_on_parent_id", using: :btree
 
+  create_table "production_experiences", force: :cascade do |t|
+    t.string   "production_title"
+    t.string   "release_year"
+    t.string   "production_type"
+    t.string   "your_role"
+    t.string   "company"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "professional_experiences", force: :cascade do |t|
+    t.string   "company_name"
+    t.string   "title"
+    t.string   "location"
+    t.text     "description"
+    t.string   "from_month"
+    t.string   "from_year"
+    t.string   "to_month"
+    t.string   "to_year"
+    t.string   "currently_worked"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "sketchfebs", force: :cascade do |t|
     t.string   "sketchfeb"
     t.integer  "sketchfebable_id",   null: false
@@ -190,6 +248,12 @@ ActiveRecord::Schema.define(version: 20160917093757) do
 
   add_index "sketchfebs", ["sketchfebable_id"], name: "index_sketchfebs_on_sketchfebable_id", using: :btree
   add_index "sketchfebs", ["sketchfebable_type"], name: "index_sketchfebs_on_sketchfebable_type", using: :btree
+
+  create_table "software_expertises", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "static_pages", force: :cascade do |t|
     t.string   "title"
@@ -246,6 +310,34 @@ ActiveRecord::Schema.define(version: 20160917093757) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.boolean  "admin"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "professional_headline"
+    t.string   "phone_number"
+    t.string   "profile_type"
+    t.string   "country"
+    t.string   "city"
+    t.string   "image"
+    t.string   "demo_reel"
+    t.text     "summary"
+    t.string   "available_from"
+    t.string   "show_message_button"
+    t.string   "interested_in"
+    t.string   "skill_expertise"
+    t.string   "software_expertise"
+    t.string   "public_email_address"
+    t.string   "website_url"
+    t.string   "facebook_url"
+    t.string   "linkedin_profile_url"
+    t.string   "twitter_handle"
+    t.string   "instagram_username"
+    t.string   "behance_username"
+    t.string   "tumbler_url"
+    t.string   "pinterest_url"
+    t.string   "youtube_url"
+    t.string   "vimeo_url"
+    t.string   "google_plus_url"
+    t.string   "stream_profile_url"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
