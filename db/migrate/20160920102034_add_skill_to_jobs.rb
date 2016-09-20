@@ -10,3 +10,4 @@ class AddSkillToJobs < ActiveRecord::Migration
   # add_column :jobs, :where_to_show, :json
   end
 end
+ 
