@@ -15,8 +15,8 @@ class CreateJobs < ActiveRecord::Migration
       t.integer   :work_remotely, default: 1
       t.integer   :relocation_asistance, default: 1
       t.string    :closing_date
-      t.string    :skill
-      t.string    :software_expertise
+      t.json    :skill
+      t.json    :software_expertise
       t.string  :tags
       t.integer :use_tag_from_previous_upload, default: 0
       t.integer :is_featured, default: 0
@@ -25,7 +25,7 @@ class CreateJobs < ActiveRecord::Migration
       t.integer :visibility, default: 1
       t.integer :publish, default: 1
       t.string  :company_logo
-      t.string :where_to_show
+      t.json :where_to_show
 
       
       
