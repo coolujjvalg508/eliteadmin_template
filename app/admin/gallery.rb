@@ -188,9 +188,9 @@ ActiveAdmin.register Gallery , as: "Project" do
 
   filter :title
   filter :tags
-  filter :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), label: 'Post Type'
- filter :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), label: 'Medium'
-  filter :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), label: 'Subject Matter'
+#  filter :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), label: 'Post Type'
+ #filter :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), label: 'Medium'
+ # filter :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), label: 'Subject Matter'
   filter :has_adult_content, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Adult content'
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: 'Status'
   filter :is_featured, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Featured'
