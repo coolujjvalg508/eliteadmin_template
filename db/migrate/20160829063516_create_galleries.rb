@@ -2,7 +2,6 @@ class CreateGalleries < ActiveRecord::Migration
   def change
     create_table :galleries do |t|
       t.string  :title
-      t.string  :paramlink
       t.text    :description
       t.integer :post_type_category_id, default: 0
       t.integer :medium_category_id, default: 0

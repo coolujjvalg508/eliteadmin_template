@@ -11,10 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160920102034) do
+ActiveRecord::Schema.define(version: 20160920090945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -31,8 +46,8 @@ ActiveRecord::Schema.define(version: 20160920102034) do
     t.datetime "updated_at",                          null: false
   end
 
-  add_index "admin_users", ["email"], name: "index_admins_on_email", unique: true, using: :btree
-  add_index "admin_users", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "advertisements", force: :cascade do |t|
     t.string   "title"
@@ -60,21 +75,17 @@ ActiveRecord::Schema.define(version: 20160920102034) do
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.integer  "parent_id",   default: 0
     t.string   "slug"
-    t.string   "image"
+    t.integer  "parent_id"
     t.integer  "status",      default: 0
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.string   "image"
   end
+
+  add_index "categories", ["parent_id"], name: "index_categories_on_parent_id", using: :btree
 
   create_table "category_types", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "companies", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -111,7 +122,7 @@ ActiveRecord::Schema.define(version: 20160920102034) do
     t.integer  "use_tag_from_previous_upload", default: 0
     t.integer  "is_featured",                  default: 0
     t.integer  "status",                       default: 1
-    t.integer  "is_save_to_draft",             default: 0
+    t.integer  "is_save_to_draft",             default: 1
     t.integer  "visibility",                   default: 1
     t.integer  "publish",                      default: 1
     t.string   "company_logo"
@@ -163,6 +174,8 @@ ActiveRecord::Schema.define(version: 20160920102034) do
     t.integer  "work_remotely",                default: 1
     t.integer  "relocation_asistance",         default: 1
     t.string   "closing_date"
+    t.json     "skill"
+    t.json     "software_expertise"
     t.string   "tags"
     t.integer  "use_tag_from_previous_upload", default: 0
     t.integer  "is_featured",                  default: 0
@@ -171,12 +184,10 @@ ActiveRecord::Schema.define(version: 20160920102034) do
     t.integer  "visibility",                   default: 1
     t.integer  "publish",                      default: 1
     t.string   "company_logo"
+    t.json     "where_to_show"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "schedule_time"
-    t.json     "skill"
-    t.json     "software_expertise"
-    t.json     "where_to_show"
   end
 
   create_table "marmo_sets", force: :cascade do |t|
@@ -189,8 +200,6 @@ ActiveRecord::Schema.define(version: 20160920102034) do
 
   add_index "marmo_sets", ["marmosetable_id"], name: "index_marmo_sets_on_marmosetable_id", using: :btree
   add_index "marmo_sets", ["marmosetable_type"], name: "index_marmo_sets_on_marmosetable_type", using: :btree
-
- 
 
   create_table "medium_categories", force: :cascade do |t|
     t.string   "name"
@@ -248,8 +257,8 @@ ActiveRecord::Schema.define(version: 20160920102034) do
 
   create_table "static_pages", force: :cascade do |t|
     t.string   "title"
-    t.text     "description"
     t.string   "page_url"
+    t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -270,9 +279,9 @@ ActiveRecord::Schema.define(version: 20160920102034) do
   create_table "tags", force: :cascade do |t|
     t.string   "title"
     t.text     "tags"
+    t.integer  "status",     default: 1
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-    t.integer  "status",     default: 1
   end
 
   create_table "upload_videos", force: :cascade do |t|
@@ -284,8 +293,8 @@ ActiveRecord::Schema.define(version: 20160920102034) do
     t.string   "caption_upload_video"
   end
 
-  add_index "upload_videos", ["uploadvideoable_id"], name: "index_upload_videos_on_videoable_id", using: :btree
-  add_index "upload_videos", ["uploadvideoable_type"], name: "index_upload_videos_on_videoable_type", using: :btree
+  add_index "upload_videos", ["uploadvideoable_id"], name: "index_upload_videos_on_uploadvideoable_id", using: :btree
+  add_index "upload_videos", ["uploadvideoable_type"], name: "index_upload_videos_on_uploadvideoable_type", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -300,7 +309,6 @@ ActiveRecord::Schema.define(version: 20160920102034) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.boolean  "admin"
     t.string   "firstname"
     t.string   "lastname"
     t.string   "professional_headline"
