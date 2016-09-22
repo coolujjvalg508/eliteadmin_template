@@ -43,7 +43,7 @@ gem "just-datetime-picker"
 gem "nested_form"
 gem 'active_admin_flat_skin'
 gem 'active_admin_datetimepicker'
-# gem 'country_select'
+gem 'country_select'
 
 
 # Use ActiveModel has_secure_password
