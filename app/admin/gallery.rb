@@ -234,13 +234,13 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  row :subject_matter_id do |cat|
 		    SubjectMatter.find_by(id: cat.subject_matter_id).try(:name)
 		  end
-		  row :skill
+		 
 		  row :location
 		  row :has_adult_content do |hac|
 		    hac.has_adult_content? ? 'Yes' : 'No'
 		  end
 
-		  row :software_used
+
 		  row :tags
 		  row :use_tag_from_previous_upload do |utag|
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
@@ -357,7 +357,6 @@ ActiveAdmin.register Gallery , as: "Project" do
 		    hac.has_adult_content? ? 'Yes' : 'No'
 		 end
 
-		column :software_used
 		column :tags
 	    column :use_tag_from_previous_upload do |utag|
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
