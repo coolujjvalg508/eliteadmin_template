@@ -2,8 +2,8 @@ ActiveAdmin.register Job do
 	menu label: 'Jobs', parent: 'Job Management',priority: 1
 	permit_params :title,:paramlink,:description, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, :job_category, 
 	:application_email_or_url, :country, :city, 
-	:work_remotely, :relocation_asistance, :closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, 
-	:is_save_to_draft,:visibility,:publish,:company_logo,  :where_to_show, :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
+	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, 
+	:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
 	
 	
 	form multipart: true do |f|
@@ -28,7 +28,6 @@ ActiveAdmin.register Job do
 		  f.input :closing_date, as: :date_time_picker,label:'Closing Date'
 		  f.input :skill, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Skills and expertise',multiple: true
 		  f.input :software_expertise, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Software Expertise',multiple: true 
-
 		  f.input :tags
 		  f.input :use_tag_from_previous_upload, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
 		
@@ -40,7 +39,7 @@ ActiveAdmin.register Job do
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Company logo"
 		  
-		  f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: 'Where do you want to show'
+		  f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,multiple: true
 		  
 			  
 		  f.inputs 'Images' do
@@ -234,11 +233,14 @@ ActiveAdmin.register Job do
 		  row :description
 		  row :company_name
 		  row :job_type do |utag|
-		    utag.job_type? ? 'Freelance' : '----'
+		     JobCategory.find_by(id: utag.job_type).try(:name)
 		  end
 		  row :from_amount
 		  row :to_amount
-		  row :job_category
+		
+		  row :job_category do |utag|
+		     CategoryType.find_by(id: utag.job_category).try(:name)
+		  end
 		  row :application_email_or_url
 		  row :country do |utag|
 		    utag.country? ? ISO3166::Country[utag.country] : '----'
@@ -253,9 +255,7 @@ ActiveAdmin.register Job do
 		  end
 
 		  row :closing_date
-		  row :skill
-		  row :software_expertise
-		  
+		 
 		  row :tags
 		  row :use_tag_from_previous_upload do |utag|
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
@@ -348,9 +348,7 @@ ActiveAdmin.register Job do
 		  end
 		  
 		  
-		  row :where_to_show do |st|
-		    st.where_to_show? ? 'On CGmeetup' : 'On Website'
-		  end
+		 
 		  row :created_at
 		end
     end
@@ -363,10 +361,13 @@ ActiveAdmin.register Job do
 		column :from_amount
 		column :to_amount
 		column :application_email_or_url
-		column :job_category
-		column :job_type do |ifeature|
-			ifeature.job_type? ? 'Freelance' : '-----'
-		end
+
+		 row :job_category do |utag|
+		     CategoryType.find_by(id: utag.job_category).try(:name)
+		  end
+		column :job_type do |utag|
+		     JobCategory.find_by(id: utag.job_type).try(:name)
+		 end
 		
 		column :tags
 	    column :use_tag_from_previous_upload do |utag|
