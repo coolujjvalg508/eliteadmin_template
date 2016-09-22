@@ -278,7 +278,6 @@ DEPENDENCIES
   nested_form
   pg (~> 0.15)
   rails (= 4.2.6)
-  rake
   rmagick
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
