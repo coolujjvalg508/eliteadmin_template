@@ -5,9 +5,9 @@ class CreateGalleries < ActiveRecord::Migration
       t.text    :description
       t.integer :post_type_category_id, default: 0
       t.integer :medium_category_id, default: 0
-      t.integer :subject_matter_id, default: 0
-      t.integer :has_adult_content, default: 0
-      t.string  :software_used
+      t.json 	:subject_matter_id
+      t.integer :has_adult_content
+      t.json    :software_used
       t.string  :tags
       t.integer :use_tag_from_previous_upload, default: 0
       t.integer :is_featured, default: 0
@@ -16,7 +16,7 @@ class CreateGalleries < ActiveRecord::Migration
       t.integer :visibility, default: 1
       t.integer :publish, default: 1
       t.string :company_logo
-      t.integer :where_to_show, default: 1
+      t.json    :where_to_show
       
 
       t.timestamps null: false

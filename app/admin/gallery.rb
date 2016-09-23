@@ -230,11 +230,8 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  row :medium_category_id do |cat|
 		    MediumCategory.find_by(id: cat.medium_category_id).try(:name)
 		  end
-		  row :subject_matter_id do |cat|
-		    SubjectMatter.find_by(id: cat.subject_matter_id).try(:name)
-		  end
+	
 		 
-		  row :location
 		  row :has_adult_content do |hac|
 		    hac.has_adult_content? ? 'Yes' : 'No'
 		  end
@@ -330,11 +327,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 				end
 			end
 		  end
-		  
-		  
-		  row :where_to_show do |st|
-		    st.where_to_show? ? 'On CGmeetup' : 'On Website'
-		  end
+	
 		  row :created_at
 		end
     end
@@ -349,9 +342,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		column :medium_category_id do |cat|
 		    MediumCategory.find_by(id: cat.medium_category_id).try(:name)
 		  end
-		column :subject_matter_id do |cat|
-		    SubjectMatter.find_by(id: cat.subject_matter_id).try(:name)
-		  end
+	
 		column :has_adult_content do |hac|
 		    hac.has_adult_content? ? 'Yes' : 'No'
 		 end 
