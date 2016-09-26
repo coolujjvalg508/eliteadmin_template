@@ -20,7 +20,7 @@ ActiveAdmin.register Job do
 		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Job Type'
 		  f.input :from_amount, label:'From Amount'
 		  f.input :to_amount, label:'To Amount'
-		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id),class:'myclass', include_blank:'Job Category'
+		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Job Category'
 		  f.input :application_email_or_url,label:'Application Email/URL'
 		  f.input :country,label:'Country'
 		  f.input :city,label:'City'

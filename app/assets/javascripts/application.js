@@ -17,4 +17,6 @@
 //= require bootstrap
 //= require bootsy
 //= require bootstrap-datetimepicker
+//= require chosen-jquery
+//= require scaffold
 
