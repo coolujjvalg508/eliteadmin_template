@@ -1,9 +1,9 @@
 ActiveAdmin.register Job do
 	menu label: 'Jobs', parent: 'Job Management',priority: 1
-	permit_params :title,:paramlink,:description, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, :job_category, 
+	permit_params :title,:paramlink,:description,:show_on_cgmeetup,:show_on_website,:company_name, :company_id, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, :job_category, 
 	:application_email_or_url, :country, :city, 
 	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, 
-	:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
+	:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :companies_attributes => [:id,:company_name]
 	
 	
 	form multipart: true do |f|
@@ -15,11 +15,12 @@ ActiveAdmin.register Job do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
-		  f.input :company_name,label:'Company Name'
+		  f.input :company_id, as: :select, collection: Company.where("id IS NOT NULL").pluck(:name, :id),include_blank:'Select Company Name'
+		  f.input :company_name,label:'Add Company'
 		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Job Type'
 		  f.input :from_amount, label:'From Amount'
 		  f.input :to_amount, label:'To Amount'
-		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Job Category'
+		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id),class:'myclass', include_blank:'Job Category'
 		  f.input :application_email_or_url,label:'Application Email/URL'
 		  f.input :country,label:'Country'
 		  f.input :city,label:'City'
@@ -38,8 +39,9 @@ ActiveAdmin.register Job do
 		  f.input :publish, as: :select, collection: [['Immediately',1], ['Schedule', 0]], include_blank: false
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Company logo"
-		  
-		  f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,multiple: true
+		   # f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,multiple: true
+		  f.input :show_on_cgmeetup, as: :boolean,label: "Show On CGmeetup"
+		  f.input :show_on_website, as: :boolean,label: "Show On Website"
 		  
 			  
 		  f.inputs 'Images' do

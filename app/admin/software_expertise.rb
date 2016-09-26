@@ -1,6 +1,6 @@
 ActiveAdmin.register SoftwareExpertise do
 
-  menu label: 'Software Expertise', parent: 'Job Management',priority: 3
+  menu label: 'Software Expertise'
   permit_params :name
 
   form multipart: true do |f|

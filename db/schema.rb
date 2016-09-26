@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923050027) do
+ActiveRecord::Schema.define(version: 20160926100446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,12 @@ ActiveRecord::Schema.define(version: 20160923050027) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "education_experiences", force: :cascade do |t|
     t.string   "school_name"
     t.string   "field_of_study"
@@ -133,7 +139,9 @@ ActiveRecord::Schema.define(version: 20160923050027) do
     t.string   "schedule_time"
     t.string   "location"
     t.string   "team_member"
-    t.json     "skill"
+    t.string   "skill"
+    t.boolean  "show_on_cgmeetup"
+    t.boolean  "show_on_website"
   end
 
   create_table "images", force: :cascade do |t|
@@ -189,6 +197,9 @@ ActiveRecord::Schema.define(version: 20160923050027) do
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "schedule_time"
+    t.integer  "company_id"
+    t.boolean  "show_on_cgmeetup"
+    t.boolean  "show_on_website"
   end
 
   create_table "marmo_sets", force: :cascade do |t|

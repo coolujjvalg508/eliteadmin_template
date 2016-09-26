@@ -240,9 +240,7 @@ $(document).ready(function() {
 	  }else{
 		  $('li#job_schedule_time_input').css({'display':'none'});
 	 }
-  })
-  
-  
+   })
   
   
   

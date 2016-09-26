@@ -266,3 +266,32 @@ html form fieldset.inputs ol > li label {
 .breadcrumb {
   text-transform: capitalize;
 }
+
+li#job_from_amount_input {
+  width: 100%;
+}
+
+
+li#job_to_amount_input {
+  left: 486px;
+  position: absolute;
+  top: 24.7%;
+  width: 100%;
+}
+
+#job_from_amount {
+  width: 26%;
+}
+
+
+#job_to_amount {
+  left: 184px;
+  position: absolute;
+  top: 14.7%;
+  width: 29%;
+}
+
+html form fieldset.inputs {
+  clear: both;
+}
+

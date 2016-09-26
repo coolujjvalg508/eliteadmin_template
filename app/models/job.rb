@@ -7,11 +7,11 @@ class Job < ActiveRecord::Base
  has_many :images, as: :imageable, dependent: :destroy
  has_many :caption_image
  
+ belongs_to :companies
  
  has_many :videos, as: :videoable, dependent: :destroy
  has_many :caption_video
  
-  
  has_many :upload_videos, as: :uploadvideoable, dependent: :destroy
  has_many :caption_upload_video
  
@@ -26,4 +26,6 @@ class Job < ActiveRecord::Base
  accepts_nested_attributes_for :upload_videos, reject_if: proc { |attributes| attributes['uploadvideo'].blank? || attributes['uploadvideo'].nil? }, allow_destroy: true
  accepts_nested_attributes_for :sketchfebs, reject_if: proc { |attributes| attributes['sketchfeb'].blank? || attributes['sketchfeb'].nil? }, allow_destroy: true
  accepts_nested_attributes_for :marmo_sets, reject_if: proc { |attributes| attributes['marmoset'].blank? || attributes['marmoset'].nil? }, allow_destroy: true
+ 
+ accepts_nested_attributes_for :companies, reject_if: proc { |attributes| attributes['name'].blank? || attributes['name'].nil? }, allow_destroy: true
 end

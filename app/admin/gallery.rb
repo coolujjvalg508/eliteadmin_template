@@ -1,7 +1,7 @@
 ActiveAdmin.register Gallery , as: "Project" do
     menu label: 'Projects', parent: 'Gallery',priority: 1
 
-	permit_params :title,:paramlink, {:skill => []},:team_member, :schedule_time, :description, :post_type_category_id, 
+	permit_params :title,:paramlink, {:skill => []},:team_member,:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
 	:medium_category_id, {:subject_matter_id => []} , :has_adult_content, {:software_used => []} , :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
 
@@ -34,8 +34,9 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :publish, as: :select, collection: [['Immediately',1], ['Schedule', 0]], include_blank: false
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Project Thumbnail"
-		  f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,multiple: true
-		  
+		 # f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,multiple: true
+		  f.input :show_on_cgmeetup, as: :boolean,label: "Show On CGmeetup"
+		  f.input :show_on_website, as: :boolean,label: "Show On Website"
 			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
