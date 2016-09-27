@@ -16,13 +16,14 @@ ActiveAdmin.register Job do
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
 		  f.input :company_id, as: :select, collection: Company.where("id IS NOT NULL").pluck(:name, :id),include_blank:'Select Company Name'
-		  span do
+		  li do
 			  f.inputs for: [:company, f.object.company || Company.new] do |company|
 					 if ((controller.action_name == 'new' || controller.action_name == 'create'))
 						company.input :name, label:'Add Company'
 					 end
 			  end
-		   end
+		  end
+	
 		  
 		  
 		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Job Type'
