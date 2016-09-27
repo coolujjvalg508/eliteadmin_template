@@ -22,8 +22,7 @@ ActiveAdmin.register Job do
 			  end
 		  end
 
-		  
-		  
+		   
 		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Job Type'
 		  f.input :from_amount, label:'From Amount'
 		  f.input :to_amount, label:'To Amount'
