@@ -19,8 +19,8 @@ $(document).ready(function() {
   });
    */
    
-    $("#job_company_name").change(function(e){
-	  var fieldval1	=	$(this).val();
+    $("#job_company_id").change(function(e){
+	  var fieldval1	=	$('#job_company_id option:selected').text();
 	  $('#job_company_attributes_name').val(fieldval1);
   })
    
