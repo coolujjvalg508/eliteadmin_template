@@ -3,7 +3,7 @@ ActiveAdmin.register Job do
 	permit_params :title,:paramlink,:description,:show_on_cgmeetup,:show_on_website,:company_name, :company_id, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, :job_category, 
 	:application_email_or_url, :country, :city, 
 	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, 
-	:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :companies_attributes => [:id,:company_name]
+	:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name,:job_id]
 	
 	
 	form multipart: true do |f|
@@ -16,7 +16,13 @@ ActiveAdmin.register Job do
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
 		  f.input :company_id, as: :select, collection: Company.where("id IS NOT NULL").pluck(:name, :id),include_blank:'Select Company Name'
-		  f.input :company_name,label:'Add Company'
+		  f.inputs for: [:company, f.object.company || Company.new] do |company|
+				 if ((controller.action_name == 'new' || controller.action_name == 'create'))
+					company.input :name, label:'Add Company'
+				 end
+		  end
+		  
+		  
 		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Job Type'
 		  f.input :from_amount, label:'From Amount'
 		  f.input :to_amount, label:'To Amount'

@@ -12,12 +12,18 @@
 
 
 $(document).ready(function() {
-
+	
   $("#diplay-filter").html('Filter');
   /* jQuery('input.datepicker').datetimepicker({
 		dateFormat: "dd-mm-yy",
   });
    */
+   
+    $("#job_company_name").change(function(e){
+	  var fieldval1	=	$(this).val();
+	  $('#job_company_attributes_name').val(fieldval1);
+  })
+   
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
 	  
