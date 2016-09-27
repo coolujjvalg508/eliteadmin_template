@@ -21,8 +21,10 @@ $(document).ready(function() {
    
     $("#job_company_id").change(function(e){
 	  var fieldval1	=	$('#job_company_id option:selected').text();
-	  $('#job_company_attributes_name').val(fieldval1);
-  })
+	  if(fieldval1 != 'Select Company Name'){
+		$('#job_company_attributes_name').val(fieldval1);  
+	  }
+ })
    
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
