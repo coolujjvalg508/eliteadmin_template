@@ -15,7 +15,7 @@ ActiveAdmin.register Job do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
-		  f.input :company_id, as: :select, collection: Company.where("id IS NOT NULL").pluck(:name, :id),include_blank:'Select Company Name'
+		  f.input :company_id, as: :select, collection: Company.where("name != '' ").pluck(:name, :id),include_blank:'Select Company Name'
 		  if ((controller.action_name == 'new' || controller.action_name == 'create'))
 			  f.inputs for: [:company, f.object.company || Company.new] do |company|
 					company.input :name, label:'Add Company'
