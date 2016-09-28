@@ -26,9 +26,9 @@ $(document).ready(function() {
   $('#job_company_id').on('change',function(){
 	 var value	=	$(this).val();
 	  if(value == ''){
-		   $("#job_company_attributes_name").attr('readonly',false);
+		   $("#job_company_attributes_name_input").css({'display':'block'});
 	  }else{
-		   $("#job_company_attributes_name").attr('readonly',true);
+		   $("#job_company_attributes_name_input").css({'display':'none'});
 	   }
 	  
   })
