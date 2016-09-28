@@ -214,9 +214,6 @@ ActiveAdmin.register Job do
 	   column 'Description' do |description|
 		  tr_con = description.description.first(45)
 	   end
-	   column 'Company Name' do |company|
-			company.company_name
-	   end
 	   column 'Application Email or Url' do |app_email|
 			app_email.application_email_or_url
 	   end
@@ -239,16 +236,12 @@ ActiveAdmin.register Job do
 		  row :title
 		  row :paramlink
 		  row :description
-		  row :company_name
 		  row :job_type do |utag|
 		     JobCategory.find_by(id: utag.job_type).try(:name)
 		  end
 		  row :from_amount
 		  row :to_amount
 		
-		  row :job_category do |utag|
-		     CategoryType.find_by(id: utag.job_category).try(:name)
-		  end
 		  row :application_email_or_url
 		  row :country do |utag|
 		    utag.country? ? ISO3166::Country[utag.country] : '----'
@@ -370,9 +363,7 @@ ActiveAdmin.register Job do
 		column :to_amount
 		column :application_email_or_url
 
-		 row :job_category do |utag|
-		     CategoryType.find_by(id: utag.job_category).try(:name)
-		  end
+		
 		column :job_type do |utag|
 		     JobCategory.find_by(id: utag.job_type).try(:name)
 		 end
