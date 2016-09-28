@@ -1,6 +1,6 @@
 $ ->
   # enable chosen js
-  $('#job_job_category').chosen
+  $('.chosen-input').chosen
     allow_single_deselect: true
+    width: '255px'
     no_results_text: 'No results matched'
-    width: '200px'

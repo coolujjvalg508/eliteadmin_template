@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927064931) do
+ActiveRecord::Schema.define(version: 20160928055311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,10 +92,9 @@ ActiveRecord::Schema.define(version: 20160927064931) do
   end
 
   create_table "companies", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "job_id",     default: 0
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -177,7 +176,6 @@ ActiveRecord::Schema.define(version: 20160927064931) do
     t.integer  "job_type",                     default: 0
     t.string   "from_amount"
     t.string   "to_amount"
-    t.string   "job_category"
     t.string   "application_email_or_url"
     t.string   "country"
     t.string   "city"
@@ -201,6 +199,7 @@ ActiveRecord::Schema.define(version: 20160927064931) do
     t.integer  "company_id"
     t.boolean  "show_on_cgmeetup"
     t.boolean  "show_on_website"
+    t.json     "job_category"
   end
 
   create_table "marmo_sets", force: :cascade do |t|

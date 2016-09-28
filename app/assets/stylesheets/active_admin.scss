@@ -15,7 +15,7 @@
  @import "active_admin_flat_skin";
  @import "font-awesome";
  @import "active_admin_datetimepicker";
- 
+ @import "chosen";
 
 #wrapper .flashes .flash_notice{
 	color: #3c763d;
@@ -279,4 +279,12 @@ html form fieldset.inputs {
 
 #job_company_attributes_name_input{
 margin-left:-187px
+}
+
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+  width: 255px !important;
+}
+
+.chosen-container {
+  width: 255px !important;
 }

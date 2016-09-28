@@ -9,9 +9,10 @@
 //= require marmoset
 //= require sketchfab-viewer-1.0.0
 //= require active_admin_datetimepicker
-
+//= require chosen-jquery
 
 $(document).ready(function() {
+	
 	
   $("#diplay-filter").html('Filter');
   /* jQuery('input.datepicker').datetimepicker({
@@ -19,12 +20,8 @@ $(document).ready(function() {
   });
    */
    
-    $("#job_company_id").change(function(e){
-	  var fieldval1	=	$('#job_company_id option:selected').text();
-	  if(fieldval1 != 'Select Company Name'){
-		//$('#job_company_attributes_name').val(fieldval1);  
-	  }
- })
+   $(".chosen-input").chosen();
+  
    
   
   $('form#new_gallery, form#edit_gallery').on('click', 'li.has_many_container a.has_many_add', function() {
