@@ -1,6 +1,6 @@
-ActiveAdmin.register JobCategory , as: "Job Type" do
+ActiveAdmin.register JobCategory , as: "Position" do
   
-  menu label: 'Job Type', parent: 'Job Management',priority: 2
+  menu label: 'Position', parent: 'User Setting',priority: 2
   permit_params :name
 
   form multipart: true do |f|

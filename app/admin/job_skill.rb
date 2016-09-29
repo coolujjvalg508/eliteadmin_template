@@ -1,5 +1,5 @@
-ActiveAdmin.register JobSkill do
-	menu label: 'Job Skills'
+ActiveAdmin.register JobSkill, as: "Skills" do
+	  menu label: 'Skills', parent: 'User Setting',priority: 1
 	  permit_params :name
 
   form multipart: true do |f|

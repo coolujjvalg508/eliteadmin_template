@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928055311) do
+ActiveRecord::Schema.define(version: 20160929072949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,9 +121,7 @@ ActiveRecord::Schema.define(version: 20160928055311) do
     t.text     "description"
     t.integer  "post_type_category_id",        default: 0
     t.integer  "medium_category_id",           default: 0
-    t.integer  "subject_matter_id",            default: 0
     t.integer  "has_adult_content",            default: 0
-    t.string   "software_used"
     t.string   "tags"
     t.integer  "use_tag_from_previous_upload", default: 0
     t.integer  "is_featured",                  default: 0
@@ -139,9 +137,11 @@ ActiveRecord::Schema.define(version: 20160928055311) do
     t.string   "schedule_time"
     t.string   "location"
     t.string   "team_member"
-    t.string   "skill"
     t.boolean  "show_on_cgmeetup"
     t.boolean  "show_on_website"
+    t.json     "skill"
+    t.json     "software_used"
+    t.json     "subject_matter_id"
   end
 
   create_table "images", force: :cascade do |t|

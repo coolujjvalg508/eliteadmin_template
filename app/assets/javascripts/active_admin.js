@@ -20,7 +20,7 @@ $(document).ready(function() {
   });
    */
    
-   $(".chosen-input").chosen();
+  $(".chosen-input").chosen();
   
   
   $('#job_company_id').on('change',function(){
@@ -39,7 +39,7 @@ $(document).ready(function() {
 	  
     if($("input[type='file'][id^=gallery_images_attributes_][id$=_image]").length >= 19)
     {
-      $("li.has_many_container a.has_many_add").hide();
+		$("li.has_many_container a.has_many_add").hide();
     }
   });
   

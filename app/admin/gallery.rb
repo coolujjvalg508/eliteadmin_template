@@ -16,15 +16,15 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  end
 		  f.input :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Post Type Category', label: 'Post Type'
 		  f.input :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Medium'
-		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Subject Matter', label: 'Subject Matter',multiple: true
+		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, label: 'Subject Matter',multiple: true
 		  
-		  f.input :skill, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Skills and expertise',multiple: true
+		  f.input :skill, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
 		 # f.input :location, label:'Location'
 		 f.input :team_member, label:'Team Member'
 		  
 		  f.input :has_adult_content, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
 
-		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Software used on this project',multiple: true 
+		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
 		  f.input :use_tag_from_previous_upload, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
 		  f.input :is_featured, as: :select, collection: [['Yes',1],['No',0]], include_blank: false, label: 'Feature this Post'
@@ -189,8 +189,7 @@ ActiveAdmin.register Gallery , as: "Project" do
   filter :title
   filter :tags
   filter :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), label: 'Post Type'
- filter :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), label: 'Medium'
-  filter :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), label: 'Subject Matter'
+  filter :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), label: 'Medium'
   filter :has_adult_content, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Adult content'
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: 'Status'
   filter :is_featured, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Featured'
@@ -210,9 +209,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 	   column :medium_category_id do |cat|
 		  MediumCategory.find_by(id: cat.medium_category_id).try(:name)
 	   end
-	  column :subject_matter_id do |cat|
-		  SubjectMatter.find_by(id: cat.subject_matter_id).try(:name)
-	   end
+	
 
 	   column 'Status' do |user|
 		  user.status? ? 'Active' : 'Inactive'
