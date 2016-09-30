@@ -76,7 +76,6 @@ ActiveAdmin.register Category do
           image_tag('/assets/default-blog.png', height: '50', width: '50')
         end
       end
-      row :status
       row :created_at
     end
   end
