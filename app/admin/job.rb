@@ -50,6 +50,7 @@ ActiveAdmin.register Job do
 		  f.input :show_on_website, as: :boolean,label: "Show On Website"
 		  
 			  
+			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
 			  ff.input :image, label: "Image", hint: ff.template.image_tag(ff.object.image.try(:url,:thumb))
@@ -190,7 +191,7 @@ ActiveAdmin.register Job do
 						  end
 					end
 				super	
-		 else
+		  else
 				super
 		  end
 		  
