@@ -259,6 +259,15 @@ $(document).ready(function() {
    })
   
   
+     //$('#gallery_publish').css({'display':'none'});
+   $("#user_professional_experiences_attributes_0_company_id").change(function(e){
+	  var fieldval1	=	$(this).val();
+	  if(fieldval1 == 0){
+		   $('li#job_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#job_schedule_time_input').css({'display':'none'});
+	 }
+   })
   
   
   

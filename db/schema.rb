@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929091341) do
+ActiveRecord::Schema.define(version: 20161001071050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 20160929091341) do
     t.text     "description"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "user_id"
   end
 
   create_table "faqs", force: :cascade do |t|
@@ -239,6 +240,7 @@ ActiveRecord::Schema.define(version: 20160929091341) do
     t.string   "company"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "user_id"
   end
 
   create_table "professional_experiences", force: :cascade do |t|
@@ -253,6 +255,8 @@ ActiveRecord::Schema.define(version: 20160929091341) do
     t.string   "currently_worked"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "user_id"
+    t.integer  "company_id"
   end
 
   create_table "sketchfebs", force: :cascade do |t|
@@ -343,7 +347,6 @@ ActiveRecord::Schema.define(version: 20160929091341) do
     t.text     "summary"
     t.string   "available_from"
     t.string   "show_message_button"
-    t.string   "interested_in"
     t.string   "skill_expertise"
     t.string   "software_expertise"
     t.string   "public_email_address"
@@ -359,6 +362,10 @@ ActiveRecord::Schema.define(version: 20160929091341) do
     t.string   "vimeo_url"
     t.string   "google_plus_url"
     t.string   "stream_profile_url"
+    t.boolean  "full_time_employment"
+    t.boolean  "contract"
+    t.boolean  "freelance"
+    t.integer  "company_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

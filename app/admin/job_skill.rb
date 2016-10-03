@@ -15,7 +15,7 @@ ActiveAdmin.register JobSkill, as: "Skills" do
 		f.actions
   end
 
- controller do
+   controller do
 			def create
 			  unless params[:job_skill][:image].present?
 				params[:job_skill][:image] = params[:job_skill][:image_cache]

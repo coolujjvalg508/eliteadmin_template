@@ -1,10 +1,15 @@
 ActiveAdmin.register User do
 
+	permit_params :firstname, :password, :password_confirmation,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
+	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :professional_experiences_attributes => [:company_id,:title,:location,:description, :from_month,:from_year,:to_month,:to_year,:currently_worked], :production_experiences_attributes => [:production_title,:release_year,:production_type,:your_role, :company], :education_experiences_attributes => [:school_name,:field_of_study,:month_val,:year_val, :description], :company_attributes => [:id,:name]
+
 	form multipart: true do |f|
 		
 		f.inputs "Basic Details" do
 		  f.input :firstname
 		  f.input :lastname
+		  f.input :password
+		  f.input :password_confirmation
 		  f.input :image
 		  f.input :professional_headline
 		  f.input :email
@@ -13,9 +18,11 @@ ActiveAdmin.register User do
 		  f.input :country
 		  f.input :city
 		
-		 f.inputs "Contact Information" do
+		  f.inputs "Contact Information" do
 			  f.input :show_message_button, as: :select, collection: [['Yes',1],['No',0]], include_blank: false, label: 'Show Message Button'
-			  f.input :interested_in, as: :check_boxes, collection:[['Full-time employment',1],['Contract',2],['Freelance',3]]
+			  f.input :full_time_employment, as: :boolean,label: "Full-time employment"
+			  f.input :contract, as: :boolean,label: "Contract"
+			  f.input :freelance, as: :boolean,label: "Freelance"
 			  f.input :available_from, as: :date_time_picker
 			 
 		 end	
@@ -30,7 +37,7 @@ ActiveAdmin.register User do
 		 
 		 f.inputs "Professional Experience" do
 			 f.has_many :professional_experiences, allow_destroy: true, new_record: true do |ff|
-				  ff.input :company_name
+				  ff.input :company_id, as: :select, collection: Company.where("name != '' ").pluck(:name, :id),include_blank:'Select Company Name'				
 				  ff.input :title
 				  ff.input :location
 				  ff.input :description
@@ -41,8 +48,7 @@ ActiveAdmin.register User do
 				  ff.input :currently_worked, as: :check_boxes, collection:[['Yes',1]]
 				
 				end 
-			  
-		end
+		 end
 		
 		f.inputs "Production Experience" do
 			 f.has_many :production_experiences, allow_destroy: true, new_record: true do |ff|
@@ -63,28 +69,23 @@ ActiveAdmin.register User do
 				  ff.input :month_val, as: :select, collection: [['January',1],['February',2],['March',3],['April',4],['May',5],['June',6],['July',7],['August',8],['September',9],['October',10],['November',11],['December',12]] , include_blank: false, label: 'Expected Graduation Month'
 				  ff.input :year_val, label: 'Expected Graduation Year'
 				  ff.input :description
-				
-				
-				end 
-			  
-		end
+			 end 
+		 end
 		
-		
-		 
-		 f.inputs "Skill" do
+		f.inputs "Skill" do
 			  f.input :skill_expertise
 			  f.input :software_expertise
 			 
 		 end
 		
-		 f.inputs "Contact & Social Media" do
+		      f.inputs "Contact & Social Media" do
 			  f.input :public_email_address,label: 'Public Email Address'
 			  f.input :website_url,label: 'Website URL'
 			  f.input :facebook_url,label: 'Facebook Page URL'
 			  f.input :linkedin_profile_url,label: 'linkedin Profile URL'
-			  f.input :twitter_handle,label: 'Twitter Handle (e.g.CGMeetup)'
-			  f.input :instagram_username,label: 'Instagram Username (e.g. CGMeetup)'
-			  f.input :behance_username,label: 'Behance Username (e.g. CGMeetup)'
+			  f.input :twitter_handle,label: 'Twitter Handle'
+			  f.input :instagram_username,label: 'Instagram Username'
+			  f.input :behance_username,label: 'Behance Username'
 			  f.input :tumbler_url,label: 'Tumblr URL'
 			  f.input :pinterest_url,label: 'Pinterest URL'
 			  f.input :youtube_url,label: 'Youtube URL'
@@ -98,6 +99,177 @@ ActiveAdmin.register User do
 		
 	f.actions
   end
+  
+  
+  
+   controller do
+	  def create
+			if (params[:user].present? && params[:user][:professional_experiences_attributes].present?)
+					params[:user][:professional_experiences_attributes].each do |index,img|
+						  unless params[:user][:professional_experiences_attributes][index][:title].present?
+								params[:user][:professional_experiences_attributes][index][:company_id] = params[:user][:professional_experiences_attributes][index][:company_id]
+								params[:user][:professional_experiences_attributes][index][:title] = params[:user][:professional_experiences_attributes][index][:title]
+								params[:user][:professional_experiences_attributes][index][:location] = params[:user][:professional_experiences_attributes][index][:location]
+								params[:user][:professional_experiences_attributes][index][:description] = params[:user][:professional_experiences_attributes][index][:description]
+								params[:user][:professional_experiences_attributes][index][:from_month] = params[:user][:professional_experiences_attributes][index][:from_month]
+								params[:user][:professional_experiences_attributes][index][:to_month] = params[:user][:professional_experiences_attributes][index][:to_month]
+								params[:user][:professional_experiences_attributes][index][:to_year] = params[:user][:professional_experiences_attributes][index][:to_year]
+								params[:user][:professional_experiences_attributes][index][:currently_worked] = params[:user][:professional_experiences_attributes][index][:currently_worked]
+						  end
+						  
+					end
+				super
+			
+			elsif (params[:user].present? && params[:user][:production_experiences_attributes].present?)
+					params[:user][:production_experiences_attributes].each do |index,img|
+						  unless params[:user][:production_experiences_attributes][index][:production_title].present?
+								params[:user][:production_experiences_attributes][index][:production_title] = params[:user][:production_experiences_attributes][index][:production_title]
+								params[:user][:production_experiences_attributes][index][:release_year] = params[:user][:production_experiences_attributes][index][:release_year]
+								params[:user][:production_experiences_attributes][index][:production_type] = params[:user][:production_experiences_attributes][index][:production_type]
+								params[:user][:production_experiences_attributes][index][:your_role] = params[:user][:production_experiences_attributes][index][:your_role]
+								params[:user][:production_experiences_attributes][index][:description] = params[:user][:production_experiences_attributes][index][:company]
+							
+						  end
+						  
+					end
+				super
+				
+				
+			elsif (params[:user].present? && params[:user][:education_experiences_attributes].present?)
+					params[:user][:education_experiences_attributes].each do |index,img|
+						  unless params[:user][:education_experiences_attributes][index][:school_name].present?
+								params[:user][:education_experiences_attributes][index][:school_name] = params[:user][:education_experiences_attributes][index][:school_name]
+								params[:user][:education_experiences_attributes][index][:field_of_study] = params[:user][:education_experiences_attributes][index][:field_of_study]
+								params[:user][:education_experiences_attributes][index][:month_val] = params[:user][:education_experiences_attributes][index][:month_val]
+								params[:user][:education_experiences_attributes][index][:year_val] = params[:user][:education_experiences_attributes][index][:year_val]
+								params[:user][:education_experiences_attributes][index][:description] = params[:user][:education_experiences_attributes][index][:description]
+								
+						  end
+						  
+					end
+				super
+				
+				
+		 else
+				super
+		  end
+		end
+
+		def update
+		#abort(params.to_json)
+			
+			if (params[:user].present? && params[:user][:professional_experiences_attributes].present?)
+					params[:user][:professional_experiences_attributes].each do |index,img|
+						  unless params[:user][:professional_experiences_attributes][index][:title].present?
+							params[:user][:professional_experiences_attributes][index][:company_id] = params[:user][:professional_experiences_attributes][index][:company_id]
+							params[:user][:professional_experiences_attributes][index][:title] = params[:user][:professional_experiences_attributes][index][:title]
+							params[:user][:professional_experiences_attributes][index][:location] = params[:user][:professional_experiences_attributes][index][:location]
+							params[:user][:professional_experiences_attributes][index][:description] = params[:user][:professional_experiences_attributes][index][:description]
+							params[:user][:professional_experiences_attributes][index][:from_month] = params[:user][:professional_experiences_attributes][index][:from_month]
+							params[:user][:professional_experiences_attributes][index][:to_month] = params[:user][:professional_experiences_attributes][index][:to_month]
+							params[:user][:professional_experiences_attributes][index][:to_year] = params[:user][:professional_experiences_attributes][index][:to_year]
+							params[:user][:professional_experiences_attributes][index][:currently_worked] = params[:user][:professional_experiences_attributes][index][:currently_worked]
+						  end
+						  
+					end
+				super
+			
+			elsif (params[:user].present? && params[:user][:production_experiences_attributes].present?)
+					params[:user][:production_experiences_attributes].each do |index,img|
+						  unless params[:user][:production_experiences_attributes][index][:production_title].present?
+							params[:user][:production_experiences_attributes][index][:production_title] = params[:user][:production_experiences_attributes][index][:production_title]
+							params[:user][:production_experiences_attributes][index][:release_year] = params[:user][:production_experiences_attributes][index][:release_year]
+							params[:user][:production_experiences_attributes][index][:production_type] = params[:user][:production_experiences_attributes][index][:production_type]
+							params[:user][:production_experiences_attributes][index][:your_role] = params[:user][:production_experiences_attributes][index][:your_role]
+							params[:user][:production_experiences_attributes][index][:description] = params[:user][:production_experiences_attributes][index][:company]
+							
+						  end
+						  
+					end
+				super
+				
+				
+			elsif (params[:user].present? && params[:user][:education_experiences_attributes].present?)
+					params[:user][:education_experiences_attributes].each do |index,img|
+						  unless params[:user][:education_experiences_attributes][index][:school_name].present?
+							params[:user][:education_experiences_attributes][index][:school_name] = params[:user][:education_experiences_attributes][index][:school_name]
+							params[:user][:education_experiences_attributes][index][:field_of_study] = params[:user][:education_experiences_attributes][index][:field_of_study]
+							params[:user][:education_experiences_attributes][index][:month_val] = params[:user][:education_experiences_attributes][index][:month_val]
+							params[:user][:education_experiences_attributes][index][:year_val] = params[:user][:education_experiences_attributes][index][:year_val]
+							params[:user][:education_experiences_attributes][index][:description] = params[:user][:education_experiences_attributes][index][:description]
+							
+					 end
+						  
+					end
+				super
+				
+				
+		 else
+				super
+		  end
+		  
+		end
+			
+  end
+  
+  
+  
+  filter :firstname
+  filter :email
+  filter :profile_type, as: :select, collection: [['Artist',1],['Recruiter',2],['Studio',3]], label: 'Profile Type'
+  filter :created_at
+  
+  
+    # Users List View
+  index :download_links => ['csv'] do
+	   selectable_column
+	    column 'Image' do |img|
+		  image_tag img.try(:image).try(:url, :thumb), height: 50, width: 50
+		end
+	    column 'First Name' do |fname|
+		 fname.firstname
+	   end
+	    column 'Last Name' do |lname|
+		 lname.lastname
+	   end
+	   column 'Email' do |email|
+		  email.email
+	   end
+	   column 'Country' do |country|
+		  country.country? ? ISO3166::Country[country.country] : '----'
+	   end
+	   column 'City' do |city|
+		  city.city
+	   end
+		
+		actions
+  end
+  
+  
+   show do
+    attributes_table do
+      row :firstname
+      row :lastname
+      row :email
+      row :professional_headline
+      row :phone_number
+      row :demo_reel
+      row :country do |country|
+       country.country? ? ISO3166::Country[country.country] : '----'
+      end
+      row :city
+      row :image do |cat|
+        unless !cat.image.present?
+          image_tag(cat.try(:image).try(:url, :event_small))
+        else
+          image_tag('/assets/default-blog.png', height: '50', width: '50')
+        end
+      end
+      row :created_at
+    end
+  end
+
+  
 
 
 

@@ -12,7 +12,6 @@ class AddUserDetailToUsers < ActiveRecord::Migration
 	add_column :users, :summary, :text
 	add_column :users, :available_from, :string
 	add_column :users, :show_message_button, :string
-	add_column :users, :interested_in, :string
 	add_column :users, :skill_expertise, :string
 	add_column :users, :software_expertise, :string
 	add_column :users, :public_email_address, :string
