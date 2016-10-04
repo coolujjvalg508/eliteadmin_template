@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001071050) do
+ActiveRecord::Schema.define(version: 20161004083443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,6 +232,19 @@ ActiveRecord::Schema.define(version: 20161001071050) do
 
   add_index "medium_categories", ["parent_id"], name: "index_medium_categories_on_parent_id", using: :btree
 
+  create_table "news", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "media_type",  default: 0
+    t.string   "image"
+    t.string   "video"
+    t.string   "uploaded_by"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "status",      default: true
+    t.string   "paramlink"
+  end
+
   create_table "production_experiences", force: :cascade do |t|
     t.string   "production_title"
     t.string   "release_year"
@@ -257,6 +270,19 @@ ActiveRecord::Schema.define(version: 20161001071050) do
     t.datetime "updated_at",       null: false
     t.integer  "user_id"
     t.integer  "company_id"
+  end
+
+  create_table "site_settings", force: :cascade do |t|
+    t.string   "site_title"
+    t.string   "site_email"
+    t.string   "site_phone"
+    t.string   "copyright_text"
+    t.string   "no_of_image"
+    t.string   "no_of_video"
+    t.string   "no_of_marmoset"
+    t.string   "no_of_sketchfeb"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "sketchfebs", force: :cascade do |t|
@@ -365,7 +391,6 @@ ActiveRecord::Schema.define(version: 20161001071050) do
     t.boolean  "full_time_employment"
     t.boolean  "contract"
     t.boolean  "freelance"
-    t.integer  "company_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

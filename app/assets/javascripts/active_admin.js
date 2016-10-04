@@ -271,6 +271,42 @@ $(document).ready(function() {
   
   
   
+    var mediafieldval1	=	$('#news_media_type').val();
+	  if(mediafieldval1 == 0){
+		   $('#news_video_input').css({'display':'block'});
+		   $('#news_image_input').css({'display':'none'});
+	  }else if(mediafieldval1 == 1){
+		   $('#news_video_input').css({'display':'none'});
+		   $('#news_image_input').css({'display':'block'});
+	 }else{
+		   $('#news_video_input').css({'display':'none'});
+		   $('#news_image_input').css({'display':'none'});
+		 
+		 }
+  
+  $('#news_media_type').on('change',function(){
+	  
+	  var fieldval1	=	$(this).val();
+	  if(fieldval1 == 0){
+		   $('#news_video_input').css({'display':'block'});
+		   $('#news_image_input').css({'display':'none'});
+	  }else if(fieldval1 == 1){
+		   $('#news_video_input').css({'display':'none'});
+		   $('#news_image_input').css({'display':'block'});
+	 }else{
+		   $('#news_video_input').css({'display':'none'});
+		   $('#news_image_input').css({'display':'none'});
+		 
+		 }
+	  
+  })
+  
+  
+  
+  
+  
+  
+  
 /*
   // Admin email messages and notifications count as sub menu of the admin user
   $.ajax({
