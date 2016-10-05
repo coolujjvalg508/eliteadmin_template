@@ -301,6 +301,36 @@ $(document).ready(function() {
 	  
   })
   
+   var tutorialmediafieldval1	=	$('#tutorial_media_type').val();
+	  if(tutorialmediafieldval1 == 0){
+		   $('#tutorial_video_input').css({'display':'block'});
+		   $('#tutorial_image_input').css({'display':'none'});
+	  }else if(tutorialmediafieldval1 == 1){
+		   $('#tutorial_video_input').css({'display':'none'});
+		   $('#tutorial_image_input').css({'display':'block'});
+	 }else{
+		   $('#tutorial_video_input').css({'display':'none'});
+		   $('#tutorial_image_input').css({'display':'none'});
+		 
+		 }
+  
+  $('#tutorial_media_type').on('change',function(){
+	  
+	  var fieldval1	=	$(this).val();
+	  if(fieldval1 == 0){
+		   $('#tutorial_video_input').css({'display':'block'});
+		   $('#tutorial_image_input').css({'display':'none'});
+	  }else if(fieldval1 == 1){
+		   $('#tutorial_video_input').css({'display':'none'});
+		   $('#tutorial_image_input').css({'display':'block'});
+	 }else{
+		   $('#tutorial_video_input').css({'display':'none'});
+		   $('#tutorial_image_input').css({'display':'none'});
+		 
+		 }
+	  
+  })
+  
   
   
   
