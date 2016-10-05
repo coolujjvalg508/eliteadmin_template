@@ -2,7 +2,7 @@ ActiveAdmin.register SiteSetting do
 
     menu label: 'Site Setting'
 	permit_params :site_title,:site_email,:site_phone,:copyright_text,:no_of_image,:no_of_video,:no_of_marmoset,:no_of_sketchfeb
-	actions :all, except: [:destroy, :new, :create]
+	#actions :all, except: [:destroy, :new, :create]
 	config.filters = false
 
     form multipart: true do |f|
