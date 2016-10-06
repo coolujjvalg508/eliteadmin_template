@@ -6,7 +6,7 @@ ActiveAdmin.register CategoryType , as: "Positions" do
   form multipart: true do |f|
 		
 		f.inputs "Positions" do
-		   f.input :parent_id, as: :select, collection: CategoryType.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
+		  f.input :parent_id, as: :select, collection: CategoryType.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
 		  #f.input :parent_id, :as => :select
 		  f.input :image
 		  f.input :name
