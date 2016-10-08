@@ -8,7 +8,7 @@ ActiveAdmin.register Advertisement,as: 'Banner' do
      selectable_column
     column :title
     column :advertisement_package_id 	 do |pid|
-		  AdvertisementPackage.find_by(id: pid.advertisement_package_id ).try(:title)
+		#  AdvertisementPackage.find_by(id: pid.advertisement_package_id ).try(:title)
 	  end
 
     column :starting_date
@@ -54,7 +54,7 @@ ActiveAdmin.register Advertisement,as: 'Banner' do
 	
   form multipart: true do |f|
       f.inputs "Advertisement" do
-      f.input :advertisement_package_id, as: :select, collection: AdvertisementPackage.where("id IS NOT NULL").pluck(:title, :id),label:'Package', include_blank:'Select Package'
+    #  f.input :advertisement_package_id, as: :select, collection: AdvertisementPackage.where("id IS NOT NULL").pluck(:title, :id),label:'Package', include_blank:'Select Package'
      
       f.input :title,label:'Title'
       f.input :description,label:'Description'
@@ -76,7 +76,7 @@ ActiveAdmin.register Advertisement,as: 'Banner' do
   
   
   filter :title
-  filter :advertisement_package_id, as: :select, collection: AdvertisementPackage.where("id IS NOT NULL").pluck(:title, :id), label: "Package"
+ # filter :advertisement_package_id, as: :select, collection: AdvertisementPackage.where("id IS NOT NULL").pluck(:title, :id), label: "Package"
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: "Status"
   filter :created_at
 
@@ -87,7 +87,7 @@ ActiveAdmin.register Advertisement,as: 'Banner' do
     attributes_table do
       row :title
       row :advertisement_package_id 	 do |pid|
-		  AdvertisementPackage.find_by(id: pid.advertisement_package_id).try(:title)
+		#  AdvertisementPackage.find_by(id: pid.advertisement_package_id).try(:title)
 	  end
       row :description
       row :starting_date
