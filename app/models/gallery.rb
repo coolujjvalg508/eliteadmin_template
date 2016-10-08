@@ -7,7 +7,6 @@ class Gallery < ActiveRecord::Base
  has_many :images, as: :imageable, dependent: :destroy
  has_many :caption_image
  
- 
  has_many :videos, as: :videoable, dependent: :destroy
  has_many :caption_video
  

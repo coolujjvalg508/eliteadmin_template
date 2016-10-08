@@ -1,8 +1,9 @@
 ActiveAdmin.register AdminUser do
- menu false
-  permit_params :email, :password, :password_confirmation
+  menu label: 'Admin User', parent: 'Users'
+  permit_params :email, :password, :password_confirmation,:group_id
 
-  index do
+
+ index :download_links => ['csv'] do
     selectable_column
     id_column
     column :email
@@ -22,6 +23,7 @@ ActiveAdmin.register AdminUser do
       f.input :email
       f.input :password
       f.input :password_confirmation
+      f.input :group_id, as: :select, collection:  UserGroup.where("name != '' ").pluck(:name, :id),label:'Select Group',include_blank:'Select Group'	
     end
     f.actions
   end

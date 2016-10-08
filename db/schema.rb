@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161006054008) do
+ActiveRecord::Schema.define(version: 20161008105515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_controls", force: :cascade do |t|
+    t.integer  "user_group_id"
+    t.text     "permissions"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -44,18 +51,32 @@ ActiveRecord::Schema.define(version: 20161006054008) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "group_id"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "advertisement_packages", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "amount"
+    t.string   "image"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "advertisements", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
-    t.string   "image"
-    t.integer  "status",      default: 1
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "status",                   default: 1
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.integer  "advertisement_package_id"
+    t.string   "starting_date"
+    t.string   "end_date"
+    t.string   "target_location"
+    t.boolean  "interest_based",           default: false
   end
 
   create_table "bootsy_image_galleries", force: :cascade do |t|
@@ -127,27 +148,29 @@ ActiveRecord::Schema.define(version: 20161006054008) do
     t.text     "description"
     t.integer  "post_type_category_id",        default: 0
     t.integer  "medium_category_id",           default: 0
-    t.integer  "has_adult_content",            default: 0
     t.string   "tags"
-    t.integer  "use_tag_from_previous_upload", default: 0
-    t.integer  "is_featured",                  default: 0
     t.integer  "status",                       default: 1
     t.integer  "is_save_to_draft",             default: 1
     t.integer  "visibility",                   default: 1
     t.integer  "publish",                      default: 1
     t.string   "company_logo"
     t.integer  "where_to_show",                default: 1
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.string   "paramlink"
     t.string   "schedule_time"
     t.string   "location"
-    t.string   "team_member"
     t.boolean  "show_on_cgmeetup"
     t.boolean  "show_on_website"
     t.json     "skill"
     t.json     "software_used"
     t.json     "subject_matter_id"
+    t.json     "team_member"
+    t.boolean  "use_tag_from_previous_upload", default: false
+    t.boolean  "has_adult_content",            default: false
+    t.boolean  "is_featured",                  default: false
+    t.integer  "user_id"
+    t.string   "is_admin"
   end
 
   create_table "images", force: :cascade do |t|
@@ -190,27 +213,31 @@ ActiveRecord::Schema.define(version: 20161006054008) do
     t.string   "application_email_or_url"
     t.string   "country"
     t.string   "city"
-    t.integer  "work_remotely",                default: 1
-    t.integer  "relocation_asistance",         default: 1
     t.string   "closing_date"
     t.json     "skill"
     t.json     "software_expertise"
     t.string   "tags"
-    t.integer  "use_tag_from_previous_upload", default: 0
-    t.integer  "is_featured",                  default: 0
     t.integer  "status",                       default: 1
     t.integer  "is_save_to_draft",             default: 1
     t.integer  "visibility",                   default: 1
     t.integer  "publish",                      default: 1
     t.string   "company_logo"
     t.json     "where_to_show"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.string   "schedule_time"
     t.integer  "company_id"
     t.boolean  "show_on_cgmeetup"
     t.boolean  "show_on_website"
     t.json     "job_category"
+    t.boolean  "work_remotely",                default: false
+    t.boolean  "relocation_asistance",         default: false
+    t.boolean  "use_tag_from_previous_upload", default: false
+    t.boolean  "is_featured",                  default: false
+    t.boolean  "is_paid",                      default: true
+    t.integer  "package_id"
+    t.integer  "user_id"
+    t.string   "is_admin"
   end
 
   create_table "marmo_sets", force: :cascade do |t|
@@ -248,6 +275,15 @@ ActiveRecord::Schema.define(version: 20161006054008) do
     t.datetime "updated_at",                 null: false
     t.boolean  "status",      default: true
     t.string   "paramlink"
+  end
+
+  create_table "packages", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "amount"
+    t.string   "image"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "production_experiences", force: :cascade do |t|
@@ -417,7 +453,6 @@ ActiveRecord::Schema.define(version: 20161006054008) do
     t.boolean  "full_time_employment"
     t.boolean  "contract"
     t.boolean  "freelance"
-    t.integer  "group_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

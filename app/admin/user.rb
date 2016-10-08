@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
-   menu label: 'All User', parent: 'Users'
-	permit_params :firstname,:group_id, :password, :password_confirmation,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
+   menu label: 'Front Users', parent: 'Users'
+	permit_params :firstname, :password, :password_confirmation,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
 	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :professional_experiences_attributes => [:company_id,:title,:location,:description, :from_month,:from_year,:to_month,:to_year,:currently_worked], :production_experiences_attributes => [:production_title,:release_year,:production_type,:your_role, :company], :education_experiences_attributes => [:school_name,:field_of_study,:month_val,:year_val, :description], :company_attributes => [:id,:name]
 
 	form multipart: true do |f|
@@ -8,7 +8,7 @@ ActiveAdmin.register User do
 		f.inputs "Basic Details" do
 		  f.input :firstname
 		  f.input :lastname
-		  f.input :group_id, as: :select, collection:  UserGroup.where("name != '' ").pluck(:name, :id),include_blank:'Select Group'		
+		  #f.input :group_id, as: :select, collection:  UserGroup.where("name != '' ").pluck(:name, :id),include_blank:'Select Group'		
 		  f.input :password
 		  f.input :password_confirmation
 		  f.input :image
@@ -233,9 +233,7 @@ ActiveAdmin.register User do
 	    column 'Last Name' do |lname|
 		 lname.lastname
 	   end
-	    column 'Group' do |grp|
-	        UserGroup.find_by(id: grp.group_id).try(:name)
-	   end
+	  
 	   column 'Email' do |email|
 		  email.email
 	   end
@@ -254,9 +252,7 @@ ActiveAdmin.register User do
     attributes_table do
       row :firstname
       row :lastname
-      row :group_id do |grp|
-		UserGroup.find_by(id: grp.group_id).try(:name)
-      end
+     
       row :email
       row :professional_headline
       row :phone_number

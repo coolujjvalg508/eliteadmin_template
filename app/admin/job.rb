@@ -1,14 +1,16 @@
 ActiveAdmin.register Job do
 	menu label: 'Jobs', parent: 'Job Management',priority: 1
-	permit_params :title,:paramlink,:description,:show_on_cgmeetup,:show_on_website,:company_name, :company_id, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, {:job_category => []} , 
+	permit_params :title,:user_id,:is_admin, :paramlink,:package_id,:description,:show_on_cgmeetup,:show_on_website,:company_name, :company_id, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, {:job_category => []} , 
 	:application_email_or_url, :country, :city, 
-	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, 
+	:work_remotely, :is_paid, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, 
 	:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name]
 	
 	
 	form multipart: true do |f|
 		
 		f.inputs "Job" do
+	   	  f.input :is_paid, as: :boolean,label: "Is Paid"
+	   	  f.input :package_id, as: :select, collection: Package.where("id IS NOT NULL").pluck(:title, :id), include_blank:'Select Package'
 		  f.input :title
 		  f.input :paramlink,label:'Permalink'
 		  li do
@@ -26,17 +28,17 @@ ActiveAdmin.register Job do
 		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Job Type'
 		  f.input :from_amount, label:'From Amount'
 		  f.input :to_amount, label:'To Amount'
-		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
+		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true,label: 'Job Position'
 		  f.input :application_email_or_url,label:'Application Email/URL'
 		  f.input :country,label:'Country'
 		  f.input :city,label:'City'
-		  f.input :work_remotely, as: :select, collection: [['Yes',1],['No',0]], include_blank: false, label: 'Work Remotely'
-		  f.input :relocation_asistance, as: :select, collection: [['Yes',1],['No',0]], include_blank: false, label: 'Relocation Asistance'
+		  f.input :work_remotely, as: :boolean,label: "Work Remotely"
+		  f.input :relocation_asistance, as: :boolean,label: "Relocation Asistance"
 		  f.input :closing_date, as: :date_time_picker,label:'Closing Date'
 		  f.input :skill, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
 		  f.input :software_expertise, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags
-		  f.input :use_tag_from_previous_upload, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
+		  f.input :use_tag_from_previous_upload, as: :boolean,label: "Use Tag From Previous Upload"
 		
 		  f.input :is_featured, as: :select, collection: [['Yes',1],['No',0]], include_blank: false, label: 'Feature this Post'
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
@@ -96,6 +98,8 @@ ActiveAdmin.register Job do
 
   controller do
 	  def create
+			params[:job][:user_id] = current_admin_user.id.to_s
+			params[:job][:is_admin] = 'Y'
 			if (params[:job].present? && params[:job][:images_attributes].present?)
 					params[:job][:images_attributes].each do |index,img|
 						  unless params[:job][:images_attributes][index][:image].present?
@@ -147,7 +151,8 @@ ActiveAdmin.register Job do
 
 		def update
 		#abort(params.to_json)
-			
+			params[:job][:user_id] = current_admin_user.id.to_s
+			params[:job][:is_admin] = 'Y'
 			if (params[:job].present? && params[:job][:images_attributes].present?)
 					params[:job][:images_attributes].each do |index,img|
 						  unless params[:job][:images_attributes][index][:image].present?
@@ -209,22 +214,20 @@ ActiveAdmin.register Job do
    # Users List View
   index :download_links => ['csv'] do
 	   selectable_column
-	    column 'Title' do |title|
+	   column 'Image' do |img|
+		  image_tag img.try(:company_logo).try(:url, :thumb), height: 50, width: 50
+		end
+		column 'Username' do |uname|
+			(uname.user_id == 1 && uname.is_admin == 'Y') ? 'Admin' : User.find_by(id: uname.user_id).try(:firstname)
+		end
+	   column 'Title' do |title|
 		 title.title
 	   end
-	   column 'Description' do |description|
-		  tr_con = description.description.first(45)
+ 	   column 'Featured' do |feature|
+			(feature.is_featured == true) ? 'Yes' : (feature.is_paid == true) ? 'Yes' : 'No'
 	   end
-	   column 'Application Email or Url' do |app_email|
-			app_email.application_email_or_url
-	   end
-
-	    column 'Country' do |country|
-		  country.country? ? ISO3166::Country[country.country] : '----'
-	   end
-	    column 'City' do |city|
-		  city.city
-	   end
+	
+	  
 		column 'Status' do |user|
 		  user.status? ? 'Active' : 'Inactive'
 		end
@@ -235,6 +238,12 @@ ActiveAdmin.register Job do
    show do
 		attributes_table do
 		  row :title
+		  row :is_paid do |ispaid|
+		    ispaid.is_paid? ? 'Yes' : 'No'    
+		  end
+		  row :package_id do |pid|
+		     Package.find_by(id: pid.package_id).try(:title)
+		  end
 		  row :paramlink
 		  row :description
 		  row :job_type do |utag|
@@ -263,7 +272,7 @@ ActiveAdmin.register Job do
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
 		  end
 		  row :is_featured do |ifeature|
-		    ifeature.is_featured? ? 'Yes' : 'No'
+		   (ifeature.is_featured == true) ? 'Yes' : (ifeature.is_paid == true) ? 'Yes' : 'No'
 		  end
 		  row :status do |st|
 		    st.status? ? 'Active' : 'Inactive'

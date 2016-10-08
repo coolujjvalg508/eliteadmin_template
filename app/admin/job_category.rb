@@ -1,6 +1,6 @@
 ActiveAdmin.register JobCategory , as: "Contract Type" do
   
-  menu label: 'Contract Type', parent: 'User Setting',priority: 2
+  menu label: 'Contract Type', parent: 'Job Management',priority: 2
   permit_params :name
 
   form multipart: true do |f|

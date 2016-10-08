@@ -1,6 +1,6 @@
 ActiveAdmin.register CategoryType , as: "Positions" do
 
-  menu label: 'Positions', parent: 'Job Management',priority: 3
+  menu label: 'Positions', parent: 'User Setting',priority: 3
   permit_params :name, :parent_id, :image, :description, :slug
 
   form multipart: true do |f|

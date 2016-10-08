@@ -1,7 +1,7 @@
 ActiveAdmin.register Gallery , as: "Project" do
     menu label: 'Projects', parent: 'Gallery',priority: 1
 
-	permit_params :title,:paramlink, {:skill => []},:team_member,:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
+	permit_params :title,:user_id,:is_admin,:paramlink, {:skill => []}, {:team_member => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
 	:medium_category_id, {:subject_matter_id => []} , :has_adult_content, {:software_used => []} , :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
 
@@ -20,14 +20,14 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  
 		  f.input :skill, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
 		 # f.input :location, label:'Location'
-		 f.input :team_member, label:'Team Member'
+		 f.input :team_member, as: :select, collection: User.where("id IS NOT NULL").pluck(:firstname, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
 		  
-		  f.input :has_adult_content, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
+		  f.input :has_adult_content, as: :boolean,label: "Has Adult Content"
 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
-		  f.input :use_tag_from_previous_upload, as: :select, collection: [['Yes',1],['No',0]], include_blank: false
-		  f.input :is_featured, as: :select, collection: [['Yes',1],['No',0]], include_blank: false, label: 'Feature this Post'
+		  f.input :use_tag_from_previous_upload, as: :boolean,label: "Use Tag From Previous Upload"
+		  f.input :is_featured, as: :boolean,label: "Feature this Post"
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
 		  f.input :visibility, as: :select, collection: [['Private',1], ['Public', 0]], include_blank: false
@@ -83,6 +83,8 @@ ActiveAdmin.register Gallery , as: "Project" do
   
   controller do
 	  def create
+			params[:gallery][:user_id] = current_admin_user.id.to_s
+			params[:gallery][:is_admin] = 'Y'
 			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
 					params[:gallery][:images_attributes].each do |index,img|
 						  unless params[:gallery][:images_attributes][index][:image].present?
@@ -133,8 +135,9 @@ ActiveAdmin.register Gallery , as: "Project" do
 		end
 
 		def update
-		#abort(params.to_json)
-			
+		#abort(current_admin_user.id.to_s)
+			params[:gallery][:user_id] = current_admin_user.id.to_s
+			params[:gallery][:is_admin] = 'Y'
 			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
 					params[:gallery][:images_attributes].each do |index,img|
 						  unless params[:gallery][:images_attributes][index][:image].present?
@@ -199,15 +202,15 @@ ActiveAdmin.register Gallery , as: "Project" do
    # Users List View
   index :download_links => ['csv'] do
 	   selectable_column
+	   column 'Image' do |img|
+		  image_tag img.try(:company_logo).try(:url, :thumb), height: 50, width: 50
+	   end
+	   column 'Username' do |uname|
+			(uname.user_id == 1 && uname.is_admin == 'Y') ? 'Admin' : User.find_by(id: uname.user_id).try(:firstname)
+		end
 	   column 'title' 
-	   column 'Description' do |description|
-		  tr_con = description.description.first(45)
-	   end
-	   column :post_type_category_id do |cat|
-		  Category.find_by(id: cat.post_type_category_id).try(:name)
-	   end
-	   column :medium_category_id do |cat|
-		  MediumCategory.find_by(id: cat.medium_category_id).try(:name)
+	   column 'Featured' do |feature|
+			(feature.is_featured == true) ? 'Yes' : 'No'
 	   end
 	
 
@@ -240,7 +243,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
 		  end
 		  row :is_featured do |ifeature|
-		    ifeature.is_featured? ? 'Yes' : 'No'
+		   (ifeature.is_featured == true) ? 'Yes' : 'No'
 		  end
 		  row :status do |st|
 		    st.status? ? 'Active' : 'Inactive'

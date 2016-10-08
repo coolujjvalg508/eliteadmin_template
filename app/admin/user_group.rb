@@ -1,20 +1,7 @@
 ActiveAdmin.register UserGroup do
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
-
- menu label: 'User Group', parent: 'Users'
-	 permit_params :name, :can_access_acp, :is_super_mod
+	 menu label: 'User Group', parent: 'Users'
+	 permit_params :name, :can_access_acp, :is_super_mod, access_control_attributes: [ :id, permissions_hash: [] ]
 
 	  form multipart: true do |f|
 		  f.inputs "User Group" do
@@ -22,9 +9,23 @@ ActiveAdmin.register UserGroup do
 		  f.input :can_access_acp,label: "Can Access ACP"
 		  f.input :is_super_mod,label: "Is Super Mod"
 		end
+		 f.inputs "Access Control" ,for: [:access_control, f.object.try(:access_control) || AccessControl.new], class: 'access-panel' do |permission|
+		  @model_names = UserGroup::MODULESTOPERMIT
+		  @model_names.each do |model|
+		  key = "permissions_hash"
+			if model == 'sitesetting'
+			  permission.input key, as: :check_boxes, collection: [['read', "#{model}_read"], ['write', "#{model}_write"]], label: model.capitalize
+			else
+			  permission.input key, as: :check_boxes, collection: [['read', "#{model}_read"], ['write', "#{model}_write"], ['delete', "#{model}_delete"]], label: model.capitalize
+			end
+		  end
+		end
 
 		f.actions
   end
+
+
+
 
   filter :name
   filter :created_at

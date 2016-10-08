@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
   mount_uploader :image, ImageUploader
-  validates :group_id, presence: true
+  #validates :group_id, presence: true
   validates :firstname, presence: true
   validates :email, presence: {message: "Email can't be blank"}
   validates :email, uniqueness: {message: 'This email is already registered with us.'}
