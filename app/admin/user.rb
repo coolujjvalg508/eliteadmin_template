@@ -3,6 +3,29 @@ ActiveAdmin.register User do
 	permit_params :firstname, :password, :password_confirmation,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
 	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :professional_experiences_attributes => [:company_id,:title,:location,:description, :from_month,:from_year,:to_month,:to_year,:currently_worked], :production_experiences_attributes => [:production_title,:release_year,:production_type,:your_role, :company], :education_experiences_attributes => [:school_name,:field_of_study,:month_val,:year_val, :description], :company_attributes => [:id,:name]
 
+	controller do 
+		def action_methods
+		 super                                    
+			if current_admin_user.id.to_s == '1'
+			super
+		  else
+			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			disallowed = []
+			disallowed << 'index' if (!usergroup.has_permission('user_read') && !usergroup.has_permission('user_write') && !usergroup.has_permission('user_delete'))
+			disallowed << 'delete' unless (usergroup.has_permission('user_delete'))
+			disallowed << 'create' unless (usergroup.has_permission('user_write'))
+			disallowed << 'new' unless (usergroup.has_permission('user_write'))
+			disallowed << 'edit' unless (usergroup.has_permission('user_write'))
+			disallowed << 'destroy' unless (usergroup.has_permission('user_delete'))
+			
+			super - disallowed
+		  end
+	end
+  end
+  
+
+
+
 	form multipart: true do |f|
 		
 		f.inputs "Basic Details" do

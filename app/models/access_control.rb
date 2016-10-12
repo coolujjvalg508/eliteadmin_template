@@ -7,6 +7,7 @@ class AccessControl < ActiveRecord::Base
 	def permissions_hash
 		array = []
 		if permissions
+		
 			permissions.each do |x,y|
 		    y.each do |z|
 		      array << x+'_'+z
@@ -27,7 +28,8 @@ class AccessControl < ActiveRecord::Base
 	    	custom_hash[c[0]] << 'read' if ['write', 'delete'].include?(c[1]) && !custom_hash[c[0]].include?('read')
 	    end
 		end
+		
 		self.permissions = custom_hash
 	end
-	belongs_to :user
+	belongs_to :admin_user
 end

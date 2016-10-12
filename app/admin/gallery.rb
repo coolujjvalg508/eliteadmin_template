@@ -1,10 +1,43 @@
 ActiveAdmin.register Gallery , as: "Project" do
-    menu label: 'Projects', parent: 'Gallery',priority: 1
 
+	#	abort(current_admin_user.to_json)
+	
+    menu label: 'Projects', parent: 'Gallery',priority: 1 
+    #, if: proc{ (usergroup.has_permission('gallery_read') || usergroup.has_permission('gallery_write') || usergroup.has_permission('gallery_delete'))}
+    
+    
+	
 	permit_params :title,:user_id,:is_admin,:paramlink, {:skill => []}, {:team_member => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
 	:medium_category_id, {:subject_matter_id => []} , :has_adult_content, {:software_used => []} , :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
+		
+	
+	
+	 controller do 
 
+		def action_methods
+		  super                                  
+				if current_admin_user.id.to_s == '1'
+					super
+		  else
+				usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+				disallowed = []
+				disallowed << 'index' if (!usergroup.has_permission('gallery_read') && !usergroup.has_permission('gallery_write') && !usergroup.has_permission('gallery_delete'))
+				disallowed << 'delete' unless (usergroup.has_permission('gallery_delete'))
+				disallowed << 'create' unless (usergroup.has_permission('gallery_write'))
+				disallowed << 'new' unless (usergroup.has_permission('gallery_write'))
+				disallowed << 'edit' unless (usergroup.has_permission('gallery_write'))
+				disallowed << 'destroy' unless (usergroup.has_permission('gallery_delete'))
+			
+			super - disallowed
+		  end
+		end
+	  end
+	
+	
+		
+		
+	
 	form multipart: true do |f|
 		
 		f.inputs "Project" do
@@ -371,6 +404,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		column :created_at
 		
   end
+
 
 
 # See permitted parameters documentation:

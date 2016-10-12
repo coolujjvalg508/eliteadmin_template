@@ -15,6 +15,29 @@ ActiveAdmin.register SubjectMatter do
 #   permitted
 # end
 
+	controller do 
+		def action_methods
+		 super                                    
+		 if current_admin_user.id.to_s == '1'
+			super
+		  else
+			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			disallowed = []
+			disallowed << 'index' if (!usergroup.has_permission('subjectmatter_read') && !usergroup.has_permission('subjectmatter_write') && !usergroup.has_permission('subjectmatter_delete'))
+			disallowed << 'delete' unless (usergroup.has_permission('subjectmatter_delete'))
+			disallowed << 'create' unless (usergroup.has_permission('subjectmatter_write'))
+			disallowed << 'new' unless (usergroup.has_permission('subjectmatter_write'))
+			disallowed << 'edit' unless (usergroup.has_permission('subjectmatter_write'))
+			disallowed << 'destroy' unless (usergroup.has_permission('subjectmatter_delete'))
+			
+			super - disallowed
+		  end
+		end
+	end
+
+
+
+
  index :download_links => ['csv'] do
      selectable_column
     

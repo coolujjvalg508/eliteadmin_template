@@ -6,6 +6,27 @@ ActiveAdmin.register StaticPage do
    # actions :all, except: [:new, :destroy]
     
     
+    controller do 
+		def action_methods
+		 super                                    
+			if current_admin_user.id.to_s == '1'
+			super
+		  else
+			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			disallowed = []
+			disallowed << 'index' if (!usergroup.has_permission('staticpage_read') && !usergroup.has_permission('staticpage_write') && !usergroup.has_permission('staticpage_delete'))
+			disallowed << 'delete' unless (usergroup.has_permission('staticpage_delete'))
+			disallowed << 'create' unless (usergroup.has_permission('staticpage_write'))
+			disallowed << 'new' unless (usergroup.has_permission('staticpage_write'))
+			disallowed << 'edit' unless (usergroup.has_permission('staticpage_write'))
+			disallowed << 'destroy' unless (usergroup.has_permission('staticpage_delete'))
+			
+			super - disallowed
+		  end
+		end
+	  end
+    
+    
   index :download_links => ['csv'] do
      selectable_column
     

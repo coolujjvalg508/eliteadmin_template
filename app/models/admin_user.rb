@@ -5,4 +5,6 @@ class AdminUser < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
          
   validates :group_id, presence: true
+  
+  
 end

@@ -14,7 +14,6 @@ class Gallery < ActiveRecord::Base
  has_many :upload_videos, as: :uploadvideoable, dependent: :destroy
  has_many :caption_upload_video
  
- 
  has_many :sketchfebs, as: :sketchfebable, dependent: :destroy
  has_many :marmo_sets, as: :marmosetable, dependent: :destroy
  
@@ -24,4 +23,5 @@ class Gallery < ActiveRecord::Base
  accepts_nested_attributes_for :upload_videos, reject_if: proc { |attributes| attributes['uploadvideo'].blank? || attributes['uploadvideo'].nil? }, allow_destroy: true
  accepts_nested_attributes_for :sketchfebs, reject_if: proc { |attributes| attributes['sketchfeb'].blank? || attributes['sketchfeb'].nil? }, allow_destroy: true
  accepts_nested_attributes_for :marmo_sets, reject_if: proc { |attributes| attributes['marmoset'].blank? || attributes['marmoset'].nil? }, allow_destroy: true
+  
 end

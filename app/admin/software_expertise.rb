@@ -14,6 +14,26 @@ ActiveAdmin.register SoftwareExpertise do
 
       f.actions
   end
+  
+   controller do 
+		def action_methods
+		 super                                    
+			if current_admin_user.id.to_s == '1'
+			super
+		  else
+			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			disallowed = []
+			disallowed << 'index' if (!usergroup.has_permission('softwareexpertise_read') && !usergroup.has_permission('softwareexpertise_write') && !usergroup.has_permission('softwareexpertise_delete'))
+			disallowed << 'delete' unless (usergroup.has_permission('softwareexpertise_delete'))
+			disallowed << 'create' unless (usergroup.has_permission('softwareexpertise_write'))
+			disallowed << 'new' unless (usergroup.has_permission('softwareexpertise_write'))
+			disallowed << 'edit' unless (usergroup.has_permission('softwareexpertise_write'))
+			disallowed << 'destroy' unless (usergroup.has_permission('softwareexpertise_delete'))
+			
+			super - disallowed
+		  end
+	end
+  end
 
   controller do
 			def create

@@ -3,7 +3,26 @@ ActiveAdmin.register Category do
     menu label: 'Post Type Category', parent: 'Gallery',priority: 2
 	permit_params :name, :parent_id, :image, :description, :slug
 
-
+	
+	controller do 
+		def action_methods
+		 super                                    
+		 if current_admin_user.id.to_s == '1'
+			super
+		  else
+			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			disallowed = []
+			disallowed << 'index' if (!usergroup.has_permission('category_read') && !usergroup.has_permission('category_write') && !usergroup.has_permission('category_delete'))
+			disallowed << 'delete' unless (usergroup.has_permission('category_delete'))
+			disallowed << 'create' unless (usergroup.has_permission('category_write'))
+			disallowed << 'new' unless (usergroup.has_permission('category_write'))
+			disallowed << 'edit' unless (usergroup.has_permission('category_write'))
+			disallowed << 'destroy' unless (usergroup.has_permission('category_delete'))
+			
+			super - disallowed
+		  end
+		end
+	end
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #

@@ -6,6 +6,29 @@ ActiveAdmin.register Job do
 	:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name]
 	
 	
+	controller do 
+		def action_methods
+		 super                                    
+			if current_admin_user.id.to_s == '1'
+			super
+		  else
+			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			disallowed = []
+			disallowed << 'index' if (!usergroup.has_permission('job_read') && !usergroup.has_permission('job_write') && !usergroup.has_permission('job_delete'))
+			disallowed << 'delete' unless (usergroup.has_permission('job_delete'))
+			disallowed << 'create' unless (usergroup.has_permission('job_write'))
+			disallowed << 'new' unless (usergroup.has_permission('job_write'))
+			disallowed << 'edit' unless (usergroup.has_permission('job_write'))
+			disallowed << 'destroy' unless (usergroup.has_permission('job_delete'))
+			
+			super - disallowed
+		  end
+		end
+	  end
+	
+	
+	
+	
 	form multipart: true do |f|
 		
 		f.inputs "Job" do

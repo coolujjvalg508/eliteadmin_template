@@ -16,6 +16,29 @@ ActiveAdmin.register AdvertisementPackage do
 	 menu label: 'Advertisement Package', parent: 'Package',priority: 2
 	 permit_params :title, :description, :amount, :image
 
+	controller do 
+		def action_methods
+		 super                                    
+			if current_admin_user.id.to_s == '1'
+			super
+		  else
+			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			disallowed = []
+			disallowed << 'index' if (!usergroup.has_permission('advertisementpackage_read') && !usergroup.has_permission('advertisementpackage_write') && !usergroup.has_permission('advertisementpackage_delete'))
+			disallowed << 'delete' unless (usergroup.has_permission('advertisementpackage_delete'))
+			disallowed << 'create' unless (usergroup.has_permission('advertisementpackage_write'))
+			disallowed << 'new' unless (usergroup.has_permission('advertisementpackage_write'))
+			disallowed << 'edit' unless (usergroup.has_permission('advertisementpackage_write'))
+			disallowed << 'destroy' unless (usergroup.has_permission('advertisementpackage_delete'))
+			
+			super - disallowed
+		  end
+		end
+	  end
+
+
+
+
 	  form multipart: true do |f|
 		  f.inputs "Advertisement Package" do
 			  f.input :image
