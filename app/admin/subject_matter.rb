@@ -85,7 +85,7 @@ ActiveAdmin.register SubjectMatter do
     f.actions
   end
   
-  filter :name 
+  filter :name
   filter :created_at
 
 

@@ -329,6 +329,7 @@ ActiveAdmin.register Job do
 				end
 			end
 		  end
+		  
 		  row 'Videos' do
 			ul class: "image-blk" do
 				if job.videos.present?
