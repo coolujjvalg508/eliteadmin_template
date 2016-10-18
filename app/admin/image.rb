@@ -15,7 +15,7 @@ ActiveAdmin.register Image do
 #   permitted
 # end
 
-	permit_params :image,:caption_image
+	permit_params :image, :caption_image
 
   # Users List View
   index :download_links => ['csv'] do

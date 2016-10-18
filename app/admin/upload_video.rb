@@ -50,7 +50,7 @@ menu label: 'Uploaded Videos', parent: 'Media Library',priority: 3
 		  row :video do |img|
 				raw('<iframe title="Video" width="250" height="200" src="'+img.uploadvideo.url+'" frameborder="0" allowfullscreen></iframe>')
 		  end
-		  row :caption_video
+		  row :caption_upload_video
 		  row :created_at
 		end
     end

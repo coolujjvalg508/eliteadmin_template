@@ -29,7 +29,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 				disallowed << 'edit' unless (usergroup.has_permission('gallery_write'))
 				disallowed << 'destroy' unless (usergroup.has_permission('gallery_delete'))
 			
-			super - disallowed
+				super - disallowed
 		  end
 		end
 	  end
