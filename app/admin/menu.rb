@@ -19,7 +19,7 @@ ActiveAdmin.register Menu do
 		
 		f.inputs "Menu" do
 			  f.input :title
-			 # f.input :parent_id, as: :select, collection: Menu.where("parent_id IS NULL ").pluck(:title, :id), include_blank: 'Select Parent'
+			  f.input :parent_id, as: :select, collection: Menu.where("parent_id IS NULL ").pluck(:title, :id), include_blank: 'Select Parent'
 			  f.input :url
 			  f.input :navigation_label
 			  f.input :position
@@ -31,7 +31,7 @@ ActiveAdmin.register Menu do
   filter :title
   filter :url
   filter :navigation_label
-  #filter :parent_id, as: :select, collection: Menu.where("parent_id IS NULL ").pluck(:title, :id), label: 'Parent'
+  filter :parent_id, as: :select, collection: Menu.where("parent_id IS NULL ").pluck(:title, :id), label: 'Parent'
 	
 
     	# Users List View
@@ -40,7 +40,7 @@ ActiveAdmin.register Menu do
     
 		column :title
 		column :parent do |cat|
-		#  Menu.find_by(id: cat.parent_id).try(:title)
+		  Menu.find_by(id: cat.parent_id).try(:title)
 		end
 		column :url
 		column :navigation_label
