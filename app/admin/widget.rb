@@ -2,7 +2,7 @@ ActiveAdmin.register Widget do
 
 	menu label: 'Widget', parent: 'Widget',priority: 1
 	permit_params :title, :description
-	actions :all, except: [:destroy, :new, :create]
+	#actions :all, except: [:destroy, :new, :create]
 
 
 # See permitted parameters documentation:
