@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161017045928) do
+ActiveRecord::Schema.define(version: 20161021045304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,58 @@ ActiveRecord::Schema.define(version: 20161017045928) do
     t.string   "is_admin"
   end
 
+  create_table "home_sidebars", force: :cascade do |t|
+    t.text     "description"
+    t.boolean  "open_link_in_new_window",        default: true
+    t.boolean  "show_button",                    default: true
+    t.string   "fb_page_name"
+    t.string   "fb_default"
+    t.string   "fb_position"
+    t.string   "tw_username"
+    t.string   "tw_default"
+    t.string   "tw_position"
+    t.string   "youtube_channel"
+    t.string   "youtube_default"
+    t.string   "youtube_position"
+    t.string   "viemo_channel"
+    t.string   "viemo_default"
+    t.string   "viemo_position"
+    t.string   "feedburner_feedname"
+    t.string   "feedburner_default"
+    t.string   "feedburner_position"
+    t.string   "dribbble_username"
+    t.string   "dribbble_default"
+    t.string   "dribbble_position"
+    t.string   "forrst_username"
+    t.string   "forrst_default"
+    t.string   "forrst_position"
+    t.string   "digg_username"
+    t.string   "digg_default"
+    t.string   "digg_position"
+    t.string   "custom_menu_title"
+    t.string   "dp_title"
+    t.integer  "dp_number"
+    t.integer  "dp_order_by"
+    t.string   "dp_order"
+    t.integer  "dp_category"
+    t.boolean  "limit_post_by_current_category", default: true
+    t.boolean  "limit_post_by_current_author",   default: true
+    t.string   "dp_includes"
+    t.string   "dp_style"
+    t.string   "rss_url"
+    t.string   "give_feed"
+    t.integer  "number_of_display_item"
+    t.boolean  "display_item_content",           default: true
+    t.boolean  "display_item_author",            default: false
+    t.boolean  "display_item_date",              default: false
+    t.string   "cat_title"
+    t.boolean  "cat_display_as_dropdown",        default: true
+    t.boolean  "cat_show_post_count",            default: false
+    t.boolean  "cat_show_hierarchy",             default: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+  end
+
   create_table "images", force: :cascade do |t|
     t.string   "image"
     t.integer  "imageable_id",   null: false
@@ -239,6 +291,45 @@ ActiveRecord::Schema.define(version: 20161017045928) do
     t.integer  "package_id"
     t.integer  "user_id"
     t.string   "is_admin"
+  end
+
+  create_table "main_sidebars", force: :cascade do |t|
+    t.text     "description"
+    t.string   "dp_title"
+    t.integer  "dp_number"
+    t.integer  "dp_style"
+    t.string   "cat_title"
+    t.boolean  "cat_display_as_dropdown", default: true
+    t.boolean  "cat_show_post_count",     default: false
+    t.boolean  "cat_show_hierarchy",      default: false
+    t.boolean  "open_link_in_new_window", default: true
+    t.boolean  "show_button",             default: true
+    t.string   "fb_page_name"
+    t.string   "fb_default"
+    t.string   "fb_position"
+    t.string   "tw_username"
+    t.string   "tw_default"
+    t.string   "tw_position"
+    t.string   "youtube_channel"
+    t.string   "youtube_default"
+    t.string   "youtube_position"
+    t.string   "viemo_channel"
+    t.string   "viemo_default"
+    t.string   "viemo_position"
+    t.string   "feedburner_feedname"
+    t.string   "feedburner_default"
+    t.string   "feedburner_position"
+    t.string   "dribbble_username"
+    t.string   "dribbble_default"
+    t.string   "dribbble_position"
+    t.string   "forrst_username"
+    t.string   "forrst_default"
+    t.string   "forrst_position"
+    t.string   "digg_username"
+    t.string   "digg_default"
+    t.string   "digg_position"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "marmo_sets", force: :cascade do |t|
@@ -481,5 +572,12 @@ ActiveRecord::Schema.define(version: 20161017045928) do
 
   add_index "videos", ["videoable_id"], name: "index_videos_on_videoable_id", using: :btree
   add_index "videos", ["videoable_type"], name: "index_videos_on_videoable_type", using: :btree
+
+  create_table "widgets", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
 end

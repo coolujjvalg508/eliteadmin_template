@@ -22,6 +22,7 @@ ActiveAdmin.register JobSkill, as: "Skills" do
 					super
 			  else
 					usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+					
 					disallowed = []
 					disallowed << 'index' if (!usergroup.has_permission('jobskill_read') && !usergroup.has_permission('jobskill_write') && !usergroup.has_permission('jobskill_delete'))
 					disallowed << 'delete' unless (usergroup.has_permission('jobskill_delete'))

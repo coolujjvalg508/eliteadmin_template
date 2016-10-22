@@ -29,7 +29,7 @@ ActiveAdmin.register SiteSetting do
 
     form multipart: true do |f|
 			
-			f.inputs "Site Setting" do
+		  f.inputs "Site Setting" do
 			  f.input :site_title, label:'Site Title'
 			  f.input :site_email, label:'Site Email'
 			  f.input :site_phone, label:'Site Phone'

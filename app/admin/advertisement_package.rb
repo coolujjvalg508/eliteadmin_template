@@ -50,7 +50,7 @@ ActiveAdmin.register AdvertisementPackage do
 			f.actions
 	  end
 
-	   controller do
+	  controller do
 			def create
 			  unless params[:advertisement_package][:image].present?
 				params[:advertisement_package][:image] = params[:advertisement_package][:image_cache]
@@ -62,7 +62,7 @@ ActiveAdmin.register AdvertisementPackage do
 	end
 
 	index :download_links => ['csv'] do
-		 selectable_column
+		selectable_column
 		
 		column 'Image' do |img|
 		  image_tag img.try(:image).try(:url, :thumb), height: 50, width: 50
