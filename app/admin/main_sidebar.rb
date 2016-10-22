@@ -2,7 +2,7 @@ ActiveAdmin.register MainSidebar do
 
 	menu label: 'Main Sidebar', parent: 'Widget',priority: 2 
 	permit_params :description, :dp_title, :dp_number, :dp_style, :cat_title, :cat_display_as_dropdown, :cat_show_post_count, :cat_show_hierarchy, :open_link_in_new_window, :show_button, :fb_page_name, :fb_default, :fb_position, :tw_username, :tw_default, :tw_position, :youtube_channel, :youtube_default, :youtube_position, :viemo_channel, :viemo_default, :viemo_position, :feedburner_feedname, :feedburner_default, :feedburner_position, :dribbble_username, :dribbble_default, :dribbble_position, :forrst_username, :forrst_default, :forrst_position, :digg_username, :digg_default, :digg_position
-	#actions :all, except: [:destroy, :new, :create]
+	actions :all, except: [:destroy, :new, :create]
 
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
