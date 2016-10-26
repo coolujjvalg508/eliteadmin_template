@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161021045304) do
+ActiveRecord::Schema.define(version: 20161026052659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,18 @@ ActiveRecord::Schema.define(version: 20161021045304) do
     t.integer  "parent_id"
     t.integer  "status",      default: 0
     t.string   "image"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "user_id"
+    t.boolean  "is_pending",  default: true
+    t.boolean  "is_approve",  default: true
+    t.boolean  "is_spam",     default: true
+    t.boolean  "is_trash",    default: true
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "companies", force: :cascade do |t|
@@ -387,6 +399,18 @@ ActiveRecord::Schema.define(version: 20161021045304) do
     t.string   "image"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "post_comments", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "user_id"
+    t.boolean  "is_pending",  default: true
+    t.boolean  "is_approve",  default: true
+    t.boolean  "is_spam",     default: true
+    t.boolean  "is_trash",    default: true
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "production_experiences", force: :cascade do |t|

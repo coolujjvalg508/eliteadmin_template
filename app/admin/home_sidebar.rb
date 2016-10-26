@@ -20,6 +20,9 @@ ActiveAdmin.register HomeSidebar do
 	
 	actions :all, except: [:destroy, :new, :create]
 	
+	
+	
+	
 	 controller do 
 		def action_methods
 		 super                                    
@@ -119,7 +122,7 @@ ActiveAdmin.register HomeSidebar do
 					  f.input :dp_style,label:'Style', as: :select, collection: HomeSidebar::DPSTYLES, include_blank: false
 					  
 			  end	
-			   f.inputs 'Rss: Job Updates' do
+			  f.inputs 'Rss: Job Updates' do
 					  f.input :rss_url,label:'Rss Feed Url'
 					  f.input :give_feed,label:'Give the Feed a title'
 					  f.input :number_of_display_item,label:'Number of Display Item'
