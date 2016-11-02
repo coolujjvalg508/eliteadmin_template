@@ -7,7 +7,7 @@ ActiveAdmin.register Gallery , as: "Project" do
     
     
 	
-	permit_params :title,:user_id,:is_admin,:paramlink, {:skill => []}, {:team_member => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
+	permit_params :is_spam, :title,:user_id,:is_admin,:paramlink, {:skill => []}, {:team_member => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
 	:medium_category_id, {:subject_matter_id => []} , :has_adult_content, {:software_used => []} , :tags, :use_tag_from_previous_upload, :is_featured, 
 	:status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
 		
@@ -70,6 +70,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		 # f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,multiple: true
 		  f.input :show_on_cgmeetup, as: :boolean,label: "Show On CGmeetup"
 		  f.input :show_on_website, as: :boolean,label: "Show On Website"
+		  f.input :is_spam, as: :boolean,label: "Make Spam"
 			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
@@ -405,7 +406,17 @@ ActiveAdmin.register Gallery , as: "Project" do
 		
   end
 
-
+	 batch_action "Make Spam for", form: { is_spam: [['Yes',true],['No',false]] } do |ids, inputs|    
+		Gallery.where(id: ids).update_all(is_spam: inputs[:is_spam])
+		redirect_to collection_path, notice: "Post has successfully marked as spam"
+	 end
+	 
+	batch_action "Update Status for", form: { status: [['Active',1],['Inactive',0]] } do |ids, inputs|    
+		Gallery.where(id: ids).update_all(status: inputs[:status])
+		redirect_to collection_path, notice: "Status has successfully changed"
+	 end
+	  
+	
 
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161026052659) do
+ActiveRecord::Schema.define(version: 20161102062337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 20161026052659) do
     t.boolean  "is_featured",                  default: false
     t.integer  "user_id"
     t.string   "is_admin"
+    t.boolean  "is_spam",                      default: false
   end
 
   create_table "home_sidebars", force: :cascade do |t|
@@ -303,6 +304,7 @@ ActiveRecord::Schema.define(version: 20161026052659) do
     t.integer  "package_id"
     t.integer  "user_id"
     t.string   "is_admin"
+    t.boolean  "is_spam",                      default: false
   end
 
   create_table "main_sidebars", force: :cascade do |t|
@@ -405,12 +407,12 @@ ActiveRecord::Schema.define(version: 20161026052659) do
     t.string   "title"
     t.text     "description"
     t.integer  "user_id"
-    t.boolean  "is_pending",  default: true
+    t.boolean  "is_pending",  default: false
     t.boolean  "is_approve",  default: true
-    t.boolean  "is_spam",     default: true
-    t.boolean  "is_trash",    default: true
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.boolean  "is_spam",     default: false
+    t.boolean  "is_trash",    default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "production_experiences", force: :cascade do |t|

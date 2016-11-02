@@ -1,6 +1,6 @@
 ActiveAdmin.register Job do
 	menu label: 'Jobs', parent: 'Job Management',priority: 1
-	permit_params :title,:user_id,:is_admin, :paramlink,:package_id,:description,:show_on_cgmeetup,:show_on_website,:company_name, :company_id, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, {:job_category => []} , 
+	permit_params :is_spam, :title,:user_id,:is_admin, :paramlink,:package_id,:description,:show_on_cgmeetup,:show_on_website,:company_name, :company_id, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, {:job_category => []} , 
 	:application_email_or_url, :country, :city, 
 	:work_remotely, :is_paid, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, 
 	:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name]
@@ -73,7 +73,7 @@ ActiveAdmin.register Job do
 		   # f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,multiple: true
 		  f.input :show_on_cgmeetup, as: :boolean,label: "Show On CGmeetup"
 		  f.input :show_on_website, as: :boolean,label: "Show On Website"
-		  
+		  f.input :is_spam, as: :boolean,label: "Make Spam"
 			  
 			  
 		  f.inputs 'Images' do
@@ -426,7 +426,15 @@ ActiveAdmin.register Job do
 		
   end
    
-  
+     batch_action "Make Spam for", form: { is_spam: [['Yes',true],['No',false]] } do |ids, inputs|    
+		Job.where(id: ids).update_all(is_spam: inputs[:is_spam])
+		redirect_to collection_path, notice: "Job has successfully marked as spam"
+	 end
+	 
+	 batch_action "Update Status for", form: { status: [['Active',1],['Inactive',0]] } do |ids, inputs|    
+		Job.where(id: ids).update_all(status: inputs[:status])
+		redirect_to collection_path, notice: "Status has successfully changed"
+	 end
   
   
 

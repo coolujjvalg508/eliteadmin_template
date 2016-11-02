@@ -26,7 +26,7 @@ ActiveAdmin.register HomeSidebar do
 	 controller do 
 		def action_methods
 		 super                                    
-			if current_admin_user.id.to_s == '1'
+		  if current_admin_user.id.to_s == '1'
 			super
 		  else
 			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first

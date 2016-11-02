@@ -86,7 +86,7 @@ ActiveAdmin.register MainSidebar do
 					  f.input :feedburner_default,label:'Feedburner Default'
 					  f.input :feedburner_position,label:'Feedburner Position'
 					  
-					  
+			
 					  li do  end
 					  
 					  f.input :dribbble_username,label:'Dribbble Username'
