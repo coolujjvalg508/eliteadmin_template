@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102062337) do
+ActiveRecord::Schema.define(version: 20161103091151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -377,8 +377,9 @@ ActiveRecord::Schema.define(version: 20161102062337) do
     t.string   "navigation_label"
     t.integer  "position",         default: 0
     t.boolean  "status",           default: true
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.boolean  "is_custom_link",   default: false
   end
 
   create_table "news", force: :cascade do |t|

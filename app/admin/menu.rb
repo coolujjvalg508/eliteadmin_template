@@ -13,8 +13,8 @@ ActiveAdmin.register Menu do
 #   permitted
 # end
 
-	permit_params :title,:parent_id,:url,:navigation_label,:position
-
+	permit_params :title,:parent_id,:url,:navigation_label,:position,:is_custom_link
+	
 	form multipart: true do |f|
 		
 		f.inputs "Menu" do
@@ -23,6 +23,7 @@ ActiveAdmin.register Menu do
 			  f.input :url
 			  f.input :navigation_label
 			  f.input :position
+			  f.input :is_custom_link, as: :boolean,label: "Is Custom Link?"
 		end
 		
 		f.actions
