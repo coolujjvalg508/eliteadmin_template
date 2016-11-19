@@ -41,7 +41,7 @@ ActiveAdmin.register Topic do
     
     column :name
     column :parent do |cat|
-      Topic.find_by(id: cat.parent_id).try(:name)
+    #  Topic.find_by(id: cat.parent_id).try(:name)
     end
     column 'Image' do |img|
       image_tag img.try(:image).try(:url, :thumb), height: 50, width: 50
