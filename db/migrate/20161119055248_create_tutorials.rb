@@ -18,7 +18,7 @@ class CreateTutorials < ActiveRecord::Migration
       t.string  :sub_title
       t.string :skill_level
       t.string :language
-      t.textarea :include_description
+      t.text :include_description
       t.integer :total_lecture, default: 0
       
       t.integer :user_id, default: 0
