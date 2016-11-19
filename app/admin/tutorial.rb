@@ -282,7 +282,10 @@ ActiveAdmin.register Tutorial do
   show do
 		attributes_table do
 		  row :title
-		  row :description
+		#  row :description
+		  row 'Description' do |cat|
+			cat.description.html_safe
+		  end
 		  row :topic do |cat|
 		    Topic.find_by(id: cat.topic).try(:name)
 		  end
@@ -381,7 +384,9 @@ ActiveAdmin.register Tutorial do
   
   csv do
 		column :title
-		column :description
+		column 'Description' do |cat|
+			cat.description.html_safe
+		end
 		column 'Topic' do |cat|
 			Topic.find_by(id: cat.topic).try(:name)
 		end
