@@ -240,7 +240,7 @@ $(document).ready(function() {
   });
   
   
-  var fieldval	=	$('#job_publish').val();
+    var fieldval	=	$('#job_publish').val();
 	  if(fieldval == 0){
 		   $('li#job_schedule_time_input').css({'display':'block'});
 	  }else{
@@ -301,39 +301,42 @@ $(document).ready(function() {
 	  
   })
   
-   var tutorialmediafieldval1	=	$('#tutorial_media_type').val();
-	  if(tutorialmediafieldval1 == 0){
-		   $('#tutorial_video_input').css({'display':'block'});
-		   $('#tutorial_image_input').css({'display':'none'});
-	  }else if(tutorialmediafieldval1 == 1){
-		   $('#tutorial_video_input').css({'display':'none'});
-		   $('#tutorial_image_input').css({'display':'block'});
-	 }else{
-		   $('#tutorial_video_input').css({'display':'none'});
-		   $('#tutorial_image_input').css({'display':'none'});
-		 
-		 }
   
-  $('#tutorial_media_type').on('change',function(){
-	  
+	var fieldval	=	$('#tutorial_publish').val();
+	  if(fieldval == 0){
+		   $('li#tutorial_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#tutorial_schedule_time_input').css({'display':'none'});
+	 }
+  
+  
+    $("#tutorial_publish").change(function(e){
 	  var fieldval1	=	$(this).val();
 	  if(fieldval1 == 0){
-		   $('#tutorial_video_input').css({'display':'block'});
-		   $('#tutorial_image_input').css({'display':'none'});
-	  }else if(fieldval1 == 1){
-		   $('#tutorial_video_input').css({'display':'none'});
-		   $('#tutorial_image_input').css({'display':'block'});
-	 }else{
-		   $('#tutorial_video_input').css({'display':'none'});
-		   $('#tutorial_image_input').css({'display':'none'});
-		 
-		 }
-	  
-  })
+		   $('li#tutorial_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#tutorial_schedule_time_input').css({'display':'none'});
+	 }
+   })
   
   
+  	if($("#tutorial_is_paid").prop('checked') == true){
+			 $('li#tutorial_price_input').css({'display':'block'});
+	}else{
+		 $('li#tutorial_price_input').css({'display':'none'});
+	}
+		
   
-  
+   $("#tutorial_is_paid").on('click',function(e){
+		  
+		if($("#tutorial_is_paid").prop('checked') == true){
+			 $('li#tutorial_price_input').css({'display':'block'});
+		}else{
+			 $('li#tutorial_price_input').css({'display':'none'});
+		}
+		  
+
+   })
   
   
   

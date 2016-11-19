@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161103091151) do
+ActiveRecord::Schema.define(version: 20161119101721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,6 +307,19 @@ ActiveRecord::Schema.define(version: 20161103091151) do
     t.boolean  "is_spam",                      default: false
   end
 
+  create_table "lessons", force: :cascade do |t|
+    t.string   "lesson_title"
+    t.string   "lesson_video"
+    t.string   "lesson_video_link"
+    t.integer  "lessonableable_id",   null: false
+    t.string   "lessonableable_type", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "lessons", ["lessonableable_id"], name: "index_lessons_on_lessonableable_id", using: :btree
+  add_index "lessons", ["lessonableable_type"], name: "index_lessons_on_lessonableable_type", using: :btree
+
   create_table "main_sidebars", force: :cascade do |t|
     t.text     "description"
     t.string   "dp_title"
@@ -507,17 +520,45 @@ ActiveRecord::Schema.define(version: 20161103091151) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "slug"
+    t.string   "image"
+    t.integer  "parent_id"
+    t.integer  "status",      default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "topics", ["parent_id"], name: "index_topics_on_parent_id", using: :btree
+
   create_table "tutorials", force: :cascade do |t|
     t.string   "title"
-    t.string   "paramlink"
     t.text     "description"
-    t.integer  "media_type",  default: 0
-    t.string   "image"
-    t.string   "video"
-    t.string   "uploaded_by"
-    t.boolean  "status",      default: true
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.json     "topic"
+    t.json     "software_used"
+    t.integer  "is_paid",             default: 0
+    t.float    "price"
+    t.string   "tags"
+    t.integer  "is_featured",         default: 0
+    t.integer  "status",              default: 1
+    t.integer  "is_save_to_draft",    default: 1
+    t.integer  "visibility",          default: 1
+    t.integer  "publish",             default: 1
+    t.string   "company_logo"
+    t.string   "schedule_time"
+    t.boolean  "show_on_cgmeetup",    default: true
+    t.boolean  "show_on_website",     default: true
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "is_admin"
+    t.integer  "user_id",             default: 0
+    t.string   "skill_level"
+    t.string   "language"
+    t.integer  "total_lecture",       default: 0
+    t.text     "include_description"
+    t.string   "sub_title"
   end
 
   create_table "upload_videos", force: :cascade do |t|
