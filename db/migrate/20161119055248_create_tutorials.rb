@@ -20,8 +20,9 @@ class CreateTutorials < ActiveRecord::Migration
       t.string :language
       t.text :include_description
       t.integer :total_lecture, default: 0
-      
       t.integer :user_id, default: 0
+      t.string :is_admin
+      
       t.boolean :show_on_cgmeetup, :default => true
       t.boolean :show_on_website, :default => true
  		

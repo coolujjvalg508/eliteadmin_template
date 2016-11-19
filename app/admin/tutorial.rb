@@ -41,7 +41,7 @@ ActiveAdmin.register Tutorial do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
-		#  f.input :topic, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
+		  f.input :topic, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
@@ -60,7 +60,7 @@ ActiveAdmin.register Tutorial do
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Custom Thumbnail"
 		  f.input :sub_title,label: "Sub Title"
-		 # f.input :where_to_show, as: :select, collection: [['On CGmeetup',1],['On Website',0]], include_blank: false,multiple: true
+		
 		  f.input :show_on_cgmeetup, as: :boolean,label: "Show On CGmeetup"
 		  f.input :show_on_website, as: :boolean,label: "Show On Website"
 			  
@@ -227,7 +227,7 @@ ActiveAdmin.register Tutorial do
   
   filter :title
   filter :tags
- # filter :topic, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), label: 'Topic'
+  filter :topic, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), label: 'Topic'
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: 'Status'
   filter :is_featured, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Featured'
   filter :created_at
@@ -261,7 +261,7 @@ ActiveAdmin.register Tutorial do
 		  row :title
 		  row :description
 		  row :topic do |cat|
-		#    Topic.find_by(id: cat.topic).try(:name)
+		    Topic.find_by(id: cat.topic).try(:name)
 		  end
 		  row :tags
 
@@ -360,7 +360,7 @@ ActiveAdmin.register Tutorial do
 		column :title
 		column :description
 		column 'Topic' do |cat|
-	#		Topic.find_by(id: cat.topic).try(:name)
+			Topic.find_by(id: cat.topic).try(:name)
 		end
 		column :tags
 		column :is_featured do |ifeature|

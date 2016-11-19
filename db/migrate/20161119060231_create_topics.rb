@@ -5,7 +5,6 @@ class CreateTopics < ActiveRecord::Migration
       t.text :description
       t.string :slug
       t.string :image
-      t.string :is_admin
       t.integer :parent_id, index: true
       t.integer :status, default: 0
       
