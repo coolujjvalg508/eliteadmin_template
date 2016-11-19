@@ -66,7 +66,7 @@ ActiveAdmin.register Topic do
 
  form multipart: true do |f|
       f.inputs "Topic" do
-      f.input :parent_id, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
+     # f.input :parent_id, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
       #f.input :parent_id, :as => :select
       f.input :image
       f.input :name
@@ -86,7 +86,7 @@ ActiveAdmin.register Topic do
     attributes_table do
       row :name
       row :parent do |cat|
-       Topic.find_by(id: cat.parent_id).try(:name)
+     #  Topic.find_by(id: cat.parent_id).try(:name)
      end
       row :image do |cat|
         unless !cat.image.present?
