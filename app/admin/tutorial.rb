@@ -164,6 +164,17 @@ ActiveAdmin.register Tutorial do
 						  end
 					end
 				super
+				
+			elsif (params[:tutorial].present? && params[:tutorial][:lessons_attributes].present?)
+					params[:tutorial][:lessons_attributes].each do |index,img|
+						  unless params[:tutorial][:lessons_attributes][index][:lesson_title].present?
+							params[:tutorial][:lessons_attributes][index][:lesson_title] = params[:tutorial][:lessons_attributes][index][:lesson_title]
+							params[:tutorial][:lessons_attributes][index][:lesson_video_link] = params[:tutorial][:lessons_attributes][index][:lesson_video_link]
+							params[:tutorial][:lessons_attributes][index][:lesson_video] = params[:tutorial][:lessons_attributes][index][:lesson_video]
+						  end
+					end
+				super	
+				
 		  else
 				super
 		  end
@@ -216,6 +227,18 @@ ActiveAdmin.register Tutorial do
 						  end
 					end
 				super	
+				
+			elsif (params[:tutorial].present? && params[:tutorial][:lessons_attributes].present?)
+					params[:tutorial][:lessons_attributes].each do |index,img|
+						  unless params[:tutorial][:lessons_attributes][index][:lesson_title].present?
+							params[:tutorial][:lessons_attributes][index][:lesson_title] = params[:tutorial][:lessons_attributes][index][:lesson_title]
+							params[:tutorial][:lessons_attributes][index][:lesson_video_link] = params[:tutorial][:lessons_attributes][index][:lesson_video_link]
+							params[:tutorial][:lessons_attributes][index][:lesson_video] = params[:tutorial][:lessons_attributes][index][:lesson_video]
+						  end
+					end
+				super		
+				
+				
 		 else
 				super
 		  end
