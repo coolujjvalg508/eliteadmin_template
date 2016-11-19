@@ -5,7 +5,7 @@ class CreateLessons < ActiveRecord::Migration
 		t.string :lesson_video
 		t.string :lesson_video_link
         t.integer :lessonable_id, null: false, index: true
-		t.string :lessonabletype, null: false, index: true
+		t.string :lessonable_type, null: false, index: true
 		t.timestamps null: false
     end
   end
