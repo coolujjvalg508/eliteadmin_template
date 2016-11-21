@@ -70,7 +70,7 @@ ActiveAdmin.register Topic do
  form multipart: true do |f|
       f.inputs "Topic" do
       f.input :parent_id, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
-    #  f.input :topic_for, :as => :select, collection: [['News',1], ['Tutorial', 0]], include_blank: 'Select'
+      f.input :topic_for, :as => :select, collection: [['News',1], ['Tutorial', 0]], include_blank: 'Select'
       f.input :image
       f.input :name
       f.input :description
@@ -82,15 +82,15 @@ ActiveAdmin.register Topic do
   
   filter :name
   filter :created_at
- # filter :topic_for, as: :select, collection: [['News',1], ['Tutorial', 0]], label: 'Select Topic for'
+  filter :topic_for, as: :select, collection: [['News',1], ['Tutorial', 0]], label: 'Select Topic for'
 
   # Show Page
   show do
     attributes_table do
       row :name
-    #  row :topic_for do |cat|
-	#	(cat.topic_for == 1) ? 'News' : 'Tutorial'
-  #    end
+      row :topic_for do |cat|
+		(cat.topic_for == 1) ? 'News' : 'Tutorial'
+      end
       row :parent do |cat|
 		Topic.find_by(id: cat.parent_id).try(:name)
       end
