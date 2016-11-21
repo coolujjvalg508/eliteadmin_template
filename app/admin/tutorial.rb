@@ -102,7 +102,7 @@ ActiveAdmin.register Tutorial do
 		 
 		 f.inputs 'Upload Zip files' do
 			f.has_many :zip_files, allow_destroy: true, new_record: true do |ff|
-			  ff.input :zipfile, label: "Zip file"
+			  ff.input :zipfile, label: "Zip file", hint: ff.object.zipfile.try(:url)
 			  ff.input :zip_caption, label: "Caption"
 			  ff.input :zipfile_cache, :as => :hidden
 			end
@@ -110,7 +110,7 @@ ActiveAdmin.register Tutorial do
 		 
 		 f.inputs 'Lessons' do
 			f.has_many :lessons, allow_destroy: true, new_record: true do |ff|
-			  ff.input :lesson_video, label: "Lesson Video"
+			  ff.input :lesson_video, label: "Lesson Video", hint: ff.template.video_tag(ff.object.lesson_video.try(:url), :size => "150x150")
 			  ff.input :lesson_video_link, label: "Lesson Video Link (if exist)"
 			  ff.input :lesson_title
 			  ff.input :lesson_image, label: "Lesson Thumbnail"
