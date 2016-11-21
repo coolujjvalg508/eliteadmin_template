@@ -7,6 +7,7 @@ class CreateTopics < ActiveRecord::Migration
       t.string :image
       t.integer :parent_id, index: true
       t.integer :status, default: 0
+      t.integer :topic_for, default: 0
       
       t.timestamps null: false
     end
