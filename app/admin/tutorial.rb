@@ -41,7 +41,9 @@ ActiveAdmin.register Tutorial do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
-		  f.input :topic, as: :select, collection: Topic.where("topic_for = 0").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
+		#  f.input :topic, as: :select, collection: Topic.where("parent_id IS NULL AND topic_for = 0").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Topic Category'
+		
+		 # f.input :sub_topic, as: :select, collection: Topic.where("parent_id IS NOT NULL AND topic_for = 0").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Topic Category'
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
