@@ -41,7 +41,7 @@ ActiveAdmin.register Tutorial do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
-		#  f.input :topic, as: :select, collection: Topic.where("topic_for = 0").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
+		  f.input :topic, as: :select, collection: Topic.where("topic_for = 0").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
@@ -288,7 +288,7 @@ ActiveAdmin.register Tutorial do
   
   filter :title
   filter :tags
-#  filter :topic, as: :select, collection: Topic.where("topic_for = 0").pluck(:name, :id), label: 'Topic'
+  filter :topic, as: :select, collection: Topic.where("topic_for = 0").pluck(:name, :id), label: 'Topic'
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: 'Status'
   filter :is_featured, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Featured'
   filter :created_at
