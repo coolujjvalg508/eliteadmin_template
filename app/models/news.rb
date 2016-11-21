@@ -17,10 +17,16 @@ mount_uploader :company_logo, ImageUploader
  has_many :sketchfebs, as: :sketchfebable, dependent: :destroy
  has_many :marmo_sets, as: :marmosetable, dependent: :destroy
  
+  
  has_many :lessons, as: :lessonable, dependent: :destroy
+ has_many :zip_files, as: :zipfileable, dependent: :destroy
+ has_many :zip_caption
+ 
  has_many :lesson_title
+ has_many :lesson_description
  has_many :lesson_video_link
  has_many :lesson_video
+ has_many :lesson_image
  
   
  accepts_nested_attributes_for :images, reject_if: proc { |attributes| attributes['image'].blank? || attributes['image'].nil? }, allow_destroy: true 
@@ -31,6 +37,7 @@ mount_uploader :company_logo, ImageUploader
  accepts_nested_attributes_for :marmo_sets, reject_if: proc { |attributes| attributes['marmoset'].blank? || attributes['marmoset'].nil? }, allow_destroy: true
  
  accepts_nested_attributes_for :lessons, reject_if: proc { |attributes| attributes['lesson_video'].blank? || attributes['lesson_video'].nil? }, allow_destroy: true
- 
+ accepts_nested_attributes_for :zip_files, reject_if: proc { |attributes| attributes['zipfile'].blank? || attributes['zipfile'].nil? }, allow_destroy: true
+
  
 end
