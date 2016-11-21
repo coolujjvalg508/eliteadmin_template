@@ -334,6 +334,42 @@ $(document).ready(function() {
 		}else{
 			 $('li#tutorial_price_input').css({'display':'none'});
 		}
+	})
+	
+	
+	
+	var fieldval	=	$('#news_publish').val();
+	  if(fieldval == 0){
+		   $('li#news_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#news_schedule_time_input').css({'display':'none'});
+	 }
+  
+  
+    $("#news_publish").change(function(e){
+	  var fieldval1	=	$(this).val();
+	  if(fieldval1 == 0){
+		   $('li#news_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#news_schedule_time_input').css({'display':'none'});
+	 }
+   })
+  
+  
+  	if($("#news_is_paid").prop('checked') == true){
+			 $('li#news_price_input').css({'display':'block'});
+	}else{
+		 $('li#news_price_input').css({'display':'none'});
+	}
+		
+  
+   $("#news_is_paid").on('click',function(e){
+		  
+		if($("#news_is_paid").prop('checked') == true){
+			 $('li#news_price_input').css({'display':'block'});
+		}else{
+			 $('li#news_price_input').css({'display':'none'});
+		}
 		  
 
    })

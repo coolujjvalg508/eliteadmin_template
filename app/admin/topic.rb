@@ -1,7 +1,7 @@
 ActiveAdmin.register Topic do
 
-    menu label: 'Topic', parent: 'Tutorial',priority: 2
-	permit_params :name, :parent_id, :image, :description, :slug
+    menu label: 'Topic Management'
+	permit_params :name, :parent_id, :image, :description, :slug,:topic_for
 
 	
 	controller do 
@@ -40,6 +40,9 @@ ActiveAdmin.register Topic do
      selectable_column
     
     column :name
+    column :topic_for do |cat|
+		(cat.topic_for == 1) ? 'News' : 'Tutorial'
+      end
     column :parent do |cat|
       Topic.find_by(id: cat.parent_id).try(:name)
     end
@@ -67,7 +70,7 @@ ActiveAdmin.register Topic do
  form multipart: true do |f|
       f.inputs "Topic" do
       f.input :parent_id, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
-      #f.input :parent_id, :as => :select
+      f.input :topic_for, :as => :select, collection: [['News',1], ['Tutorial', 0]], include_blank: 'Select'
       f.input :image
       f.input :name
       f.input :description
@@ -79,15 +82,18 @@ ActiveAdmin.register Topic do
   
   filter :name
   filter :created_at
-
+  filter :topic_for, as: :select, collection: [['News',1], ['Tutorial', 0]], label: 'Select Topic for'
 
   # Show Page
   show do
     attributes_table do
       row :name
+      row :topic_for do |cat|
+		(cat.topic_for == 1) ? 'News' : 'Tutorial'
+      end
       row :parent do |cat|
 		Topic.find_by(id: cat.parent_id).try(:name)
-     end
+      end
       row :image do |cat|
         unless !cat.image.present?
           image_tag(cat.try(:image).try(:url, :event_small))

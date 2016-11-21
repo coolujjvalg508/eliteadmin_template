@@ -1,8 +1,8 @@
 ActiveAdmin.register Tutorial do
 
-    menu label: 'Tutorials', parent: 'Tutorial',priority: 1
+    menu label: 'Tutorial'
     
-    permit_params :title, :topic, :user_id,:is_admin, {:topic => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :status, :skill_level, :language, :include_description, :total_lecture, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache]
+    permit_params :title, :topic, :user_id,:is_admin, {:topic => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :status, :skill_level, :language, :include_description, :total_lecture, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache, :lesson_description,:lesson_image],:zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
 		
 	
 	
@@ -41,11 +41,11 @@ ActiveAdmin.register Tutorial do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
-		  f.input :topic, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
+		  f.input :topic, as: :select, collection: Topic.where("topic_for = 0").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
-		  f.input :skill_level, label:'Skill Level'
+		  f.input :skill_level, as: :select, collection: [['All level','All level'], ['Beginner level', 'Beginner level'], ['Intermediate level', 'Intermediate level'],['Advanced level','Advanced level']], include_blank: false, label: 'Select Skill Level'
 		  f.input :language, label:'Language'
 		  f.input :include_description, label:'Include'
 		  f.input :total_lecture, label:'No of Lecture'
@@ -100,11 +100,23 @@ ActiveAdmin.register Tutorial do
 			end
 		 end	
 		 
+		 f.inputs 'Upload Zip files' do
+			f.has_many :zip_files, allow_destroy: true, new_record: true do |ff|
+			  ff.input :zipfile, label: "Zip file"
+			  ff.input :zip_caption, label: "Caption"
+			  ff.input :zipfile_cache, :as => :hidden
+			end
+		 end	
+		 
 		 f.inputs 'Lessons' do
 			f.has_many :lessons, allow_destroy: true, new_record: true do |ff|
 			  ff.input :lesson_video, label: "Lesson Video"
-			  ff.input :lesson_title
 			  ff.input :lesson_video_link, label: "Lesson Video Link (if exist)"
+			  ff.input :lesson_title
+			  ff.input :lesson_image, label: "Lesson Thumbnail"
+			  ff.input :lesson_description
+			 
+			  
 			  ff.input :lesson_video_cache, :as => :hidden
 			end
 		 end	
@@ -171,9 +183,22 @@ ActiveAdmin.register Tutorial do
 							params[:tutorial][:lessons_attributes][index][:lesson_title] = params[:tutorial][:lessons_attributes][index][:lesson_title]
 							params[:tutorial][:lessons_attributes][index][:lesson_video_link] = params[:tutorial][:lessons_attributes][index][:lesson_video_link]
 							params[:tutorial][:lessons_attributes][index][:lesson_video] = params[:tutorial][:lessons_attributes][index][:lesson_video]
+							params[:tutorial][:lessons_attributes][index][:lesson_description] = params[:tutorial][:lessons_attributes][index][:lesson_description]
+							params[:tutorial][:lessons_attributes][index][:lesson_image] = params[:tutorial][:lessons_attributes][index][:lesson_image]
 						  end
 					end
 				super	
+				
+			elsif (params[:tutorial].present? && params[:tutorial][:zip_files_attributes].present?)
+					params[:tutorial][:zip_files_attributes].each do |index,img|
+						  unless params[:tutorial][:zip_files_attributes][index][:zipfile].present?
+							params[:tutorial][:zip_files_attributes][index][:zipfile] = params[:tutorial][:zip_files_attributes][index][:zipfile_cache]
+							params[:tutorial][:zip_files_attributes][index][:zip_caption] = params[:tutorial][:zip_files_attributes][index][:zip_caption]
+						
+						  end
+					end
+			super
+				
 				
 		  else
 				super
@@ -234,9 +259,22 @@ ActiveAdmin.register Tutorial do
 							params[:tutorial][:lessons_attributes][index][:lesson_title] = params[:tutorial][:lessons_attributes][index][:lesson_title]
 							params[:tutorial][:lessons_attributes][index][:lesson_video_link] = params[:tutorial][:lessons_attributes][index][:lesson_video_link]
 							params[:tutorial][:lessons_attributes][index][:lesson_video] = params[:tutorial][:lessons_attributes][index][:lesson_video]
+							params[:tutorial][:lessons_attributes][index][:lesson_description] = params[:tutorial][:lessons_attributes][index][:lesson_description]
+							params[:tutorial][:lessons_attributes][index][:lesson_image] = params[:tutorial][:lessons_attributes][index][:lesson_image]
 						  end
 					end
-				super		
+				super
+			
+			elsif (params[:tutorial].present? && params[:tutorial][:zip_files_attributes].present?)
+					params[:tutorial][:zip_files_attributes].each do |index,img|
+						  unless params[:tutorial][:zip_files_attributes][index][:zipfile].present?
+							params[:tutorial][:zip_files_attributes][index][:zipfile] = params[:tutorial][:zip_files_attributes][index][:zipfile_cache]
+							params[:tutorial][:zip_files_attributes][index][:zip_caption] = params[:tutorial][:zip_files_attributes][index][:zip_caption]
+						
+						  end
+					end
+			super	
+						
 				
 				
 		 else
@@ -250,7 +288,7 @@ ActiveAdmin.register Tutorial do
   
   filter :title
   filter :tags
-  filter :topic, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), label: 'Topic'
+  filter :topic, as: :select, collection: Topic.where("topic_for = 0").pluck(:name, :id), label: 'Topic'
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: 'Status'
   filter :is_featured, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Featured'
   filter :created_at
