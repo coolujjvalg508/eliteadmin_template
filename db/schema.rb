@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161121100801) do
+ActiveRecord::Schema.define(version: 20161121123215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -423,6 +423,7 @@ ActiveRecord::Schema.define(version: 20161121100801) do
     t.boolean  "show_on_website",     default: true
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+    t.json     "sub_topic"
   end
 
   create_table "packages", force: :cascade do |t|
@@ -577,6 +578,7 @@ ActiveRecord::Schema.define(version: 20161121100801) do
     t.integer  "total_lecture",       default: 0
     t.text     "include_description"
     t.string   "sub_title"
+    t.json     "sub_topic"
   end
 
   create_table "upload_videos", force: :cascade do |t|
@@ -672,6 +674,7 @@ ActiveRecord::Schema.define(version: 20161121100801) do
     t.string   "zipfileable_type", null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "zip_caption"
   end
 
   add_index "zip_files", ["zipfileable_id"], name: "index_zip_files_on_zipfileable_id", using: :btree
