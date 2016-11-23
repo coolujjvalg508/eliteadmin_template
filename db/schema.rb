@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161121123215) do
+ActiveRecord::Schema.define(version: 20161123070150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,43 @@ ActiveRecord::Schema.define(version: 20161121123215) do
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "downloads", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.json     "topic"
+    t.json     "software_used"
+    t.integer  "is_paid",             default: 0
+    t.float    "price"
+    t.string   "tags"
+    t.integer  "status",              default: 1
+    t.integer  "is_save_to_draft",    default: 1
+    t.integer  "visibility",          default: 1
+    t.integer  "publish",             default: 1
+    t.string   "company_logo"
+    t.string   "schedule_time"
+    t.string   "sub_title"
+    t.string   "skill_level"
+    t.string   "language"
+    t.text     "include_description"
+    t.integer  "total_lecture",       default: 0
+    t.integer  "user_id",             default: 0
+    t.string   "is_admin"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.json     "sub_topic"
+    t.boolean  "animated",            default: false
+    t.boolean  "rigged",              default: false
+    t.boolean  "lowpoly",             default: true
+    t.boolean  "texture",             default: false
+    t.boolean  "material",            default: false
+    t.boolean  "uv_mapping",          default: false
+    t.boolean  "plugin_used",         default: false
+    t.string   "unwrapped_uv"
+    t.string   "polygon"
+    t.string   "vertice"
+    t.string   "geometry"
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -485,6 +522,7 @@ ActiveRecord::Schema.define(version: 20161121123215) do
     t.string   "no_of_sketchfeb"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.text     "licence"
   end
 
   create_table "sketchfebs", force: :cascade do |t|

@@ -1,7 +1,7 @@
 ActiveAdmin.register SiteSetting do
 
     menu label: 'Site Setting'
-	permit_params :site_title,:site_email,:site_phone,:copyright_text,:no_of_image,:no_of_video,:no_of_marmoset,:no_of_sketchfeb
+	permit_params :site_title,:site_email,:site_phone,:copyright_text,:no_of_image,:no_of_video,:no_of_marmoset,:no_of_sketchfeb,:licence
 	actions :all, except: [:destroy, :new, :create]
 	config.filters = false
 
@@ -38,6 +38,7 @@ ActiveAdmin.register SiteSetting do
 			  f.input :no_of_video, label:'No of Videos'
 			  f.input :no_of_marmoset, label:'No of Marmoset'
 			  f.input :no_of_sketchfeb, label:'No of Sketchfeb'
+			  f.input :licence, label:'General Licence Content'
 		
 		  end
 			

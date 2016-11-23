@@ -241,7 +241,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 	   end
 	   column 'Username' do |uname|
 			(uname.user_id == 1 && uname.is_admin == 'Y') ? 'Admin' : User.find_by(id: uname.user_id).try(:firstname)
-		end
+	  end
 	   column 'title' 
 	   column 'Featured' do |feature|
 			(feature.is_featured == true) ? 'Yes' : 'No'

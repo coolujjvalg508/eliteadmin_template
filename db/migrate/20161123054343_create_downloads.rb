@@ -1,6 +1,6 @@
-class CreateNews < ActiveRecord::Migration
+class CreateDownloads < ActiveRecord::Migration
   def change
-    create_table :news do |t|
+    create_table :downloads do |t|
 	  t.string  :title
       t.text    :description
       t.json    :topic
@@ -8,7 +8,6 @@ class CreateNews < ActiveRecord::Migration
       t.integer :is_paid, default: 0
 	  t.float	:price
 	  t.string  :tags
-      t.integer :is_featured, default: 0
       t.integer :status, default: 1
       t.integer :is_save_to_draft, default: 1
       t.integer :visibility, default: 1
@@ -22,9 +21,8 @@ class CreateNews < ActiveRecord::Migration
       t.integer :total_lecture, default: 0
       t.integer :user_id, default: 0
       t.string :is_admin
-      
-      t.boolean :show_on_cgmeetup, :default => true
-      t.boolean :show_on_website, :default => true	
+      t.json :sub_topic
+      	
       t.timestamps null: false
     end
   end

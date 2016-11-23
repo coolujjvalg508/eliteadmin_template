@@ -27,12 +27,7 @@ ActiveAdmin.register Tutorial do
 		end
 	  end
 	
-	
-	
-	
-	
-	
-	
+		
 	form multipart: true do |f|
 		
 		f.inputs "Tutorial" do

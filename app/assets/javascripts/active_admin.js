@@ -376,6 +376,41 @@ $(document).ready(function() {
   
   
   
+  var fieldval	=	$('#download_publish').val();
+	  if(fieldval == 0){
+		   $('li#download_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#download_schedule_time_input').css({'display':'none'});
+	 }
+  
+  
+    $("#download_publish").change(function(e){
+	  var fieldval1	=	$(this).val();
+	  if(fieldval1 == 0){
+		   $('li#download_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#download_schedule_time_input').css({'display':'none'});
+	 }
+   })
+  
+  
+  	if($("#download_is_paid").prop('checked') == true){
+			 $('li#download_price_input').css({'display':'block'});
+	}else{
+			$('li#download_price_input').css({'display':'none'});
+	}
+		
+  
+	$("#download_is_paid").on('click',function(e){
+		  
+		if($("#download_is_paid").prop('checked') == true){
+			 $('li#download_price_input').css({'display':'block'});
+		}else{
+			 $('li#download_price_input').css({'display':'none'});
+		}
+	})
+  
+  
 /*
   // Admin email messages and notifications count as sub menu of the admin user
   $.ajax({
