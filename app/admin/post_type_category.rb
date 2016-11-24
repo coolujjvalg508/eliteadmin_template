@@ -38,7 +38,9 @@ ActiveAdmin.register PostTypeCategory do
   	# Users List View
   index :download_links => ['csv'] do
      selectable_column
-    
+    column :post_type_id do |cat|
+      PostType.find_by(id: cat.post_type_id).try(:type_name)
+    end
     column :name
     column :parent do |cat|
       PostTypeCategory.find_by(id: cat.parent_id).try(:name)
@@ -85,6 +87,9 @@ ActiveAdmin.register PostTypeCategory do
   # Show Page
   show do
     attributes_table do
+    row :post_type_id do |cat|
+      PostType.find_by(id: cat.post_type_id).try(:type_name)
+    end
       row :name
       row :parent do |cat|
        PostTypeCategory.find_by(id: cat.parent_id).try(:name)
