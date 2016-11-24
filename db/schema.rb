@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161123070150) do
+ActiveRecord::Schema.define(version: 20161124105402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 20161123070150) do
     t.string   "polygon"
     t.string   "vertice"
     t.string   "geometry"
+    t.string   "user_title"
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -482,6 +483,25 @@ ActiveRecord::Schema.define(version: 20161123070150) do
     t.boolean  "is_trash",    default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "post_type_categories", force: :cascade do |t|
+    t.string   "name"
+    t.string   "image"
+    t.text     "description"
+    t.string   "slug"
+    t.integer  "parent_id"
+    t.integer  "status",      default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "post_type_categories", ["parent_id"], name: "index_post_type_categories_on_parent_id", using: :btree
+
+  create_table "post_types", force: :cascade do |t|
+    t.string   "type_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "production_experiences", force: :cascade do |t|

@@ -11,8 +11,9 @@
 //= require active_admin_datetimepicker
 //= require chosen-jquery
 
+
 $(document).ready(function() {
-	
+
 	
   $("#diplay-filter").html('Filter');
   /* jQuery('input.datepicker').datetimepicker({
@@ -409,6 +410,11 @@ $(document).ready(function() {
 			 $('li#download_price_input').css({'display':'none'});
 		}
 	})
+  
+  
+ 
+  
+  
   
   
 /*
