@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124105402) do
+ActiveRecord::Schema.define(version: 20161125101236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,37 +141,36 @@ ActiveRecord::Schema.define(version: 20161124105402) do
     t.text     "description"
     t.json     "topic"
     t.json     "software_used"
-    t.integer  "is_paid",             default: 0
+    t.integer  "is_paid",               default: 0
     t.float    "price"
     t.string   "tags"
-    t.integer  "status",              default: 1
-    t.integer  "is_save_to_draft",    default: 1
-    t.integer  "visibility",          default: 1
-    t.integer  "publish",             default: 1
+    t.integer  "status",                default: 1
+    t.integer  "is_save_to_draft",      default: 1
+    t.integer  "visibility",            default: 1
+    t.integer  "publish",               default: 1
     t.string   "company_logo"
     t.string   "schedule_time"
-    t.string   "sub_title"
-    t.string   "skill_level"
-    t.string   "language"
-    t.text     "include_description"
-    t.integer  "total_lecture",       default: 0
-    t.integer  "user_id",             default: 0
+    t.integer  "user_id",               default: 0
     t.string   "is_admin"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.json     "sub_topic"
-    t.boolean  "animated",            default: false
-    t.boolean  "rigged",              default: false
-    t.boolean  "lowpoly",             default: true
-    t.boolean  "texture",             default: false
-    t.boolean  "material",            default: false
-    t.boolean  "uv_mapping",          default: false
-    t.boolean  "plugin_used",         default: false
+    t.boolean  "animated",              default: false
+    t.boolean  "rigged",                default: false
+    t.boolean  "lowpoly",               default: true
+    t.boolean  "texture",               default: false
+    t.boolean  "material",              default: false
+    t.boolean  "uv_mapping",            default: false
+    t.boolean  "plugin_used",           default: false
     t.string   "unwrapped_uv"
     t.string   "polygon"
     t.string   "vertice"
     t.string   "geometry"
-    t.string   "user_title"
+    t.json     "post_type_category_id"
+    t.json     "sub_category_id"
+    t.boolean  "free",                  default: false
+    t.text     "changelog"
+    t.boolean  "is_feature",            default: false
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -440,29 +439,38 @@ ActiveRecord::Schema.define(version: 20161124105402) do
     t.text     "description"
     t.json     "topic"
     t.json     "software_used"
-    t.integer  "is_paid",             default: 0
     t.float    "price"
     t.string   "tags"
-    t.integer  "is_featured",         default: 0
-    t.integer  "status",              default: 1
-    t.integer  "is_save_to_draft",    default: 1
-    t.integer  "visibility",          default: 1
-    t.integer  "publish",             default: 1
+    t.integer  "is_featured",      default: 0
+    t.integer  "status",           default: 1
+    t.integer  "is_save_to_draft", default: 1
+    t.integer  "visibility",       default: 1
+    t.integer  "publish",          default: 1
     t.string   "company_logo"
     t.string   "schedule_time"
-    t.string   "sub_title"
-    t.string   "skill_level"
-    t.string   "language"
-    t.text     "include_description"
-    t.integer  "total_lecture",       default: 0
-    t.integer  "user_id",             default: 0
+    t.integer  "user_id",          default: 0
     t.string   "is_admin"
-    t.boolean  "show_on_cgmeetup",    default: true
-    t.boolean  "show_on_website",     default: true
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.boolean  "show_on_cgmeetup", default: true
+    t.boolean  "show_on_website",  default: true
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.json     "sub_topic"
+    t.json     "category_id"
+    t.json     "sub_category_id"
   end
+
+  create_table "news_categories", force: :cascade do |t|
+    t.string   "name"
+    t.string   "image"
+    t.text     "description"
+    t.string   "slug"
+    t.integer  "parent_id"
+    t.integer  "status",      default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "news_categories", ["parent_id"], name: "index_news_categories_on_parent_id", using: :btree
 
   create_table "packages", force: :cascade do |t|
     t.string   "title"
@@ -491,9 +499,10 @@ ActiveRecord::Schema.define(version: 20161124105402) do
     t.text     "description"
     t.string   "slug"
     t.integer  "parent_id"
-    t.integer  "status",      default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "status",       default: 0
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "post_type_id"
   end
 
   add_index "post_type_categories", ["parent_id"], name: "index_post_type_categories_on_parent_id", using: :btree

@@ -3,7 +3,7 @@ ActiveAdmin.register Download do
 
 	menu label: 'Download' , parent: 'Download', priority: 1
     
-    permit_params :title, :topic, :user_id,:is_admin, {:topic => []}, {:sub_topic => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :skill_level, :language, :include_description, :total_lecture, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
+    permit_params :title, :topic, :user_id,:is_admin, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
 		
 	
 	
@@ -37,18 +37,16 @@ ActiveAdmin.register Download do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
-		  f.input :topic, as: :select, collection: Topic.where("parent_id IS NULL AND topic_for = 2").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Topic'
+		  f.input :post_type_category_id, as: :select, collection: PostTypeCategory.where("parent_id IS NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Category'
 		
-		  f.input :sub_topic, as: :select, collection: Topic.where("parent_id IS NOT NULL AND topic_for = 2").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Topic'
+		  f.input :sub_category_id, as: :select, collection: PostTypeCategory.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Category'
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
-		  f.input :skill_level, as: :select, collection: [['All level','All level'], ['Beginner level', 'Beginner level'], ['Intermediate level', 'Intermediate level'],['Advanced level','Advanced level']], include_blank: false, label: 'Select Skill Level'
-		  f.input :language, label:'Language'
-		  f.input :include_description, label:'Include'
-		  f.input :total_lecture, label:'No of Lecture'
-		
+		 
+		  f.input :free, as: :boolean,label: "Is Free"
 		  f.input :is_paid, as: :boolean,label: "Is Paid"
+		  f.input :is_feature, as: :boolean,label: "Is Feature"
 		  f.input :price, label: "Price"
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
@@ -56,12 +54,9 @@ ActiveAdmin.register Download do
 		  f.input :publish, as: :select, collection: [['Immediately',1], ['Schedule', 0]], include_blank: false
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Custom Thumbnail"
-		  f.input :sub_title,label: "Sub Title"
-		  f.input :user_title,label: "Art Title"
-
-		 
-
-			  
+		  f.input :changelog,label: "Changelog"
+		  
+		
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
 			  ff.input :image, label: "Image", hint: ff.template.image_tag(ff.object.image.try(:url,:thumb))
@@ -298,9 +293,7 @@ ActiveAdmin.register Download do
 		  row 'Description' do |cat|
 			cat.description.html_safe
 		  end
-		  row :topic do |cat|
-		    Topic.find_by(id: cat.topic).try(:name)
-		  end
+		
 		  row :tags
 
 		  row :status do |st|
@@ -396,9 +389,7 @@ ActiveAdmin.register Download do
 		column 'Description' do |cat|
 			cat.description.html_safe
 		end
-		column 'Topic' do |cat|
-			Topic.find_by(id: cat.topic).try(:name)
-		end
+
 		column :tags
 
 		column :status do |st|

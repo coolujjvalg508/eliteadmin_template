@@ -1,7 +1,7 @@
-ActiveAdmin.register Topic do
+ActiveAdmin.register NewsCategory do
 
-    menu label: 'Topic Management', parent: 'Tutorial', priority: 2
-	permit_params :name, :parent_id, :image, :description, :slug
+    menu label: 'News Category' , parent: 'News', priority: 2
+    permit_params :name, :parent_id, :image, :description, :slug
 
 	
 	controller do 
@@ -12,12 +12,12 @@ ActiveAdmin.register Topic do
 		  else
 			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
 			disallowed = []
-			disallowed << 'index' if (!usergroup.has_permission('topic_read') && !usergroup.has_permission('topic_write') && !usergroup.has_permission('topic_delete'))
-			disallowed << 'delete' unless (usergroup.has_permission('topic_delete'))
-			disallowed << 'create' unless (usergroup.has_permission('topic_write'))
-			disallowed << 'new' unless (usergroup.has_permission('topic_write'))
-			disallowed << 'edit' unless (usergroup.has_permission('topic_write'))
-			disallowed << 'destroy' unless (usergroup.has_permission('topic_delete'))
+			disallowed << 'index' if (!usergroup.has_permission('news_category_read') && !usergroup.has_permission('news_category_write') && !usergroup.has_permission('news_category_delete'))
+			disallowed << 'delete' unless (usergroup.has_permission('news_category_delete'))
+			disallowed << 'create' unless (usergroup.has_permission('news_category_write'))
+			disallowed << 'new' unless (usergroup.has_permission('news_category_write'))
+			disallowed << 'edit' unless (usergroup.has_permission('news_category_write'))
+			disallowed << 'destroy' unless (usergroup.has_permission('news_category_delete'))
 			
 			super - disallowed
 		  end
@@ -41,7 +41,7 @@ ActiveAdmin.register Topic do
     
     column :name
     column :parent do |cat|
-      Topic.find_by(id: cat.parent_id).try(:name)
+      NewsCategory.find_by(id: cat.parent_id).try(:name)
     end
     column 'Image' do |img|
       image_tag img.try(:image).try(:url, :thumb), height: 50, width: 50
@@ -53,8 +53,8 @@ ActiveAdmin.register Topic do
 	
    controller do
 			def create
-			  unless params[:topic][:image].present?
-				params[:topic][:image] = params[:topic][:image_cache]
+			  unless params[:news_category][:image].present?
+				params[:news_category][:image] = params[:news_category][:image_cache]
 				super
 			  else
 				super
@@ -65,8 +65,9 @@ ActiveAdmin.register Topic do
 
 
  form multipart: true do |f|
-      f.inputs "Topic" do
-      f.input :parent_id, as: :select, collection: Topic.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
+      f.inputs "News Category" do
+      f.input :parent_id, as: :select, collection: NewsCategory.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Parent'
+      #f.input :parent_id, :as => :select
       f.input :image
       f.input :name
       f.input :description
@@ -79,13 +80,14 @@ ActiveAdmin.register Topic do
   filter :name
   filter :created_at
 
+
   # Show Page
   show do
     attributes_table do
       row :name
       row :parent do |cat|
-		Topic.find_by(id: cat.parent_id).try(:name)
-      end
+       NewsCategory.find_by(id: cat.parent_id).try(:name)
+     end
       row :image do |cat|
         unless !cat.image.present?
           image_tag(cat.try(:image).try(:url, :event_small))
@@ -96,5 +98,8 @@ ActiveAdmin.register Topic do
       row :created_at
     end
   end
+
+	
+
 
 end

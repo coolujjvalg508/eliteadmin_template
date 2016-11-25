@@ -1,8 +1,8 @@
 ActiveAdmin.register News do
 
-    menu label: 'News'
+    menu label: 'News' , parent: 'News', priority: 1
     
-    permit_params :title, :topic, :user_id,:is_admin, {:topic => []},{:sub_topic => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :status, :skill_level, :language, :include_description, :total_lecture, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache, :lesson_description,:lesson_image],:zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
+    permit_params :title, :topic, :user_id,:is_admin, {:category_id => []},{:sub_category_id => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :status, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache, :lesson_description,:lesson_image],:zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
 		
 	
 	
@@ -43,19 +43,15 @@ ActiveAdmin.register News do
 
 		  end 
 		 
-		  f.input :topic, as: :select, collection: Topic.where("parent_id IS NULL AND topic_for = 1").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
+		 f.input :category_id, as: :select, collection: NewsCategory.where("parent_id IS NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Category'
 		  
-		  f.input :sub_topic, as: :select, collection: Topic.where("parent_id IS NOT NULL AND topic_for = 1").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Topic'
+	  f.input :sub_category_id, as: :select, collection: NewsCategory.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Category'
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
-		  f.input :skill_level, as: :select, collection: [['All level','All level'], ['Beginner level', 'Beginner level'], ['Intermediate level', 'Intermediate level'],['Advanced level','Advanced level']], include_blank: false, label: 'Select Skill Level'
-		  f.input :language, label:'Language'
-		  f.input :include_description, label:'Include'
-		  f.input :total_lecture, label:'No of Lecture'
-		 
+		
 		  f.input :is_featured, as: :boolean,label: "Feature this Post"
-		  f.input :is_paid, as: :boolean,label: "Is Paid"
+
 		  f.input :price, label: "Price"
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
@@ -63,7 +59,7 @@ ActiveAdmin.register News do
 		  f.input :publish, as: :select, collection: [['Immediately',1], ['Schedule', 0]], include_blank: false
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Custom Thumbnail"
-		  f.input :sub_title,label: "Sub Title"
+
 		
 		  f.input :show_on_cgmeetup, as: :boolean,label: "Show On CGmeetup"
 		  f.input :show_on_website, as: :boolean,label: "Show On Website"
@@ -327,9 +323,12 @@ ActiveAdmin.register News do
 		  row 'Description' do |cat|
 			cat.description.html_safe
 		  end
-		  row :topic do |cat|
-		    Topic.find_by(id: cat.topic).try(:name)
-		  end
+		 row 'Category' do |cat|
+			NewsCategory.find_by(id: cat.category_id).try(:name)
+		 end
+		 row 'Sub Category' do |cat|
+			NewsCategory.find_by(id: cat.sub_category_id).try(:name)
+		end
 		  row :tags
 
 		  row :is_featured do |ifeature|
@@ -428,8 +427,11 @@ ActiveAdmin.register News do
 		column 'Description' do |cat|
 			cat.description.html_safe
 		end
-		column 'Topic' do |cat|
-			Topic.find_by(id: cat.topic).try(:name)
+		column 'Category' do |cat|
+			NewsCategory.find_by(id: cat.category_id).try(:name)
+		end
+		column 'Sub Category' do |cat|
+			NewsCategory.find_by(id: cat.sub_category_id).try(:name)
 		end
 		column :tags
 		column :is_featured do |ifeature|
