@@ -1,5 +1,5 @@
 class Download < ActiveRecord::Base
-
+include Bootsy::Container
 mount_uploader :company_logo, ImageUploader
 
  validates :title, presence: true

@@ -1,4 +1,5 @@
 class Gallery < ActiveRecord::Base
+include Bootsy::Container
  mount_uploader :company_logo, ImageUploader
  #mount_uploader :image, ImageUploader
  validates :title, presence: true
