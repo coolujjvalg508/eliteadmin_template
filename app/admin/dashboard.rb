@@ -66,7 +66,7 @@ ActiveAdmin.register_page "Dashboard" do
 					  end
 				end
 				
-				 column do
+			    column do
 					  panel "Gallery/Projects Section" do
 							ul do
 									li do

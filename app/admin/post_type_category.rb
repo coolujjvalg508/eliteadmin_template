@@ -1,6 +1,6 @@
 ActiveAdmin.register PostTypeCategory do
 
-	menu label: 'Category', parent: 'Download',priority: 2
+	menu label: 'Category', parent: 'Downloads',priority: 2
 	permit_params :name, :parent_id, :image, :description, :slug,:post_type_id
 
 	

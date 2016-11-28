@@ -1,6 +1,6 @@
 ActiveAdmin.register PostType do
 
-	menu label: 'Post Type' , parent: 'Download', priority: 3
+	menu label: 'Post Type' , parent: 'Downloads', priority: 3
 	permit_params :type_name
 
 	controller do 
