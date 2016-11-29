@@ -11,10 +11,13 @@
 //= require active_admin_datetimepicker
 //= require chosen-jquery
 
+//= require tinymce
+
 
 $(document).ready(function() {
 
-	
+	 tinyMCE.init({});
+	 
   $("#diplay-filter").html('Filter');
   /* jQuery('input.datepicker').datetimepicker({
 		dateFormat: "dd-mm-yy",
@@ -411,9 +414,75 @@ $(document).ready(function() {
 		}
 	})
   
+  /*************************************************************************************************************/
   
+    $('#download_post_type_id').on('change',function(){
+			post_type_ids	=	$(this).val();
+			$.getJSON("/admin/downloads/post_types",{id: post_type_ids, ajax: 'true'}, function(response){
+				
+				  var options = '';
+				  for (var i = 0; i < response.length; i++) {
+					options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
+				  }
+				  
+				  $("select#download_post_type_category_id").html('');
+				  $("select#download_post_type_category_id").append(options);
+				  $('select#download_post_type_category_id').trigger('chosen:updated');				  
+			}) 
+			
+	 })
  
+ 
+	 $('#download_post_type_category_id').on('change',function(){
+			post_type_category_ids	=	$(this).val();
+			$.getJSON("/admin/downloads/post_category_types",{id: post_type_category_ids, ajax: 'true'}, function(response){
+				
+				  var options = '';
+				  for (var i = 0; i < response.length; i++) {
+					options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
+				  }
+				  
+				  $("select#download_sub_category_id").html('');
+				  $("select#download_sub_category_id").append(options);
+				  $('select#download_sub_category_id').trigger('chosen:updated');				  
+			}) 
+			
+	 })
+	 
+	 
+	 
+	 $('#news_category_id').on('change',function(){
+			category_ids	=	$(this).val();
+			$.getJSON("/admin/news/get_sub_category",{id: category_ids, ajax: 'true'}, function(response){
+				
+				  var options = '';
+				  for (var i = 0; i < response.length; i++) {
+					options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
+				  }
+				  
+				  $("select#news_sub_category_id").html('');
+				  $("select#news_sub_category_id").append(options);
+				  $('select#news_sub_category_id').trigger('chosen:updated');				  
+			}) 
+			
+	 })
   
+  
+	$('#tutorial_topic').on('change',function(){
+			topic_ids	=	$(this).val();
+			$.getJSON("/admin/tutorials/get_sub_topic",{id: topic_ids, ajax: 'true'}, function(response){
+				
+				  var options = '';
+				  for (var i = 0; i < response.length; i++) {
+					options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
+				  }
+				  
+				  $("select#tutorial_sub_topic").html('');
+				  $("select#tutorial_sub_topic").append(options);
+				  $('select#tutorial_sub_topic').trigger('chosen:updated');				  
+			}) 
+			
+	 })
   
   
   

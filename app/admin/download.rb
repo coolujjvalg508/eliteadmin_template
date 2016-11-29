@@ -3,7 +3,21 @@ ActiveAdmin.register Download do
 
 	menu label: 'Download' , parent: 'Downloads', priority: 1
     
-    permit_params :title, :topic, :is_feature, :user_id,:is_admin, :changelog, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
+    permit_params :title, :topic, :is_feature, :user_id,:is_admin, :changelog, {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
+		
+		
+	collection_action :post_types, method: :get do
+		ids		 =	params[:id]
+		category = PostTypeCategory.where("parent_id IS NULL AND post_type_id = ?", ids).order('name asc').pluck(:name, :id)
+		render json: category, status: 200
+	end
+	
+	collection_action :post_category_types, method: :get do
+		ids		 =	params[:id]
+		category = PostTypeCategory.where(parent_id: ids).order('name asc').pluck(:name, :id)
+		render json: category, status: 200
+	end
+		
 		
 	
 	
@@ -37,6 +51,8 @@ ActiveAdmin.register Download do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end
+		  f.input :post_type_id, as: :select, collection: PostType.where("parent_id IS NULL").pluck(:type_name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Post Type'
+		  
 		  f.input :post_type_category_id, as: :select, collection: PostTypeCategory.where("parent_id IS NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Category'
 		
 		  f.input :sub_category_id, as: :select, collection: PostTypeCategory.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Category'
@@ -191,7 +207,7 @@ ActiveAdmin.register Download do
 		end
 
 		def update
-		#abort(current_admin_user.id.to_s)
+		#abort(params.to_json)
 			params[:download][:user_id] = current_admin_user.id.to_s
 			params[:download][:is_admin] = 'Y'
 			if (params[:download].present? && params[:download][:images_attributes].present?)

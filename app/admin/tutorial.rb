@@ -4,6 +4,12 @@ ActiveAdmin.register Tutorial do
     
     permit_params :title, :topic, :user_id,:is_admin, {:topic => []}, {:sub_topic => []}, :show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :status, :skill_level, :language, :include_description, :total_lecture, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache, :lesson_description,:lesson_image],:zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
 		
+	collection_action :get_sub_topic, method: :get do
+		ids		 =	params[:id]
+		category = Topic.where(parent_id: ids).order('name asc').pluck(:name, :id)
+		render json: category, status: 200
+	end
+	
 	
 	
 	 controller do 

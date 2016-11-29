@@ -5,6 +5,12 @@ ActiveAdmin.register News do
     permit_params :title, :topic, :user_id,:is_admin, {:category_id => []},{:sub_category_id => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :status, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache, :lesson_description,:lesson_image],:zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
 		
 	
+	collection_action :get_sub_category, method: :get do
+		ids		 =	params[:id]
+		category = NewsCategory.where(parent_id: ids).order('name asc').pluck(:name, :id)
+		render json: category, status: 200
+	end
+		
 	
 	 controller do 
 
@@ -37,15 +43,17 @@ ActiveAdmin.register News do
 		
 		f.inputs "News" do
 		  f.input :title
-		 li do
+		  li do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 
 		  end 
+		  
+		
 		 
 		 f.input :category_id, as: :select, collection: NewsCategory.where("parent_id IS NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Category'
 		  
-	  f.input :sub_category_id, as: :select, collection: NewsCategory.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Category'
+		f.input :sub_category_id, as: :select, collection: NewsCategory.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Category'
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'

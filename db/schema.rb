@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161125101236) do
+ActiveRecord::Schema.define(version: 20161129061903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 20161125101236) do
     t.boolean  "free",                  default: false
     t.text     "changelog"
     t.boolean  "is_feature",            default: false
+    t.json     "post_type_id"
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -509,8 +510,13 @@ ActiveRecord::Schema.define(version: 20161125101236) do
 
   create_table "post_types", force: :cascade do |t|
     t.string   "type_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "image"
+    t.text     "description"
+    t.string   "slug"
+    t.string   "parent_id"
+    t.integer  "status",      default: 0
   end
 
   create_table "production_experiences", force: :cascade do |t|
