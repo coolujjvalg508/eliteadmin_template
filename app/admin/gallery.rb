@@ -3,7 +3,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 	#	abort(current_admin_user.to_json)
 	
     menu label: 'Projects', parent: 'Gallery',priority: 1 
-    #, if: proc{ (usergroup.has_permission('gallery_read') || usergroup.has_permission('gallery_write') || usergroup.has_permission('gallery_delete'))}
+    
     
     
 	
@@ -43,10 +43,16 @@ ActiveAdmin.register Gallery , as: "Project" do
 		f.inputs "Project" do
 		  f.input :title
 		  f.input :paramlink,label:'Permalink'
-		  li do
+		
+		/  li do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
+		  end /
+		  
+		   div do
+			f.input :description,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: false
 		  end
+		  
 		  f.input :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Post Type Category', label: 'Post Type'
 		  f.input :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Medium'
 		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, label: 'Subject Matter',multiple: true
@@ -258,7 +264,9 @@ ActiveAdmin.register Gallery , as: "Project" do
    show do
 		attributes_table do
 		  row :title
-		  row :description
+		  row 'Description' do |cat|
+			cat.description.html_safe
+		  end
 		  row :post_type_category_id do |cat|
 		    Category.find_by(id: cat.post_type_category_id).try(:name)
 		  end
@@ -370,7 +378,9 @@ ActiveAdmin.register Gallery , as: "Project" do
 
 	csv do
 		column :title
-		column :description
+		column 'Description' do |cat|
+			cat.description.html_safe
+		  end
 		column 'Post Type' do |cat|
 			Category.find_by(id: cat.post_type_category_id).try(:name)
 		end

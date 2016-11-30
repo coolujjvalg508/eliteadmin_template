@@ -36,10 +36,15 @@ ActiveAdmin.register Job do
 	   	  f.input :package_id, as: :select, collection: Package.where("id IS NOT NULL").pluck(:title, :id), include_blank:'Select Package'
 		  f.input :title
 		  f.input :paramlink,label:'Permalink'
-		  li do
+		 / li do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
+		  end /
+		  
+		 div do
+			f.input :description,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: false
 		  end
+		  
 		  f.input :company_id, as: :select, collection: Company.where("name != '' ").pluck(:name, :id),include_blank:'Select Company Name'
 		  if ((controller.action_name == 'new' || controller.action_name == 'create'))
 			  f.inputs for: [:company, f.object.company || Company.new] do |company|
@@ -268,7 +273,9 @@ ActiveAdmin.register Job do
 		     Package.find_by(id: pid.package_id).try(:title)
 		  end
 		  row :paramlink
-		  row :description
+		  row 'Description' do |cat|
+			cat.description.html_safe
+		  end
 		  row :job_type do |utag|
 		     JobCategory.find_by(id: utag.job_type).try(:name)
 		  end

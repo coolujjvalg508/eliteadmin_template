@@ -16,6 +16,28 @@ ActiveAdmin.register Image do
 # end
 
 	permit_params :image, :caption_image
+	
+	
+	
+	controller do 
+
+		def saveimages
+		
+		uploaded_io = params[:file]
+		File.open(Rails.root.join('public', 'uploads/tinymic', uploaded_io.original_filename), 'wb') do |file|
+			    file.write(uploaded_io.read)
+		end
+		
+		imagepath		=	'/uploads/tinymic/'+uploaded_io.original_filename 
+		#abort(imagepath)
+			render json: {
+			  image: {
+				url: view_context.image_url(imagepath)
+			  }
+			}, content_type: "text/html"
+		end
+	end 
+	
 
   # Users List View
   index :download_links => ['csv'] do

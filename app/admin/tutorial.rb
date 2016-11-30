@@ -38,10 +38,14 @@ ActiveAdmin.register Tutorial do
 		
 		f.inputs "Tutorial" do
 		  f.input :title
-		  li do
+		/   li do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
+		  end /
+		  div do
+			f.input :description,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: false
 		  end
+		  
 		  f.input :topic, as: :select, collection: Topic.where("parent_id IS NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Topic'
 		
 		  f.input :sub_topic, as: :select, collection: Topic.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Topic'

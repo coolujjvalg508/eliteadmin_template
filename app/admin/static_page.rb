@@ -49,10 +49,14 @@ ActiveAdmin.register StaticPage do
     	f.input :title
         f.input :page_url, :label => 'Page Url', :as => :string
      # f.input :page_url, :label => 'Page Url', :as => :string
-      li do
+     / li do
        insert_tag(Arbre::HTML::Label, "Content", class: "label") { content_tag(:abbr, "*", title: "required") }
         f.bootsy_area :description, :rows => 25, :cols => 25, editor_options: { html: true }
-      end
+      end /
+      
+        div do
+			f.input :description,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: false
+		  end
     end
     f.actions
   end

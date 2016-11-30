@@ -63,8 +63,9 @@ Rails.application.routes.draw do
 
   root 'gallery#index'	
   
-  
-  
+  namespace :admin do
+	post 'images/saveimage' => 'images#saveimages'
+  end
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

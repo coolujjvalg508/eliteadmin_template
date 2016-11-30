@@ -44,10 +44,13 @@ ActiveAdmin.register Faq do
   form :title => 'New FAQ' do |f|
     f.inputs "FAQ" do
       f.input :question, :rows => 15, :cols => 15
-      li do
+     / li do
         insert_tag(Arbre::HTML::Label, "Answer", class: "label") { content_tag(:abbr, "*", title: "required") }
         f.bootsy_area :answer, :rows => 15, :cols => 15, editor_options: { html: true }
-      end
+      end /
+      div do
+			f.input :answer,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: false
+		  end
       f.input :active
     end
     f.actions

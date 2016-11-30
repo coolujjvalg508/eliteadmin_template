@@ -47,10 +47,16 @@ ActiveAdmin.register Download do
 		
 		f.inputs "Download" do
 		  f.input :title
-		  li do
+		   / li do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
+		  end /
+		 
+		  div do
+			f.input :description,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: false
 		  end
+		  
+		  
 		  f.input :post_type_id, as: :select, collection: PostType.where("parent_id IS NULL").pluck(:type_name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Post Type'
 		  
 		  f.input :post_type_category_id, as: :select, collection: PostTypeCategory.where("parent_id IS NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Category'

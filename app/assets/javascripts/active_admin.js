@@ -15,8 +15,37 @@
 
 
 $(document).ready(function() {
+	  tinymce.init({
+			  
+			  selector: '.tinymce',
+			  height: 500,
+			  width: 935,
+			  themes: "modern",
+			  menubar: false,
+			  uploadimage_form_url : '/admin/images/saveimage',
+			  
+			  plugins: [
+				'advlist autolink lists link image charmap print preview anchor',
+				'searchreplace visualblocks code fullscreen',
+				'insertdatetime media table contextmenu paste code uploadimage'
+			  ],
+			  toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | uploadimage | media | code'
 
-	 tinyMCE.init({});
+	  });
+	  
+	  $('#news_description_input').parent('div').css({'margin-left':'250px'});
+	  $('#download_description_input').parent('div').css({'margin-left':'250px'});
+	  $('#gallery_description_input').parent('div').css({'margin-left':'250px'});
+	  $('#job_description_input').parent('div').css({'margin-left':'250px'});
+	  $('#static_page_description_input').parent('div').css({'margin-left':'250px'});
+	  $('#faq_answer_input').parent('div').css({'margin-left':'250px'});
+	  $('#tutorial_description_input').parent('div').css({'margin-left':'250px'});
+  
+});
+
+
+
+$(document).ready(function() {
 	 
   $("#diplay-filter").html('Filter');
   /* jQuery('input.datepicker').datetimepicker({
@@ -129,7 +158,10 @@ $(document).ready(function() {
 			options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
 		  }
 		 $("select#gallery_subject_matter_id").html('<option value="">Select Subject Matter</option>'+options);
-		 $('#gallery_subject_matter_id option[value='+gallery_post_type_category_id+']').attr('selected', true);
+		 
+		 if(gallery_post_type_category_id != ''){
+			$('#gallery_subject_matter_id option[value='+gallery_post_type_category_id+']').attr('selected', true);
+		 }	
 	 })
   
     $("#gallery_post_type_category_id").change(function(e){
