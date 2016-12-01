@@ -22,45 +22,23 @@ ActiveAdmin.register Image do
 	controller do 
 
 		def saveimages
-				
+			
 				uploaded_io = params[:file]
 				new_name	=	Time.now.to_i
-				path_original = "#{new_name}#{File.extname(uploaded_io.original_filename)}"
-				filename_new	=	'' 
-				File.open(Rails.root.join('assets/tinymic', path_original), 'wb') do |file|
-						File.rename(file, 'assets/tinymic/'+new_name.to_s + File.extname(file))
+				filename_new	=	''
+				File.open(Rails.root.join('public', 'uploads/tinymic', uploaded_io.original_filename), 'wb') do |file|
+						File.rename(file, 'public/uploads/tinymic/'+new_name.to_s + File.extname(file))
 						filename_new	=	new_name.to_s + File.extname(file)
 						file.write(uploaded_io.read)
+						
 				end
-					
-				imagepath		=	'tinymic/'+filename_new 
+				
+				imagepath		=	'/uploads/tinymic/'+filename_new 
 				render json: {
 					  image: {
 						url: view_context.image_url(imagepath)
 					  }
 					}, content_type: "text/html"
-					
-					
-				
-				
-				#uploaded_io = params[:file]
-				#new_name	=	Time.now.to_i
-				#filename_new	=	'' 
-				#File.open(Rails.root.join('/public/uploads/tinymic', uploaded_io.original_filename), 'wb') do |file|
-					#	File.rename(file, '/public/uploads/tinymic/'+new_name.to_s + File.extname(file))
-					#	filename_new	=	new_name.to_s + File.extname(file)
-					#	file.write(uploaded_io.read)
-						
-				#end
-				
-			#	imagepath		=	'/uploads/tinymic/'+filename_new 
-				#render json: {
-				#	  image: {
-					#	url: view_context.image_url(imagepath)
-					#  }
-				#	}, content_type: "text/html"
-					
-					
 		end
 	end 
 	
