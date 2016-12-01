@@ -27,13 +27,13 @@ ActiveAdmin.register Image do
 				new_name	=	Time.now.to_i
 				path_original = "#{new_name}#{File.extname(uploaded_io.original_filename)}"
 				filename_new	=	'' 
-				File.open(Rails.root.join('public', 'uploads/tinymic', path_original), 'wb') do |file|
-						File.rename(file, 'public/uploads/tinymic/'+new_name.to_s + File.extname(file))
+				File.open(Rails.root.join('tinymic', path_original), 'wb') do |file|
+						File.rename(file, 'tinymic/'+new_name.to_s + File.extname(file))
 						filename_new	=	new_name.to_s + File.extname(file)
 						file.write(uploaded_io.read)
 				end
 					
-				imagepath		=	'/uploads/tinymic/'+filename_new 
+				imagepath		=	'tinymic/'+filename_new 
 				render json: {
 					  image: {
 						url: view_context.image_url(imagepath)
