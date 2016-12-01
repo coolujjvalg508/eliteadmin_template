@@ -33,7 +33,8 @@ ActiveAdmin.register Image do
 						
 				end
 				
-				imagepath		=	'/uploads/tinymic/'+filename_new 
+				imagepath		=	Rails.root + '/uploads/tinymic/'+filename_new 
+				abort(imagepath)
 				render json: {
 					  image: {
 						url: view_context.image_url(imagepath)
@@ -41,7 +42,7 @@ ActiveAdmin.register Image do
 					}, content_type: "text/html"
 		end
 	end 
-	 
+	
 
   # Users List View
   index :download_links => ['csv'] do
