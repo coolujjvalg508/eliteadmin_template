@@ -31,10 +31,11 @@ ActiveAdmin.register Image do
 						filename_new	=	new_name.to_s + File.extname(file)
 						file.write(uploaded_io.read)
 						
+					
 				end
 				
-				imagepath		=	"#{Rails.root}/public/uploads/tinymic/#{filename_new}"
-				abort(imagepath)
+				imagepath		=	"http://#{request.host}/uploads/tinymic/#{filename_new}"
+				#imagepath		=	Rails.root.join('public', 'uploads/tinymic', filename_new).to_s
 				render json: {
 					  image: {
 						url: view_context.image_url(imagepath)
