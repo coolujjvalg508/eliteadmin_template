@@ -33,7 +33,7 @@ ActiveAdmin.register Image do
 						
 				end
 				
-				imagepath		=	Rails.root + '/uploads/tinymic/'+filename_new 
+				imagepath		=	"#{Rails.root}/public/uploads/tinymic/#{filename_new}"
 				abort(imagepath)
 				render json: {
 					  image: {
