@@ -22,6 +22,7 @@ ActiveAdmin.register Image do
 	controller do 
 
 		def saveimages
+		
 				uploaded_io = params[:file]
 				new_name	=	Time.now.to_i
 				filename_new	=	''
