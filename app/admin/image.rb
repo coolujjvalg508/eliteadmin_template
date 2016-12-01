@@ -31,7 +31,7 @@ ActiveAdmin.register Image do
 						filename_new	=	new_name.to_s + File.extname(file)
 						file.write(uploaded_io.read)
 						
-				end 
+				end
 				
 				imagepath		=	'/uploads/tinymic/'+filename_new 
 				render json: {
