@@ -41,7 +41,7 @@ ActiveAdmin.register Image do
 					}, content_type: "text/html"
 		end
 	end 
-	
+	 
 
   # Users List View
   index :download_links => ['csv'] do
