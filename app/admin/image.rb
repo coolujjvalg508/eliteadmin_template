@@ -22,7 +22,6 @@ ActiveAdmin.register Image do
 	controller do 
 
 		def saveimages
-		abort(ENV.to_json)
 			
 				uploaded_io = params[:file]
 				new_name	=	Time.now.to_i
