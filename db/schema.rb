@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161129061903) do
+ActiveRecord::Schema.define(version: 20161205045144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,27 @@ ActiveRecord::Schema.define(version: 20161129061903) do
     t.integer  "parent_id"
     t.integer  "status",      default: 0
     t.string   "image"
+  end
+
+  create_table "challenges", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "upload_button_text"
+    t.integer  "challenge_type_id",  default: 0
+    t.string   "closing_date"
+    t.string   "tags"
+    t.text     "awards"
+    t.text     "terms_condition"
+    t.text     "judging"
+    t.text     "faq"
+    t.integer  "status",             default: 1
+    t.integer  "is_save_to_draft",   default: 1
+    t.integer  "visibility",         default: 1
+    t.integer  "publish",            default: 1
+    t.string   "company_logo"
+    t.json     "where_to_show"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "comments", force: :cascade do |t|
@@ -515,8 +536,8 @@ ActiveRecord::Schema.define(version: 20161129061903) do
     t.string   "image"
     t.text     "description"
     t.string   "slug"
-    t.string   "parent_id"
     t.integer  "status",      default: 0
+    t.integer  "parent_id"
   end
 
   create_table "production_experiences", force: :cascade do |t|

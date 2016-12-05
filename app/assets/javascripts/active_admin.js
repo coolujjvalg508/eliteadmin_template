@@ -33,13 +33,19 @@ $(document).ready(function() {
 
 	  });
 	  
-	  $('#news_description_input').parent('div').css({'margin-left':'250px'});
-	  $('#download_description_input').parent('div').css({'margin-left':'250px'});
-	  $('#gallery_description_input').parent('div').css({'margin-left':'250px'});
-	  $('#job_description_input').parent('div').css({'margin-left':'250px'});
-	  $('#static_page_description_input').parent('div').css({'margin-left':'250px'});
-	  $('#faq_answer_input').parent('div').css({'margin-left':'250px'});
-	  $('#tutorial_description_input').parent('div').css({'margin-left':'250px'});
+	  $('#news_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#download_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#gallery_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#job_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#static_page_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#faq_answer_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#tutorial_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#challenge_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#challenge_awards_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#challenge_terms_condition_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#challenge_terms_condition_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#challenge_judging_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#challenge_faq_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
   
 });
 
@@ -516,6 +522,25 @@ $(document).ready(function() {
 			
 	 })
   
+  
+  
+  
+    var fieldval	=	$('#challenge_publish').val();
+	  if(fieldval == 0){
+		   $('li#challenge_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#challenge_schedule_time_input').css({'display':'none'});
+	 }
+  
+  
+    $("#challenge_publish").change(function(e){
+	  var fieldval1	=	$(this).val();
+	  if(fieldval1 == 0){
+		   $('li#challenge_schedule_time_input').css({'display':'block'});
+	  }else{
+		  $('li#challenge_schedule_time_input').css({'display':'none'});
+	 }
+   })
   
   
 /*
