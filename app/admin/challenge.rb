@@ -4,7 +4,7 @@ ActiveAdmin.register Challenge do
 	
     menu label: 'Challenge'
     
-    permit_params :title, :upload_button_text, :challenge_type_id, :closing_date, :awards, :terms_condition, :judging, :faq, :tags, :user_id,:is_admin,  :schedule_time, :description, :status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
+    permit_params :title, :upload_button_text, :hosts,:challenge_type_id, :closing_date, :team_member, :awards, :terms_condition, :faq, :tags, :user_id,:is_admin,  :schedule_time, :description, :status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
 		
 	
 	
@@ -42,19 +42,24 @@ ActiveAdmin.register Challenge do
 		  end
 		  f.input :upload_button_text
 		   
-		  f.input :challenge_type_id, as: :select, collection: [['File Contest',0], ['Images Contest', 1], ['Video Contest', 2]], include_blank: 'Select Challenge Type', label: 'Challenge Type'
+		  f.input :challenge_type_id, as: :select, collection: [['Gallery Contest',0], ['Tutorial Contest', 1], ['Download Contest', 2]], include_blank: 'Select Challenge Type', label: 'Challenge Type'
+		 
+		  f.input :team_member,label:'Brought to you by'
+		  f.input :hosts,label:'Hosts'
+		  f.input :opening_date, as: :date_time_picker,label:'Starting Date'
 		  f.input :closing_date, as: :date_time_picker, label:'Closing Date'
+		 
 		  div do
-			f.input :awards,  :input_html => { :class => "tinymce", :id=>"awards_texteditor" }, :rows => 40, :cols => 50 ,label: 'Awards & Prize'
+			f.input :awards,  :input_html => { :class => "tinymce", :id=>"awards_texteditor" }, :rows => 40, :cols => 50 ,label: 'Briefing'
 		  end
 		  div do
-			f.input :terms_condition,  :input_html => { :class => "tinymce", :id=>"terms_texteditor" }, :rows => 40, :cols => 50 ,label: 'Terms & Condition'
+			f.input :terms_condition,  :input_html => { :class => "tinymce", :id=>"terms_texteditor" }, :rows => 40, :cols => 50 ,label: 'Challenge Rules'
 		  end
-		  div do
+		 / div do
 			f.input :judging,  :input_html => { :class => "tinymce", :id=>"judging_texteditor" }, :rows => 40, :cols => 50 ,label: 'Judging'
-		  end
+		  end /
 		  div do
-			f.input :faq,  :input_html => { :class => "tinymce", :id=>"faq_texteditor" }, :rows => 40, :cols => 50 ,label: 'Faq'
+			f.input :faq,  :input_html => { :class => "tinymce", :id=>"faq_texteditor" }, :rows => 40, :cols => 50 ,label: 'Frequently Asked Questions'
 		  end
 
 
@@ -253,7 +258,7 @@ ActiveAdmin.register Challenge do
 			cat.description.html_safe
 		  end
 		  row :challenge_type_id do |cat|
-			(cat.challenge_type_id == 0) ? 'File Contest'  : (cat.challenge_type_id == 1) ? 'Image Contest'  :'Video Contest'
+			(cat.challenge_type_id == 0) ? 'Gallery Contest'  : (cat.challenge_type_id == 1) ? 'Tutorial Contest'  :'Download Contest'
 		  end
 	
 		  row :tags
@@ -353,7 +358,7 @@ ActiveAdmin.register Challenge do
 			(uname.user_id == 1 && uname.is_admin == 'Y') ? 'Admin' : User.find_by(id: uname.user_id).try(:firstname)
 		end
 		column :challenge_type_id do |cat|
-			(cat.challenge_type_id == 0) ? 'File Contest'  : (cat.challenge_type_id == 1) ? 'Image Contest'  :'Video Contest'
+			(cat.challenge_type_id == 0) ? 'Gallery Contest'  : (cat.challenge_type_id == 1) ? 'Tutorial Contest'  :'Download Contest'
 	    end 
 		column :tags
 		column :closing_date

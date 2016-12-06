@@ -46,6 +46,7 @@ $(document).ready(function() {
 	  $('#challenge_terms_condition_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
 	  $('#challenge_judging_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
 	  $('#challenge_faq_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	  $('#job_apply_instruction_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
   
 });
 
@@ -541,6 +542,57 @@ $(document).ready(function() {
 		  $('li#challenge_schedule_time_input').css({'display':'none'});
 	 }
    })
+  
+  
+  
+	var fieldval	=	$('#job_apply_type').val();
+	   if(fieldval == 'email'){
+			   $('li#job_apply_email_input').css({'display':'block'});
+			   $('li#job_apply_url_input').css({'display':'none'});
+			   $('li#job_apply_instruction_input').css({'display':'none'});
+		  }else  if(fieldval == 'url'){
+			   $('li#job_apply_email_input').css({'display':'none'});
+			   $('li#job_apply_url_input').css({'display':'block'});
+			   $('li#job_apply_instruction_input').css({'display':'none'});
+		 
+		  }else  if(fieldval == 'instruction'){
+			   $('li#job_apply_email_input').css({'display':'none'});
+			   $('li#job_apply_url_input').css({'display':'none'});
+			   $('li#job_apply_instruction_input').css({'display':'block'});
+		  
+		  }else{
+			  $('li#job_apply_email_input').css({'display':'none'});
+			   $('li#job_apply_url_input').css({'display':'none'});
+			   $('li#job_apply_instruction_input').css({'display':'none'});
+		 }
+  
+  
+    $("#job_apply_type").change(function(e){
+	  var fieldval1	=	$(this).val();
+		  if(fieldval1 == 'email'){
+			   $('li#job_apply_email_input').css({'display':'block'});
+			   $('li#job_apply_url_input').css({'display':'none'});
+			   $('li#job_apply_instruction_input').css({'display':'none'});
+		  }else  if(fieldval1 == 'url'){
+			   $('li#job_apply_email_input').css({'display':'none'});
+			   $('li#job_apply_url_input').css({'display':'block'});
+			   $('li#job_apply_instruction_input').css({'display':'none'});
+		 
+		  }else  if(fieldval1 == 'instruction'){
+			   $('li#job_apply_email_input').css({'display':'none'});
+			   $('li#job_apply_url_input').css({'display':'none'});
+			   $('li#job_apply_instruction_input').css({'display':'block'});
+		  
+		  }else{
+			  $('li#job_apply_email_input').css({'display':'none'});
+			   $('li#job_apply_url_input').css({'display':'none'});
+			   $('li#job_apply_instruction_input').css({'display':'none'});
+		 }
+   })
+  
+  
+  
+  
   
   
 /*

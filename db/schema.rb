@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205045144) do
+ActiveRecord::Schema.define(version: 20161206102851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,12 @@ ActiveRecord::Schema.define(version: 20161205045144) do
     t.json     "where_to_show"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "schedule_time"
+    t.integer  "user_id",            default: 0
+    t.string   "is_admin"
+    t.string   "opening_date"
+    t.string   "team_member"
+    t.string   "hosts"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -193,6 +199,7 @@ ActiveRecord::Schema.define(version: 20161205045144) do
     t.text     "changelog"
     t.boolean  "is_feature",            default: false
     t.json     "post_type_id"
+    t.string   "challenge"
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -244,6 +251,7 @@ ActiveRecord::Schema.define(version: 20161205045144) do
     t.integer  "user_id"
     t.string   "is_admin"
     t.boolean  "is_spam",                      default: false
+    t.string   "challenge"
   end
 
   create_table "home_sidebars", force: :cascade do |t|
@@ -364,6 +372,10 @@ ActiveRecord::Schema.define(version: 20161205045144) do
     t.integer  "user_id"
     t.string   "is_admin"
     t.boolean  "is_spam",                      default: false
+    t.string   "apply_type"
+    t.text     "apply_instruction"
+    t.string   "apply_url"
+    t.string   "apply_email"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -673,6 +685,7 @@ ActiveRecord::Schema.define(version: 20161205045144) do
     t.text     "include_description"
     t.string   "sub_title"
     t.json     "sub_topic"
+    t.string   "challenge"
   end
 
   create_table "upload_videos", force: :cascade do |t|
