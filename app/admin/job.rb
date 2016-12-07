@@ -1,8 +1,14 @@
 ActiveAdmin.register Job do
 	menu label: 'Jobs', parent: 'Job Management',priority: 1
-	permit_params :is_spam, :title,:user_id,:is_admin, :paramlink,:package_id,:description,:show_on_cgmeetup,:show_on_website,:company_name, :company_id, :schedule_time, :company_name,:job_type, :from_amount, :to_amount, {:job_category => []} , 
-	:application_email_or_url, :country, :city, 
-	:work_remotely, :is_paid, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name]
+	permit_params :is_spam, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :job_type, :from_amount, :to_amount, {:job_category => []} , 
+	:application_email_or_url, :country, :city, :state,
+	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name]
+	
+	collection_action :get_packages, method: :get do
+		category = Package.where("id IS NOT NULL").order('id asc').pluck(:amount,:title, :id)
+		render json: category, status: 200
+	end
+	
 	
 	
 	controller do 
@@ -31,8 +37,10 @@ ActiveAdmin.register Job do
 	form multipart: true do |f|
 		
 		f.inputs "Job" do
-	   	  f.input :is_paid, as: :boolean,label: "Is Paid"
-	   	  f.input :package_id, as: :select, collection: Package.where("id IS NOT NULL").pluck(:title, :id), include_blank:'Select Package'
+		
+			f.input :package_id, as: :select, collection: Package.where("id IS NOT NULL").pluck(:title, :id), :input_html => { :id=>'job_package_id', :class => "chosen-input" }, include_blank:false,multiple: true
+			
+	  	  
 		  f.input :title
 		  f.input :paramlink,label:'Permalink'
 		 / li do
@@ -47,18 +55,20 @@ ActiveAdmin.register Job do
 		  f.input :company_id, as: :select, collection: Company.where("name != '' ").pluck(:name, :id),include_blank:'Select Company Name'
 		  if ((controller.action_name == 'new' || controller.action_name == 'create'))
 			  f.inputs for: [:company, f.object.company || Company.new] do |company|
-					company.input :name, label:'Add Company'
+					company.input :name, label:'Company Name'
 			  end
 		  end
-
+		  f.input :company_url, as: :string, label:'Company URL'
 		   
 		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Job Type'
 		  f.input :from_amount, label:'From Amount'
 		  f.input :to_amount, label:'To Amount'
 		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true,label: 'Job Position'
 		  f.input :application_email_or_url,label:'Application Email/URL'
-		  f.input :country,label:'Country'
+		  f.input :country,label:'Country', :input_html => { :class => "chosen-input" }
+		  f.input :state,label:'State'
 		  f.input :city,label:'City'
+		 
 		  f.input :work_remotely, as: :boolean,label: "Work Remotely"
 		  f.input :relocation_asistance, as: :boolean,label: "Relocation Asistance"
 		  
@@ -85,7 +95,11 @@ ActiveAdmin.register Job do
 		  div do
 			f.input :apply_instruction,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: "Application Instructions"
 		  end
-		
+		  
+		  
+		  / f.inputs 'Enhance your job posting with these upgrades' do
+			
+		  end	 /
 			  
 			  
 		  f.inputs 'Images' do
@@ -259,11 +273,10 @@ ActiveAdmin.register Job do
 		 title.title
 	   end
  	   column 'Featured' do |feature|
-			(feature.is_featured == true) ? 'Yes' : (feature.is_paid == true) ? 'Yes' : 'No'
+			(feature.is_featured == true) ? 'Yes' : 'No'
 	   end
 	
-	  
-		column 'Status' do |user|
+	    column 'Status' do |user|
 		  user.status? ? 'Active' : 'Inactive'
 		end
 		actions
@@ -273,12 +286,7 @@ ActiveAdmin.register Job do
    show do
 		attributes_table do
 		  row :title
-		  row :is_paid do |ispaid|
-		    ispaid.is_paid? ? 'Yes' : 'No'    
-		  end
-		  row :package_id do |pid|
-		     Package.find_by(id: pid.package_id).try(:title)
-		  end
+	
 		  row :paramlink
 		  row 'Description' do |cat|
 			cat.description.html_safe
@@ -309,7 +317,7 @@ ActiveAdmin.register Job do
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
 		  end
 		  row :is_featured do |ifeature|
-		   (ifeature.is_featured == true) ? 'Yes' : (ifeature.is_paid == true) ? 'Yes' : 'No'
+		   (ifeature.is_featured == true) ? 'Yes' : 'No'
 		  end
 		  row :status do |st|
 		    st.status? ? 'Active' : 'Inactive'

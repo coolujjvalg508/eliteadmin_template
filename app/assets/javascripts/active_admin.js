@@ -15,6 +15,8 @@
 
 
 $(document).ready(function() {
+	
+	
 	  tinymce.init({
 			  
 			  selector: '.tinymce',
@@ -54,6 +56,9 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 	 
+	 
+  	 
+	 
   $("#diplay-filter").html('Filter');
   /* jQuery('input.datepicker').datetimepicker({
 		dateFormat: "dd-mm-yy",
@@ -61,7 +66,6 @@ $(document).ready(function() {
    */
    
   $(".chosen-input").chosen();
-  
   
   $('#job_company_id').on('change',function(){
 	 var value	=	$(this).val();
@@ -363,7 +367,7 @@ $(document).ready(function() {
    })
   
   
-  	if($("#tutorial_is_paid").prop('checked') == true){
+  /*	if($("#tutorial_is_paid").prop('checked') == true){
 			 $('li#tutorial_price_input').css({'display':'block'});
 	}else{
 		 $('li#tutorial_price_input').css({'display':'none'});
@@ -378,7 +382,7 @@ $(document).ready(function() {
 			 $('li#tutorial_price_input').css({'display':'none'});
 		}
 	})
-	
+	*/ 
 	
 	
 	var fieldval	=	$('#news_publish').val();
@@ -436,22 +440,54 @@ $(document).ready(function() {
 	 }
    })
   
-  
-  	if($("#download_is_paid").prop('checked') == true){
-			 $('li#download_price_input').css({'display':'block'});
-	}else{
-			$('li#download_price_input').css({'display':'none'});
-	}
-		
-  
-	$("#download_is_paid").on('click',function(e){
-		  
-		if($("#download_is_paid").prop('checked') == true){
-			 $('li#download_price_input').css({'display':'block'});
+  if($("#download_free").prop('checked') == false){
+			$('#download_price').val(0)
+			$('#download_price').css({'border':'1px solid #FF0000'});
+			$('#download_price').attr({'disabled':false});
 		}else{
-			 $('li#download_price_input').css({'display':'none'});
+			$('#download_price').val(0)
+			$('#download_price').css({'border':'1px solid #c9d0d6'});
+			$('#download_price').attr({'disabled':true});
+		}
+  
+  $("#download_free").on('click',function(e){
+		if($("#download_free").prop('checked') == false){
+			$('#download_price').val(0)
+			$('#download_price').css({'border':'1px solid #FF0000'});
+			$('#download_price').attr({'disabled':false});
+		}else{
+			$('#download_price').val(0)
+			$('#download_price').css({'border':'1px solid #c9d0d6'});
+			$('#download_price').attr({'disabled':true});
 		}
 	})
+  
+  
+  if($("#tutorial_free").prop('checked') == false){
+			$('#tutorial_price').val(0)
+			$('#tutorial_price').css({'border':'1px solid #FF0000'});
+			$('#tutorial_price').attr({'disabled':false});
+		}else{
+			$('#tutorial_price').val(0)
+			$('#tutorial_price').css({'border':'1px solid #c9d0d6'});
+			$('#tutorial_price').attr({'disabled':true});
+		}
+  
+  $("#tutorial_free").on('click',function(e){
+		if($("#tutorial_free").prop('checked') == false){
+			$('#tutorial_price').val(0)
+			$('#tutorial_price').css({'border':'1px solid #FF0000'});
+			$('#tutorial_price').attr({'disabled':false});
+		}else{
+			$('#tutorial_price').val(0)
+			$('#tutorial_price').css({'border':'1px solid #c9d0d6'});
+			$('#tutorial_price').attr({'disabled':true});
+		}
+	})
+  
+  
+  
+  
   
   /*************************************************************************************************************/
   
@@ -591,9 +627,7 @@ $(document).ready(function() {
    })
   
   
-  
-  
-  
+
   
 /*
   // Admin email messages and notifications count as sub menu of the admin user

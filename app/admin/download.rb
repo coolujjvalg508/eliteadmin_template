@@ -66,10 +66,13 @@ ActiveAdmin.register Download do
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		  f.input :tags, label:'Tags'
 		 
-		  f.input :free, as: :boolean,label: "Is Free"
-		  f.input :is_paid, as: :boolean,label: "Is Paid"
+		  f.input :free, as: :boolean,label: "Share for free"
+		  f.input :price, label: "Price ($)"
+		  #f.input :is_paid, as: :boolean,label: "Is Paid"
 		  f.input :is_feature, as: :boolean,label: "Is Feature"
-		  f.input :price, label: "Price"
+		 
+		  
+		  
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
 		  f.input :visibility, as: :select, collection: [['Private',1], ['Public', 0]], include_blank: false
@@ -151,6 +154,12 @@ ActiveAdmin.register Download do
 	  def create
 			params[:download][:user_id] = current_admin_user.id.to_s
 			params[:download][:is_admin] = 'Y'
+			
+				
+			if params[:download][:free] == '1'
+				params[:download][:price] = 0
+			end
+			
 			if (params[:download].present? && params[:download][:images_attributes].present?)
 					params[:download][:images_attributes].each do |index,img|
 						  unless params[:download][:images_attributes][index][:image].present?
@@ -216,6 +225,11 @@ ActiveAdmin.register Download do
 		#abort(params.to_json)
 			params[:download][:user_id] = current_admin_user.id.to_s
 			params[:download][:is_admin] = 'Y'
+			
+			if params[:download][:free] == '1'
+				params[:download][:price] = 0
+			end
+			
 			if (params[:download].present? && params[:download][:images_attributes].present?)
 					params[:download][:images_attributes].each do |index,img|
 						  unless params[:download][:images_attributes][index][:image].present?
