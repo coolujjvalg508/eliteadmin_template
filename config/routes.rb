@@ -2,7 +2,12 @@ Rails.application.routes.draw do
   mount Bootsy::Engine => '/bootsy', as: 'bootsy'
   devise_for :users, controllers: { sessions: 'users/registrations' }
   devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
+  #ActiveAdmin.routes(self)
+  begin
+    ActiveAdmin.routes(self)
+  rescue Exception => e
+    puts "ActiveAdmin: #{e.class}: #{e}"
+  end
   
   get 'setting/index' 
   get 'setting/general'

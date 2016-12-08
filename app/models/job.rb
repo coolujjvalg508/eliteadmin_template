@@ -19,6 +19,8 @@ class Job < ActiveRecord::Base
  has_many :sketchfebs, as: :sketchfebable, dependent: :destroy
  has_many :marmo_sets, as: :marmosetable, dependent: :destroy
  
+ has_many :zip_files, as: :zipfileable, dependent: :destroy
+ has_many :zip_caption
  
  accepts_nested_attributes_for :images, reject_if: proc { |attributes| attributes['image'].blank? || attributes['image'].nil? }, allow_destroy: true 
  
@@ -27,4 +29,5 @@ class Job < ActiveRecord::Base
  accepts_nested_attributes_for :sketchfebs, reject_if: proc { |attributes| attributes['sketchfeb'].blank? || attributes['sketchfeb'].nil? }, allow_destroy: true
  accepts_nested_attributes_for :marmo_sets, reject_if: proc { |attributes| attributes['marmoset'].blank? || attributes['marmoset'].nil? }, allow_destroy: true
  accepts_nested_attributes_for :company
+ accepts_nested_attributes_for :zip_files, reject_if: proc { |attributes| attributes['zipfile'].blank? || attributes['zipfile'].nil? }, allow_destroy: true
 end
