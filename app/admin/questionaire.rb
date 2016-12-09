@@ -1,6 +1,6 @@
 ActiveAdmin.register Questionaire do
 
-	menu label: 'Questionaire'
+	menu label: 'Questionnaire'
 	permit_params :question, :answer
 	#actions :all, except: [:new, :destroy]
 	#config.filters = false
@@ -52,7 +52,7 @@ ActiveAdmin.register Questionaire do
 	
 
  form multipart: true do |f|
-      f.inputs "Questionaire" do
+      f.inputs "Questionnaire" do
       f.input :question
       f.input :answer
      
