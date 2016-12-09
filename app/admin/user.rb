@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
    menu label: 'Front Users', parent: 'Users'
-	permit_params :firstname, :password, :password_confirmation,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
+	permit_params :firstname, :username, :password,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
 	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :professional_experiences_attributes => [:company_id,:title,:location,:description, :from_month,:from_year,:to_month,:to_year,:currently_worked], :production_experiences_attributes => [:production_title,:release_year,:production_type,:your_role, :company], :education_experiences_attributes => [:school_name,:field_of_study,:month_val,:year_val, :description], :company_attributes => [:id,:name]
 
 	controller do 
@@ -31,9 +31,9 @@ ActiveAdmin.register User do
 		f.inputs "Basic Details" do
 		  f.input :firstname
 		  f.input :lastname
+		  f.input :username
 		  #f.input :group_id, as: :select, collection:  UserGroup.where("name != '' ").pluck(:name, :id),include_blank:'Select Group'		
 		  f.input :password
-		  f.input :password_confirmation
 		  f.input :image
 		  f.input :professional_headline
 		  f.input :email
@@ -194,7 +194,6 @@ ActiveAdmin.register User do
 							params[:user][:professional_experiences_attributes][index][:to_year] = params[:user][:professional_experiences_attributes][index][:to_year]
 							params[:user][:professional_experiences_attributes][index][:currently_worked] = params[:user][:professional_experiences_attributes][index][:currently_worked]
 						  end
-						  
 					end
 				super
 			
@@ -239,6 +238,7 @@ ActiveAdmin.register User do
   
   
   filter :firstname
+  filter :username
   filter :email
   filter :profile_type, as: :select, collection: [['Artist',1],['Recruiter',2],['Studio',3]], label: 'Profile Type'
   filter :created_at
@@ -255,6 +255,9 @@ ActiveAdmin.register User do
 	   end
 	    column 'Last Name' do |lname|
 		 lname.lastname
+	   end
+	   column 'User Name' do |uname|
+		 uname.username
 	   end
 	  
 	   column 'Email' do |email|
@@ -275,7 +278,9 @@ ActiveAdmin.register User do
     attributes_table do
       row :firstname
       row :lastname
-     
+      row 'User Name' do |uname|
+		 uname.username
+	   end
       row :email
       row :professional_headline
       row :phone_number

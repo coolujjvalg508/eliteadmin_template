@@ -1,15 +1,13 @@
 Rails.application.routes.draw do
   mount Bootsy::Engine => '/bootsy', as: 'bootsy'
-  
+  devise_for :users, controllers: { sessions: 'users/registrations' }
   devise_for :admin_users, ActiveAdmin::Devise.config
-  # ActiveAdmin.routes(self)
+  #ActiveAdmin.routes(self)
   begin
     ActiveAdmin.routes(self)
   rescue Exception => e
     puts "ActiveAdmin: #{e.class}: #{e}"
   end
-
-  devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'sessions'}
   
   get 'setting/index' 
   get 'setting/general'
@@ -69,14 +67,6 @@ Rails.application.routes.draw do
   get 'download-gallery'=> 'gallery#download'
 
   root 'gallery#index'	
-
-
-  authenticate :user do
-    
-        
-  end
-
-
   
   namespace :admin do
 	post 'images/saveimage' => 'images#saveimages'

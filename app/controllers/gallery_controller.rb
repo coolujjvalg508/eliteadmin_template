@@ -1,6 +1,9 @@
 class GalleryController < ApplicationController
  
   def index
+
+    #abort(current_user.to_json)
+
   end
   
   def all_gallery_post

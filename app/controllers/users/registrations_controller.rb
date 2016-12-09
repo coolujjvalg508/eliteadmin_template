@@ -5,20 +5,39 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def new
     build_resource({})
-    resource.build_profile
+    #resource.build_profile
     respond_with self.resource
   end
 
   # POST /resource
   def create
+
     build_resource(sign_up_params)
-      params[:user][:profile] = sign_up_params["profile_attributes"]
-    if simple_captcha_valid?
+
+    captcha_value = params['g-recaptcha-response']
+
+    secret_key    = "#{Rails.application.secrets.recaptcha_secret_key}"  
+    status = `curl 'https://www.google.com/recaptcha/api/siteverify?secret=#{secret_key}&response=#{captcha_value}'`
+
+    hash = JSON.parse(status)  
+
+    #abort(hash['success'].to_json)
+    #abort(hash.to_json)
+    #hash['success'] == true ? true : false
+
+    if hash['success'] == true
       super
     else
       @captcha_error = "Please enter correct captcha"
       render action: 'new'
     end
+
+  end
+
+  def verify_google_recptcha(secret_key,response)
+    status = `curl “https://www.google.com/recaptcha/api/siteverify? secret=#{secret_key}&response=#{response}”`  
+    hash = JSON.parse(status)
+    hash[“success”] == true ? true : false
   end
 
   # GET /resource/edit

@@ -10,15 +10,16 @@
 #   stripe_api_key: sk_live_EeHnL644i6zo4Iyq4v1KdV9H
 #   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
 
-SMTP_HOST: "powercozmo.com"
-DATABASE_NAME: 'powercozmo_development'
-DB_USER_NAME: 'root'
-DB_PASSWORD: 'root'
-SMTP_ADDRESS: 'smtp.sparkpostmail.com'
-SMTP_DOMAIN: 'powercozmo.com'
-SMTP_USERNAME: 'SMTP_Injection'
-SMTP_PASSWORD: 'c0f1a28e406778b7b7301026baa9fb90cdabda2d'
-SUPER_ADMIN_EMAIL: 'sajan.kumar@hiddenbrains.in' 
+SMTP_HOST: "cgmeetupdev.herokuapp.com"
+DATABASE_NAME: 'cgmeetup_development'
+DB_USER_NAME: 'cgmeetup'
+DB_PASSWORD: '123456'
+SMTP_ADDRESS: 'smtp.gmail.com'
+SMTP_DOMAIN: 'cgmeetupdev.herokuapp.com'
+SMTP_USERNAME: 'developers@brsoftech.com'
+SMTP_PASSWORD: 'brsoftech@123'
+SUPER_ADMIN_EMAIL: 'nitin.singh@brsoftech.org'
 
-DEFAULT_FROM_EMAIL: 'info@powercozmo.com'
+DEFAULT_FROM_EMAIL: 'info@cgmeetup.com'
 FB_APP_ID: "594255860733170"
+

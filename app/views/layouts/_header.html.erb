@@ -44,9 +44,17 @@
 	  </li>
 	</ul>
 	<ul class="nav navbar-nav navbar-right text-uppercase">
-	  <li> <%= link_to '<span class="fa fa-users marginR5"></span>Signup'.html_safe, user_signup_path %>
-		<!-- <a href="signup.html"><span class="fa fa-users marginR5"></span> Signup</a></li> -->
-	  <li><a data-toggle="modal" href="#login-popup"><span class="glyphicon glyphicon-log-in marginR5 "></span> SignIn</a></li>
+
+		<% if user_signed_in? %>
+			<li><%= link_to('<span class="fa fa-sign-out marginR5"></span>Signout'.html_safe, destroy_user_session_path, :method => :get) %></li>
+		<% else %>
+			<li> <%= link_to '<span class="fa fa-users marginR5"></span>Signup'.html_safe, new_user_registration_path %>
+			<!-- <a href="signup.html"><span class="fa fa-users marginR5"></span> Signup</a></li> -->
+		  	<li><a data-toggle="modal" href="#login-popup"><span class="glyphicon glyphicon-log-in marginR5 "></span> SignIn</a></li>	
+		<% end %>	
+	  
+
+
 	  <li class="hidden-xs userprofile-rightside"><a href="#" class="dropdown-toggle threedots" data-toggle="dropdown" ><i class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></i></a>
 		<ul class="dropdown-menu  text-uppercase">
 		  <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> About CGMeetup</a></li>

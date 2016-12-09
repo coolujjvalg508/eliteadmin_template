@@ -21,13 +21,13 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   host: localhost
-  database: cgmeetup
+  database: cgmeetup_development
   username: cgmeetup
   password: 123456
 
 development:
   <<: *default
-  database: cgmeetup
+  database: cgmeetup_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -61,7 +61,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: cgmeetup
+  database: cgmeetup_test
   host: localhost
   username: cgmeetup
   password: 123456
@@ -87,7 +87,7 @@ test:
 #
 production:
   <<: *default
-  database: cgmeetup
+  database: cgmeetup_development
   host: localhost
   username: cgmeetup
   password: 123456

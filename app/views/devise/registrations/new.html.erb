@@ -1,29 +1,83 @@
-<h2>Sign up</h2>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+<%#= devise_error_messages! %>
+<div class="container login-page">
+<h2 class="text-center">Showcase, Connect &amp; Discover Creative Work</h2>
+<div class="login-txt text-center">Networking for Entertainment, Concpet Art, Vfx, Games &amp; Illustrations.</div>
+<div id="login-popup">
+<div class="modal-dialog">
+  <div class="modal-header">
+    <h4 class="modal-title">Sign Up</h4>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-body">
+<%= form_for(resource_name, as: resource_name, url: registration_path(resource_name), :html => {:id => "sign_up_form"}) do |f| %>    
+        <div class="row">
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <label for="first">* First name</label>
+              <%= f.text_field :firstname, placeholder: "E.g. John", value: params[:user].present? ? params[:user][:firstname] : '', class: "form-control" %>
+              <span class="err-msg"><%= error_message(resource, :firstname) %></span>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group">
+              <label for="last">* Last name</label>
+              <%= f.text_field :lastname, placeholder: "E.g. Appleseed", value: params[:user].present? ? params[:user][:lastname] : '', class: "form-control" %>
+              <span class="err-msg"><%= error_message(resource, :lastname) %></span>
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+              <label for="username">* Username</label>
+              <%= f.text_field :username, placeholder: "E.g. Username", value: params[:user].present? ? params[:user][:username] : '', class: "form-control" %>
+              <span class="err-msg"><%= error_message(resource, :username) %></span>
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+              <label for="email">* Email Address</label>
+              <%= f.text_field :email, placeholder: "E.g. jon@appleseed.com", class: "form-control" %>
+              <span class="err-msg"><%= error_message(resource, :email) %></span>
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+              <label for="pwd">* Password:</label>
+              <%= f.password_field :password, autocomplete: "off", placeholder: "Password*", class: "form-control" %>
+              <span class="err-msg"><%= error_message(resource, :password) %></span>
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12 marginB15">
+            <div class="form-group">
+              <label for="pwd" class="signupnew">* Profile Type:</label>
+              <%= f.select(:profile_type, options_for_select(User::PROFILE_TYPE, params[:user].present? ? params[:user][:profile_type] : ''), {:include_blank => "-- Select Profile Type --"}, {'class' => 'custom-select signupnew1'})  %>
+              <span class="err-msg"><%= error_message(resource, :profile_type) %></span>
+           
+             </div>
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+              <label for="answer">What is the full form of vfx? <span class="blue-txt">Answer</span></label>
+              <input type="text" class="form-control" id="answer" placeholder="Registration Question to Protect  us against spammers.">
+            </div>
+          </div>
+          <div class="col-md-12 col-sm-12 col-xs-12 marginB15"> 
+            <div class="g-recaptcha" data-sitekey="<%= Rails.application.secrets.recaptcha_site_key %>" data-theme="dark"></div>
+            <span class="err-msg"><%= @captcha_error%></span>
+       </div>
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <%= f.submit "Sign me up!", class: "btn btn-success txt16" %>
+          </div>
+        </div>
+<% end %>  
+      <div class="follow-loginwrap clearfix text-center">
+        <div class="or-txt">or</div>
+        <a href="#" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> <a href="#" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a> </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
+</div>
+</div>
+<%= javascript_include_tag "jquery.min","angular","bootstrap.min","wow.min","custom" %>
