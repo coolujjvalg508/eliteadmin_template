@@ -1,4 +1,4 @@
-ActiveAdmin.register Questionaire do
+ActiveAdmin.register Questionaire , as: "Questionnaire"  do
 
 	menu label: 'Questionnaire'
 	permit_params :question, :answer
