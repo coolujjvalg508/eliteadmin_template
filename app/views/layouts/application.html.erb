@@ -10,19 +10,19 @@
    <body>
 		<%= render "layouts/header" %>
 		<% if flash[:alert] %>
-				<div class="alert alert-danger marginB">
+				<div class="alert alert-danger marginB text-center">
 					<div><%= flash[:alert] %></div>
 					<% flash.discard(:alert) %>
 				</div>
 			<% end %>
 			<% if flash[:notice] %>
-				<div class="alert alert-success marginB">
+				<div class="alert alert-success marginB text-center">
 					<div class="notice"><%= flash[:notice] %></div>
 					<% flash.discard(:notice) %>
 				</div>
 			<% end %>
 			<% if flash[:error] %>
-				<div class="alert alert-danger marginB">
+				<div class="alert alert-danger marginB text-center">
 					<div class="error"><%= flash[:error] %></div>
 					<% flash.discard(:error) %>
 				</div>
