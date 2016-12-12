@@ -81,6 +81,9 @@
 	</div>
 	</nav>
 </header>
+
+
+<% if !user_signed_in? %>
 	<!-- Login Popup -->
 	<div class="modal fade" id="login-popup" role="dialog">
 		<div class="modal-dialog"> 
@@ -117,3 +120,37 @@
 		</div>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+				
+		$(document).on('submit', '#log_in_form_popup', function(e) {
+			
+			//do stuff here
+		}).on('ajax:success', '#log_in_form_popup', function(e, data, status, xhr) {
+		
+			if(status == 'success'){
+				window.location.href = '<%= root_path %>';
+			}else{
+				$('.signin-alert').html('Invalid email or password.');
+				$('.signin-alert').show();
+			}
+		
+		}).on('ajax:error', '#log_in_form_popup', function(e, data, status, xhr) {
+			
+			$('.signin-alert').html('Invalid email or password.');
+			$('.signin-alert').show();
+			
+		});
+		
+		$(document).ready(function(){
+			
+			$('#login-popup-link').click(function(){
+				$('.signin-alert').html('');
+				$('.signin-alert').hide();
+			});
+			
+		});
+				
+	</script>
+
+<% end %>	

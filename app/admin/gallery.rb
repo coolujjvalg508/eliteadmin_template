@@ -5,8 +5,8 @@ ActiveAdmin.register Gallery , as: "Project" do
     menu label: 'Projects', parent: 'Gallery',priority: 1 
     
     permit_params :is_spam, :title,:user_id,:is_admin,:paramlink, {:challenge => []}, {:skill => []}, {:team_member => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
-	:medium_category_id, {:subject_matter_id => []} , :has_adult_content, {:software_used => []} , :tags, :use_tag_from_previous_upload, :is_featured, 
-	:status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
+	:medium_category_id, {:subject_matter_id => []} , :has_adult_content, {:software_used => []} , :use_tag_from_previous_upload, :is_featured, 
+	:status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 		
 	
 	
@@ -64,7 +64,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  
 		 
 		  
-		  f.input :tags, label:'Tags'
+		  #f.input :tags, label:'Tags'
 		  f.input :use_tag_from_previous_upload, as: :boolean,label: "Use Tag From Previous Upload"
 		  f.input :is_featured, as: :boolean,label: "Feature this Post"
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
@@ -80,7 +80,12 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :show_on_website, as: :boolean,label: "Show On Website"
 		  f.input :is_spam, as: :boolean,label: "Make Spam"
 			
-			
+		  f.inputs 'Tags' do
+			f.has_many :tags, allow_destroy: true, new_record: true do |ff|
+			  ff.input :tag
+			 # ff.input :tag_cache, :as => :hidden
+			end 
+		  end		
 			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
@@ -234,7 +239,6 @@ ActiveAdmin.register Gallery , as: "Project" do
   end
 
   filter :title
-  filter :tags
   filter :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), label: 'Post Type'
   filter :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), label: 'Medium'
   filter :has_adult_content, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Adult content'
@@ -283,8 +287,6 @@ ActiveAdmin.register Gallery , as: "Project" do
 		    hac.has_adult_content? ? 'Yes' : 'No'
 		  end
 
-
-		  row :tags
 		  row :use_tag_from_previous_upload do |utag|
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
 		  end
@@ -396,7 +398,6 @@ ActiveAdmin.register Gallery , as: "Project" do
 		    hac.has_adult_content? ? 'Yes' : 'No'
 		 end 
  
-		column :tags
 	    column :use_tag_from_previous_upload do |utag|
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
 		  end

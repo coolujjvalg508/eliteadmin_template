@@ -121,5 +121,9 @@ module ApplicationHelper
 		@devise_mapping ||= Devise.mappings[:user]
 	end
 
+	def get_random_one_questionaire
+		Questionaire.order('random()').first
+	end
+
 end
 

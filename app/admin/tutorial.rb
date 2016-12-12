@@ -2,7 +2,7 @@ ActiveAdmin.register Tutorial do
 
     menu label: 'Tutorial' , parent: 'Tutorial', priority: 1
     
-    permit_params :title, :topic, :user_id,:is_admin, {:challenge => {}}, {:topic => []}, {:sub_topic => []}, :show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :status, :skill_level, :language, :free, :include_description, :total_lecture, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache, :lesson_description,:lesson_image],:zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
+    permit_params :title, :topic, :user_id,:is_admin, {:challenge => {}}, {:topic => []}, {:sub_topic => []}, :show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :status, :skill_level, :language, :free, :include_description, :total_lecture, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache, :lesson_description,:lesson_image],:zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 		
 	collection_action :get_sub_topic, method: :get do
 		ids		 =	params[:id]
@@ -51,7 +51,7 @@ ActiveAdmin.register Tutorial do
 		  f.input :sub_topic, as: :select, collection: Topic.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Topic'
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
-		  f.input :tags, label:'Tags'
+		 # f.input :tags, label:'Tags'
 		  f.input :skill_level, as: :select, collection: [['All level','All level'], ['Beginner level', 'Beginner level'], ['Intermediate level', 'Intermediate level'],['Advanced level','Advanced level']], include_blank: false, label: 'Select Skill Level'
 		  f.input :language, label:'Language'
 		  f.input :include_description, label:'Include'
@@ -72,6 +72,14 @@ ActiveAdmin.register Tutorial do
 		
 		  f.input :show_on_cgmeetup, as: :boolean,label: "Show On CGmeetup"
 		  f.input :show_on_website, as: :boolean,label: "Show On Website"
+			  
+		  f.inputs 'Tags' do
+			f.has_many :tags, allow_destroy: true, new_record: true do |ff|
+			  ff.input :tag
+			 # ff.input :tag_cache, :as => :hidden
+			end 
+		  end	
+		  	  
 			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|

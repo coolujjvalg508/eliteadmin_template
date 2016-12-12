@@ -3,7 +3,7 @@ ActiveAdmin.register Download do
 
 	menu label: 'Download' , parent: 'Downloads', priority: 1
     
-    permit_params :title, :topic, :is_feature, :user_id,:is_admin, :changelog, {:challenge => {}} , {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
+    permit_params :title, :topic, :is_feature, :user_id,:is_admin, :changelog, {:challenge => {}} , {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 		
 		
 	collection_action :post_types, method: :get do
@@ -64,7 +64,7 @@ ActiveAdmin.register Download do
 		  f.input :sub_category_id, as: :select, collection: PostTypeCategory.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Category'
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
-		  f.input :tags, label:'Tags'
+		 # f.input :tags, label:'Tags'
 		 
 		  f.input :free, as: :boolean,label: "Share for free"
 		  f.input :price, label: "Price ($)"
@@ -81,6 +81,13 @@ ActiveAdmin.register Download do
 		  f.input :company_logo,label: "Custom Thumbnail"
 		  f.input :changelog,label: "Changelog"
 		  f.input :challenge, as: :select, collection: Challenge.where("challenge_type_id = 2").pluck(:title, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
+		
+		   f.inputs 'Tags' do
+			f.has_many :tags, allow_destroy: true, new_record: true do |ff|
+			  ff.input :tag
+			 # ff.input :tag_cache, :as => :hidden
+			end 
+		  end	
 		
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
@@ -296,7 +303,6 @@ ActiveAdmin.register Download do
   
   
   filter :title
-  filter :tags
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: 'Status'
   filter :created_at
 
@@ -330,8 +336,6 @@ ActiveAdmin.register Download do
 			cat.description.html_safe
 		  end
 		
-		  row :tags
-
 		  row :status do |st|
 		    st.status? ? 'Active' : 'Inactive'
 		  end
@@ -425,8 +429,6 @@ ActiveAdmin.register Download do
 		column 'Description' do |cat|
 			cat.description.html_safe
 		end
-
-		column :tags
 
 		column :status do |st|
 			st.status? ? 'Active' : 'Inactive'

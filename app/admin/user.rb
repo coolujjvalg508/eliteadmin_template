@@ -3,6 +3,40 @@ ActiveAdmin.register User do
 	permit_params :firstname, :username, :password,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
 	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :professional_experiences_attributes => [:company_id,:title,:location,:description, :from_month,:from_year,:to_month,:to_year,:currently_worked], :production_experiences_attributes => [:production_title,:release_year,:production_type,:your_role, :company], :education_experiences_attributes => [:school_name,:field_of_study,:month_val,:year_val, :description], :company_attributes => [:id,:name]
 
+
+
+	action_item only: :edit do
+		user		  	    =	User.find_by(id: params[:id]) 
+		if(user.is_deleted == 1)
+			link_to "Permit User", 'javascript:void(0);', method: :get, id: 'removebanned',title: params[:id]
+		else
+			link_to "Restrict User", 'javascript:void(0);', method: :get, id: 'userbanned',title: params[:id]
+		end
+		
+	end
+
+
+	
+	collection_action :user_ban, method: :get do
+		id   				=	params[:id]
+		user		  	    =	User.find_by(id: id) 
+		
+		user.update(is_deleted: 1)	
+		flash[:success] = "User has successfully restricted."
+		render json: {message: 'ok',status: '200'}
+
+	end
+	
+	collection_action :remove_user_ban, method: :get do
+		id   				=	params[:id]
+		user		  	    =	User.find_by(id: id) 
+		user.update(is_deleted: 0)	
+		flash[:success] = "User has successfully permitted."
+		render json: {message: 'ok',status: '200'}
+
+	end
+	
+	
 	controller do 
 		def action_methods
 		 super                                    
@@ -240,6 +274,7 @@ ActiveAdmin.register User do
   filter :firstname
   filter :username
   filter :email
+  filter :is_deleted, as: :select, collection: [['Banned',1],['Not Banned',0]], label: 'Banned User'
   filter :profile_type, as: :select, collection: [['Artist',1],['Recruiter',2],['Studio',3]], label: 'Profile Type'
   filter :created_at
   
@@ -269,6 +304,10 @@ ActiveAdmin.register User do
 	   column 'City' do |city|
 		  city.city
 	   end
+	   
+	   column 'Banned' do |ub|
+		  (ub.is_deleted == 1) ? 'YES' : 'NO'
+	   end
 		
 		actions
   end
@@ -289,6 +328,9 @@ ActiveAdmin.register User do
        country.country? ? ISO3166::Country[country.country] : '----'
       end
       row :city
+      row 'Banned' do |ub|
+		  (ub.is_deleted == 1) ? 'YES' : 'NO'
+	   end
       row :image do |cat|
         unless !cat.image.present?
           image_tag(cat.try(:image).try(:url, :event_small))

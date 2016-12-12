@@ -2,7 +2,7 @@ ActiveAdmin.register Job do
 	menu label: 'Jobs', parent: 'Job Management',priority: 1
 	permit_params :is_spam, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :job_type, :from_amount, :to_amount, {:job_category => []} , 
 	:application_email_or_url, :country, :city, :state,
-	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
+	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 	
 	collection_action :get_packages, method: :get do
 		category = Package.where("id IS NOT NULL").order('id asc').pluck(:amount,:title, :id)
@@ -75,8 +75,8 @@ ActiveAdmin.register Job do
 		  f.input :closing_date, as: :date_time_picker,label:'Closing Date'
 		  f.input :skill, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
 		  f.input :software_expertise, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
-		  f.input :tags
-		  f.input :use_tag_from_previous_upload, as: :boolean,label: "Use Tag From Previous Upload"
+		 # f.input :tags
+		 
 		  f.input :is_featured, as: :boolean,label: "Featured Job"
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
@@ -95,7 +95,13 @@ ActiveAdmin.register Job do
 			f.input :apply_instruction,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: "Application Instructions"
 		  end
 		
-		  
+		   f.input :use_tag_from_previous_upload, as: :boolean,label: "Use Tag From Previous Upload"
+		   f.inputs 'Tags' do
+			f.has_many :tags, allow_destroy: true, new_record: true do |ff|
+			  ff.input :tag
+			 # ff.input :tag_cache, :as => :hidden
+			end 
+		  end	
 		  
 			  
 			  
@@ -259,7 +265,6 @@ ActiveAdmin.register Job do
   end
   
   filter :title
-  filter :tags
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: 'Status'
   filter :is_featured, as: :select, collection: [['Yes',1], ['No', 0]], label: 'Featured'
   filter :created_at
@@ -317,7 +322,6 @@ ActiveAdmin.register Job do
 
 		  row :closing_date
 		 
-		  row :tags
 		  row :use_tag_from_previous_upload do |utag|
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
 		  end
@@ -429,7 +433,6 @@ ActiveAdmin.register Job do
 		     JobCategory.find_by(id: utag.job_type).try(:name)
 		 end
 		
-		column :tags
 	    column :use_tag_from_previous_upload do |utag|
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
 		  end

@@ -1,3 +1,8 @@
+<%# abort(get_random_one_questionaire[:question].to_s) %>
+
+<% questionaire = get_random_one_questionaire %>
+
+
 <script src="https://www.google.com/recaptcha/api.js"></script>
 
 <%#= devise_error_messages! %>
@@ -12,7 +17,8 @@
   <!-- Modal content-->
   <div class="modal-content">
     <div class="modal-body">
-<%= form_for(resource_name, as: resource_name, url: registration_path(resource_name), :html => {:id => "sign_up_form"}) do |f| %>    
+<%= form_for(resource_name, as: resource_name, url: registration_path(resource_name), :html => {:id => "sign_up_form"}) do |f| %>
+      <%= hidden_field_tag "q_id", questionaire[:id] %>    
         <div class="row">
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="form-group">
@@ -53,14 +59,16 @@
             <div class="form-group">
               <label for="pwd" class="signupnew">* Profile Type:</label>
               <%= f.select(:profile_type, options_for_select(User::PROFILE_TYPE, params[:user].present? ? params[:user][:profile_type] : ''), {:include_blank => "-- Select Profile Type --"}, {'class' => 'custom-select signupnew1'})  %>
+
               <span class="err-msg"><%= error_message(resource, :profile_type) %></span>
            
              </div>
           </div>
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="form-group">
-              <label for="answer">What is the full form of vfx? <span class="blue-txt">Answer</span></label>
-              <input type="text" class="form-control" id="answer" placeholder="Registration Question to Protect  us against spammers.">
+              <label for="answer"><%= questionaire[:question] %> <span class="blue-txt" title="<%= questionaire[:answer] %>">Answer</span></label>
+              <input type="text" class="form-control" id="answer" name="answer" placeholder="Registration Question to Protect  us against spammers.">
+              <span class="err-msg"><%= @question_error%></span>
             </div>
           </div>
           <div class="col-md-12 col-sm-12 col-xs-12 marginB15"> 

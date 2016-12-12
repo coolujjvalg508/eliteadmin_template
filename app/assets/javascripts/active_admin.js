@@ -57,6 +57,34 @@ $(document).ready(function() {
 $(document).ready(function() {
 	 
 	 
+	 
+  $('#userbanned').on('click',function(){
+	  userid	=	$(this).attr('title');
+		if(confirm("Are you sure you want to banned this user?")){
+			$.getJSON("/admin/users/user_ban",{id: userid, ajax: 'true'}, function(response){
+					alert('User has successfully restricted.');
+					//return false;
+					window.location.reload(true);
+			})
+		}else{
+			return false;
+		}
+  })	
+  
+  
+   $('#removebanned').on('click',function(){
+	  userid	=	$(this).attr('title');
+		if(confirm("Are you sure you want to permit this user?")){
+			$.getJSON("/admin/users/remove_user_ban",{id: userid, ajax: 'true'}, function(response){
+					alert('User has successfully permitted.');
+					//return false;
+					window.location.reload(true);
+			})
+		}else{
+			return false;
+		}
+  })
+   
   	 
 	 
   $("#diplay-filter").html('Filter');

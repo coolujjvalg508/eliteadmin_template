@@ -4,7 +4,7 @@ ActiveAdmin.register Challenge do
 	
     menu label: 'Challenge'
     
-    permit_params :title, :upload_button_text, :hosts,:challenge_type_id, :closing_date, :team_member, :awards, :terms_condition, :faq, :tags, :user_id,:is_admin,  :schedule_time, :description, :status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache]
+    permit_params :title, :upload_button_text, :hosts,:challenge_type_id, :closing_date, :team_member, :awards, :terms_condition, :faq, :user_id,:is_admin,  :schedule_time, :description, :status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 		
 	
 	
@@ -62,8 +62,6 @@ ActiveAdmin.register Challenge do
 			f.input :faq,  :input_html => { :class => "tinymce", :id=>"faq_texteditor" }, :rows => 40, :cols => 50 ,label: 'Frequently Asked Questions'
 		  end
 
-
-		  f.input :tags, label:'Tags'
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
 		  f.input :visibility, as: :select, collection: [['Private',1], ['Public', 0]], include_blank: false
@@ -71,6 +69,12 @@ ActiveAdmin.register Challenge do
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Project Thumbnail"
 		
+		  f.inputs 'Tags' do
+			f.has_many :tags, allow_destroy: true, new_record: true do |ff|
+			  ff.input :tag
+			 # ff.input :tag_cache, :as => :hidden
+			end 
+		  end	
 			  
 		  f.inputs 'Images' do
 			f.has_many :images, allow_destroy: true, new_record: true do |ff|
@@ -163,6 +167,15 @@ ActiveAdmin.register Challenge do
 						  end
 					end
 				super
+				
+			elsif (params[:challenge].present? && params[:challenge][:tags_attributes].present?)
+					params[:challenge][:tags_attributes].each do |index,img|
+						  unless params[:challenge][:tags_attributes][index][:tag].present?
+							params[:challenge][:tags_attributes][index][:tag] = params[:challenge][:tags_attributes][index][:tag]
+						  end
+					end
+				super	
+				
 		  else
 				super
 		  end
@@ -215,6 +228,15 @@ ActiveAdmin.register Challenge do
 						  end
 					end
 				super	
+			
+			elsif (params[:challenge].present? && params[:challenge][:tags_attributes].present?)
+					params[:challenge][:tags_attributes].each do |index,img|
+						  unless params[:challenge][:tags_attributes][index][:tag].present?
+							params[:challenge][:tags_attributes][index][:tag] = params[:challenge][:tags_attributes][index][:tag]
+						  end
+					end
+				super		
+				
 		 else
 				super
 		  end
@@ -224,7 +246,6 @@ ActiveAdmin.register Challenge do
   end
 
   filter :title
-  filter :tags
   filter :status, as: :select, collection: [['Active',1], ['Inactive', 0]], label: 'Status'
   filter :created_at
 
@@ -261,8 +282,6 @@ ActiveAdmin.register Challenge do
 			(cat.challenge_type_id == 0) ? 'Gallery Contest'  : (cat.challenge_type_id == 1) ? 'Tutorial Contest'  :'Download Contest'
 		  end
 	
-		  row :tags
-		
 		  row :status do |st|
 		    st.status? ? 'Active' : 'Inactive'
 		  end
@@ -360,7 +379,6 @@ ActiveAdmin.register Challenge do
 		column :challenge_type_id do |cat|
 			(cat.challenge_type_id == 0) ? 'Gallery Contest'  : (cat.challenge_type_id == 1) ? 'Tutorial Contest'  :'Download Contest'
 	    end 
-		column :tags
 		column :closing_date
 	
 		column :status do |st|

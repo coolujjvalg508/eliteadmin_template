@@ -14,6 +14,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     build_resource(sign_up_params)
 
+    #abort(params['q_id'].to_json)
+
+    #["vfx1","vfx2","vfx3"]
+    question_data = Questionaire.where('questionaires.id = ?', params['q_id']).first
+    answer_data = question_data[:answer]
+    answer_arr = answer_data.split(",")
+
     captcha_value = params['g-recaptcha-response']
 
     secret_key    = "#{Rails.application.secrets.recaptcha_secret_key}"  
@@ -25,12 +32,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #abort(hash.to_json)
     #hash['success'] == true ? true : false
 
-    if hash['success'] == true
+    /if hash['success'] == true
       super
     else
       @captcha_error = "Please enter correct captcha"
       render action: 'new'
+    end/
+
+    @captcha_error = ''
+    @question_error = ''
+
+    if !answer_arr.include?(params['answer'])
+       @question_error = 'Please enter correct answer'
     end
+
+    if hash['success'] == false
+      @captcha_error = 'Please enter correct captcha'
+    end  
+
+    if @captcha_error == '' && @question_error == ''
+       super 
+    else
+      render action: 'new'
+    end  
 
   end
 

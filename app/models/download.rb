@@ -27,6 +27,9 @@ mount_uploader :company_logo, ImageUploader
  has_many :lesson_video
  has_many :lesson_image
  
+ 
+  has_many :tags, as: :tagable, dependent: :destroy
+ 
   
  accepts_nested_attributes_for :images, reject_if: proc { |attributes| attributes['image'].blank? || attributes['image'].nil? }, allow_destroy: true 
  
@@ -37,4 +40,6 @@ mount_uploader :company_logo, ImageUploader
  
  accepts_nested_attributes_for :lessons, reject_if: proc { |attributes| attributes['lesson_video'].blank? || attributes['lesson_video'].nil? }, allow_destroy: true
  accepts_nested_attributes_for :zip_files, reject_if: proc { |attributes| attributes['zipfile'].blank? || attributes['zipfile'].nil? }, allow_destroy: true
+ 
+  accepts_nested_attributes_for :tags, reject_if: proc { |attributes| attributes['tag'].blank? || attributes['tag'].nil? }, allow_destroy: true
 end
