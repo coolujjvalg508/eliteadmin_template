@@ -35,7 +35,7 @@ ActiveAdmin.register Job do
 	
 	
 	form multipart: true do |f|
-		
+		f.semantic_errors *f.object.errors.keys
 		f.inputs "Job" do
 		
 			f.input :package_id, as: :select, collection: Package.where("id IS NOT NULL").pluck(:title, :id), :input_html => { :id=>'job_package_id', :class => "chosen-input" }, include_blank:false,multiple: true
