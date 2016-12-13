@@ -94,15 +94,17 @@
 		<button type="button" class="close" data-dismiss="modal"></button>
 		<h4 class="modal-title text-uppercase">Sign In</h4>
 		</div>
-		<div class="modal-body">
-		<form role="form">
+		<div class="modal-body">	
+
+			<div class="col-md-12 signin-alert"></div>
+<%= form_for(resource, :as => resource_name, :html => {:id => 'log_in_form_popup'}, :url => user_session_path, :remote => :true, :format => :json) do |f| %>
 		  <div class="form-group">
 			<label for="email">Your email</label>
-			<input type="email" class="form-control" id="email" placeholder="email@example.com">
+			<%= f.email_field :email, :autofocus => true, :placeholder => "email", :id => 'login_email', class:"form-control", :type => 'email' %>
 		  </div>
 		  <div class="form-group">
 			<label for="pwd">Password:</label>
-			<input type="password" class="form-control" id="pwd" placeholder="password">
+			<%= f.password_field :password, :placeholder => "password", :id => 'login_password', class:"form-control" %>
 		  </div>
 		  <div class="checkbox">
 			<div class="checkbox-btn">
@@ -112,7 +114,7 @@
 			  </div>
 		  </div>
 		  <button type="submit" class="lightbtn txt16"><i class="fa fa-sign-in blue-txt" aria-hidden="true"></i> Submit</button>
-		</form>
+<% end %>
 		<div class="follow-loginwrap clearfix text-center">
 		  <div class="or-txt">or</div>
 		  <a href="#" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> <a href="#" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a> </div>
@@ -121,13 +123,14 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
+
+<script type="text/javascript">
 				
 		$(document).on('submit', '#log_in_form_popup', function(e) {
 			
 			//do stuff here
 		}).on('ajax:success', '#log_in_form_popup', function(e, data, status, xhr) {
-		
+			
 			if(status == 'success'){
 				window.location.href = '<%= root_path %>';
 			}else{
@@ -148,6 +151,7 @@
 				$('.signin-alert').html('');
 				$('.signin-alert').hide();
 			});
+			
 			
 		});
 				

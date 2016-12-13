@@ -18,16 +18,16 @@ class SessionsController < DeviseController
   # POST /resource/sign_in  
   def create
     
-  resource = User.find_for_database_authentication(email: params[:user][:email])
-  return invalid_login_attempt unless resource
+    resource = User.find_for_database_authentication(email: params[:user][:email])
+    return invalid_login_attempt unless resource
 
-  if resource.valid_password?(params[:user][:password])
-    set_flash_message(:notice, :signed_in)
-    sign_in :user, resource
-    return render nothing: true
-  end
+    if resource.valid_password?(params[:user][:password])
+      set_flash_message(:notice, :signed_in)
+      sign_in :user, resource
+      return render nothing: true
+    end
 
-  invalid_login_attempt
+    invalid_login_attempt
  end
 
   # DELETE /resource/sign_out

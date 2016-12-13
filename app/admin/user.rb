@@ -19,8 +19,7 @@ ActiveAdmin.register User do
 	
 	collection_action :user_ban, method: :get do
 		id   				=	params[:id]
-		user		  	    =	User.find_by(id: id) 
-		
+		user		  	    =	User.find_by(id: id)
 		user.update(is_deleted: 1)	
 		flash[:success] = "User has successfully restricted."
 		render json: {message: 'ok',status: '200'}
