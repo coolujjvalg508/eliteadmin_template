@@ -1,5 +1,5 @@
 class Company < ActiveRecord::Base
  has_one :job
-  validates :name,:email, presence: true
-  validates :name,:email, uniqueness: true
+  validates :name, presence: true
+  validates :name, uniqueness: true
 end
