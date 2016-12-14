@@ -65,13 +65,14 @@ ActiveAdmin.register User do
 		  f.input :firstname
 		  f.input :lastname
 		  f.input :username
+		   f.input :profile_type, as: :select, collection: [['Artist','Artist'],['Recruiter','Recruiter'],['Studio','Studio']], include_blank: false, label: 'Profile Type'
 		  #f.input :group_id, as: :select, collection:  UserGroup.where("name != '' ").pluck(:name, :id),include_blank:'Select Group'		
 		  f.input :password
 		  f.input :image
 		  f.input :professional_headline
 		  f.input :email
 		  f.input :phone_number
-		  f.input :profile_type, as: :select, collection: [['Artist',1],['Recruiter',2],['Studio',3]], include_blank: false, label: 'Profile Type'
+		 
 		  f.input :country
 		  f.input :city
 		
@@ -273,6 +274,7 @@ ActiveAdmin.register User do
   filter :firstname
   filter :username
   filter :email
+  filter :profile_type, as: :select, collection: [['Artist','Artist'],['Recruiter','Recruiter'],['Studio','Studio']], label: 'Profile Type'
   filter :is_deleted, as: :select, collection: [['Banned',1],['Not Banned',0]], label: 'Banned User'
   filter :profile_type, as: :select, collection: [['Artist',1],['Recruiter',2],['Studio',3]], label: 'Profile Type'
   filter :created_at
@@ -286,14 +288,16 @@ ActiveAdmin.register User do
 		end
 	    column 'First Name' do |fname|
 		 fname.firstname
-	   end
+	    end
 	    column 'Last Name' do |lname|
 		 lname.lastname
 	   end
 	   column 'User Name' do |uname|
 		 uname.username
 	   end
-	  
+	   column 'Profile Type' do |fname|
+	 	 fname.profile_type
+	    end
 	   column 'Email' do |email|
 		  email.email
 	   end
@@ -318,7 +322,10 @@ ActiveAdmin.register User do
       row :lastname
       row 'User Name' do |uname|
 		 uname.username
-	   end
+	  end
+	  row 'Profile Type' do |fname|
+		 fname.profile_type
+	  end 
       row :email
       row :professional_headline
       row :phone_number
