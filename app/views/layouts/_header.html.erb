@@ -96,7 +96,7 @@
 		</div>
 		<div class="modal-body">	
 
-			<div class="col-md-12 signin-alert"></div>
+		  <div class="col-md-12 signin-alert err-msg padding text-center"></div>	
 <%= form_for(resource, :as => resource_name, :html => {:id => 'log_in_form_popup'}, :url => user_session_path, :remote => :true, :format => :json) do |f| %>
 		  <div class="form-group">
 			<label for="email">Your email</label>
@@ -108,10 +108,10 @@
 		  </div>
 		  <div class="checkbox">
 			<div class="checkbox-btn">
-			  <input type="checkbox" value="value-1" id="rc3" name="rc3" />
-			  <label for="rc3" onclick>Stay signed in </label>
-			 <%= link_to 'Forgot password?'.html_safe, forgot_password_path, class:'pull-right blue-txt'%>  
-			  </div>
+				<%= f.check_box :remember_me %>
+				<%= f.label :remember_me, 'Stay signed in' %>	
+				<%= link_to "Forgot password?", new_user_password_path(resource_name), class: "pull-right blue-txt" %>
+			</div>
 		  </div>
 		  <button type="submit" class="lightbtn txt16"><i class="fa fa-sign-in blue-txt" aria-hidden="true"></i> Submit</button>
 <% end %>

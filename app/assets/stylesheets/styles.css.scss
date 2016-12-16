@@ -57,7 +57,7 @@ label { font-weight:normal;}
 .radio-btn label::before { width: 12px; height: 12px; border: none; top: 6px; left: 6px; -webkit-border-radius: 50%; border-radius: 50%; background-clip: padding-box; background-color: #0d9fec; -moz-transform: rotate(0deg); -o-transform: rotate(0deg); -ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); transform: rotate(0deg); border-color: #0d9fec; }
 /* common css */
 .border-radius { -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px; }
-.padding { padding: 0px !important; }
+
 .margin { margin: 0px !important }
 .marginR5 { margin-right: 5px !important; }
 .marginL5 { margin-left: 5px !important; }
@@ -65,8 +65,16 @@ label { font-weight:normal;}
 .marginB10 { margin-bottom: 10px !important; }
 .marginB15 { margin-bottom: 15px !important; }
 .marginB40 { margin-bottom: 40px !important; }
-.paddinT5 { padding-top: 5px !important; }
-.paddinT10 { padding-top: 10px !important; }
+.marginT5 { margin-top: 5px !important; }
+.marginT10 { margin-top: 10px !important; }
+.marginT15 { margin-top: 15px !important; }
+.marginT20 { margin-top: 20px !important; }
+
+.padding { padding: 0px !important; }
+.paddinT5, .paddingT5 { padding-top: 5px !important; }
+.paddinT10, .paddingT10 { padding-top: 10px !important; }
+.paddingT15 { padding-top: 15px !important; }
+.paddingT20 { padding-top: 20px !important; }
 .paddinB10 { padding-bottom: 10px !important; }
 .padding10 { padding: 10px !important; }
 /* color */

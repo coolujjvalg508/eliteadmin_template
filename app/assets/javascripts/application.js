@@ -12,10 +12,20 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
-//= require bootstrap
-//= require bootsy
-//= require bootstrap-datetimepicker
-//= require chosen-jquery
-//= require scaffold
+//= require bootstrap.min
+//= require wow.min
+//= require angular
+
+
+// require turbolinks
+// require_tree .
+// require bootstrap
+// require bootsy
+// require bootstrap-datetimepicker
+// require chosen-jquery
+// require scaffold
+
+$(document).ready(function(){
+  $(".alert").fadeIn();
+  $(".alert").fadeOut(30000);
+});  

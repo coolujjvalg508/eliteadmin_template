@@ -3,7 +3,7 @@ ActiveAdmin.register Invitation do
   menu label: 'Invitation'
   permit_params :email,:status
   actions :all, except: [:new, :destroy]
-  form multipart: true do |f|
+  form multipart: true do |f| 
 		
 		f.inputs "Invitation" do
 		  f.input :email
