@@ -139,6 +139,9 @@
           <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> {{x.city}}, {{x.country}}</div>         
 
         </li>
+
+        <li ng-hide="job_data.length" class="text-center err-msg no-result">No Result Found!</li>
+        
       </ul>    
     </div>
 
