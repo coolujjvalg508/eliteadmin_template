@@ -8,7 +8,7 @@ class JobController < ApplicationController
 
   	authenticate_user!
 
-    conditions = "user_id=#{current_user.id} AND is_admin='N' "
+    conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
 
     if(params[:job_type] && params[:job_type] != '' && params[:job_type] != 'all') 
        conditions += " AND job_type='" + params[:job_type] + "'"

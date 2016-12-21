@@ -56,6 +56,8 @@ Rails.application.routes.draw do
   
   get 'gallery/all_gallery_post'
   get 'gallery/get_gallery_post_list'
+  get 'gallery/count_user_gallery_post'
+  
   get 'gallery/browse_all_artwork'
   get 'gallery/browse_all_awards'
   get 'gallery/browse_all_challenge'

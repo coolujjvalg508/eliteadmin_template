@@ -16,7 +16,7 @@ class GalleryController < ApplicationController
 
     authenticate_user!
 
-    conditions = "user_id=#{current_user.id} AND is_admin='N' "
+    conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
 
     if(params[:post_type_category_id] && params[:post_type_category_id] != '')
       conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
@@ -50,8 +50,42 @@ class GalleryController < ApplicationController
     render :json => result.to_json(:include => [:category, :medium_category]), status: 200
 
   end
+
+  def count_user_gallery_post
+
+    authenticate_user!
+
+    conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
+
+    r_data = Gallery.where(conditions)
+
+    total_count = r_data.count
+    total_featured = total_published = total_draft = 0
+
+    r_data.each do |val|
+
+      if val['is_featured'] == TRUE
+        total_featured = total_featured + 1
+      end  
+
+      if val['publish'] == 1
+        total_published = total_published + 1
+      end  
+
+      if val['is_save_to_draft'] == 1
+        total_draft = total_draft + 1
+      end  
+
+    end  
+
+    result = {'total_count' => total_count, 'total_featured' => total_featured, 'total_published' => total_published, 'total_draft' => total_draft}
+
+    render json: result, status: 200  
+
+    #abort(result.to_json)
+  end  
   
-    
+
   def browse_all_artwork
   end
  
