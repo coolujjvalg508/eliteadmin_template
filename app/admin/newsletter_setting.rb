@@ -3,7 +3,7 @@ ActiveAdmin.register NewsletterSetting do
 menu label: 'Newsletter Setting'
 	permit_params :email_digest_option, :en_someone_like,:en_someone_comment,:en_someone_follow,:en_im_following_post,:en_someone_comment_on_i_commented, :osn_someone_like,:osn_someone_comment,:osn_someone_follow,:osn_im_following_post,:osn_someone_comment_on_i_commented
 
-   actions :all, except: [:new, :destroy,:show]
+   actions :all, except: [ :destroy,:show]
 
    config.filters = false
 	
