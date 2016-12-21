@@ -1,7 +1,7 @@
 ActiveAdmin.register NewsletterSetting do
 
 menu label: 'Newsletter Setting'
-	permit_params :email_digest_option, :en_someone_like,:en_someone_comment,:en_someone_follow,:en_im_following_post,:en_someone_comment_on_i_commented, :osn_someone_like,:osn_someone_comment,:osn_someone_follow,:osn_im_following_post,:osn_someone_comment_on_i_commented
+	permit_params :email_digest_option, :job_email,:gallery_email,:download_email,:tutorial_email,:news_email
 
    actions :all, except: [:new, :destroy,:show]
 
@@ -57,23 +57,16 @@ menu label: 'Newsletter Setting'
       f.input :email_digest_option, as: :select, collection: [['Daily','Daily'],['Weekly','Weekly'],['Monthly','Monthly']], include_blank: 'Select Email digest option', label: 'Email digest option'
      
 
-	     f.inputs 'Email Notification on my artwork and portfolio' do
-			  f.input :en_someone_like, label: 'When someone likes my artwork'
-		      f.input :en_someone_comment, label: 'When someone comments on my artwork'
-		      f.input :en_someone_follow, label: 'When someone follows me'
-		      f.input :en_im_following_post, label: 'When a user i\'m following posts new artwork'
-		      f.input :en_someone_comment_on_i_commented, label: 'When someone comments on artwork i\'ve commented on'
-		 
-	  	  end
+	    f.inputs 'Email Subscription' do
+			f.input :job_email, label: 'A daily jobs digest is sent to you of new jobs that are posted on CGMeetup.'
+			f.input :gallery_email, label: 'An email is sent to you of new projects that are posted on CGMeetup.'
+			f.input :download_email, label: 'An email is sent to you whenever there are new downloads'
 
-	  	  f.inputs 'On Site Notification on my artwork and portfolio' do
-			  f.input :osn_someone_like, label: 'When someone likes my artwork'
-		      f.input :osn_someone_comment, label: 'When someone comments on my artwork'
-		      f.input :osn_someone_follow, label: 'When someone follows me'
-		      f.input :osn_im_following_post, label: 'When a user i\'m following posts new artwork'
-		      f.input :osn_someone_comment_on_i_commented, label: 'When someone comments on artwork i\'ve commented on'
-		 
-	  	  end
+			f.input :tutorial_email, label: 'An email is sent to you of new tutorials that are posted on CGMeetup.'
+			f.input :news_email, label: 'An email is sent to you of new news that are posted on CGMeetup.'
+		end
+
+
 
   	  end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216070032) do
+ActiveRecord::Schema.define(version: 20161221090605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -298,7 +298,7 @@ ActiveRecord::Schema.define(version: 20161216070032) do
     t.string   "paramlink"
     t.text     "description"
     t.string   "company_name"
-    t.integer  "job_type",                     default: 0
+    t.string   "job_type",                     default: "0"
     t.string   "from_amount"
     t.string   "to_amount"
     t.string   "application_email_or_url"
@@ -391,11 +391,13 @@ ActiveRecord::Schema.define(version: 20161216070032) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "sender_id"
-    t.integer "receiver_id"
-    t.text    "message"
-    t.boolean "is_read",     default: false
-    t.boolean "is_admin",    default: false
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.text     "message"
+    t.boolean  "is_read",     default: false
+    t.boolean  "is_admin",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "news", force: :cascade do |t|
@@ -435,6 +437,17 @@ ActiveRecord::Schema.define(version: 20161216070032) do
   end
 
   add_index "news_categories", ["parent_id"], name: "index_news_categories_on_parent_id", using: :btree
+
+  create_table "newsletter_settings", force: :cascade do |t|
+    t.string   "email_digest_option"
+    t.boolean  "job_email",           default: false
+    t.boolean  "gallery_email",       default: false
+    t.boolean  "download_email",      default: false
+    t.boolean  "tutorial_email",      default: false
+    t.boolean  "news_email",          default: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
 
   create_table "packages", force: :cascade do |t|
     t.string   "title"
