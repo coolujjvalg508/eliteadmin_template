@@ -60,6 +60,10 @@ label { font-weight:normal;}
 
 .margin { margin: 0px !important }
 .marginR5 { margin-right: 5px !important; }
+.marginR10 { margin-right: 10px !important; }
+.marginR15 { margin-right: 15px !important; }
+.marginR20 { margin-right: 20px !important; }
+
 .marginL5 { margin-left: 5px !important; }
 .marginB5 { margin-bottom: 5px !important; }
 .marginB10 { margin-bottom: 10px !important; }
@@ -343,7 +347,8 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .wip-indent li .like-wrap .likeb { margin-right: 5px; font-size:11px;}
 .wip-indent li .like-wrap .likeb i { margin-right: 3px; }
 .pagination { margin: 10px 0 5px; }
-.pagination > li > a, .pagination > li > span { background: #222222; border: none; margin: 0 2px; border-radius: 3px; color: #959595; font-weight: 600; line-height: 20px; font-size: 13px; }
+.pagination > li > a, .pagination > li > span { background: #222222 !important; border: none; margin: 0 2px; border-radius: 3px; color: #959595; font-weight: 600; line-height: 20px; font-size: 13px; }
+.pagination > li.active > a {color: #0d9fec !important;}
 .pagination > li:first-child > a, .pagination > li:first-child > span { border-radius: 3px; }
 .pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus { background: #0d9fec; color: #fff; }
 /* WIP Details Page Css */
@@ -481,7 +486,7 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .usernavivation .mega-dropdown-menu { padding: 0; width: 100%; box-shadow: none; -webkit-box-shadow: none; }
 .usernavivation .navbar-nav { width: 100%; }
 .usernavivation .dropdown-menu > li > a { color: #ccc; padding: 7px 10px; border-left: 3px solid rgb(51, 51, 51) }
-.usernavivation .dropdown-menu > li > a:hover, .usernavivation .dropdown-menu > li > a:focus { background: #090909; }
+.usernavivation .dropdown-menu > li > a:hover, .usernavivation .dropdown-menu > li > a:focus, .usernavivation .dropdown-menu > li > a.active { background: #090909; }
 .usernavivation .fromtoppad { vertical-align: middle; }
 .usernavivation .navbar-default .navbar-nav > .active > a, .usernavivation .navbar-default .navbar-nav > .active > a:hover, .usernavivation .navbar-default .navbar-nav > .active > a:focus { background: #151515; color: #fff; }
 .usernavivation .navbar-default .navbar-nav > .open > a, .usernavivation .navbar-default .navbar-nav > .open > a:hover, .usernavivation .navbar-default .navbar-nav > .open > a:focus { background: #151515; color: #fff; }
@@ -491,7 +496,7 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .usernavivation .nav .open > a, .usernavivation .nav .open > a:hover, .usernavivation .nav .open > a:focus { background: #222; color: #fff; }
 .usernavivation .recentdrop .dropdown-menu { background: #333; padding: 0px; border-radius: 0px; border: 0px; top: 98%; margin: 0px; }
 .usernavivation .recentdrop .dropdown-menu > li > a { display: block; border-left: 3px solid rgb(51, 51, 51); color: rgb(187, 187, 187); padding: 7px 15px; }
-.usernavivation .dropdown-menu > li > a:hover, .usernavivation .dropdown-menu > li > a:focus { background: rgb(21, 21, 21) none repeat scroll 0 0; border-left: 3px solid rgb(0, 146, 255); color: rgb(255, 255, 255); }
+.usernavivation .dropdown-menu > li > a:hover, .usernavivation .dropdown-menu > li > a:focus, .usernavivation .dropdown-menu > li > a.active { background: rgb(21, 21, 21) none repeat scroll 0 0; border-left: 3px solid rgb(0, 146, 255); color: rgb(255, 255, 255); }
 .usernavivation .select-wrapper, .usernavivation .select-wrapper select { height: 34px; line-height: 34px; font-size: 13px; }
 .counter-number { color: #737373; margin-left: 5px; }
 .usernavivation .btn { line-height: 13px; }
@@ -614,7 +619,8 @@ footer .copyright a{ display:inline-block; padding:0px;}
 /* Jobs Page Css */
 .jobs-wrap { position: relative; padding: 30px 0; }
 .jobs-wrap li { padding: 20px 0; border-bottom: 1px solid #3d3e3e; }
-.jobs-wrap .jobs-post-left { width: 125px; border: 1px solid #232323; margin-right: 25px; }
+.jobs-wrap .jobs-post-left { width: 125px; margin-right: 25px; }
+.jobs-wrap .jobs-post-left img{border: 1px solid #232323;}
 .jobs-wrap .jobs-content { width: 55%; }
 .jobs-wrap .jobs-title a { font-size: 18px; color: #17aff0; line-height: normal; }
 .jobs-wrap .jobs-view-txt { color: #8c8a8a; }
@@ -1034,11 +1040,11 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .Allpostgallery li{ border-bottom:1px solid #333; padding:15px 0;}
 .Allpostgallery li .AllGalleryCheck{ width:4%; float:left; padding:0 1% 0;}
 .allgallerypostwrap .AllGalleryThumbnail{ width:13%; padding:0 1%; float:left;}
-.allgallerypostwrap .AllGalleryTitle{ width:15%; color:#9e9e9e; padding:0 1%; line-height:20px; float:left;}
-.allgallerypostwrap .AllGalleryAuthor{ width:15%; color:#9e9e9e; padding:0 1%; float:left; line-height:20px;}
-.allgallerypostwrap .AllGalleryDate{ width:14%; color:#9e9e9e; padding:0 1%; float:left; line-height:22px;}
-.allgallerypostwrap .AllGalleryLike{ width:13%; color:#9e9e9e; padding:0 1%; float:left;}
-.allgallerypostwrap .AllGalleryLike .draftbtn{ background:#ffae00; padding:6px 12px; color:#fff; border:0px;}
+.allgallerypostwrap .AllGalleryTitle{ width:15%; color:#9e9e9e; padding:0 1%; line-height:20px; float:left; overflow-wrap: break-word;}
+.allgallerypostwrap .AllGalleryAuthor{ width:15%; color:#9e9e9e; padding:0 1%; float:left; line-height:20px; overflow-wrap: break-word;}
+.allgallerypostwrap .AllGalleryDate{ width:14%; color:#9e9e9e; padding:0 1%; float:left; line-height:22px; overflow-wrap: break-word;}
+.allgallerypostwrap .AllGalleryLike{ width:13%; color:#9e9e9e; padding:0 1%; float:left; overflow-wrap: break-word;}
+.allgallerypostwrap .AllGalleryLike .draftbtn{ background:#ffae00; padding:6px 12px; color:#fff; border:0px; overflow-wrap: break-word;}
 .AllGalleryLike .select-wrapper{ position:relative;}
 .AllGalleryLike .select-wrapper, .AllGalleryLike .select-wrapper select{ width:100%; border:1px solid #333; height:34px; line-height:32px; font-size:14px;}
 .allgallerypostwrap .AllGalleryLike .lightbtn{ width:100%; height:34px; background:#222; color:rgb(158, 158, 158); font-size:14px; padding:8px 0; border-color:#333}

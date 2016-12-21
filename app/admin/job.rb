@@ -60,7 +60,7 @@ ActiveAdmin.register Job do
 		  end
 		  f.input :company_url, as: :string, label:'Company URL'
 		   
-		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :id), include_blank:'Select Job Type'
+		  f.input :job_type, as: :select, collection: JobCategory.where("id IS NOT NULL").pluck(:name, :name), include_blank:'Select Job Type'
 		  f.input :from_amount, label:'From Amount'
 		  f.input :to_amount, label:'To Amount'
 		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true,label: 'Job Position'
@@ -210,8 +210,9 @@ ActiveAdmin.register Job do
 		end
 
 		def update
-			params[:job][:user_id] = current_admin_user.id.to_s
-			params[:job][:is_admin] = 'Y'
+
+			#params[:job][:user_id] = current_admin_user.id.to_s
+			#params[:job][:is_admin] = 'Y'
 			if (params[:job].present? && params[:job][:images_attributes].present?)
 					params[:job][:images_attributes].each do |index,img|
 						  unless params[:job][:images_attributes][index][:image].present?
@@ -301,7 +302,7 @@ ActiveAdmin.register Job do
 			cat.description.html_safe
 		  end
 		  row :job_type do |utag|
-		     JobCategory.find_by(id: utag.job_type).try(:name)
+		     utag.job_type
 		  end
 		  row :from_amount
 		  row :to_amount
@@ -429,7 +430,7 @@ ActiveAdmin.register Job do
 
 		
 		column :job_type do |utag|
-		     JobCategory.find_by(id: utag.job_type).try(:name)
+		     utag.job_type
 		 end
 		
 	    column :use_tag_from_previous_upload do |utag|

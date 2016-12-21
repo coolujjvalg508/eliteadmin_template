@@ -1,5 +1,5 @@
 <!-- All Dashboard Start -->
-<section class="clearfix container-fluid-full">
+<section class="clearfix container-fluid-full" ng-app="myApp" ng-controller="galleryCtrl">
 <div class="row-fluid">
 <div class="sidebar-left">
 <%= render 'layouts/navigation' %>
@@ -21,16 +21,19 @@
 <div class="row">
   <div class="col-md-8 paddinT10">
     <ul>
-      <li><a href="#" class="white-txt">All <span class="badge">(4,083)</span></a></li>
-      <li><a href="#">Featured <span class="badge">(350)</span></a></li>
-      <li><a href="#">Published <span class="badge">(4,072)</span></a></li>
-      <li><a href="#">Drafts <span class="badge">(11)</span></a></li>
-      <li><a href="#">Trash <span class="badge">(11)</span></a></li>
+      <li><a href="javascript:void(0);" class="white-txt view-type-link" id="all-link" ng-click="viewType('all')">All <span class="badge">(4,083)</span></a></li>
+      <li><a href="javascript:void(0);" class="view-type-link" id="featured-link" ng-click="viewType('featured')">Featured <span class="badge">(350)</span></a></li>
+      <li><a href="javascript:void(0);" class="view-type-link" id="published-link" ng-click="viewType('published')">Published <span class="badge">(4,072)</span></a></li>
+      <li><a href="javascript:void(0);" class="view-type-link" id="drafts-link" ng-click="viewType('drafts')">Drafts <span class="badge">(11)</span></a></li>
+      <li><a href="javascript:void(0);" class="view-type-link" id="trash-link" ng-click="viewType('trash')">Trash <span class="badge">(11)</span></a></li>
     </ul>
+
+    <input type="hidden" ng-model="viewTypeValue" value="">
+
   </div>
   <div class="col-md-4">
     <div class="search clearfix pull-right">
-      <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" />
+      <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" ng-model="search" />
       <button type="submit" class="blue-btn">Search Post</button>
     </div>
   </div>
@@ -43,44 +46,47 @@
   </select>
   <button type="button" class="blue-btn">Apply</button>
 </div>
-<div class="alldated clearfix">
-  <select class="custom-select">
-    <option>All dates</option>
-  </select>
-</div>
-<div class="gallerytype clearfix">
-  <select class="custom-select">
-    <option>All Gallery Post Type</option>
-  </select>
-</div>
-<div class="gallerysub clearfix">
-  <select class="custom-select">
-    <option>All Categories/Subject Mat</option>
-  </select>
-  <button type="button" class="blue-btn">Filter</button>
-</div>
-<div class="allitem">4,083 items</div>
+
+<%= form_tag do %>
+  <div class="alldated clearfix">
+    <select class="custom-select">
+      <option>All dates</option>
+    </select>
+  </div>
+  <div class="gallerytype clearfix">
+    <%= select_tag(:post_type_category_id, options_for_select(Category.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Gallery Post Type', 'ng-model' => 'post_type_category_id'}) %>
+  </div>
+  <div class="gallerytype clearfix">
+    <%= select_tag(:medium_category_id, options_for_select(MediumCategory.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Medium Categories', 'ng-model' => 'medium_category_id'}) %>
+  </div>
+  <div class="clearfix pull-left marginR10">    
+    <button type="button" class="blue-btn" ng-click="filter()">Filter</button>
+  </div>
+
+<% end %>  
+
+<div class="allitem">{{gallery_data.length}} items</div>
 <div class="pagintionpage clearfix">
-  <ul class="pagination">
-    <li><a href="#" class="white-txt">1</a></li>
-    <li><a href="#">of</a></li>
-    <li><a href="#">205</a></li>
-    <li><a href="#"><i class="fa fa-angle-right blue-txt txt16" aria-hidden="true"></i></a></li>
-    <li><a href="#"><i class="fa fa-angle-double-right blue-txt txt16" aria-hidden="true"></i></a></li>
-  </ul>
+  
+  <dir-pagination-controls
+       max-size="1"
+       direction-links="true"
+       boundary-links="false" >
+  </dir-pagination-controls>
+
 </div>
 </div>
 <div class="panel panel-default allgallerypostwrap">
 <div class="panel-heading clearfix padding">
   <div class="postcheck clearfix">
     <div class="checkbox-btn">
-      <input type="checkbox" value="value-1" id="rc15" name="rc15">
+      <input type="checkbox" id="rc15" name="rc15" ng-model="selectedAll" ng-click="checkAll()" >
       <label for="rc15" onclick=""></label>
     </div>
   </div>
   <div class="GalleryThumbnail hidden-xs">Thumbnail</div>
-  <div class="GalleryTitle hidden-xs">Title</div>
-  <div class="GalleryAuthor hidden-xs">Categories</div>
+  <div class="GalleryTitle hidden-xs" ng-click="sort('title')">Title<!-- <span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> --></div>
+  <div class="GalleryAuthor hidden-xs" ng-click="sort('category.name')">Categories<!-- <span class="glyphicon sort-icon" ng-show="sortKey=='category.name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> --></div>
   <div class="GalleryDate hidden-xs">Date</div>
   <div class="GalleryLike hidden-xs">Likes</div>
   <div class="GalleryLike hidden-xs">Status</div>
@@ -89,24 +95,37 @@
 <div class="panel-body padding">
   <div class="clearfix Allpostgallery">
     <ul>
-      <li class="clearfix">
+
+    <!-- <li class="clearfix" ng-repeat="x in gallery_data|orderBy:sortKey:reverse|filter:search"> -->
+     <li class="clearfix" dir-paginate="x in gallery_data|orderBy:sortKey:reverse|filter:search|itemsPerPage:10">
+
         <div class="AllGalleryCheck clearfix">
           <div class="checkbox-btn">
-            <input type="checkbox" value="value-1" id="rc1" name="rc1">
-            <label for="rc1" onclick=""></label>
+            <input type="checkbox" value="value-1" id="rc{{x.id}}" name="rc1" ng-model="x.Selected">
+            <label for="rc{{x.id}}" onclick=""></label>
           </div>
         </div>
-        <div class="AllGalleryThumbnail"><%= image_tag("database/10.jpg", :alt => "img", :class=>"img-responsive") %></div>
-        <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> Making of Car Crash Scene </div>
-        <div class="AllGalleryAuthor">Videos, Behind the Scenes</div>
-        <div class="AllGalleryDate">4 Jul 2016 18:58</div>
+        <div class="AllGalleryThumbnail">
+        <%#= image_tag(root_url + "{{ x.company_logo.thumb.url }}", :alt => "img", :class=>"img-responsive") %>
+          
+        <img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive">
+
+        </div>
+        <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> {{ x.title }} </div>
+        <div class="AllGalleryAuthor">{{ x.category.name }}</div>
+        <div class="AllGalleryDate">
+         <!--  <span ng-repeat="y in x.tags">{{ $index > 0 ? ', ' : '' }}{{ y.tag }}</span> -->
+         {{ x.created_at | date:'MM/dd/yyyy HH:mm' }}
+
+        </div>
+
         <div class="AllGalleryLike clearfix">
           <div class="marginB15 clearfix"><i class="fa fa-thumbs-o-up marginR5" aria-hidden="true"></i> 200</div>
           <div class="marginB15 clearfix"><i class="fa fa-globe marginR5" aria-hidden="true"></i> 503</div>
           <div class="marginB15 clearfix"><i class="fa fa-comment-o marginR5" aria-hidden="true"></i> 53</div>
         </div>
         <div class="AllGalleryLike">
-          <button class="draftbtn border-radius" type="button">Draft</button>
+          <button class="draftbtn border-radius" type="button">{{ x.is_save_to_draft ? 'Draft' : 'No Draft' }}</button>
         </div>
         <div class="AllGalleryLike clearfix">
           <div class="clearfix marginB15">
@@ -120,100 +139,11 @@
           </div>
         </div>
       </li>
-      <li class="clearfix">
-        <div class="AllGalleryCheck clearfix">
-          <div class="checkbox-btn">
-            <input type="checkbox" value="value-1" id="rc1" name="rc1">
-            <label for="rc1" onclick=""></label>
-          </div>
-        </div>
-        <div class="AllGalleryThumbnail"><%= image_tag("database/11.jpg", :alt => "img", :class=>"img-responsive") %></div>
-        <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> Making of Car Crash Scene </div>
-        <div class="AllGalleryAuthor">Videos, Behind the Scenes</div>
-        <div class="AllGalleryDate">4 Jul 2016 18:58</div>
-        <div class="AllGalleryLike clearfix">
-          <div class="marginB15 clearfix"><i class="fa fa-thumbs-o-up marginR5" aria-hidden="true"></i> 200</div>
-          <div class="marginB15 clearfix"><i class="fa fa-globe marginR5" aria-hidden="true"></i> 503</div>
-          <div class="marginB15 clearfix"><i class="fa fa-comment-o marginR5" aria-hidden="true"></i> 53</div>
-        </div>
-        <div class="AllGalleryLike">
-          <button class="draftbtn border-radius" type="button">Draft</button>
-        </div>
-        <div class="AllGalleryLike clearfix">
-          <div class="clearfix marginB15">
-            <button class="lightbtn" type="button"><i class="fa fa-eye marginR5" aria-hidden="true"></i> View</button>
-          </div>
-          <div class="clearfix marginB15">
-            <button class="lightbtn" type="button"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i> Edit</button>
-          </div>
-          <div class="clearfix">
-            <button class="lightbtn" type="button"><i class="fa fa-trash marginR5" aria-hidden="true"></i> Delete</button>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="AllGalleryCheck clearfix">
-          <div class="checkbox-btn">
-            <input type="checkbox" value="value-1" id="rc1" name="rc1">
-            <label for="rc1" onclick=""></label>
-          </div>
-        </div>
-        <div class="AllGalleryThumbnail"><%= image_tag("database/12.jpg", :alt => "img", :class=>"img-responsive") %></div>
-        <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> Making of Car Crash Scene </div>
-        <div class="AllGalleryAuthor">Videos, Behind the Scenes</div>
-        <div class="AllGalleryDate">4 Jul 2016 18:58</div>
-        <div class="AllGalleryLike clearfix">
-          <div class="marginB15 clearfix"><i class="fa fa-thumbs-o-up marginR5" aria-hidden="true"></i> 200</div>
-          <div class="marginB15 clearfix"><i class="fa fa-globe marginR5" aria-hidden="true"></i> 503</div>
-          <div class="marginB15 clearfix"><i class="fa fa-comment-o marginR5" aria-hidden="true"></i> 53</div>
-        </div>
-        <div class="AllGalleryLike">
-          <button class="draftbtn border-radius" type="button">Draft</button>
-        </div>
-        <div class="AllGalleryLike clearfix">
-          <div class="clearfix marginB15">
-            <button class="lightbtn" type="button"><i class="fa fa-eye marginR5" aria-hidden="true"></i> View</button>
-          </div>
-          <div class="clearfix marginB15">
-            <button class="lightbtn" type="button"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i> Edit</button>
-          </div>
-          <div class="clearfix">
-            <button class="lightbtn" type="button"><i class="fa fa-trash marginR5" aria-hidden="true"></i> Delete</button>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="AllGalleryCheck clearfix">
-          <div class="checkbox-btn">
-            <input type="checkbox" value="value-1" id="rc1" name="rc1">
-            <label for="rc1" onclick=""></label>
-          </div>
-        </div>
-        <div class="AllGalleryThumbnail"><%= image_tag("database/13.jpg", :alt => "img", :class=>"img-responsive") %></div>
-        <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> Making of Car Crash Scene </div>
-        <div class="AllGalleryAuthor">Videos, Behind the Scenes</div>
-        <div class="AllGalleryDate">4 Jul 2016 18:58</div>
-        <div class="AllGalleryLike clearfix">
-          <div class="marginB15 clearfix"><i class="fa fa-thumbs-o-up marginR5" aria-hidden="true"></i> 200</div>
-          <div class="marginB15 clearfix"><i class="fa fa-globe marginR5" aria-hidden="true"></i> 503</div>
-          <div class="marginB15 clearfix"><i class="fa fa-comment-o marginR5" aria-hidden="true"></i> 53</div>
-        </div>
-        <div class="AllGalleryLike">
-          <button class="draftbtn border-radius" type="button">Draft</button>
-        </div>
-        <div class="AllGalleryLike clearfix">
-          <div class="clearfix marginB15">
-            <button class="lightbtn" type="button"><i class="fa fa-eye marginR5" aria-hidden="true"></i> View</button>
-          </div>
-          <div class="clearfix marginB15">
-            <button class="lightbtn" type="button"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i> Edit</button>
-          </div>
-          <div class="clearfix">
-            <button class="lightbtn" type="button"><i class="fa fa-trash marginR5" aria-hidden="true"></i> Delete</button>
-          </div>
-        </div>
-      </li>
+
+      <li ng-hide="gallery_data.length" class="text-center err-msg no-result">No Result Found!</li>
+
     </ul>
+ 
   </div>
 </div>
 </div>
@@ -226,4 +156,66 @@
 <footer class="footer clearfix padding">
 <%= render "layouts/lastfooter" %>
 </footer>
-<%= javascript_include_tag "jquery.min","bootstrap.min","custom" %>
+
+<script>
+var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+app.controller('galleryCtrl', function($scope, $http) {
+
+    
+    $scope.filter = function() {
+        
+        list_url = '/gallery/get_gallery_post_list?';
+
+        if(typeof $scope.viewTypeValue !== 'undefined' && $scope.viewTypeValue != '' && $scope.viewTypeValue != 'all'){
+          list_url += '&view=' + $scope.viewTypeValue
+        }
+
+        if(typeof $scope.post_type_category_id !== 'undefined' && $scope.post_type_category_id != ''){
+          list_url += '&post_type_category_id=' + $scope.post_type_category_id
+        }
+
+        if(typeof $scope.medium_category_id !== 'undefined' && $scope.medium_category_id != ''){
+          list_url += '&medium_category_id=' + $scope.medium_category_id
+        }
+
+        $http.get(list_url).then(function (response) {
+          $scope.gallery_data = response.data;
+        });
+    };
+    $scope.filter();
+    $scope.viewType = function(value) {
+      
+      angular.element( document.querySelectorAll( '.view-type-link' ) ).removeClass('white-txt');
+      angular.element( document.querySelector( '#' + value + '-link' ) ).addClass('white-txt');
+
+      $scope.post_type_category_id = $scope.medium_category_id = $scope.search = '';
+
+      $scope.viewTypeValue = value;
+      $scope.filter();
+
+    };
+
+    $scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.checkAll = function () {
+
+        if ($scope.selectedAll) {
+            $scope.selectedAll = false;
+        } else {
+            $scope.selectedAll = true;
+        }
+        angular.forEach($scope.gallery_data, function (x) {
+            x.Selected = $scope.selectedAll;
+        });
+
+    };
+
+});
+
+
+
+</script>
+

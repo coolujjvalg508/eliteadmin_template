@@ -14,7 +14,12 @@
 //= require jquery_ujs
 //= require bootstrap.min
 //= require wow.min
+//= require slick
+//= require jquery.bootstrap-responsive-tabs.min
+//= require custom
 //= require angular
+//= require dirPagination
+//= require angular-lazy-img
 
 
 // require turbolinks

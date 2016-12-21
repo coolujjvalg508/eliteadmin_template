@@ -52,7 +52,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  
 		  f.input :post_type_category_id, as: :select, collection: Category.where("parent_id IS NULL ").pluck(:name, :id), include_blank: 'Select Post Type Category', label: 'Post Type'
 		  f.input :medium_category_id, as: :select, collection: MediumCategory.where("parent_id IS NULL ").pluck(:name, :id), include_blank: false, label: 'Medium'
-		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("parent_id IS NULL ").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, label: 'Subject Matter',multiple: true
+		  f.input :subject_matter_id, as: :select, collection: SubjectMatter.where("id IS NOT NULL ").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, label: 'Subject Matter',multiple: true
 		  
 		  f.input :skill, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
 		 # f.input :location, label:'Location'
@@ -184,9 +184,9 @@ ActiveAdmin.register Gallery , as: "Project" do
 		end
 
 		def update
-		#abort(current_admin_user.id.to_s)
-			params[:gallery][:user_id] = current_admin_user.id.to_s
-			params[:gallery][:is_admin] = 'Y'
+			#abort(current_admin_user.id.to_s)
+			#params[:gallery][:user_id] = current_admin_user.id.to_s
+			#params[:gallery][:is_admin] = 'Y'
 			if (params[:gallery].present? && params[:gallery][:images_attributes].present?)
 					params[:gallery][:images_attributes].each do |index,img|
 						  unless params[:gallery][:images_attributes][index][:image].present?

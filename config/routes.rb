@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get 'store/index'
 
   get 'job/index'
+  get 'job/get_job_list'
   get 'job/store'
   get 'job/job_post'
 
@@ -54,6 +55,7 @@ Rails.application.routes.draw do
   get 'user/user_statistics'
   
   get 'gallery/all_gallery_post'
+  get 'gallery/get_gallery_post_list'
   get 'gallery/browse_all_artwork'
   get 'gallery/browse_all_awards'
   get 'gallery/browse_all_challenge'
@@ -69,13 +71,6 @@ Rails.application.routes.draw do
   get 'download-gallery'=> 'gallery#download'
 
   root 'gallery#index'	
-
-
-  authenticate :user do
-    
-        
-  end
-
 
   
   namespace :admin do

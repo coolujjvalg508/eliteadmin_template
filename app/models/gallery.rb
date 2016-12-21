@@ -4,6 +4,10 @@ include Bootsy::Container
  #mount_uploader :image, ImageUploader
  validates :title, presence: true
  validates :paramlink, presence: true
+
+ belongs_to :category, :foreign_key =>"post_type_category_id"
+ belongs_to :medium_category, :foreign_key =>"medium_category_id"
+
  
  has_many :images, as: :imageable, dependent: :destroy
  has_many :caption_image
@@ -29,5 +33,5 @@ include Bootsy::Container
  accepts_nested_attributes_for :marmo_sets, reject_if: proc { |attributes| attributes['marmoset'].blank? || attributes['marmoset'].nil? }, allow_destroy: true
  
   accepts_nested_attributes_for :tags, reject_if: proc { |attributes| attributes['tag'].blank? || attributes['tag'].nil? }, allow_destroy: true
-  
+
 end
