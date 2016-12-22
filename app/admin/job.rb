@@ -1,7 +1,7 @@
 ActiveAdmin.register Job do
 	menu label: 'Jobs', parent: 'Job Management',priority: 1
 	permit_params :is_spam, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :job_type, :from_amount, :to_amount, {:job_category => []} , 
-	:application_email_or_url, :country, :city, :state,
+	:application_email_or_url, :country_id, :city, :state,
 	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 	
 	collection_action :get_packages, method: :get do
@@ -65,7 +65,7 @@ ActiveAdmin.register Job do
 		  f.input :to_amount, label:'To Amount'
 		  f.input :job_category, as: :select, collection: CategoryType.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true,label: 'Job Position'
 		  f.input :application_email_or_url,label:'Application Email/URL'
-		  f.input :country,label:'Country', :input_html => { :class => "chosen-input" }
+		  f.input :country_id, as: :select, collection: Country.active.pluck(:name,:id), include_blank: 'Select Country', label: 'Country'
 		  f.input :state,label:'State'
 		  f.input :city,label:'City'
 		 
@@ -308,9 +308,9 @@ ActiveAdmin.register Job do
 		  row :to_amount
 		
 		  row :application_email_or_url
-		  row :country do |utag|
-		    utag.country? ? ISO3166::Country[utag.country] : '----'
-		  end
+		  row 'Country' do |job|
+			job.try(:country).try(:name)
+	      end
 		  
 		  row :city
 		  row :work_remotely do |ifeature|

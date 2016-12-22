@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221090605) do
+ActiveRecord::Schema.define(version: 20161222093204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,14 @@ ActiveRecord::Schema.define(version: 20161221090605) do
     t.string   "email"
   end
 
+  create_table "countries", force: :cascade do |t|
+    t.string   "name"
+    t.string   "code",       limit: 3
+    t.integer  "status",               default: 1
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
   create_table "downloads", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -302,7 +310,6 @@ ActiveRecord::Schema.define(version: 20161221090605) do
     t.string   "from_amount"
     t.string   "to_amount"
     t.string   "application_email_or_url"
-    t.string   "country"
     t.string   "city"
     t.string   "closing_date"
     t.json     "skill"
@@ -335,6 +342,7 @@ ActiveRecord::Schema.define(version: 20161221090605) do
     t.string   "company_url"
     t.json     "package_id"
     t.string   "state"
+    t.integer  "country_id"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -680,7 +688,6 @@ ActiveRecord::Schema.define(version: 20161221090605) do
     t.string   "professional_headline"
     t.string   "phone_number"
     t.string   "profile_type"
-    t.string   "country"
     t.string   "city"
     t.string   "image"
     t.string   "demo_reel"
@@ -711,6 +718,8 @@ ActiveRecord::Schema.define(version: 20161221090605) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.integer  "is_deleted",             default: 0
+    t.string   "cover_art_image"
+    t.integer  "country_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -71,12 +71,15 @@ Rails.application.routes.draw do
   get 'gallery/gallery'
   get 'gallery/wip_detail'
   get 'download-gallery'=> 'gallery#download'
+  get 'gallery/get_download_list'
+
+  put 'update_user_image' => 'job#update_user_image'
+  delete 'remove_cover_art' => 'job#remove_cover_art'
 
   root 'gallery#index'	
-
   
   namespace :admin do
-	post 'images/saveimage' => 'images#saveimages'
+	 post 'images/saveimage' => 'images#saveimages'
   end
   
   # The priority is based upon order of creation: first created -> highest priority.

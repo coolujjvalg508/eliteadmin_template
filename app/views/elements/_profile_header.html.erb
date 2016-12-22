@@ -1,0 +1,138 @@
+<!-- New Profile Section -->
+<div class="artist-profile ng-scope" ng-app="myAppHeader" ng-controller="myCtrlHeader">
+
+  <div style="background-image: url({{cover_art_image}});" class="artist-masthead">
+    
+<%= form_for(current_user, url: update_user_image_path(current_user), html: { method: :put, id: 'cover_art_image_form' }) do |f| %>
+
+    <div class="change-cover-image hidden-xs">
+      <a href="javascript:void(0);" ng-click="clickUploadCoverArt()"><i class="fa fa-pad-right fa-upload"></i><span class="text ng-binding">Change background (1920x640)</span></a>
+    </div>
+
+    <% if (!current_user.cover_art_image.blank? && !current_user.cover_art_image.try(:full).blank?) %>
+      <div class="remove-cover-image hidden-xs">
+        <%= link_to '<i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Remove Cover Art</span>'.html_safe, remove_cover_art_path(current_user),method: :delete, data: { confirm: 'Are you sure?' }, title: "Remove Cover Art" %>
+      </div>    
+    <% end %>
+
+    <%= f.file_field(:cover_art_image, accept: "image/*", id: "covertArtPicUpload", "ng-model" => "covertArtPicUpload", onchange: "angular.element(this).scope().coverArtUpload(this)", style: "display: none;")%>
+    
+    <button type="submit" id="saveCoverArtPic" value="UpdateCoverArt" ng-show="flase" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button>
+       
+<% end %>    
+
+
+    <div class="container artist-info clearfix">
+      <div class="row">
+        <div class="col-sm-9 col-md-8 col-xs-12">
+<%= form_for(current_user, url: update_user_image_path(current_user), html: { method: :put, id: 'image_form' }) do |f| %>
+ 
+          <div class="avatar">
+            <center>
+
+              <% if (current_user.image.blank? || current_user.image.try(:event_small).blank?)%>
+                <img src="/assets/profile-noimage.jpg" alt="User" class="img-thumbnail img-responsive" ng-src="{{stepsModel}}">
+              <% else %>
+                <%= image_tag(current_user.image.try(:event_small).try(:url), alt: "User Image", class: "img-thumbnail img-responsive", "ng-src"=>"{{stepsModel}}") %>
+              <% end %>  
+              <span class="user-pro-pic">
+                <a href="javascript:void(0);" ng-click="clickUpload()">
+                  <i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Update Profile <span class="hidden-xs">Picture</span></span>
+                </a>
+
+                <!-- <input id="profilePicUpload1" ng-model="profilePicUpload1" type='file' ng-model-instant onchange="angular.element(this).scope().imageUpload(this)" style="display: none;" accept="image/*" /> -->
+
+                <%= f.file_field(:image, accept: "image/*", id: "profilePicUpload", "ng-model" => "profilePicUpload", onchange: "angular.element(this).scope().imageUpload(this)", style: "display: none;")%>
+
+                <button type="submit" id="saveProfilePic" class="save-img" value="UpdateProfilePhoto" ng-show="profilePicUpload" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button>
+
+                <!-- <a href="javascript:void(0);" id="saveProfilePic" class="save-img" ng-show="profilePicUpload"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></a> -->
+              </span>
+
+            </center>
+          </div>
+<% end %>          
+
+          <div class="artist-info-texts pull-left">
+            <h2 class="artist-name ng-binding"><%= current_user.firstname + ' ' + current_user.lastname %> <i class="fa fa-check-circle"></i></h2>
+            <div class="artist-additional-info">
+              <ul>
+                <li class="ng-binding"> <i class="fa fa-briefcase"></i> <%= current_user.profile_type %> </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="artist-additional-info">
+              <ul>
+                <% if current_user.city || current_user.country %>
+                  <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> <%= current_user.city %><%= (current_user.city != '' && current_user.country.name != '') ? ', ' : '' %><%= current_user.try(:country).try(:name) %> </li>
+                <% end %>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> 41,241 Likes </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
+          <ul class="list-inline pull-right">
+            <li class="ng-scope">
+              <div aria-label="..." role="group" class="btn-group">
+                <button type="button" title="Follow this user (F)" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
+                <button class="btn btn-sm user-follow" type="button">4216</button>
+              </div>
+            </li>
+            <li ng-if="artistCanContact" class="ng-scope">
+              <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button>
+            </li>
+            <li ng-if="artistCanContact" class="ng-scope">
+              <button href="" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // header angular app start
+  var myAppHeader = angular.module('myAppHeader',[]);
+
+  myAppHeader.controller('myCtrlHeader', function($scope) {
+
+    <% if (current_user.cover_art_image.blank? || current_user.cover_art_image.try(:full).blank?) %>
+     $scope.cover_art_image = "<%= asset_path 'artist-profile-masthead-gradient.png' %>";
+    <% else %>
+      $scope.cover_art_image = "<%= asset_path  current_user.cover_art_image.try(:full).try(:url) %>";
+    <% end %>
+
+    //profile pic upload
+    $scope.clickUpload = function(){
+      angular.element('#profilePicUpload').trigger('click');
+    };
+
+    $scope.stepsModel = '';
+
+    $scope.imageUpload = function(element){
+        var reader = new FileReader();
+        reader.onload = $scope.imageIsLoaded;
+        reader.readAsDataURL(element.files[0]);
+    }
+
+    $scope.imageIsLoaded = function(e){
+        $scope.$apply(function() {
+            $scope.stepsModel= e.target.result;
+        });
+    }
+
+    //cover art upload
+    $scope.clickUploadCoverArt = function(){
+      angular.element('#covertArtPicUpload').trigger('click');
+    };
+
+    $scope.coverArtUpload = function(element){
+        angular.element('#saveCoverArtPic').trigger('click');
+    }
+   
+  });
+  // header angular app end
+</script>

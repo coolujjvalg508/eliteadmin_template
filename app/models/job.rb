@@ -8,6 +8,7 @@ class Job < ActiveRecord::Base
  has_many :caption_image
  
  belongs_to :company
+ belongs_to  :country
  #belongs_to :job_category, :foreign_key =>"job_type"
  
  has_many :videos, as: :videoable, dependent: :destroy

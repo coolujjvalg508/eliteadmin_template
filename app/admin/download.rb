@@ -8,13 +8,13 @@ ActiveAdmin.register Download do
 		
 	collection_action :post_types, method: :get do
 		ids		 =	params[:id]
-		category = PostTypeCategory.where("parent_id IS NULL AND post_type_id = ?", ids).order('name asc').pluck(:name, :id)
+		category = PostTypeCategory.where("parent_id IS NULL AND post_type_id IN (?)", ids).order('name asc').pluck(:name, :id)
 		render json: category, status: 200
 	end
 	
 	collection_action :post_category_types, method: :get do
 		ids		 =	params[:id]
-		category = PostTypeCategory.where(parent_id: ids).order('name asc').pluck(:name, :id)
+		category = PostTypeCategory.where('parent_id IN (?)', ids).order('name asc').pluck(:name, :id)
 		render json: category, status: 200
 	end
 		

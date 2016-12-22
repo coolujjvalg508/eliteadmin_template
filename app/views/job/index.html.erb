@@ -1,66 +1,7 @@
-<!-- New Profile Section -->
-<div class="artist-profile ng-scope">
-  <div style="background-image: url(<%= asset_path 'artist-profile-masthead-gradient.png' %> ), url(<%= asset_path 'profile-user.jpg?1452532143' %> );" class="artist-masthead">
-    <div class="change-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-upload"></i><span class="text ng-binding">Change background (1920x640)</span></a></div>
-    <div class="remove-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Remove Cover Art</span></a></div>
-    <div class="container artist-info clearfix">
-      <div class="row">
-        <div class="col-sm-9 col-md-8 col-xs-12">
+<%= render "elements/profile_header" %>
 
 
-          <div class="avatar">
-            <center>
-            
-            <% if (current_user.image.blank? || current_user.image.try(:event_small).blank?)%>
-              <img src="/assets/profile-noimage.jpg" alt="User" class="img-thumbnail img-responsive">
-            <% else %>
-              <%= image_tag(current_user.image.try(:event_small).try(:url), alt: "User Image", class: "img-thumbnail img-responsive") %>
-            <% end %>  
-            <%#= image_tag("userprofile.jpg", :alt => "profile",:class=>"img-thumbnail") %><span class="user-pro-pic"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Update Profile <span class="hidden-xs">Picture</span></span></a></span>
-            </center>
-          </div>
-          <div class="artist-info-texts pull-left">
-            <h2 class="artist-name ng-binding"><%= current_user.firstname + ' ' + current_user.lastname %> <i class="fa fa-check-circle"></i></h2>
-            <div class="artist-additional-info">
-              <ul>
-                <li class="ng-binding"> <i class="fa fa-briefcase"></i> <%= current_user.profile_type %> </li>
-              </ul>
-              <div class="clearfix"></div>
-            </div>
-            <div class="artist-additional-info">
-              <ul>
-                <% if current_user.city || current_user.country %>
-                  <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> <%= current_user.city %><%= (current_user.city != '' && current_user.country != '') ? ', ' : '' %><%= current_user.country %> </li>
-                <% end %>
-                <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
-                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> 41,241 Likes </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
-          <ul class="list-inline pull-right">
-            <li class="ng-scope">
-              <div aria-label="..." role="group" class="btn-group">
-                <button type="button" title="Follow this user (F)" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
-                <button class="btn btn-sm user-follow" type="button">4216</button>
-              </div>
-            </li>
-            <li ng-if="artistCanContact" class="ng-scope">
-              <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button>
-            </li>
-            <li ng-if="artistCanContact" class="ng-scope">
-              <button href="" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div ng-app="myApp" ng-controller="myCtrl">
+<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
 
   <!-- User Profile Menu -->
   <section class="usernavivation clearfix">
@@ -136,12 +77,12 @@
             <div class="jobs-blue txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}}</div>
           </div>
 
-          <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> {{x.city}}, {{x.country}}</div>         
+          <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> {{x.city}}, {{x.country.name}}</div>         
 
         </li>
 
         <li ng-hide="job_data.length" class="text-center err-msg no-result">No Result Found!</li>
-        
+
       </ul>    
     </div>
 
@@ -154,7 +95,6 @@
     </div>
 
   </section>
-
 </div>
 
 <!-- Footer Start -->
@@ -163,9 +103,10 @@
 </footer>
 
 <script>
+
+  // main page angular app start
   var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
   app.controller('myCtrl', function($scope, $http) {
-
       
     $scope.filter = function() {
         
@@ -193,5 +134,8 @@
     };
       
   });
+
+  angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
+  // main page angular app end
 
 </script>

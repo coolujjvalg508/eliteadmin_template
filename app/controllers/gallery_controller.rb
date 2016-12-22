@@ -124,5 +124,15 @@ class GalleryController < ApplicationController
   
   def download
   end
+
+  def get_download_list
+
+    conditions = "true"
+
+    r_data = PostTypeCategory.where(conditions)
+
+    abort(r_data.to_json)
+    
+  end
   
 end

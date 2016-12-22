@@ -22,14 +22,57 @@ class JobController < ApplicationController
     	abort(x.to_json)
     end/
 
-    render :json => result.to_json(:include => [:company]), status: 200
+    render :json => result.to_json(:include => [:company, :country]), status: 200
 
   end
 
+  def update_user_image
+
+  	params[:user] ||= {'submit'=> true}
+  	if params[:user] == {'submit'=> true}
+	  	flash[:error] = "Image can't be blank."
+	  end
+  	@user = current_user
+  	
+  	if @user.update_attributes(user_params)
+  		if params[:commit] == "UpdateProfilePhoto"
+  			flash[:notice] = "Profile photo updated successfully."
+  		elsif params[:commit] == "UpdateCoverArt"
+  			flash[:notice] = "Cover art updated successfully."	
+  		else
+  			flash[:notice] = "Successfully updated."
+  		end	
+      #redirect_to request.referer
+    else
+      #render 'index'
+    end
+
+    redirect_to request.referer
+	  
+  end	
+
+  def remove_cover_art
+
+  	@user = current_user
+  	
+  	@user.remove_cover_art_image!	
+  	@user.save
+
+    flash[:notice] = "Cover art removed successfully."		
+    redirect_to request.referer
+	  
+  end
   
-  def job_post
+  def job_post  	
   end
   
   def store
   end
+
+  private
+	def user_params
+	 	params.require(:user).permit(:image, :cover_art_image)
+	end
+
+
 end

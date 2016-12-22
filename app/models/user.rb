@@ -1,15 +1,16 @@
 class User < ActiveRecord::Base
-
+  
   mount_uploader :image, ImageUploader
+  mount_uploader :cover_art_image, CoverArtUploader
 
   devise :database_authenticatable, :registerable,
        :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-
+  belongs_to  :country
   ############################ Associations #############################
   has_many :professional_experiences     
   has_many :education_experiences     
-  has_many :production_experiences     
+  has_many :production_experiences
   
   accepts_nested_attributes_for :professional_experiences, reject_if: proc { |attributes| attributes['company_id'].blank? || attributes['company_id'].nil? }, allow_destroy: true 
   accepts_nested_attributes_for :education_experiences, reject_if: proc { |attributes| attributes['school_name'].blank? || attributes['school_name'].nil? }, allow_destroy: true 
