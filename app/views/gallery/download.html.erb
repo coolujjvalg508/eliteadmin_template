@@ -120,11 +120,12 @@
             <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">Inbox</a></li>
-              <li><a href="#">Drafts</a></li>
-              <li><a href="#">Sent Items</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Trash</a></li>
+              <li><a href="javascript:void(0);" ng-click="searchByFeatured('', 'all')" class="active featured-type-link"  id="featured-type-link-all">All</a></li>
+              <li><a href="javascript:void(0);" ng-click="searchByFeatured('TRUE', 'yes')" class="featured-type-link"  id="featured-type-link-yes">Show Only Featured</a></li>
+              <li><a href="javascript:void(0);" ng-click="searchByFeatured('FALSE', 'no')" class="featured-type-link"  id="featured-type-link-no">Show Without Featured</a></li>
+
+               <input type="hidden" ng-model="viewFeaturedType" value=""> 
+
             </ul>
           </li>
           <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Filter
@@ -141,449 +142,40 @@
         </ul>
       </div>
     </div>
+
     
     <!-- User Followers Start -->
     <div class="container-fluid download-indent clearfix">
       <div class="container">
-      <div class="clearfix downbox">
-        <div class="clearfix downtop">
-          <h2>3D Models</h2>
-          <a href="#" class="text-uppercase pull-right">view all</a> </div>
-        <div class="clearfix">
-          <ul>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery3.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc1" name="rc1">
-                    <label for="rc1" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
+
+
+        <div class="clearfix downbox" ng-repeat="x in download_data">
+          <div class="clearfix downtop">
+            <h2>{{x.PostTypeCategory.name}}</h2>
+            <a href="#" class="text-uppercase pull-right">view all</a> </div>
+          <div class="clearfix">
+            <ul>
+              <li class="clearfix" ng-repeat="y in x.Download">
+                <div class="downwrap"> 
+                  <img lazy-img="<%= root_url %>{{ y.images.0.image.download_list.url }}" class="img-responsive download-img-height">
                 </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery4.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc2" name="rc2">
-                    <label for="rc2" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
+                <div class="padding10 clearfix">
+                  <div class="down-txt"><span>{{y.title}}</span> <span class="pull-right price-txt">${{y.price}}</span></div>
+                  <div class="clearfix down-name">
+                    <div class="pull-left">by <span class="price-txt1">{{y.is_admin == 'Y' ? 'Admin' : y.user.firstname + ' ' + y.user.lastname}}</span></div>
+                    <div class="pull-right"> <span class="checkbox-btn">
+                      <input type="checkbox" value="value-1" id="rc{{y.id}}">
+                      <label for="rc{{y.id}}" onclick=""></label>
+                      </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery5.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc3" name="rc3">
-                    <label for="rc3" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery7.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc5" name="rc5">
-                    <label for="rc5" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="clearfix downbox">
-        <div class="clearfix downtop">
-          <h2>Cars</h2>
-          <a href="#" class="text-uppercase pull-right">view all</a> </div>
-        <div class="clearfix">
-          <ul>
-            
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery9.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc7" name="rc7">
-                    <label for="rc7" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery10.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc8" name="rc8">
-                    <label for="rc8" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery11.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc9" name="rc9">
-                    <label for="rc9" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery12.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc10" name="rc10">
-                    <label for="rc10" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="clearfix downbox">
-        <div class="clearfix downtop">
-          <h2>HDRI Images</h2>
-          <a href="#" class="text-uppercase pull-right">view all</a> </div>
-        <div class="clearfix">
-          <ul>
-            
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery14.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc12" name="rc12">
-                    <label for="rc12" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery15.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc13" name="rc13">
-                    <label for="rc13" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"> <%= image_tag("database/wip-gallery16.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc14" name="rc14">
-                    <label for="rc14" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/wip-gallery1.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc15" name="rc15">
-                    <label for="rc15" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="clearfix downbox">
-        <div class="clearfix downtop">
-          <h2>CG Textures</h2>
-          <a href="#" class="text-uppercase pull-right">view all</a> </div>
-        <div class="clearfix">
-          <ul>
-            
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down2.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc17" name="rc17">
-                    <label for="rc17" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down3.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc18" name="rc18">
-                    <label for="rc18" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down4.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc19" name="rc19">
-                    <label for="rc19" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down5.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc20" name="rc20">
-                    <label for="rc20" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="clearfix downbox">
-        <div class="clearfix downtop">
-          <h2>Base Meshes</h2>
-          <a href="#" class="text-uppercase pull-right">view all</a> </div>
-        <div class="clearfix">
-          <ul>
-             
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down7.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc22" name="rc22">
-                    <label for="rc22" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down8.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc23" name="rc23">
-                    <label for="rc23" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down9.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc24" name="rc24">
-                    <label for="rc24" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down10.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc25" name="rc25">
-                    <label for="rc25" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="clearfix downbox">
-        <div class="clearfix downtop">
-          <h2>Scripts &amp; Plugins</h2>
-          <a href="#" class="text-uppercase pull-right">view all</a> </div>
-        <div class="clearfix">
-          <ul>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down11.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc26" name="rc26">
-                    <label for="rc26" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down12.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc27" name="rc27">
-                    <label for="rc27" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down13.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc28" name="rc28">
-                    <label for="rc28" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down14.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc29" name="rc29">
-                    <label for="rc29" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-             
-          </ul>
-        </div>
-      </div>
-      
-      <div class="clearfix downbox">
-        <div class="clearfix downtop">
-          <h2>Tutorial</h2>
-          <a href="#" class="text-uppercase pull-right">view all</a> </div>
-        <div class="clearfix">
-          <ul>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down16.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc31" name="rc31">
-                    <label for="rc31" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down17.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc32" name="rc32">
-                    <label for="rc32" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down18.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc33" name="rc33">
-                    <label for="rc33" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-            <li class="clearfix">
-              <div class="downwrap"><%= image_tag("database/down19.jpg",:class=>"img-responsive") %> </div>
-              <div class="padding10 clearfix">
-                <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-                <div class="clearfix down-name">
-                  <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-                  <div class="pull-right"> <span class="checkbox-btn">
-                    <input type="checkbox" value="value-1" id="rc34" name="rc34">
-                    <label for="rc34" onclick=""></label>
-                    </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-                </div>
-              </div>
-            </li>
-             
-          </ul>
-        </div>
-      </div>
+              </li>
+
+            </ul>
+          </div>
+        </div>  
+
+        <div class="clearfix downbox text-center err-msg no-result" ng-hide="download_data.length" >No Result Found!</div>      
       
       </div>
     </div>
@@ -604,13 +196,28 @@
       
     $scope.filter = function() {
         
-        list_url = '/gallery/get_download_list';
+        list_url = '/gallery/get_download_list?';
+
+        if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != '' && $scope.viewFeaturedType != 'all'){
+          list_url += '&is_feature=' + $scope.viewFeaturedType
+        }
 
         $http.get(list_url).then(function (response) {
-          $scope.job_data = response.data;
+          $scope.download_data = response.data;
         });
     };
     $scope.filter();
+
+    $scope.searchByFeatured = function(value, id) {
+
+      angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
+      angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
+      
+      $scope.search = '';
+      $scope.viewFeaturedType = value;
+      $scope.filter();
+
+    };
       
   });
 

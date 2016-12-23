@@ -1,5 +1,6 @@
 class UserController < ApplicationController
   def signup
+
   end
   
   def forgotpassword
@@ -12,6 +13,7 @@ class UserController < ApplicationController
   end
   
   def message
+
   end
   
   def index

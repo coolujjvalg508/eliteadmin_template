@@ -3,6 +3,8 @@ include Bootsy::Container
 mount_uploader :company_logo, ImageUploader
 
  validates :title, presence: true
+
+ belongs_to :user
  
  has_many :images, as: :imageable, dependent: :destroy
  has_many :caption_image
@@ -28,7 +30,7 @@ mount_uploader :company_logo, ImageUploader
  has_many :lesson_image
  
  
-  has_many :tags, as: :tagable, dependent: :destroy
+ has_many :tags, as: :tagable, dependent: :destroy
  
   
  accepts_nested_attributes_for :images, reject_if: proc { |attributes| attributes['image'].blank? || attributes['image'].nil? }, allow_destroy: true 

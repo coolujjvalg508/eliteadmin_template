@@ -77,7 +77,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     #Enter the smtp provider here ex: smtp.mandrillapp.com
     address: ENV["SMTP_ADDRESS"],
-    port: 465,
+    port: 587,
     #Enter the smtp domain here ex: localhost:3000
     domain: ENV["SMTP_DOMAIN"],
     #Enter the user name for smtp provider here

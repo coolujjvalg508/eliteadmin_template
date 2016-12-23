@@ -129,10 +129,45 @@ class GalleryController < ApplicationController
 
     conditions = "true"
 
-    r_data = PostTypeCategory.where(conditions)
+    post_types = PostTypeCategory.where(conditions).order('name ASC')
 
-    abort(r_data.to_json)
+    #abort(post_types[0].to_json)
+
+    final_data = []
+
+    i = 0
+    post_types.each_with_index do |d, k|
+
+      
+      #download_data = Download.where("post_type_category_id::jsonb ? '1'")
+      #condition_inner = "post_type_category_id::jsonb ?| array['1', '2'] AND visibility = 0 AND publish = 1"
+
+      condition_inner = "post_type_category_id::jsonb ?| array['" + d.id.to_s + "'] AND visibility = 0 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+      #condition_inner = "post_type_category_id::jsonb ?| array['" + d.id.to_s + "']"
+
+
+
+      if(params[:is_feature] && params[:is_feature] != '' && params[:is_feature] != 'all') 
+         condition_inner += " AND is_feature=" + params[:is_feature]
+      end
+
+      download_data = Download.where(condition_inner).order('id DESC').limit(4)
+
+      download = JSON.parse(download_data.to_json(:include => [:images, :user]))
+
+      #abort(download.to_json)
+
+      if download_data.present?
+        final_data[i] = {'PostTypeCategory' => d, 'Download' => download}
+        i = i + 1
+      end 
+
+    end  
+
+    #abort(final_data.to_json)
+    render json: final_data, status: 200  
     
   end
+
   
 end

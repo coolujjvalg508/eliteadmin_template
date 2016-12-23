@@ -46,7 +46,7 @@
             <% job_type = JobCategory.order('name ASC').pluck(:name, :id)
 
               job_type.each do |val| %>
-                <li><a href="javascript:void(0);" ng-click="setJobType('<%= val[0] %>', '<%= val[1] %>')" class="active job-type-link" id="job-type-link-<%= val[1] %>"><%= val[0] %></a></li>
+                <li><a href="javascript:void(0);" ng-click="setJobType('<%= val[0] %>', '<%= val[1] %>')" class="job-type-link" id="job-type-link-<%= val[1] %>"><%= val[0] %></a></li>
             <% end %>
           </ul>
           <input type="hidden" ng-model="viewJobType" value="">
@@ -77,8 +77,7 @@
             <div class="jobs-blue txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}}</div>
           </div>
 
-          <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> {{x.city}}, {{x.country.name}}</div>         
-
+          <div class="jobs-location-right pull-right"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> {{x.city}}, {{x.country.name}}</div>       
         </li>
 
         <li ng-hide="job_data.length" class="text-center err-msg no-result">No Result Found!</li>

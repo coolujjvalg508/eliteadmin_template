@@ -34,6 +34,11 @@ class User < ActiveRecord::Base
   PROFILE_TYPE = ["Artist", "Recruiter", "Studio"]
   ########################### Validations ################################
          
-         
+  def devise_mailer
+    UserMailer
+  end
+
+
+
          
 end

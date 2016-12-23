@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161222093204) do
+ActiveRecord::Schema.define(version: 20161223062815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -593,6 +593,17 @@ ActiveRecord::Schema.define(version: 20161222093204) do
   end
 
   add_index "subject_matters", ["parent_id"], name: "index_subject_matters_on_parent_id", using: :btree
+
+  create_table "system_emails", force: :cascade do |t|
+    t.string   "title"
+    t.string   "subject"
+    t.text     "content"
+    t.text     "footer"
+    t.integer  "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "identifier"
+  end
 
   create_table "tags", force: :cascade do |t|
     t.string   "tag"

@@ -327,7 +327,7 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .wiptabs .nav-pills > li.active > a .wip-down, .wiptabs .nav-pills > li.active > a .wip-down { border: 1px solid #0095ff; }
 .wiptabs .dropdown-menu { width: 210px; margin-top: 13px; border-radius: 0 0 4px 4px; background: #333; padding: 0px; }
 .wiptabs .dropdown-menu > li > a { color: #fff; padding: 9px 15px; border-left: 3px solid #333; }
-.wiptabs .dropdown-menu > li > a:hover, .wiptabs .dropdown-menu > li > a:focus { color: #fff; border-left: 3px solid #0092ff; background: #151515; }
+.wiptabs .dropdown-menu > li > a:hover, .wiptabs .dropdown-menu > li > a:focus, .wiptabs .dropdown-menu > li > a.active { color: #fff; border-left: 3px solid #0092ff; background: #151515; }
 .wiptabs .nav-pills > li > a img { display: inline-block; margin-left: 5px; }
 .wiptabs .nav > li > a:hover, .wiptabs .nav > li > a:focus { background: none; }
 .wipwrap input.search-query { padding-left: 35px; height: 40px; margin-top: 4px; }
@@ -1091,3 +1091,4 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .succ-msg{
 	color:#00FF00 !important;
 }
+.download-img-height{height: 270px;}

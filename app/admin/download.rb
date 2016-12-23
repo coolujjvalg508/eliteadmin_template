@@ -19,9 +19,7 @@ ActiveAdmin.register Download do
 	end
 		
 		
-	
-	
-	 controller do 
+	controller do 
 
 		def action_methods
 		  super                                  
@@ -230,8 +228,6 @@ ActiveAdmin.register Download do
 
 		def update
 		#abort(params.to_json)
-			params[:download][:user_id] = current_admin_user.id.to_s
-			params[:download][:is_admin] = 'Y'
 			
 			if params[:download][:free] == '1'
 				params[:download][:price] = 0

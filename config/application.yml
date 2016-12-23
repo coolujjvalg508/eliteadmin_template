@@ -14,10 +14,10 @@ SMTP_HOST: "cgmeetupdev.herokuapp.com"
 DATABASE_NAME: 'cgmeetup_development'
 DB_USER_NAME: 'cgmeetup'
 DB_PASSWORD: '123456'
-SMTP_ADDRESS: 'smtp.gmail.com'
+SMTP_ADDRESS: 'smtp.sendgrid.net'
 SMTP_DOMAIN: 'cgmeetupdev.herokuapp.com'
-SMTP_USERNAME: 'developers@brsoftech.com'
-SMTP_PASSWORD: 'brsoftech@123'
+SMTP_USERNAME: 'NitinBr'
+SMTP_PASSWORD: 'Champ@123'
 SUPER_ADMIN_EMAIL: 'nitin.singh@brsoftech.org'
 
 DEFAULT_FROM_EMAIL: 'info@cgmeetup.com'

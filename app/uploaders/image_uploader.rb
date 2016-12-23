@@ -48,6 +48,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   version :large_image do
     process :resize_to_fill => [730, 370]
   end
+
+  version :download_list do
+    process :resize_to_fill => [270, 270]
+  end
+
 / 
   version :carousel do
     process :resize_to_fill => [372, 372]
