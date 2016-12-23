@@ -20,7 +20,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <%#= f.submit "Resend confirmation instructions", class: "btn btn-success txt16" %>
             <%- if controller_name != 'sessions' %>
-			  <%= link_to "Log in", new_session_path(resource_name), class: "lightbtn txt16" %>
+			 <a data-toggle="modal" href="#login-popup" class='lightbtn'>Log in</a>
 			<% end -%>
 			
 			<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
