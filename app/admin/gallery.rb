@@ -41,12 +41,12 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :title
 		  f.input :paramlink,label:'Permalink'
 		
-		/  li do
+		/ li do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
 		  end /
 		  
-		   div do
+		  div do
 			f.input :description,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: false
 		  end
 		  
@@ -61,6 +61,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :has_adult_content, as: :boolean,label: "Has Adult Content"
 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
+		  
 		  
 		 
 		  

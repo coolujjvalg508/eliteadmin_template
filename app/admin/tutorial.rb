@@ -52,7 +52,7 @@ ActiveAdmin.register Tutorial do
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
 		 # f.input :tags, label:'Tags'
-		  f.input :skill_level, as: :select, collection: [['All level','All level'], ['Beginner level', 'Beginner level'], ['Intermediate level', 'Intermediate level'],['Advanced level','Advanced level']], include_blank: false, label: 'Select Skill Level'
+		  f.input :skill_level, as: :select, collection: Tutorial::SKILL_LEVEL, include_blank: false, label: 'Select Skill Level'
 		  f.input :language, label:'Language'
 		  f.input :include_description, label:'Include'
 		  f.input :total_lecture, label:'No of Lecture'

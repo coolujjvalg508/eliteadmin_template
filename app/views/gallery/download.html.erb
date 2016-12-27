@@ -74,46 +74,52 @@
             <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">3D Models</a></li>
-              <li><a href="#">3D Painting Models</a></li>
-              <li><a href="#">3D Rigs / Character Rigs</a></li>
-              <li><a href="#">Brushes</a></li>
-              <li><a href="#">Materials and Shaders</a></li>
-              <li><a href="#">HDRI Images</a></li>
-              <li><a href="#">Render Setups and Scene</a></li>
-              <li><a href="#">2D Concepts / Blueprints</a></li>
-              <li><a href="#">Animation Data</a></li>
-              <li><a href="#">Scripts and Plugins</a></li>
-              <li><a href="#">Tutorials</a></li>
-              <li><a href="#">Templates</a></li>
-              <li><a href="#">Other</a></li>
+
+              <li>
+                  <a href="javascript:void(0);" ng-click="searchByPostType('all')" class="active post-type-link"  id="post-type-link-all">
+                    All
+                  </a>
+              </li>
+              <% @post_types.each do |val| %>
+                <li>
+                  <a href="javascript:void(0);" ng-click="searchByPostType('<%= val['id'] %>')" class="post-type-link"  id="post-type-link-<%= val['id'] %>">
+                    <%= val['type_name'] %>
+                  </a>
+                </li>
+              <% end %>
+
             </ul>
           </li>
           <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Category
             <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">All</a></li>
-              <li><a href="#">Animals</a></li>
-              <li><a href="#">Architecture</a></li>
-              <li><a href="#">Characters</a></li>
-              <li><a href="#">Environment</a></li>
-              <li><a href="#">Food</a></li>
-              <li><a href="#">Furniture</a></li>
-              <li><a href="#">Objects</a></li>
-              <li><a href="#">Textures &amp; Materials</a></li>
-              <li><a href="#">Vechicles</a></li>
+              <li>
+                <a href="javascript:void(0);" ng-click="searchByPostTypeCategory('all')" class="active post-type-category-link"  id="post-type-category-link-all">
+                    All
+                  </a>
+              </li>
+
+              <li class="clearfix" ng-repeat="x in post_type_category_data">
+                <a href="javascript:void(0);" ng-click="searchByPostTypeCategory(x.id)" class="post-type-category-link"  id="post-type-category-link-{{x.id}}">{{x.name}}</a>
+              </li>
+
+             
             </ul>
           </li>
           <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Sub Category
             <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">Inbox</a></li>
-              <li><a href="#">Drafts</a></li>
-              <li><a href="#">Sent Items</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Trash</a></li>
+              <li>
+                <a href="javascript:void(0);" ng-click="searchByPostTypeSubCategory('all')" class="active post-type-subcategory-link"  id="post-type-subcategory-link-all">
+                    All
+                  </a>
+              </li>
+
+              <li class="clearfix" ng-repeat="x in post_type_subcategory_data">
+                <a href="javascript:void(0);" ng-click="searchByPostTypeSubCategory(x.id)" class="post-type-subcategory-link"  id="post-type-subcategory-link-{{x.id}}">{{x.name}}</a>
+              </li>
             </ul>
           </li>
           <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Featured
@@ -123,8 +129,6 @@
               <li><a href="javascript:void(0);" ng-click="searchByFeatured('', 'all')" class="active featured-type-link"  id="featured-type-link-all">All</a></li>
               <li><a href="javascript:void(0);" ng-click="searchByFeatured('TRUE', 'yes')" class="featured-type-link"  id="featured-type-link-yes">Show Only Featured</a></li>
               <li><a href="javascript:void(0);" ng-click="searchByFeatured('FALSE', 'no')" class="featured-type-link"  id="featured-type-link-no">Show Without Featured</a></li>
-
-               <input type="hidden" ng-model="viewFeaturedType" value=""> 
 
             </ul>
           </li>
@@ -151,16 +155,16 @@
 
         <div class="clearfix downbox" ng-repeat="x in download_data">
           <div class="clearfix downtop">
-            <h2>{{x.PostTypeCategory.name}}</h2>
+            <h2>{{x.PostType.type_name}}</h2>
             <a href="#" class="text-uppercase pull-right">view all</a> </div>
           <div class="clearfix">
             <ul>
               <li class="clearfix" ng-repeat="y in x.Download">
                 <div class="downwrap"> 
-                  <img lazy-img="<%= root_url %>{{ y.images.0.image.download_list.url }}" class="img-responsive download-img-height">
+                  <img lazy-img="<%= root_url %>{{ y.company_logo.download_list.url }}" class="img-responsive download-img-height">
                 </div>
                 <div class="padding10 clearfix">
-                  <div class="down-txt"><span>{{y.title}}</span> <span class="pull-right price-txt">${{y.price}}</span></div>
+                  <div class="down-txt"><span>{{y.title}}</span> <span class="pull-right price-txt">{{(y.free) ? 'Free' : '$' + y.price}}</span></div>
                   <div class="clearfix down-name">
                     <div class="pull-left">by <span class="price-txt1">{{y.is_admin == 'Y' ? 'Admin' : y.user.firstname + ' ' + y.user.lastname}}</span></div>
                     <div class="pull-right"> <span class="checkbox-btn">
@@ -202,6 +206,18 @@
           list_url += '&is_feature=' + $scope.viewFeaturedType
         }
 
+        if(typeof $scope.viewPostType !== 'undefined' && $scope.viewPostType != '' && $scope.viewPostType != 'all'){
+          list_url += '&post_type_id=' + $scope.viewPostType
+        }
+
+        if(typeof $scope.viewPostTypeCategory !== 'undefined' && $scope.viewPostTypeCategory != '' && $scope.viewPostTypeCategory != 'all'){
+          list_url += '&post_type_category_id=' + $scope.viewPostTypeCategory
+        }
+
+        if(typeof $scope.viewPostTypeSubCategory !== 'undefined' && $scope.viewPostTypeSubCategory != '' && $scope.viewPostTypeSubCategory != 'all'){
+          list_url += '&sub_category_id=' + $scope.viewPostTypeSubCategory
+        }
+
         $http.get(list_url).then(function (response) {
           $scope.download_data = response.data;
         });
@@ -213,12 +229,74 @@
       angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
       
-      $scope.search = '';
       $scope.viewFeaturedType = value;
       $scope.filter();
 
     };
+
+    $scope.searchByPostType = function(id) {
+
+      angular.element( document.querySelectorAll( '.post-type-link, .post-type-category-link, .post-type-subcategory-link' ) ).removeClass('active');
+      angular.element( document.querySelectorAll( '#post-type-link-' + id + ', #post-type-category-link-all, #post-type-subcategory-link-all' ) ).addClass('active');
+
+      $scope.viewPostType = id;
+      $scope.viewPostTypeCategory = '';
+      $scope.viewPostTypeSubCategory = '';
+      $scope.filter();
+      $scope.getPostTypeCategory();
+
+    };
+
+    $scope.searchByPostTypeCategory = function(id) {
       
+      angular.element( document.querySelectorAll( '.post-type-category-link, .post-type-subcategory-link' ) ).removeClass('active');
+      angular.element( document.querySelectorAll( '#post-type-category-link-' + id + ', #post-type-subcategory-link-all') ).addClass('active');
+      
+      $scope.viewPostTypeCategory = id;
+      $scope.viewPostTypeSubCategory = '';
+      $scope.filter();
+      $scope.getPostTypeSubCategory();
+    };
+
+    $scope.searchByPostTypeSubCategory = function(id) {
+      
+      angular.element( document.querySelectorAll( '.post-type-subcategory-link' ) ).removeClass('active');
+      angular.element( document.querySelector( '#post-type-subcategory-link-' + id ) ).addClass('active');
+      
+      $scope.viewPostTypeSubCategory = id;
+      $scope.filter();
+    };
+    
+    $scope.getPostTypeCategory = function() {
+        
+      $scope.post_type_category_data = [];
+      $scope.post_type_subcategory_data = [];
+
+      if(typeof $scope.viewPostType !== 'undefined' && $scope.viewPostType != '' && $scope.viewPostType != 'all'){
+
+        list_url = '/gallery/get_post_type_category_list?';
+        list_url += '&post_type_id=' + $scope.viewPostType;
+
+        $http.get(list_url).then(function (response) {
+          $scope.post_type_category_data = response.data;
+        });
+      }
+        
+    };
+
+    $scope.getPostTypeSubCategory = function() {
+        
+        $scope.post_type_subcategory_data = [];
+
+        if(typeof $scope.viewPostTypeCategory !== 'undefined' && $scope.viewPostTypeCategory != '' && $scope.viewPostTypeCategory != 'all'){
+          list_url = '/gallery/get_post_type_category_list?';
+          list_url += '&parent_id=' + $scope.viewPostTypeCategory;
+          $http.get(list_url).then(function (response) {
+            $scope.post_type_subcategory_data = response.data;
+          });
+        }
+    };
+
   });
 
   // main page angular app end

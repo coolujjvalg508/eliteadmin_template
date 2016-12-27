@@ -41,21 +41,4 @@ class UserMailer < Devise::Mailer
 		attachments.inline["yt.png"] = File.read(Rails.root.join('app/assets/images/yt.png'))
   end 
 
-
-
-
-
- / default :from => 'info@cgmeetup.com'
-  # send a signup email to the user, pass in the user object that   contains the user's email address
-  def send_signup_email(user)
-    @user = user
-    mail( :to => @user.email,
-    :subject => 'CGmeetup Registration' )
-  end /
-
-  
-
-
-
-
 end

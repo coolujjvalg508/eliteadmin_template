@@ -10,7 +10,7 @@ ActiveAdmin.register Category do
 		 if current_admin_user.id.to_s == '1'
 			super
 		  else
-			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			usergroup  = UserGroup.where(:id => current_admin_user.group_id.to_s).first
 			disallowed = []
 			disallowed << 'index' if (!usergroup.has_permission('category_read') && !usergroup.has_permission('category_write') && !usergroup.has_permission('category_delete'))
 			disallowed << 'delete' unless (usergroup.has_permission('category_delete'))
@@ -50,7 +50,7 @@ ActiveAdmin.register Category do
     actions
   end
 
-	
+	 
    controller do
 			def create
 			  unless params[:category][:image].present?

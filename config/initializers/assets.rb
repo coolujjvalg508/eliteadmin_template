@@ -16,6 +16,7 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w( slick.css )
  Rails.application.config.assets.precompile += %w( animate.css )
  Rails.application.config.assets.precompile += %w( hover.css )
+ Rails.application.config.assets.precompile += %w( bootstrap-responsive-tabs.css )
  Rails.application.config.assets.precompile += %w( styles.css )
  Rails.application.config.assets.precompile += %w( responsive.css )
  Rails.application.config.assets.precompile += %w( jquery.min.js )

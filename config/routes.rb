@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   get 'content/index'
 
   get 'tutorial/index'
+  get 'tutorial/get_tutorial_list'
+  get 'tutorial/get_topic_list'
+  get 'tutorial/free_tutorial'
   
   get 'store/index'
 
@@ -28,6 +31,8 @@ Rails.application.routes.draw do
   get 'job/get_job_list'
   get 'job/store'
   get 'job/job_post'
+  get 'job/job_home'  
+  get 'job/apply_job' 
 
   get 'user-signup' => 'user#signup'
   get 'forgot-password'=> 'user#forgotpassword'
@@ -70,8 +75,28 @@ Rails.application.routes.draw do
   get 'gallery/create_gallery_post_type'
   get 'gallery/gallery'
   get 'gallery/wip_detail'
-  get 'download-gallery'=> 'gallery#download'
   get 'gallery/get_download_list'
+  get 'gallery/get_post_type_category_list'
+  get 'gallery/download_category'
+  get 'gallery/download_detail'
+  get 'gallery/download_post'
+  
+  
+  get 'gallery/free_download'
+  get 'news/index'
+  get 'news/free_news'
+ 
+  get 'download-gallery'=> 'gallery#download'
+ 
+
+  
+  
+ 
+  
+
+
+
+
 
   put 'update_user_image' => 'job#update_user_image'
   delete 'remove_cover_art' => 'job#remove_cover_art'

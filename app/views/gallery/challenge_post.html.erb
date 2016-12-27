@@ -566,7 +566,10 @@
  <%= render 'layouts/lastfooter' %>
 </footer>
 <script>
- $('.responsive-tabs').responsiveTabs({
-  accordionOn: ['xs', 'sm']
- });
+$(document).ready(function() {
+$('.pgwSlideshow').pgwSlideshow();
+});
+$(document).ready(function(){
+$('[data-toggle="tooltip"]').tooltip();
+});
 </script>

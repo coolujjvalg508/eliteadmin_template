@@ -16,6 +16,7 @@
 //= require wow.min
 //= require slick
 //= require jquery.bootstrap-responsive-tabs.min
+//= require pgwslideshow
 //= require custom
 //= require angular
 //= require dirPagination

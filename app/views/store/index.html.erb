@@ -1,2 +1,66 @@
-<h1>Store#index</h1>
-<p>Find me in app/views/store/index.html.erb</p>
+<!-- All Dashboard Start -->
+<section class="clearfix container-fluid-full">
+  <div class="row-fluid">
+    <div class="sidebar-left">
+      <%= render 'layouts/navigation' %>
+    </div>
+    <div class="content clearfix">
+      
+      
+       <div class="clearfix invoicepage">
+      <ul class="nav nav-tabs responsive-tabs">
+        <li class="active"><a href="#LatestSales">Latest Sales <i></i></a></li>
+        <li><a href="#LatestDownloads">Latest Downloads<i></i></a></li>
+        <li><a href="#MonthlySummary">Monthly Summary <i></i></a></li>
+        <li><a href="#Coupons">Coupons<i></i></a></li>
+      </ul>
+      <div class="tab-content">
+        
+        <div class="tab-pane active" id="LatestSales">
+          <div class="clearfix invoiceindent">
+           <h2 class="text-center">Oops, no sales!</h2>
+           <div class="text-center lightcolor">Ah. unfortunately you don't have any sales yet. We wish you best of luch in getting them soon!</div>
+          
+          </div>
+        </div>
+        
+        <div class="tab-pane" id="LatestDownloads">
+          <div class="clearfix invoiceindent">
+           <div class="text-center lightcolor">Ah. unfortunately you don't have any sales yet. We wish you best of luch in getting them soon!</div>
+          
+          </div>
+        </div>
+        
+        <div class="tab-pane" id="MonthlySummary">
+         
+         <div class="clearfix invoiceindent">
+           <h2 class="text-center">Oops, no sales!</h2>
+           <div class="text-center lightcolor">Ah. unfortunately you don't have any sales yet. We wish you best of luch in getting them soon!</div>
+          
+          </div>
+        
+        </div>
+        
+        <div class="tab-pane" id="Coupons">
+         <div class="clearfix invoiceindent">
+           <div class="text-center lightcolor">Ah. unfortunately you don't have any sales yet. We wish you best of luch in getting them soon!</div>
+          
+          </div>
+        </div>
+        
+      </div>
+    </div>
+      
+      
+    </div>
+  </div>
+</section>
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+ <%= render 'layouts/lastfooter' %>
+</footer>
+<script>
+$('.responsive-tabs').responsiveTabs({
+accordionOn: ['xs', 'sm']
+});
+</script>

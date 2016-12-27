@@ -1085,6 +1085,279 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .downbox .checkbox-btn label{ padding-left:5px;}
 
 
+/***************************27-12-2016************************************************/
+
+/* Download Details Css */
+.downloaddetailwrap{ padding:60px 0 30px; background:image-url('database/downloaddetailsbg.jpg') center center no-repeat;}
+.downloaddetailwrap h2{ color:#fff; font-size:40px; font-weight:300; margin-bottom:15px;}
+.downloaddetailwrap h3{ color:#fff; font-size:20px; font-weight:400; margin-bottom:20px;}
+.downloaddetailwrap .downloadtxt { font-size:18px; color:#f1f1f1; line-height:30px; margin-bottom:30px; font-weight:300;}
+.downloaddetailwrap li { display:inline-block;}
+.downloaddetailwrap li a{ color:#C2C2C2; padding:0 20px 0 0; font-size:15px;}
+.downloadpageindent{ padding:40px 0 20px;}
+.downcontent { -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background: #111; border:1px solid rgba(53, 53, 53, 0.49); margin-bottom:15px;}
+.downcontent .img-responsive{ height:156px; width:100%;}
+.downcontent .down-title{ font-size:14px; color:#7d7f7e; padding-top:15px; margin-bottom:20px;}
+.downcontent .down-title a{ color:#fff; font-size:30px; font-weight:300;}
+.downcontent .down-title a:hover{ color:#0099ff;}
+.downcontent .downloads-txt { color:#666; line-height:26px; font-size:16px;}
+.downcontent .downloads-txt a{ color:#0099ff; text-decoration:underline;}
+.downcontent .downloadpagelink{ border-top:1px solid rgba(53, 53, 53, 0.49); background:#151515; padding:20px 15px;}
+.downcontent .downloadpagelink li { display:inline-block;}
+.downcontent .downloadpagelink li a{ padding:0 15px; border-left:1px solid #545454; color:#0099ff; font-size:16px;}
+.downcontent .downloadpagelink li a:hover{ color:#fff;}
+.downcontent .downloadpagelink li:first-child a{ border-left:0px; padding-left:0px;}
+/* Download Categories */
+.downpadcategory{ padding:30px 0 0;}
+.downloadcategorywrap{ padding:40px 0 30px; background:image-url('database/downloadcategorybg.jpg') center center no-repeat;}
+.downloadcategorywrap h2{ color:#fff; font-size:32px; font-weight:300; margin-bottom:15px;}
+.downloadcategorywrap .downloadtxt { font-size:16px; color:#fff; line-height:26px; margin-bottom:30px;}
+.downloadcategorywrap li { display:inline-block;}
+.downloadcategorywrap li a{ color:#fff; padding:0 20px 0 0; font-size:16px;}
+.downloadcategorywrap li a .badge{ background:none; font-size:14px; padding:0px; font-weight:normal; color:rgba(255, 255, 255, 0.6);}
+.downcategory li{ -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background-color: #fff; -webkit-box-shadow: 1px 2px 4px rgba(0,0,0,.17); -moz-box-shadow: 1px 2px 4px rgba(0,0,0,.17); box-shadow: 1px 2px 4px rgba(0,0,0,.17); margin:0 1.10% 20px; width:270px; float:left;}
+.downcategory li:first-child{ margin-left:0px;}
+.downcategory li:last-child{ margin-right:0px;}
+.downpadcategory .breadcrumb{ border-bottom:1px solid #222; background:none; font-size:15px; padding:0 0 15px;}
+.downpadcategory .breadcrumb li a{ color:#0099ff;}
+.downpadcategory .downwrapprice { padding:15px 0; border-bottom:1px solid #222;}
+.downwrapprice .select-wrapper, .downwrapprice .select-wrapper select { width:100%; height:35px; line-height:34px;}
+.downwrapprice .select-wrapper{ position:relative;}
+.downwrapprice .price-down{ font-size:14px; color:rgb(182, 187, 187);}
+.resetfilterswrap{ padding-top:15px;}
+.resetfilterswrap .reset-btn a{ font-size:16px; color:#019dff;}
+.resetfilterswrap .text-select { background:#0099ff; color:#fff; padding:4px 10px 6px; display:inline-block; border-radius:20px; margin:0 5px 5px 0;}
+.resetfilterswrap .text-select a{ color:#fff; margin-left:5px;}
+/* Free Download Page Css */
+.freedownloadpage { padding:15px 0; border-bottom:1px solid #222;}
+.freedownloadpage li { display:inline-block;}
+.freedownloadpage li a{ color:#ccc; padding:7px 15px 7px 0; font-size:14px; display:block;}
+.freedownloadpage li a .badge{ background:none; font-size:14px; padding:0px; font-weight:normal; color:#999;}
+.freedownloadpage li a:hover{ color:rgb(45, 158, 251);} 
+/* Header Search */
+.header-search .stylish-input-group { margin-top:5px;}
+.header-search .stylish-input-group .input-group-addon { background: white !important; border: 1px solid #ccc; border-left:0px; }
+.header-search .stylish-input-group .form-control { box-shadow: 0 0 0;border: 1px solid #ccc; border-right:0px; border-radius: 2px 0 0 2px; height:38px;}
+.header-search .stylish-input-group button { border: 0; background: transparent; border-radius: 0 2px 2px 0; color:#058dff; margin:0px; padding:0px;}
+/* Download Post */
+.download-post-bread .breadcrumb{ background:#171717; border-radius:0px; padding:15px 0 15px 15px; margin-bottom:0px; border-bottom:1px solid #222;}
+.download-post-bread .breadcrumb a{ color:#058dff;}
+/* Donload Post Container */
+.tabsdownloadpost { padding:8px 15px 0;}
+.tabsdownloadpost .nav-tabs{ border-color:#232323; margin:0 0 15px;}
+.tabsdownloadpost .nav-tabs > li.active > a, .tabsdownloadpost .nav-tabs > li.active > a:hover, .tabsdownloadpost .nav-tabs > li.active > a:focus { background:#303030; border:none; color:#fff;}
+.tabsdownloadpost .nav > li > a:hover, .tabsdownloadpost .nav > li > a:focus{ background:none; border:none;}
+.tabsdownloadpost .nav-tabs > li > a{ border:none; color:#777;}
+.tabsdownloadpost .publishwrap { padding:15px 0;}
+.tabsdownloadpost .commentwrap{ padding:15px 0;}
+.content-heading-title { color: #fff; display: block; font-size: 1.878rem; font-weight: 300; line-height: 32px; margin: 0 0 8px;}
+.content-heading-subtitle { color: rgb(145, 142, 142); font-size: 1.125rem;line-height: 22px;}
+.comment-reply{ padding:0 0 25px 68px; color:#c3c3c3; line-height:20px; position:relative;}
+.comment-reply span{ color:#fff; font-weight:bold; font-size:14px;}
+.comment-reply .img-circle{ position:absolute; left:0; top:0;}
+/* Download Left Panel */
+.DownloadPostLeft{ width:calc(100% - 370px); float:left; position:relative;}
+.DownloadPostLeft .large-search{ position:absolute; top:15px; left:15px; z-index:99;}
+.DownloadPostLeft .large-search a{ color:#555;}
+.DownloadPostLeft .border-radius{ border-radius:3px !important;}
+.DownloadPostLeft .wipdetailtag{ padding:0 15px !important}
+.DownloadPostLeft .SimilarPost{ padding:15px;}
+.SimilarPost h2{ font-size:24px; color:#fff; margin-bottom:10px; line-height:30px; font-weight:400;}
+.SimilarPost h3{ font-size:18px; color:#a39d9d; margin-bottom:25px;}
+/* Right Panel */
+.DownloadPostWrapper .DownloadPostRight { width: 365px; background: #222222; padding: 15px 20px;  float:right; position:relative;}
+.DownloadPostWrapper .DownloadPostRight:after { width:365px; height:100%; content:''; background:#222; position:fixed; right:0; bottom:0; z-index:-99;}
+.DownloadPostRight .post-price{ font-size:30px; color:#fff; line-height:40px;}
+.DownloadPostRight .offer-price{ color:rgb(179, 177, 182); font-size:16px;}
+.DownloadPostRight .blue-btn, .DownloadPostRight .red-btn{ display:inline-block; padding:8px 15px; font-size:14px; line-height:20px; margin-right:10px;}
+.DownloadPostRight .download-cupon{ padding:10px 0 15px; border-bottom:1px solid #333;}
+.DownloadPostRight .download-cupon a{ padding:10px 0; color:rgb(179, 177, 182); display:block;}
+.DownloadPostRight .download-cupon .dropdown-menu{ padding:0px; background:#333; min-width:180px;}
+.DownloadPostRight .download-cupon .dropdown-menu:before {  position: absolute; top: -8px; left: 53%; display: inline-block; border-right: 8px solid transparent; border-bottom: 8px solid #ccc; border-left: 8px solid transparent; border-bottom-color: #333; content: '';}
+.DownloadPostRight .download-cupon .dropdown-menu > li > a{ padding:6px 15px; border-left:2px solid #333;}
+.DownloadPostRight .download-cupon .dropdown-menu > li > a:hover{ border-left:2px solid #0092ff; color:#fff; background:#151515;}
+.DownloadPostRight .WishlistHome{ padding:15px 0; color:rgb(179, 177, 182);}
+.DownloadPostRight .WishlistHome li{ padding:6px 0; line-height:22px;}
+.DownloadPostRight .WishlistHome .wishlist-txt{ color:#fff;}
+.DownloadPostRight .WishlistHome .wish-txt a{ color:#0092ff;}
+.DownloadPostRight .ProductDetail h2{ font-size:24px; color:#fff; margin-bottom:10px;}
+.DownloadPostRight .ProductDetail .filewrap{ background:#1c1c1c;}
+.DownloadPostRight .ProductDetail h3{ font-size:16px; font-weight:600; color:#0092ff; padding:10px 8px 8px;}
+.DownloadPostRight .ProductDetail .filewrap li { color:#757575; font-size:13px; line-height:20px; padding:8px; border-bottom:1px solid #222;}
+.DownloadPostRight .ProductDetail .filewrap li:last-child{ border-bottom:0px;}
+.DownloadPostRight .ProductDetail .filewrap li span{ color:#0092ff;}
+.DownloadPostRight .ProductDetail .filewrap li .red-txt{ color:#bf1c21;}
+.DownloadPostRight .ProductDetail .filewrap li .green-txt{ color:#5bb85d;}
+.DownloadPostRight .lic-txt{ color:#fff; padding:5px 0;}
+.DownloadPostRight .cont-pubilsh{ color:#918e8e; padding-top:10px; line-height:22px;}
+.artist-title{ font-size:24px; color:#fff;}
+.product-name{ font-size:14px; color:rgb(179, 177, 182);}
+.product-name a{ color:#0099ff;}
+.product-rating{ color:rgb(179, 177, 182); font-size:14px;}
+.download-post li{ background:#222; margin:0 7px 20px; width:225px; float:left;}
+.download-post li:first-child{ margin-left:0px;}
+.download-post li:last-child{ margin-right:0px;}
+/* Jobs Page Header Section Css */
+.jobshomewrap { padding: 40px 0 50px; background:image-url('jobsbannerbg.jpg') center top repeat}
+.jobs-padding{ padding:0 5px !important;}
+.jobshomewrap .jobshome-title { font-size: 45px; color: #fff; font-weight: 700; line-height: 35px; margin-bottom: 15px; }
+.jobshomewrap .jobshome-txt { color: #c8e7fd; font-size: 20px; line-height: 26px; margin-bottom: 45px; }
+.jobshomewrap .jobshome-txt a { color: #fff; margin-right: 10px; font-weight: 600; position: relative; }
+.jobshomewrap .jobshome-txt a i { position: absolute; left: 0; right: 0; width: 100%; bottom: -1px; height: 1px; background: #bed7e2; }
+.jobshomeheader { width: 100%; background: #00c19e; display: inline-block; margin: 0 auto 40px; padding: 10px 10px 0; border-radius: 2px; }
+.jobshomeheader .form-control { background: #fff; box-shadow: none; height: 39px; }
+.jobshomeheader .select-wrapper { background: #fff image-url('wip-dropdown.png') no-repeat scroll 93% center; }
+.jobshomeheader .select-wrapper:hover { background: #fff image-url('wip-dropdown-hover.png') no-repeat scroll 93% center; }
+.jobshomeheader .select-wrapper, .wip-gallery-wrap .select-wrapper select { width: 100%; border: 0px; border-radius: 2px; }
+.jobshomeheader .stylish-input-group .input-group-addon { background: white !important; border: 0px; }
+.jobshomeheader .stylish-input-group .form-control { box-shadow: 0 0 0; border: 0px; border-radius: 2px 0 0 2px; }
+.jobshomeheader .stylish-input-group button { border: 0; background: transparent; border-radius: 0 2px 2px 0; }
+.job-location{ position:absolute; top:10px; font-size:16px; right:20px;}
+.jobshomewrap .checkbox-btn label::after, .jobshomewrap .radio-btn label::after { border:1px solid #000; background:#fff;}
+.jobshomewrap .checkbox-btn label, .jobshomewrap .radio-btn label{ color:#fff;}
+.jobshomenav{ background:#151515; padding:17px 0; color:#fff; font-size:18px; line-height:24px;}
+.jobshomepage li{ position:relative; padding:20px 0; border-bottom:1px solid #232323;}
+.jobhomelocation{ position:relative; font-size:14px; color:#fff; padding-left:20px; margin:40px 0 0;}
+.jobhomelocation .job-maker{ position:absolute; left:2px; top:0px;}
+.jobshomepagecontent { padding:0 !important;}
+.jobshomepagecontent h2 a{ font-size:16px; color:#3da0f5; margin:0 0 15px; display:block;}
+.price-freelance { color:rgb(255, 217, 6); font-size:14px;}
+.jobshomepagecontent p{ font-size:14px; color:#fff; margin-bottom:15px;}
+.jobshomepagecontent .jobshometime{ color:rgb(140, 138, 138); font-size:12px; padding:4px 6px;; background:#1f1f1f; border-radius:2px; display:inline-block;}
+.jobshomecompany{ font-size:13px;}
+.blue{ color:#3da0f5;}
+.orange{ color:rgb(255, 115, 0);}
+.purple{ color:rgb(182, 83, 191);}
+.green{ color:rgb(42, 207, 113);}
+.contract-txt{ border:1px solid #7f7f7f; color:#7f7f7f; padding:1px 5px 2px; border-radius:2px; margin-right:10px;}
+.relocation-txt{ border:1px solid #06ca66; color:#06ca66; padding:1px 5px 2px; border-radius:2px;}
+.FeaturedStudios{ padding:10px 0;}
+.FeaturedStudios li{ padding:10px 0; border:0px;}
+.FeaturedStudios li .FeaturedLeft{ width:25%; border:1px solid #222;}
+.FeaturedStudios li .FeaturedRight{ width:73%; padding-left:2%;}
+.FeaturedRight h2{ font-size:14px;}
+.FeaturedRight p{ font-size:13px; color:rgb(158, 158, 158); margin-top:13px;}
+.jobshomepage .wiphome li{ border:0px; padding:0px;}
+.jobshomepage .wiphome h2{ font-size: 15px; color:#fff; font-weight: 600; margin-bottom: 10px;}
+.contractwrap { background:#222; padding:8px;}
+.contractwrap h2{ font-size:15px; color:#fff; text-transform:uppercase; margin:5px 0 10px;}
+.contractwrap li { display:block; border-bottom:1px solid #313131; padding:13px 0; font-size:16px; color:#3da0f5;}
+.contractwrap li:last-child{ padding-bottom:6px; border:0px;}
+.contractwrap li .gray-txt{ color:rgb(187, 187, 187);}
+/* Company Job List Pages Css */
+.compnayjoblist{ padding:10px 15px !important; color:#fff; font-size:18px;}
+.compnayjoblist .from-input{ width:200px; display:inline-block; margin-left:40px;}
+.companyjoblistwrap.jobs-wrap .jobs-location-right{ width:32%;}
+.worldmap img{ width:100%; height:auto;}
+.jobplacetitle{ font-size:24px; color:#fff; padding-top:20px; padding-bottom:10px;}
+.addcompanyworldmap a{  display:block; color:#fff; background:#0082dd; text-align:center; font-size:20px; padding-top:10px; padding-bottom:10px; line-height:26px;}
+/* Jobs Post Page css */
+.jobpostpage{ padding:15px 0 0; position:relative;}
+.jobpostpage .breadcrumb{ background:none; border-radius:0px;}
+.price-txt{ color:#ffd906; /*font-size:22px;*/ margin-right:10px; font-weight:400; vertical-align:middle;}
+.tut-price{ color:#ffd906; font-size:16px; font-weight:400; vertical-align:middle;}
+.jobprofilepic{ width:15%; float:left;}
+.jobprofile{ width:83%; float:right;}
+.jobprofile h3{ font-size:24px; color:#1da6dc; margin-bottom:12px;}
+.jobprofile .jobs-txts{ font-size:14px; color:#fff; line-height:24px;}
+.jobprofile .jobs-txts i{ color:#767b7f;}
+.jobs-heading{ color:#fff; font-size:24px;}
+.jobs-indent h3{ font-size:24px; color:#fff; padding-bottom:15px;}
+.jobs-indent p{ font-size:14px; color:#fff; line-height:24px; padding-bottom:15px;}
+.jobs-indent ul{ margin-bottom:25px;}
+.jobs-indent li{ font-size:14px; color:#fff; line-height:24px; padding:5px 0; list-style:circle; margin-left:25px;}
+.jobpostpage .green-btn{ background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , rgb(60, 183, 88), rgb(3, 162, 40)); border: 1px solid rgb(17, 145, 47); padding:7px 15px 9px; font-size:14px; font-weight:700;}
+/* Right Panel */
+.studiowrap{ margin-bottom:10px; padding-top:15px;}
+.studiowrap .studio-profile{ width:30%; float:left; margin-right:10px;}
+.studiowrap .studio-content{ width:65%; float:left;}
+.studiowrap .studio-content h3{ color:#0082dd; font-size:22px; font-weight:500; margin:5px 0 10px;}
+.studiowrap .studio-content p{ color:#fff; font-size:14px;}
+.studiowrap .studio-content p a {  background-color: #fff; border: solid 1px rgba(0,113,224,.45); background-image: -webkit-linear-gradient(top, #0096ff, #005dff); background-image: -moz-linear-gradient(top, #0096ff, #005dff); background-image: -o-linear-gradient(top, #0096ff, #005dff); background-image: -ms-linear-gradient(top, #0096ff, #005dff); background-image: linear-gradient(to bottom, #0096ff, #005dff); padding: 5px 15px; cursor: pointer; color: #fff; margin: 11px 0 10px; font-size: 14px; line-height: 1.3; border-radius: 3px; display:inline-block;}
+.studio-title{ color:#fff; font-size:18px; font-weight:500; margin-bottom:10px;}
+.youmaylikewrap h2{ font-size:18px; color:#fff; border-bottom:1px solid #2e2e2e; padding-bottom:10px; margin:0 15px 10px;}
+.youmaylikeindent{ background:#101010; padding:15px 0;}
+.youmaylikeindent h3{ line-height:22px; padding-bottom:10px;}
+.youmaylikeindent h3 a{ font-size:18px; margin-bottom:5px; color:#0891fb;}
+.youmaylikeindent p{ font-size:12px; color:#ccc; line-height:18px; padding-bottom:8px;}
+.maylikeleft{ width:23%;}
+.maylikeleft .img-responsive{ border:1px solid #222;}
+.maylikeright{ width:71%;}
+.permanent-txt{ padding:3px 10px 5px; border:1px solid #747474; color:#747474; display:inline-block; font-size:11px; margin:0 5px 5px 0;}
+.relocation-txt{ padding:3px 10px 5px; border:1px solid #5cb85c; color:#5cb85c; display:inline-block; font-size:11px; margin:0 5px 5px 0;}
+/* Tuotorial Post Page */
+.youtubewrap{ width:80%; margin: auto;}
+.posts-price{ display:inline-block; padding:6px 10px; margin-right:10px; background:#fff; color:#222; font-size:15px;}
+.posts-price .pricecut{ text-decoration:line-through; color:#666; font-size:14px;}
+.posts-price .priceoff{ color:#999; font-size:14px;}
+.coursetuotorial { padding:10px 15px 15px;}
+.coursetuotorial h2{ font-size:18px; font-weight:600; color:#fff; margin-bottom:15px;}
+.coursetuotorial h3{ font-size:16px; font-weight:400; color:#ddd; padding-bottom:5px;}
+.coursetuotorial p{ line-height:22px; color:#666; padding-bottom:15px;}
+.lessonstutorial { padding:0 25px 15px;}
+.lessonstutorial h2{ font-size:22px; font-weight:400; color:#bbb; margin-bottom:15px;}
+.lessonstutorial li{ border-bottom:1px solid #222; padding:10px 0;}
+.lessonstutorial li:first-child{ border-top:1px solid #222;}
+.lessonstutorial li .watch-txt{ padding-top:15px;}
+.lessonstutorial li .time-txt{ padding-top:15px; color:#666; font-size:14px;}
+.lessonstutorial li .lessonbox{ font-size:14px; color:#999;}
+.lessonstutorial li .lessonbox img{ margin-right:10px; width:40px; height:40px;}
+.watched-txt{ color: rgb(187, 187, 187); font-size: 13px; line-height:20px; margin-bottom:10px;}
+.featuredpost { margin-bottom:10px;}
+.featuredpost h2{ font-size:16px; color:#fff; font-weight:600; margin-bottom:5px;}
+.featuredpost li{ padding:10px 0;}
+.featuredpost .col-md-5, .featuredpost .col-md-7, .featuredpost .col-sm-5, .featuredpost .col-sm-7, .featuredpost col-xs-5, .featuredpost .col-xs-7 { padding-left:3px; padding-right:3px;}
+.featuredpost .video-timeline{ background:#000; color:#fff; padding:2px 3px; position:absolute; bottom:3px; right:7px; font-size:12px;}
+.featuredpost .videopost h2 a{ color:#0e97f7; font-size:13px; margin-bottom:5px; padding-left:7px; display:block;}
+.featuredpost .videopost p{ font-size:12px; color:#666; padding-left:7px; padding-bottom:5px;}
+/* Search Page */
+.searchpage{ padding:50px 0 10px; position:relative;}
+.searchpage h2 { color: rgb(255, 255, 255); font-size: 38px; font-weight: 700; padding-bottom: 60px; text-align:center;}
+.searchpage .searchwrap{ width:80%; margin:0 auto;}
+.searchwrap .form-control{  border-color: #333333; font-size: 16px; background:#171717; height:46px; line-height:46px; font-weight: 300; }
+.searchwrap .form-control:hover, .searchwrap .form-control:focus{ border-color:#5d5d5d;}
+
+
+.invoice-space{ height:15px; background:#151515;}
+.invoicetabswrap{ background:#222222; text-align:center;}
+.invoicetabswrap li{ display:inline-block}
+.invoicetabswrap li:first-child{ border-left:1px solid #1c1c1c;}
+.invoicetabswrap li a{ padding:30px 35px; border-right:1px solid #1c1c1c; color:#999; display:block; font-size:14px;}
+.invoicetabswrap li a:hover, .invoicetabswrap li.active a{ color:#fff; background:#151515;}
+.invoicetabswrap li a .home{ display:block;}
+
+
+.invoicepage{ padding-top:10px; position:relative;}
+.invoicepage .nav-tabs{ border:1px solid #333; background:#222; display:inline-block; border-radius:2px 2px 0 0;}
+.invoicepage .nav-tabs > li.active > a, .invoicepage .nav-tabs > li.active > a:hover, .invoicepage .nav-tabs > li.active > a:focus { background:#080808; border:0px; color:#fff; border-left:1px solid #333;}
+.invoicepage .nav-tabs > li > a{ border:0px; border-left:1px solid #5d5d5d; margin:0px; border-radius:0px; color:#fff;}
+.invoicepage .nav-tabs > li::first-child{ border-left:none;}
+.invoicepage .nav-tabs > li{ margin:0px;}
+.invoicepage .nav > li > a:hover, .invoicepage .nav > li > a:focus { background:#080808; border-top:0px; border-right:0px; border-bottom:0px;}
+.invoicepage .nav-tabs > li.active > a i{ display:block; height:3px; background:#13aff0; position:absolute; bottom:-2px; left:0; right:0px;}
+
+.invoicepage .tab-content{ border:1px solid #333; margin-top:-3px;}
+
+
+
+.invoiceindent{ padding:20px;}
+.invoiceindent h2{ font-size:22px; color:#fff; margin-bottom:15px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .err-msg{
 	color:#FF0000 !important;
 }
@@ -1092,3 +1365,4 @@ footer .copyright a{ display:inline-block; padding:0px;}
 	color:#00FF00 !important;
 }
 .download-img-height{height: 270px;}
+.tutorial-img-height{height: 160px;}

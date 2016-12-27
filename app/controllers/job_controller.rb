@@ -4,6 +4,12 @@ class JobController < ApplicationController
     authenticate_user!
   end
 
+  def job_home    
+
+  	@result = Job.order('id DESC').page(params[:page]).per(10)
+  	@final_result = JSON.parse(@result.to_json(:include => [:company, :country]))
+  end
+
   def get_job_list
 
   	authenticate_user!
@@ -16,18 +22,13 @@ class JobController < ApplicationController
 
     result = Job.where(conditions).order('id DESC')
 
-    #abort(result.to_json)
-    #result = result + result + result + result + result + result + result + result + result + result + result + result
-    /result.each_with_index do |x,index| 
-    	abort(x.to_json)
-    end/
-
     render :json => result.to_json(:include => [:company, :country]), status: 200
 
   end
 
   def update_user_image
 
+  	authenticate_user!
   	params[:user] ||= {'submit'=> true}
   	if params[:user] == {'submit'=> true}
 	  	flash[:error] = "Image can't be blank."
@@ -53,6 +54,7 @@ class JobController < ApplicationController
 
   def remove_cover_art
 
+  	authenticate_user!
   	@user = current_user
   	
   	@user.remove_cover_art_image!	
@@ -66,8 +68,9 @@ class JobController < ApplicationController
   def job_post  	
   end
   
-  def store
-  end
+ 
+  def apply_job
+  end 
 
   private
 	def user_params

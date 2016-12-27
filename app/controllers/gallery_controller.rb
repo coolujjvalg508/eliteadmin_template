@@ -121,15 +121,33 @@ class GalleryController < ApplicationController
   
   def wip_detail
   end
+
+  def download_category
+
+  end
+  def download_detail
+
+  end
+
+  def download_post
+
+  end
   
   def download
+
+    @post_types = PostType.order('type_name ASC')
+
   end
 
   def get_download_list
 
-    conditions = "true"
+    conditions = "true "
 
-    post_types = PostTypeCategory.where(conditions).order('name ASC')
+    if(params[:post_type_id] && params[:post_type_id] != '' && params[:post_type_id] != 'all') 
+      conditions += " AND id=" + params[:post_type_id]
+    end
+
+    post_types = PostType.where(conditions).order('type_name ASC')
 
     #abort(post_types[0].to_json)
 
@@ -139,16 +157,22 @@ class GalleryController < ApplicationController
     post_types.each_with_index do |d, k|
 
       
-      #download_data = Download.where("post_type_category_id::jsonb ? '1'")
-      #condition_inner = "post_type_category_id::jsonb ?| array['1', '2'] AND visibility = 0 AND publish = 1"
+      #download_data = Download.where("post_type_id::jsonb ? '1'")
+      #condition_inner = "post_type_id::jsonb ?| array['1', '2'] AND visibility = 0 AND publish = 1"
 
-      condition_inner = "post_type_category_id::jsonb ?| array['" + d.id.to_s + "'] AND visibility = 0 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
-      #condition_inner = "post_type_category_id::jsonb ?| array['" + d.id.to_s + "']"
-
-
+      condition_inner = "post_type_id::jsonb ?| array['" + d.id.to_s + "'] AND visibility = 0 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+      #condition_inner = "post_type_id::jsonb ?| array['" + d.id.to_s + "']"
 
       if(params[:is_feature] && params[:is_feature] != '' && params[:is_feature] != 'all') 
          condition_inner += " AND is_feature=" + params[:is_feature]
+      end
+
+      if(params[:post_type_category_id] && params[:post_type_category_id] != '' && params[:post_type_category_id] != 'all') 
+         condition_inner += " AND post_type_category_id::jsonb ?| array['" + params[:post_type_category_id] + "'] "
+      end
+
+      if(params[:sub_category_id] && params[:sub_category_id] != '' && params[:sub_category_id] != 'all') 
+        condition_inner += " AND sub_category_id::jsonb ?| array['" + params[:sub_category_id] + "'] "
       end
 
       download_data = Download.where(condition_inner).order('id DESC').limit(4)
@@ -158,7 +182,7 @@ class GalleryController < ApplicationController
       #abort(download.to_json)
 
       if download_data.present?
-        final_data[i] = {'PostTypeCategory' => d, 'Download' => download}
+        final_data[i] = {'PostType' => d, 'Download' => download}
         i = i + 1
       end 
 
@@ -168,6 +192,21 @@ class GalleryController < ApplicationController
     render json: final_data, status: 200  
     
   end
+
+  def get_post_type_category_list
+    conditions = "true "
+
+    if(params[:post_type_id] && params[:post_type_id] != '' && params[:post_type_id] != 'all') 
+      conditions += " AND parent_id IS NULL AND post_type_id=" + params[:post_type_id]
+    
+    elsif(params[:parent_id] && params[:parent_id] != '' && params[:parent_id] != 'all') 
+      conditions += " AND parent_id=" + params[:parent_id]
+
+    end
+
+    result = PostTypeCategory.where(conditions).order('name ASC')
+    render json: result, status: 200  
+  end  
 
   
 end
