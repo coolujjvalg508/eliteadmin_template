@@ -109,6 +109,9 @@ class GalleryController < ApplicationController
   
   def challenge
   end
+
+  def join_challenge
+  end
   
   def challenge_post
   end
@@ -130,6 +133,10 @@ class GalleryController < ApplicationController
   end
 
   def download_post
+
+  end
+
+  def search
 
   end
   

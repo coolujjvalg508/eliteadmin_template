@@ -303,153 +303,141 @@
 
     <div class="col-md-9 col-sm-12 col-xs-12">
       <ul>
-        <li class="clearfix" ng-repeat="x in <%= @final_result.to_json %>">
-          <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-3">
-              <center><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"> </center>
+        <% if @final_result.present? %>
+          <li class="clearfix" ng-repeat="x in <%= @final_result.to_json %>">
+            <div class="row">
+              <div class="col-md-2 col-sm-3 col-xs-3">
+                <center><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"> </center>
+              </div>
+              <div class="col-md-7 col-sm-6 col-xs-9 jobshomepagecontent">
+                <h2><a href="#"><a href="#">{{x.title}}</a></a></h2>
+                <p>{{x.company.name}}</p>
+                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
+                <div class="clearfix"><span class="jobshometime">{{x.created_at | date:'dd MMMM yyyy'}} - 5,116 views</span></div>
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="jobhomelocation"><div class="job-maker"><i class="fa fa-map-marker" aria-hidden="true"></i></div> {{x.city}}, {{x.country.name}}</div>
+              </div>
             </div>
-            <div class="col-md-7 col-sm-6 col-xs-9 jobshomepagecontent">
-              <h2><a href="#"><a href="#">{{x.title}}</a></a></h2>
-              <p>{{x.company.name}}</p>
-              <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} <span class="price-freelance marginL5">$1200 - $1500</span></div>
-              <div class="clearfix"><span class="jobshometime">{{x.created_at | date:'dd MMMM yyyy'}} - 5,116 views</span></div>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12">
-              <div class="jobhomelocation"><div class="job-maker"><i class="fa fa-map-marker" aria-hidden="true"></i></div> {{x.city}}, {{x.country.name}}</div>
-            </div>
-          </div>
-        </li>
+          </li>
+          <% else %>
+            <li class="clearfix text-center err-msg no-result" >No Result Found!</li>
+          <% end %>
       </ul>
     </div>
 
-  <div class="col-md-3 col-sm-12 col-xs-12">
+    <div class="col-md-3 col-sm-12 col-xs-12">
 
-  <div class="FeaturedStudios clearfix marginB15">
-  <ul>
-  <li class="clearfix">
-  <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img2.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
-  <div class="FeaturedRight pull-right clearfix">
-  <h2><a href="#">Maciek Blaźniak</a></h2>
-  <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
-  <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
-  </div>
-  </li>
-  <li class="clearfix">
-  <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img3.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
-  <div class="FeaturedRight pull-right clearfix">
-  <h2><a href="#">Vera van Wolferen</a></h2>
-  <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
-  <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
-  </div>
-  </li>
-  <li class="clearfix">
-  <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img2.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
-  <div class="FeaturedRight pull-right clearfix">
-  <h2><a href="#">Maciek Blaźniak</a></h2>
-  <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
-  <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
-  </div>
-  </li>
-  <li class="clearfix">
-  <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img3.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
-  <div class="FeaturedRight pull-right clearfix">
-  <h2><a href="#">Vera van Wolferen</a></h2>
-  <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
-  <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
-  </div>
-  </li>
-  </ul> 
-  </div>
+      <div class="FeaturedStudios clearfix marginB15">
+        <ul>
+          <li class="clearfix">
+            <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img2.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
+            <div class="FeaturedRight pull-right clearfix">
+            <h2><a href="#">Maciek Blaźniak</a></h2>
+            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
+            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
+            </div>
+          </li>
+          <li class="clearfix">
+            <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img3.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
+            <div class="FeaturedRight pull-right clearfix">
+            <h2><a href="#">Vera van Wolferen</a></h2>
+            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
+            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
+            </div>
+          </li>
+          <li class="clearfix">
+            <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img2.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
+            <div class="FeaturedRight pull-right clearfix">
+            <h2><a href="#">Maciek Blaźniak</a></h2>
+            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
+            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
+            </div>
+          </li>
+          <li class="clearfix">
+            <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img3.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
+            <div class="FeaturedRight pull-right clearfix">
+            <h2><a href="#">Vera van Wolferen</a></h2>
+            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
+            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
+            </div>
+          </li>
+        </ul> 
+      </div>
 
-  <div class="marginB15"><%= image_tag("googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %> </div>
+      <div class="marginB15"><%= image_tag("googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %> </div>
 
-  <div class="wiphome marginB15 clearfix">
-    <h2>Popular Today</h2>
-    <ul class="margin">
-      <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-    </ul>
-  </div>
+      <div class="wiphome marginB15 clearfix">
+        <h2>Popular Today</h2>
+        <ul class="margin">
+          <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+        </ul>
+      </div>
 
-  <div class="contractwrap clearfix">
-  <h2>contract type</h2>
-  <ul>
-  <li class="clearfix">
-  <div class="pull-left">Freelance</div>
-  <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-  </li>
+      <div class="contractwrap clearfix">
+        <h2>contract type</h2>
+        <ul>
+          <li class="clearfix">
+            <div class="pull-left">Freelance</div>
+            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
+          </li>
 
-  <li class="clearfix">
-  <div class="pull-left">Full Time</div>
-  <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-  </li>
+          <li class="clearfix">
+            <div class="pull-left">Full Time</div>
+            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
+          </li>
 
-  <li class="clearfix">
-  <div class="pull-left">Internship</div>
-  <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-  </li>
+          <li class="clearfix">
+            <div class="pull-left">Internship</div>
+            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
+          </li>
 
-  <li class="clearfix">
-  <div class="pull-left">Part Time</div>
-  <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-  </li>
+          <li class="clearfix">
+            <div class="pull-left">Part Time</div>
+            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
+          </li>
 
-  <li class="clearfix">
-  <div class="pull-left">Contract</div>
-  <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-  </li>
+          <li class="clearfix">
+            <div class="pull-left">Contract</div>
+            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
+          </li>
 
-  <li class="clearfix">
-  <div class="pull-left">Temporary</div>
-  <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-  </li>
-  </ul>
-  </div>
+          <li class="clearfix">
+            <div class="pull-left">Temporary</div>
+            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
+          </li>
+        </ul>
+      </div>
 
-  <div class="contractwrap clearfix">
-  <h2>Job Categories</h2>
-  <ul>
-  <li class="clearfix"><span class="pull-left">Animator</span><span class="pull-right gray-txt marginR5">27</span></li>
-  <li class="clearfix"><span class="pull-left">Architectual Visualiser</span><span class="pull-right gray-txt marginR5">0</span></li>
-  <li class="clearfix"><span class="pull-left">CG Lead</span><span class="pull-right gray-txt marginR5">2</span></li>
-  <li class="clearfix"><span class="pull-left">CG Supervisor</span><span class="pull-right gray-txt marginR5">27</span></li>
-  <li class="clearfix"><span class="pull-left">Character TD</span><span class="pull-right gray-txt marginR5">27</span></li>
-  <li class="clearfix"><span class="pull-left">Colorist</span><span class="pull-right gray-txt marginR5">27</span></li>
-  <li class="clearfix"><span class="pull-left">Compositor</span><span class="pull-right gray-txt marginR5">27</span></li>
-  <li class="clearfix"><span class="pull-left">Character TD</span><span class="pull-right gray-txt marginR5">27</span></li>
-   
-  </ul>
-  </div>
-
-
+      <div class="contractwrap clearfix">
+        <h2>Job Categories</h2>
+        <ul>
+          <li class="clearfix"><span class="pull-left">Animator</span><span class="pull-right gray-txt marginR5">27</span></li>
+          <li class="clearfix"><span class="pull-left">Architectual Visualiser</span><span class="pull-right gray-txt marginR5">0</span></li>
+          <li class="clearfix"><span class="pull-left">CG Lead</span><span class="pull-right gray-txt marginR5">2</span></li>
+          <li class="clearfix"><span class="pull-left">CG Supervisor</span><span class="pull-right gray-txt marginR5">27</span></li>
+          <li class="clearfix"><span class="pull-left">Character TD</span><span class="pull-right gray-txt marginR5">27</span></li>
+          <li class="clearfix"><span class="pull-left">Colorist</span><span class="pull-right gray-txt marginR5">27</span></li>
+          <li class="clearfix"><span class="pull-left">Compositor</span><span class="pull-right gray-txt marginR5">27</span></li>
+          <li class="clearfix"><span class="pull-left">Character TD</span><span class="pull-right gray-txt marginR5">27</span></li>
+         
+        </ul>
+      </div>
 
 
+    </div>
 
-
-  </div>
-
-  <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
-
-      <%#= paginate @result %>
-
-
-      <ul class="pagination">
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">Next</a></li>
-        <li><a href="#">Last</a></li>
-      </ul>
-  </div>
+    <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
+        <%= paginate @result %>
+    </div>
     
   </section>
 
@@ -462,10 +450,8 @@
 <script>
 
   // main page angular app start
-  var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  var app = angular.module('myApp', ["angularLazyImg"]);
   app.controller('myCtrl', function($scope, $http) {
-      
-      
       
   });
 

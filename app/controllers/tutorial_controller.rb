@@ -3,6 +3,19 @@ class TutorialController < ApplicationController
 		@topics = Topic.where('parent_id IS NULL').order('name ASC')
 	end
 
+	def tutorial_post
+
+	end	
+
+	def tutorial_category
+
+	end	
+
+	def tutorial_all_category
+
+	end	
+
+
 	def get_tutorial_list
 
 	    conditions = "true "

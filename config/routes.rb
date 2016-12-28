@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   get 'tutorial/get_tutorial_list'
   get 'tutorial/get_topic_list'
   get 'tutorial/free_tutorial'
+  get 'tutorial/tutorial_post'
+  get 'tutorial/tutorial_category'
+  get 'tutorial/tutorial_all_category'
   
   get 'store/index'
 
@@ -33,6 +36,10 @@ Rails.application.routes.draw do
   get 'job/job_post'
   get 'job/job_home'  
   get 'job/apply_job' 
+  get 'job/job_category' 
+  get 'job/job_company_list_on_map'
+  get 'job/job_list_on_map'
+  
 
   get 'user-signup' => 'user#signup'
   get 'forgot-password'=> 'user#forgotpassword'
@@ -58,6 +65,8 @@ Rails.application.routes.draw do
   get 'user/user_like'
   get 'user/user_profile_info'
   get 'user/user_statistics'
+  get 'user/user_portfolio'
+  get 'user/user_setting'
   
   get 'gallery/all_gallery_post'
   get 'gallery/get_gallery_post_list'
@@ -80,11 +89,17 @@ Rails.application.routes.draw do
   get 'gallery/download_category'
   get 'gallery/download_detail'
   get 'gallery/download_post'
+  get 'gallery/join_challenge'
+  get 'gallery/search'
+  
   
   
   get 'gallery/free_download'
   get 'news/index'
   get 'news/free_news'
+  get 'news/news_category'
+  get 'news/news_all_category'
+  get 'news/news_post'
  
   get 'download-gallery'=> 'gallery#download'
  

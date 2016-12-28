@@ -72,6 +72,17 @@ class JobController < ApplicationController
   def apply_job
   end 
 
+  def job_category
+  end
+
+  def job_company_list_on_map
+  end
+
+  def job_list_on_map
+  end
+
+
+
   private
 	def user_params
 	 	params.require(:user).permit(:image, :cover_art_image)

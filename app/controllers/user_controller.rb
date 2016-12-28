@@ -72,6 +72,12 @@ class UserController < ApplicationController
   
   def user_statistics
   end
+
+  def user_portfolio
+  end
+
+  def user_setting
+  end
     
   
 end
