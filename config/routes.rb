@@ -20,7 +20,8 @@ Rails.application.routes.draw do
 
   get 'content/index'
 
-  get 'tutorial/index'
+
+  get 'tutorials'=> 'tutorial#index'
   get 'tutorial/get_tutorial_list'
   get 'tutorial/get_topic_list'
   get 'tutorial/free_tutorial'
@@ -34,7 +35,7 @@ Rails.application.routes.draw do
   get 'job/get_job_list'
   get 'job/store'
   get 'job/job_post'
-  get 'job/job_home'  
+  get 'jobs'=> 'job#job_home'
   get 'job/apply_job' 
   get 'job/job_category' 
   get 'job/job_company_list_on_map'
@@ -90,8 +91,7 @@ Rails.application.routes.draw do
   get 'gallery/download_detail'
   get 'gallery/download_post'
   get 'gallery/join_challenge'
-  get 'gallery/search'
-  
+  get 'gallery/search'  
   
   
   get 'gallery/free_download'
@@ -101,16 +101,7 @@ Rails.application.routes.draw do
   get 'news/news_all_category'
   get 'news/news_post'
  
-  get 'download-gallery'=> 'gallery#download'
- 
-
-  
-  
- 
-  
-
-
-
+  get 'downloads'=> 'gallery#download'
 
 
   put 'update_user_image' => 'job#update_user_image'
