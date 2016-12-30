@@ -56,7 +56,19 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-	 
+	
+  $('#deletecomment').on('click',function(){
+	  userid	=	$(this).attr('title');
+		if(confirm("Are you sure you want to delete comment of this user?")){
+			$.getJSON("/admin/users/deletecomment",{id: userid, ajax: 'true'}, function(response){
+					alert('Comment has successfully deleted.');
+					//return false;
+					window.location.reload(true);
+			})
+		}else{
+			return false;
+		}
+  }) 
 	 
 	 
   $('#userbanned').on('click',function(){

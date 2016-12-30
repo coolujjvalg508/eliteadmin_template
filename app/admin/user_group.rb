@@ -27,7 +27,7 @@ ActiveAdmin.register UserGroup do
 	  form multipart: true do |f|
 		  f.inputs "User Group" do
 		  f.input :name,label: "Group Name"
-		  f.input :can_access_acp,label: "Can Access ACP"
+		  #f.input :can_access_acp,label: "Can Access ACP"
 		  f.input :is_super_mod,label: "Is Super Mod"
 		end
 		 f.inputs "Access Control" ,for: [:access_control, f.object.try(:access_control) || AccessControl.new], class: 'access-panel' do |permission|
@@ -35,9 +35,9 @@ ActiveAdmin.register UserGroup do
 		  @model_names.each do |model|
 		  key = "permissions_hash"
 			if model == 'sitesetting'
-			  permission.input key, as: :check_boxes, collection: [['read', "#{model}_read"], ['write', "#{model}_write"]], label: model.capitalize
+			  permission.input key, as: :check_boxes, collection: [['read', "#{model}_read"], ['write', "#{model}_write"]], label: model.capitalize.split('_').collect(&:capitalize).join(' ')
 			else
-			  permission.input key, as: :check_boxes, collection: [['read', "#{model}_read"], ['write', "#{model}_write"], ['delete', "#{model}_delete"]], label: model.capitalize
+			  permission.input key, as: :check_boxes, collection: [['read', "#{model}_read"], ['write', "#{model}_write"], ['delete', "#{model}_delete"]], label: model.capitalize.split('_').collect(&:capitalize).join(' ')
 			end 
 		  end
 		end
@@ -56,7 +56,7 @@ ActiveAdmin.register UserGroup do
   show do
     attributes_table do
       row :name
-      row :can_access_acp
+      #row :can_access_acp
       row :is_super_mod
       row :created_at
     end
@@ -66,7 +66,7 @@ ActiveAdmin.register UserGroup do
    index :download_links => ['csv'] do
 		selectable_column
 		column :name
-		column :can_access_acp
+		#column :can_access_acp
 		column :is_super_mod
 		column :created_at
 		actions

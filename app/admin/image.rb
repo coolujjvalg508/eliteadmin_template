@@ -17,7 +17,26 @@ ActiveAdmin.register Image do
 
 	permit_params :image, :caption_image
 	
-	
+	controller do 
+			def action_methods
+			 super                                    
+				if current_admin_user.id.to_s == '1'
+				super
+			  else
+				usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+				disallowed = []
+				disallowed << 'index' if (!usergroup.has_permission('image_library_read') && !usergroup.has_permission('image_library_write') && !usergroup.has_permission('image_library_delete'))
+				disallowed << 'delete' unless (usergroup.has_permission('image_library_delete'))
+				disallowed << 'create' unless (usergroup.has_permission('image_library_write'))
+				disallowed << 'new' unless (usergroup.has_permission('image_library_write'))
+				disallowed << 'edit' unless (usergroup.has_permission('image_library_write'))
+				disallowed << 'destroy' unless (usergroup.has_permission('image_library_delete'))
+				
+				super - disallowed
+			  end
+		end
+	  end
+
 	
 	controller do 
 

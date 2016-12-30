@@ -12,16 +12,24 @@ ActiveAdmin.register User do
 		else
 			link_to "Restrict User", 'javascript:void(0);', method: :get, id: 'userbanned',title: params[:id]
 		end
+
+	
 		
 	end
 
+	action_item only: :edit do
+		comment =	PostComment.find_by(user_id: params[:id]) 
+		if(comment)
+			link_to "Delete Comment", 'javascript:void(0);', method: :get, id: 'deletecomment',title: params[:id]
+		end	
+	end	
 
 	
 	collection_action :user_ban, method: :get do
 		id   				=	params[:id]
 		user		  	    =	User.find_by(id: id)
 		user.update(is_deleted: 1)	
-		flash[:success] = "User has successfully restricted."
+		flash[:success] 	= "User has successfully restricted."
 		render json: {message: 'ok',status: '200'}
 
 	end
@@ -31,6 +39,14 @@ ActiveAdmin.register User do
 		user		  	    =	User.find_by(id: id) 
 		user.update(is_deleted: 0)	
 		flash[:success] = "User has successfully permitted."
+		render json: {message: 'ok',status: '200'}
+
+	end
+
+	collection_action :deletecomment, method: :get do
+		id   =	params[:id]
+		PostComment.where(:user_id => id).destroy_all
+		flash[:success] = "Comment has successfully deleted."
 		render json: {message: 'ok',status: '200'}
 
 	end

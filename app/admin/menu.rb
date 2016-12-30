@@ -15,6 +15,28 @@ ActiveAdmin.register Menu do
 
 	permit_params :title,:parent_id,:url,:navigation_label,:position,:is_custom_link,:pagename,:menulocation
 	
+	controller do 
+			def action_methods
+			 super                                    
+				if current_admin_user.id.to_s == '1'
+				super
+			  else
+				usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+				disallowed = []
+				disallowed << 'index' if (!usergroup.has_permission('menu_read') && !usergroup.has_permission('menu_write') && !usergroup.has_permission('menu_delete'))
+				disallowed << 'delete' unless (usergroup.has_permission('menu_delete'))
+				disallowed << 'create' unless (usergroup.has_permission('menu_write'))
+				disallowed << 'new' unless (usergroup.has_permission('menu_write'))
+				disallowed << 'edit' unless (usergroup.has_permission('menu_write'))
+				disallowed << 'destroy' unless (usergroup.has_permission('menu_delete'))
+				
+				super - disallowed
+			  end
+		end
+	 end
+
+
+
 	form multipart: true do |f|
 		
 		f.inputs "Menu" do
