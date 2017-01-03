@@ -121,9 +121,8 @@
 <% end %>
 		<div class="follow-loginwrap clearfix text-center">
 		  <div class="or-txt">or</div>
-		  <%=link_to "Log in with Facebook", omniauth_authorize_path(:user, :facebook), :class => "popup", :"data-width" => 600, :"data-height" => 400 %>
 
-		  <a href="#" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> 
+		  <a href="<%= omniauth_authorize_path(:user, :facebook) %>" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> 
 
 		  <a href="#" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a> </div>
 		</div>
