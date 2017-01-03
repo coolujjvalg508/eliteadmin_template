@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
   	before_action :configure_permitted_parameters, if: :devise_controller?
   	before_action :set_message, if: -> { controller_name == 'sessions' && action_name == 'new'}
   	#before_action :check_admin, if: -> { controller_path =~ /admin/ && controller_name != 'sessions' && controller_name != 'passwords'}
-   
+  
+    before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
 
   	def configure_permitted_parameters
 	    if params[:user].present? &&  params[:user][:image].present?
@@ -16,6 +17,7 @@ class ApplicationController < ActionController::Base
 	end
 
  	def after_sign_in_path_for (resource)
+ 		
 		if resource.is_a?(AdminUser)
 			admin_root_path
 		else
@@ -28,7 +30,19 @@ class ApplicationController < ActionController::Base
     		flash[:error] = "Please login to access this area."
     	end
   	end
-  
+
+
+	def ensure_signup_complete
+	    # Ensure we don't go into an infinite loop
+	    return if action_name == 'finish_signup'
+
+	    # Redirect to the 'finish_signup' page if the user
+	    # email hasn't been verified yet
+	    if current_user && !current_user.email_verified?
+	      redirect_to finish_signup_path(current_user)
+	    end
+	end
+
 	private
 		def check_admin
 			unless current_admin_user.present?

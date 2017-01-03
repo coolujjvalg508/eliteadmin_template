@@ -140,6 +140,16 @@
 							end %>
 						</ul>
 					</li>
+					<li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Featured
+					  <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+					  </a>
+					  <ul class="dropdown-menu">
+					    <li><a href="javascript:void(0);" ng-click="searchByFeatured('', 'all')" class="active featured-type-link"  id="featured-type-link-all">All</a></li>
+					    <li><a href="javascript:void(0);" ng-click="searchByFeatured('1', 'yes')" class="featured-type-link"  id="featured-type-link-yes">Show Only Featured</a></li>
+					    <li><a href="javascript:void(0);" ng-click="searchByFeatured('0', 'no')" class="featured-type-link"  id="featured-type-link-no">Show Without Featured</a></li>
+
+					  </ul>
+					</li>
 				</ul>
 			</div>
 		</div>	
@@ -203,6 +213,10 @@
         
         list_url = '/tutorial/get_tutorial_list?';
 
+        if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != '' && $scope.viewFeaturedType != 'all'){
+          list_url += '&is_featured=' + $scope.viewFeaturedType
+        }
+
         if(typeof $scope.viewSkillLevel !== 'undefined' && $scope.viewSkillLevel != '' && $scope.viewSkillLevel != 'all'){
           list_url += '&skill_level=' + $scope.viewSkillLevel
         }
@@ -220,6 +234,16 @@
         });
     };
     $scope.filter();
+
+    $scope.searchByFeatured = function(value, id) {
+
+      angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
+      angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
+      
+      $scope.viewFeaturedType = value;
+      $scope.filter();
+
+    };
 
     $scope.searchBySkillLevel = function(value, id) {
 

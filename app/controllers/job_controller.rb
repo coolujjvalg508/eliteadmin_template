@@ -6,7 +6,8 @@ class JobController < ApplicationController
 
   def job_home    
 
-  	@result = Job.order('id DESC').page(params[:page]).per(10)
+  	conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+  	@result = Job.where(conditions).order('id DESC').page(params[:page]).per(10)
   	@final_result = JSON.parse(@result.to_json(:include => [:company, :country]))
   end
 

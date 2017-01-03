@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     puts "ActiveAdmin: #{e.class}: #{e}"
   end
 
-  devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'sessions'}
+  devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'sessions', omniauth_callbacks: 'omniauth_callbacks'}
+
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   
   get 'setting/index' 
   get 'setting/general'
@@ -26,7 +28,7 @@ Rails.application.routes.draw do
   get 'tutorial/get_topic_list'
   get 'tutorial/free_tutorial'
   get 'tutorial/tutorial_post'
-  get 'tutorial/tutorial_category'
+  get 'tutorial/tutorial_category/:id'=> 'tutorial#tutorial_category', as: 'tutorial_category'
   get 'tutorial/tutorial_all_category'
   
   get 'store/index'
@@ -100,6 +102,8 @@ Rails.application.routes.draw do
   get 'news/news_category'
   get 'news/news_all_category'
   get 'news/news_post'
+  get 'news/get_news_list'
+  get 'news/get_category_list'
  
   get 'downloads'=> 'gallery#download'
 

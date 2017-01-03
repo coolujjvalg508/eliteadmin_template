@@ -39,22 +39,17 @@
 
 <!--  Download Details Content -->
 <section class="clearfix downloadcategorywrap">
-<div class="container">
-<h2>Maya Tutorials</h2>
-<div class="downloadtxt">Browsing this category you will find 3D Models of human, people, <span class="hidden-xs">anatomy, mythical figures, clothing and other things related to characters. To buy or download a free 3D Models, browse the categories below. You can use models for animation or games - some of them are rigged and low poly.</span></div>
-<div class="row">
-<ul>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Anatomy <span class="badge">(594)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Child <span class="badge">(256)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Clothing <span class="badge">(107,615)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Fantasy <span class="badge">(1,096)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Man <span class="badge">(1,632)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Other <span class="badge">(609)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Sci-Fi <span class="badge">(791)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Women <span class="badge">(1,486)</span></a></li>
-</ul>
-</div>
-</div>
+    <div class="container">
+        <h2><%= @topic_details.name %></h2>
+        <div class="downloadtxt"><%= @topic_details.description %></div>
+        <div class="row">
+            <ul>
+                <% @sub_topics.each_with_index do |val, i| %>
+                    <li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="<%= tutorial_category_path(val.id) %>"><%= val.name %> <span class="badge">(<%= val.try(:count_tutorials) %>)</span></a></li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
 </section>
 
 <!-- Download Indent Start -->
@@ -72,19 +67,19 @@
 <div class="col-md-3 col-sm-4 col-xs-12">
   <div class="pull-left price-down paddinT5">Price <%= image_tag("price-line.png", :alt=>"price", :class=>"img-responsive marginL5", :style=>"display:inline-block") %></div>
   <div class="pull-right">
-    <div class="checkbox-btn">
+    <!-- <div class="checkbox-btn">
       <input type="checkbox" value="value-1" id="rc3" name="rc3" />
       <label for="rc3" onclick></label>
-    </div>
+    </div> -->
   </div>
 </div>
 <div class="col-md-2 col-sm-3 col-xs-12">
-  <select class="custom-select">
+  <!-- <select class="custom-select">
     <option>Formats</option>
-  </select>
+  </select> -->
 </div>
 <div class="col-md-4 col-sm-3 col-xs-12 paddinT10">
-  <div class="checkbox-btn pull-left marginR5">
+  <!-- <div class="checkbox-btn pull-left marginR5">
     <input type="checkbox" value="value-1" id="rc4" name="rc4" />
     <label for="rc4" onclick>Animated</label>
   </div>
@@ -95,7 +90,7 @@
   <div class="checkbox-btn  pull-left marginL5">
     <input type="checkbox" value="value-1" id="rc6" name="rc6" />
     <label for="rc6" onclick>Low-poly</label>
-  </div>
+  </div> -->
 </div>
 <div class="col-md-3 col-sm-3 col-xs-12">
   <select class="custom-select">

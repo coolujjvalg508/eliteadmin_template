@@ -167,7 +167,7 @@ class GalleryController < ApplicationController
       #download_data = Download.where("post_type_id::jsonb ? '1'")
       #condition_inner = "post_type_id::jsonb ?| array['1', '2'] AND visibility = 0 AND publish = 1"
 
-      condition_inner = "post_type_id::jsonb ?| array['" + d.id.to_s + "'] AND visibility = 0 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+      condition_inner = "post_type_id::jsonb ?| array['" + d.id.to_s + "'] AND visibility = 0 AND status = 1 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
       #condition_inner = "post_type_id::jsonb ?| array['" + d.id.to_s + "']"
 
       if(params[:is_feature] && params[:is_feature] != '' && params[:is_feature] != 'all') 

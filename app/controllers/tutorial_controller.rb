@@ -9,6 +9,14 @@ class TutorialController < ApplicationController
 
 	def tutorial_category
 
+		@topic_id = params[:id]
+
+		@topic_details = Topic.find_by(id: @topic_id);
+
+		@sub_topics = Topic.where('parent_id = ?', @topic_id).select("topics.*, (SELECT COUNT(*) FROM tutorials WHERE sub_topic::jsonb ?| array[cast(topics.id as text)]) AS count_tutorials")
+
+		#abort(@topic_details.to_json)
+
 	end	
 
 	def tutorial_all_category
@@ -33,8 +41,12 @@ class TutorialController < ApplicationController
 	    i = 0
 	    topics.each_with_index do |d, k|
 
-		    condition_inner = "topic::jsonb ?| array['" + d.id.to_s + "'] "
+		    condition_inner = "topic::jsonb ?| array['" + d.id.to_s + "'] AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
 
+		    if(params[:is_featured] && params[:is_featured] != '' && params[:is_featured] != 'all') 
+	         	condition_inner += " AND is_featured=" + params[:is_featured]
+	      	end
+		    
 		    if(params[:skill_level] && params[:skill_level] != '') 
 	         	condition_inner += " AND skill_level='" + params[:skill_level] + "'"
 	      	end

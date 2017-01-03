@@ -121,7 +121,11 @@
 <% end %>
 		<div class="follow-loginwrap clearfix text-center">
 		  <div class="or-txt">or</div>
-		  <a href="#" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> <a href="#" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a> </div>
+		  <%=link_to "Log in with Facebook", omniauth_authorize_path(:user, :facebook), :class => "popup", :"data-width" => 600, :"data-height" => 400 %>
+
+		  <a href="#" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> 
+
+		  <a href="#" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a> </div>
 		</div>
 		</div>
 		</div>
@@ -136,7 +140,7 @@
 		}).on('ajax:success', '#log_in_form_popup', function(e, data, status, xhr) {
 			
 			if(status == 'success'){
-				window.location.href = '<%= root_path %>';
+				window.location.href = '<%= gallery_all_gallery_post_path %>';
 			}else{
 				$('.signin-alert').html('Invalid email or password.');
 				$('.signin-alert').show();
@@ -155,8 +159,6 @@
 				$('.signin-alert').html('');
 				$('.signin-alert').hide();
 			});
-			
-			
 		});
 				
 	</script>
