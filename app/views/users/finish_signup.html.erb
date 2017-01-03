@@ -1,8 +1,8 @@
 <div class="container login-page">
-  <h2 class="text-center">Verify Email</h2>
+  <h2 class="text-center">Add Email</h2>
   <div id="login-popup">
     <div class="modal-dialog">
-      <div class="modal-header"><h4 class="modal-title">Verify Email</h4></div>
+      <div class="modal-header"><h4 class="modal-title">Add Email</h4></div>
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-body">
@@ -31,52 +31,4 @@
       </div>
     </div>
   </div>
-  <div class="text-center">
-    <a data-toggle="modal" href="#login-popup"><span class="blue-txt txt15 "></span> Return to sign in</a>
-  </div>
 </div>
-
-
-
-
-
-<h2 class="text-center">Verify email</h2>
-<div id="login-popup">
-<div class="modal-dialog">
-  <div class="modal-header">
-    <h4 class="modal-title">Verify email</h4>
-  </div>
-  <!-- Modal content-->
-  <div class="modal-content">
-    <div class="modal-body">
-
-<div id="add-email" class="container">
-  <h1>Add Email</h1>
-  <%= form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form'}) do |f| %>
-    <% if @show_errors && current_user.errors.any? %>
-      <div id="error_explanation">
-        <% current_user.errors.full_messages.each do |msg| %>
-          <%= msg %><br>
-        <% end %>
-      </div>
-    <% end %>
-    <div class="form-group">
-      <%= f.label :email %>
-      <div class="controls">
-        <%= f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: email@me.com' %>
-        <p class="help-block">Please confirm your email address. No spam.</p>
-      </div>
-    </div>
-    <div class="actions">
-      <%= f.submit 'Continue', :class => 'btn btn-primary' %>
-    </div>
-  <% end %>
-</div>
-
-  </div>
-</div>
-</div>
-</div>
-
-
-
