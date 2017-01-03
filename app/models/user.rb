@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: {message: 'This username is already registered with us.'}
   validates :email, confirmation: true
   validates :email, presence: {message: "Email can't be blank"}
- # validates :email, length: { maximum: 35, message: "Please enter no more than 35 characters." }
+  #validates :email, length: { maximum: 35, message: "Please enter no more than 35 characters." }
   validates :email, uniqueness: {message: 'This email is already registered with us.'}
   validates_format_of :email, :with  => /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i, :message => 'Please enter a valid email'
   validates :password, presence: {message: "Password can't be blank"}, on: :create
@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if user.nil?
-        #abort(auth.to_json)
+        abort(auth.to_json)
         user = User.new(
           firstname: auth.extra.raw_info.name,
           username:  auth.uid,
@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
           profile_type: 'Artist'
         )
         user.skip_confirmation!
-        user.save!
+        user.save! 
       end
     end
 
