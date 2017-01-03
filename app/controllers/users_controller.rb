@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   # GET /users/:id/edit
-  def edit
+  def edit 
     # authorize! :update, @user
   end
 
