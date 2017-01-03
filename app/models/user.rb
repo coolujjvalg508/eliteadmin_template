@@ -67,14 +67,17 @@ class User < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if user.nil?
-        user = User.new(
+        abort(auth.to_json)
+        /user = User.new(
           firstname: auth.extra.raw_info.name,
+          lastname: auth.extra.raw_info.name,
+          username: auth.extra.raw_info.name,
           #username: auth.info.nickname || auth.uid,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
           password: Devise.friendly_token[0,20]
         )
         user.skip_confirmation!
-        user.save!
+        user.save! /
       end
     end
 
