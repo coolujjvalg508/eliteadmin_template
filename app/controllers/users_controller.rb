@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	  before_action :set_user, only: [:show, :edit, :update, :destroy] 
+    before_action :set_user, only: [:show, :edit, :update, :destroy, :finish_signup]
     
   # GET /users/:id.:format
   def show
@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   # GET /users/:id/edit
-  def edit 
+  def edit
     # authorize! :update, @user
   end
 
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
 
   # GET/PATCH /users/:id/finish_signup
   def finish_signup
-     authorize! :update, @user 
+     #authorize! :update, @user 
     #abort(params.to_json)
     if request.patch? && params[:user] #&& params[:user][:email]
       if @user.update(user_params)
