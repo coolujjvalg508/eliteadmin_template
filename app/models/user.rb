@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
 
   devise :database_authenticatable, :registerable,
-       :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable,:omniauth_providers => [:facebook, :twitter]
+       :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
 
   belongs_to  :country
   ############################ Associations #############################
@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if user.nil?
-        abort(auth.to_json)
+       abort(auth.to_json)
         user = User.new(
           firstname: auth.extra.raw_info.name,
           username:  auth.uid,
