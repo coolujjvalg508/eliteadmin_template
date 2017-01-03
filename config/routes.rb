@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'sessions', omniauth_callbacks: 'omniauth_callbacks'}
 
-  #match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   
   get 'setting/index' 
   get 'setting/general'
