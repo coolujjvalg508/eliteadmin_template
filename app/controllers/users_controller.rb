@@ -31,7 +31,7 @@ class UsersController < ApplicationController
      #authorize! :update, @user 
     #abort(params.to_json)
     if request.patch? && params[:user] #&& params[:user][:email]
-      if @user.update(user_params)
+      if @user.update_attributes(user_params)
         @user.skip_reconfirmation!
         sign_in(@user, :bypass => true)
         #redirect_to @user, notice: 'Your profile was successfully updated.'
