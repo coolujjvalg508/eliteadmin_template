@@ -28,7 +28,7 @@ class UsersController < ApplicationController
 
   # GET/PATCH /users/:id/finish_signup
   def finish_signup
-    # authorize! :update, @user 
+     authorize! :update, @user 
     #abort(params.to_json)
     if request.patch? && params[:user] #&& params[:user][:email]
       if @user.update(user_params)
