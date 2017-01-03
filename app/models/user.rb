@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
 
   devise :database_authenticatable, :registerable,
-       :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
+       :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable,:omniauth_providers => [:facebook, :twitter]
 
   belongs_to  :country
   ############################ Associations #############################
