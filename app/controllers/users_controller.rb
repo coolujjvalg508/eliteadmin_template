@@ -37,6 +37,9 @@ class UsersController < ApplicationController
         #redirect_to @user, notice: 'Your profile was successfully updated.'
         redirect_to root_path, notice: 'Your profile was successfully updated.'
       else
+
+        abort(@user.errors.to_json)
+
         @show_errors = true
       end
     end
