@@ -23,12 +23,12 @@ class User < ActiveRecord::Base
   ########################### Validations ################################
 
   validates :firstname, presence: true
-  validates :lastname, presence: true
+  #validates :lastname, presence: true
   validates :username, presence: true
   validates :username, uniqueness: {message: 'This username is already registered with us.'}
   validates :email, confirmation: true
   validates :email, presence: {message: "Email can't be blank"}
-  validates :email, length: { maximum: 35, message: "Please enter no more than 35 characters." }
+ # validates :email, length: { maximum: 35, message: "Please enter no more than 35 characters." }
   validates :email, uniqueness: {message: 'This email is already registered with us.'}
   validates_format_of :email, :with  => /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i, :message => 'Please enter a valid email'
   validates :password, presence: {message: "Password can't be blank"}, on: :create
