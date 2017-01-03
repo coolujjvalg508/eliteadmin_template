@@ -1,3 +1,14 @@
+<div class="container login-page">
+<h2 class="text-center">Resend confirmation instructions</h2>
+<div id="login-popup">
+<div class="modal-dialog">
+  <div class="modal-header">
+    <h4 class="modal-title">Resend confirmation</h4>
+  </div>
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-body">
+
 <div id="add-email" class="container">
   <h1>Add Email</h1>
   <%= form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form'}) do |f| %>
@@ -20,3 +31,11 @@
     </div>
   <% end %>
 </div>
+
+  </div>
+</div>
+</div>
+</div>
+
+
+
