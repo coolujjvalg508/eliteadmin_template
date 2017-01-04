@@ -20,21 +20,21 @@
 	<ul class="nav navbar-nav text-uppercase">
 	  <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">community <span class="fa fa-chevron-down"></span></a>
 		<ul class="dropdown-menu text-uppercase">
-		  <li><%= link_to '<i class="fa fa-fw fa-picture-o fa-pad-right"></i> Browse art'.html_safe, controller: 'gallery',action:'browse_all_artwork' %>
+		  <li><%= link_to '<i class="fa fa-fw fa-picture-o fa-pad-right"></i> Browse art'.html_safe, gallery_browse_all_artwork_path %>
 		  </li>
 		  <li><a href="#" target="_self"><i class="fa fa-fw fa-search fa-pad-right"></i> Search</a></li>
 		  <li class="divider hidden-xs hidden-sm"></li>
-		  <li><%= link_to '<i class="fa fa-heartbeat fa-lg fa-pad-right"></i>All Activity'.html_safe, controller: 'user',action:'all_activity' %>
+		  <li><%= link_to '<i class="fa fa-heartbeat fa-lg fa-pad-right"></i>All Activity'.html_safe, user_all_activity_path %>
 		  </li>
-		  <li><%= link_to '<i class="fa fa-trophy fa-lg fa-pad-right"></i>Challenges'.html_safe, controller: 'gallery',action:'challenge' %></li>
+		  <li><%= link_to '<i class="fa fa-trophy fa-lg fa-pad-right"></i>Challenges'.html_safe, gallery_challenge_path %></li>
 		  <li><%= link_to '<i class="fa fa-fw fa-bookmark fa-pad-right"></i> BookMarks'.html_safe, bookmark_path %></li>
 		  <li><a href="#"><i class="fa fa-fw fa-bar-chart fa-pad-right"></i> Stats</a></li>
 		</ul>
 	  </li>
-	 <li><%= link_to 'news'.html_safe, controller: 'news',action:'index' %></li>
+	 <li><%= link_to 'news'.html_safe, news_index_path %></li>
 	  <li><%= link_to 'downloads'.html_safe, downloads_path %></li>
-	  <li><%= link_to 'Tutorials'.html_safe, controller: 'tutorial',action:'index' %></li>
-	  <li><%= link_to 'Jobs'.html_safe, controller: 'job',action:'job_home' %></li>
+	  <li><%= link_to 'Tutorials'.html_safe, tutorials_path %></li>
+	  <li><%= link_to 'Jobs'.html_safe, jobs_path %></li>
 	  <li><a href="#">forum</a></li>
 	  <li>
 		<button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button>
