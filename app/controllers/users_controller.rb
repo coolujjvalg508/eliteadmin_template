@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :set_user, only: [:show, :edit, :update, :destroy, :finish_signup]
+	  before_action :set_user, only: [:show, :edit, :update, :destroy, :finish_signup]
     
   # GET /users/:id.:format
   def show
@@ -32,15 +32,12 @@ class UsersController < ApplicationController
     #abort(params.to_json)
     if request.patch? && params[:user] #&& params[:user][:email]
       if @user.update_attributes(user_params)
-        @user.skip_reconfirmation!
-
+      #  @user.skip_reconfirmation!
+        Devise::Mailer.confirmation_instructions(@user,'123456').deliver
         sign_in(@user, :bypass => true)
         #redirect_to @user, notice: 'Your profile was successfully updated.'
         redirect_to root_path, notice: 'Your profile was successfully updated.'
       else
-
-        #abort(@user.errors.to_json)
-
         @show_errors = true
       end
     end

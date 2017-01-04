@@ -5,6 +5,7 @@ class UserMailer < Devise::Mailer
   #before_filter :add_inline_attachment!
 
   def confirmation_instructions(record, token, opts={}) 
+    abort(record.to_json)
     @system_email = SystemEmail.find_by(title: 'Registration email to user when registered through registration.')
     @subject =  @system_email.try(:subject).to_s
     @subject = "Welcome to CGmeetup" if @subject.blank?
