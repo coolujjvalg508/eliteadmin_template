@@ -33,8 +33,8 @@ class UsersController < ApplicationController
     if request.patch? && params[:user] #&& params[:user][:email]
       if @user.update_attributes(user_params)
       #  @user.skip_reconfirmation!
-        token = @user.confirmation_token.to_s
-        Devise::Mailer.confirmation_instructions(@user,token).deliver
+        #token = @user.confirmation_token.to_s
+       # Devise::Mailer.confirmation_instructions(@user,token).deliver
         sign_in(@user, :bypass => true)
         #redirect_to @user, notice: 'Your profile was successfully updated.'
         redirect_to root_path, notice: 'Your profile was successfully updated.'
