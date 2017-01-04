@@ -1,12 +1,4 @@
-<p>Hello <%= @resource.try(:firstname).to_s.blank? ? @email : @resource.try(:firstname).to_s %>,</p>
 
-<p>Thank you for registering with cgmeetup. Please click on below link to activate your account.</p>
-
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
-
-<p>&nbsp;</p>
-
-<p>Best Regards</p>
 
 <p>Cgmeetup Team</p>
 
