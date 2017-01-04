@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     if request.patch? && params[:user] #&& params[:user][:email]
       if @user.update_attributes(user_params)
       #  @user.skip_reconfirmation!
-      abort(user_params)
+      abort(user_params.to_json)
         Devise::Mailer.confirmation_instructions(@user,'123456').deliver
         sign_in(@user, :bypass => true)
         #redirect_to @user, notice: 'Your profile was successfully updated.'
