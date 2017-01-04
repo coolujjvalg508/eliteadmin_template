@@ -32,7 +32,8 @@ class UsersController < ApplicationController
     #abort(params.to_json)
     if request.patch? && params[:user] #&& params[:user][:email]
       if @user.update_attributes(user_params)
-        @user.skip_reconfirmation!
+        # @user.skip_reconfirmation!
+        # @user.skip_confirmation! if @user.respond_to?(:skip_confirmation)
         #token = @user.confirmation_token.to_s
        # Devise::Mailer.confirmation_instructions(@user,token).deliver
         sign_in(@user, :bypass => true)
