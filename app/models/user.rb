@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
           )
       
 
-        user.skip_confirmation!
+       # user.skip_confirmation!
         user.save! 
       end
     end
