@@ -132,9 +132,10 @@
 							</li>
 								
 							<% i = 1 
-							Tutorial::SKILL_LEVEL.each do |val| %>
+
+							@tutorial_skill.each do |val| %>
 								<li>
-									<a href="javascript:void(0);" ng-click="searchBySkillLevel('<%= val %>', '<%= i %>')" class="skill-level-link"  id="skill-level-link-<%= i %>"><%= val %></a>
+									<a href="javascript:void(0);" ng-click="searchBySkillLevel('<%= val['id'] %>', '<%= i %>')" class="skill-level-link"  id="skill-level-link-<%= i %>"><%= val['title'] %></a>
 								</li>
 							<%  i = i + 1
 							end %>
