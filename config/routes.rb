@@ -61,7 +61,6 @@ Rails.application.routes.draw do
   get 'user/browse_all_artist'
   get 'user/connection_followers'
   get 'user/connection_following'
-  get 'user/edit_profile'
   get 'user/join_challenge'
   get 'user/user_followers'
   get 'user/user_following'
@@ -70,6 +69,10 @@ Rails.application.routes.draw do
   get 'user/user_statistics'
   get 'user/user_portfolio'
   get 'user/user_setting'
+  get 'user/edit_profile'
+  resources :user, only: [:edit, :update]
+
+
   
   get 'gallery/all_gallery_post'
   get 'gallery/get_gallery_post_list'

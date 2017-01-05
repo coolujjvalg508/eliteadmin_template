@@ -1,6 +1,7 @@
 ActiveAdmin.register NewsletterSetting do
 
-menu label: 'Newsletter Setting'
+	menu label: 'Notification', parent: 'Email', priority: 2
+	#menu false
 	permit_params :email_digest_option, :job_email,:gallery_email,:download_email,:tutorial_email,:news_email
 
    actions :all, except: [:new, :destroy,:show]

@@ -21,6 +21,9 @@
 //= require angular
 //= require dirPagination
 //= require angular-lazy-img
+//= require moment-with-locales
+//= require ui-bootstrap-tpls
+//= require datetime-picker
 
 
 // require turbolinks

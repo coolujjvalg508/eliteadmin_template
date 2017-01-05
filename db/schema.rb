@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170103050734) do
+ActiveRecord::Schema.define(version: 20170105085204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -639,6 +639,12 @@ ActiveRecord::Schema.define(version: 20170103050734) do
   end
 
   add_index "topics", ["parent_id"], name: "index_topics_on_parent_id", using: :btree
+
+  create_table "tutorial_skills", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "tutorials", force: :cascade do |t|
     t.string   "title"

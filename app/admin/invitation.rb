@@ -1,6 +1,6 @@
 ActiveAdmin.register Invitation do
 
-  menu label: 'Invitation'
+  menu label: 'Invitation', parent: 'Email', priority: 3
   permit_params :email,:status
   actions :all, except: [:new, :destroy]
   form multipart: true do |f| 

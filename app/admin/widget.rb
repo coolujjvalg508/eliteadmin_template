@@ -13,7 +13,7 @@ ActiveAdmin.register Widget do
 #   permitted
 # end
 
-	 menu label: 'Widget'
+	 menu label: 'Widget',priority: 15
 	 permit_params :title, :sectionname, :widgetcode, :position, :status,:sort_order
 
 	controller do 

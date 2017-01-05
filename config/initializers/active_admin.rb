@@ -272,9 +272,75 @@ ActiveAdmin.setup do |config|
   
   config.namespace :admin do |admin|
 	  admin.build_menu do |menu|
-		menu.add label: "Gallery" do |sites|
+    menu.add priority: 1, label: "Dashboard" do |sites|
+    end
+		menu.add priority: 2, label: "Gallery" do |sites|
+      sites.add label: "Projects", priority: 1,   url: "/admin/projects"
 		  sites.add label: "Add New", priority: 2,   url: "/admin/projects/new"
 		end
+    menu.add priority: 3, label: "Challenge" do |sites|
+      sites.add label: "Challenges", priority: 1,   url: "/admin/challenges"
+      sites.add label: "Add New", priority: 2,   url: "/admin/challenges/new"
+    end
+
+    menu.add priority: 4, label: "Tutorial" do |sites|
+      sites.add label: "Tutorials", priority: 1,   url: "/admin/tutorials"
+      sites.add label: "Add New", priority: 2,   url: "/admin/tutorials/new"
+    end
+
+    menu.add priority: 5, label: "Download" do |sites|
+      sites.add label: "Products", priority: 1,   url: "/admin/downloads"
+      sites.add label: "Add New", priority: 2,   url: "/admin/downloads/new"
+    end
+
+    menu.add priority: 6, label: "Jobs" do |sites|
+      sites.add label: "Jobs", priority: 1,   url: "/admin/jobs"
+      sites.add label: "Add New", priority: 2,   url: "/admin/jobs/new"
+    end
+
+    menu.add priority: 7, label: "News" do |sites|
+      sites.add label: "Projects", priority: 1,   url: "/admin/news"
+      sites.add label: "Add New", priority: 2,   url: "/admin/news/new"
+    end
+
+    menu.add priority: 8, label: "Common Fields" do |sites|
+    end
+
+    menu.add priority: 9, label: "Media Library" do |sites|
+    end
+
+    menu.add priority: 10, label: "Comments" do |sites|
+       sites.add label: "All Comments (Published Comments)", priority: 1,   url: "/admin/post_comments"
+       sites.add label: "Pending (Held for Review)", priority: 2,   url: "#"
+       sites.add label: "Spam", priority: 3,   url: "#"
+       sites.add label: "Trash", priority: 4,   url: "#"
+    end
+
+    menu.add priority: 11, label: "Tags" do |sites|
+    end
+
+    menu.add priority: 12, label: "Sales" do |sites|
+       sites.add label: "Latest Sales", priority: 1,   url: "#"
+       sites.add label: "Money Transaction (monthly to user account)", priority: 2,   url: "#"
+       sites.add label: "Coupons", priority: 3,   url: "#"
+       sites.add label: "Gateway settings (paypal & ccavenue)", priority: 4,   url: "#"
+    end
+
+    menu.add priority: 13, label: "Email" do |sites|
+       sites.add label: "Newsletters", priority: 1,   url: "#"       
+    end
+
+    menu.add priority: 17, label: "Account" do |sites|
+    end
+
+    menu.add priority: 18, label: "Settings" do |sites|
+    end
+
+   
+
+
+
+
 	  end
 end
   

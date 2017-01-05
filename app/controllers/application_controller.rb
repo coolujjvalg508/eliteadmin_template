@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   	def configure_permitted_parameters
 	    if params[:user].present? &&  params[:user][:image].present?
-	      params[:user][:image_attributes] = params[:user][:image]
+	      	params[:user][:image_attributes] = params[:user][:image]
 	    end
 	    devise_parameter_sanitizer.for(:sign_up).push(:firstname, :lastname, :username, :email, :password, :captcha, :captcha_key, :profile_type)
 	end

@@ -2,7 +2,7 @@ ActiveAdmin.register SystemEmail do
 
   config.sort_order = 'created_at_asc'
 
-  menu label: 'System Emails'
+  menu label: 'System Emails', parent: 'Settings',priority: 2
 
   permit_params :title,:subject,:content, :active
 

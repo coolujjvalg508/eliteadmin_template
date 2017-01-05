@@ -12,7 +12,7 @@ ActiveAdmin.register Menu do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
-
+	menu label: 'Menu',priority: 14
 	permit_params :title,:parent_id,:url,:navigation_label,:position,:is_custom_link,:pagename,:menulocation
 	
 	controller do 

@@ -1,6 +1,6 @@
 ActiveAdmin.register StaticPage do
  
-    menu label: 'Static Pages', parent: 'Pages',priority: 1
+    menu label: 'Static Pages', parent: 'Pages'
 	permit_params :title, :description, :page_url
 	config.sort_order = 'updated_at_desc'
    # actions :all, except: [:new, :destroy]

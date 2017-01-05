@@ -1,6 +1,6 @@
 ActiveAdmin.register Image do
 
-	menu label: 'Images', parent: 'Media Library',priority: 1 
+	menu label: 'Images', parent: 'Media Library', priority: '1' 
 	actions :all, except: [:new, :create]
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

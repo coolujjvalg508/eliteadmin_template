@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-   menu label: 'Front Users', parent: 'Users'
+   menu label: 'Users Management', parent: 'Account', priority: 1
 	permit_params :firstname, :username, :password,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country_id, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
 	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :professional_experiences_attributes => [:company_id,:title,:location,:description, :from_month,:from_year,:to_month,:to_year,:currently_worked], :production_experiences_attributes => [:production_title,:release_year,:production_type,:your_role, :company], :education_experiences_attributes => [:school_name,:field_of_study,:month_val,:year_val, :description], :company_attributes => [:id,:name]
 

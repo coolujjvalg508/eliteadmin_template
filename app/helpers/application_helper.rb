@@ -12,11 +12,21 @@ module ApplicationHelper
 	end
 
 	def error_message(object, field)
+
 		if object.errors.present? && object.errors.messages.present?
 			if object.is_a?(User) && object.errors.messages[field.to_sym].present?
 				if field.to_s == "email" && object.errors.messages[field.to_sym].include?("Email can't be blank")
 					err_msg = "<div class='error-msg'>Email can't be blank</div>"
 					return err_msg.html_safe
+				elsif field.to_s == "username" && object.errors.messages[field.to_sym].include?("can't be blank")
+					err_msg = "<div class='error-msg'>Username can't be blank</div>"
+					return err_msg.html_safe		
+				elsif field.to_s == "firstname" && object.errors.messages[field.to_sym].include?("can't be blank")
+					err_msg = "<div class='error-msg'>First name can't be blank</div>"
+					return err_msg.html_safe	
+				elsif field.to_s == "lastname" && object.errors.messages[field.to_sym].include?("can't be blank")
+					err_msg = "<div class='error-msg'>last name can't be blank</div>"
+					return err_msg.html_safe		
 				elsif field.to_s == "email" && object.errors.messages[field.to_sym].include?("Please enter a valid email")
 					err_msg = "<div class='error-msg'>Please enter a valid email</div>"
 					return err_msg.html_safe

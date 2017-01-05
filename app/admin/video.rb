@@ -1,6 +1,6 @@
 ActiveAdmin.register Video do
 
-	menu label: 'Videos', parent: 'Media Library',priority: 2 
+	menu label: 'Videos', parent: 'Media Library', priority: '2'
 	actions :all, except: [:new, :create]
 	# See permitted parameters documentation:
 	# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

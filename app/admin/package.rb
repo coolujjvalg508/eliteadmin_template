@@ -13,7 +13,7 @@ ActiveAdmin.register Package, as: "Job Package"  do
 #   permitted
 # end
 
-	 menu label: 'Job Package', parent: 'Package',priority: 1
+	 menu label: 'Job Package', parent: 'Package'
 	 permit_params :title, :description, :amount, :image
 
 	controller do 

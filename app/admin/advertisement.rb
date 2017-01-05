@@ -1,6 +1,6 @@
 ActiveAdmin.register Advertisement,as: 'Banner' do
 
-	menu label: 'Banners', parent: 'Pages',priority: 3
+	menu label: 'Banners', parent: 'Pages'
 	permit_params :title,:advertisement_package_id,:starting_date,:end_date,:target_location,:interest_based, :description, :status , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache]
 
 

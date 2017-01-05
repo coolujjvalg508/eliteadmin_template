@@ -1,6 +1,6 @@
 ActiveAdmin.register UserGroup do
 
-	 menu label: 'User Group', parent: 'Users'
+	 menu label: 'Group Management', parent: 'Account', priority: 3
 	 permit_params :name, :can_access_acp, :is_super_mod, access_control_attributes: [ :id, permissions_hash: [] ]
 
 	 controller do 

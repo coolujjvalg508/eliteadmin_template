@@ -13,7 +13,7 @@ ActiveAdmin.register AdvertisementPackage do
 #   permitted
 # end
 
-	 menu label: 'Advertisement Package', parent: 'Package',priority: 2
+	 menu label: 'Advertisement Package', parent: 'Package'
 	 permit_params :title, :description, :amount, :image
 
 	controller do 

@@ -1,6 +1,6 @@
 ActiveAdmin.register Topic do
 
-    menu label: 'Topic Management', parent: 'Tutorial', priority: 2
+    menu label: 'Topic Management', parent: 'Tutorial',priority: 3
 	permit_params :name, :parent_id, :image, :description, :slug
 
 	

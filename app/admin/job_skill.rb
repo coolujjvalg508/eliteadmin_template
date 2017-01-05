@@ -1,5 +1,5 @@
 ActiveAdmin.register JobSkill, as: "Skills" do
-	 menu label: 'Skills', parent: 'User Setting',priority: 1
+	 menu label: 'Skills', parent: 'Common Fields'
 	 permit_params :name, :parent_id, :image, :description, :slug
 
 	  form multipart: true do |f|

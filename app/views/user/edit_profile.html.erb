@@ -1,451 +1,544 @@
-<!-- All Dashboard Start -->
-<section class="clearfix container-fluid-full">
-  <div class="row-fluid">
-    <div class="sidebar-left">
-     <%= render 'layouts/navigation' %>
-    </div>
-    <div class="content clearfix">
-      <div class="clearfix job-post-bread">
-        <ul class="breadcrumb">
-          <li><a href="jobs.html">Profile</a></li>
-          <li class="active">Edit profile</li>
-        </ul>
-      </div>
-      
-      <!-- User Followers Start -->
-      <section class="clearfix usersettings editprofie">
-        <div class="clearfix notification-heading"> <span class="noti-title" style="border:0px;">Professional profile</span> </div>
-        <div class="white-txt txt15 marginB15">Your profile will display on both your <span class="blue-txt">CGMeetuo-powered website</span> as well as well as your <span class="blue-txt">CGMeetup Community page.</span> </div>
-        <div class="clearfix editprofile-btn marginB15">
-          <button type="button" class="btn btn-info marginR5 marginB10">View profile on community</button>
-          <button type="button" class="btn btn-info marginB10"><i class="fa fa-home marginR5" aria-hidden="true"></i> View profile on my website</button>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Basic Information</div>
-          <div class="panel-body">
-            <div class="row">
-              <form role="form">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <div class="form-group">
-                    <label for="text">First name</label>
-                    <input type="text" class="form-control from-input">
-                  </div>
-                  <div class="form-group">
-                    <label for="text">Last name</label>
-                    <input type="text" class="form-control from-input">
-                  </div>
-                  <div class="form-group">
-                    <label for="text">Professional Headline - One line about you</label>
-                    <input type="text" class="form-control from-input">
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" class="form-control from-input">
-                  </div>
-                  <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" class="form-control from-input">
-                  </div>
-                  <div class="form-group timezone clearfix">
-                    <label onClick>Profile Type</label>
-                    <select class="custom-select from-input">
-                      <option>Artist</option>
-                      <option>Recruiter</option>
-                      <option>Studio</option>
-                    </select>
-                  </div>
-                  <div class="form-group timezone clearfix">
-                    <div class="row">
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <label onClick>Country</label>
-                        <select class="custom-select from-input">
-                          <option>Select Country </option>
-                        </select>
-                      </div>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <label onClick>City</label>
-                        <select class="custom-select from-input">
-                          <option>Select City</option>
-                        </select>
-                      </div>
+<div id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
+
+    <!-- All Dashboard Start -->
+    <section class="clearfix container-fluid-full">
+        <div class="row-fluid">
+            <div class="sidebar-left">
+                <%= render 'layouts/navigation' %>
+            </div>
+            
+            <div class="content clearfix">
+                <div class="clearfix job-post-bread">
+                    <ul class="breadcrumb">
+                        <li><a href="<%= user_profile_path %>">Profile</a></li>
+                        <li class="active">Edit profile</li>
+                    </ul>
+                </div>
+              
+                <!-- User Followers Start -->
+                <section class="clearfix usersettings editprofie">
+                    <div class="clearfix notification-heading"> <span class="noti-title" style="border:0px;">Professional profile</span> </div>
+                    <div class="white-txt txt15 marginB15">Your profile will display on both your <span class="blue-txt">CGMeetuo-powered website</span> as well as well as your <span class="blue-txt">CGMeetup Community page.</span> 
                     </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12 marginB15">
-                  <div class="edit-profile marginB15"><%= image_tag("profile.jpg", :alt => "Profile") %></div>
-                  <div class="white-txt txt15 marginB15">Upload New Avatar</div>
-                  <div class="clearfix white-txt">
-                    <input name="" type="file">
-                  </div>
-                </div>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <button type="button" class="green-btn border-radius"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Contact Information</div>
-          <div class="panel-body">
-            <div class="row">
-              <form role="form">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <div class="white-txt txt15 marginB15">Show “message” button?</div>
-                  <div class="checkbox-btn marginB10">
-                    <input type="checkbox" name="rc1" id="rc1" value="value-1">
-                    <label onclick="" for="rc1">Yes</label>
-                  </div>
-                  <div class="checkbox-btn marginB10">
-                    <input type="checkbox" name="rc2" id="rc2" value="value-1">
-                    <label onclick="" for="rc2">No</label>
-                  </div>
-                  <div class="white-txt txt15 marginB15">Interested in:</div>
-                  <div class="checkbox-btn marginB10">
-                    <input type="checkbox" name="rc4" id="rc4" value="value-1">
-                    <label onclick="" for="rc4">Full-time employment</label>
-                  </div>
-                  <div class="checkbox-btn marginB10">
-                    <input type="checkbox" name="rc5" id="rc5" value="value-1">
-                    <label onclick="" for="rc5">Contract</label>
-                  </div>
-                  <div class="checkbox-btn marginB10">
-                    <input type="checkbox" name="rc6" id="rc6" value="value-1">
-                    <label onclick="" for="rc6">Freelance</label>
-                  </div>
-                  <div class="checkbox-btn marginB10">
-                    <input type="checkbox" name="rc3" id="rc3" value="value-1">
-                    <label onclick="" for="rc3">Available from:</label>
-                  </div>
-                  <div class="form-group">
-                    <div class='input-group date' id='datetimepicker1'>
-                      <input type='text' class="form-control from-input" />
-                      <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> </div>
-                  </div>
-                </div>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <button type="button" class="green-btn border-radius"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Professional Summary</div>
-          <div class="panel-body">
-            <form role="form">
-              <div class="form-group">
-                <label onClick="">Summary</label>
-                <textarea name="" cols="" rows="" class="form-control summary-teatarea" placeholder="A summary of your professional skill and experience as an artist"></textarea>
-              </div>
-              <button type="button" class="green-btn border-radius"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
-            </form>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Demo Reel</div>
-          <div class="panel-body">
-            <div class="row">
-              <form role="form">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <div class="form-group">
-                    <label for="text">Demo Reel - YouTube or Vimeo URL</label>
-                    <input type="text" class="form-control from-input">
-                  </div>
-                </div>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <button type="button" class="green-btn border-radius"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Professional Experience</div>
-          <div class="panel-body">
-            <div class="row">
-              <form role="form">
-                <div class="clearfix experience-pro marginB15">
-                  <div class="col-md-12">
+                    <div class="clearfix editprofile-btn marginB15">
+                        <button type="button" class="btn btn-info marginR5 marginB10">View profile on community</button>
+                        <button type="button" class="btn btn-info marginB10"><i class="fa fa-home marginR5" aria-hidden="true"></i> View profile on my website</button>
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Basic Information</div>
+                        <div class="panel-body">
+                            <div class="row">
+<!-- Basic Information form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'image_form' }) do |f| %>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="firstname">First name</label>
+                                        <%= f.text_field :firstname, class: 'form-control from-input', id: 'firstname', placeholder: 'Enter First Name' %>
+                                        <span class="err-msg"><%= error_message(@user, :firstname) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastname">Last name</label>
+                                        <%= f.text_field :lastname, class: 'form-control from-input', id: 'lastname', placeholder: 'Enter Last Name' %>
+                                        <span class="err-msg"><%= error_message(@user, :lastname) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="professional_headline">Professional Headline - One line about you</label>
+                                        <%= f.text_field :professional_headline, class: 'form-control from-input', id: 'professional_headline', placeholder: 'Enter Professional Headline' %>
+                                        <span class="err-msg"><%= error_message(@user, :professional_headline) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Address</label>
+                                        <%= f.email_field :email, class: 'form-control from-input', id: 'email', placeholder: 'Enter Email' %>
+                                        <span class="err-msg"><%= error_message(@user, :email) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number</label>
+                                        <%= f.text_field :phone_number, class: 'form-control from-input', id: 'phone_number', placeholder: 'Enter Phone Number' %>
+                                        <span class="err-msg"><%= error_message(@user, :phone_number) %></span>
+                                    </div>
+                                    <div class="form-group timezone clearfix">
+                                        <label>Profile Type</label>
+                                        <%= f.select(:profile_type, options_for_select(User::PROFILE_TYPE, params[:user].present? ? params[:user][:profile_type] : @user[:profile_type]), {:include_blank => "-- Select Profile Type --"}, {'class' => 'custom-select from-input'})  %>
+                                        <span class="err-msg"><%= error_message(@user, :profile_type) %></span>
+
+                                    </div>
+                                    <div class="form-group timezone clearfix">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label>Country</label>
+                                                <%= f.select(:country_id, options_for_select(Country.pluck(:name, :id), :selected => @user.country_id), {:include_blank => "-- Select Country --"}, {'class' => 'custom-select from-input'}) %>
+                                                <span class="err-msg"><%= error_message(@user, :country_id) %></span>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label>City</label>
+                                                <%= f.text_field :city, class: 'form-control from-input', id: 'city', placeholder: 'Enter City' %>
+                                                <span class="err-msg"><%= error_message(@user, :city) %></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 marginB15">
+                                    <div class="edit-profile marginB15">
+                                        <% if (current_user.image.blank? || current_user.image.try(:thumb).blank?)%>
+                                            <%= image_tag("profile.jpg", :alt => "Profile", :class => "img-responsive", "ng-src"=>"{{stepsModel}}") %>
+                
+                                        <% else %>
+                                            <%= image_tag(current_user.image.try(:thumb).try(:url), alt: "User Image", class: "img-thumbnail img-responsive", "ng-src"=>"{{stepsModel}}") %>
+                                        <% end %>  
+
+
+                                    </div>
+                                    <div class="white-txt txt15 marginB15">Upload New Avatar</div>
+                                    <div class="clearfix white-txt">
+
+                                        <%= f.file_field(:image, accept: "image/*", id: "userPicUpload", "ng-model" => "userPicUpload", onchange: "angular.element(this).scope().imageUpload(this)")%>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <button type="submit" class="green-btn border-radius" value="BasicInformation" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+                                </div>
+<% end %>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Contact Information</div>
+                        <div class="panel-body">
+                            <div class="row">
+<!-- Professional Summary form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'contact_information_form' }) do |f|  %>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <div class="form-group timezone clearfix">
+                                        <label>Show “message” button?</label>
+                                        <%= f.select(:show_message_button, options_for_select([['Yes', 1], ['No', 0]], params[:user].present? ? params[:user][:show_message_button] : @user[:show_message_button]), {:include_blank => false}, {'class' => 'custom-select from-input'})  %>
+                                        <span class="err-msg"><%= error_message(@user, :show_message_button) %></span>
+
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    
+                                    <div class="white-txt txt15 marginB15">Interested in:</div>
+                                    <div class="checkbox-btn marginB10">
+
+                                        <%= f.check_box :full_time_employment %>
+                                        <label for="user_full_time_employment">Full-time employment</label>
+                                    </div>
+                                    <div class="checkbox-btn marginB10">
+                                        <%= f.check_box :contract %>
+                                        <label for="user_contract">Contract</label>
+                                    </div>
+                                    <div class="checkbox-btn marginB10">
+                                        <%= f.check_box :freelance %>
+                                        <label for="user_freelance">Freelance</label>
+                                    </div>
+
+                                    <div class="white-txt txt15 marginB15">Available from:</div>
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <!-- <input type='text' class="form-control from-input" ng-model="ctrl.input" ng-model-options="{ updateOn: 'blur' }" moment-picker="ctrl.input" format="YYYY-MM-DD HH:mm" /> -->
+
+                                            <%= f.text_field :available_from, class: 'form-control from-input', id: 'available_from', placeholder: '', "ng-model" => "ctrl.available_from.date", "is-open" => "ctrl.available_from.open", "datetime-picker" => "yyyy-MM-dd HH:mm" %>
+                                            <span class="input-group-addon" ng-click="ctrl.openCalendar($event, 'available_from')"> <span class="glyphicon glyphicon-calendar"></span> </span> 
+                                            <span class="err-msg"><%= error_message(@user, :available_from) %></span>
+                                                         
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <button type="submit" class="green-btn border-radius" value="ContactInformation" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+                                </div>
+<% end %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Professional Summary</div>
+                        <div class="panel-body">
+<!-- Professional Summary form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'professional_summary_form' }) do |f| %>
+                            <div class="form-group">
+                                <label>Summary</label>
+                                <%= f.text_area :summary, class: 'form-control summary-teatarea', id: 'summary', placeholder: 'A summary of your professional skill and experience as an artist' %>
+                                <span class="err-msg"><%= error_message(@user, :summary) %></span>
+                            </div>
+                            <button type="submit" class="green-btn border-radius" value="ProfessionalSummary" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+<% end %>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Demo Reel</div>
+                        <div class="panel-body">
+                            <div class="row">
+<!-- Demo Reel form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'demo_reel_form' }) do |f| %>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="text">Demo Reel - YouTube or Vimeo URL</label>
+                                    <%= f.text_field :demo_reel, class: 'form-control from-input', id: 'demo_reel', placeholder: 'Enter Demo Reel' %>
+                                <span class="err-msg"><%= error_message(@user, :demo_reel) %></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <button type="submit" class="green-btn border-radius" value="DemoReel" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+                            </div>
+<% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">Professional Experience</div>
+                    <div class="panel-body">
+                    <div class="row">
+                    <form role="form">
+                    <div class="clearfix experience-pro marginB15">
+                    <div class="col-md-12">
                     <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Production</button>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <label for="text">Company Name</label>
-                      <input type="text" class="form-control from-input" placeholder="Add new if company name not listed">
                     </div>
-                  </div>
-                  <div class="col-md-1 col-sm-6 col-xs-12 or-txt1 lightcolor text-center">or</div>
-                  <div class="col-md-3 col-sm-6 col-xs-12 addnewcompany">
+                    </div>
+                    <div class="clearfix">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                    <label for="text">Company Name</label>
+                    <input type="text" class="form-control from-input" placeholder="Add new if company name not listed">
+                    </div>
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-12 or-txt1 lightcolor text-center">or</div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 addnewcompany">
                     <input class="form-control from-input">
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <label for="text">Title </label>
-                      <input type="text" class="form-control from-input">
                     </div>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <label for="text">Location </label>
-                      <input type="text" class="form-control from-input">
                     </div>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <label class="col-md-12 col-sm-12 col-xs-12" for="text">Time Period </label>
-                  <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
+                    <div class="clearfix">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                    <label for="text">Title </label>
+                    <input type="text" class="form-control from-input">
+                    </div>
+                    </div>
+                    </div>
+                    <div class="clearfix">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                    <label for="text">Location </label>
+                    <input type="text" class="form-control from-input">
+                    </div>
+                    </div>
+                    </div>
+                    <div class="clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12" for="text">Time Period </label>
+                    <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
                     <select class="custom-select from-input">
-                      <option>Please Select </option>
+                    <option>Please Select </option>
                     </select>
-                  </div>
-                  <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
                     <input type="text" class="form-control from-input" placeholder="Year">
-                  </div>
-                  <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
                     <select class="custom-select from-input">
-                      <option>Please Select </option>
+                    <option>Please Select </option>
                     </select>
-                  </div>
-                  <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
                     <input type="text" class="form-control from-input" placeholder="Year">
-                  </div>
-                  <div class="col-md-4 col-sm-6 col-xs-12 paddinT10 marginB15">
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12 paddinT10 marginB15">
                     <div class="checkbox-btn">
-                      <input type="checkbox" name="rc15" id="rc15" value="value-1">
-                      <label onclick="" for="rc15">I currently work here</label>
+                    <input type="checkbox" name="rc15" id="rc15" value="value-1">
+                    <label for="rc15">I currently work here</label>
                     </div>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="col-md-12">
+                    </div>
+                    </div>
+                    <div class="clearfix">
+                    <div class="col-md-12">
                     <div class="form-group">
-                      <label for="text">Description </label>
-                      <textarea name="" cols="" rows="" class="form-control summary-teatarea" placeholder="E.g Concept Artist, Digital Matte Painter"></textarea>
+                    <label for="text">Description </label>
+                    <textarea name="" cols="" rows="" class="form-control summary-teatarea" placeholder="E.g Concept Artist, Digital Matte Painter"></textarea>
                     </div>
-                  </div>
-                </div>
-                <div class="clearfix experience-pro">
-                  <div class="col-md-12">
+                    </div>
+                    </div>
+                    <div class="clearfix experience-pro">
+                    <div class="col-md-12">
                     <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
                     <button class="lightbtn border-radius" type="button"><i class="fa fa-times marginR5" aria-hidden="true"></i> Cancel</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Production Experience</div>
-          <div class="panel-body">
-            <div class="row">
-              <form role="form">
-                <div class="col-md-12 experience-pro marginB15">
-                  <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Position</button>
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-12 marginB15"> <%= image_tag("john.jpg", :alt => "john",:class=>"img-responsive") %> </div>
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                  <div class="col-md-6 col-sm-8 col-xs-12">
+                    </div>
+                    </div>
+                    </form>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">Production Experience</div>
+                    <div class="panel-body">
                     <div class="row">
-                      <div class="form-group">
-                        <label for="text">Production Title</label>
-                        <input type="text" class="form-control from-input">
-                      </div>
-                      <div class="form-group timezone clearfix">
-                        <label for="text">Release Year</label>
-                        <select class="custom-select from-input">
-                          <option>2012</option>
-                        </select>
-                      </div>
-                      <div class="form-group timezone clearfix">
-                        <label for="text">Production Type</label>
-                        <select class="custom-select from-input">
-                          <option>Movie</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="text">Your Role</label>
-                        <input type="text" class="form-control from-input" placeholder="E.g Concept Artist, Digital Matte Painter">
-                      </div>
-                      <div class="form-group">
-                        <label for="text">Company</label>
-                        <input type="text" class="form-control from-input" placeholder="The Company you worked for">
-                      </div>
-                      <div class="clearfix experience-pro">
-                        <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-                        <button class="lightbtn border-radius" type="button"><i class="fa fa-times marginR5" aria-hidden="true"></i> Cancel</button>
-                      </div>
+                    <form role="form">
+                    <div class="col-md-12 experience-pro marginB15">
+                    <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Position</button>
                     </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Education Experience</div>
-          <div class="panel-body">
-            <div class="row">
-              <form role="form">
-                <div class="clearfix experience-pro marginB15">
-                  <div class="col-md-12">
-                    <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Education</button>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-2 col-sm-3 col-xs-12 marginB15"> <%= image_tag("john.jpg", :alt => "john",:class=>"img-responsive") %> </div>
+                    <div class="col-md-10 col-sm-9 col-xs-12">
+                    <div class="col-md-6 col-sm-8 col-xs-12">
+                    <div class="row">
                     <div class="form-group">
-                      <label for="text">School Name</label>
-                      <input type="text" class="form-control from-input" placeholder="Add new if Institute name not listed">
+                    <label for="text">Production Title</label>
+                    <input type="text" class="form-control from-input">
                     </div>
-                  </div>
-                  <div class="col-md-1 col-sm-6 col-xs-12 text-center lightcolor or-txt1">or</div>
-                  <div class="col-md-4 col-sm-6 col-xs-12 addnewcompany">
-                    <input class="form-control from-input">
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <label for="text">Field of Study/Skill </label>
-                      <input type="text" class="form-control from-input">
-                    </div>
-                  </div>
-                </div>
-                <div class="clearfix">
-                  <label class="col-md-12 col-sm-12 col-xs-12" for="text">Date Addended* </label>
-                  <div class="col-md-3 col-sm-6 col-xs-12 timeperiod">
+                    <div class="form-group timezone clearfix">
+                    <label for="text">Release Year</label>
                     <select class="custom-select from-input">
-                      <option>Year</option>
+                    <option>2012</option>
                     </select>
-                  </div>
-                  <div class="col-md-3 col-sm-6 col-xs-12 timeperiod">
-                    <select class="custom-select from-input">
-                      <option>Year </option>
-                    </select>
-                  </div>
-                  <div class="col-md-6 col-sm-12 col-xs-12 marginB15 lightcolor paddinT10">or expected graduation year</div>
-                </div>
-                <div class="clearfix">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="text">Description </label>
-                      <textarea name="" cols="" rows="" class="form-control summary-teatarea" placeholder="E.g Concept Artist, Digital Matte Painter"></textarea>
                     </div>
-                  </div>
-                </div>
-                <div class="clearfix experience-pro">
-                  <div class="col-md-12">
+                    <div class="form-group timezone clearfix">
+                    <label for="text">Production Type</label>
+                    <select class="custom-select from-input">
+                    <option>Movie</option>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                    <label for="text">Your Role</label>
+                    <input type="text" class="form-control from-input" placeholder="E.g Concept Artist, Digital Matte Painter">
+                    </div>
+                    <div class="form-group">
+                    <label for="text">Company</label>
+                    <input type="text" class="form-control from-input" placeholder="The Company you worked for">
+                    </div>
+                    <div class="clearfix experience-pro">
                     <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
                     <button class="lightbtn border-radius" type="button"><i class="fa fa-times marginR5" aria-hidden="true"></i> Cancel</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">Skills</div>
-          <div class="panel-body">
-            <form role="form">
-                <div class="row">
-                  <div class="form-group clearfix">
-                    <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
-                    <div class="col-md-8 col-sm-6 col-xs-6">
-                      <input type="text" class="form-control from-input skill-input" placeholder="">
                     </div>
-                  </div>
-                  <div class="form-group clearfix">
-                    <label class="col-md-12 col-sm-12 col-xs-12">software expertise needed for job:</label>
-                    <div class="col-md-8 col-sm-12 col-xs-12">
-                      <input type="text" class="form-control from-input">
                     </div>
-                  </div>
-                </div>
-                <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-              </form>
-          </div>
-        </div>
-        
-        <div class="panel panel-default">
-          <div class="panel-heading">Contact & Social Media</div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="form-group">
-                  <label for="text">Public Email Address</label>
-                  <input type="text" class="form-control from-input" placeholder="contact@artist.com">
-                </div>
-                <div class="form-group">
-                  <label for="text">Website URL</label>
-                  <input type="text" class="form-control from-input" placeholder="http://www.yourwebsite.com">
-                </div>
-                <div class="form-group">
-                  <label for="text">Facebook Page URL</label>
-                  <input type="text" class="form-control from-input" placeholder="http://www.facebook.com/pagename">
-                </div>
-                <div class="form-group">
-                  <label for="text">linkedin Profile URL</label>
-                  <input type="text" class="form-control from-input" placeholder="http://www.linkedin.com/in/username">
-                </div>
-                <div class="form-group">
-                  <label for="text">Twitter Handle (e.g.CGMeetup)</label>
-                  <input type="text" class="form-control from-input" placeholder="username without the @">
-                </div>
-                <div class="form-group">
-                  <label for="text">Instagram Username (e.g. CGMeetup)</label>
-                  <input type="text" class="form-control from-input" placeholder="username">
-                </div>
-                <div class="form-group">
-                  <label for="text">Behance Username (e.g. CGMeetup)</label>
-                  <input type="text" class="form-control from-input" placeholder="username">
-                </div>
-              </div>
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="form-group">
-                  <label for="text">Tumblr URL</label>
-                  <input type="text" class="form-control from-input" placeholder="http://username.tumblr.com">
-                </div>
-                <div class="form-group">
-                  <label for="text">Pinterest URL</label>
-                  <input type="text" class="form-control from-input" placeholder="http://www.pinterest.com/username">
-                </div>
-                <div class="form-group">
-                  <label for="text">Youtube URL</label>
-                  <input type="text" class="form-control from-input" placeholder="http://www.youtube.com/channel/id">
-                </div>
-                <div class="form-group">
-                  <label for="text">Vimeo URL</label>
-                  <input type="text" class="form-control from-input" placeholder="https://vimeo.com/billistiq">
-                </div>
-                <div class="form-group">
-                  <label for="text">Google Plus URL</label>
-                  <input type="text" class="form-control from-input" placeholder="http://plus.google.com/id/posts">
-                </div>
-                <div class="form-group">
-                  <label for="text">Steam Profile URL</label>
-                  <input type="text" class="form-control from-input" placeholder="http://steamcommunity.com/id/username">
-                </div>
-              </div>
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-              </div>
+                    </div>
+                    </div>
+                    </form>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">Education Experience</div>
+                    <div class="panel-body">
+                    <div class="row">
+                    <form role="form">
+                    <div class="clearfix experience-pro marginB15">
+                    <div class="col-md-12">
+                    <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Education</button>
+                    </div>
+                    </div>
+                    <div class="clearfix">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                    <label for="text">School Name</label>
+                    <input type="text" class="form-control from-input" placeholder="Add new if Institute name not listed">
+                    </div>
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-12 text-center lightcolor or-txt1">or</div>
+                    <div class="col-md-4 col-sm-6 col-xs-12 addnewcompany">
+                    <input class="form-control from-input">
+                    </div>
+                    </div>
+                    <div class="clearfix">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                    <label for="text">Field of Study/Skill </label>
+                    <input type="text" class="form-control from-input">
+                    </div>
+                    </div>
+                    </div>
+                    <div class="clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12" for="text">Date Addended* </label>
+                    <div class="col-md-3 col-sm-6 col-xs-12 timeperiod">
+                    <select class="custom-select from-input">
+                    <option>Year</option>
+                    </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 timeperiod">
+                    <select class="custom-select from-input">
+                    <option>Year </option>
+                    </select>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12 marginB15 lightcolor paddinT10">or expected graduation year</div>
+                    </div>
+                    <div class="clearfix">
+                    <div class="col-md-12">
+                    <div class="form-group">
+                    <label for="text">Description </label>
+                    <textarea name="" cols="" rows="" class="form-control summary-teatarea" placeholder="E.g Concept Artist, Digital Matte Painter"></textarea>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="clearfix experience-pro">
+                    <div class="col-md-12">
+                    <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
+                    <button class="lightbtn border-radius" type="button"><i class="fa fa-times marginR5" aria-hidden="true"></i> Cancel</button>
+                    </div>
+                    </div>
+                    </form>
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Skills</div>
+                        <div class="panel-body">
+<!-- Skills form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'skills_form' }) do |f| %>
+                            <div class="row">
+                                <div class="form-group clearfix">
+                                    <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
+                                    <div class="col-md-8 col-sm-6 col-xs-6">
+                                        <%= f.text_field :skill_expertise, class: 'form-control from-input', id: 'skill_expertise', placeholder: 'Enter Skills And Expertise' %>
+                                        <span class="err-msg"><%= error_message(@user, :skill_expertise) %></span>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label class="col-md-12 col-sm-12 col-xs-12">Software expertise needed for job:</label>
+                                    <div class="col-md-8 col-sm-12 col-xs-12">
+                                        <%= f.text_field :software_expertise, class: 'form-control from-input', id: 'software_expertise', placeholder: 'Enter Software Expertise' %>
+                                        <span class="err-msg"><%= error_message(@user, :software_expertise) %></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="green-btn border-radius" value="Skills" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+<% end %>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Contact & Social Media</div>
+                        <div class="panel-body">
+<!-- Skills form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'social_media_form' }) do |f| %>                        
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="text">Public Email Address</label>
+                                        <%= f.text_field :public_email_address, class: 'form-control from-input', id: 'public_email_address', placeholder: 'contact@artist.com' %>
+                                        <span class="err-msg"><%= error_message(@user, :public_email_address) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Website URL</label>
+                                        <%= f.text_field :website_url, class: 'form-control from-input', id: 'website_url', placeholder: 'http://www.yourwebsite.com' %>
+                                        <span class="err-msg"><%= error_message(@user, :website_url) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Facebook Page URL</label>
+                                        <%= f.text_field :facebook_url, class: 'form-control from-input', id: 'facebook_url', placeholder: 'http://www.facebook.com/pagename' %>
+                                        <span class="err-msg"><%= error_message(@user, :facebook_url) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">linkedin Profile URL</label>
+                                        <%= f.text_field :linkedin_profile_url, class: 'form-control from-input', id: 'linkedin_profile_url', placeholder: 'http://www.linkedin.com/in/username' %>
+                                        <span class="err-msg"><%= error_message(@user, :linkedin_profile_url) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Twitter Handle (e.g.CGMeetup)</label>
+                                        <%= f.text_field :twitter_handle, class: 'form-control from-input', id: 'twitter_handle', placeholder: 'username without the @' %>
+                                        <span class="err-msg"><%= error_message(@user, :twitter_handle) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Instagram Username (e.g. CGMeetup)</label>
+                                        <%= f.text_field :instagram_username, class: 'form-control from-input', id: 'instagram_username', placeholder: 'Instagram username' %>
+                                        <span class="err-msg"><%= error_message(@user, :instagram_username) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Behance Username (e.g. CGMeetup)</label>
+                                        <%= f.text_field :behance_username, class: 'form-control from-input', id: 'behance_username', placeholder: 'Behance username' %>
+                                        <span class="err-msg"><%= error_message(@user, :behance_username) %></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="text">Tumblr URL</label>
+                                        <%= f.text_field :tumbler_url, class: 'form-control from-input', id: 'tumbler_url', placeholder: 'http://username.tumblr.com' %>
+                                        <span class="err-msg"><%= error_message(@user, :tumbler_url) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Pinterest URL</label>
+                                        <%= f.text_field :pinterest_url, class: 'form-control from-input', id: 'pinterest_url', placeholder: 'http://www.pinterest.com/username' %>
+                                        <span class="err-msg"><%= error_message(@user, :pinterest_url) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Youtube URL</label>
+                                        <%= f.text_field :youtube_url, class: 'form-control from-input', id: 'youtube_url', placeholder: 'http://www.youtube.com/channel/id' %>
+                                        <span class="err-msg"><%= error_message(@user, :youtube_url) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Vimeo URL</label>
+                                        <%= f.text_field :vimeo_url, class: 'form-control from-input', id: 'vimeo_url', placeholder: 'https://vimeo.com/billistiq' %>
+                                        <span class="err-msg"><%= error_message(@user, :vimeo_url) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Google Plus URL</label>
+                                        <%= f.text_field :google_plus_url, class: 'form-control from-input', id: 'google_plus_url', placeholder: 'http://plus.google.com/id/posts' %>
+                                        <span class="err-msg"><%= error_message(@user, :google_plus_url) %></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="text">Steam Profile URL</label>
+                                        <%= f.text_field :stream_profile_url, class: 'form-control from-input', id: 'stream_profile_url', placeholder: 'http://steamcommunity.com/id/username' %>
+                                        <span class="err-msg"><%= error_message(@user, :stream_profile_url) %></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <button type="submit" class="green-btn border-radius" value="SocialMedia" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+                                </div>
+<% end %>                                
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
             </div>
-          </div>
         </div>
-      </section>
-    </div>
-  </div>
-</section>
+    </section>
+</div>
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
   <%= render 'layouts/lastfooter' %>
 </footer>
 
+<script>
+
+  // main page angular app start
+  var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+  app.controller('myCtrl', function($scope, $http) {
+
+    //app.controller('MyController', ['$scope', function($scope) {
+    var that = this;
+    $scope.stepsModel = '';
+
+    this.openCalendar = function(e, picker) {
+        that[picker].open = true;
+    };
+
+    var available_from_date = '<%= @user.available_from %>';
+
+    // date and time picker
+    this.available_from = {
+        //date: new Date()
+        date: new Date(available_from_date)
+    };
+
+    $scope.imageUpload = function(element){
+        var reader = new FileReader();
+        reader.onload = $scope.imageIsLoaded;
+        reader.readAsDataURL(element.files[0]);
+    }
+
+    $scope.imageIsLoaded = function(e){
+        $scope.$apply(function() {
+            $scope.stepsModel= e.target.result;
+        });
+    }
+      
+  });
+
+</script>

@@ -1,8 +1,7 @@
 ActiveAdmin.register Gallery , as: "Project" do
-
+ menu false
 	#	abort(current_admin_user.to_json)
-	
-    menu label: 'Projects', parent: 'Gallery',priority: 1 
+    #menu label: 'Projects', parent: 'Gallery',priority: 2 
     
     permit_params :is_spam, :title,:user_id,:is_admin,:paramlink, {:challenge => []}, {:skill => []}, {:team_member => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
 	:medium_category_id, {:subject_matter_id => []} , :has_adult_content, {:software_used => []} , :use_tag_from_previous_upload, :is_featured, 

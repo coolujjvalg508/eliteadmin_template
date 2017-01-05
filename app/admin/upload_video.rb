@@ -1,6 +1,6 @@
 ActiveAdmin.register UploadVideo do
 
-menu label: 'Uploaded Videos', parent: 'Media Library',priority: 3
+menu label: 'Uploaded Videos', parent: 'Media Library', priority: '3'
 	actions :all, except: [:new, :create]
 	# See permitted parameters documentation:
 	# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

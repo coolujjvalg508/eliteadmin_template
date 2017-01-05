@@ -1,6 +1,6 @@
 ActiveAdmin.register NewsCategory do
 
-    menu label: 'News Category' , parent: 'News', priority: 2
+    menu label: 'News Category' , parent: 'News'
     permit_params :name, :parent_id, :image, :description, :slug
 
 	

@@ -1,7 +1,7 @@
 ActiveAdmin.register Tag do
 
-
-	menu label: 'Tags'
+	#menu false
+	menu label: 'Tags',priority: 11
 	actions :all, except: [:new, :create]
 	# See permitted parameters documentation:
 	# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

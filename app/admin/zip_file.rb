@@ -1,6 +1,6 @@
 ActiveAdmin.register ZipFile do
 
-	menu label: 'Zip Files', parent: 'Media Library',priority: 4
+	menu label: 'Zip Files', parent: 'Media Library', priority: '4'
 	actions :all, except: [:new, :create]
 	# See permitted parameters documentation:
 	# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

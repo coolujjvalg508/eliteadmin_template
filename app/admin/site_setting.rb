@@ -1,6 +1,6 @@
 ActiveAdmin.register SiteSetting do
 
-    menu label: 'Site Setting'
+    menu label: 'Site Setting', parent: 'Settings',priority: 1 
 	permit_params :site_title,:site_email,:site_phone,:copyright_text,:no_of_image,:no_of_video,:no_of_marmoset,:no_of_sketchfeb,:licence
 	actions :all, except: [:destroy, :new, :create]
 	config.filters = false

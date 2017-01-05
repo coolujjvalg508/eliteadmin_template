@@ -1,5 +1,5 @@
 ActiveAdmin.register SoftwareExpertise do
-  menu label: 'Software Expertise', parent: 'User Setting',priority: 3
+  menu label: 'Software Expertise', parent: 'Common Fields'
   permit_params :name, :parent_id, :image, :description, :slug
 
   form multipart: true do |f|

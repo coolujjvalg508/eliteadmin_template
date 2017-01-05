@@ -1,5 +1,6 @@
 ActiveAdmin.register Message do
 
+	menu label: 'Message',priority: 16
 	permit_params :message,:receiver_id,:is_admin
 	#actions :all, except: [:new, :update,:edit]
 	

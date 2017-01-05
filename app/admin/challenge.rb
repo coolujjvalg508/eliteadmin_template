@@ -1,9 +1,8 @@
 ActiveAdmin.register Challenge do
 
 #	abort(current_admin_user.to_json)
-	
-    menu label: 'Challenge'
-    
+	 menu false
+    #menu label: "Challenge"
     permit_params :title, :upload_button_text, :hosts,:challenge_type_id, :closing_date, :team_member, :awards, :terms_condition, :faq, :user_id,:is_admin,  :schedule_time, :description, :status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 		
 	

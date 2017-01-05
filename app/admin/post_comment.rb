@@ -12,7 +12,8 @@ ActiveAdmin.register PostComment do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
-	menu label: 'Comments'
+	menu false
+	#menu label: 'Comments'
 	permit_params :title,:description,:is_pending,:is_approve,:is_spam,:is_trash
 	actions :all, except: [:new, :create]
 	
