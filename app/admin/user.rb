@@ -1,7 +1,11 @@
 ActiveAdmin.register User do
    menu label: 'Users Management', parent: 'Account', priority: 1
 	permit_params :firstname, :username, :password,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country_id, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
-	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :professional_experiences_attributes => [:company_id,:title,:location,:description, :from_month,:from_year,:to_month,:to_year,:currently_worked], :production_experiences_attributes => [:production_title,:release_year,:production_type,:your_role, :company], :education_experiences_attributes => [:school_name,:field_of_study,:month_val,:year_val, :description], :company_attributes => [:id,:name]
+	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url,:professional_experiences_attributes => [:id,:company_id,:title,:location,:description, :from_month,:from_year, :to_month,:to_year,:currently_worked,:professionalexperienceable_id,:professionalexperienceable_type, :_destroy,:tmp_professionalexperience,:professionalexperience_cache], :production_experiences_attributes => [:id,:production_title,:release_year,:production_type,:your_role, :company,:productionexperienceable_id,:productionexperienceable_type, :_destroy,:tmp_productionexperience,:productionexperience_cache], 
+	
+	:education_experiences_attributes => [:id,:school_name,:field_of_study,:month_val,:year_val, :description,:educationexperienceable_id,:educationexperienceable_type, :_destroy,:tmp_educationexperience,:educationexperience_cache],
+
+	 :company_attributes => [:id,:name]
 
 
 
@@ -81,7 +85,7 @@ ActiveAdmin.register User do
 		  f.input :firstname
 		  f.input :lastname
 		  f.input :username
-		   f.input :profile_type, as: :select, collection: [['Artist','Artist'],['Recruiter','Recruiter'],['Studio','Studio']], include_blank: false, label: 'Profile Type'
+		   f.input :profile_type, as: :select, collection: User::PROFILE_TYPE, include_blank: false, label: 'Profile Type'
 		  #f.input :group_id, as: :select, collection:  UserGroup.where("name != '' ").pluck(:name, :id),include_blank:'Select Group'		
 		  f.input :password
 		  f.input :image
@@ -115,11 +119,12 @@ ActiveAdmin.register User do
 				  ff.input :title
 				  ff.input :location
 				  ff.input :description
-				  ff.input :from_month, as: :select, collection: [['January',1],['February',2],['March',3],['April',4],['May',5],['June',6],['July',7],['August',8],['September',9],['October',10],['November',11],['December',12]] , include_blank: false, label: 'From Month'
+				  ff.input :from_month, as: :select, collection: User::MONTH_VALUE , include_blank: false, label: 'From Month'
 				  ff.input :from_year
-				  ff.input :to_month, as: :select, collection: [['January',1],['February',2],['March',3],['April',4],['May',5],['June',6],['July',7],['August',8],['September',9],['October',10],['November',11],['December',12]] , include_blank: false, label: 'To Month'
+				  ff.input :to_month, as: :select, collection: User::MONTH_VALUE , include_blank: false, label: 'To Month'
 				  ff.input :to_year
 				  ff.input :currently_worked, as: :check_boxes, collection:[['Yes',1]]
+				 # ff.input :professionalexperience_cache, :as => :hidden
 				
 				end 
 		 end
@@ -131,6 +136,7 @@ ActiveAdmin.register User do
 				  ff.input :production_type, as: :select, collection: [['Movie',1]], include_blank: false, label: 'Production Type'
 				  ff.input :your_role
 				  ff.input :company
+				 # ff.input :productionexperience_cache, :as => :hidden
 				
 			 end 
 			  
@@ -140,9 +146,10 @@ ActiveAdmin.register User do
 			 f.has_many :education_experiences, allow_destroy: true, new_record: true do |ff|
 				  ff.input :school_name
 				  ff.input :field_of_study
-				  ff.input :month_val, as: :select, collection: [['January',1],['February',2],['March',3],['April',4],['May',5],['June',6],['July',7],['August',8],['September',9],['October',10],['November',11],['December',12]] , include_blank: false, label: 'Expected Graduation Month'
+				  ff.input :month_val, as: :select, collection: User::MONTH_VALUE , include_blank: false, label: 'Expected Graduation Month'
 				  ff.input :year_val, label: 'Expected Graduation Year'
 				  ff.input :description
+				 # ff.input :educationexperience_cache, :as => :hidden
 			 end 
 		 end
 		
@@ -231,7 +238,9 @@ ActiveAdmin.register User do
 
 		def update
 		#abort(params.to_json)
-			
+			 if params[:user][:password].blank?
+		        params[:user].delete("password")
+		     end
 			if (params[:user].present? && params[:user][:professional_experiences_attributes].present?)
 					params[:user][:professional_experiences_attributes].each do |index,img|
 						  unless params[:user][:professional_experiences_attributes][index][:title].present?
@@ -244,6 +253,7 @@ ActiveAdmin.register User do
 							params[:user][:professional_experiences_attributes][index][:to_year] = params[:user][:professional_experiences_attributes][index][:to_year]
 							params[:user][:professional_experiences_attributes][index][:currently_worked] = params[:user][:professional_experiences_attributes][index][:currently_worked]
 						  end
+						 # abort(params.to_json)
 					end
 				super
 			
@@ -257,7 +267,6 @@ ActiveAdmin.register User do
 							params[:user][:production_experiences_attributes][index][:description] = params[:user][:production_experiences_attributes][index][:company]
 							
 						  end
-						  
 					end
 				super
 				
@@ -270,10 +279,10 @@ ActiveAdmin.register User do
 							params[:user][:education_experiences_attributes][index][:month_val] = params[:user][:education_experiences_attributes][index][:month_val]
 							params[:user][:education_experiences_attributes][index][:year_val] = params[:user][:education_experiences_attributes][index][:year_val]
 							params[:user][:education_experiences_attributes][index][:description] = params[:user][:education_experiences_attributes][index][:description]
-							
-					 end
+					end
 						  
 					end
+					
 				super
 				
 				
@@ -340,6 +349,7 @@ ActiveAdmin.register User do
       row 'User Name' do |uname|
 		 uname.username
 	  end
+	
 	  row 'Profile Type' do |fname|
 		 fname.profile_type
 	  end 

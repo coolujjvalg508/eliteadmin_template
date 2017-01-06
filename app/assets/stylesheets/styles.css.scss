@@ -95,7 +95,7 @@ label { font-weight:normal;}
 .greencolor { color: #008d4b !important }
 .darkcolor { color: #5f6261 !important }
 /* From Input Css */
-.from-input { border: 1px solid #303030; background: #171717; box-shadow: none; border-radius:2px; }
+.from-input { border: 1px solid #303030; background: #171717 !important; box-shadow: none; border-radius:2px; }
 /* header css */
 header { background: #151515; border-bottom: 1px solid #333333; height:50px;}
 header .navbar-inverse { border: none; background: none; z-index:99; border-radius:0;}

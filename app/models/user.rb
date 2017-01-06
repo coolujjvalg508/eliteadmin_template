@@ -12,9 +12,9 @@ class User < ActiveRecord::Base
 
   belongs_to  :country
   ############################ Associations #############################
-  has_many :professional_experiences     
-  has_many :education_experiences     
-  has_many :production_experiences
+  has_many :professional_experiences, as: :professionalexperienceable, dependent: :destroy     
+  has_many :education_experiences, as: :educationexperienceable, dependent: :destroy        
+  has_many :production_experiences, as: :productionexperienceable, dependent: :destroy   
   
   accepts_nested_attributes_for :professional_experiences, reject_if: proc { |attributes| attributes['company_id'].blank? || attributes['company_id'].nil? }, allow_destroy: true 
   accepts_nested_attributes_for :education_experiences, reject_if: proc { |attributes| attributes['school_name'].blank? || attributes['school_name'].nil? }, allow_destroy: true 
@@ -38,8 +38,10 @@ class User < ActiveRecord::Base
 
   ############################ Constants ################################
   PROFILE_TYPE = ["Artist", "Recruiter", "Studio"]
+  MONTH_VALUE = [['January',1],['February',2],['March',3],['April',4],['May',5],['June',6],['July',7],['August',8],['September',9],['October',10],['November',11],['December',12]]
   ########################### Validations ################################
-         
+
+
   def devise_mailer
     UserMailer
   end

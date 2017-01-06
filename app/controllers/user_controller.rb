@@ -58,49 +58,87 @@ class UserController < ApplicationController
         authenticate_user!
         @user = current_user
 
+        @professional_experiences = ProfessionalExperience.where('user_id = ?', current_user)
+
     end
 
     def update
         authenticate_user!
         #abort(params.to_json)
 
-        
+           #abort(params["user"]["professional_experiences"].to_json)
         params[:user] ||= {'submit'=> true}
         if params[:user] == {'submit'=> true}
             flash[:error] = "Image can't be blank."
         end
-        @user = current_user
-        if @user.update_attributes(user_params)
-            if params[:commit] == "BasicInformation"
-                unless @user.email == params[:user][:email]
-                    flash[:notice] = "Profile updated successfully.You will receive an email with instructions for how to confirm your new email address in a few minutes."
-                else
-                    flash[:notice] = "Basic information updated successfully."
+
+
+        if params[:commit] == "ProfessionalExperience"    
+
+            ProfessionalExperience.where(user_id: current_user.id).delete_all
+
+            if params["user"]["professional_experiences"].present?
+
+                professional_experiences = params["user"]["professional_experiences"]
+
+                professional_experiences.each_with_index do |d, index| 
+
+                    ProfessionalExperience.create(
+                        user_id: current_user.id, 
+                        company_id: d[1]['company_id'], 
+                        company_name: d[1]['company_name'], 
+                        title: d[1]['title'], 
+                        location: d[1]['location'], 
+                        from_month: d[1]['from_month'],
+                        from_year: d[1]['from_year'],
+                        to_month: d[1]['to_month'],
+                        to_year: d[1]['to_year'],
+                        currently_worked: d[1]['currently_worked'],
+                        description: d[1]['description']
+                    )
+
                 end
+            end
 
-            elsif params[:commit] == "ProfessionalSummary"    
-                flash[:notice] = "Professional summary updated successfully."
+            flash[:notice] = "Professional experiences updated successfully."   
+            redirect_to user_edit_profile_path            
 
-            elsif params[:commit] == "DemoReel"    
-                flash[:notice] = "Demo reel updated successfully."   
-
-            elsif params[:commit] == "Skills"    
-                flash[:notice] = "Skills updated successfully."
-
-            elsif params[:commit] == "SocialMedia"    
-                flash[:notice] = "Contact & social media details updated successfully." 
-
-            elsif params[:commit] == "ContactInformation"    
-                flash[:notice] = "Contact information updated successfully."               
-                
-            else
-                flash[:notice] = "Successfully updated."
-            end 
-            redirect_to user_edit_profile_path
         else
-          render 'edit_profile'
+
+            @user = current_user
+
+            if @user.update_attributes(user_params)
+                if params[:commit] == "BasicInformation"
+                    unless @user.email == params[:user][:email]
+                        flash[:notice] = "Profile updated successfully.You will receive an email with instructions for how to confirm your new email address in a few minutes."
+                    else
+                        flash[:notice] = "Basic information updated successfully."
+                    end
+
+                elsif params[:commit] == "ProfessionalSummary"    
+                    flash[:notice] = "Professional summary updated successfully."
+
+                elsif params[:commit] == "DemoReel"    
+                    flash[:notice] = "Demo reel updated successfully."   
+
+                elsif params[:commit] == "Skills"    
+                    flash[:notice] = "Skills updated successfully."
+
+                elsif params[:commit] == "SocialMedia"    
+                    flash[:notice] = "Contact & social media details updated successfully." 
+
+                elsif params[:commit] == "ContactInformation"    
+                    flash[:notice] = "Contact information updated successfully."               
+                    
+                else
+                    flash[:notice] = "Successfully updated."
+                end 
+
+                redirect_to user_edit_profile_path
+            else
+              render 'edit_profile'
+            end
         end
-      
 
 
     end    
@@ -131,7 +169,7 @@ class UserController < ApplicationController
 
     private
         def user_params
-            params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :firstname, :lastname, :professional_headline, :phone_number, :profile_type, :country_id, :city, :image, :summary, :demo_reel, :skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, :linkedin_profile_url, :twitter_handle, :instagram_username, :behance_username, :tumbler_url, :pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :show_message_button, :full_time_employment, :contract, :freelance, :available_from)
+            params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :firstname, :lastname, :professional_headline, :phone_number, :profile_type, :country_id, :city, :image, :summary, :demo_reel, :skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, :linkedin_profile_url, :twitter_handle, :instagram_username, :behance_username, :tumbler_url, :pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :show_message_button, :full_time_employment, :contract, :freelance, :available_from, :professional_experiences_attributes => [:id,:company_id,:company_name,:title, :location, :from_month, :from_year, :to_month, :to_year, :currently_worked, :description, :professionalexperienceable_id, :professionalexperienceable_type, :_destroy, :tmp_professionalexperience, :professionalexperience_cache, :user_id])
         end
   
 end

@@ -143,7 +143,7 @@
                                         <div class='input-group date' id='datetimepicker1'>
                                             <!-- <input type='text' class="form-control from-input" ng-model="ctrl.input" ng-model-options="{ updateOn: 'blur' }" moment-picker="ctrl.input" format="YYYY-MM-DD HH:mm" /> -->
 
-                                            <%= f.text_field :available_from, class: 'form-control from-input', id: 'available_from', placeholder: '', "ng-model" => "ctrl.available_from.date", "is-open" => "ctrl.available_from.open", "datetime-picker" => "yyyy-MM-dd HH:mm" %>
+                                            <%= f.text_field :available_from, class: 'form-control from-input', id: 'available_from', placeholder: '', "ng-model" => "ctrl.available_from.date", "is-open" => "ctrl.available_from.open", "datetime-picker" => "yyyy-MM-dd HH:mm", 'readonly' => 'readonly' %>
                                             <span class="input-group-addon" ng-click="ctrl.openCalendar($event, 'available_from')"> <span class="glyphicon glyphicon-calendar"></span> </span> 
                                             <span class="err-msg"><%= error_message(@user, :available_from) %></span>
                                                          
@@ -183,7 +183,7 @@
                                 <div class="form-group">
                                     <label for="text">Demo Reel - YouTube or Vimeo URL</label>
                                     <%= f.text_field :demo_reel, class: 'form-control from-input', id: 'demo_reel', placeholder: 'Enter Demo Reel' %>
-                                <span class="err-msg"><%= error_message(@user, :demo_reel) %></span>
+                                    <span class="err-msg"><%= error_message(@user, :demo_reel) %></span>
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -193,87 +193,102 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="panel panel-default">
-                    <div class="panel-heading">Professional Experience</div>
-                    <div class="panel-body">
-                    <div class="row">
-                    <form role="form">
-                    <div class="clearfix experience-pro marginB15">
-                    <div class="col-md-12">
-                    <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Production</button>
+                        <div class="panel-heading">Professional Experience</div>
+                        <div class="panel-body">
+                            <div class="row">
+<!-- Demo Reel form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'professional_experience_form' }) do |f| %>
+    <%= f.fields_for :professional_experience do |pe| %>
+                                <div class="clearfix experience-pro marginB15">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase" ng-click="addProfessionalExperience()"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Professional Experience</button>
+                                    </div>
+                                </div>
+                                <div ng-repeat="x in professional_experiences">
+                                    <div class="clearfix" ng-model="addMeTest">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group timezone clearfix">
+                                                <label for="text">Company Name</label>
+                                                <%= pe.select(:company_id, options_for_select(Company.order('name ASC').pluck(:name, :id)), {:include_blank => "-- Select Company --"}, {'class' => 'custom-select from-input', name: "user[professional_experiences][{{$index}}][company_id]", id: 'user_professional_experiences_company_id_{{$index}}'}) %>
+
+                                                    
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-1 col-sm-6 col-xs-12 or-txt1 lightcolor text-center">or</div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12 addnewcompany">
+                                            <%= pe.text_field :company_name, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][company_name]", id: 'user_professional_experiences_company_name_{{$index}}', placeholder: 'Enter Company Name' %>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="text">Title </label>
+                                                <%= pe.text_field :title, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][title]", id: 'user_professional_experiences_title_{{$index}}', placeholder: 'Enter Company Title' %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="text">Location </label>
+                                                <%= pe.text_field :location, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][location]", id: 'user_professional_experiences_location_{{$index}}', placeholder: 'Enter Company Location' %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="col-md-12 col-sm-12 col-xs-12" for="text">Time Period </label>
+                                        <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
+                                            
+                                            <%= pe.select(:from_month, options_for_select(User::MONTH_VALUE), {:include_blank => "-- From Month --"}, {'class' => 'custom-select from-input', name: "user[professional_experiences][{{$index}}][from_month]", id: 'user_professional_experiences_from_month_{{$index}}'}) %>
+
+                                        </div>
+                                        <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
+                                            <%= pe.text_field :from_year, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][from_year]", id: 'user_professional_experiences_from_year_{{$index}}', placeholder: 'From Year', 'maxlength' => '4' %>
+                                        </div>
+                                        <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
+                                            <%= pe.select(:to_month, options_for_select(User::MONTH_VALUE), {:include_blank => "-- To Month --"}, {'class' => 'custom-select from-input', name: "user[professional_experiences][{{$index}}][to_month]", id: 'user_professional_experiences_to_month_{{$index}}'}) %>
+                                        </div>
+                                        <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
+                                            <%= pe.text_field :to_year, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][to_year]", id: 'user_professional_experiences_to_year_{{$index}}', placeholder: 'To Year', 'maxlength' => '4' %>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12 paddinT10 marginB15">
+                                            <div class="checkbox-btn">
+                                                <input type="checkbox" name="rc15" id="rc15" value="value-1">
+                                                <%= pe.check_box :currently_worked, {name: "user[professional_experiences][{{$index}}][currently_worked]", id: 'user_professional_experiences_currently_worked_{{$index}}'} %>
+                                                <label for="user_professional_experiences_currently_worked_{{$index}}">I currently work here</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="text">Description </label>
+                                                <%= pe.text_area :description, class: 'form-control summary-teatarea', name: "user[professional_experiences][{{$index}}][description]", id: 'user_professional_experiences_description_{{$index}}', placeholder: 'E.g Concept Artist, Digital Matte Painter' %>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix experience-pro marginB15">
+                                        <div class="col-md-12">
+                                            <button class="lightbtn border-radius" type="button" ng-click="removeProfessionalExperience($index)"><i class="fa fa-times marginR5" aria-hidden="true"></i> Remove</button>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="clearfix experience-pro">
+                                    <div class="col-md-12">
+                                      
+                                        <button type="submit" class="green-btn border-radius" value="ProfessionalExperience" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+                                    </div>
+                                </div>
+    <% end %>
+<% end %>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                    <div class="clearfix">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="text">Company Name</label>
-                    <input type="text" class="form-control from-input" placeholder="Add new if company name not listed">
-                    </div>
-                    </div>
-                    <div class="col-md-1 col-sm-6 col-xs-12 or-txt1 lightcolor text-center">or</div>
-                    <div class="col-md-3 col-sm-6 col-xs-12 addnewcompany">
-                    <input class="form-control from-input">
-                    </div>
-                    </div>
-                    <div class="clearfix">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="text">Title </label>
-                    <input type="text" class="form-control from-input">
-                    </div>
-                    </div>
-                    </div>
-                    <div class="clearfix">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="text">Location </label>
-                    <input type="text" class="form-control from-input">
-                    </div>
-                    </div>
-                    </div>
-                    <div class="clearfix">
-                    <label class="col-md-12 col-sm-12 col-xs-12" for="text">Time Period </label>
-                    <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
-                    <select class="custom-select from-input">
-                    <option>Please Select </option>
-                    </select>
-                    </div>
-                    <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
-                    <input type="text" class="form-control from-input" placeholder="Year">
-                    </div>
-                    <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
-                    <select class="custom-select from-input">
-                    <option>Please Select </option>
-                    </select>
-                    </div>
-                    <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
-                    <input type="text" class="form-control from-input" placeholder="Year">
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12 paddinT10 marginB15">
-                    <div class="checkbox-btn">
-                    <input type="checkbox" name="rc15" id="rc15" value="value-1">
-                    <label for="rc15">I currently work here</label>
-                    </div>
-                    </div>
-                    </div>
-                    <div class="clearfix">
-                    <div class="col-md-12">
-                    <div class="form-group">
-                    <label for="text">Description </label>
-                    <textarea name="" cols="" rows="" class="form-control summary-teatarea" placeholder="E.g Concept Artist, Digital Matte Painter"></textarea>
-                    </div>
-                    </div>
-                    </div>
-                    <div class="clearfix experience-pro">
-                    <div class="col-md-12">
-                    <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-                    <button class="lightbtn border-radius" type="button"><i class="fa fa-times marginR5" aria-hidden="true"></i> Cancel</button>
-                    </div>
-                    </div>
-                    </form>
-                    </div>
-                    </div>
-                    </div>
+
                     <div class="panel panel-default">
                     <div class="panel-heading">Production Experience</div>
                     <div class="panel-body">
@@ -498,6 +513,8 @@
             </div>
         </div>
     </section>
+
+
 </div>
 
 <!-- Footer Start -->
@@ -507,38 +524,53 @@
 
 <script>
 
-  // main page angular app start
-  var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
-  app.controller('myCtrl', function($scope, $http) {
+    // main page angular app start
+    var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+    app.controller('myCtrl', function($scope, $http) {
 
-    //app.controller('MyController', ['$scope', function($scope) {
-    var that = this;
-    $scope.stepsModel = '';
+        //app.controller('MyController', ['$scope', function($scope) {
+        var that = this;
+        $scope.stepsModel = '';
 
-    this.openCalendar = function(e, picker) {
-        that[picker].open = true;
-    };
+        this.openCalendar = function(e, picker) {
+            that[picker].open = true;
+        };
 
-    var available_from_date = '<%= @user.available_from %>';
+        var available_from_date = '<%= @user.available_from %>';
 
-    // date and time picker
-    this.available_from = {
-        //date: new Date()
-        date: new Date(available_from_date)
-    };
+        // date and time picker
+        this.available_from = {
+            //date: new Date()
+            date: new Date(available_from_date)
+        };
 
-    $scope.imageUpload = function(element){
-        var reader = new FileReader();
-        reader.onload = $scope.imageIsLoaded;
-        reader.readAsDataURL(element.files[0]);
-    }
+        $scope.imageUpload = function(element){
+            var reader = new FileReader();
+            reader.onload = $scope.imageIsLoaded;
+            reader.readAsDataURL(element.files[0]);
+        }
 
-    $scope.imageIsLoaded = function(e){
-        $scope.$apply(function() {
-            $scope.stepsModel= e.target.result;
-        });
-    }
-      
-  });
+        $scope.imageIsLoaded = function(e){
+            $scope.$apply(function() {
+                $scope.stepsModel= e.target.result;
+            });
+        }
+
+////////////////////////
+       
+        var professional_experience_count = 0;
+
+        $scope.professional_experiences = [];
+
+        $scope.addProfessionalExperience = function () {
+            $scope.professional_experiences.push(professional_experience_count);
+            professional_experience_count++;
+        }
+
+        $scope.removeProfessionalExperience = function (x) {   
+            $scope.professional_experiences.splice(x, 1);
+        }
+    
+    });
 
 </script>
