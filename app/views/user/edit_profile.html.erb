@@ -198,7 +198,7 @@
                         <div class="panel-heading">Professional Experience</div>
                         <div class="panel-body">
                             <div class="row">
-<!-- Demo Reel form start -->
+<!-- Professional Experience form start -->
 <%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'professional_experience_form' }) do |f| %>
     <%= f.fields_for :professional_experience do |pe| %>
                                 <div class="clearfix experience-pro marginB15">
@@ -206,27 +206,33 @@
                                         <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase" ng-click="addProfessionalExperience()"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Professional Experience</button>
                                     </div>
                                 </div>
+
                                 <div ng-repeat="x in professional_experiences">
-                                    <div class="clearfix" ng-model="addMeTest">
+                                    <div class="clearfix">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group timezone clearfix">
                                                 <label for="text">Company Name</label>
-                                                <%= pe.select(:company_id, options_for_select(Company.order('name ASC').pluck(:name, :id)), {:include_blank => "-- Select Company --"}, {'class' => 'custom-select from-input', name: "user[professional_experiences][{{$index}}][company_id]", id: 'user_professional_experiences_company_id_{{$index}}'}) %>
+                                                <%#= pe.select(:company_id, options_for_select(Company.order('name ASC').pluck(:name, :id)), {:include_blank => "-- Select Company --"}, {'class' => 'custom-select from-input', name: "user[professional_experiences][{{$index}}][company_id]", id: 'user_professional_experiences_company_id_{{$index}}'}) %>
 
-                                                    
+                                                <select class="custom-select from-input" name="user[professional_experiences][{{$index}}][company_id]" id="user_professional_experiences_company_id_{{$index}}" >
+
+                                                    <option value="">-- Select Company --</option>
+                                                    <option ng-repeat="y in <%= Company.order('name ASC').pluck(:name, :id) %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.company_id) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                                </select>
+
                                             </div>
                                             
                                         </div>
                                         <div class="col-md-1 col-sm-6 col-xs-12 or-txt1 lightcolor text-center">or</div>
                                         <div class="col-md-3 col-sm-6 col-xs-12 addnewcompany">
-                                            <%= pe.text_field :company_name, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][company_name]", id: 'user_professional_experiences_company_name_{{$index}}', placeholder: 'Enter Company Name' %>
+                                            <%= pe.text_field :company_name, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][company_name]", id: 'user_professional_experiences_company_name_{{$index}}', placeholder: 'Enter Company Name', value: '{{x.company_name}}' %>
                                         </div>
                                     </div>
                                     <div class="clearfix">
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group">
                                                 <label for="text">Title </label>
-                                                <%= pe.text_field :title, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][title]", id: 'user_professional_experiences_title_{{$index}}', placeholder: 'Enter Company Title' %>
+                                                <%= pe.text_field :title, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][title]", id: 'user_professional_experiences_title_{{$index}}', placeholder: 'Enter Company Title', value: '{{x.title}}' %>
                                             </div>
                                         </div>
                                     </div>
@@ -234,7 +240,7 @@
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group">
                                                 <label for="text">Location </label>
-                                                <%= pe.text_field :location, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][location]", id: 'user_professional_experiences_location_{{$index}}', placeholder: 'Enter Company Location' %>
+                                                <%= pe.text_field :location, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][location]", id: 'user_professional_experiences_location_{{$index}}', placeholder: 'Enter Company Location', value: '{{x.location}}' %>
                                             </div>
                                         </div>
                                     </div>
@@ -242,22 +248,37 @@
                                         <label class="col-md-12 col-sm-12 col-xs-12" for="text">Time Period </label>
                                         <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
                                             
-                                            <%= pe.select(:from_month, options_for_select(User::MONTH_VALUE), {:include_blank => "-- From Month --"}, {'class' => 'custom-select from-input', name: "user[professional_experiences][{{$index}}][from_month]", id: 'user_professional_experiences_from_month_{{$index}}'}) %>
+                                            <%#= pe.select(:from_month, options_for_select(User::MONTH_VALUE), {:include_blank => "-- From Month --"}, {'class' => 'custom-select from-input', name: "user[professional_experiences][{{$index}}][from_month]", id: 'user_professional_experiences_from_month_{{$index}}'}) %>
+
+                                            <select class="custom-select from-input" name="user[professional_experiences][{{$index}}][from_month]" id="user_professional_experiences_from_month_{{$index}}" >
+
+                                                    <option value="">-- From Month --</option>
+                                                    <option ng-repeat="y in <%= User::MONTH_VALUE %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.from_month) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                                </select>
 
                                         </div>
                                         <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
-                                            <%= pe.text_field :from_year, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][from_year]", id: 'user_professional_experiences_from_year_{{$index}}', placeholder: 'From Year', 'maxlength' => '4' %>
+                                            <%= pe.text_field :from_year, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][from_year]", id: 'user_professional_experiences_from_year_{{$index}}', placeholder: 'From Year', 'maxlength' => '4', value: '{{x.from_year}}' %>
                                         </div>
                                         <div class="col-md-2 col-sm-6 col-xs-12 timeperiod">
-                                            <%= pe.select(:to_month, options_for_select(User::MONTH_VALUE), {:include_blank => "-- To Month --"}, {'class' => 'custom-select from-input', name: "user[professional_experiences][{{$index}}][to_month]", id: 'user_professional_experiences_to_month_{{$index}}'}) %>
+                                            <%#= pe.select(:to_month, options_for_select(User::MONTH_VALUE), {:include_blank => "-- To Month --"}, {'class' => 'custom-select1 from-input1', name: "user[professional_experiences][{{$index}}][to_month]", id: 'user_professional_experiences_to_month_{{$index}}'}) %>
+
+
+
+                                                <select class="custom-select from-input" name="user[professional_experiences][{{$index}}][to_month]" id="user_professional_experiences_to_month_{{$index}}" >
+
+                                                    <option value="">-- To Month --</option>
+                                                    <option ng-repeat="y in <%= User::MONTH_VALUE %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.to_month) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                                </select>
+
                                         </div>
                                         <div class="col-md-2 col-sm-6 col-xs-12 marginB15">
-                                            <%= pe.text_field :to_year, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][to_year]", id: 'user_professional_experiences_to_year_{{$index}}', placeholder: 'To Year', 'maxlength' => '4' %>
+                                            <%= pe.text_field :to_year, class: 'form-control from-input', name: "user[professional_experiences][{{$index}}][to_year]", id: 'user_professional_experiences_to_year_{{$index}}', placeholder: 'To Year', 'maxlength' => '4', value: '{{x.to_year}}' %>
                                         </div>
                                         <div class="col-md-4 col-sm-6 col-xs-12 paddinT10 marginB15">
                                             <div class="checkbox-btn">
                                                 <input type="checkbox" name="rc15" id="rc15" value="value-1">
-                                                <%= pe.check_box :currently_worked, {name: "user[professional_experiences][{{$index}}][currently_worked]", id: 'user_professional_experiences_currently_worked_{{$index}}'} %>
+                                                <%= pe.check_box :currently_worked, {name: "user[professional_experiences][{{$index}}][currently_worked]", id: 'user_professional_experiences_currently_worked_{{$index}}', 'ng-checked' => '{{x.currently_worked}}'} %>
                                                 <label for="user_professional_experiences_currently_worked_{{$index}}">I currently work here</label>
                                             </div>
                                         </div>
@@ -266,7 +287,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="text">Description </label>
-                                                <%= pe.text_area :description, class: 'form-control summary-teatarea', name: "user[professional_experiences][{{$index}}][description]", id: 'user_professional_experiences_description_{{$index}}', placeholder: 'E.g Concept Artist, Digital Matte Painter' %>
+                                                <%= pe.text_area :description, class: 'form-control summary-teatarea', name: "user[professional_experiences][{{$index}}][description]", id: 'user_professional_experiences_description_{{$index}}', placeholder: 'E.g Concept Artist, Digital Matte Painter', value: '{{x.description}}' %>
                                             </div>
                                         </div>
                                     </div>
@@ -290,113 +311,129 @@
                     </div>
 
                     <div class="panel panel-default">
-                    <div class="panel-heading">Production Experience</div>
-                    <div class="panel-body">
-                    <div class="row">
-                    <form role="form">
-                    <div class="col-md-12 experience-pro marginB15">
-                    <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Position</button>
+                        <div class="panel-heading">Production Experience</div>
+                        <div class="panel-body">
+                            <div class="row">
+<!-- Production Experience form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'production_experience_form' }) do |f| %>
+    <%= f.fields_for :production_experience do |pe| %>
+                                    <div class="col-md-12 experience-pro marginB15">
+                                        <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase" ng-click="addProductionExperience()"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Position</button>
+                                    </div>
+                                    
+                                    <div class="clearfix" ng-repeat="x in production_experiences">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="text">Production Title</label>
+                                                <%= pe.text_field :production_title, class: 'form-control from-input', name: "user[production_experiences][{{$index}}][production_title]", id: 'user_production_experiences_production_title_{{$index}}', placeholder: 'Enter Title', value: '{{x.production_title}}' %>
+                                            </div>
+                                            <div class="form-group clearfix">
+                                                <%= pe.text_field :release_year, class: 'form-control from-input', name: "user[production_experiences][{{$index}}][release_year]", id: 'user_production_experiences_release_year_{{$index}}', placeholder: 'Enter Release Year', value: '{{x.release_year}}', 'maxlength' => '4' %>
+                                            </div>
+                                            <div class="form-group timezone clearfix">
+                                                <label for="text">Production Type</label>
+                                               
+                                                <select class="custom-select from-input" name="user[production_experiences][{{$index}}][production_type]" id="user_production_experiences_production_type_{{$index}}" >
+
+                                                    <option value="">-- Select Production Type --</option>
+                                                    <option ng-repeat="y in <%= User::PRODUCTION_TYPE %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.production_type) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                                </select>    
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="text">Your Role</label>
+                                                <%= pe.text_field :your_role, class: 'form-control from-input', name: "user[production_experiences][{{$index}}][your_role]", id: 'user_production_experiences_your_role_{{$index}}', placeholder: 'E.g Concept Artist, Digital Matte Painter', value: '{{x.your_role}}' %>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="text">Company</label>
+                                                <%= pe.text_field :company, class: 'form-control from-input', name: "user[production_experiences][{{$index}}][company]", id: 'user_production_experiences_company_{{$index}}', placeholder: 'The Company you worked for', value: '{{x.company}}' %>
+                                            </div>
+                                            <div class="clearfix experience-pro marginB15">
+                                                <button class="lightbtn border-radius" type="button" ng-click="removeProductionExperience($index)"><i class="fa fa-times marginR5" aria-hidden="true"></i> Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix experience-pro col-md-6 col-sm-6 col-xs-12">
+                                        <button type="submit" class="green-btn border-radius" value="ProductionExperience" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+                                    </div>
+    <% end %>
+<% end %>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-2 col-sm-3 col-xs-12 marginB15"> <%= image_tag("john.jpg", :alt => "john",:class=>"img-responsive") %> </div>
-                    <div class="col-md-10 col-sm-9 col-xs-12">
-                    <div class="col-md-6 col-sm-8 col-xs-12">
-                    <div class="row">
-                    <div class="form-group">
-                    <label for="text">Production Title</label>
-                    <input type="text" class="form-control from-input">
-                    </div>
-                    <div class="form-group timezone clearfix">
-                    <label for="text">Release Year</label>
-                    <select class="custom-select from-input">
-                    <option>2012</option>
-                    </select>
-                    </div>
-                    <div class="form-group timezone clearfix">
-                    <label for="text">Production Type</label>
-                    <select class="custom-select from-input">
-                    <option>Movie</option>
-                    </select>
-                    </div>
-                    <div class="form-group">
-                    <label for="text">Your Role</label>
-                    <input type="text" class="form-control from-input" placeholder="E.g Concept Artist, Digital Matte Painter">
-                    </div>
-                    <div class="form-group">
-                    <label for="text">Company</label>
-                    <input type="text" class="form-control from-input" placeholder="The Company you worked for">
-                    </div>
-                    <div class="clearfix experience-pro">
-                    <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-                    <button class="lightbtn border-radius" type="button"><i class="fa fa-times marginR5" aria-hidden="true"></i> Cancel</button>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </form>
-                    </div>
-                    </div>
-                    </div>
+
                     <div class="panel panel-default">
-                    <div class="panel-heading">Education Experience</div>
-                    <div class="panel-body">
-                    <div class="row">
-                    <form role="form">
-                    <div class="clearfix experience-pro marginB15">
-                    <div class="col-md-12">
-                    <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Education</button>
-                    </div>
-                    </div>
-                    <div class="clearfix">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="text">School Name</label>
-                    <input type="text" class="form-control from-input" placeholder="Add new if Institute name not listed">
-                    </div>
-                    </div>
-                    <div class="col-md-1 col-sm-6 col-xs-12 text-center lightcolor or-txt1">or</div>
-                    <div class="col-md-4 col-sm-6 col-xs-12 addnewcompany">
-                    <input class="form-control from-input">
-                    </div>
-                    </div>
-                    <div class="clearfix">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                    <label for="text">Field of Study/Skill </label>
-                    <input type="text" class="form-control from-input">
-                    </div>
-                    </div>
-                    </div>
-                    <div class="clearfix">
-                    <label class="col-md-12 col-sm-12 col-xs-12" for="text">Date Addended* </label>
-                    <div class="col-md-3 col-sm-6 col-xs-12 timeperiod">
-                    <select class="custom-select from-input">
-                    <option>Year</option>
-                    </select>
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12 timeperiod">
-                    <select class="custom-select from-input">
-                    <option>Year </option>
-                    </select>
-                    </div>
-                    <div class="col-md-6 col-sm-12 col-xs-12 marginB15 lightcolor paddinT10">or expected graduation year</div>
-                    </div>
-                    <div class="clearfix">
-                    <div class="col-md-12">
-                    <div class="form-group">
-                    <label for="text">Description </label>
-                    <textarea name="" cols="" rows="" class="form-control summary-teatarea" placeholder="E.g Concept Artist, Digital Matte Painter"></textarea>
-                    </div>
-                    </div>
-                    </div>
-                    <div class="clearfix experience-pro">
-                    <div class="col-md-12">
-                    <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-                    <button class="lightbtn border-radius" type="button"><i class="fa fa-times marginR5" aria-hidden="true"></i> Cancel</button>
-                    </div>
-                    </div>
-                    </form>
-                    </div>
-                    </div>
+                        <div class="panel-heading">Education Experience</div>
+                        <div class="panel-body">
+                            <div class="row">
+<!-- Education Experience form start -->
+<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'education_experience_form' }) do |f| %>
+    <%= f.fields_for :education_experience do |pe| %>
+                                <div class="clearfix experience-pro marginB15">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase" ng-click="addEducationExperience()"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Education</button>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix" ng-repeat="x in education_experiences">
+                                    <div class="clearfix">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="text">School Name</label>
+                                                <%= pe.text_field :school_name, class: 'form-control from-input', name: "user[education_experiences][{{$index}}][school_name]", id: 'user_education_experiences_school_name_{{$index}}', placeholder: 'Enter School Name', value: '{{x.school_name}}' %>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-md-1 col-sm-6 col-xs-12 text-center lightcolor or-txt1">or</div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12 addnewcompany">
+                                            <input class="form-control from-input">
+                                        </div> -->
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="form-group">
+                                                <label for="text">Field of Study/Skill </label>
+                                                <%= pe.text_field :field_of_study, class: 'form-control from-input', name: "user[education_experiences][{{$index}}][field_of_study]", id: 'user_education_experiences_field_of_study_{{$index}}', placeholder: '', value: '{{x.field_of_study}}' %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label class="col-md-12 col-sm-12 col-xs-12" for="text">Date Addended* </label>
+                                        <div class="col-md-3 col-sm-6 col-xs-12 timeperiod">
+                                            <select class="custom-select from-input" name="user[education_experiences][{{$index}}][month_val]" id="user_education_experiences_month_val_{{$index}}" >
+
+                                                <option value="">-- Month --</option>
+                                                <option ng-repeat="y in <%= User::MONTH_VALUE %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.month_val) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <%= pe.text_field :year_val, class: 'form-control from-input', name: "user[education_experiences][{{$index}}][year_val]", id: 'user_education_experiences_year_val_{{$index}}', placeholder: 'Year', value: '{{x.year_val}}', 'maxlength' => '4' %>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12 marginB15 lightcolor paddinT10">or expected graduation year</div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="text">Description </label>
+                                                <%= pe.text_area :description, class: 'form-control summary-teatarea', name: "user[education_experiences][{{$index}}][description]", id: 'user_education_experiences_description_{{$index}}', placeholder: 'E.g Concept Artist, Digital Matte Painter', value: '{{x.description}}' %>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix experience-pro marginB15 col-md-12">
+                                        <button class="lightbtn border-radius" type="button" ng-click="removeEducationExperience($index)"><i class="fa fa-times marginR5" aria-hidden="true"></i> Remove</button>
+                                    </div>
+
+                                </div>
+
+                                <div class="clearfix experience-pro">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="green-btn border-radius" value="EducationExperience" name="commit"><i aria-hidden="true" class="fa fa-floppy-o marginR5"></i> Save</button>
+                                    </div>
+                                </div>
+    <% end %>
+<% end %>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="panel panel-default">
@@ -558,9 +595,10 @@
 
 ////////////////////////
        
+        // For professional experience
         var professional_experience_count = 0;
-
-        $scope.professional_experiences = [];
+        /*$scope.professional_experiences = [];*/
+        $scope.professional_experiences = <%= @professional_experiences.to_json.html_safe %>;
 
         $scope.addProfessionalExperience = function () {
             $scope.professional_experiences.push(professional_experience_count);
@@ -569,6 +607,32 @@
 
         $scope.removeProfessionalExperience = function (x) {   
             $scope.professional_experiences.splice(x, 1);
+        }
+
+        // For production experience
+        var production_experience_count = 0;
+        $scope.production_experiences = <%= @production_experiences.to_json.html_safe %>;
+
+        $scope.addProductionExperience = function () {
+            $scope.production_experiences.push(production_experience_count);
+            production_experience_count++;
+        }
+
+        $scope.removeProductionExperience = function (x) {   
+            $scope.production_experiences.splice(x, 1);
+        }
+
+        // For education experience
+        var education_experience_count = 0;
+        $scope.education_experiences = <%= @education_experiences.to_json.html_safe %>;
+
+        $scope.addEducationExperience = function () {
+            $scope.education_experiences.push(education_experience_count);
+            education_experience_count++;
+        }
+
+        $scope.removeEducationExperience = function (x) {   
+            $scope.education_experiences.splice(x, 1);
         }
     
     });

@@ -47,7 +47,7 @@ gem 'country_select'
 gem 'chosen-rails'
 
 gem 'tinymce-rails'
-gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'
+#gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'
 
 
  gem 'omniauth'

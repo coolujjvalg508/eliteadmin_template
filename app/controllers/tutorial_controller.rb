@@ -16,7 +16,11 @@ class TutorialController < ApplicationController
 
 		@sub_topics = Topic.where('parent_id = ?', @topic_id).select("topics.*, (SELECT COUNT(*) FROM tutorials WHERE sub_topic::jsonb ?| array[cast(topics.id as text)]) AS count_tutorials")
 
-		#abort(@topic_details.to_json)
+		@result = Tutorial.where("topic::jsonb ?| array['" + @topic_id + "'] OR sub_topic::jsonb ?| array['" + @topic_id + "']").page(params[:page]).per(10)
+
+
+
+		#abort(@tutorial_list.to_json)
 
 	end	
 

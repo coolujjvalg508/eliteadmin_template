@@ -1,4 +1,5 @@
 class UserController < ApplicationController
+    before_action :find_associated_data, only: [:edit_profile, :update]
 
     def signup
 
@@ -58,8 +59,6 @@ class UserController < ApplicationController
         authenticate_user!
         @user = current_user
 
-        @professional_experiences = ProfessionalExperience.where('user_id = ?', current_user)
-
     end
 
     def update
@@ -101,7 +100,57 @@ class UserController < ApplicationController
             end
 
             flash[:notice] = "Professional experiences updated successfully."   
-            redirect_to user_edit_profile_path            
+            redirect_to user_edit_profile_path   
+
+        elsif params[:commit] == "ProductionExperience"    
+
+            ProductionExperience.where(user_id: current_user.id).delete_all
+
+            if params["user"]["production_experiences"].present?
+
+                production_experiences = params["user"]["production_experiences"]
+
+                production_experiences.each_with_index do |d, index| 
+
+                    ProductionExperience.create(
+                        user_id: current_user.id, 
+                        production_title: d[1]['production_title'], 
+                        release_year: d[1]['release_year'], 
+                        production_type: d[1]['production_type'], 
+                        your_role: d[1]['your_role'], 
+                        company: d[1]['company']
+                    )
+
+                end
+            end
+
+            flash[:notice] = "Production experiences updated successfully."   
+            redirect_to user_edit_profile_path  
+
+        elsif params[:commit] == "EducationExperience"    
+
+            EducationExperience.where(user_id: current_user.id).delete_all
+
+            if params["user"]["education_experiences"].present?
+
+                education_experiences = params["user"]["education_experiences"]
+
+                education_experiences.each_with_index do |d, index| 
+
+                    EducationExperience.create(
+                        user_id: current_user.id, 
+                        school_name: d[1]['school_name'], 
+                        field_of_study: d[1]['field_of_study'], 
+                        month_val: d[1]['month_val'], 
+                        year_val: d[1]['year_val'], 
+                        description: d[1]['description']
+                    )
+
+                end
+            end
+
+            flash[:notice] = "Education experiences updated successfully."   
+            redirect_to user_edit_profile_path                  
 
         else
 
@@ -170,6 +219,12 @@ class UserController < ApplicationController
     private
         def user_params
             params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :firstname, :lastname, :professional_headline, :phone_number, :profile_type, :country_id, :city, :image, :summary, :demo_reel, :skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, :linkedin_profile_url, :twitter_handle, :instagram_username, :behance_username, :tumbler_url, :pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :show_message_button, :full_time_employment, :contract, :freelance, :available_from, :professional_experiences_attributes => [:id,:company_id,:company_name,:title, :location, :from_month, :from_year, :to_month, :to_year, :currently_worked, :description, :professionalexperienceable_id, :professionalexperienceable_type, :_destroy, :tmp_professionalexperience, :professionalexperience_cache, :user_id])
+        end
+
+        def find_associated_data
+            @professional_experiences = ProfessionalExperience.where('user_id = ?', current_user)
+            @production_experiences = ProductionExperience.where('user_id = ?', current_user)
+            @education_experiences = EducationExperience.where('user_id = ?', current_user)
         end
   
 end
