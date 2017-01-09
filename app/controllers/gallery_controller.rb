@@ -6,6 +6,26 @@ class GalleryController < ApplicationController
 
   end
 
+  def free_download
+
+     @topic_list = Category.where('parent_id IS NULL').select("categories.*, (SELECT COUNT(*) FROM downloads WHERE post_type_id::jsonb ?| array[cast(categories.id as text)] AND free IS TRUE AND status=1 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))) AS count_downloads").order('name ASC')
+
+
+     conditions  = "free IS TRUE AND status=1 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+    
+      if params[:post_type_id].present?
+         conditions +=  " AND post_type_id::jsonb ?| array['" + params[:post_type_id] + "'] "
+         @topic_details = Category.find_by(id: params[:post_type_id]);
+      end 
+
+      @result = Download.where(conditions).page(params[:page]).per(10)
+
+      @result_final = JSON.parse(@result.to_json(:include => [:user]))
+
+     # abort(@result.to_json)
+
+  end  
+
   def all_gallery_post
 
     authenticate_user!
@@ -108,6 +128,20 @@ class GalleryController < ApplicationController
   end
   
   def challenge
+
+    
+    
+  end
+
+  def get_challenge_list
+
+      challenge_data = Challenge.order('id DESC')
+
+      final_data = JSON.parse(challenge_data.to_json(:include => [:user]))
+
+      render json: final_data, status: 200  
+
+    
   end
 
   def join_challenge

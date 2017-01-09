@@ -7,6 +7,18 @@ class NewsController < ApplicationController
 
 	def free_news
 
+		@topic_list = NewsCategory.where('parent_id IS NULL').select("news_categories.*, (SELECT COUNT(*) FROM news WHERE category_id::jsonb ?| array[cast(news_categories.id as text)] AND status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))) AS count_news").order('name ASC')
+
+
+		conditions	=	"status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+		
+			if params[:category_id].present?
+				 conditions += 	" AND category_id::jsonb ?| array['" + params[:category_id] + "'] "
+				 @topic_details = NewsCategory.find_by(id: params[:category_id]);
+			end	
+
+		@result = News.where(conditions).page(params[:page]).per(10)
+
 	end	
 
 	def news_category

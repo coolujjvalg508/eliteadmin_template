@@ -1,4 +1,4 @@
-<!-- Submenu Navigation -->
+<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
 <section class="wip-navigation-wrap">
 <div class="navbar-default">
 <div class="container">
@@ -26,490 +26,56 @@
 <div class="container">
 <div class="clearfix hidden-xs hidden-sm">
 <ol class="breadcrumb margin">
-<li class="breadcrumb-item"><a href="#">CGTrander</a></li>
-<li class="breadcrumb-item active">Free 3D Models</li>
-</ol>
+      <li class="breadcrumb-item"><a href="<%= gallery_free_download_path %>">Free Download</a></li>
+      <% if @topic_details.present? %>
+      <li class="breadcrumb-item active"><%= @topic_details.name %></li>
+      <% end %>
+    </ol>
 </div>
 
 <div class="freedownloadpage clearfix">
-<div class="row">
-<ul>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Aircraft <span class="badge">(1,564)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Animals <span class="badge"> (386) </span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Architectural Details <span class="badge"> (4,727)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Architectural Exterior <span class="badge">(9,054)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Architectural Interior <span class="badge">(2,783)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">car <span class="badge">(1,633)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Character /Human <span class="badge">(1,667)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Electronics <span class="badge">(1,745)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Food <span class="badge">(315)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Furniture <span class="badge">(7,027)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Furniture Set <span class="badge">(597)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Household <span class="badge">(1,736)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Industrial <span class="badge">(4,800)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Plant / Tree <span class="badge">(609)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Science / Medical <span class="badge">(246)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Space <span class="badge">(722)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Sport / Hobby <span class="badge">(1,356)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Vehicle <span class="badge">(1,992)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Watercraft <span class="badge">(271)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Weapon / Military <span class="badge">(989)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Scanned 3D Models <span class="badge">(51)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Scripts / Plugins <span class="badge">(2)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Engineering Parts <span class="badge">(160,839)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6"><a href="#">Various <span class="badge">(167)</span></a></li>
-</ul>
-</div>
-</div>
-
-
-<div class="downwrapprice hidden-xs hidden-sm">
-<div class="row">
-<div class="col-md-3 col-sm-4 col-xs-12">
-  <div class="pull-left price-down paddinT5">Price <%= image_tag("price-line.png", :alt=>"price", :style=>'display:inline-block', :class=>"img-responsive marginL5") %> </div>
-  <div class="pull-right">
-    <div class="checkbox-btn">
-      <input type="checkbox" value="value-1" id="rc3" name="rc3" />
-      <label for="rc3" onclick></label>
+    <div class="row">
+      <% if @topic_list.present? %>
+      <ul>
+        <% @topic_list.each_with_index do |val, i| %>
+          <li class="col-md-3 col-sm-4 col-xs-6"><a href="<%= gallery_free_download_path %>?post_type_id=<%= val.try(:id) %>"><%= val.try(:name) %> <span class="badge">(<%= val.try(:count_downloads) %>)</span></a></li>
+         
+        <% end %>
+      </ul>
+      <% end %>
     </div>
-  </div>
-</div>
-<div class="col-md-2 col-sm-3 col-xs-12">
-  <select class="custom-select">
-    <option>Formats</option>
-  </select>
-</div>
-<div class="col-md-4 col-sm-3 col-xs-12 paddinT10">
-  <div class="checkbox-btn pull-left marginR5">
-    <input type="checkbox" value="value-1" id="rc4" name="rc4" />
-    <label for="rc4" onclick>Animated</label>
-  </div>
-  <div class="checkbox-btn pull-left marginR5 marginL5">
-    <input type="checkbox" value="value-1" id="rc5" name="rc5" />
-    <label for="rc5" onclick>Rigged</label>
-  </div>
-  <div class="checkbox-btn  pull-left marginL5">
-    <input type="checkbox" value="value-1" id="rc6" name="rc6" />
-    <label for="rc6" onclick>Low-poly</label>
-  </div>
-</div>
-<div class="col-md-3 col-sm-3 col-xs-12">
-  <select class="custom-select">
-    <option>Best Match</option>
-  </select>
-</div>
-</div>
 </div>
 
-<div class="clearfix resetfilterswrap">
-<div class="row">
-<div class="col-md-10 col-sm-9 col-xs-12">
-  <div class="text-select">Free <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-</div>
-<div class="col-md-2 col-sm-3 col-xs-12 text-right reset-btn"> <a href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i> Rest filters</a> </div>
-</div>
-</div>
+
 
 <!-- User Followers Start -->
 <div class="download-indent clearfix">
 <div class="container">
 <div class="clearfix downbox row">
   <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>12 Realistic Male Characters</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            <div class="pull-right"> <span class="checkbox-btn">
-              <input type="checkbox" value="value-1" id="rc1" name="rc1">
-              <label for="rc1" onclick=""></label>
-              </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery1.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            <div class="pull-right"> <span class="checkbox-btn">
-              <input type="checkbox" value="value-1" id="rc2" name="rc2">
-              <label for="rc2" onclick=""></label>
-              </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery2.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery3.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
+      <% if @result.present? %>
+          <ul>
+              <li  class="clearfix marginL" ng-repeat="x in <%= @result_final.to_json %>">
+                <div class="downwrap"><img lazy-img="<%= root_url %>{{ x.company_logo.tutorial_list.url }}" class="img-responsive"> </div>
+                    <div class="padding10 clearfix">
+                      <div class="down-txt"><span>{{x.title}}</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
+                      <div class="clearfix down-name">
+                        <div class="pull-left">by <span class="price-txt1">{{x.is_admin == 'Y' ? 'Admin' : x.user.firstname + ' ' + x.user.lastname}}</span></div>
+                       
+                      </div>
+                    </div>
+               </li>
+           </ul>    
+         <% else %>
+          <div class="clearfix downbox text-center err-msg no-result">No Result Found!</div>    
+
+        <% end %>
   </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery4.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery5.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery6.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery7.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery8.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery10.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery11.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery12.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">max, obj, 3ds, dxf, c4d and more</div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>12 Realistic Male Characters</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            <div class="pull-right"> <span class="checkbox-btn">
-              <input type="checkbox" value="value-1" id="rc1" name="rc1">
-              <label for="rc1" onclick=""></label>
-              </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery1.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            <div class="pull-right"> <span class="checkbox-btn">
-              <input type="checkbox" value="value-1" id="rc2" name="rc2">
-              <label for="rc2" onclick=""></label>
-              </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery2.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery3.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery4.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery5.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery6.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery7.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery8.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery10.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery11.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery12.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">max, obj, 3ds, dxf, c4d and more</div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>12 Realistic Male Characters</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            <div class="pull-right"> <span class="checkbox-btn">
-              <input type="checkbox" value="value-1" id="rc1" name="rc1">
-              <label for="rc1" onclick=""></label>
-              </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery1.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            <div class="pull-right"> <span class="checkbox-btn">
-              <input type="checkbox" value="value-1" id="rc2" name="rc2">
-              <label for="rc2" onclick=""></label>
-              </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery2.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery3.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery4.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery5.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery6.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery7.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery8.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery10.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery11.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/wip-gallery12.jpg", :class=>"img-responsive") %> </div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <span class="pull-right price-txt">$19.99</span></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">max, obj, 3ds, dxf, c4d and more</div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
+  
 </div>
-<div class="text-center text-uppercase">
-  <ul class="pagination">
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">Next</a></li>
-    <li><a href="#">Last</a></li>
-  </ul>
-</div>
+   <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
+          <%= paginate @result %>
+    </div>
 </div>
 </div>
 </div>
@@ -519,3 +85,11 @@
 <footer class="footer clearfix padding">
  <%= render 'layouts/lastfooter' %>
 </footer>
+<script>
+// main page angular app start
+var app = angular.module('myApp', ["angularLazyImg"]);
+app.controller('myCtrl', function($scope, $http) {
+    
+});
+
+</script>

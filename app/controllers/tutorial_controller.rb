@@ -8,15 +8,32 @@ class TutorialController < ApplicationController
 
 	end	
 
+	def free_tutorial
+
+	   @topic_list = Topic.where('parent_id IS NULL').select("topics.*, (SELECT COUNT(*) FROM tutorials WHERE topic::jsonb ?| array[cast(topics.id as text)] AND free IS TRUE AND status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))) AS count_tutorials").order('name ASC')
+
+
+		conditions	=	"free IS TRUE AND status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+		if params[:topic_id].present?
+		 conditions += 	" AND topic::jsonb ?| array['" + params[:topic_id] + "'] "
+
+		 @topic_details = Topic.find_by(id: params[:topic_id]);
+
+
+		end	
+
+		@result = Tutorial.where(conditions).page(params[:page]).per(10)
+	end	
+
 	def tutorial_category
 
 		@topic_id = params[:id]
 
 		@topic_details = Topic.find_by(id: @topic_id);
 
-		@sub_topics = Topic.where('parent_id = ?', @topic_id).select("topics.*, (SELECT COUNT(*) FROM tutorials WHERE sub_topic::jsonb ?| array[cast(topics.id as text)]) AS count_tutorials")
+		@sub_topics = Topic.where('parent_id = ?', @topic_id).select("topics.*, (SELECT COUNT(*) FROM tutorials WHERE sub_topic::jsonb ?| array[cast(topics.id as text)] AND status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))) AS count_tutorials")
 
-		@result = Tutorial.where("topic::jsonb ?| array['" + @topic_id + "'] OR sub_topic::jsonb ?| array['" + @topic_id + "']").page(params[:page]).per(10)
+		@result = Tutorial.where("topic::jsonb ?| array['" + @topic_id + "'] OR sub_topic::jsonb ?| array['" + @topic_id + "'] AND status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").page(params[:page]).per(10)
 
 
 

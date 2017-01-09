@@ -69,8 +69,9 @@
   <div class="container">
   <div class="clearfix downbox row">
     <div class="clearfix">
-      <ul>
+      
       <% if @result.present? %>
+      <ul>
               <li  class="clearfix marginL" ng-repeat="x in <%= @result.to_json %>">
                 <div class="downwrap"><img lazy-img="<%= root_url %>{{ x.company_logo.tutorial_list.url }}" class="img-responsive"> </div>
                     <div class="padding10 clearfix">
@@ -81,9 +82,12 @@
                       </div>
                     </div>
                </li>
+         </ul>      
+         <% else %>
+                <div class="clearfix downbox text-center err-msg no-result">No Result Found!</div>    
 
-        <% end %>    
-      </ul>
+         <% end %>    
+      
     </div>
     
   </div>

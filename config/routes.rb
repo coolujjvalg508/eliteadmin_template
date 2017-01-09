@@ -86,6 +86,7 @@ Rails.application.routes.draw do
   get 'gallery/browse_all_video'
   get 'gallery/browse_all_work_in_progress'
   get 'gallery/challenge'
+  get 'gallery/get_challenge_list'
   get 'gallery/challenge_post'
   get 'gallery/create_gallery_post_type'
   get 'gallery/gallery'

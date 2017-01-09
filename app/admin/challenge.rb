@@ -41,7 +41,7 @@ ActiveAdmin.register Challenge do
 		  end
 		  f.input :upload_button_text
 		   
-		  f.input :challenge_type_id, as: :select, collection: [['Gallery Contest',0], ['Tutorial Contest', 1], ['Download Contest', 2]], include_blank: 'Select Challenge Type', label: 'Challenge Type'
+		  f.input :challenge_type_id, as: :select, collection: Challenge::CHALLENGE_TYPE, include_blank: 'Select Challenge Type', label: 'Challenge Type'
 		 
 		  f.input :team_member,label:'Brought to you by'
 		  f.input :hosts,label:'Hosts'
