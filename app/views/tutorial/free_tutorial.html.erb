@@ -55,8 +55,7 @@
   <% if @topic_list.present? %>
   <ul>
     <% @topic_list.each_with_index do |val, i| %>
-      <li class="col-md-3 col-sm-4 col-xs-6"><a href="<%= tutorial_free_tutorial_path %>?topic_id=<%= val.try(:id) %>"><%= val.try(:name) %> <span class="badge">(<%= val.try(:count_tutorials) %>)</span></a></li>
-     
+        <li class="col-md-3 col-sm-4 col-xs-6"><a href="<%= tutorial_free_tutorial_path %>?topic_id=<%= val.try(:id) %>"><%= val.try(:name) %> <span class="badge">(<%= val.try(:count_tutorials) %>)</span></a></li>
     <% end %>
   </ul>
   <% end %>

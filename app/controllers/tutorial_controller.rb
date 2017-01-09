@@ -14,12 +14,10 @@ class TutorialController < ApplicationController
 
 
 		conditions	=	"free IS TRUE AND status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+		
 		if params[:topic_id].present?
-		 conditions += 	" AND topic::jsonb ?| array['" + params[:topic_id] + "'] "
-
-		 @topic_details = Topic.find_by(id: params[:topic_id]);
-
-
+		 	conditions 		+= 	" AND topic::jsonb ?| array['" + params[:topic_id] + "'] "
+			@topic_details   = Topic.find_by(id: params[:topic_id]);
 		end	
 
 		@result = Tutorial.where(conditions).page(params[:page]).per(10)

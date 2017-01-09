@@ -22,7 +22,7 @@ mount_uploader :company_logo, ImageUploader
  belongs_to :user
 
 
- CHALLENGE_TYPE = [['Gallery Contest',0], ['Tutorial Contest', 1], ['Download Contest', 2]]
+ CHALLENGE_TYPE = [['Gallery Contest',1], ['Tutorial Contest', 2], ['Download Contest', 3]]
  
  
  accepts_nested_attributes_for :images, reject_if: proc { |attributes| attributes['image'].blank? || attributes['image'].nil? }, allow_destroy: true 
