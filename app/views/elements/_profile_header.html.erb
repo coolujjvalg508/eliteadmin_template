@@ -63,8 +63,8 @@
             </div>
             <div class="artist-additional-info">
               <ul>
-                <% if current_user.city || current_user.country %>
-                  <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> <%= current_user.city %><%= (current_user.city != '' && current_user.country.name != '') ? ', ' : '' %><%= current_user.try(:country).try(:name) %> </li>
+                <% if current_user.try(:city) || current_user.try(:country) %>
+                  <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> <%= current_user.try(:city) %><%= (current_user.try(:city) != '' && current_user.try(:country).try(:name) != '') ? ', ' : '' %><%= current_user.try(:country).try(:name) %> </li>
                 <% end %>
                 <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
                 <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> 41,241 Likes </li>
