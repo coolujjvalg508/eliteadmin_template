@@ -310,7 +310,7 @@
                 <center><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"> </center>
               </div>
               <div class="col-md-7 col-sm-6 col-xs-9 jobshomepagecontent">
-                <h2><a href="#"><a href="#">{{x.title}}</a></a></h2>
+                <h2><a href="<%= root_url %>job/apply_job/{{x.id}}">{{x.title}}</a></h2>
                 <p>{{x.company.name}}</p>
                 <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
                 <div class="clearfix"><span class="jobshometime">{{x.created_at | date:'dd MMMM yyyy'}} - 5,116 views</span></div>

@@ -1,7 +1,7 @@
 class TutorialController < ApplicationController
 	def index
-		@topics = Topic.where('parent_id IS NULL').order('name ASC')
-		@tutorial_skill = TutorialSkill.order('title ASC')
+		@topics 			= Topic.where('parent_id IS NULL').order('name ASC')
+		@tutorial_skill 	= TutorialSkill.order('title ASC')
 	end
 
 	def tutorial_post

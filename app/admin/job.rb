@@ -81,7 +81,7 @@ ActiveAdmin.register Job do
 		  f.input :is_featured, as: :boolean,label: "Featured Job"
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
-		  f.input :visibility, as: :select, collection: [['Public', 1], ['Private',0]], include_blank: false
+		  f.input :visibility, as: :select, collection: [['Public', 0], ['Private',1]], include_blank: false
 		  f.input :publish, as: :select, collection: [['Immediately',1], ['Schedule', 0]], include_blank: false
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Company logo"

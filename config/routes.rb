@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   get 'job/store'
   get 'job/job_post'
   get 'jobs'=> 'job#job_home'
-  get 'job/apply_job' 
+  get 'job/apply_job/:id'=> 'job#apply_job', as: 'apply_job' 
   get 'job/job_category' 
   get 'job/job_company_list_on_map'
   get 'job/job_list_on_map'
