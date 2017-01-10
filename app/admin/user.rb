@@ -135,7 +135,7 @@ ActiveAdmin.register User do
 				  ff.input :release_year
 				  ff.input :production_type, as: :select, collection: User::PRODUCTION_TYPE, include_blank: false, label: 'Production Type'
 				  ff.input :your_role
-				  ff.input :company6
+				  ff.input :company
 				 # ff.input :productionexperience_cache, :as => :hidden
 				
 			 end 
