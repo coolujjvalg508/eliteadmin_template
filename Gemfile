@@ -38,7 +38,7 @@ gem 'kaminari-bootstrap', '~> 3.0.1'
 gem 'activeadmin', github: 'activeadmin'
 gem 'active_admin_theme'
 gem 'active_admin-awesome_nested_set'
-
+ 
 gem "just-datetime-picker"
 gem "nested_form"
 gem 'active_admin_flat_skin'
