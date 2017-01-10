@@ -344,8 +344,10 @@ ActiveAdmin.register Gallery , as: "Project" do
 
 											if match.present?
 												vimeoid	=	match[:id]
+
+												raw('<iframe width="300" height="200" src="https://player.vimeo.com/video/'+vimeoid+'" width="640" height="270" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
 											end
-											raw('<iframe width="300" height="200" src="https://player.vimeo.com/video/'+vimeoid+'" width="640" height="270" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+											
 							
 								  elsif(img.video.include?('dailymotion'))	
 											match =  img.video.gsub('http://www.dailymotion.com/video/', "")
@@ -353,9 +355,11 @@ ActiveAdmin.register Gallery , as: "Project" do
 											match	= match[0...match1]
 											if match.present?
 												dailymotionid	=	match
+
+											raw('<iframe width="300" height="200" frameborder="0"  src="//www.dailymotion.com/embed/video/'+ dailymotionid +'" allowfullscreen></iframe>')	
 											end	
 									
-										raw('<iframe width="300" height="200" frameborder="0"  src="//www.dailymotion.com/embed/video/'+ dailymotionid +'" allowfullscreen></iframe>')	
+										
 							
 								  end
 						 end

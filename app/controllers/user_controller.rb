@@ -205,6 +205,11 @@ class UserController < ApplicationController
     end
 
     def user_profile_info
+
+        @professional_experiences = ProfessionalExperience.where('user_id = ? ', current_user)
+        @education_experiences = EducationExperience.where('user_id = ? ', current_user)
+        @production_experiences = ProductionExperience.where('user_id = ? ', current_user)
+
     end
 
     def user_statistics
