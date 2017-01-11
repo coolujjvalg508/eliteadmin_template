@@ -253,7 +253,7 @@
                                             <select class="custom-select from-input" name="user[professional_experiences][{{$index}}][from_month]" id="user_professional_experiences_from_month_{{$index}}" >
 
                                                     <option value="">-- From Month --</option>
-                                                    <option ng-repeat="y in <%= User::MONTH_VALUE %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.from_month) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                                    <option ng-repeat="(key, y) in <%= User::MONTH_VALUE.to_json %>" value="{{y}}" ng-selected="{{ (y == x.from_month) ? 'true' : 'false' }}" >{{key}}</option>
                                                 </select>
 
                                         </div>
@@ -268,7 +268,7 @@
                                                 <select class="custom-select from-input" name="user[professional_experiences][{{$index}}][to_month]" id="user_professional_experiences_to_month_{{$index}}" >
 
                                                     <option value="">-- To Month --</option>
-                                                    <option ng-repeat="y in <%= User::MONTH_VALUE %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.to_month) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                                    <option ng-repeat="(key, y) in <%= User::MONTH_VALUE.to_json %>" value="{{y}}" ng-selected="{{ (y == x.to_month) ? 'true' : 'false' }}" >{{key}}</option>
                                                 </select>
 
                                         </div>
@@ -328,6 +328,7 @@
                                                 <%= pe.text_field :production_title, class: 'form-control from-input', name: "user[production_experiences][{{$index}}][production_title]", id: 'user_production_experiences_production_title_{{$index}}', placeholder: 'Enter Title', value: '{{x.production_title}}' %>
                                             </div>
                                             <div class="form-group clearfix">
+                                                <label for="text">Release Year</label>
                                                 <%= pe.text_field :release_year, class: 'form-control from-input', name: "user[production_experiences][{{$index}}][release_year]", id: 'user_production_experiences_release_year_{{$index}}', placeholder: 'Enter Release Year', value: '{{x.release_year}}', 'maxlength' => '4' %>
                                             </div>
                                             <div class="form-group timezone clearfix">
@@ -336,7 +337,7 @@
                                                 <select class="custom-select from-input" name="user[production_experiences][{{$index}}][production_type]" id="user_production_experiences_production_type_{{$index}}" >
 
                                                     <option value="">-- Select Production Type --</option>
-                                                    <option ng-repeat="y in <%= User::PRODUCTION_TYPE %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.production_type) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                                    <option ng-repeat="(key, y) in <%= User::PRODUCTION_TYPE.to_json %>" value="{{y}}" ng-selected="{{ (y == x.production_type) ? 'true' : 'false' }}" >{{key}}</option>
                                                 </select>    
 
                                             </div>
@@ -402,7 +403,7 @@
                                             <select class="custom-select from-input" name="user[education_experiences][{{$index}}][month_val]" id="user_education_experiences_month_val_{{$index}}" >
 
                                                 <option value="">-- Month --</option>
-                                                <option ng-repeat="y in <%= User::MONTH_VALUE %>" value="{{y[1]}}" ng-selected="{{ (y[1] == x.month_val) ? 'true' : 'false' }}" >{{y[0]}}</option>
+                                                <option ng-repeat="(key, y) in <%= User::MONTH_VALUE.to_json %>" value="{{y}}" ng-selected="{{ (y == x.month_val) ? 'true' : 'false' }}" >{{key}}</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 col-sm-6 col-xs-12">
@@ -444,15 +445,22 @@
                             <div class="row">
                                 <div class="form-group clearfix">
                                     <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
-                                    <div class="col-md-8 col-sm-6 col-xs-6">
-                                        <%= f.text_field :skill_expertise, class: 'form-control from-input', id: 'skill_expertise', placeholder: 'Enter Skills And Expertise' %>
+                                    <div class="col-md-8 col-sm-6 col-xs-6 timeperiod">
+                                        <%#= f.text_field :skill_expertise, class: 'form-control from-input', id: 'skill_expertise', placeholder: 'Enter Skills And Expertise' %>
+
+
+
+                                        <%= f.select(:skill_expertise, options_for_select(JobSkill.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:skill_expertise] : @user[:skill_expertise]), {:include_blank => "-- Select Skills --"}, {'class' => 'form-control', multiple: true})  %>
+
                                         <span class="err-msg"><%= error_message(@user, :skill_expertise) %></span>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
                                     <label class="col-md-12 col-sm-12 col-xs-12">Software expertise needed for job:</label>
                                     <div class="col-md-8 col-sm-12 col-xs-12">
-                                        <%= f.text_field :software_expertise, class: 'form-control from-input', id: 'software_expertise', placeholder: 'Enter Software Expertise' %>
+                                        <%#= f.text_field :software_expertise, class: 'form-control from-input', id: 'software_expertise', placeholder: 'Enter Software Expertise' %>
+
+                                        <%= f.select(:software_expertise, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:software_expertise] : @user[:software_expertise]), {:include_blank => "-- Select Software Expertise --"}, {'class' => 'form-control', multiple: true})  %>
                                         <span class="err-msg"><%= error_message(@user, :software_expertise) %></span>
                                     </div>
                                 </div>

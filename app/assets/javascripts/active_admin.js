@@ -24,12 +24,12 @@ $(document).ready(function() {
 			  width: 935,
 			  themes: "modern",
 			  menubar: false,
-			  uploadimage_form_url : '/admin/images/saveimage',
+			  /*uploadimage_form_url : '/admin/images/saveimage',*/ /* uploadimage */
 			  
 			  plugins: [
 				'advlist autolink lists link image charmap print preview anchor',
 				'searchreplace visualblocks code fullscreen',
-				'insertdatetime media table contextmenu paste code uploadimage'
+				'insertdatetime media table contextmenu paste code'
 			  ],
 			  toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | uploadimage | media | code'
 

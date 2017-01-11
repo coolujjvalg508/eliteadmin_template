@@ -29,9 +29,9 @@
 // require turbolinks
 // require_tree .
 // require bootstrap
+// require chosen-jquery
 // require bootsy
 // require bootstrap-datetimepicker
-// require chosen-jquery
 // require scaffold
 
 $(document).ready(function(){

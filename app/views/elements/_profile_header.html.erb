@@ -17,7 +17,7 @@
 
     <%= f.file_field(:cover_art_image, accept: "image/*", id: "covertArtPicUpload", "ng-model" => "covertArtPicUpload", onchange: "angular.element(this).scope().coverArtUpload(this)", style: "display: none;")%>
     
-    <button type="submit" id="saveCoverArtPic" value="UpdateCoverArt" ng-show="flase" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button>
+    <button type="submit" id="saveCoverArtPic" value="UpdateCoverArt" ng-show="false" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button>
        
 <% end %>    
 
@@ -44,7 +44,7 @@
 
                 <%= f.file_field(:image, accept: "image/*", id: "profilePicUpload", "ng-model" => "profilePicUpload", onchange: "angular.element(this).scope().imageUpload(this)", style: "display: none;")%>
 
-                <button type="submit" id="saveProfilePic" class="save-img" value="UpdateProfilePhoto" ng-show="profilePicUpload" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button>
+                <button type="submit" id="saveProfilePic" class="save-img" value="UpdateProfilePhoto" ng-show="false" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button>
 
                 <!-- <a href="javascript:void(0);" id="saveProfilePic" class="save-img" ng-show="profilePicUpload"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></a> -->
               </span>
@@ -121,6 +121,7 @@
     $scope.imageIsLoaded = function(e){
         $scope.$apply(function() {
             $scope.stepsModel= e.target.result;
+            angular.element( document.querySelector( '#saveProfilePic' ) ).removeClass('ng-hide');
         });
     }
 

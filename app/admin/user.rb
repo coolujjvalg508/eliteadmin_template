@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
    menu label: 'Users Management', parent: 'Account', priority: 1
-	permit_params :firstname, :username, :password,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country_id, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel,:skill_expertise, :software_expertise, :public_email_address, :website_url, :facebook_url, 
+	permit_params :firstname, :username, :password,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country_id, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel, {:skill_expertise => []}, {:software_expertise => []}, :public_email_address, :website_url, :facebook_url, 
 	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url,:professional_experiences_attributes => [:id,:company_id,:title,:location,:description, :from_month,:from_year, :to_month,:to_year,:currently_worked,:professionalexperienceable_id,:professionalexperienceable_type, :_destroy,:tmp_professionalexperience,:professionalexperience_cache], :production_experiences_attributes => [:id,:production_title,:release_year,:production_type,:your_role, :company,:productionexperienceable_id,:productionexperienceable_type, :_destroy,:tmp_productionexperience,:productionexperience_cache], 
 	
 	:education_experiences_attributes => [:id,:school_name,:field_of_study,:month_val,:year_val, :description,:educationexperienceable_id,:educationexperienceable_type, :_destroy,:tmp_educationexperience,:educationexperience_cache],
@@ -62,7 +62,7 @@ ActiveAdmin.register User do
 			if current_admin_user.id.to_s == '1'
 			super
 		  else
-			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+			usergroup  = UserGroup.where(:id => current_admin_user.group_id.to_s).first
 			disallowed = []
 			disallowed << 'index' if (!usergroup.has_permission('user_read') && !usergroup.has_permission('user_write') && !usergroup.has_permission('user_delete'))
 			disallowed << 'delete' unless (usergroup.has_permission('user_delete'))
@@ -154,8 +154,10 @@ ActiveAdmin.register User do
 		 end
 		
 		f.inputs "Skill" do
-			  f.input :skill_expertise
-			  f.input :software_expertise
+
+			 f.input :skill_expertise, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" },multiple: true, include_blank: false, label: 'Skill Expertise'
+			 f.input :software_expertise, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true,label: 'Software Expertise' 
+		
 			 
 		 end
 		
@@ -285,7 +287,7 @@ ActiveAdmin.register User do
 					
 				super
 				
-				
+	
 		 else
 				super
 		  end
