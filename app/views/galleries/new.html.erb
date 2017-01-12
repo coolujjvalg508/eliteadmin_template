@@ -1,0 +1,256 @@
+<!-- All Dashboard Start -->
+<section class="clearfix container-fluid-full">
+    <div class="row-fluid">
+        <div class="sidebar-left">
+            <%= render 'layouts/navigation' %>
+        </div>
+        <div class="content clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
+            <div class="clearfix job-post-bread">
+                <ul class="breadcrumb">
+                    <li><a href="jobs.html">Portfolio Manager</a></li>
+                    <li class="active">Create Project</li>
+                </ul>
+            </div>
+      
+            <!-- User Followers Start -->
+            <section class="clearfix jobswrap">
+<%= form_for( @gallery, html: { id: 'gallery_post_form', role: "form" }) do |f| %>
+
+<%= f.hidden_field :user_id, value: current_user.id %>   
+<%= f.hidden_field :is_admin, value: 'N' %>      
+
+                <div class="clearfix notification-heading"> <span class="noti-title" style="border:none;">Untitled Project</span> </div>
+                <div class="jobpostindent clearfix col-sm-12 col-xs-12 padding">
+                    <div class="clearfix marginB15 jobpostbox border-radius">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Add Images</a></li>
+                            <li><a href="#"><i class="fa fa-film marginR5 blue-txt" aria-hidden="true"></i> Add Video</a></li>
+                            <li class="dropdown-toggle"><a href="#" data-toggle="dropdown"><i class="fa fa-codepen marginR5 blue-txt" aria-hidden="true"></i> Add 3D Model <i class="fa fa-caret-down blue-txt pull-right marginL5" aria-hidden="true"></i></a>
+                            <ul class="dropdown-menu">
+                            <li><a href="#">Add Sketchfab Model</a></li>
+                            <li><a href="#">Add Marmoset Viewer</a></li>
+                            </ul>
+                            </li>
+                            <li><a href="#"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a></li>
+                        </ul>
+                    </div>
+                    <div class="marginB15 dragdrop text-center hidden-sm hidden-xs">
+                        <div class="marginB15"><i class="fa fa-files-o fa-2x" aria-hidden="true"></i></div>
+                        <div class="marginB15">Drag and drop your images here</div>
+                        <button class="lightbtn padding10 lightcolor">Select Files</button>
+                    </div>
+                    <div class="clearfix marginB15 selectgallery">
+                        <ul>
+                            <li class="clearfix col-md-3 col-sm-3 col-xs-6">
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-film" aria-hidden="true"></i></span> <span class="pull-right"><a href="#" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                    <%= image_tag("database/notification-profile2.jpg", :alt => "img",:class=>"img-responsive") %>
+                                    </center>
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="" cols="" rows="" placeholder="Puppetworks concept art and illustration reel"></textarea>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="clearfix col-md-3 col-sm-3 col-xs-6">
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-film" aria-hidden="true"></i></span> <span class="pull-right"><a href="#" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                    <%= image_tag("database/notification-profile3.jpg", :alt => "img",:class=>"img-responsive") %>
+                                    </center>
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="" cols="" rows="" placeholder="Caption"></textarea>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="clearfix col-md-3 col-sm-3 col-xs-6">
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-film" aria-hidden="true"></i></span> <span class="pull-right"><a href="#" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                    <%= image_tag("database/notification-profile4.jpg", :alt => "img",:class=>"img-responsive") %>
+                                    </center>
+                                    <div class="clearfix padding10">
+                                    <textarea class="form-control reel-txt" name="" cols="" rows="" placeholder="Puppetworks concept art and illustration reel"></textarea>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="clearfix col-md-3 col-sm-3 col-xs-6">
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-film" aria-hidden="true"></i></span> <span class="pull-right"><a href="#" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                    <%= image_tag("database/notification-profile5.jpg", :alt => "img",:class=>"img-responsive") %>
+                                    </center>
+                                    <div class="clearfix padding10">
+                                    <textarea class="form-control reel-txt" name="" cols="" rows="" placeholder="Caption"></textarea>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Project Details</div>
+                        <div class="panel-body">
+
+                            <div class="form-group clearfix">
+                                <label>* Title</label>
+                                <%= f.text_field :title, class: 'form-control from-input skill-input', id: 'title', placeholder: 'Artwork Title' %>
+                                
+                            </div>
+                            <div class="form-group clearfix">
+                                <label>Description</label>
+                                <%= f.text_area :description, class: 'form-control from-input message-form1', id: 'description', placeholder: 'Artwork Description' %>
+                                
+                            </div>
+                            <div class="form-group clearfix createpost">
+                                <label>Post Type</label>
+                                <%= f.select(:post_type_category_id, options_for_select(PostTypeCategory.order('name ASC').pluck(:name, :id)), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'post_type_category_id'})  %>
+                            </div>
+                            <div class="form-group clearfix createpost">
+                                <label>Medium</label>
+                                <%= f.select(:medium_category_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id)), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'medium_category_id'})  %>
+                            </div>
+                            <div class="form-group clearfix createpost">
+                                <label>Subject Matter</label>
+                                <%= f.select(:subject_matter_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id)), {:include_blank => "-- Please select --"}, {'class' => 'form-control multi-select', 'id' => 'subject_matter_id', multiple: true})  %>
+                            </div>
+                            <div class="form-group clearfix">
+                                <div class="checkbox-btn paddinT10">
+                                    <%= f.check_box :has_adult_content %>
+                                    <label for="gallery_has_adult_content">Has Adult Content (<span class="blue-txt">what is this?</span>)</label>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label>Add the software used on this project</label>
+                                <%= f.select(:software_used, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id)), {:include_blank => "-- Please select --"}, {'class' => 'form-control multi-select', 'id' => 'software_used', multiple: true})  %>
+                            </div>
+                                <div class="form-group clearfix">
+                                <label>Tags (use tags to add more detailed subject matter)</label>
+                                <input type="text" class="form-control from-input">
+                            </div>
+                            <div class="form-group clearfix">
+                                <div class="checkbox-btn">
+                                    <%= f.check_box :use_tag_from_previous_upload %>
+                                    <label for="gallery_use_tag_from_previous_upload" onclick>Use tags from previous upload </label>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix margin">
+                                <div class="checkbox-btn">
+                                    <%= f.check_box :is_featured %>
+                                    <label for="gallery_is_featured" onclick>Feature this Post</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aside col-sm-12 col-xs-12 padding">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Publish</div>
+                        <div class="panel-body">
+                            <div class="clearfix marginB15 row">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <button type="submit" class="lightbtn" value="SaveDraft" name="commit">Save Draft</button>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                    <button class="lightbtn" type="button">Preview</button>
+                                </div>
+                            </div>
+                            <div class="clearfix marginB15 status-link"> <i class="fa fa-key marginR5 lightcolor" aria-hidden="true"></i> Status : <strong>Draft</strong> <a href="#">Edit</a> </div>
+                            <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>Public</strong> <a href="#">Edit</a> </div>
+                            <div class="clearfix marginB15 status-link"> <i class="fa fa-calendar marginR5 lightcolor" aria-hidden="true"></i> Publich : <strong>immediately</strong> <a href="#">Edit</a> </div>
+                            <div class="clearfix row">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <button class="btn-link" type="button">Delete</button>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                 <button type="submit" class="green-btn" value="Publish" name="commit">Publish</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Company Logo</div>
+                        <div class="panel-body padding">
+                            <div class="marginB15">
+                                <center>
+                                    <img src="/assets/database/jobs-logo.png" alt="img" class="img-responsive" ng-src="{{companyLogoImage}}">
+                                </center>
+                            </div>
+                            <div class="clearfix marginB15 text-center project-btn">
+                                <div class="lightbtn"><i class="fa fa-crop marginR5 blue-txt" aria-hidden="true"></i> Crop</div>
+
+
+
+                                <div class="lightbtn" ng-click="clickCompanyLogoUpload()"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Upload</div>
+                                <%= f.file_field(:company_logo, accept: "image/*", id: "companyLogoUpload", "ng-model" => "companyLogoUpload", onchange: "angular.element(this).scope().imageUpload(this)", style: "display: none;")%>
+
+
+                                <div class="lightbtn" ng-click="removeCompanyLogo()"><i class="fa fa-times marginR5 blue-txt" aria-hidden="true"></i> Remove custom thumbnail</div>
+                            </div>
+                            <div class="lightcolor txt12 marginB15 text-center">Drag and drop an image above to replace</div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Visibility</div>
+                        <div class="panel-body">
+                            <div class="white-txt marginB15"> Where do you want this Project to show?</div>
+                            <div class="checkbox-btn marginB15">
+                                <%= f.check_box :show_on_cgmeetup %>
+                                <label for="gallery_show_on_cgmeetup" onclick>CGMeetup.net</label>
+                            </div>
+                            <div class="checkbox-btn">
+                                <%= f.check_box :show_on_website %>
+                                <label for="gallery_show_on_website" onclick>My Website</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Albums</div>
+                        <div class="panel-body"> </div>
+                    </div>
+                </div>
+<% end %>   
+            </section>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+ <%= render 'layouts/lastfooter' %>
+</footer>
+
+<script>
+
+    // main page angular app start
+    var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+    app.controller('myCtrl', function($scope, $http) {
+
+        //profile pic upload
+        $scope.clickCompanyLogoUpload = function(){
+          angular.element('#companyLogoUpload').trigger('click');
+        };
+
+        $scope.companyLogoImage = '';
+
+        $scope.imageUpload = function(element){
+            var reader = new FileReader();
+            reader.onload = $scope.imageIsLoaded;
+            reader.readAsDataURL(element.files[0]);
+        }
+
+        $scope.imageIsLoaded = function(e){
+            $scope.$apply(function() {
+                $scope.companyLogoImage= e.target.result;
+            });
+        }
+
+        $scope.removeCompanyLogo = function(e){
+            $scope.$apply(function() {
+                $scope.companyLogoImage= e.target.result;
+            });
+        }
+    
+    });
+
+</script>

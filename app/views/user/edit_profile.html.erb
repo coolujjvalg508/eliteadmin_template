@@ -445,22 +445,18 @@
                             <div class="row">
                                 <div class="form-group clearfix">
                                     <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
-                                    <div class="col-md-8 col-sm-6 col-xs-6 timeperiod">
-                                        <%#= f.text_field :skill_expertise, class: 'form-control from-input', id: 'skill_expertise', placeholder: 'Enter Skills And Expertise' %>
-
-
-
-                                        <%= f.select(:skill_expertise, options_for_select(JobSkill.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:skill_expertise] : @user[:skill_expertise]), {:include_blank => "-- Select Skills --"}, {'class' => 'form-control', multiple: true})  %>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 timeperiod">
+                                       
+                                        <%= f.select(:skill_expertise, options_for_select(JobSkill.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:skill_expertise] : @user[:skill_expertise]), {:include_blank => "-- Select Skills --"}, {'class' => 'form-control multi-select', multiple: true})  %>
 
                                         <span class="err-msg"><%= error_message(@user, :skill_expertise) %></span>
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
                                     <label class="col-md-12 col-sm-12 col-xs-12">Software expertise needed for job:</label>
-                                    <div class="col-md-8 col-sm-12 col-xs-12">
-                                        <%#= f.text_field :software_expertise, class: 'form-control from-input', id: 'software_expertise', placeholder: 'Enter Software Expertise' %>
-
-                                        <%= f.select(:software_expertise, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:software_expertise] : @user[:software_expertise]), {:include_blank => "-- Select Software Expertise --"}, {'class' => 'form-control', multiple: true})  %>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        
+                                        <%= f.select(:software_expertise, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:software_expertise] : @user[:software_expertise]), {:include_blank => "-- Select Software Expertise --"}, {'class' => 'form-control multi-select', multiple: true})  %>
                                         <span class="err-msg"><%= error_message(@user, :software_expertise) %></span>
                                     </div>
                                 </div>

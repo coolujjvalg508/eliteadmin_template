@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :professional_experiences, as: :professionalexperienceable, dependent: :destroy     
   has_many :education_experiences, as: :educationexperienceable, dependent: :destroy        
   has_many :production_experiences, as: :productionexperienceable, dependent: :destroy   
+  has_many :gallery, dependent: :destroy
   
   accepts_nested_attributes_for :professional_experiences, reject_if: proc { |attributes| attributes['company_id'].blank? || attributes['company_id'].nil? }, allow_destroy: true 
   accepts_nested_attributes_for :education_experiences, reject_if: proc { |attributes| attributes['school_name'].blank? || attributes['school_name'].nil? }, allow_destroy: true 

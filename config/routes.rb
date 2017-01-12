@@ -74,6 +74,9 @@ Rails.application.routes.draw do
 
 
   
+  resources :galleries
+
+  
   get 'gallery/all_gallery_post'
   get 'gallery/get_gallery_post_list'
   get 'gallery/count_user_gallery_post'
@@ -88,7 +91,6 @@ Rails.application.routes.draw do
   get 'gallery/challenge'
   get 'gallery/get_challenge_list'
   get 'gallery/challenge_post'
-  get 'gallery/create_gallery_post_type'
   get 'gallery/gallery'
   get 'gallery/wip_detail'
   get 'gallery/get_download_list'

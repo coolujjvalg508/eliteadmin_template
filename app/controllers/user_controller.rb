@@ -185,7 +185,7 @@ class UserController < ApplicationController
 
                 redirect_to user_edit_profile_path
             else
-              render 'edit_profile'
+                render 'edit_profile'
             end
         end
 

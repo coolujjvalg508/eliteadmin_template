@@ -1,4 +1,6 @@
 class GalleryController < ApplicationController
+
+  before_action :authenticate_user!, only: [:all_gallery_post, :get_gallery_post_list, :get_gallery_post_list, :count_user_gallery_post]
  
   def index
 
@@ -28,13 +30,10 @@ class GalleryController < ApplicationController
 
   def all_gallery_post
 
-    authenticate_user!
 
   end
 
   def get_gallery_post_list
-
-    authenticate_user!
 
     conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
 
@@ -72,8 +71,6 @@ class GalleryController < ApplicationController
   end
 
   def count_user_gallery_post
-
-    authenticate_user!
 
     conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
 
@@ -154,9 +151,6 @@ class GalleryController < ApplicationController
   end
   
   def challenge_post
-  end
-  
-  def create_gallery_post_type
   end
   
   def gallery
