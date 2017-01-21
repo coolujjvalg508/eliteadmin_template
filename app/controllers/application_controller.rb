@@ -49,5 +49,9 @@ class ApplicationController < ActionController::Base
 				redirect_to new_admin_user_session_path
 			end
 		end
+
+		def create_slug(value)
+			return value.downcase.gsub(/[^a-z0-9]+/, '-').chomp('-')
+		end
   
 end

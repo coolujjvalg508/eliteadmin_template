@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   validates :password, presence: {message: "Password can't be blank"}, on: :create
   validates :profile_type, presence: {message: "Please select profile type"}, on: :create
    
- validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
+  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
 
   ############################ Constants ################################
   PROFILE_TYPE = ["Artist", "Recruiter", "Studio"]

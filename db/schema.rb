@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170105085204) do
+ActiveRecord::Schema.define(version: 20170118094157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,9 +218,11 @@ ActiveRecord::Schema.define(version: 20170105085204) do
     t.string   "month_val"
     t.string   "year_val"
     t.text     "description"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "user_id"
+    t.integer  "educationexperienceable_id"
+    t.string   "educationexperienceable_type"
   end
 
   create_table "faqs", force: :cascade do |t|
@@ -262,6 +264,17 @@ ActiveRecord::Schema.define(version: 20170105085204) do
     t.string   "is_admin"
     t.boolean  "is_spam",                      default: false
     t.string   "challenge"
+    t.string   "zoom_w"
+    t.string   "zoom_h"
+    t.string   "zoom_x"
+    t.string   "zoom_y"
+    t.string   "drag_x"
+    t.string   "drag_y"
+    t.string   "rotation_angle"
+    t.string   "crop_x"
+    t.string   "crop_y"
+    t.string   "crop_w"
+    t.string   "crop_h"
   end
 
   create_table "identities", force: :cascade do |t|
@@ -519,9 +532,11 @@ ActiveRecord::Schema.define(version: 20170105085204) do
     t.string   "production_type"
     t.string   "your_role"
     t.string   "company"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "user_id"
+    t.integer  "productionexperienceable_id"
+    t.string   "productionexperienceable_type"
   end
 
   create_table "professional_experiences", force: :cascade do |t|
@@ -534,10 +549,12 @@ ActiveRecord::Schema.define(version: 20170105085204) do
     t.string   "to_month"
     t.string   "to_year"
     t.string   "currently_worked"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "user_id"
     t.integer  "company_id"
+    t.integer  "professionalexperienceable_id"
+    t.string   "professionalexperienceable_type"
   end
 
   create_table "questionaires", force: :cascade do |t|
@@ -721,8 +738,6 @@ ActiveRecord::Schema.define(version: 20170105085204) do
     t.text     "summary"
     t.string   "available_from"
     t.string   "show_message_button"
-    t.string   "skill_expertise"
-    t.string   "software_expertise"
     t.string   "public_email_address"
     t.string   "website_url"
     t.string   "facebook_url"
@@ -747,6 +762,8 @@ ActiveRecord::Schema.define(version: 20170105085204) do
     t.integer  "is_deleted",             default: 0
     t.string   "cover_art_image"
     t.integer  "country_id"
+    t.json     "skill_expertise"
+    t.json     "software_expertise"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

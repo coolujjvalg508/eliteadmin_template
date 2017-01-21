@@ -54,6 +54,8 @@ gem 'tinymce-rails'
  gem 'omniauth-facebook'
  gem 'omniauth-twitter'
 
+  gem 'video_info'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

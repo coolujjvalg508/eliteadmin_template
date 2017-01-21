@@ -17,13 +17,22 @@
 //= require slick
 //= require jquery.bootstrap-responsive-tabs.min
 //= require pgwslideshow
+//= require select2
 //= require custom
+
+//= require tether.min
+//= require cropper
+//= require jquery-ui-1.10.3.custom.min
 //= require angular
 //= require dirPagination
 //= require angular-lazy-img
 //= require moment-with-locales
 //= require ui-bootstrap-tpls
 //= require datetime-picker
+
+
+
+
 
 
 // require turbolinks
@@ -35,6 +44,14 @@
 // require scaffold
 
 $(document).ready(function(){
-  $(".alert").fadeIn();
-  $(".alert").fadeOut(30000);
+  	$(".alert").fadeIn();
+  	$(".alert").fadeOut(30000);
+
+  	$ (".js-chosen-select-tags") .select2({
+		tags: true
+	});
+
+	$ (".js-chosen-select-multi") .select2({
+		tags: false
+	});
 });  

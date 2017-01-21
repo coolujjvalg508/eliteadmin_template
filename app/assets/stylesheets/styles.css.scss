@@ -139,6 +139,23 @@ header .navbar-form .form-group{ margin-top:5px;}
 #login-popup .select-wrapper { position:relative;}
 #login-popup .select-wrapper, #login-popup .select-wrapper select { width:100%; border:1px solid #333333; height: 39px; background:#171717 image-url("dropdown.png") no-repeat scroll 98% center}
 
+/* default popup */
+.default-popup .modal-content { background: #222; border-radius: 2px; }
+.default-popup .modal-header { background: #333333; color: #b6bbbb; border: none; padding: 10px 15px; }
+.default-popup .modal-header .modal-title { font-size: 16px; font-weight: 400; color: #f1f1f1; }
+.default-popup .close { background: image-url('close-icon.png') left top no-repeat; width: 18px; height: 18px; opacity: 0.5; margin: 3px 0 0; }
+.default-popup .form-group { color: #fff; }
+.default-popup .form-group label { font-weight: normal; margin-bottom: 10px; color: #b6bbbb; font-weight: 600;}
+.default-popup .form-control { border: 1px solid #333333; background: #171717; height: 39px; border-radius: 2px; }
+.default-popup .modal-body { padding: 30px 15px 20px; }
+.default-popup .lightbtn { padding: 7px 11px; }
+.default-popup .checkbox { color: #b6bbbb; }
+.default-popup .follow-loginwrap { border-top: 1px solid #333; padding: 30px 0 0; margin-top: 20px; position: relative; }
+.default-popup .follow-loginwrap .or-txt { border: 1px solid #333; background: #171717; width: 30px; height: 30px; color: #fff; text-align: center; line-height: 26px; position: absolute; left: 0; right: 0; margin: 0 auto; border-radius: 50%; top: -15px; }
+.default-popup .signupnew{ width:100%; display:block;}
+.default-popup .select-wrapper { position:relative;}
+.default-popup .select-wrapper, .default-popup .select-wrapper select { width:100%; border:1px solid #333333; height: 39px; background:#171717 image-url("dropdown.png") no-repeat scroll 98% center}
+
 
 /* Footer Css */
 .footer { padding: 30px 0 0; background: #0d0d0d; width: 100%; position: relative; }
@@ -1006,7 +1023,7 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .jobswrap .createpost .select-wrapper{ background:#171717 image-url("dropdown.png") no-repeat 99% center; position:relative;}
 .editprofie .radio-btn label::after{ border:1px solid rgb(118, 118, 118);}
 .editprofie .radio-btn label::before{ width:8px; height:8px;}
-.editprofie .input-group-addon { background:#171717; border:1px solid #333; border-left:0px; cursor:pointer;}
+.editprofie .input-group-addon, .right-panel-datetime-picker .input-group-addon { background:#171717; border:1px solid #333; border-left:0px; cursor:pointer;}
 .editprofie .summary-teatarea{ background:#171717; border-color:#333; height:110px;}
 .editprofie .summary-teatarea:focus{ border-color:#5d5d5d; box-shadow:none;}
 .editprofie .addnewcompany{ padding-top:23px;}
@@ -1342,16 +1359,9 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .invoicepage .nav-tabs > li{ margin:0px;}
 .invoicepage .nav > li > a:hover, .invoicepage .nav > li > a:focus { background:#080808; border-top:0px; border-right:0px; border-bottom:0px;}
 .invoicepage .nav-tabs > li.active > a i{ display:block; height:3px; background:#13aff0; position:absolute; bottom:-2px; left:0; right:0px;}
-
 .invoicepage .tab-content{ border:1px solid #333; margin-top:-3px;}
-
-
-
 .invoiceindent{ padding:20px;}
 .invoiceindent h2{ font-size:22px; color:#fff; margin-bottom:15px;}
-
-
-
 .err-msg{
 	color:#FF0000 !important;
 }
@@ -1360,9 +1370,11 @@ footer .copyright a{ display:inline-block; padding:0px;}
 }
 .download-img-height{height: 270px;}
 .tutorial-img-height{height: 160px;}
-
-
 .form-control.multi-select{ background-color: #171717; border: 1px solid #303030;}
 .form-control.multi-select:focus{ border-color: #5d5d5d; box-shadow: none;}
-
-
+.right-panel-datetime-picker .datetime-picker-dropdown {left: -35px !important;}
+.select2-selection--multiple { border: 1px solid #333333; background: #171717;  border-radius: 2px; }
+.drag-photo { position: absolute; left: 0; top: 0; right: 0; height: 236px !important; opacity: 0; cursor: pointer;}
+.img-preview{height: 155px;}
+ #cropimage {  max-width: 100%;  }
+ .img-company-logo{min-height: 225px;}

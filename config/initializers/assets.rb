@@ -28,4 +28,12 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w( jquery.mCustomScrollbar.concat.min.js )
  Rails.application.config.assets.precompile += %w( jquery.bootstrap-responsive-tabs.min.js )
  Rails.application.config.assets.precompile += %w( pgwslideshow.js )
+ Rails.application.config.assets.precompile += %w( jquery.jcrop.css )
+ Rails.application.config.assets.precompile += %w( select2.css )
+ Rails.application.config.assets.precompile += %w( ng-img-crop.css )
+ Rails.application.config.assets.precompile += %w( cropper.css )
+ 
+
+
+
  

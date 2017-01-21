@@ -135,5 +135,30 @@ module ApplicationHelper
 		Questionaire.order('random()').first
 	end
 
+	def get_previous_uploaded_gallery_tags
+
+		previous_gallery = Gallery.where("user_id = ? AND is_admin = 'N'", current_user.id).order('id DESC').first
+
+		#abort(previous_gallery.to_json)
+
+		tags = []
+
+		if previous_gallery.present?
+			if previous_gallery.tags.present?
+
+				previous_gallery.tags.each_with_index do |tag, i|
+					#abort(tag['tag'].to_json)
+
+					tags[i] = tag['tag']
+
+				end
+
+			end
+		end
+		return tags
+		#abort(tags.to_json)
+
+	end
+
 end
 

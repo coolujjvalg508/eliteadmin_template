@@ -4,10 +4,12 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
    include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+   include CarrierWave::MiniMagick
+
 
   # Choose what kind of storage to use for this uploader:
   storage :file
+
   # storage :fog
 
   # Override the directory where uploaded files will be stored.
@@ -15,6 +17,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   #  abort("uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}")
+  end
+
+   version :mini_magick do
+      process :resize_and_crop
+
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -97,8 +104,56 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  # def filename
+#def filename
   #   "something.jpg" if original_filename
-  # end
+    
+ # end
+
+
+
+  def resize_and_crop
+    #abort(model.to_json)
+    if model.class.to_s == "Gallery"
+        if model.crop_x.present?
+          #abort('gdfsgg')
+
+              manipulate! do |img| 
+                #abort(current_path)
+
+                  
+                    w = model.crop_w.to_i
+                    h = model.crop_h.to_i
+                
+
+                 # abort(w.to_s)
+          
+                   x = model.zoom_x.to_i >= 0 ? (model.crop_x.to_i - model.zoom_x.to_i) : (model.zoom_x.to_i.abs + model.crop_x.to_i)
+                    y = model.zoom_y.to_i >= 0 ? (model.crop_y.to_i - model.zoom_y.to_i) : (model.zoom_y.to_i.abs + model.crop_y.to_i)
+
+
+                    x = model.drag_x.to_i >= 0 ? (x - model.drag_x.to_i) : (model.drag_x.to_i.to_i.abs + x) 
+                    y = model.drag_y.to_i >= 0 ? (y - model.drag_y.to_i) : (model.drag_y.to_i.to_i.abs + y) 
+                
+                    # abort("#{model.zoom_w.to_i}x#{model.zoom_h.to_i}+#{model.zoom_x.to_i}+#{model.zoom_y.to_i}")
+
+                   # abort("#{w}x#{h}+#{x}+#{y}")
+                    img.combine_options do |i|
+                     
+                      #system('mogrify -resize #{model.zoom_w.to_i}x#{model.zoom_h.to_i}+#{model.zoom_x.to_i}+#{model.zoom_y.to_i}'+i)
+                     
+                     # system('mogrify -rotate #{model.rotation_angle.to_i}'+current_path)
+                    # system('mogrify -crop #{w}x#{h}+#{x}+#{y}'+current_path)
+                      
+                     
+                      i.resize "#{model.zoom_w.to_i}x#{model.zoom_h.to_i}+#{model.zoom_x.to_i}+#{model.zoom_y.to_i}"
+                     #i.rotate(model.rotation_angle.to_i)
+                      i.crop "#{w}x#{h}+#{x}+#{y}"
+                    end
+               img
+               # abort(img)
+              end
+          end
+        end
+     end 
 
 end
