@@ -19,6 +19,7 @@
 //= require pgwslideshow
 //= require select2
 //= require custom
+//= require marmoset
 
 //= require tether.min
 //= require cropper
