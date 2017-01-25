@@ -46,7 +46,7 @@
 
 $(document).ready(function(){
   	$(".alert").fadeIn();
-  	$(".alert").fadeOut(30000);
+  	$(".alert").fadeOut(10000);
 
   	$ (".js-chosen-select-tags") .select2({
 		tags: true

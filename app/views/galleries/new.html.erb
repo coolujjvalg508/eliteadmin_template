@@ -5,7 +5,7 @@
 
 <% previous_tags = get_previous_uploaded_gallery_tags %>
 <!-- All Dashboard Start -->
-<!-- <input type ="file" id="marmosetTest"> -->
+<!-- <input type ="file" id="marmosetTest">  -->
 <section class="clearfix container-fluid-full">
     <div class="row-fluid">
         <div class="sidebar-left">
@@ -40,12 +40,15 @@
                                         <a data-toggle="modal" href="#add-sketchfab-popup">Add Sketchfab Model</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);">Add Marmoset Viewer</a>
+                                        <a href="javascript:void(0);" ng-click="addNewMarmoSets()">Add Marmoset Viewer</a>
+
+                                        <!-- <a href="javascript:void(0);">Add Marmoset Viewer</a> -->
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:void(0);"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a>
+                                <!-- <a href="javascript:void(0);"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a> -->
+                                <a href="javascript:void(0);" ng-click="addNewUploadVideos()"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a>
                             </li>
                         </ul>
                     </div>
@@ -104,6 +107,41 @@
 
                                     <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][sketchfeb]" id="gallery_sketchfebs_sketchfeb_{{$index}}" />
 
+                                </div>
+
+                            </li>
+
+                            <!-- Add Upload Videos list -->
+                            <li ng-repeat="x in add_upload_videos" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15 hidden" id="liuploadvideo{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeUploadVideo($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="" alt="img" class="img-responsive img-preview" id="gallery_upload_video_view_{{$index}}" >
+                                    </center>
+                                    <input type="file" name="gallery[upload_videos_attributes][{{$index}}][uploadvideo]" id="gallery_upload_videos_uploadvideo_{{$index}}" ng-show="false" accept="video/*" onchange="angular.element(this).scope().newVideoUpload(this)" >
+
+
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[upload_videos_attributes][{{$index}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_{{$index}}" placeholder="Enter caption"></textarea>
+                                    </div>
+                                </div>
+
+                            </li>
+                             <!-- Add Marmosets -->
+                            <li ng-repeat="x in add_marmo_sets" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15 hidden" id="limarmoset{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeMarmoSet($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="" alt="img" class="img-responsive img-preview" id="gallery_marmo_set_view_{{$index}}" >
+                                    </center>
+                                    <input type="file" name="gallery[marmo_sets_attributes][{{$index}}][marmoset]" id="gallery_marmo_sets_marmoset_{{$index}}" ng-show="false" accept=".mview" onchange="angular.element(this).scope().newMarmoSet(this)" >
+
+
+                                   <!--  <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[marmo_sets_attributes][{{$index}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_{{$index}}" placeholder="Enter caption"></textarea>
+                                    </div> -->
                                 </div>
 
                             </li>
@@ -240,7 +278,7 @@
                         </div>
                     </div>
                     <div class="panel panel-default">
-                        <div class="panel-heading">Company Logo</div>
+                        <div class="panel-heading">Project Thumbnail</div>
                         <div class="panel-body padding">
                             <div class="marginB15 pos-rel img-company-logo">
 
@@ -686,6 +724,85 @@
             });
         };
 
+  /********* add Marmoset ***************/
+
+        var add_marmo_set_count = 0;
+        $scope.add_marmo_sets = [];
+
+        $scope.addNewMarmoSets = function () {
+            $scope.add_marmo_sets.push(add_marmo_set_count);
+
+            add_marmo_set_count++;
+
+            setTimeout(function() {
+
+               add_marmo_set_count_test = add_marmo_set_count - 1; 
+               angular.element('#gallery_marmo_sets_marmoset_' + add_marmo_set_count_test).trigger('click');
+               
+            }, 200);
+
+        }
+
+        $scope.removeMarmoSet = function (x) {  
+            angular.element( document.querySelector( '#limarmoset' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#limarmoset' + x ) ).html('');
+            //$scope.add_marmo_sets.splice(x, 1);
+        }
+
+        $scope.newMarmoSet = function(element){
+        
+            var reader = new FileReader();
+            reader.onload = $scope.newMarmoSetIsLoaded;
+            reader.readAsDataURL(element.files[0]);
+        }
+
+        $scope.newMarmoSetIsLoaded = function(e){
+            $scope.$apply(function() {
+                add_marmo_set_count_test = add_marmo_set_count - 1;
+                angular.element( document.querySelector( '#gallery_marmo_set_view_' + add_marmo_set_count_test ) ).attr('src', e.target.result);
+                angular.element( document.querySelector( '#limarmoset' + add_marmo_set_count_test ) ).removeClass('hidden');
+            });
+        }
+
+/********* add upload video ***************/
+
+        var add_upload_video_count = 0;
+        $scope.add_upload_videos = [];
+
+        $scope.addNewUploadVideos = function () {
+            $scope.add_upload_videos.push(add_upload_video_count);
+
+            add_upload_video_count++;
+
+            setTimeout(function() {
+
+               add_upload_video_count_test = add_upload_video_count - 1; 
+               angular.element('#gallery_upload_videos_uploadvideo_' + add_upload_video_count_test).trigger('click');
+               
+            }, 200);
+
+        }
+
+        $scope.removeUploadVideo = function (x) {  
+            angular.element( document.querySelector( '#liuploadvideo' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#liuploadvideo' + x ) ).html('');
+            //$scope.add_upload_videos.splice(x, 1);
+        }
+
+        $scope.newVideoUpload = function(element){
+            var reader = new FileReader();
+            reader.onload = $scope.newUploadVideoIsLoaded;
+            reader.readAsDataURL(element.files[0]);
+        }
+
+        $scope.newUploadVideoIsLoaded = function(e){
+            $scope.$apply(function() {
+                add_upload_video_count_test = add_upload_video_count - 1;
+                angular.element( document.querySelector( '#gallery_upload_video_view_' + add_upload_video_count_test ) ).attr('src', e.target.result);
+                angular.element( document.querySelector( '#liuploadvideo' + add_upload_video_count_test ) ).removeClass('hidden');
+            });
+        }
+
 
     
     });
@@ -749,7 +866,7 @@
               }).on('hidden.bs.modal', function () {
                     
                     cropBoxData = $('#cropimage').cropper('getCropBoxData');
-                    canvasData = $('#cropimage').cropper('getCanvasData');
+                    canvasData  = $('#cropimage').cropper('getCanvasData');
                    // console.log(canvasData)
                    //  console.log(cropBoxData)
                     var crop_w = '';   
@@ -789,14 +906,15 @@
         });
 
 
-      /*  $('#marmosetTest').change( function(event) {
+ /*       $('#marmosetTest').change( function(event) {
            var tmppath      = 'http://192.168.1.27:3000/assets/camera.mview'
             //URL.createObjectURL(event.target.files[0]);
-           //  console.log(tmppath);
+        //  alert(tmppath);
+            //console.log(marmoset);
            var myviewer = new marmoset.WebViewer( '1024', '768', tmppath );
-           myDivOrSomething.appendChild( myviewer.domRoot );
+           //var myviewer  = marmoset.embed( tmppath, params ); 
            var myviewer1 = marmoset.fetchThumbnail( tmppath, function() {  alert('gfdg'); }, null, null );
-
+           console.log(myviewer);
            
            console.log(myviewer1);
         }); */
