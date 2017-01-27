@@ -77,6 +77,8 @@ Rails.application.routes.draw do
   resources :galleries
   get 'get_video_detail_from_url' => 'galleries#get_video_detail_from_url'
 
+  get 'getsubjectmatter'=> 'galleries#getsubjectmatter'
+
   get 'gallery/all_gallery_post'
   get 'gallery/get_gallery_post_list'
   get 'gallery/count_user_gallery_post'
