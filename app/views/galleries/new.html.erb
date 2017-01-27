@@ -107,6 +107,12 @@
 
                                     <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][sketchfeb]" id="gallery_sketchfebs_sketchfeb_{{$index}}" />
 
+                                    <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_{{$index}}" />    
+
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[sketchfeb][{{$index}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_view_{{$index}}" placeholder="Enter caption"></textarea>
+                                    </div>
+
                                 </div>
 
                             </li>
@@ -137,11 +143,10 @@
                                         <img src="" alt="img" class="img-responsive img-preview" id="gallery_marmo_set_view_{{$index}}" >
                                     </center>
                                     <input type="file" name="gallery[marmo_sets_attributes][{{$index}}][marmoset]" id="gallery_marmo_sets_marmoset_{{$index}}" ng-show="false" accept=".mview" onchange="angular.element(this).scope().newMarmoSet(this)" >
-
-
-                                   <!--  <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[marmo_sets_attributes][{{$index}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_{{$index}}" placeholder="Enter caption"></textarea>
-                                    </div> -->
+                                    
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[marmo_sets_attributes][{{$index}}][caption_marmoset]" id="gallery_marmo_sets_caption_marmoset_{{$index}}" placeholder="Enter caption"></textarea>
+                                    </div>
                                 </div>
 
                             </li>
@@ -164,23 +169,37 @@
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:description, "Description") %></span>
                                 
                             </div>
-                            <div class="form-group clearfix createpost">
-                                <label>Post Type</label>
-                                <%= f.select(:post_type_category_id, options_for_select(PostTypeCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:post_type_category_id] : ''), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'post_type_category_id'})  %>
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:post_type_category_id, "Post type") %></span>
-                            </div>
-                            <div class="form-group clearfix createpost">
+                             <div class="form-group clearfix createpost">
                                 <label>Medium</label>
                                 <%= f.select(:medium_category_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:medium_category_id] : ''), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'medium_category_id'})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:medium_category_id, "Medium") %></span>
                             </div>
                             <div class="form-group clearfix createpost">
+                                <label>Post Type</label>
+                                <%= f.select(:post_type_category_id, options_for_select(PostTypeCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:post_type_category_id] : ''), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'post_type_category_id'})  %>
+                                <span class="err-msg"><%= form_error_msg_for(@gallery,:post_type_category_id, "Post type") %></span>
+                            </div>
+                           
+                            <div class="form-group clearfix createpost">
                                 <label>Subject Matter</label>
                                 <%= f.select(:subject_matter_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:subject_matter_id] : ''), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi input', 'id' => 'subject_matter_id', multiple: true})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:subject_matter_id, "Subject matter") %></span>
-
-
                             </div>
+
+                            <div class="form-group clearfix">
+                                <label>Team Member</label>
+                                <%= f.select(:team_member, options_for_select(User.order('firstname ASC').pluck(:firstname, :id), params[:gallery].present? ? params[:gallery][:team_member] : ''), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'software_used', multiple: true})  %>
+                                <span class="err-msg"><%= form_error_msg_for(@gallery,:team_member, "Software used") %></span>
+                            </div>
+
+                            <div class="form-group clearfix">
+                                <label>Challenge</label>
+                                <%= f.select(:challenge, options_for_select(Challenge.where("challenge_type_id = 0").order('created_at DESC').pluck(:title, :id), params[:gallery].present? ? params[:gallery][:challenge] : ''), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'challenge', multiple: true})  %>
+                                <span class="err-msg"><%= form_error_msg_for(@gallery,:challenge, "Challenge") %></span>
+                            </div>
+
+
+
                             <div class="form-group clearfix">
                                 <div class="checkbox-btn paddinT10">
                                     <%= f.check_box :has_adult_content %>
@@ -378,7 +397,7 @@
             </div>
             <!-- Modal Crop End-->
 
-            <!-- Modal Crop Start-->
+            <!-- Modal sketchfeb Start-->
             <div class="modal fade default-popup" id="add-sketchfab-popup" role="dialog">
                 <div class="modal-dialog"> 
 
@@ -396,10 +415,12 @@
                                 <div class="form-group clearfix">
                                     <label>Paste a <a href="http://www.sketchfab.com" target="_blank">Sketchfab</a> URL here</label>
                                     <input type="url" placeholder="Sketchfab URL" value="" ng-model="sketchfabURL" id="sketchfabURL" class="form-control from-input" />
+
                                     <button type="submit" ng-show="false">Submit</button>
                                 </div>
                                 <div class="clearfix" id="sketchfabView">
                                 </div>
+                                <input type="text" placeholder="Enter Caption" ng-model="caption_sketchfeb" value=""  id="caption_sketchfeb" class="hidden form-control from-input" /> 
                             </form>
                         </div>
 
@@ -420,11 +441,6 @@
 <footer class="footer clearfix padding">
  <%= render 'layouts/lastfooter' %>
 </footer>
-
-<div id="myDivOrSomething"></div>
-
-
-
 
 <script>
 
@@ -670,18 +686,24 @@
         var add_sketchfab_url_count = 0;
         $scope.add_sketchfab_url = [];
 
-        $scope.addSketchfabURL = function (response) {
+        $scope.addSketchfabURL = function () {
+            //console.log(response.data.title);
             $scope.add_sketchfab_url.push(add_sketchfab_url_count);
             add_sketchfab_url_count++;
 
-            setTimeout(function() {
 
+            setTimeout(function() {
                add_sketchfab_url_count_test = add_sketchfab_url_count - 1; 
 
                sketchfabThumbnailuRL = angular.element('#sketchfabThumbnail').val();
+               sketchfabCaption = angular.element('#caption_sketchfeb').val();
 
                angular.element( document.querySelector( '#gallery_sketchfab_url_image_view_' + add_sketchfab_url_count_test ) ).attr('src', sketchfabThumbnailuRL);
                angular.element('#gallery_sketchfebs_sketchfeb_' + add_sketchfab_url_count_test).attr('value', $scope.sketchfabURL);
+
+               angular.element('#gallery_sketchfebs_caption_sketchfeb_view_' + add_sketchfab_url_count_test).val(sketchfabCaption);
+               
+               angular.element('#gallery_sketchfebs_caption_sketchfeb_' + add_sketchfab_url_count_test).val(sketchfabCaption);
 
                angular.element('#close-btn-add-sketchfab-popup').trigger('click');
                
@@ -702,15 +724,25 @@
             $scope.addSketchfabErr = '';
             $http.get(url)
             .then(function(response) {
-                /*alert(response.data.title);
-                alert(response.data.thumbnail);
-                console.log(response);*/
+                //alert(response.data.title);
+               // alert(response.data.thumbnail);
+               // console.log(response);
 
 //console.log(response.data.thumbnail_url);
 
                 angular.element( document.querySelector( '#sketchfabView') ).html(response.data.html);
+               
                 angular.element('#sketchfabThumbnail').val(response.data.thumbnail_url);
+
+                
                 angular.element( document.querySelector( '#footerSketchfabPopup') ).removeClass('hidden');
+                angular.element( document.querySelector( '#caption_sketchfeb') ).removeClass('hidden');
+
+                angular.element( document.querySelector( '#caption_sketchfeb') ).val(response.data.title);
+
+                // angular.element('#caption_sketchfab').val(response.data.title);
+
+             //   angular.element( document.querySelector( '#caption_sketchfeb') ).removeClass('hidden');
 
                 //$scope.addSketchfabURL(response);
 
@@ -729,7 +761,7 @@
         var add_marmo_set_count = 0;
         $scope.add_marmo_sets = [];
 
-        $scope.addNewMarmoSets = function () {
+        $scope.addNewMarmoSets = function (response) {
             $scope.add_marmo_sets.push(add_marmo_set_count);
 
             add_marmo_set_count++;
@@ -738,6 +770,7 @@
 
                add_marmo_set_count_test = add_marmo_set_count - 1; 
                angular.element('#gallery_marmo_sets_marmoset_' + add_marmo_set_count_test).trigger('click');
+               angular.element('#gallery_marmo_sets_caption_marmoset_' + add_marmo_set_count_test).html(response.data.title);
                
             }, 200);
 
@@ -802,6 +835,12 @@
                 angular.element( document.querySelector( '#liuploadvideo' + add_upload_video_count_test ) ).removeClass('hidden');
             });
         }
+/*
+        $scope.getSubjectMatter = function(){
+
+   
+        }
+*/
 
 
     
@@ -906,18 +945,23 @@
         });
 
 
- /*       $('#marmosetTest').change( function(event) {
-           var tmppath      = 'http://192.168.1.27:3000/assets/camera.mview'
-            //URL.createObjectURL(event.target.files[0]);
-        //  alert(tmppath);
-            //console.log(marmoset);
-           var myviewer = new marmoset.WebViewer( '1024', '768', tmppath );
-           //var myviewer  = marmoset.embed( tmppath, params ); 
-           var myviewer1 = marmoset.fetchThumbnail( tmppath, function() {  alert('gfdg'); }, null, null );
-           console.log(myviewer);
-           
-           console.log(myviewer1);
-        }); */
+      $('#post_type_category_id').on('change',function(){
+            post_type_id = $(this).val();
+            $.ajax({
+                type: "GET",
+                url: "/getsubjectmatter" ,
+                data:{post_type_id:post_type_id},
+                success: function(data){
+                    var options = '';
+                      for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i][1]+ '">' + data[i][0] + '</option>';
+                      }
+                    
+                 $("select#subject_matter_id").html(options);
+                }
+            });
+
+      });  
 
  });
 </script>

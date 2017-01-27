@@ -22,7 +22,9 @@ include Bootsy::Container
  has_many :caption_upload_video
  
  has_many :sketchfebs, as: :sketchfebable, dependent: :destroy
+ has_many :caption_sketchfeb
  has_many :marmo_sets, as: :marmosetable, dependent: :destroy
+ has_many :caption_marmoset
  
  
   has_many :tags, as: :tagable, dependent: :destroy

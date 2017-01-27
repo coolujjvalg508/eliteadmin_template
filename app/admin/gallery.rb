@@ -5,7 +5,7 @@ ActiveAdmin.register Gallery , as: "Project" do
     
     permit_params :is_spam, :title,:user_id,:is_admin,:paramlink, {:challenge => []}, {:skill => []}, {:team_member => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, :post_type_category_id, 
 	:medium_category_id, {:subject_matter_id => []} , :has_adult_content, {:software_used => []} , :use_tag_from_previous_upload, :is_featured, 
-	:status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
+	:status, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache, :caption_sketchfeb], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache, :caption_marmoset],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 		
 	
 	
@@ -113,6 +113,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		 f.inputs 'Sketchfeb' do
 			f.has_many :sketchfebs, allow_destroy: true, new_record: true do |ff|
 			  ff.input :sketchfeb, label: "Sketchfeb"
+			  ff.input :caption_sketchfeb
 			end
 		  end	
 		
@@ -120,6 +121,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 			f.has_many :marmo_sets, allow_destroy: true, new_record: true do |ff|
 			  ff.input :marmoset, label: "Marmoset", hint: ff.template.video_tag(ff.object.marmoset.try(:url), :size => "150x150")
 			  ff.input :marmoset_cache, :as => :hidden
+			  ff.input :caption_marmoset
 			end
 		 end	
 		 
@@ -167,6 +169,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:sketchfebs_attributes].each do |index,img|
 						  unless params[:gallery][:sketchfebs_attributes][index][:sketchfeb].present?
 							params[:gallery][:sketchfebs_attributes][index][:sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:sketchfeb_cache]
+							params[:gallery][:sketchfebs_attributes][index][:caption_sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:caption_sketchfeb]
 						  end
 					end
 				super
@@ -175,6 +178,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:marmosets_attributes].each do |index,img|
 						  unless params[:gallery][:marmosets_attributes][index][:marmoset].present?
 							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:marmoset_cache]
+							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:caption_marmoset]
 						  end
 					end
 				super
@@ -219,6 +223,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:sketchfebs_attributes].each do |index,img|
 						  unless params[:gallery][:sketchfebs_attributes][index][:sketchfeb].present?
 							params[:gallery][:sketchfebs_attributes][index][:sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:sketchfeb_cache]
+							params[:gallery][:sketchfebs_attributes][index][:caption_sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:caption_sketchfeb]
 						  end
 					end
 				super	
@@ -227,6 +232,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:marmosets_attributes].each do |index,img|
 						  unless params[:gallery][:marmosets_attributes][index][:marmoset].present?
 							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:marmoset_cache]
+							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:caption_marmoset]
 						  end
 					end
 				super	
