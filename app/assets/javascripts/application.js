@@ -20,6 +20,7 @@
 //= require select2
 //= require custom
 //= require marmoset
+//= require dropzone
 
 //= require tether.min
 //= require cropper
@@ -30,6 +31,7 @@
 //= require moment-with-locales
 //= require ui-bootstrap-tpls
 //= require datetime-picker
+//= require ng-dropzone
 
 
 

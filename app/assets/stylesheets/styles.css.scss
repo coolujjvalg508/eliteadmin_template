@@ -939,6 +939,7 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .jobswrap .aside .status-link a{ color:#13aff0; margin-left:5px;}
 .project-btn .lightbtn{ display:inline-block; margin:0 5px 10px; font-size:12px; color:#fff !important; cursor:pointer;}
 .jobpostindent .dragdrop{ border:2px dashed #333; padding:19px; color:#bbb; border-radius: 5px;}
+.jobpostindent .dragdrop button{position: relative;}
 .jobswrap .aside{ width:278px; float:right;}
 .jobswrap .checkbox-btn label { color:#a9a9a9;}
 .jobswrap .checkbox-btn label::after{ border:1px solid #333;}
@@ -1378,3 +1379,4 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .img-preview{height: 155px;}
  #cropimage {  max-width: 100%;  }
  .img-company-logo{min-height: 225px;}
+ .dragdrop-gallery{cursor: inherit; display: block; font-size: 20px; filter: alpha(opacity=1);  min-height: 100px; min-width: 100%; opacity: 0;position: absolute;right: 0;text-align: right; top: 54px; height: 151px;}
