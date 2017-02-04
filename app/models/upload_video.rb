@@ -9,7 +9,7 @@ class UploadVideo < ActiveRecord::Base
 	
 
 	# def create_thumbnail
-	
+	 
 	#	data = self
 	#	require 'streamio-ffmpeg'
 
