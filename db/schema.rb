@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118094157) do
+ActiveRecord::Schema.define(version: 20170203092534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,7 +209,7 @@ ActiveRecord::Schema.define(version: 20170118094157) do
     t.text     "changelog"
     t.boolean  "is_feature",            default: false
     t.json     "post_type_id"
-    t.string   "challenge"
+    t.json     "challenge"
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -263,7 +263,6 @@ ActiveRecord::Schema.define(version: 20170118094157) do
     t.integer  "user_id"
     t.string   "is_admin"
     t.boolean  "is_spam",                      default: false
-    t.string   "challenge"
     t.string   "zoom_w"
     t.string   "zoom_h"
     t.string   "zoom_x"
@@ -275,6 +274,8 @@ ActiveRecord::Schema.define(version: 20170118094157) do
     t.string   "crop_y"
     t.string   "crop_w"
     t.string   "crop_h"
+    t.json     "challenge"
+    t.integer  "is_trash",                     default: 0
   end
 
   create_table "identities", force: :cascade do |t|
@@ -389,6 +390,7 @@ ActiveRecord::Schema.define(version: 20170118094157) do
     t.string   "marmosetable_type", null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "caption_marmoset"
   end
 
   add_index "marmo_sets", ["marmosetable_id"], name: "index_marmo_sets_on_marmosetable_id", using: :btree
@@ -584,6 +586,7 @@ ActiveRecord::Schema.define(version: 20170118094157) do
     t.string   "sketchfebable_type", null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "caption_sketchfeb"
   end
 
   add_index "sketchfebs", ["sketchfebable_id"], name: "index_sketchfebs_on_sketchfebable_id", using: :btree
@@ -690,8 +693,8 @@ ActiveRecord::Schema.define(version: 20170118094157) do
     t.text     "include_description"
     t.string   "sub_title"
     t.json     "sub_topic"
-    t.string   "challenge"
     t.boolean  "free",                default: false
+    t.json     "challenge"
   end
 
   create_table "upload_videos", force: :cascade do |t|
