@@ -4,7 +4,7 @@ class UploadVideo < ActiveRecord::Base
 	#belongs_to :uploadvideoable, polymorphic: false
 
 	
-	after_save :create_thumbnail 
+#	after_save :create_thumbnail 
 
 	
 
