@@ -9,8 +9,14 @@
         <div class="content clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
             <div class="clearfix job-post-bread">
                 <ul class="breadcrumb">
-                    <li><a href="jobs.html">Portfolio Manager</a></li>
-                    <li class="active">Create Project</li>
+                  <li><%= link_to 'Gallery', index_gallery_path %></li>
+                    <li class="active">
+                        <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                            Edit Project
+                        <% else %>
+                            Create Project
+                        <% end %>
+                    </li>
                 </ul>
             </div>
       
@@ -20,8 +26,21 @@
     <%= f.hidden_field :user_id, value: current_user.id %>   
     <%= f.hidden_field :is_admin, value: 'N' %>      
     <%= f.hidden_field :removedids, value: '' %>      
+    <%= f.hidden_field :removedimages, value: '' %>      
+    <%= f.hidden_field :removedvideourl, value: '' %>      
+    <%= f.hidden_field :removedsketchfab, value: '' %>      
+    <%= f.hidden_field :removedUploadVideo, value: '' %>      
+    <%= f.hidden_field :removedMarmoset, value: '' %>      
 <div id="hiddendata"></div>
-                <div class="clearfix notification-heading"> <span class="noti-title" style="border:none;">Untitled Project</span> </div>
+                <div class="clearfix notification-heading">
+                    <span class="noti-title" style="border:none;"> 
+                        <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                            <%= @gallery.title %>
+                        <% else %>
+                            Untitled Project
+                        <% end %>
+                    </span> 
+                </div>
                 <div class="jobpostindent clearfix col-sm-12 col-xs-12 padding">
                     <div class="clearfix marginB15 jobpostbox border-radius">
                         <ul>
@@ -59,13 +78,29 @@
                     <div class="clearfix marginB15 selectgallery">
                         <ul>
 
-                        <!-- Add Images list -->
+                        <!-- Edit Mode Update Images list -->
+                            <li ng-repeat="x in add_images_default" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="lidefault{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeImageDefault($index, x.id)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="{{x.image.large_image.url}}" alt="image" class="img-responsive img-preview" id="gallery_image_view_default_{{$index}}" >
+                                    </center>
+                                    
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[images_attributes_default][{{x.id}}][caption_image]" id="gallery_image_caption_image_default_{{$index}}" placeholder="Enter caption">{{x.caption_image}}</textarea>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                            <!-- Add Images list -->
                             <li ng-repeat="x in add_images" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15 hidden" id="li{{$index}}">
 
                                 <div class="galleryselect clearfix">
                                     <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeImage($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
                                     <center>
-                                        <img src="" alt="img" class="img-responsive img-preview" id="gallery_image_view_{{$index}}" >
+                                        <img src="" alt="image" class="img-responsive img-preview" id="gallery_image_view_{{$index}}" >
                                     </center>
                                     <input type="file" name="gallery[images_attributes][{{$index}}][image]" id="gallery_image_image_{{$index}}" ng-show="false" accept="image/*" onchange="angular.element(this).scope().newImageUpload(this)" >
 
@@ -77,6 +112,21 @@
 
                             </li>
 
+                            <!-- Edit Mode Update Video URL list -->
+                            <li ng-repeat="x in add_video_url_default" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="livideourldefault{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-film" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeVideoURLDefault($index, x.id)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="" alt="Video Url" class="img-responsive img-preview" id="gallery_video_url_image_view_default_{{$index}}" >
+                                    </center>
+
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[videos_attributes_default][{{x.id}}][caption_video]" id="gallery_videos_caption_video_default_{{$index}}" placeholder="Enter caption">{{x.caption_video}}</textarea>
+                                    </div>
+                                </div>
+
+                            </li>
 
                             <!-- Add Video URL list -->
                             <li ng-repeat="x in add_video_url" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="livideourl{{$index}}">
@@ -84,7 +134,7 @@
                                 <div class="galleryselect clearfix">
                                     <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-film" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeVideoURL($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
                                     <center>
-                                        <img src="" alt="img" class="img-responsive img-preview" id="gallery_video_url_image_view_{{$index}}" >
+                                        <img src="" alt="Video Url" class="img-responsive img-preview" id="gallery_video_url_image_view_{{$index}}" >
                                     </center>
 
                                     <input type="hidden" name="gallery[videos_attributes][{{$index}}][video]" id="gallery_videos_video_{{$index}}" />
@@ -96,23 +146,55 @@
 
                             </li>
 
+                            <!-- Edit Mode Update Sketchfab URL list -->
+                            <li ng-repeat="x in add_sketchfab_url_default" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="lisketchfaburldefault{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-codepen" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeSketchfabURLDefault($index, x.id)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="" alt="Sketchfab" class="img-responsive img-preview" id="gallery_sketchfab_url_image_view_default_{{$index}}" >
+                                    </center>
+
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[sketchfebs_attributes_default][{{x.id}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_default_{{$index}}" placeholder="Enter caption">{{x.caption_sketchfeb}}</textarea>
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+
                             <!-- Add Sketchfab URL list -->
                             <li ng-repeat="x in add_sketchfab_url" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="lisketchfaburl{{$index}}">
 
                                 <div class="galleryselect clearfix">
                                     <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-codepen" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeSketchfabURL($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
                                     <center>
-                                        <img src="" alt="img" class="img-responsive img-preview" id="gallery_sketchfab_url_image_view_{{$index}}" >
+                                        <img src="" alt="Sketchfab" class="img-responsive img-preview" id="gallery_sketchfab_url_image_view_{{$index}}" >
                                     </center>
 
-                                    <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][sketchfeb]" id="gallery_sketchfebs_sketchfeb_{{$index}}" />
-
-                                    <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_{{$index}}" />    
+                                    <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][sketchfeb]" id="gallery_sketchfebs_sketchfeb_{{$index}}" /> 
 
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[sketchfeb][{{$index}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_view_{{$index}}" placeholder="Enter caption"></textarea>
+                                        <textarea class="form-control reel-txt" name="gallery[sketchfebs_attributes][{{$index}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_{{$index}}" placeholder="Enter caption"></textarea>
                                     </div>
 
+                                </div>
+
+                            </li>
+
+                            <!-- Edit Mode Update Upload Videos list -->
+                            <li ng-repeat="x in add_upload_videos_default" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="liuploadvideodefault{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeUploadVideoDefault($index, x.id)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="" alt="Upload video" class="img-responsive img-preview" id="gallery_upload_video_view_default_{{$index}}" >
+                                    </center>
+
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[upload_videos_attributes_default][{{x.id}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_default_{{$index}}" placeholder="Enter caption">{{x.caption_upload_video}}</textarea>
+                                    </div>
                                 </div>
 
                             </li>
@@ -121,12 +203,11 @@
                             <li ng-repeat="x in add_upload_videos" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15 hidden" id="liuploadvideo{{$index}}">
 
                                 <div class="galleryselect clearfix">
-                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeUploadVideo($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeUploadVideo($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
                                     <center>
-                                        <img src="" alt="img" class="img-responsive img-preview" id="gallery_upload_video_view_{{$index}}" >
+                                        <img src="" alt="Upload video" class="img-responsive img-preview" id="gallery_upload_video_view_{{$index}}" >
                                     </center>
                                     <input type="file" name="gallery[upload_videos_attributes][{{$index}}][uploadvideo]" id="gallery_upload_videos_uploadvideo_{{$index}}" ng-show="false" accept="video/*" onchange="angular.element(this).scope().newVideoUpload(this)" >
-
 
                                     <div class="clearfix padding10">
                                         <textarea class="form-control reel-txt" name="gallery[upload_videos_attributes][{{$index}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_{{$index}}" placeholder="Enter caption"></textarea>
@@ -134,13 +215,30 @@
                                 </div>
 
                             </li>
-                             <!-- Add Marmosets -->
+
+                            <!-- Edit Mode Update Marmosets list -->
+                            <li ng-repeat="x in add_marmo_sets_default" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="limarmosetdefault{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeMarmoSetDefault($index, x.id)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="" alt="Marmoset" class="img-responsive img-preview" id="gallery_marmo_set_view_default_{{$index}}" >
+                                    </center>
+                                    
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="gallery[marmo_sets_attributes_default][{{x.id}}][caption_marmoset]" id="gallery_marmo_sets_caption_marmoset_default_{{$index}}" placeholder="Enter caption">{{x.caption_marmoset}}</textarea>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                            <!-- Add Marmosets -->
                             <li ng-repeat="x in add_marmo_sets" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15 hidden" id="limarmoset{{$index}}">
 
                                 <div class="galleryselect clearfix">
                                     <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeMarmoSet($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
                                     <center>
-                                        <img src="" alt="img" class="img-responsive img-preview" id="gallery_marmo_set_view_{{$index}}" >
+                                        <img src="" alt="Marmoset" class="img-responsive img-preview" id="gallery_marmo_set_view_{{$index}}" >
                                     </center>
                                     <input type="file" name="gallery[marmo_sets_attributes][{{$index}}][marmoset]" id="gallery_marmo_sets_marmoset_{{$index}}" ng-show="false" accept=".mview" onchange="angular.element(this).scope().newMarmoSet(this)" >
                                     
@@ -150,7 +248,7 @@
                                 </div>
 
                             </li>
-                             <div id='output'></div>
+                            <div id='output'></div>
 
                         </ul>
                     </div>
@@ -160,42 +258,43 @@
 
                             <div class="form-group clearfix">
                                 <label>* Title</label>
-                                <%= f.text_field :title, class: 'form-control from-input skill-input', id: 'title', placeholder: 'Artwork Title', value: params[:gallery].present? ? params[:gallery][:title] : '' %>
+                                <%= f.text_field :title, class: 'form-control from-input skill-input', id: 'title', placeholder: 'Artwork Title', value: params[:gallery].present? ? params[:gallery][:title] : @gallery[:title] %>
 
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:title, "Title") %></span>
                             </div>
                             <div class="form-group clearfix">
                                 <label>Description</label>
-                                <%= f.text_area :description, class: 'form-control from-input message-form1', id: 'description', placeholder: 'Artwork Description', :value => params[:gallery].present? ? params[:gallery][:description] : '' %>
+                                <%= f.text_area :description, class: 'form-control from-input message-form1', id: 'description', placeholder: 'Artwork Description', :value => params[:gallery].present? ? params[:gallery][:description] : @gallery[:description] %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:description, "Description") %></span>
                                 
                             </div>
                              <div class="form-group clearfix createpost">
                                 <label>Medium</label>
-                                <%= f.select(:medium_category_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:medium_category_id] : ''), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'medium_category_id'})  %>
+                                <%= f.select(:medium_category_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:medium_category_id] : @gallery[:medium_category_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'medium_category_id'})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:medium_category_id, "Medium") %></span>
                             </div>
                             <div class="form-group clearfix createpost">
                                 <label>Post Type</label>
-                                <%= f.select(:post_type_category_id, options_for_select(PostTypeCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:post_type_category_id] : ''), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'post_type_category_id'})  %>
+                                <%= f.select(:post_type_category_id, options_for_select(PostTypeCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:post_type_category_id] :  @gallery[:post_type_category_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'post_type_category_id'})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:post_type_category_id, "Post type") %></span>
                             </div>
                            
                             <div class="form-group clearfix createpost">
                                 <label>Subject Matter</label>
-                                <%= f.select(:subject_matter_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:subject_matter_id] : ''), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi input', 'id' => 'subject_matter_id', multiple: true})  %>
+                                <%= f.select(:subject_matter_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:subject_matter_id] : @gallery[:subject_matter_id]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi input', 'id' => 'subject_matter_id', multiple: true})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:subject_matter_id, "Subject matter") %></span>
                             </div>
 
                             <div class="form-group clearfix">
                                 <label>Team Member</label>
-                                <%= f.select(:team_member, options_for_select(User.order('firstname ASC').pluck(:firstname, :id), params[:gallery].present? ? params[:gallery][:team_member] : ''), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'software_used', multiple: true})  %>
+                                <%= f.select(:team_member, options_for_select(User.order('firstname ASC').pluck(:firstname, :id), params[:gallery].present? ? params[:gallery][:team_member] : @gallery[:team_member]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'software_used', multiple: true})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:team_member, "Software used") %></span>
                             </div>
 
                             <div class="form-group clearfix">
                                 <label>Challenge</label>
-                                <%= f.select(:challenge, options_for_select(Challenge.where("challenge_type_id = 0").order('created_at DESC').pluck(:title, :id), params[:gallery].present? ? params[:gallery][:challenge] : ''), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'challenge', multiple: true})  %>
+
+                                <%= f.select(:challenge, options_for_select(Challenge.where("challenge_type_id = 0").order('created_at DESC').pluck(:title, :id), params[:gallery].present? ? params[:gallery][:challenge] : @gallery[:challenge]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'challenge', multiple: true})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:challenge, "Challenge") %></span>
                             </div>
 
@@ -209,28 +308,30 @@
                             </div>
                             <div class="form-group clearfix">
                                 <label>Add the software used on this project</label>
-                                <%= f.select(:software_used, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:software_used] : ''), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'software_used', multiple: true})  %>
+                                <%= f.select(:software_used, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:software_used] :  @gallery[:software_used]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'software_used', multiple: true})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:software_used, "Software used") %></span>
                             </div>
 
     <%= f.fields_for :tag do |tag_form| %>
         <% tag_options = [] 
-
-        #tag_options = get_previous_uploaded_gallery_tags 
-
         if params[:gallery].present?
             tag_options = params[:gallery][:tag][:tag]
             tag_options.reject!{|a| a==""}
+
+        elsif @gallery.try(:tags).present?
+            @gallery.try(:tags).each_with_index do |tag, i|
+                tag_options[i] = tag['tag']
+            end
         end
         %>
                             <div class="form-group clearfix">
                                 <label>Tags (use tags to add more detailed subject matter)</label>
                                 <!-- <input type="text" class="form-control from-input js-example-tags"> -->
-                                <%= tag_form.select(:tag, options_for_select(tag_options, params[:gallery].present? ? params[:gallery][:tag][:tag] : ''), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-tags', 'id' => 'tag', multiple: true})  %>
+                                <%= tag_form.select(:tag, options_for_select(tag_options, params[:gallery].present? ? params[:gallery][:tag][:tag] : tag_options), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-tags', 'id' => 'tag', multiple: true})  %>
                             </div>
     <% end %>
 
-                            <% if previous_tags.present? %>
+                            <% if previous_tags.present? && 'edit' != params[:action] && 'update' != params[:action] %>
                                 <div class="form-group clearfix">
                                     <div class="checkbox-btn">
                                         <%= f.check_box :use_tag_from_previous_upload %>
@@ -262,7 +363,22 @@
                                     <button class="lightbtn" type="button">Preview</button>
                                 </div>
                             </div>
-                            <div class="clearfix marginB15 status-link"> <i class="fa fa-key marginR5 lightcolor" aria-hidden="true"></i> Status : <strong>Draft</strong></div>
+
+                            <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                                <div class="clearfix marginB15 status-link"> <i class="fa fa-key marginR5 lightcolor" aria-hidden="true"></i> Status : <strong>
+                                    <%  if @gallery.is_trash == 1 %>
+                                        Trashed
+                                    <%  elsif @gallery.is_save_to_draft == 1 %>
+                                        Draft
+                                    <% elsif @gallery.publish %>
+                                        Published
+                                    <% else %>
+                                        Not Published 
+                                    <% end %>    
+                                        
+                                    </strong>
+                                </div>
+                            <% end %>
                             
                             <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a> 
                                 <div class="form-group clearfix createpost marginT10" ng-show="show_visibility_option">        
@@ -288,8 +404,11 @@
 
                             </div>
                             <div class="clearfix row">
+
                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <button class="btn-link" type="button">Delete</button>
+                                    <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                                        <%= link_to 'Delete'.html_safe, trash_gallery_path(@gallery),method: :delete, data: { confirm: 'Are you sure?' }, title: "Delete", class: "btn-link" %>
+                                    <% end %>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6 text-right">
                                  <button type="submit" class="green-btn" value="Publish" name="commit">Publish</button>
@@ -458,6 +577,9 @@
         };
 
         $scope.companyLogoImage = '';
+        <% if @gallery.try(:company_logo).try(:large_image).try(:url).present? %>
+            $scope.companyLogoImage = "<%= @gallery.company_logo.large_image.url %>";
+        <% end %>    
 
         $scope.imageUpload = function(element){
 
@@ -542,6 +664,33 @@
                     };   
                 <% end %>
             <% end %>
+
+        <% elsif 'edit' == params[:action] || 'update' == params[:action] %>
+                <% if @gallery.visibility == 1 %>
+                    visibility_sel_id = '1';
+                    visibility_sel_name = 'Private'; 
+                <% end %>
+
+                <% if @gallery.publish == 0 %>
+                    publish_sel_id = '0';
+                    publish_sel_name = 'Schedule';
+
+                    $scope.show_publish_option = true;
+                    $scope.show_publish_edit_option = false;
+                    $scope.show_schedule_time = true;
+
+                    <% if @gallery.schedule_time != '' %>
+                        var schedule_time_val = '<%= @gallery.schedule_time %>';
+                        this.schedule_time = {
+                            date: new Date(schedule_time_val)
+                        };
+                    <% else %>
+                        this.schedule_time = {
+                        };   
+                    <% end %>
+                <% end %>
+
+
         <% end %>
 
         $scope.data = {
@@ -590,10 +739,148 @@
             that[picker].open = true;
         };
 
-/********* add new images ***************/
+/***** for edit page section start*******/
+        //To get saved images and update them
+        $scope.add_images_default = <%= @gallery.images.to_json.html_safe %>;
+        $scope.removeImageDefault = function (x, id) {   
+            var removedid = angular.element('#gallery_removedimages').attr('value');
 
+            if(removedid == ''){
+                removedid = id;
+            }else{
+                removedid = removedid + ',' +id;
+            }
+
+            angular.element('#gallery_removedimages').attr('value', removedid);
+
+            angular.element( document.querySelector( '#lidefault' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#lidefault' + x ) ).html('');
+        }
+
+
+        //To get saved video_url and update them
+        $scope.add_video_url_default = <%= @gallery.videos.to_json.html_safe %>;
+        $scope.removeVideoURLDefault = function (x, id) {   
+            var removedid = angular.element('#gallery_removedvideourl').attr('value');
+
+            if(removedid == ''){
+                removedid = id;
+            }else{
+                removedid = removedid + ',' +id;
+            }
+
+            angular.element('#gallery_removedvideourl').attr('value', removedid);
+
+            angular.element( document.querySelector( '#livideourldefault' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#livideourldefault' + x ) ).html('');
+        }
+
+        angular.forEach($scope.add_video_url_default, function(value, key) {
+            
+            url = '/get_video_detail_from_url?url=' + value['video'];
+
+            $http.get(url)
+            .then(function(response) {
+                angular.element( document.querySelector( '#gallery_video_url_image_view_default_' + key ) ).attr('src', response.data.thumbnail);
+            })
+            .catch(function(response) {
+            })
+            .finally(function() {
+                
+            });
+        });
+
+        //To get saved sketchfab and update them
+        $scope.add_sketchfab_url_default = <%= @gallery.sketchfebs.to_json.html_safe %>;
+        $scope.removeSketchfabURLDefault = function (x, id) {   
+            var removedid = angular.element('#gallery_removedsketchfab').attr('value');
+
+            if(removedid == ''){
+                removedid = id;
+            }else{
+                removedid = removedid + ',' +id;
+            }
+
+            angular.element('#gallery_removedsketchfab').attr('value', removedid);
+
+            angular.element( document.querySelector( '#lisketchfaburldefault' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#lisketchfaburldefault' + x ) ).html('');
+        }
+
+        angular.forEach($scope.add_sketchfab_url_default, function(value, key) {
+            
+            url = 'https://sketchfab.com/oembed?url=' + value['sketchfeb'] + '&maxwidth=568&dataType=jsonp';
+
+            $http.get(url)
+            .then(function(response) {       
+                angular.element( document.querySelector( '#gallery_sketchfab_url_image_view_default_' + key ) ).attr('src', response.data.thumbnail_url);               
+            })
+            .catch(function(response) {
+            })
+            .finally(function() {
+                
+            });
+        });
+
+        //To get saved upload video and update them
+        $scope.add_upload_videos_default = <%= @gallery.upload_videos.to_json.html_safe %>;
+        $scope.removeUploadVideoDefault = function (x, id) {   
+            var removedid = angular.element('#gallery_removedUploadVideo').attr('value');
+
+            if(removedid == ''){
+                removedid = id;
+            }else{
+                removedid = removedid + ',' +id;
+            }
+
+            angular.element('#gallery_removedUploadVideo').attr('value', removedid);
+
+            angular.element( document.querySelector( '#liuploadvideodefault' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#liuploadvideodefault' + x ) ).html('');
+        }
+
+        angular.forEach($scope.add_upload_videos_default, function(value, key) {
+
+            url = '/get_upload_video_thumbnail?url=' + value['uploadvideo']['url'];
+
+            $http.get(url)
+            .then(function(response) {       
+                angular.element( document.querySelector( '#gallery_upload_video_view_default_' + key ) ).attr('src', response.data.thumbnail);               
+            })
+            .catch(function(response) {
+            })
+            .finally(function() {
+                
+            });
+        });
+
+        //To get saved marmoset and update them
+        $scope.add_marmo_sets_default = <%= @gallery.marmo_sets.to_json.html_safe %>;
+        $scope.removeMarmoSetDefault = function (x, id) {   
+            var removedid = angular.element('#gallery_removedMarmoset').attr('value');
+
+            if(removedid == ''){
+                removedid = id;
+            }else{
+                removedid = removedid + ',' +id;
+            }
+
+            angular.element('#gallery_removedMarmoset').attr('value', removedid);
+
+            angular.element( document.querySelector( '#limarmosetdefault' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#limarmosetdefault' + x ) ).html('');
+        }
+
+
+
+/*********for edit page section end***************/
+
+
+/********* add new images ***************/
         var add_images_count = 0;
         $scope.add_images = [];
+        
+        console.log($scope.add_images);
 
         $scope.addNewImages = function () {
             $scope.add_images.push(add_images_count);
@@ -701,8 +988,6 @@
 
                angular.element( document.querySelector( '#gallery_sketchfab_url_image_view_' + add_sketchfab_url_count_test ) ).attr('src', sketchfabThumbnailuRL);
                angular.element('#gallery_sketchfebs_sketchfeb_' + add_sketchfab_url_count_test).attr('value', $scope.sketchfabURL);
-
-               angular.element('#gallery_sketchfebs_caption_sketchfeb_view_' + add_sketchfab_url_count_test).val(sketchfabCaption);
                
                angular.element('#gallery_sketchfebs_caption_sketchfeb_' + add_sketchfab_url_count_test).val(sketchfabCaption);
 
@@ -837,9 +1122,7 @@
             });
         }
         
-        
 
-    
     });
 
     $(document).ready(function(){
@@ -982,14 +1265,14 @@
  });
 
  function removethumb(rt,k){
-     $('li#li'+rt).hide();
+    $('li#li'+rt).hide();
 
-     var removedid = $('#gallery_removedids').val(removedid);
-     if(removedid != ''){
-            removedid = removedid + ',' +k;
-     }else{
-            removedid = k;
-     }
+    var removedid = $('#gallery_removedids').val();
+    if(removedid == ''){
+        removedid = k;
+    }else{
+        removedid = removedid + ',' +k;
+    }
 
     $('#gallery_removedids').val(removedid);
  }

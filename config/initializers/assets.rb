@@ -32,6 +32,7 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w( select2.css )
  Rails.application.config.assets.precompile += %w( ng-img-crop.css )
  Rails.application.config.assets.precompile += %w( cropper.css )
+
  
 
 

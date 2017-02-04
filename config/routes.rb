@@ -75,10 +75,16 @@ Rails.application.routes.draw do
 
   
   resources :galleries
-  get 'get_video_detail_from_url' => 'galleries#get_video_detail_from_url'
-
-  get 'getsubjectmatter'=> 'galleries#getsubjectmatter'
-
+    get 'dashboard/projects'                    => 'galleries#index', as: 'index_gallery' 
+    get 'dashboard/projects/new'                => 'galleries#new', as: 'create_gallery' 
+    get 'dashboard/projects/:paramlink/edit'    => 'galleries#edit', as: 'modify_gallery' 
+    get 'get_video_detail_from_url'             => 'galleries#get_video_detail_from_url'
+    get 'getsubjectmatter'                      => 'galleries#getsubjectmatter'
+    post 'upload_drag_image'                    => 'galleries#upload_drag_image'
+    get 'dashboard/projects/:paramlink/show'    => 'galleries#show', as: 'show_gallery' 
+    delete 'trash-gallery/:id'                  => 'galleries#trash', as: 'trash_gallery'
+    get 'get_upload_video_thumbnail'            => 'galleries#get_upload_video_thumbnail', as: 'get_upload_video_thumbnail'
+    
   get 'gallery/all_gallery_post'
   get 'gallery/get_gallery_post_list'
   get 'gallery/count_user_gallery_post'

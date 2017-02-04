@@ -1,0 +1,245 @@
+<!-- All Dashboard Start -->
+
+<section class="clearfix container-fluid-full" ng-app="myApp" ng-controller="galleryCtrl">
+<div class="row-fluid">
+<div class="sidebar-left">
+<%= render 'layouts/navigation' %>
+</div>
+<div class="content clearfix">
+<div class="clearfix job-post-bread">
+<ul class="breadcrumb">
+<li><%= link_to 'Gallery', index_gallery_path %></li>
+<li class="active">All Gallery Post</li>
+</ul>
+</div>
+
+<!-- User Followers Start -->
+<section class="clearfix usersettings">
+<div class="clearfix notification-heading"> <span class="noti-title">All Gallery Post</span>
+<!-- <button class="addbtn" type="button">Add New</button> -->
+<%= link_to 'Add New', create_gallery_path, class:'addbtn' %>
+</div>
+<div class="clearfix marginB15 allgallerypost-link hidden-xs hidden-sm">
+<div class="row">
+  <div class="col-md-8 paddinT10">
+    <ul>
+      <li><a href="javascript:void(0);" class="white-txt view-type-link" id="all-link" ng-click="viewType('all')">All <span class="badge">({{total_count}})</span></a></li>
+      <li><a href="javascript:void(0);" class="view-type-link" id="featured-link" ng-click="viewType('featured')">Featured <span class="badge">({{total_featured}})</span></a></li>
+      <li><a href="javascript:void(0);" class="view-type-link" id="published-link" ng-click="viewType('published')">Published <span class="badge">({{total_published}})</span></a></li>
+      <li><a href="javascript:void(0);" class="view-type-link" id="drafts-link" ng-click="viewType('drafts')">Drafts <span class="badge">({{total_draft}})</span></a></li>
+       <li><a href="javascript:void(0);" class="view-type-link" id="trash-link" ng-click="viewType('trash')">Trash <span class="badge">(11)</span></a></li>
+    </ul>
+
+    <input type="hidden" ng-model="viewTypeValue" value="">
+
+  </div>
+  <div class="col-md-4">
+    <div class="search clearfix pull-right">
+      <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" ng-model="search" />
+      <button type="submit" class="blue-btn">Search Post</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="clearfix marginB15 allpostwrap hidden-xs hidden-sm">
+<div class="bulkaction clearfix">
+  <select class="custom-select">
+    <option>Bulk Actions</option>
+  </select>
+  <button type="button" class="blue-btn">Apply</button>
+</div>
+
+<%= form_tag do %>
+  <div class="alldated clearfix">
+    <select class="custom-select">
+      <option>All dates</option>
+    </select>
+  </div>
+  <div class="gallerytype clearfix">
+    <%= select_tag(:post_type_category_id, options_for_select(Category.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Gallery Post Type', 'ng-model' => 'post_type_category_id'}) %>
+  </div>
+  <div class="gallerytype clearfix">
+    <%= select_tag(:medium_category_id, options_for_select(MediumCategory.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Medium Categories', 'ng-model' => 'medium_category_id'}) %>
+  </div>
+  <div class="clearfix pull-left marginR10">    
+    <button type="button" class="blue-btn" ng-click="filter()">Filter</button>
+  </div>
+
+<% end %>  
+
+<div class="allitem">{{gallery_data.length}} items</div>
+<div class="pagintionpage clearfix">
+  
+  <dir-pagination-controls
+       max-size="1"
+       direction-links="true"
+       boundary-links="false" >
+  </dir-pagination-controls>
+
+</div>
+</div>
+<div class="panel panel-default allgallerypostwrap">
+<div class="panel-heading clearfix padding">
+  <div class="postcheck clearfix">
+    <div class="checkbox-btn">
+      <input type="checkbox" id="rc15" name="rc15" ng-model="selectedAll" ng-click="checkAll()" >
+      <label for="rc15" onclick=""></label>
+    </div>
+  </div>
+  <div class="GalleryThumbnail hidden-xs">Thumbnail</div>
+  <div class="GalleryTitle hidden-xs" ng-click="sort('title')">Title<!-- <span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> --></div>
+  <div class="GalleryAuthor hidden-xs" ng-click="sort('category.name')">Categories<!-- <span class="glyphicon sort-icon" ng-show="sortKey=='category.name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> --></div>
+  <div class="GalleryDate hidden-xs">Date</div>
+  <div class="GalleryLike hidden-xs">Likes</div>
+  <div class="GalleryLike hidden-xs">Status</div>
+  <div class="GalleryLike hidden-xs">Actions</div>
+</div>
+<div class="panel-body padding">
+  <div class="clearfix Allpostgallery">
+    <ul>
+
+    <!-- <li class="clearfix" ng-repeat="x in gallery_data|orderBy:sortKey:reverse|filter:search"> -->
+     <li class="clearfix" dir-paginate="x in gallery_data|orderBy:sortKey:reverse|filter:search|itemsPerPage:10">
+
+        <div class="AllGalleryCheck clearfix">
+          <div class="checkbox-btn">
+            <input type="checkbox" value="value-1" id="rc{{x.id}}" name="rc1" ng-model="x.Selected">
+            <label for="rc{{x.id}}" onclick=""></label>
+          </div>
+        </div>
+        <div class="AllGalleryThumbnail">
+        <%#= image_tag(root_url + "{{ x.company_logo.thumb.url }}", :alt => "img", :class=>"img-responsive") %>
+          
+        <img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive">
+&nbsp;
+        </div>
+        <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> {{ x.title }} &nbsp;</div>
+        <div class="AllGalleryAuthor">{{ x.category.name }}&nbsp;</div>
+        <div class="AllGalleryDate">
+         <!--  <span ng-repeat="y in x.tags">{{ $index > 0 ? ', ' : '' }}{{ y.tag }}</span> -->
+         {{ x.created_at | date:'MM/dd/yyyy HH:mm' }}
+&nbsp;
+        </div>
+
+        <div class="AllGalleryLike clearfix">
+          <div class="marginB15 clearfix"><i class="fa fa-thumbs-o-up marginR5" aria-hidden="true"></i> 0</div>
+          <div class="marginB15 clearfix"><i class="fa fa-globe marginR5" aria-hidden="true"></i> 0</div>
+          <div class="marginB15 clearfix"><i class="fa fa-comment-o marginR5" aria-hidden="true"></i> 0</div>
+        </div>
+        <div class="AllGalleryLike">
+          <button class="draftbtn border-radius" type="button">
+            {{ x.is_trash ? 'Trashed' : x.is_save_to_draft ? 'Draft' : x.publish ? 'Published' : 'Not Published' }} &nbsp;
+          </button>
+
+        </div>
+        <div class="AllGalleryLike clearfix">
+          <div class="clearfix marginB15">
+           <a class="lightbtn" href="/dashboard/projects/{{x.paramlink}}/show"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>View</a>
+
+           <!--  <button class="lightbtn" type="button"><i class="fa fa-eye marginR5" aria-hidden="true"></i> View</button> -->
+          </div>
+          <div class="clearfix marginB15">
+          <a class="lightbtn" href="/dashboard/projects/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
+
+            <!-- <button class="lightbtn" type="button"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i> Edit</button> -->
+          </div>
+          <div class="clearfix">
+            <button class="lightbtn" type="button"><i class="fa fa-trash marginR5" aria-hidden="true"></i> Delete</button>
+          </div>
+        </div>
+      </li>
+
+      <li ng-hide="gallery_data.length" class="text-center err-msg no-result">No Result Found!</li>
+
+    </ul>
+ 
+  </div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</section>
+
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+<%= render "layouts/lastfooter" %>
+</footer>
+
+<script>
+var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+app.controller('galleryCtrl', function($scope, $http) {
+
+    //function to get count of user gallery data
+    $scope.getCount = function() {
+        
+        list_url = '/gallery/count_user_gallery_post';
+
+        $http.get(list_url).then(function (response) {
+          $scope.total_count = response.data.total_count;
+          $scope.total_featured = response.data.total_featured;
+          $scope.total_published = response.data.total_published;
+          $scope.total_draft = response.data.total_draft;
+        });
+    };
+    $scope.getCount();
+
+    //function to get user gallery data on the basis of search
+    $scope.filter = function() {
+        
+        list_url = '/gallery/get_gallery_post_list?';
+
+        if(typeof $scope.viewTypeValue !== 'undefined' && $scope.viewTypeValue != '' && $scope.viewTypeValue != 'all'){
+          list_url += '&view=' + $scope.viewTypeValue
+        }
+
+        if(typeof $scope.post_type_category_id !== 'undefined' && $scope.post_type_category_id != ''){
+          list_url += '&post_type_category_id=' + $scope.post_type_category_id
+        }
+
+        if(typeof $scope.medium_category_id !== 'undefined' && $scope.medium_category_id != ''){
+          list_url += '&medium_category_id=' + $scope.medium_category_id
+        }
+
+        $http.get(list_url).then(function (response) {
+          $scope.gallery_data = response.data;
+        });
+    };
+    $scope.filter();
+    
+    $scope.viewType = function(value) {
+      
+      angular.element( document.querySelectorAll( '.view-type-link' ) ).removeClass('white-txt');
+      angular.element( document.querySelector( '#' + value + '-link' ) ).addClass('white-txt');
+
+      $scope.post_type_category_id = $scope.medium_category_id = $scope.search = '';
+
+      $scope.viewTypeValue = value;
+      $scope.filter();
+
+    };
+
+    $scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.checkAll = function () {
+
+        if ($scope.selectedAll) {
+            $scope.selectedAll = false;
+        } else {
+            $scope.selectedAll = true;
+        }
+        angular.forEach($scope.gallery_data, function (x) {
+            x.Selected = $scope.selectedAll;
+        });
+
+    };
+
+});
+
+
+
+</script>
+
