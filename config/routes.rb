@@ -75,20 +75,35 @@ Rails.application.routes.draw do
 
   
   resources :galleries
-    get 'dashboard/projects'                    => 'galleries#index', as: 'index_gallery' 
-    get 'dashboard/projects/new'                => 'galleries#new', as: 'create_gallery' 
-    get 'dashboard/projects/:paramlink/edit'    => 'galleries#edit', as: 'modify_gallery' 
-    get 'get_video_detail_from_url'             => 'galleries#get_video_detail_from_url'
-    get 'getsubjectmatter'                      => 'galleries#getsubjectmatter'
-    post 'upload_drag_image'                    => 'galleries#upload_drag_image'
-    get 'dashboard/projects/:paramlink/show'    => 'galleries#show', as: 'show_gallery' 
-    delete 'trash-gallery/:id'                  => 'galleries#trash', as: 'trash_gallery'
-    get 'get_upload_video_thumbnail'            => 'galleries#get_upload_video_thumbnail', as: 'get_upload_video_thumbnail'
+    get 'dashboard/projects'                          => 'galleries#index', as: 'index_gallery' 
+    get 'dashboard/projects/new'                      => 'galleries#new', as: 'create_gallery' 
+    get 'dashboard/projects/:paramlink/edit'          => 'galleries#edit', as: 'modify_gallery' 
+    get 'get_video_detail_from_url'                   => 'galleries#get_video_detail_from_url'
+    get 'getsubjectmatter'                            => 'galleries#getsubjectmatter'
+    post 'upload_drag_image'                          => 'galleries#upload_drag_image'
+    get 'dashboard/projects/:paramlink/show'          => 'galleries#show', as: 'show_gallery' 
+    get 'get_upload_video_thumbnail'                  => 'galleries#get_upload_video_thumbnail', as: 'get_upload_video_thumbnail'
+    get 'dashboard/projects/:paramlink/make_trash'    => 'galleries#make_trash', as: 'trash_gallery'
+    get 'dashboard/projects/get_gallery_post_list'    => 'galleries#get_gallery_post_list', as: 'get_gallery_post_list'
+    get 'dashboard/projects/count_user_gallery_post'  => 'galleries#count_user_gallery_post', as: 'count_user_gallery_post'
+    post 'dashboard/projects/save_like'               => 'galleries#save_like', as: 'save_like' 
+    post 'dashboard/projects/check_save_like'         => 'galleries#check_save_like', as: 'check_save_like' 
+    post 'dashboard/projects/follow_artist'           => 'galleries#follow_artist', as: 'follow_artist' 
+    post 'dashboard/projects/check_follow_artist'     => 'galleries#check_follow_artist', as: 'check_follow_artist' 
     
-  get 'gallery/all_gallery_post'
-  get 'gallery/get_gallery_post_list'
-  get 'gallery/count_user_gallery_post'
-  
+
+   resources :collections
+    
+    get  'collection'                                 => 'collections#index', as: 'index_collection'
+    post 'create_collection'                          => 'collections#new', as: 'create_collection'
+    patch 'update_collection'                         => 'collections#update_collection', as: 'update_collection'
+    get  'collection/:paramlink/collections'          => 'collections#show', as: 'collection_detail'
+    get  'collectiondelete'                           => 'collections#collectiondelete', as: 'collectiondelete'
+
+
+
+
+
   get 'gallery/browse_all_artwork'
   get 'gallery/browse_all_awards'
   get 'gallery/browse_all_challenge'

@@ -1,6 +1,6 @@
 class GalleriesController < ApplicationController
 
-    before_action :authenticate_user!, only: [:new, :crete, :edit, :update]
+    before_action :authenticate_user!, only: [:new, :crete, :edit, :update, :get_gallery_post_list, :count_user_gallery_post]
  
     def index
 
@@ -19,10 +19,112 @@ class GalleriesController < ApplicationController
     end 
 
     def show
-         @gallery = Gallery.find_by(paramlink: params[:paramlink])
-        #abort(@gallery.upload_videos.to_json)
-       # abort(@gallery.software_expertise.to_json)
-    end    
+        @gallery = Gallery.find_by(paramlink: params[:paramlink])
+        @collection = Collection.new
+       # abort(@gallery.post_type_category_id.to_json)
+        if @gallery.post_type_category_id == 1
+            render 'artshow'
+
+         elsif  @gallery.post_type_category_id == 2
+            render 'videoshow'
+         
+         else 
+            render 'show'
+         
+         end 
+    end  
+
+    
+
+
+    def create_collection
+       # abort(params.to_json)
+          
+          gallery_id              = params[:collection][:gallery_id] 
+          title                   = params[:collection][:title].strip 
+          is_collection_exist     = Collection.where(title: title)
+
+          if title==''
+             result = {'res' => 0, 'message' => 'Collection name cannot be blank.'}
+
+          elsif is_collection_exist.present?
+              result = {'res' => 0, 'message' => 'Collection name already exist.'}
+             # render json: {'res' => 0, 'message' => 'Title already exist.'}, status: 200
+          else
+              Collection.create(gallery_id: gallery_id, title: title)
+              result = {'res' => 1, 'message' => 'Post has successfully added to collection.'}
+              #flash[:notice] = 'Post has successfully added to collection.'
+             # redirect_to request.referer
+
+          end 
+        render json: result, status: 200
+      #redirect_to request.referer
+         
+    end  
+
+    def save_like
+          gallery_id     = params[:gallery_id]
+          user_id        = current_user.id
+          is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').first
+          result = ''
+          if is_like_exist.present?
+                PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').delete_all 
+                result  = {'res' => 0, 'message' => 'Post has disliked'}
+          else
+                PostLike.create(user_id: user_id, post_id: gallery_id, post_type: 'Gallery')  
+                result  = {'res' => 1, 'message' => 'Post has liked'}
+
+          end 
+
+          render json: result, status: 200       
+    end  
+
+     def check_save_like
+          gallery_id     = params[:gallery_id]
+          user_id        = current_user.id
+          is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').first
+          result = ''
+          if is_like_exist.present?
+                result  = {'res' => 1, 'message' => 'Post has already liked'}
+          else
+                result  = {'res' => 0, 'message' => 'Post has not liked'}
+          end 
+
+          render json: result, status: 200       
+    end  
+
+
+    def follow_artist
+          artist_id     = params[:artist_id]
+          user_id        = current_user.id
+          is_follow_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').first
+          result = ''
+          if is_follow_exist.present?
+                Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').delete_all 
+                result  = {'res' => 0, 'message' => 'Artist Not Follow'}
+          else
+                Follow.create(user_id: user_id, artist_id: artist_id, post_type: '')  
+                result  = {'res' => 1, 'message' => 'Artist Follow'}
+
+          end 
+
+          render json: result, status: 200       
+    end  
+
+     def check_follow_artist
+          artist_id     = params[:artist_id]
+          user_id        = current_user.id
+          is_like_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').first
+          result = ''
+          if is_like_exist.present?
+                result  = {'res' => 1, 'message' => 'Artist already followed'}
+          else
+                result  = {'res' => 0, 'message' => 'Artist not followed'}
+          end 
+
+          render json: result, status: 200       
+    end  
+
 
     def getsubjectmatter
             post_type_id =  params[:post_type_id]
@@ -333,12 +435,20 @@ class GalleriesController < ApplicationController
          #  abort(params.to_json)
     end
 
-    def trash
-          Gallery.where('id = ?',params[:id]).update_all(:is_trash => 1)  
-          flash[:notice] = 'Post has been successfully deleted.'
-          redirect_to index_gallery_path
+    
 
-    end    
+    def make_trash
+         #abort(params.to_json)
+         paramlink            =  params[:paramlink]
+         @is_gallery_exist     =  Gallery.where(paramlink: paramlink).first
+        # abort(@is_gallery_exist.to_json)
+         if @is_gallery_exist.present?
+            Gallery.where('id = ?',@is_gallery_exist.id).update_all(:is_trash => 1)  
+            flash[:notice] = 'Post has successfully trashed.'
+            redirect_to index_gallery_path
+         end
+          
+    end   
 
     def get_upload_video_thumbnail
 
@@ -348,6 +458,82 @@ class GalleriesController < ApplicationController
       render :json => data.to_json, status: 200
 
     end
+
+
+    def get_gallery_post_list
+    #abort(params.to_json)
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
+
+        if(params[:post_type_category_id] && params[:post_type_category_id] != '')
+          conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
+        end 
+
+        if(params[:medium_category_id] && params[:medium_category_id] != '')
+          conditions += ' AND medium_category_id=' + params[:medium_category_id]
+        end 
+
+        if(params[:view]) 
+          if (params[:view] == 'featured')
+            conditions += ' AND is_featured=TRUE AND is_trash=0'
+          elsif (params[:view] == 'published')
+            conditions += ' AND publish=1 AND is_trash=0'
+          elsif (params[:view] == 'drafts')
+            conditions += ' AND is_save_to_draft=1 AND is_trash=0'
+          elsif (params[:view] == 'trash')
+            conditions += ' AND is_trash=1'
+          end
+        end
+
+        #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
+        result = Gallery.where(conditions).order('id DESC')
+
+        #result = result + result + result + result + result + result + result + result + result + result + result + result
+
+        #abort(result.total_count.to_json)
+        #abort(result.total_pages.to_json)
+
+
+        #abort(data.to_json)
+        #render json: result, status: 200  
+        render :json => result.to_json(:include => [:category, :medium_category]), status: 200
+
+  end
+
+  def count_user_gallery_post
+
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
+
+        r_data = Gallery.where(conditions)
+
+        total_count = r_data.count
+        total_trash = total_featured = total_published = total_draft = 0
+
+        r_data.each do |val|
+
+          if val['is_featured'] == TRUE
+            total_featured = total_featured + 1
+          end  
+
+          if val['publish'] == 1
+            total_published = total_published + 1
+          end  
+
+          if val['is_save_to_draft'] == 1
+            total_draft = total_draft + 1
+          end 
+
+          if val['is_trash'] == 1
+            total_trash = total_trash + 1
+          end   
+
+        end  
+
+        result = {'total_count' => total_count, 'total_featured' => total_featured, 'total_published' => total_published, 'total_draft' => total_draft, 'total_trash'=> total_trash}
+
+        render json: result, status: 200  
+
+        #abort(result.to_json)
+  end  
 
 
     private

@@ -1098,6 +1098,11 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .downbox li{ background:#222; margin:0 1.10% 20px; width:270px; float:left;}
 .downbox li:first-child{ margin-left:0px;}
 .downbox li:last-child{ margin-right:0px;}
+
+.downboxcollection li{ background:#222; margin:0 .5% 20px; width:270px; float:left;}
+/*.downboxcollection li:first-child{ margin-left:0px;}*/
+.downboxcollection li:last-child{ margin-right:0px;}
+
 .down-txt{ color:#e2dede; font-size:14px; margin-bottom:10px;}
 .price-txt{ color:#ffc502; font-weight:600; font-size:16px;}
 .price-txt1{ color:#2d9efb;}

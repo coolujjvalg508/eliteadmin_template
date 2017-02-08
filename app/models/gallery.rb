@@ -4,15 +4,19 @@ include Bootsy::Container
  #mount_uploader :image, ImageUploader
  validates :title, presence: true
  validates :paramlink, presence: true
+ #validates :paramlink, uniqueness: {message: 'This paramlink is already registered with us.'}
+ #validates_format_of :paramlink, :with  => /\A[a-zA-Z]+-_([a-zA-Z]|\d)*\Z/, :message => 'Please enter a valid parameter link'
 
  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :rotation_angle, :zoom_w, :zoom_h, :zoom_x, :zoom_y, :drag_x, :drag_y
 
  belongs_to :category, :foreign_key =>"post_type_category_id"
  belongs_to :medium_category, :foreign_key =>"medium_category_id"
 
+ has_many :collection
  
  has_many :images, as: :imageable, dependent: :destroy
  has_many :caption_image
+ 
  
  has_many :videos, as: :videoable, dependent: :destroy
  has_many :caption_video

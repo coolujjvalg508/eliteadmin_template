@@ -27,7 +27,7 @@
       <li><a href="javascript:void(0);" class="view-type-link" id="featured-link" ng-click="viewType('featured')">Featured <span class="badge">({{total_featured}})</span></a></li>
       <li><a href="javascript:void(0);" class="view-type-link" id="published-link" ng-click="viewType('published')">Published <span class="badge">({{total_published}})</span></a></li>
       <li><a href="javascript:void(0);" class="view-type-link" id="drafts-link" ng-click="viewType('drafts')">Drafts <span class="badge">({{total_draft}})</span></a></li>
-       <li><a href="javascript:void(0);" class="view-type-link" id="trash-link" ng-click="viewType('trash')">Trash <span class="badge">(11)</span></a></li>
+       <li><a href="javascript:void(0);" class="view-type-link" id="trash-link" ng-click="viewType('trash')">Trash <span class="badge">({{total_trash}})</span></a></li>
     </ul>
 
     <input type="hidden" ng-model="viewTypeValue" value="">
@@ -133,19 +133,15 @@
 
         </div>
         <div class="AllGalleryLike clearfix">
-          <div class="clearfix marginB15">
-           <a class="lightbtn" href="/dashboard/projects/{{x.paramlink}}/show"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>View</a>
-
-           <!--  <button class="lightbtn" type="button"><i class="fa fa-eye marginR5" aria-hidden="true"></i> View</button> -->
-          </div>
-          <div class="clearfix marginB15">
-          <a class="lightbtn" href="/dashboard/projects/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
-
-            <!-- <button class="lightbtn" type="button"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i> Edit</button> -->
-          </div>
-          <div class="clearfix">
-            <button class="lightbtn" type="button"><i class="fa fa-trash marginR5" aria-hidden="true"></i> Delete</button>
-          </div>
+            <div class="clearfix marginB15">
+              <a class="lightbtn" href="/dashboard/projects/{{x.paramlink}}/show"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>View</a>
+            </div>
+            <div class="clearfix marginB15">
+               <a class="lightbtn" href="/dashboard/projects/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
+            </div>
+           <div class="clearfix">
+            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/dashboard/projects/{{x.paramlink}}/make_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to trash this post?" } %>
+           </div>
         </div>
       </li>
 
@@ -173,13 +169,14 @@ app.controller('galleryCtrl', function($scope, $http) {
     //function to get count of user gallery data
     $scope.getCount = function() {
         
-        list_url = '/gallery/count_user_gallery_post';
+        list_url = '/dashboard/projects/count_user_gallery_post';
 
         $http.get(list_url).then(function (response) {
-          $scope.total_count = response.data.total_count;
-          $scope.total_featured = response.data.total_featured;
-          $scope.total_published = response.data.total_published;
-          $scope.total_draft = response.data.total_draft;
+          $scope.total_count       = response.data.total_count;
+          $scope.total_featured    = response.data.total_featured;
+          $scope.total_published   = response.data.total_published;
+          $scope.total_draft       = response.data.total_draft;
+          $scope.total_trash       = response.data.total_trash;
         });
     };
     $scope.getCount();
@@ -187,7 +184,7 @@ app.controller('galleryCtrl', function($scope, $http) {
     //function to get user gallery data on the basis of search
     $scope.filter = function() {
         
-        list_url = '/gallery/get_gallery_post_list?';
+        list_url = '/dashboard/projects/get_gallery_post_list?';
 
         if(typeof $scope.viewTypeValue !== 'undefined' && $scope.viewTypeValue != '' && $scope.viewTypeValue != 'all'){
           list_url += '&view=' + $scope.viewTypeValue
@@ -200,7 +197,7 @@ app.controller('galleryCtrl', function($scope, $http) {
         if(typeof $scope.medium_category_id !== 'undefined' && $scope.medium_category_id != ''){
           list_url += '&medium_category_id=' + $scope.medium_category_id
         }
-
+        //console.log(list_url);
         $http.get(list_url).then(function (response) {
           $scope.gallery_data = response.data;
         });

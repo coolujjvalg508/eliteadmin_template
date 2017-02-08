@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203092534) do
+ActiveRecord::Schema.define(version: 20170208064309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,6 +145,13 @@ ActiveRecord::Schema.define(version: 20170203092534) do
     t.string   "hosts"
   end
 
+  create_table "collections", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "gallery_id", default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "comments", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -232,6 +239,14 @@ ActiveRecord::Schema.define(version: 20170203092534) do
     t.integer  "position"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer  "user_id",    default: 0
+    t.integer  "artist_id",  default: 0
+    t.string   "post_type"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "galleries", force: :cascade do |t|
@@ -501,6 +516,14 @@ ActiveRecord::Schema.define(version: 20170203092534) do
     t.boolean  "is_trash",    default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "post_likes", force: :cascade do |t|
+    t.integer  "user_id",    default: 0
+    t.integer  "post_id",    default: 0
+    t.string   "post_type"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "post_type_categories", force: :cascade do |t|

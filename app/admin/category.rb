@@ -2,7 +2,7 @@ ActiveAdmin.register Category do
 	
     menu label: 'Post Type Category', parent: 'Gallery'
 	permit_params :name, :parent_id, :image, :description, :slug
-
+actions :all, except: [:destroy]
 	
 	controller do 
 		def action_methods

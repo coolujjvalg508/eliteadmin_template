@@ -102,10 +102,10 @@
 
       <script type="text/javascript">
         $(document).ready(function(){
-           // var params = { width: 700, height: 450, autoStart: false };
-            //var myviewer = marmoset.embed( "<%= url %>", params ); 
+          //  var params = { width: 700, height: 450, autoStart: false };
+           // var myviewer = marmoset.embed( "<%= url %>", params ); 
           //   console.log(myviewer);
-            //$('#marmoset_span_'+"<%#= index %>").html(myviewer);
+           // $('#marmoset_span_'+"<%#= index %>").html(myviewer);
 
 
         })
@@ -171,14 +171,15 @@
 </div>
 <div class="wipdetails-right clearfix">
 <div class="clearfix marginB15 text-right">
-<div class="reply-down close-wip">
-  <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
-    <ul class="dropdown-menu">
-      <li><a href="#">Report abuse</a></li>
-    </ul>
-  </div>
+    <div class="reply-down close-wip">
+      <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
+        <ul class="dropdown-menu">
+          <li><a href="#">Report abuse</a></li>
+        </ul>
+      </div>
+    </div>
+    <a href='<%= index_gallery_path %>'><span class="close-wip"><i class="fa fa-times" aria-hidden="true"></i></span></a> 
 </div>
-<span class="close-wip"><i class="fa fa-times" aria-hidden="true"></i></span> </div>
 <div class="wip-profile row">
 <div class="col-md-3 col-sm-2 col-xs-3"><%= image_tag("user2.jpg",:alt => "user") %></div>
 <div class="col-md-9 col-sm-10 col-xs-9 row">
@@ -187,17 +188,35 @@
 </div>
 </div>
 <div class="clearfix marginB15">
-<button class="greenbtn" type="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Like</button>
-<button class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
-<!-- <button type="button" class="bluebtn" id='bookmark_button'><i class="fa fa-book" aria-hidden="true"></i> &nbsp; BookMark</button>
-  -->
-<a id="bookmarkme" href="#" rel="sidebar" title="CGmeetup:- <%= @gallery.user.firstname + ':' + @gallery.title %>" class="bluebtn"><i class="fa fa-book" aria-hidden="true"></i> &nbsp; BookMark</a>
+<button id='post_like_button' class="greenbtn" type="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Like</button>
+<button id='post_dislike_button' class="greenbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> &nbsp; Liked</button>
+
+<button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
+<button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
+
+<button type="button" class="bluebtn" data-toggle="modal" data-target="#bookmarkModal">
+  <i class="fa fa-book" aria-hidden="true"></i> BookMark
+</button>
+<!-- <button type="button" class="bluebtn"><i class="fa fa-book" aria-hidden="true"></i> &nbsp; BookMark</button> -->
 
 
 
 </div>
 <div class="wipdetail-area">
 <%= @gallery.user.summary.present? ? @gallery.user.summary : '' %>
+
+<div class="post-txt">In collections:  <span>
+  <%
+    @gallery.collection.each do |i|
+  %>
+  <a href='<%= collection_detail_path(i.id) %>'><%= i.title %></a> 
+  <%
+    end
+  %>
+
+
+</span></div>
+
 <div class="post-txt">Posted a month ago</div>
 </div>
 <div class="clearfix row wip-social">
@@ -225,13 +244,10 @@
 </div>
 <div class="clearfix marginB15 com-txt"><i class="fa fa-comments" aria-hidden="true"></i> &nbsp; 10 Comment</div>
 <div class="wipdetails-reply clearfix">
-<div class="reply-down">
-  <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
-    <ul class="dropdown-menu">
-      <li><a href="#">Report abuse</a></li>
-    </ul>
-  </div>
-</div>
+ <a class="pull-right closebtn" href='<%= index_gallery_path %>'><i class="fa fa-times" aria-hidden="true"></i></a> 
+   <a class="pull-right closebtn"><i data-toggle="dropdown" aria-hidden="true" class="fa fa-chevron-down"></i></a> 
+
+
 <div class="wipreplyleft"><%= image_tag("user1.jpg",:alt => "img",:class=>"img-responsive") %></div>
 <div class="wipreplyright clearfix">
   <div class="wipreply-title marginB5">Henrik Evensen</div>
@@ -305,21 +321,140 @@
 </div>
 </div>
 </div>
+    <div class="modal fade default-popup" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel">
+      <div class="modal-dialog" role="document">
+    <!--    <%#= form_for(@collection, :html => {:id => 'bookmark_form_popup'}, :url => create_collection_path) do |f|
+         %> -->
+         <%= form_for(@collection, :html => {:id => 'bookmark_form_popup'}, :url => 'javascript:void(0);') do |f|
+         %>
+         <%= f.hidden_field :gallery_id, value: @gallery.id %>
+          <div class="modal-content">
+            <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal"></button>
+              <h4 class="modal-title" id="exampleModalLabel">Add project to collection</h4>
+            </div>
+            <div class="modal-body">
+            
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Collection Name:</label>
+                  <%= f.text_field :title, :autofocus => true, :placeholder => "Collection Name", class:"form-control", :type => 'text' %>
+                  <span class="err-msg" id='bookmark_error_msg'><%= form_error_msg_for(@collection,:title, "Collection") %></span>
+                </div>
+               
+    
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="lightbtn" data-dismiss="modal">Close</button>
+              <button type="submit" class="lightbtn">Create</button>
+            </div>
+          </div>
+        <% end %>  
+
+
+      </div>
+    </div>
+
 </section>
 <%= javascript_include_tag "pgwslideshow" %>
 <script>
 $(document).ready(function() {
     $('.pgwSlideshow').pgwSlideshow();
-    $("#bookmarkme").click(function() {
-        if (window.sidebar) { // Mozilla Firefox Bookmark
-          window.sidebar.addPanel(location.href,document.title,"");
-        } else if(window.external) { // IE Favorite
-          window.external.AddFavorite(location.href,document.title); }
-        else if(window.opera && window.print) { // Opera Hotlist
-          this.title=document.title;
-          return true;
-        }
+
+    $('#bookmark_form_popup').on('submit',function(){
+             $.ajax({
+              type: "post",
+              url: "<%= create_collection_path %>" ,
+              data: $('#bookmark_form_popup').serialize(),
+              success: function(data){
+                  if(data.res == 0){
+                      $('#bookmark_error_msg').html('');
+                      $('#bookmark_error_msg').html(data.message);
+                  }else{
+                      window.location.reload(true);
+
+                  }
+              }
+            });
+    });
+
+      $.ajax({
+            type: "post",
+            url: "<%= check_save_like_path %>" ,
+            data: {'gallery_id': '<%= @gallery.id %>'},
+           success: function(data){
+              //alert(data.res)
+             if(data.res == 1) {
+                  $('#post_like_button').addClass('hidden');
+                  $('#post_dislike_button').removeClass('hidden');
+              }else{
+                   $('#post_like_button').removeClass('hidden');
+                   $('#post_dislike_button').addClass('hidden');
+              }
+
+            }
+        });
+
+
+
+    $('#post_like_button, #post_dislike_button').on('click',function(){
+      //alert('gh');
+            $.ajax({
+                type: "post",
+                url: "<%= save_like_path %>" ,
+                data: {'gallery_id': '<%= @gallery.id %>'},
+                success: function(data){
+                  //alert(data.res)
+                 if(data.res == 1) {
+                      $('#post_like_button').addClass('hidden');
+                      $('#post_dislike_button').removeClass('hidden');
+                  }else{
+                       $('#post_like_button').removeClass('hidden');
+                       $('#post_dislike_button').addClass('hidden');
+                  }
+
+                }
+            });
+    })
+
+
+
+    $.ajax({
+            type: "post",
+            url: "<%= check_follow_artist_path %>" ,
+            data: {'artist_id': '<%= @gallery.user.id %>'},
+            success: function(data){
+                //alert(data.res)
+               if(data.res == 1) {
+                        $('#follow_button').addClass('hidden');
+                        $('#unfollow_button').removeClass('hidden');
+                }else{
+                        $('#follow_button').removeClass('hidden');
+                        $('#unfollow_button').addClass('hidden');
+                }
+            }
       });
+
+    $('#follow_button, #unfollow_button').on('click',function(){
+            $.ajax({
+                type: "post",
+                url: "<%= follow_artist_path %>" ,
+                data: {'artist_id': '<%= @gallery.user.id %>'},
+                success: function(data){
+                  //alert(data.res)
+                 if(data.res == 1) {
+                      $('#follow_button').addClass('hidden');
+                      $('#unfollow_button').removeClass('hidden');
+                  }else{
+                       $('#follow_button').removeClass('hidden');
+                       $('#unfollow_button').addClass('hidden');
+                  }
+
+                }
+            });
+    })
+
+
+
 });
 var app = angular.module('myApp',[]);
     app.controller('galleryCtrl', function($scope, $http) {
