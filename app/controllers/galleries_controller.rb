@@ -19,8 +19,9 @@ class GalleriesController < ApplicationController
     end 
 
     def show
-        @gallery = Gallery.find_by(paramlink: params[:paramlink])
+        @gallery    = Gallery.find_by(paramlink: params[:paramlink])
         @collection = Collection.new
+        @report     = Report.new
        # abort(@gallery.post_type_category_id.to_json)
         if @gallery.post_type_category_id == 1
             render 'artshow'

@@ -4,7 +4,6 @@ class UploadVideo < ActiveRecord::Base
 	#belongs_to :uploadvideoable, polymorphic: false
 
 	
-		
 	#after_save :create_thumbnail 
 
 	
@@ -21,4 +20,5 @@ class UploadVideo < ActiveRecord::Base
 	#	a = movie.screenshot("#{dir_path}/thumbnail.jpg", :seek_time => 2)
 		
 	#end
+
 end

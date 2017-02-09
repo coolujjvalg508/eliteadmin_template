@@ -174,7 +174,7 @@
     <div class="reply-down close-wip">
       <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
         <ul class="dropdown-menu">
-          <li><a href="#">Report abuse</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#reportAbuseModal">Report abuse</a></li>
         </ul>
       </div>
     </div>
@@ -354,6 +354,48 @@
       </div>
     </div>
 
+
+
+  <div class="modal fade default-popup" id="reportAbuseModal" tabindex="-1" role="dialog" aria-labelledby="reportAbuseModalLabel">
+      <div class="modal-dialog" role="document">
+    <!--    <%#= form_for(@collection, :html => {:id => 'bookmark_form_popup'}, :url => create_collection_path) do |f|
+         %> -->
+         <%= form_for(@report, :html => {:id => 'report_abuse_popup'}, :url => 'javascript:void(0);') do |f|
+         %>
+         <%= f.hidden_field :post_id, value: @gallery.id %>
+          <div class="modal-content">
+            <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal"></button>
+              <h4 class="modal-title" id="exampleModalLabel">Report Abuse</h4>
+            </div>
+            <div class="modal-body">
+                  <center> <span class="succ-msg" id='report_abuse_succ_msg'></center>
+                   <div class="form-group">
+                        <label for="recipient-name" class="control-label1">This is:</label></br>
+                       <%= f.radio_button :report_issue   , 'Spam', :checked => true %> Spam</br>
+                       <%= f.radio_button :report_issue   , 'Inappropriate' %> Inappropriate
+                  </div>
+                   <div class="form-group">
+                    <label for="recipient-name" class="control-label">Reporting copyright infringement? <a href='#'>Read this first</a></label>
+                   </div>
+                  <div class="form-group">
+                    <%= f.text_area :description,  style:'height:150px', class: 'form-control  message-form1', id: 'description' %>
+                    <span class="err-msg" id='report_error_msg'><%= form_error_msg_for(@report,:title, "Report") %></span>
+                  </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="lightbtn" data-dismiss="modal">Close</button>
+              <button type="submit" class="lightbtn">Report abuse</button>
+            </div>
+          </div>
+        <% end %>  
+
+
+      </div>
+    </div>
+
+
+
 </section>
 <%= javascript_include_tag "pgwslideshow" %>
 <script>
@@ -374,6 +416,19 @@ $(document).ready(function() {
 
                   }
               }
+            });
+    });
+
+
+    $('#report_abuse_popup').on('submit',function(){
+             $.ajax({
+              type: "post",
+              url: "<%= create_report_path %>" ,
+              data: $('#report_abuse_popup').serialize(),
+              success: function(data){
+                    $('#report_abuse_succ_msg').html(data.message);
+              }
+          
             });
     });
 

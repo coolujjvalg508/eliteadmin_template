@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   get 'user/user_portfolio'
   get 'user/user_setting'
   get 'user/edit_profile'
+
   resources :user, only: [:edit, :update]
 
 
@@ -100,6 +101,10 @@ Rails.application.routes.draw do
     get  'collection/:paramlink/collections'          => 'collections#show', as: 'collection_detail'
     get  'collectiondelete'                           => 'collections#collectiondelete', as: 'collectiondelete'
 
+    resources :reports
+
+    get  'report'                                     => 'reports#index', as: 'index_report'
+    post 'create_report'                              => 'reports#new', as: 'create_report'
 
 
 

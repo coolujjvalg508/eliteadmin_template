@@ -32,10 +32,10 @@ class CollectionsController < ApplicationController
           end 
         render json: result, status: 200
       #redirect_to request.referer
-         
+          
     end  
 
-    def show
+    def show 
         #abort(params.to_json)
         collection_id = params[:paramlink]
         @collection = Collection.find(collection_id)    
