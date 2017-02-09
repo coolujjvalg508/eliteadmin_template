@@ -56,7 +56,7 @@ gem 'tinymce-rails'
 
 
  gem 'video_info'
- gem 'streamio-ffmpeg'
+ #gem 'streamio-ffmpeg'
 
 
 # Use ActiveModel has_secure_password
