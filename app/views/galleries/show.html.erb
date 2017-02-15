@@ -194,7 +194,7 @@
 <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
 <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
 
-<button type="button" class="bluebtn" data-toggle="modal" data-target="#bookmarkModal">
+<button id='bookmarkbutton' type="button" class="bluebtn" data-toggle="modal" data-target="#bookmarkModal">
   <i class="fa fa-book" aria-hidden="true"></i> BookMark
 </button>
 <!-- <button type="button" class="bluebtn"><i class="fa fa-book" aria-hidden="true"></i> &nbsp; BookMark</button> -->
@@ -341,6 +341,7 @@
                   <span class="err-msg" id='bookmark_error_msg'><%= form_error_msg_for(@collection,:title, "Collection") %></span>
                 </div>
                
+                <div id='get_already_collection'></div>
     
             </div>
             <div class="modal-footer">
@@ -401,6 +402,19 @@
 <script>
 $(document).ready(function() {
     $('.pgwSlideshow').pgwSlideshow();
+
+      $('#bookmarkbutton').on('click',function(){
+/*        $.ajax({
+                type: "get",
+                url: "<%= get_all_collection_path %>" ,
+               success: function(data){
+                  $('#get_already_collection').html(data.result)
+
+                }
+            });*/
+      })
+
+
 
     $('#bookmark_form_popup').on('submit',function(){
              $.ajax({

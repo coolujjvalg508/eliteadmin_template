@@ -15,37 +15,45 @@
 
         <div class="clearfix downboxcollection">
           <div class="clearfix">
-          <%  if @collection.gallery.present? %>
+          <%  if @collectiondetail %>
             <ul>
-                <% 
+                <% @collectiondetail.each_with_index do | collectiondetail, index |
                    src = '' 
-                   @collection.gallery.images.each_with_index do | collectionimage, index |
+                    collectiondetail.gallery.images.each_with_index do | collectionimage, index |
                           if index == 1
                               break
                           end  
                           src =  collectionimage.image.large_image.url
                       end  
-                                   
+
+
+                  
                   %>
                     <li class="clearfix">
                         <div class="downwrap">
-                          <a href='<%= show_gallery_path(@collection.gallery.paramlink) %>'>
+                          <a href='<%= show_gallery_path(collectiondetail.gallery.paramlink) %>'>
                             <img src="<%= src %>" class="img-responsive tutorial-img-height">
                           </a>
                         </div>
                         <div class="padding10 clearfix">
                             <div class="down-txt">
-                              <span><%= link_to @collection.title, show_gallery_path(@collection.gallery.paramlink) %></span> <span class="pull-right tut-price"></span>
+                              <span><%= link_to collectiondetail.gallery.title, show_gallery_path(collectiondetail.gallery.paramlink) %></span> <span class="pull-right tut-price"></span>
                             </div>
                             <div class="clearfix down-name">
                               <div class="pull-left"><span class="price-txt1"></span></div>
                             </div>
                         </div>
                     </li>
+
+
+
          
             </ul>
 
-            <% end %>
+            <% end 
+              end
+
+            %>
           </div>
         </div>
 

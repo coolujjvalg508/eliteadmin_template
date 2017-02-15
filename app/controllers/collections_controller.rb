@@ -12,7 +12,7 @@ class CollectionsController < ApplicationController
     end
 
     def new
-          # abort(params.to_json)
+          #abort(params.to_json)
           gallery_id              = params[:collection][:gallery_id].present? ?  params[:collection][:gallery_id] : 0
           title                   = params[:collection][:title].strip 
           is_collection_exist     = Collection.where(title: title)
@@ -24,7 +24,10 @@ class CollectionsController < ApplicationController
               result = {'res' => 0, 'message' => 'Title already exist.'}
              # render json: {'res' => 0, 'message' => 'Title already exist.'}, status: 200
           else
-              Collection.create(gallery_id: gallery_id, title: title)
+              collectionrec = Collection.create(gallery_id: 0, title: title)
+              if gallery_id != 0
+                  CollectionDetail.create(gallery_id: gallery_id, collection_id: collectionrec.id)
+              end    
               result = {'res' => 1, 'message' => 'Post has successfully added to collection.'}
               #flash[:notice] = 'Post has successfully added to collection.'
              # redirect_to request.referer
@@ -37,8 +40,10 @@ class CollectionsController < ApplicationController
 
     def show 
         #abort(params.to_json)
-        collection_id = params[:paramlink]
-        @collection = Collection.find(collection_id)    
+        collection_id     = params[:paramlink]
+        @collection       = Collection.find(collection_id)
+        @collectiondetail = CollectionDetail.where(collection_id: collection_id)
+       # abort(@collectiondetail.to_json)
    end  
 
    def update_collection
@@ -62,6 +67,12 @@ class CollectionsController < ApplicationController
         end
         redirect_to index_collection_path
     end
+
+   def get_all_collection
+
+      #  abort(params.to_json)
+        
+   end
 
     
 end

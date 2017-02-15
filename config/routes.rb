@@ -100,6 +100,7 @@ Rails.application.routes.draw do
     patch 'update_collection'                         => 'collections#update_collection', as: 'update_collection'
     get  'collection/:paramlink/collections'          => 'collections#show', as: 'collection_detail'
     get  'collectiondelete'                           => 'collections#collectiondelete', as: 'collectiondelete'
+    get  'get_all_collection'                         => 'collections#get_all_collection', as: 'get_all_collection'
 
     resources :reports
 

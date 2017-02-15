@@ -12,16 +12,27 @@
           <div class="clearfix">
             <ul>
                 <% 
-                @collection.each do |collection|  
 
+                @collection.each do |collection|  
+                   # abort(collection.collection_detail.to_json)
                     src = '' 
-                    if collection.gallery.present?
-                      collection.gallery.images.each_with_index do | collectionimage, index |
+                     if collection.collection_detail.present?
+
+                        collection.collection_detail.each_with_index do | collectiondetail, index |
+                            collectiondetail.gallery.images.each_with_index do | collectionimage, index |
+                                if index == 1
+                                    break
+                                end  
+                                 src =  collectionimage.image.large_image.url
+                            end
+                        end  
+
+                    /  collection.gallery.images.each_with_index do | collectionimage, index |
                           if index == 1
                               break
                           end  
                           src =  collectionimage.image.large_image.url
-                      end  
+                      end  /
                     end                      
                   %>
                     <li class="clearfix">
