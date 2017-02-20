@@ -95,12 +95,12 @@ Rails.application.routes.draw do
 
    resources :collections
     
-    get  'collection'                                 => 'collections#index', as: 'index_collection'
-    post 'create_collection'                          => 'collections#new', as: 'create_collection'
-    patch 'update_collection'                         => 'collections#update_collection', as: 'update_collection'
-    get  'collection/:paramlink/collections'          => 'collections#show', as: 'collection_detail'
-    get  'collectiondelete'                           => 'collections#collectiondelete', as: 'collectiondelete'
-    get  'get_all_collection'                         => 'collections#get_all_collection', as: 'get_all_collection'
+    get  'bookmarks'                                 => 'collections#index', as: 'index_collection'
+    post 'create_bookmark'                          => 'collections#new', as: 'create_collection'
+    patch 'update_bookmark'                         => 'collections#update_collection', as: 'update_collection'
+    get  'bookmark/:paramlink/bookmarks'          => 'collections#show', as: 'collection_detail'
+    get  'bookmarkdelete'                           => 'collections#collectiondelete', as: 'collectiondelete'
+    get  'get_all_bookmark'                         => 'collections#get_all_collection', as: 'get_all_collection'
 
     resources :reports
 

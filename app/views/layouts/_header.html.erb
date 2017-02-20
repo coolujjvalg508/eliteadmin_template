@@ -47,10 +47,29 @@
 		</ul>
 	  </li>
 	</ul>
-	<ul class="nav navbar-nav navbar-right text-uppercase">
+	<ul class="nav navbar-nav navbar-right">
 
 		<% if user_signed_in? %>
-			<li><%= link_to('<span class="fa fa-sign-out marginR5"></span>Signout'.html_safe, destroy_user_session_path, :method => :get) %></li>
+            <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-bell fa-lg" aria-hidden="true"></i> <span class="noti-box">5</span></a></li>
+          <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> <span class="noti-box">25</span></a></li>
+          <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
+          <li class="profile hidden-sm text-center"><a href="#" class="dropdown-toggle padding" data-toggle="dropdown" ><span class="hidden-xs"> <span class="pull-left"><%= image_tag "user-profile.jpg" , border: 1,alt:"user profile" %><!-- <img src="user-profile.jpg" alt="user" style="border:1px solid #616262;"> --></span> <span class="fa fa-chevron-down pull-left"></span></span> <span class="hidden-lg hidden-md hidden-sm">My CGMeetup <span class="fa fa-chevron-down"></span></span></a>
+            <ul class="dropdown-menu text-uppercase">
+              <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> My Profile</a></li>
+              <li><a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile</a></li>
+              <li><a href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Manage Portfolio</a></li>
+              <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Website Builder</a></li>
+              <li class="divider"></li>
+              <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Connections</a></li>
+              <li><%= link_to('<span class="fa fa-clipboard" aria-hidden="true"></span>&nbsp&nbsp&nbspBookmarks'.html_safe, :action=>"index", :controller=>"collections" ) %></li>
+              <li class="divider"></li>
+              <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a></li>
+              <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> Invoices</a></li>
+              <li class="divider"></li>
+              <li><%= link_to('<span class="fa fa-sign-out"></span>&nbsp&nbspSignout'.html_safe, destroy_user_session_path, :method => :get) %></li>
+            </ul>
+          </li>
+			<!-- <li><%= link_to('<span class="fa fa-sign-out marginR5"></span>Signout'.html_safe, destroy_user_session_path, :method => :get) %></li> -->
 		<% else %>
 			<li> <%= link_to '<span class="fa fa-users marginR5"></span>Signup'.html_safe, new_user_registration_path %>
 			<!-- <a href="signup.html"><span class="fa fa-users marginR5"></span> Signup</a></li> -->

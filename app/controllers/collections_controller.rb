@@ -69,9 +69,9 @@ class CollectionsController < ApplicationController
     end
 
    def get_all_collection
-
-      #  abort(params.to_json)
-        
+     
+      #  @collection     = Collection.all
+      #render json: {'result' => @collection}, status: 200
    end
 
     

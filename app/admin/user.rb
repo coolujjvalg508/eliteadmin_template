@@ -339,6 +339,16 @@ ActiveAdmin.register User do
 	   column 'Banned' do |ub|
 		  (ub.is_deleted == 1) ? 'YES' : 'NO'
 	   end
+
+	   column 'Restrict/Permit' do |user|
+		 
+		if(user.is_deleted == 1)
+
+			link_to "Permit User", 'javascript:void(0);', method: :get, id: 'removebanned',title: user.id
+		else
+			link_to "Restrict User", 'javascript:void(0);', method: :get, id: 'userbanned',title: user.id
+		end
+	   end
 		
 		actions
   end
@@ -365,7 +375,8 @@ ActiveAdmin.register User do
       row :city
       row 'Banned' do |ub|
 		  (ub.is_deleted == 1) ? 'YES' : 'NO'
-	   end
+	  end
+	  
       row :image do |cat|
         unless !cat.image.present?
           image_tag(cat.try(:image).try(:url, :event_small))
