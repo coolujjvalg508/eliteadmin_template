@@ -447,7 +447,7 @@
                                     <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
                                     <div class="col-md-6 col-sm-6 col-xs-6 timeperiod">
                                        
-                                        <%= f.select(:skill_expertise, options_for_select(JobSkill.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:skill_expertise] : @user[:skill_expertise]), {:include_blank => "-- Select Skills --"}, {'class' => 'form-control multi-select', multiple: true})  %>
+                                        <%= f.select(:skill_expertise, options_for_select(JobSkill.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:skill_expertise] : @user[:skill_expertise]), {:include_blank => "-- Select Skills --"}, {'class' => 'form-control multi-select js-chosen-select-multi input', multiple: true})  %>
 
                                         <span class="err-msg"><%= error_message(@user, :skill_expertise) %></span>
                                     </div>
@@ -456,7 +456,7 @@
                                     <label class="col-md-12 col-sm-12 col-xs-12">Software expertise needed for job:</label>
                                     <div class="col-md-6 col-sm-12 col-xs-12">
                                         
-                                        <%= f.select(:software_expertise, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:software_expertise] : @user[:software_expertise]), {:include_blank => "-- Select Software Expertise --"}, {'class' => 'form-control multi-select', multiple: true})  %>
+                                        <%= f.select(:software_expertise, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id), params[:user].present? ? params[:user][:software_expertise] : @user[:software_expertise]), {:include_blank => "-- Select Software Expertise --"}, {'class' => 'form-control multi-select js-chosen-select-multi input', multiple: true})  %>
                                         <span class="err-msg"><%= error_message(@user, :software_expertise) %></span>
                                     </div>
                                 </div>
