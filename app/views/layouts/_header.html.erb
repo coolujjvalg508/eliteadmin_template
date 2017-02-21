@@ -68,7 +68,7 @@
               <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Connections</a></li>
               <li><%= link_to('<i class="fa fa-clipboard" aria-hidden="true"></i> Bookmarks'.html_safe, :action=>"index", :controller=>"collections" ) %></li>
               <li class="divider"></li>
-              <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a></li>
+              <li><%= link_to('<i class="fa fa-cog" aria-hidden="true"></i> Settings'.html_safe, :action=>"user_setting", :controller=>"user" ) %></li>
               <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> Invoices</a></li>
               <li class="divider"></li>
               <li><%= link_to('<i class="fa fa-sign-out"></i> Signout'.html_safe, destroy_user_session_path, :method => :get) %></li>
