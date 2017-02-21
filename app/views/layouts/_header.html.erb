@@ -50,28 +50,33 @@
 	<ul class="nav navbar-nav navbar-right">
 
 		<% if user_signed_in? %>
-            <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-bell fa-lg" aria-hidden="true"></i> <span class="noti-box">5</span></a></li>
+          <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-bell fa-lg" aria-hidden="true"></i> <span class="noti-box">5</span></a></li>
           <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> <span class="noti-box">25</span></a></li>
           <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
-          <li class="profile hidden-sm text-center"><a href="#" class="dropdown-toggle padding" data-toggle="dropdown" ><span class="hidden-xs"> <span class="pull-left"><%= image_tag "user-profile.jpg" , border: 1,alt:"user profile" %><!-- <img src="user-profile.jpg" alt="user" style="border:1px solid #616262;"> --></span> <span class="fa fa-chevron-down pull-left"></span></span> <span class="hidden-lg hidden-md hidden-sm">My CGMeetup <span class="fa fa-chevron-down"></span></span></a>
+          <li class="profile hidden-sm text-center"><a href="#" class="dropdown-toggle padding" data-toggle="dropdown" ><span class="hidden-xs"> <span class="pull-left">
+          <%#= abort(current_user.to_json) %>
+          <%= image_tag current_user.image? ? current_user.image.software_used.url : 'user-profile.jpg'  , border: 1, alt:"user profile" %>
+          <!-- <img src="user-profile.jpg" alt="user" style="border:1px solid #616262;"> --></span> <span class="fa fa-chevron-down pull-left"></span></span> <span class="hidden-lg hidden-md hidden-sm">My CGMeetup <span class="fa fa-chevron-down"></span></span></a>
             <ul class="dropdown-menu text-uppercase">
-              <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> My Profile</a></li>
-              <li><a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile</a></li>
-              <li><a href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> Manage Portfolio</a></li>
+              <li>
+				<%= link_to('<i class="fa fa-user" aria-hidden="true"></i> My Profile'.html_safe, :action=>"user_profile_info", :controller=>"user" ) %></li>
+
+              <li><%= link_to('<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile'.html_safe, :action=>"edit_profile", :controller=>"user" ) %></li>
+              <li><%= link_to('<i class="fa fa-picture-o" aria-hidden="true"></i> Manage Portfolio'.html_safe, :action=>"user_portfolio", :controller=>"user" ) %></li>
               <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Website Builder</a></li>
               <li class="divider"></li>
               <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Connections</a></li>
-              <li><%= link_to('<span class="fa fa-clipboard" aria-hidden="true"></span>&nbsp&nbsp&nbspBookmarks'.html_safe, :action=>"index", :controller=>"collections" ) %></li>
+              <li><%= link_to('<i class="fa fa-clipboard" aria-hidden="true"></i> Bookmarks'.html_safe, :action=>"index", :controller=>"collections" ) %></li>
               <li class="divider"></li>
               <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a></li>
               <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> Invoices</a></li>
               <li class="divider"></li>
-              <li><%= link_to('<span class="fa fa-sign-out"></span>&nbsp&nbspSignout'.html_safe, destroy_user_session_path, :method => :get) %></li>
+              <li><%= link_to('<i class="fa fa-sign-out"></i> Signout'.html_safe, destroy_user_session_path, :method => :get) %></li>
             </ul>
           </li>
-			<!-- <li><%= link_to('<span class="fa fa-sign-out marginR5"></span>Signout'.html_safe, destroy_user_session_path, :method => :get) %></li> -->
+			<!-- <li><%= link_to('<i class="fa fa-sign-out marginR5"></i> Signout'.html_safe, destroy_user_session_path, :method => :get) %></li> -->
 		<% else %>
-			<li> <%= link_to '<span class="fa fa-users marginR5"></span>Signup'.html_safe, new_user_registration_path %>
+			<li> <%= link_to '<i class="fa fa-users marginR5"></i> Signup'.html_safe, new_user_registration_path %>
 			<!-- <a href="signup.html"><span class="fa fa-users marginR5"></span> Signup</a></li> -->
 		  	<li><a data-toggle="modal" href="#login-popup"><span class="glyphicon glyphicon-log-in marginR5 "></span> SignIn</a></li>	
 		<% end %>	
@@ -93,7 +98,7 @@
 		  <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
 		  <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i> Google+</a></li>
 		  <li class="divider"></li>
-		  <li><a href="#"><i class="fa fa-gavel" aria-hidden="true"></i> Tearms of Services</a></li>
+		  <li><a href="#"><i class="fa fa-gavel" aria-hidden="true"></i> Terms of Services</a></li>
 		  <li><a href="#"><i class="fa fa-lock" aria-hidden="true"></i> Privacy Policy</a></li>
 		</ul>
 	  </li>

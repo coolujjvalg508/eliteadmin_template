@@ -7,7 +7,7 @@
         <center>
          <!--   <button type="button" class="lightbtn txt16" data-toggle="modal" data-target="#editCollectionModal">Edit</button> -->
             <a href='' class='lightbtn txt16' data-toggle="modal" data-target="#editCollectionModal">Update</a>
-           <%= link_to 'Delete'.html_safe, collectiondelete_path(@collection.id), class: 'lightbtn txt16', data: { confirm: "Are you sure you want to delete this collection?" } %>
+           <%= link_to 'Delete'.html_safe, collectiondelete_path(@collection.id), class: 'lightbtn txt16', data: { confirm: "Are you sure you want to delete this bookmark?" } %>
            <!-- <button type="button" class="lightbtn txt16" data-toggle="modal" data-target="#deleteCollectionModal">Delete</button> -->
         </center>
       </div>
@@ -59,7 +59,7 @@
 
   </div>
 
-      <div class="modal fade default-popup" id="editCollectionModal" tabindex="-1" role="dialog" aria-labelledby="editCollectionModalLabel">
+  <div class="modal fade default-popup" id="editCollectionModal" tabindex="-1" role="dialog" aria-labelledby="editCollectionModalLabel">
       <div class="modal-dialog" role="document">
         <%= form_for(@collection, :html => {:id => 'edit_bookmark_form_popup'}, :url => 'javascript:void(0);') do |f| %>
         <%= f.hidden_field :collection_id, value: @collection.id %> 
@@ -104,9 +104,8 @@ $(document).ready(function() {
                       window.location.reload(true);
 
                   }
-                  
-
               }
+
             });
     });
 

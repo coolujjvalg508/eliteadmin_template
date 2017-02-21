@@ -65,8 +65,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   version :software_used do
-    process :resize_to_fill => [22, 23]
+    process :resize_to_fill => [28, 28]
   end
+
+
 
 / 
   version :carousel do

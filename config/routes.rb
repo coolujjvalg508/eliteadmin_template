@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'comment/index'
 
   get 'content/index'
+  get 'users/login'
 
 
   get 'tutorials'=> 'tutorial#index'

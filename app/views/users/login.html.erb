@@ -1,0 +1,62 @@
+<div class="container login-page">
+  <h2 class="text-center">Sign In</h2>
+   <div class="col-md-12 signin-alert1 err-msg padding text-center"></div> 
+  <div id="login-popup">
+    <div class="modal-dialog"> 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Sign in With Your Email</h4>
+        </div>
+        <div class="modal-body">
+         <%= form_for(resource, :as => resource_name, :html => {:id => 'log_in_form_popup1'}, :url => user_session_path, :remote => :true, :format => :json) do |f| %>
+            <div class="form-group">
+              <label for="email">Your email</label>
+               <%= f.email_field :email, :autofocus => true, :placeholder => "email@example.com", :id => 'login_email', class: "form-control", :type => 'email' %>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Password:</label>
+               <%= f.password_field :password, :placeholder => "password", :id => 'login_password', class: "form-control" %>
+            </div>
+
+            <div class="checkbox">
+                  <div class="checkbox-btn">
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me, 'Stay signed in' %> 
+                 <%= link_to "Forgot password?", new_user_password_path(resource_name), class: "pull-right blue-txt" %></div>
+            </div>
+            <%= f.button '<i class="fa fa-sign-in blue-txt" aria-hidden="true"></i> Sign In'.html_safe, class: "lightbtn txt16" %>
+ 
+          <% end %>
+          <div class="follow-loginwrap clearfix text-center">
+            <div class="or-txt">or</div>
+            <a href="<%= omniauth_authorize_path(:user, :facebook) %>" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> 
+
+
+            <a href="<%= omniauth_authorize_path(:user, :twitter) %>" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a>  </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+        
+    $(document).on('submit', '#log_in_form_popup1', function(e) {
+
+    }).on('ajax:success', '#log_in_form_popup1', function(e, data, status, xhr) {
+        if(status == 'success'){
+            window.location.href = '<%= index_gallery_path %>';
+          }else{
+            $('.signin-alert1').html('Invalid email or password.');
+            $('.signin-alert1').show();
+        }
+      
+    }).on('ajax:error', '#log_in_form_popup1', function(e, data, status, xhr) {
+      $('.signin-alert1').html('Invalid email or password.');
+      $('.signin-alert1').show();
+      
+    });        
+</script>

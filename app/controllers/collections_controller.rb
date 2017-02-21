@@ -28,7 +28,7 @@ class CollectionsController < ApplicationController
               if gallery_id != 0
                   CollectionDetail.create(gallery_id: gallery_id, collection_id: collectionrec.id)
               end    
-              result = {'res' => 1, 'message' => 'Post has successfully added to collection.'}
+              result = {'res' => 1, 'message' => 'Post has successfully added to bookmark.'}
               #flash[:notice] = 'Post has successfully added to collection.'
              # redirect_to request.referer
 
