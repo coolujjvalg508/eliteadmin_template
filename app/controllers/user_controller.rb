@@ -100,7 +100,7 @@ class UserController < ApplicationController
             end
 
             flash[:notice] = "Professional experiences updated successfully."   
-            redirect_to user_edit_profile_path   
+            redirect_to edit_profile_path   
 
         elsif params[:commit] == "ProductionExperience"    
 
@@ -125,7 +125,7 @@ class UserController < ApplicationController
             end
 
             flash[:notice] = "Production experiences updated successfully."   
-            redirect_to user_edit_profile_path  
+            redirect_to edit_profile_path  
 
         elsif params[:commit] == "EducationExperience"    
 
@@ -150,7 +150,7 @@ class UserController < ApplicationController
             end
 
             flash[:notice] = "Education experiences updated successfully."   
-            redirect_to user_edit_profile_path                  
+            redirect_to edit_profile_path                  
 
         else
 
@@ -183,7 +183,7 @@ class UserController < ApplicationController
                     flash[:notice] = "Successfully updated."
                 end 
 
-                redirect_to user_edit_profile_path
+                redirect_to edit_profile_path
             else
                 render 'edit_profile'
             end
