@@ -31,7 +31,7 @@
                         <div class="panel-body">
                             <div class="row">
 <!-- Basic Information form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'image_form' }) do |f| %>
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'image_form' }) do |f| %>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="form-group">
                                         <label for="firstname">First name</label>
@@ -110,7 +110,7 @@
                         <div class="panel-body">
                             <div class="row">
 <!-- Professional Summary form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'contact_information_form' }) do |f|  %>
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'contact_information_form' }) do |f|  %>
 
                                 <div class="col-md-6 col-sm-6 col-xs-12">
 
@@ -162,7 +162,7 @@
                         <div class="panel-heading">Professional Summary</div>
                         <div class="panel-body">
 <!-- Professional Summary form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'professional_summary_form' }) do |f| %>
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'professional_summary_form' }) do |f| %>
                             <div class="form-group">
                                 <label>Summary</label>
                                 <%= f.text_area :summary, class: 'form-control summary-teatarea', id: 'summary', placeholder: 'A summary of your professional skill and experience as an artist' %>
@@ -178,7 +178,7 @@
                         <div class="panel-body">
                             <div class="row">
 <!-- Demo Reel form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'demo_reel_form' }) do |f| %>
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'demo_reel_form' }) do |f| %>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label for="text">Demo Reel - YouTube or Vimeo URL</label>
@@ -199,7 +199,7 @@
                         <div class="panel-body">
                             <div class="row">
 <!-- Professional Experience form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'professional_experience_form' }) do |f| %>
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'professional_experience_form' }) do |f| %>
     <%= f.fields_for :professional_experience do |pe| %>
                                 <div class="clearfix experience-pro marginB15">
                                     <div class="col-md-12">
@@ -315,7 +315,7 @@
                         <div class="panel-body">
                             <div class="row">
 <!-- Production Experience form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'production_experience_form' }) do |f| %>
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'production_experience_form' }) do |f| %>
     <%= f.fields_for :production_experience do |pe| %>
                                     <div class="col-md-12 experience-pro marginB15">
                                         <button type="button" class="btn btn-info marginR5 marginB10 text-uppercase" ng-click="addProductionExperience()"><i class="fa fa-plus marginR5" aria-hidden="true"></i> Add Position</button>
@@ -368,7 +368,7 @@
                         <div class="panel-body">
                             <div class="row">
 <!-- Education Experience form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'education_experience_form' }) do |f| %>
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'education_experience_form' }) do |f| %>
     <%= f.fields_for :education_experience do |pe| %>
                                 <div class="clearfix experience-pro marginB15">
                                     <div class="col-md-12">
@@ -441,7 +441,7 @@
                         <div class="panel-heading">Skills</div>
                         <div class="panel-body">
 <!-- Skills form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'skills_form' }) do |f| %>
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'skills_form' }) do |f| %>
                             <div class="row">
                                 <div class="form-group clearfix">
                                     <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
@@ -470,7 +470,7 @@
                         <div class="panel-heading">Contact & Social Media</div>
                         <div class="panel-body">
 <!-- Skills form start -->
-<%= form_for(@user, url: user_edit_profile_path(@user), html: { method: :put, id: 'social_media_form' }) do |f| %>                        
+<%= form_for(@user, url: edit_profile_path(@user), html: { method: :put, id: 'social_media_form' }) do |f| %>                        
                             <div class="row">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="form-group">

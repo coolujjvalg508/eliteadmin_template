@@ -25,7 +25,7 @@
                   <%= f.label :remember_me, 'Stay signed in' %> 
                  <%= link_to "Forgot password?", new_user_password_path(resource_name), class: "pull-right blue-txt" %></div>
             </div>
-            <%= f.button '<i class="fa fa-sign-in blue-txt" aria-hidden="true"></i> Sign In'.html_safe, class: "lightbtn txt16" %>
+            <%= f.submit "Sign In", class: "btn btn-success txt16" %>
  
           <% end %>
           <div class="follow-loginwrap clearfix text-center">
@@ -48,7 +48,7 @@
 
     }).on('ajax:success', '#log_in_form_popup1', function(e, data, status, xhr) {
         if(status == 'success'){
-            window.location.href = '<%= index_gallery_path %>';
+            window.location.href = '<%= all_activity_path %>';
           }else{
             $('.signin-alert1').html('Invalid email or password.');
             $('.signin-alert1').show();

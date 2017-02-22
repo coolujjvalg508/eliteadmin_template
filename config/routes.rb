@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
   get 'user-signup' => 'user#signup'
   get 'forgot-password'=> 'user#forgotpassword'
-  get 'user/all_activity'
+  
   get 'user/dashboard'
   get 'user/message'
   get 'user/index'
@@ -68,9 +68,13 @@ Rails.application.routes.draw do
   get 'user/user_like'
   get 'user/user_profile_info'
   get 'user/user_statistics'
-  get 'user/user_portfolio'
-  get 'user/user_setting'
-  get 'user/edit_profile'
+  
+
+  get 'activity' => 'user#all_activity', as: 'all_activity' 
+  get 'setting' => 'user#user_setting', as: 'user_setting' 
+  get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
+  get 'profile' => 'user#user_profile_info', as: 'my_profile' 
+  get 'edit-profile' => 'user#edit_profile', as: 'edit_profile' 
 
   resources :user, only: [:edit, :update]
 
@@ -96,10 +100,10 @@ Rails.application.routes.draw do
 
    resources :collections
     
-    get  'bookmarks'                                 => 'collections#index', as: 'index_collection'
+    get  'bookmarks'                                => 'collections#index', as: 'index_collection'
     post 'create_bookmark'                          => 'collections#new', as: 'create_collection'
     patch 'update_bookmark'                         => 'collections#update_collection', as: 'update_collection'
-    get  'bookmark/:paramlink/bookmarks'          => 'collections#show', as: 'collection_detail'
+    get  'bookmark/:paramlink/bookmarks'            => 'collections#show', as: 'collection_detail'
     get  'bookmarkdelete'                           => 'collections#collectiondelete', as: 'collectiondelete'
     get  'get_all_bookmark'                         => 'collections#get_all_collection', as: 'get_all_collection'
 

@@ -24,7 +24,7 @@
 		  </li>
 		  <li><a href="#" target="_self"><i class="fa fa-fw fa-search fa-pad-right"></i> Search</a></li>
 		  <li class="divider hidden-xs hidden-sm"></li>
-		  <li><%= link_to '<i class="fa fa-heartbeat fa-lg fa-pad-right"></i>All Activity'.html_safe, user_all_activity_path %>
+		  <li><%= link_to '<i class="fa fa-heartbeat fa-lg fa-pad-right"></i>All Activity'.html_safe, all_activity_path %>
 		  </li>
 		  <li><%= link_to '<i class="fa fa-trophy fa-lg fa-pad-right"></i>Challenges'.html_safe, gallery_challenge_path %></li>
 		  <li><%= link_to '<i class="fa fa-fw fa-bookmark fa-pad-right"></i> BookMarks'.html_safe, bookmark_path %></li>
@@ -59,16 +59,16 @@
           <!-- <img src="user-profile.jpg" alt="user" style="border:1px solid #616262;"> --></span> <span class="fa fa-chevron-down pull-left"></span></span> <span class="hidden-lg hidden-md hidden-sm">My CGMeetup <span class="fa fa-chevron-down"></span></span></a>
             <ul class="dropdown-menu text-uppercase">
               <li>
-				<%= link_to('<i class="fa fa-user" aria-hidden="true"></i> My Profile'.html_safe, :action=>"user_profile_info", :controller=>"user" ) %></li>
+				<%= link_to('<i class="fa fa-user" aria-hidden="true"></i> My Profile'.html_safe, my_profile_path ) %></li>
 
-              <li><%= link_to('<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile'.html_safe, :action=>"edit_profile", :controller=>"user" ) %></li>
-              <li><%= link_to('<i class="fa fa-picture-o" aria-hidden="true"></i> Manage Portfolio'.html_safe, :action=>"user_portfolio", :controller=>"user" ) %></li>
+              <li><%= link_to('<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile'.html_safe, edit_profile_path) %></li>
+              <li><%= link_to('<i class="fa fa-picture-o" aria-hidden="true"></i> Manage Portfolio'.html_safe, user_portfolio_path) %></li>
               <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Website Builder</a></li>
               <li class="divider"></li>
               <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Connections</a></li>
-              <li><%= link_to('<i class="fa fa-clipboard" aria-hidden="true"></i> Bookmarks'.html_safe, :action=>"index", :controller=>"collections" ) %></li>
+              <li><%= link_to('<i class="fa fa-clipboard" aria-hidden="true"></i> Bookmarks'.html_safe, index_collection_path ) %></li>
               <li class="divider"></li>
-              <li><%= link_to('<i class="fa fa-cog" aria-hidden="true"></i> Settings'.html_safe, :action=>"user_setting", :controller=>"user" ) %></li>
+              <li><%= link_to('<i class="fa fa-cog" aria-hidden="true"></i> Settings'.html_safe, user_setting_path ) %></li>
               <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> Invoices</a></li>
               <li class="divider"></li>
               <li><%= link_to('<i class="fa fa-sign-out"></i> Signout'.html_safe, destroy_user_session_path, :method => :get) %></li>
@@ -141,7 +141,8 @@
 				<%= link_to "Forgot password?", new_user_password_path(resource_name), class: "pull-right blue-txt" %>
 			</div>
 		  </div>
-		  <button type="submit" class="lightbtn txt16"><i class="fa fa-sign-in blue-txt" aria-hidden="true"></i> Submit</button>
+		   <%= f.submit "Sign In", class: "btn btn-success txt16" %>
+		 <!--  <button type="submit" class="lightbtn txt16"><i class="fa fa-sign-in blue-txt" aria-hidden="true"></i> Submit</button> -->
 <% end %>
 		<div class="follow-loginwrap clearfix text-center">
 		  <div class="or-txt">or</div>
@@ -164,7 +165,7 @@
 		}).on('ajax:success', '#log_in_form_popup', function(e, data, status, xhr) {
 			
 			if(status == 'success'){
-				window.location.href = '<%= index_gallery_path %>';
+				window.location.href = '<%= all_activity_path %>';
 			}else{
 				$('.signin-alert').html('Invalid email or password.');
 				$('.signin-alert').show();

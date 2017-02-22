@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 		if resource.is_a?(AdminUser)
 			admin_root_path
 		else
-			stored_location_for(resource) || index_gallery_path
+			stored_location_for(resource) || all_activity_path
 		end
 	end
 
