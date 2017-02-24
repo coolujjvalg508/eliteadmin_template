@@ -65,6 +65,7 @@ class GalleriesController < ApplicationController
 
     def save_like
           gallery_id     = params[:gallery_id]
+          artist_id      = params[:artist_id]
           user_id        = current_user.id
           is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').first
           result = ''
@@ -72,7 +73,7 @@ class GalleriesController < ApplicationController
                 PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').delete_all 
                 result  = {'res' => 0, 'message' => 'Post has disliked'}
           else
-                PostLike.create(user_id: user_id, post_id: gallery_id, post_type: 'Gallery')  
+                PostLike.create(user_id: user_id, artist_id: artist_id, post_id: gallery_id, post_type: 'Gallery')  
                 result  = {'res' => 1, 'message' => 'Post has liked'}
 
           end 

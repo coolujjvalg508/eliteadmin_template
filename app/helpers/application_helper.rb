@@ -160,5 +160,25 @@ module ApplicationHelper
 
 	end
 
+	def connection_like_count()		
+		 
+		 follower         = Follow.where('artist_id = ?', current_user.id).count
+         following        = Follow.where('user_id = ?', current_user.id).count
+         like       	  = PostLike.where('user_id = ?', current_user.id).count
+         myartworklike    = PostLike.where('artist_id = ?', current_user.id).count
+       
+         res 			  =	{'follower':follower, 'following':following, 'like':like, 'myartworklike':myartworklike} 
+         return res
+	end
+
+	def get_artist_like(artist_id)
+			user_like_me       	 	 = PostLike.where('artist_id = ?', artist_id).count
+			user_follow_me        	 = Follow.where('artist_id = ?', artist_id).count
+ 			res 		 			 =	{'user_like_me':user_like_me, 'user_follow_me':user_follow_me} 
+            return res
+	end	
+
+	
+
 end
 

@@ -1,4 +1,5 @@
 <!-- New Profile Section -->
+<%  res = connection_like_count %>
 <div class="artist-profile ng-scope" ng-app="myAppHeader" ng-controller="myCtrlHeader">
 
   <div style="background-image: url({{cover_art_image}});" class="artist-masthead">
@@ -67,7 +68,7 @@
                   <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> <%= current_user.try(:city) %><%= (current_user.try(:city) != '' && current_user.try(:country).try(:name) != '') ? ', ' : '' %><%= current_user.try(:country).try(:name) %> </li>
                 <% end %>
                 <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
-                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> 41,241 Likes </li>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> <%= res[:myartworklike] %> Likes </li>
               </ul>
             </div>
           </div>
@@ -77,15 +78,25 @@
             <li class="ng-scope">
               <div aria-label="..." role="group" class="btn-group">
                 <button type="button" title="Follow this user (F)" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
-                <button class="btn btn-sm user-follow" type="button">4216</button>
+                <button class="btn btn-sm user-follow" type="button"><%= res[:follower] %></button>
               </div>
             </li>
-            <li ng-if="artistCanContact" class="ng-scope">
+       <!--      <li ng-if="artistCanContact" class="ng-scope">
               <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button>
             </li>
             <li ng-if="artistCanContact" class="ng-scope">
               <button href="" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
             </li>
+ -->
+            <li class="ng-scope">
+              <a href="<%= message_path %>" class="btn btn-success btn-sm"><i class="fa fa-pad-right fa-envelope"></i>Message</a>
+
+              <!-- <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button> -->
+            </li>
+            <li class="ng-scope">
+              <button href="javascript:void(0);" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
+            </li>
+
           </ul>
         </div>
       </div>

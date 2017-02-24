@@ -449,7 +449,7 @@ $(document).ready(function() {
       $.ajax({
             type: "post",
             url: "<%= check_save_like_path %>" ,
-            data: {'gallery_id': '<%= @gallery.id %>'},
+            data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
            success: function(data){
               //alert(data.res)
              if(data.res == 1) {
@@ -470,7 +470,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "post",
                 url: "<%= save_like_path %>" ,
-                data: {'gallery_id': '<%= @gallery.id %>'},
+                data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
                 success: function(data){
                   //alert(data.res)
                  if(data.res == 1) {

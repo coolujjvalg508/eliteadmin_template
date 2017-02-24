@@ -35,7 +35,6 @@ ActiveAdmin.register User do
 		user.update(is_deleted: 1)	
 		flash[:success] 	= "User has successfully restricted."
 		render json: {message: 'ok',status: '200'}
-
 	end
 	
 	collection_action :remove_user_ban, method: :get do
@@ -44,7 +43,6 @@ ActiveAdmin.register User do
 		user.update(is_deleted: 0)	
 		flash[:success] = "User has successfully permitted."
 		render json: {message: 'ok',status: '200'}
-
 	end
 
 	collection_action :deletecomment, method: :get do
@@ -52,7 +50,6 @@ ActiveAdmin.register User do
 		PostComment.where(:user_id => id).destroy_all
 		flash[:success] = "Comment has successfully deleted."
 		render json: {message: 'ok',status: '200'}
-
 	end
 	
 	

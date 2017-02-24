@@ -1,5 +1,5 @@
 <!-- New Profile Section -->
-<div class="artist-profile ng-scope">
+<!-- <div class="artist-profile ng-scope">
 <div style="background-image: url(<%= asset_path 'artist-profile-masthead-gradient.png' %>), url(<%= asset_path 'profile-user.jpg?1452532143' %>);" class="artist-masthead">
 <div class="change-cover-image hidden-xs">
 <div class="pos-rel">
@@ -16,40 +16,7 @@
 <div class="remove-cover-image hidden-xs"><a href="#"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Remove Cover Art</span></a></div>
 <div class="container artist-info clearfix">
   <div class="row">
-    <div class="col-sm-9 col-md-8 col-xs-12">
-      <div class="avatar">
-        <center>
-          <%= image_tag("userprofile.jpg", :class=>"img-thumbnail", :alt=>"Profile") %> <span class="user-pro-pic"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Update Profile <span class="hidden-xs">Picture</span></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Choose From Photos...</a></li>
-            <li><a href="#">Upload Photo...</a></li>
-            <li><a href="#">Remove...</a></li>
-          </ul>
-          
-          </span>
-        </center>
-        
-        
-        
-      </div>
-      <div class="artist-info-texts pull-left">
-        <h2 class="artist-name ng-binding">Maciej Kuciara <i class="fa fa-check-circle"></i></h2>
-        <div class="artist-additional-info">
-          <ul>
-            <li class="ng-binding"> <i class="fa fa-briefcase"></i> Artist, Instructor </li>
-          </ul>
-          <div class="clearfix"></div>
-        </div>
-        <div class="artist-additional-info">
-          <ul>
-            <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> Irvine, United States of America </li>
-            <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
-            <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> 41,241 Likes </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
+      <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
       <ul class="list-inline pull-right">
         <li class="ng-scope">
           <div aria-label="..." role="group" class="btn-group">
@@ -69,25 +36,28 @@
 </div>
 </div>
 </div>
-
+ -->
+<%  res = connection_like_count %>
+<%= render "elements/profile_header" %>
 <!-- User Profile Menu -->
 <section class="usernavivation clearfix">
 <nav class="navbar-default clearfix">
 <div class="container">
   <div class="navbar-artist-profile clearfix">
     <ul class="nav navbar-nav">
-      <li class="dropdown ng-scope active"> <a href="user-profile.html">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
-      <li> <a href="user-profile-info.html">About</a> </li>
-      <li> <a href="user-following.html"> Following <span class="counter-number ng-binding">(13)</span> </a> </li>
-      <li> <a href="user-like.html"> Likes<span class="counter-number ng-binding">(27)</span> </a> </li>
-      <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+      <li class="dropdown ng-scope active"> <a href="<%= user_portfolio_path %>">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
+      <li> <a href="<%= my_profile_path %>">About</a> </li>
+      <li> <a href="<%= connection_following_path %>"> Following <span class="counter-number ng-binding">(<%= res[:following] %>)</span> </a> </li>
+       <li> <a href="<%= connection_followers_path %>"> Followers<span class="counter-number ng-binding">(<%= res[:follower] %>)</span> </a> </li>
+      <li> <a href="user-like.html"> Likes<span class="counter-number ng-binding">(<%= res[:like] %>)</span> </a> </li>
+ <!--      <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
         <ul class="dropdown-menu ng-scope">
           <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Forum Post (12) </a> </li>
-          <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Followers (13) </a> </li>
+          <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Followers (<%= res[:follower] %>) </a> </li>
           <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Jobs (7) </a> </li>
           <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-bar-chart"></i> Stats </a> </li>
         </ul>
-      </li>
+      </li> -->
     </ul>
   </div>
 </div>

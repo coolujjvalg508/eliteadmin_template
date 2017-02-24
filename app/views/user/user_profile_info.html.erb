@@ -1,5 +1,5 @@
 <%= render "elements/profile_header" %>
-
+<%  res = connection_like_count %>
 <div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
     <!-- User Profile Menu -->
     <section class="usernavivation clearfix">
@@ -7,19 +7,19 @@
             <div class="container">
                 <div class="navbar-artist-profile clearfix">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown ng-scope"> <a href="user-profile.html">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
-                        <li class="active"> <a href="<%= user_user_profile_info_path %>">About</a> </li>
-                        <li> <a href="user-following.html"> Following <span class="counter-number ng-binding">(13)</span> </a> </li>
-                        <li> <a href="user-followers.html"> Followers<span class="counter-number ng-binding">(20)</span> </a> </li>
-                        <li> <a href="user-like.html"> Like<span class="counter-number ng-binding">(20)</span> </a> </li>
-                        <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+                        <li class="dropdown ng-scope"> <a href="<%= user_portfolio_path %>">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
+                        <li class="active"> <a href="<%= my_profile_path %>">About</a> </li>
+                        <li> <a href="<%= connection_following_path %>"> Following <span class="counter-number ng-binding">(<%= res[:following] %>)</span> </a> </li>
+                        <li> <a href="<%= connection_followers_path %>"> Followers<span class="counter-number ng-binding">(<%= res[:follower] %>)</span> </a> </li>
+                        <li> <a href="<%= user_like_path %>"> Like<span class="counter-number ng-binding">(<%= res[:like] %>)</span> </a> </li>
+                     <!--    <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
                             <ul class="dropdown-menu ng-scope">
                                 <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Forum Post (12) </a> </li>
                                 <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Followers (13) </a> </li>
                                 <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Jobs (7) </a> </li>
                                 <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-bar-chart"></i> Stats </a> </li>
                             </ul>
-                        </li>
+                        </li>  -->
                     </ul>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                                 <a href="#" class="lightbtn">March 2004- February 2005</a>
                             </div>
                         </div> -->
-
+                          <% if @professional_experiences.present? %>  
                         <% @professional_experiences.each do |professional_experience| %>
 
                             <div class="clearfix marginB15 row experience-wrap">
@@ -133,7 +133,9 @@
                                 </div>
                             </div>
 
-                        <% end %>
+                        <% end
+                            end
+                         %>
 
 
                     </div>
@@ -154,7 +156,9 @@
        
                         </div> -->
 
-                        <% @production_experiences.each do |production_experience| %>
+                        <% 
+                            if @production_experiences.present?
+                        @production_experiences.each do |production_experience| %>
 
                             <div class="clearfix marginB15 row production-wrap">
                                 <div class="col-md-9 col-sm-9 col-xs-9">
@@ -168,7 +172,10 @@
            
                             </div>
 
-                        <% end %>
+                        <% end 
+                            end
+
+                        %>
 
                     </div>
 
@@ -188,7 +195,9 @@
                                 <a href="#" class="lightbtn"><i class="fa fa-plus" aria-hidden="true"></i> Add education</a>
                                 <a href="#" class="lightbtn arrow-full"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
                             </div> -->
-                            <% @education_experiences.each do |education_experience| %>
+                            <% 
+                                if @education_experiences.present?
+                            @education_experiences.each do |education_experience| %>
 
                                 <div class="col-md-8 col-sm-12 col-xs-12 marginB15">
                                     <div class="edu-title"><%= education_experience.school_name %></div>
@@ -200,7 +209,9 @@
                                     <div class="edu-degree marginB10"><%= education_experience.description %></div>
                                 </div>
 
-                            <% end %>
+                            <% end 
+                                end
+                            %>
 
 
                         </div>
@@ -257,26 +268,30 @@
                                 <a href="javascript:void(0);">Freelance</a>
                             <% end %>
 
-                            <button class="btn btn-success col-md-12 border-radius" type="button"><i class="fa fa-envelope marginR5" aria-hidden="true"></i> Send Message</button>
+                            <!-- <button class="btn btn-success col-md-12 border-radius" type="button"><i class="fa fa-envelope marginR5" aria-hidden="true"></i> Send Message</button> -->
+                            
+                            <a href="<%= message_path %>" class="btn btn-success col-md-12 border-radius"><i class="fa fa-envelope marginR5" aria-hidden="true"></i> Send Message</a> 
+
                         </div>
                     </div>
 
                     <div class="panel panel-default marginB15">
                         <div class="panel-heading">Connect</div>
+                        <%#= abort(current_user.to_json) %>
                         <div class="panel-body connect-wrap">
-                            <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a> 
-                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-globe" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                            <a href="<%= message_path %>"><i class="fa fa-envelope" aria-hidden="true"></i></a> 
+                            <a href="http://<%= current_user.facebook_url %>"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            <a href="http://<%= current_user.google_plus_url %>"><i class="fa fa-globe" aria-hidden="true"></i></a>
+                            <a href="http://<%= current_user.linkedin_profile_url %>"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
                         </div>
                     </div>
 
                     <div class="panel panel-default marginB15">
-                        <div class="panel-heading">Artist Stast</div>
+                        <div class="panel-heading">Artist Stats</div>
                         <div class="panel-body artist-wrap-stast">
                             <div class="marginB15"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 0 Atwork Views</div>
-                            <div class="marginB15"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 0 Atwork Likes</div>
-                            <div class="marginB5"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 0 Followers</div>   
+                            <div class="marginB15"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> <%= res[:myartworklike] %> Atwork Likes</div>
+                            <div class="marginB5"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> <%= res[:follower] %> Followers</div>   
                         </div>
                     </div>
 

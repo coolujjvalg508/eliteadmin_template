@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   get 'forgot-password'=> 'user#forgotpassword'
   
   get 'user/dashboard'
-  get 'user/message'
+  
   get 'user/index'
   get 'user/add'
   get 'user/profile'
@@ -60,21 +60,26 @@ Rails.application.routes.draw do
   get 'bookmark' => 'user#bookmark'
   get 'user/notification'
   get 'user/browse_all_artist'
-  get 'user/connection_followers'
-  get 'user/connection_following'
+  
   get 'user/join_challenge'
   get 'user/user_followers'
   get 'user/user_following'
-  get 'user/user_like'
   get 'user/user_profile_info'
   get 'user/user_statistics'
   
 
+  get 'connection-followers' => 'user#connection_followers', as: 'connection_followers' 
+  get 'connection-following' => 'user#connection_following', as: 'connection_following' 
+  get 'likes' => 'user#user_like', as: 'user_like' 
+
+  get 'message' => 'user#message', as: 'message' 
   get 'activity' => 'user#all_activity', as: 'all_activity' 
   get 'setting' => 'user#user_setting', as: 'user_setting' 
   get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
   get 'profile' => 'user#user_profile_info', as: 'my_profile' 
   get 'edit-profile' => 'user#edit_profile', as: 'edit_profile' 
+  get 'unfollow-artist' => 'user#unfollow_artist', as: 'unfollow_artist' 
+  get 'unfollow-user' => 'user#unfollow_user', as: 'unfollow_user' 
 
   resources :user, only: [:edit, :update]
 

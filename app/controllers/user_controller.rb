@@ -1,6 +1,6 @@
 class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
-
+   
     def signup
 
     end
@@ -49,9 +49,13 @@ class UserController < ApplicationController
     end
 
     def connection_followers
+         @follower      = Follow.where('artist_id = ?', current_user).page(params[:page]).per(10)
     end
 
+
     def connection_following
+       @following      = Follow.where('user_id = ?', current_user).page(params[:page]).per(10)
+       # render json: following, status: 200  
     end
 
     def edit_profile
@@ -199,6 +203,7 @@ class UserController < ApplicationController
     end
 
     def user_following
+       
     end
 
     def user_like
@@ -221,6 +226,21 @@ class UserController < ApplicationController
 
     def user_setting
     end
+    
+    def unfollow_artist
+        artist_id = params[:artist_id]
+        user_id   = current_user.id
+        Follow.where(user_id: user_id, artist_id: artist_id).delete_all
+        render json: {'res' => 1, 'message' => 'Successfully unfollowed.'}, status: 200
+    end
+
+     def unfollow_user
+        user_id         = params[:user_id]
+        artist_id       = current_user.id
+        Follow.where(user_id: user_id, artist_id: artist_id).delete_all
+        render json: {'res' => 1, 'message' => 'Successfully unfollowed.'}, status: 200
+    end
+
 
     private
         def user_params
@@ -229,8 +249,11 @@ class UserController < ApplicationController
 
         def find_associated_data
             @professional_experiences = ProfessionalExperience.where('user_id = ?', current_user)
-            @production_experiences = ProductionExperience.where('user_id = ?', current_user)
-            @education_experiences = EducationExperience.where('user_id = ?', current_user)
+            @production_experiences   = ProductionExperience.where('user_id = ?', current_user)
+            @education_experiences    = EducationExperience.where('user_id = ?', current_user)
+           # @follower                 = Follow.where('artist_id = ?', current_user)
+           # @following                = Follow.where('user_id = ?', current_user)
+           # @like                     = PostLike.where('user_id = ?', current_user.id)
         end
   
 end
