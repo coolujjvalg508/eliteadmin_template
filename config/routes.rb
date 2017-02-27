@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   get 'connection-followers' => 'user#connection_followers', as: 'connection_followers' 
   get 'connection-following' => 'user#connection_following', as: 'connection_following' 
   get 'likes' => 'user#user_like', as: 'user_like' 
+  get 'user/get_user_likes' => 'user#get_user_likes', as: 'get_user_likes' 
 
   get 'message' => 'user#message', as: 'message' 
   get 'activity' => 'user#all_activity', as: 'all_activity' 

@@ -1,5 +1,7 @@
 class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
+    before_action :authenticate_user!, only: [:edit_profile, :update, :user_profile_info, :user_like, :get_user_likes]
+ 
    
     def signup
 
@@ -59,14 +61,11 @@ class UserController < ApplicationController
     end
 
     def edit_profile
-
-        authenticate_user!
         @user = current_user
 
     end
 
     def update
-        authenticate_user!
         #abort(params.to_json)
 
            #abort(params["user"]["professional_experiences"].to_json)
@@ -209,9 +208,25 @@ class UserController < ApplicationController
     def user_like
     end
 
+    def get_user_likes
+
+        orderby = 'DESC'
+        if(params[:order] && params[:order] != '') 
+                orderby = params[:order]
+        end
+
+
+         @userlike  =  PostLike.where('user_id = ?', current_user).order('id '+ orderby)
+         final_data = []
+         @userlike.each_with_index do |data, index| 
+            final_data[index]  = {'gallery': data.gallery,'images': data.gallery.images,'videos': data.gallery.videos,'upload_videos': data.gallery.upload_videos,'marmo_sets': data.gallery.marmo_sets,'sketchfebs': data.gallery.sketchfebs}
+         end
+        render :json => final_data, status: 200
+
+    end
+
     def user_profile_info
 
-        authenticate_user!
         @professional_experiences = ProfessionalExperience.where('user_id = ? ', current_user)
         @education_experiences = EducationExperience.where('user_id = ? ', current_user)
         @production_experiences = ProductionExperience.where('user_id = ? ', current_user)

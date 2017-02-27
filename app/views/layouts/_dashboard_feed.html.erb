@@ -5,18 +5,18 @@
     <div class="collapse navbar-collapse" id="subtabs">
       <ul class="nav navbar-nav">
         <li class="active"><%= link_to 'Feed', 'javascript:void(0);'  %></li>
-        <li><%= link_to 'Trending', 'javascript:void(0);' %></li>
+        <li><%= link_to 'Trending',  'javascript:void(0);' %></li>
         <li><%= link_to 'Following', connection_following_path %></li>
         <li><%= link_to 'Followers', connection_followers_path %></li>
         <li><a class="dropdown-toggle" data-toggle="dropdown">Top <i class="fa fa-chevron-down marginL5 blue-txt" aria-hidden="true"></i></a>
           <ul class="dropdown-menu">
 			  <li><%= link_to 'Inbox', message_path %></li>
-			  <li><%= link_to 'Chat', message_path %></li>
-			  <li><%= link_to 'Send', message_path %></li>
+			  <li><%= link_to 'Chat',  message_path %></li>
+			  <li><%= link_to 'Send',  message_path %></li>
 			  <li><%= link_to 'Draft', message_path %></li>
           </ul>
         </li>
-		<li><%= link_to 'Bookmark', index_collection_path %></li>
+		    <li><%= link_to 'Bookmark', index_collection_path %></li>
         <li><%= link_to 'Notifications', controller: 'user',action:'notification' %> </li>
       </ul>
     </div>
