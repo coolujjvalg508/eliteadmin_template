@@ -171,14 +171,7 @@ module ApplicationHelper
          return res
 	end
 
-	def get_artist_like(artist_id)
-			user_like_me       	 	 = PostLike.where('artist_id = ?', artist_id).count
-			user_follow_me        	 = Follow.where('artist_id = ?', artist_id).count
- 			res 		 			 =	{'user_like_me':user_like_me, 'user_follow_me':user_follow_me} 
-            return res
-	end	
-
-	
+		
 
 end
 

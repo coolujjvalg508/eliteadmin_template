@@ -72,6 +72,8 @@ Rails.application.routes.draw do
   get 'connection-following' => 'user#connection_following', as: 'connection_following' 
   get 'likes' => 'user#user_like', as: 'user_like' 
   get 'user/get_user_likes' => 'user#get_user_likes', as: 'get_user_likes' 
+  get 'user/get_connection_followers' => 'user#get_connection_followers', as: 'get_connection_followers' 
+  get 'user/get_connection_following' => 'user#get_connection_following', as: 'get_connection_following' 
 
   get 'message' => 'user#message', as: 'message' 
   get 'activity' => 'user#all_activity', as: 'all_activity' 
@@ -79,8 +81,8 @@ Rails.application.routes.draw do
   get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
   get 'profile' => 'user#user_profile_info', as: 'my_profile' 
   get 'edit-profile' => 'user#edit_profile', as: 'edit_profile' 
-  get 'unfollow-artist' => 'user#unfollow_artist', as: 'unfollow_artist' 
-  get 'unfollow-user' => 'user#unfollow_user', as: 'unfollow_user' 
+  get 'user/unfollow_artist' => 'user#unfollow_artist', as: 'unfollow_artist' 
+  get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
 
   resources :user, only: [:edit, :update]
 

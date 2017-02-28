@@ -1,6 +1,6 @@
 class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
-    before_action :authenticate_user!, only: [:edit_profile, :update, :user_profile_info, :user_like, :get_user_likes]
+    before_action :authenticate_user!, only: [:edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following]
  
    
     def signup
@@ -51,12 +51,59 @@ class UserController < ApplicationController
     end
 
     def connection_followers
-         @follower      = Follow.where('artist_id = ?', current_user).page(params[:page]).per(10)
+    
     end
 
 
     def connection_following
-       @following      = Follow.where('user_id = ?', current_user).page(params[:page]).per(10)
+    end
+
+     def get_connection_followers
+        # @follower      = Follow.where('artist_id = ?', current_user).page(params[:page]).per(10)
+
+        orderby = 'DESC'
+        if(params[:order] && params[:order] != '') 
+                orderby = params[:order]
+        end
+
+        @follower      = Follow.where('artist_id = ?', current_user).order('id '+ orderby)
+
+         final_data = []
+         @follower.each_with_index do |data, index| 
+            res     =   get_artist_like(data.user.id)
+            final_data[index]  = {'data': data,'user': data.user,'country_name': data.user.country.name,'like_res': res}
+         end
+        # abort(final_data.to_json)
+        render :json => final_data.to_json, status: 200 
+
+
+
+    end
+
+
+    def get_connection_following
+       
+
+        orderby = 'DESC'
+        if(params[:order] && params[:order] != '') 
+                orderby = params[:order]
+        end
+
+        @following      = Follow.where('user_id = ?', current_user).order('id '+ orderby)
+
+         final_data = []
+         @following.each_with_index do |data, index| 
+            #abort(data.user.to_json)
+            res     =   get_artist_like(data.artist.id)
+            final_data[index]  = {'data': data,'user': data.artist,'country_name': data.artist.country.name,'like_res': res}
+         end
+        # abort(final_data.to_json)
+        render :json => final_data.to_json, status: 200 
+
+
+
+
+
        # render json: following, status: 200  
     end
 
@@ -250,11 +297,19 @@ class UserController < ApplicationController
     end
 
      def unfollow_user
+
         user_id         = params[:user_id]
         artist_id       = current_user.id
         Follow.where(user_id: user_id, artist_id: artist_id).delete_all
         render json: {'res' => 1, 'message' => 'Successfully unfollowed.'}, status: 200
     end
+
+    def get_artist_like(artist_id)
+            user_like_me             = PostLike.where('artist_id = ?', artist_id).count
+            user_follow_me           = Follow.where('artist_id = ?', artist_id).count
+            res                      =  {'user_like_me':user_like_me, 'user_follow_me':user_follow_me} 
+            return res
+    end 
 
 
     private
