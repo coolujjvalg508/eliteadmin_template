@@ -188,17 +188,7 @@ app.controller('followingCtrl', function($scope, $http) {
           }
      $scope.filter();
     
-    };
-
-    $scope.searchByCreated = function(value, id) {
-
-      angular.element( document.querySelectorAll( '.sort-link' ) ).removeClass('active');
-      angular.element( document.querySelector( '#sort-link-' + id ) ).addClass('active');
-      
-      $scope.order = value;
-      $scope.filter();
-
-    };    
+    };  
 });
 angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>

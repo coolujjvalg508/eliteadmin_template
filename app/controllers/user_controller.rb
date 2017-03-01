@@ -101,9 +101,6 @@ class UserController < ApplicationController
         render :json => final_data.to_json, status: 200 
 
 
-
-
-
        # render json: following, status: 200  
     end
 
@@ -252,6 +249,10 @@ class UserController < ApplicationController
        
     end
 
+    def connection
+
+    end   
+
     def user_like
     end
 
@@ -310,6 +311,9 @@ class UserController < ApplicationController
             res                      =  {'user_like_me':user_like_me, 'user_follow_me':user_follow_me} 
             return res
     end 
+
+
+
 
 
     private

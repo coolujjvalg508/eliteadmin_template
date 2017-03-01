@@ -83,6 +83,8 @@ Rails.application.routes.draw do
   get 'edit-profile' => 'user#edit_profile', as: 'edit_profile' 
   get 'user/unfollow_artist' => 'user#unfollow_artist', as: 'unfollow_artist' 
   get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
+  
+  get 'connection' => 'user#connection', as: 'connection' 
 
   resources :user, only: [:edit, :update]
 

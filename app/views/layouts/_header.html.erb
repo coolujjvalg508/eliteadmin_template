@@ -65,7 +65,9 @@
               <li><%= link_to('<i class="fa fa-picture-o" aria-hidden="true"></i> Manage Portfolio'.html_safe, user_portfolio_path) %></li>
               <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Website Builder</a></li>
               <li class="divider"></li>
-              <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Connections</a></li>
+              <li><%= link_to('<i class="fa fa-users" aria-hidden="true"></i> Connections'.html_safe, connection_path) %>
+
+             <!--  <a href="#"><i class="fa fa-users" aria-hidden="true"></i> Connections</a> --></li>
               <li><%= link_to('<i class="fa fa-clipboard" aria-hidden="true"></i> Bookmarks'.html_safe, index_collection_path ) %></li>
               <li class="divider"></li>
               <li><%= link_to('<i class="fa fa-cog" aria-hidden="true"></i> Settings'.html_safe, user_setting_path ) %></li>
