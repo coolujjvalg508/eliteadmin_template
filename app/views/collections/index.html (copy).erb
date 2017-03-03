@@ -1,0 +1,110 @@
+<section class="searchpage clearfix">
+  <div class="container">
+    <h2>BOOKMARKS</h2>
+    
+    <div class="searchwrap clearfix">
+      <div class="form-group marginB40">
+      <center><button type="button" class="lightbtn txt16" data-toggle="modal" data-target="#createCollectionModal">Create Bookmark</button></center>
+      </div>
+    </div>
+
+        <div class="clearfix downboxcollection">
+          <div class="clearfix">
+            <ul>
+                <% 
+
+                @collection.each do |collection|  
+                   # abort(collection.collection_detail.to_json)
+                    src = '' 
+                     if collection.collection_detail.present?
+
+                        collection.collection_detail.each_with_index do | collectiondetail, index |
+                            collectiondetail.gallery.images.each_with_index do | collectionimage, index |
+                                if index == 1
+                                    break
+                                end  
+                                 src =  collectionimage.image.large_image.url
+                            end
+                        end  
+
+                    /  collection.gallery.images.each_with_index do | collectionimage, index |
+                          if index == 1
+                              break
+                          end  
+                          src =  collectionimage.image.large_image.url
+                      end  /
+                    end                      
+                  %>
+                    <li class="clearfix">
+                        <div class="downwrap">
+                        <a href='<%= collection_detail_path(collection.id) %>'>
+                            <img src="<%= src %>" class="img-responsive tutorial-img-height">
+                        </a>    
+                        </div>
+                        <div class="padding10 clearfix">
+                            <div class="down-txt">
+                              <span><%= link_to collection.title, collection_detail_path(collection.id) %></span> <span class="pull-right tut-price"></span>
+                            </div>
+                            <div class="clearfix down-name">
+                              <div class="pull-left"><span class="price-txt1"></span></div>
+                            </div>
+                        </div>
+                    </li>
+                  <% end %>
+            </ul>
+          </div>
+        </div>
+
+  </div>
+
+      <div class="modal fade default-popup" id="createCollectionModal" tabindex="-1" role="dialog" aria-labelledby="createCollectionModalLabel">
+      <div class="modal-dialog" role="document">
+        <%= form_for(@collectionrec, :html => {:id => 'create_bookmark_form_popup'}, :url => 'javascript:void(0);') do |f|
+         %>
+          <div class="modal-content">
+            <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal"></button>
+              <h4 class="modal-title" id="exampleModalLabel">Create Bookmark</h4>
+            </div>
+            <div class="modal-body">
+               <div class="form-group">
+                  <label for="recipient-name" class="control-label">Bookmarks Name:</label>
+                  <%= f.text_field :title, :autofocus => true, :placeholder => "Bookmark Name", class:"form-control", :type => 'text' %>
+                  <span class="err-msg" id='bookmark_error_msg'><%= form_error_msg_for(@collection,:title, "Bookmark") %></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="lightbtn" data-dismiss="modal">Close</button>
+              <button type="submit" class="lightbtn">Create</button>
+            </div>
+          </div>
+        <% end %>  
+
+
+      </div>
+    </div>
+ 
+</section>
+<script>
+$(document).ready(function() {
+   $('#create_bookmark_form_popup').on('submit',function(){
+             $.ajax({
+              type: "post",
+              url: "<%= create_collection_path %>" ,
+              data: $('#create_bookmark_form_popup').serialize(),
+              success: function(data){
+                  if(data.res == 0){
+                      $('#bookmark_error_msg').html('');
+                      $('#bookmark_error_msg').html(data.message);
+                  }else{
+                      window.location.reload(true);
+
+                  }
+                  
+
+              }
+            });
+    });
+
+});
+</script>

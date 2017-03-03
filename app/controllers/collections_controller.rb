@@ -2,15 +2,12 @@ class CollectionsController < ApplicationController
  
 
     def index
-  	   @collection     = Collection.all
+  	   @collection     = Collection.all.page(params[:page]).per(10)
        @collectionrec  = Collection.new
   		
     end
 
-    def show
-        
-    end
-
+   
     def new
           #abort(params.to_json)
           gallery_id              = params[:collection][:gallery_id].present? ?  params[:collection][:gallery_id] : 0
@@ -42,7 +39,7 @@ class CollectionsController < ApplicationController
         #abort(params.to_json)
         collection_id     = params[:paramlink]
         @collection       = Collection.find(collection_id)
-        @collectiondetail = CollectionDetail.where(collection_id: collection_id)
+        @collectiondetail = CollectionDetail.where(collection_id: collection_id).page(params[:page]).per(10)
        # abort(@collectiondetail.to_json)
    end  
 

@@ -1,156 +1,146 @@
-<%= render "elements/profile_header" %>
+<!-- All Dashboard Start -->
 <%  res = connection_like_count %>
-<div  id="myApp2"  ng-app="myApp" ng-controller="followingCtrl" >
-<!-- User Profile Menu -->
-<section class="usernavivation clearfix">
-<nav class="navbar-default clearfix">
-<div class="container">
-<div class="navbar-artist-profile clearfix">
-   <ul class="nav navbar-nav">
-      <li class="dropdown ng-scope"> <a href="<%= user_portfolio_path %>">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
-      <li > <a href="<%= my_profile_path %>">About</a> </li>
-      <li class="active"> <a href="<%= connection_following_path %>"> Following <span class="counter-number ng-binding">(<%= res[:following] %>)</span> </a> </li>
-      <li > <a href="<%= connection_followers_path %>"> Followers<span class="counter-number ng-binding">(<%= res[:follower] %>)</span> </a> </li>
-      <li> <a href="<%= user_like_path %>"> Likes<span class="counter-number ng-binding">(<%= res[:like] %>)</span> </a> </li>
-   <!--    <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
-          <ul class="dropdown-menu ng-scope">
-              <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Forum Post (12) </a> </li>
-              <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Followers (13) </a> </li>
-              <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Jobs (7) </a> </li>
-              <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-bar-chart"></i> Stats </a> </li>
-          </ul>
-      </li>  -->
-  </ul>
+<section class="clearfix container-fluid-full"  id="myApp2"  ng-app="myApp" ng-controller="followingCtrl"  >
+  <div class="row-fluid">
+    <div class="sidebar-left">
+  <%= render 'layouts/navigation' %>
 </div>
-</div>
-</nav>
-<div class="clearfix hidden-xs">
-<ul class="nav nav-pills">
-  <li class="paddinT10 paddinB10">
-   <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" ng-model="search" />
-  </li>
-  
-  <li class="dropdown pull-right recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
-     <ul class="dropdown-menu">
-      <li><a href="#" id="sort-link-older" ng-click="searchByCreated('ASC', 'older')" class="sort-link" >Older</a></li>
-      <li><a href="#" id="sort-link-newest" ng-click="searchByCreated('DESC', 'newest')"  class="sort-link" >Newest </a></li>
-    </ul>
-  </li>
-</ul>
-</div>
-</section>
-
-<!-- User Followers Start -->
-<section class="clearfix userfollowerswrap">
-<div class="col-md-9 col-sm-12 col-xs-12">
-  <div class="clearfix userfollowers-indent">
-    <ul>
-      <li class="clearfix" dir-paginate="x in following_data|filter:search|itemsPerPage:10">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt='User' class="img-responsive"></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">{{ x.user.firstname }} {{ x.user.lastname }}</div>
-            <div class="user-position-txt"><span class="white-txt">Position :</span> {{ x.user.professional_headline }} </div>
-            <div class="user-position-txt"><span class="white-txt">Location : </span> {{ x.user.city }}, {{ x.country_name }}</div>
-            <button ng-click="unfollowuser(x.user.id)" type="button" class="red-btn border-radius marginR5"><i class="fa fa-times marginR5" aria-hidden="true"></i> Un Follow</button>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{ x.like_res.user_like_me}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 0</span> </div>
-            <div class="col-md-5 col-sm-4 col-xs-12">
-              <div class="border-radius followers-indent">
-                <ul>
-                  <li>
-                    <center>
-                      <%= image_tag("database/followers-1.jpg", :alt => "Followers",:class=>"img-responsive") %>
-                    </center>
-                  </li>
-                  <li>
-                    <center>
-                      <%= image_tag("database/followers-2.jpg", :alt => "Followers",:class=>"img-responsive") %>
-                    </center>
-                  </li>
-                  <li>
-                    <center>
-                      <%= image_tag("database/followers-3.jpg", :alt => "Followers",:class=>"img-responsive") %>
-                    </center>
-                  </li>
-                  <li>
-                    <center>
-                      <%= image_tag("database/followers-4.jpg", :alt => "Followers",:class=>"img-responsive") %>
-                    </center>
-                  </li>
-                </ul>
-              </div>
-            </div>
-        </div>
-      </li>
-     <li ng-hide="following_data.length" class="text-center err-msg no-result">No Result Found!</li>
+    <div class="content clearfix">
+      <div class="submenutabs-dashboard clearfix margin">
+        <%= render 'layouts/dashboard_feed' %>
+      </div>
       
-    </ul>
-  </div>
- <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
-        <%#= paginate @follower %>
-        <div class="pagintionpage clearfix">
-            <dir-pagination-controls
-                 max-size="1"
-                 direction-links="true"
-                 boundary-links="false" >
-            </dir-pagination-controls>
-
+      <!-- User Followers Start -->
+      <section class="clearfix connectionfollowingwrap">
+        <div class="usernavivation clearfix marginB15">
+          <ul class="nav nav-pills">
+            <li class="paddinT10 paddinB10">
+               <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" ng-model="search" />
+            </li>
+            <li class="dropdown pull-right recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+              <ul class="dropdown-menu">
+                <li><a href="#" id="sort-link-older" ng-click="searchByCreated('ASC', 'older')" class="sort-link" >Older</a></li>
+                <li><a href="#" id="sort-link-newest" ng-click="searchByCreated('DESC', 'newest')"  class="sort-link" >Newest </a></li>
+              </ul>
+            </li>
+          </ul>
         </div>
-  </div>
+        <div class="clearfix">
+          
+          <div class="innerleft clearfix col-sm-12 col-xs-12">
+            <ul>              
+                    <li class="clearfix" dir-paginate="x in following_data|filter:search|itemsPerPage:10" >
 
+                      <div class="connect-following-profile pull-left"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt='User' class="img-responsive"></div>
+                      <div class="connect-profile clearfix">
+                        <div class="user-title">{{ x.user.firstname }} {{ x.user.lastname }}</div>
+                        <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.user.professional_headline }}</div>
+                        <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i>  {{ x.user.city }}, {{ x.country_name }}</div>
+                   
+                        <button ng-click="unfollowuser(x.user.id)"  type="button" class="red-btn border-radius marginR5"><i class="fa fa-times marginR5" aria-hidden="true"></i>  Remove</button>
 
-</div>
-<div class="col-md-3 col-sm-12 col-xs-12 aside">
-  <div class="marginB15">
-    <center>
-      <%= image_tag("google-ad.jpg", :alt => "Google Ad",:class=>"img-responsive") %>
-    </center>
+                        <span class="follow-companies">
+                        {{ x.like_res.user_follow_me}}</span> <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{ x.like_res.user_like_me}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 0</span> 
+                         </div>
+                      <div class="connection-followers-indent clearfix pull-right">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                          <center>
+                            <%= image_tag("database/followers-1.jpg", :alt => "Followers",:class=>"img-responsive") %>
+                          </center>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                          <center>
+                            <%= image_tag("database/followers-2.jpg", :alt => "Followers",:class=>"img-responsive") %>
+                          </center>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                          <center>
+                            <%= image_tag("database/followers-3.jpg", :alt => "Followers",:class=>"img-responsive") %>
+                          </center>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                          <center>
+                            <%= image_tag("database/followers-4.jpg", :alt => "Followers",:class=>"img-responsive") %>
+                          </center>
+                        </div>
+                      </div>
+                    </li>
+                   <li ng-hide="following_data.length" class="text-center err-msg no-result">No Result Found!</li>
+
+             
+            </ul>
+            <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
+                  <%#= paginate @follower %>
+                  <div class="pagintionpage clearfix">
+                      <dir-pagination-controls
+                           max-size="1"
+                           direction-links="true"
+                           boundary-links="false" >
+                      </dir-pagination-controls>
+
+                  </div>
+            </div>
+          </div>
+    
+    <div class="aside col-sm-12 col-xs-12 padding">
+            <div class="marginB15">
+              <center>
+                <%= image_tag("google-ad.jpg", :alt => "Google Ad",:class=>"img-responsive") %>
+              </center>
+            </div>
+            <div class="wiphome clearfix marginB15">
+              <h2>Wip/Wants Critique</h2>
+              <ul class="margin">
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+              </ul>
+            </div>
+            <div class="wiphome marginB15 clearfix">
+              <h2>New From Pros <span>Go Pro!</span></h2>
+              <ul class="margin">
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+              </ul>
+            </div>
+            <div class="wiphome marginB15 clearfix">
+              <h2>Popular Today</h2>
+              <ul class="margin">
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+                <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
+              </ul>
+            </div>
+          </div>
+       </div>
+      </section>
+    </div>
   </div>
-  <div class="wiphome marginB15 clearfix">
-    <h2>Wip/Wants Critique</h2>
-    <ul class="margin">
-      <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-    </ul>
-  </div>
-  <div class="wiphome marginB15 clearfix">
-    <h2>New From Pros <span>Go Pro!</span></h2>
-    <ul class="margin">
-      <li class="lists"><a href="#"><%= image_tag("database/10.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/11.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/12.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/13.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/14.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/15.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/16.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/17.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/18.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-    </ul>
-  </div>
-  <div class="wiphome marginB15 clearfix">
-    <h2>Popular Today</h2>
-    <ul class="margin">
-      <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-      <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-    </ul>
-  </div>
-</div>
 </section>
-</div>
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+<%= render 'layouts/lastfooter' %>
+</footer>
+
 
 <script>
 var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
@@ -192,4 +182,3 @@ app.controller('followingCtrl', function($scope, $http) {
 });
 angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>
-

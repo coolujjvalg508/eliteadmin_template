@@ -246,7 +246,6 @@ class UserController < ApplicationController
     end
 
     def user_following
-       
     end
 
     def connection

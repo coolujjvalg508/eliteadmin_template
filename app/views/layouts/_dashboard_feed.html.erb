@@ -1,5 +1,8 @@
 <%
-  activemenu  = params[:action].present? ? params[:action] : ''
+  activemenucontroller  = params[:controller].present? ? params[:controller] : ''
+  activemenuaction      = params[:action].present? ? params[:action] : ''
+  activemenu            = activemenucontroller + '/' + activemenuaction
+  #abort(activemenu.to_json)
 %>
 
 <nav class="navbar navbar-inverse ">
@@ -10,8 +13,8 @@
       <ul class="nav navbar-nav">
         <li><%= link_to 'Feed', 'javascript:void(0);'  %></li>
         <li><%= link_to 'Trending',  'javascript:void(0);' %></li>
-        <li class="<%= (activemenu == 'connection_following') ? 'active' : '' %>"><%= link_to 'Following', connection_following_path %></li>
-        <li class="<%= (activemenu == 'connection_followers') ? 'active' : '' %>"><%= link_to 'Followers', connection_followers_path %></li>
+        <li class="<%= (activemenu == 'user/connection_following') ? 'active' : '' %>"><%= link_to 'Following', connection_following_path %></li>
+        <li class="<%= (activemenu == 'user/connection_followers') ? 'active' : '' %>"><%= link_to 'Followers', connection_followers_path %></li>
         <li><a class="dropdown-toggle" data-toggle="dropdown">Top <i class="fa fa-chevron-down marginL5 blue-txt" aria-hidden="true"></i></a>
           <ul class="dropdown-menu">
     			  <li><%= link_to 'Inbox', message_path %></li>
@@ -20,8 +23,8 @@
     			  <li><%= link_to 'Draft', message_path %></li>
           </ul>
         </li>
-		    <li><%= link_to 'Bookmark', index_collection_path %></li>
-        <li><%= link_to 'Notifications', controller: 'user',action:'notification' %> </li>
+		    <li class="<%= (activemenu == 'collections/index' || activemenu == 'collections/show' ) ? 'active' : '' %>"><%= link_to 'Bookmark', index_collection_path %></li>
+        <li ><%= link_to 'Notifications', controller: 'user',action:'notification' %> </li>
       </ul>
     </div>
  </nav>
