@@ -12,20 +12,31 @@
     <div class="clearfix wip-gallery-wrap">
       <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
         <div class="input-group stylish-input-group">
-          <input type="text" class="form-control"  placeholder="Enter a keyword..." >
+        <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
+  
           <span class="input-group-addon">
           <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
           </span> </div>
       </div>
       <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left">
+
         <select class="custom-select">
-          <option>Gallery</option>
-          <option>Video</option>
-          <option>WIP</option>
+          <option ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0">All</option>
+          <option ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1">Gallery</option>
+          <option ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2">Video</option>
+          <option ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3">WIP</option>
         </select>
       </div>
       <div class="col-md-5 col-sm-4 col-xs-12 marginB10 text-left">
-       <%= select_tag(:medium_category_id, options_for_select(MediumCategory.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Medium Categories', 'ng-model' => 'medium_category_id'}) %>
+      <% mediumCategory =  MediumCategory.all  %>
+      <select class="custom-select medium-type-link">
+         <option ng-click="searchByMediumType('all')" class="medium-type-link"  id="medium-type-link-all">All</option>
+      <%  mediumCategory.each_with_index do |value,index| #abort(value.to_json) %>
+         <option ng-click="searchByMediumType(<%= value.id %>)" class="medium-type-link"  id="medium-type-link-<%= value.id %>"> <%= value['name'] %></option>
+      <% end %>
+      </select>
+
+       <%#= select_tag(:medium_category_id, options_for_select(MediumCategory.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Medium Categories'}) %>
       </div>
     </div>
     <div class="showcase-btn-wrap clearfix text-center">
