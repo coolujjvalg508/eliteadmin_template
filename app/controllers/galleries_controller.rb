@@ -537,6 +537,54 @@ class GalleriesController < ApplicationController
         #abort(result.to_json)
   end  
 
+    def browse_all_artwork
+        @medium_type = MediumCategory.order('name ASC')
+    end
+   
+    def get_gallery_list
+
+        conditions = "true"
+
+        if(params[:post_type_category_id] && params[:post_type_category_id] != '')
+          conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
+        end 
+
+        if(params[:medium_category_id] && params[:medium_category_id] != '')
+          conditions += ' AND medium_category_id=' + params[:medium_category_id]
+        end 
+
+        if(params[:is_feature] && params[:is_feature] != '')
+          conditions += ' AND is_trash=0 AND is_featured=' + params[:is_feature] 
+        end 
+
+      
+        #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
+        result = Gallery.where(conditions).order('id DESC')
+
+        render :json => result.to_json(:include => [:user, :category, :medium_category]), status: 200
+
+
+    end  
+
+
+    def browse_all_awards
+    end
+    
+    def browse_all_challenge
+    end
+    
+    def browse_all_companies
+    end
+    
+    def browse_all_gallery
+    end
+    
+    def browse_all_video
+    end
+    
+    def browse_all_work_in_progress
+    end
+
 
     private
         def gallery_params

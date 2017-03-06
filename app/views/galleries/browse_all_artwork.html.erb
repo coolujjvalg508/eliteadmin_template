@@ -1,0 +1,283 @@
+<!-- Submenu Navigation -->
+<section class="wip-navigation-wrap">
+      <%= render 'layouts/browse_sub_header' %>
+  
+</section>
+<div id="myApp2"  ng-app="myApp" ng-controller="browseAllArtworkCtrl" >
+<!-- Showcase & Discover Creative Work -->
+<section class="clearfix showcase-wrap text-center">
+  <div class="container">
+    <div class="showcase-title text-center">Showcase &amp; Discover Creative Work</div>
+    <div class="showcase-txt text-center">for <a href="#">Demo Reel <i></i></a>, <a href="#">Digital Art<i></i></a>, <a href="#">Making of &amp; Vfx Breakdown<i></i></a>, <a href="#">Concept Art<i></i></a> and more</div>
+    <div class="clearfix wip-gallery-wrap">
+      <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
+        <div class="input-group stylish-input-group">
+          <input type="text" class="form-control"  placeholder="Enter a keyword..." >
+          <span class="input-group-addon">
+          <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+          </span> </div>
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left">
+        <select class="custom-select">
+          <option>Gallery</option>
+          <option>Video</option>
+          <option>WIP</option>
+        </select>
+      </div>
+      <div class="col-md-5 col-sm-4 col-xs-12 marginB10 text-left">
+       <%= select_tag(:medium_category_id, options_for_select(MediumCategory.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Medium Categories', 'ng-model' => 'medium_category_id'}) %>
+      </div>
+    </div>
+    <div class="showcase-btn-wrap clearfix text-center">
+      <% if user_signed_in? %>
+        <button onclick="redirect_to_create_gallery();" type="button" class="btn btn-success border-radius marginB10">Upload</button>
+      <% end %>
+      <button type="button" class="btn btn-default border-radius marginB10">Browse Popular Artwork</button>
+      <button type="button" class="btn btn-default border-radius marginB10">Browse Top Artwork </button>
+    </div>
+  </div>
+</section>
+
+<!-- WIP Content Start -->
+<section class="clearfix">
+<div class="clearfix wipwrap">
+    <div class="wiptabs clearfix">
+      <ul class="nav nav-pills">
+        <li class="dropdown active"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Artwork
+          <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
+            <li><a href="#"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Gallery</a></li>
+            <li><a href="#"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
+            <li><a href="#"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
+          
+          </ul>
+        </li>
+       <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Category
+            <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+            </a>
+            <ul class="dropdown-menu">
+              <% 
+              if @medium_type.present?
+              %>
+              <li>
+                  <a href="javascript:void(0);" ng-click="searchByMediumType('all')" class="searchByMediumType medium-type-link1"  id="medium-type-link-all">
+                    All
+                  </a>
+              </li>
+              <%  
+                    @medium_type.each do |val| %>
+                      <li>
+                        <a href="javascript:void(0);" ng-click="searchByMediumType('<%= val['id'] %>')" class="medium-type-link"  id="medium-type-link-<%= val['id'] %>">
+                          <%= val['name'] %>
+                        </a>
+                      </li>
+                    <% end 
+                end
+              %>
+
+            </ul>
+          </li>
+        <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Featured
+          <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+          </a>
+           <ul class="dropdown-menu">
+              <li><a href="javascript:void(0);" ng-click="searchByFeatured('', 'all')" class="active featured-type-link"  id="featured-type-link-all">All</a></li>
+              <li><a href="javascript:void(0);" ng-click="searchByFeatured('TRUE', 'yes')" class="featured-type-link"  id="featured-type-link-yes">Show Only Featured</a></li>
+              <li><a href="javascript:void(0);" ng-click="searchByFeatured('FALSE', 'no')" class="featured-type-link"  id="featured-type-link-no">Show Without Featured</a></li>
+
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+ <!-- ng-if="IsShowArtwork" ############################################### All artworks ################################################### -->
+  <div  class="artworkwrap clearfix">
+  <ul class="margin">
+           
+          <li class="lists clearfix" dir-paginate="x in artwork_data|filter:search|itemsPerPage:50">
+             <div class="artcamera"><a href="#"><%= image_tag("camera.png", :alt => "Camera") %></a></div>
+             <div class="clearfix userprowrap">
+                <div class="userprofile-content clearfix">
+                  <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"><%#= image_tag("userpro-img.jpg", :alt => "User Profile",:class=>"img-responsive") %></div>
+                  <div class="userproright">
+                    <h2>{{x.user.professional_headline}} </h2>
+                   {{x.user.firstname}} {{x.user.lastname}} </div>
+                </div>
+              </div>
+             <a href="/dashboard/projects/{{x.paramlink}}/show">  <img lazy-img="<%= root_url %>{{ x.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
+          </li>     
+
+   </ul>
+   <div ng-hide="artwork_data.length" class="clearfix downbox text-center err-msg no-result">No Result Found!</div>
+  </div>
+
+ <!--  ############################################### All Gallery ################################################### -->
+<!--   <section ng-if="IsShowGallery" class="angularjswrap clearfix"  dir-paginate="x in artwork_data|filter:search|itemsPerPage:100">
+
+    <ul class="margin">
+      <li class="lists">
+         <div class="photowrap"> 
+             <a href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a> 
+             <a href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a>
+         </div>
+         <a href="#"><center><%= image_tag("database/roy-the-rat-girl.jpg", :alt => "Roy", :class=>"img-responsive") %></center></a> 
+      </li>
+    </ul>
+  </section> -->
+
+
+ <!--  ############################################### All Video ################################################### -->
+
+<!--   <div ng-if="IsShowVideo" class=" videowrap clearfix">
+    <ul class="margin">
+      <li class="lists clearfix">
+        <div class="video-box"><img src="images/database/browse-video.jpg" class="img-responsive" alt="Video"></div>
+        <div class="video-title"><a href="#">Garvel Hever</a></div>
+        <div class="clearfix">
+        <div class="video-by-txt pull-left">by <a href="#">Matte Agr</a></div>
+        <div class="like-video pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
+        </div>
+      </li>
+    </ul>
+  </div>    
+ -->
+ <!--  ############################################### All Wip ################################################### -->
+
+
+<!--  <div ng-if="IsShowWip" class="wip-indent clearfix">
+    <ul class="margin">
+        <li class="lists clearfix">
+        <div class="wip-pic"><img src="images/database/wip-gallery.jpg" class="img-responsive" alt="WIP"></div>
+        <div class="wip-title"><a href="#">Garvel Hever</a></div>
+        <div class="clearfix">
+        <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div> <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
+        </div>
+        <div class="wip-small clearfix">
+          <ul class="margin">
+            <li class="lists"><img src="images/database/mioree-silas-sall.jpg" class="img-responsive" alt="img"></li>
+            <li class="lists"><img src="images/database/mioree-ana.jpg" class="img-responsive" alt="img"></li>
+            <li class="lists"><img src="images/database/mioree-snape.jpg" class="img-responsive" alt="img"></li>
+          </ul>
+        </div>
+
+        </li>
+    </ul>
+  </div>    -->   
+
+</div>
+  
+   <div class="pagintionpage clearfix">
+      <dir-pagination-controls
+           max-size="1"
+           direction-links="true"
+           boundary-links="false" >
+      </dir-pagination-controls>
+
+  </div>
+
+<%#= render 'layouts/paging' %>
+</section>
+
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+<%= render 'layouts/lastfooter' %>
+</footer>
+<script type='text/javascript'>
+  function redirect_to_create_gallery(){
+      window.location.href = "<%= create_gallery_path %>";
+  }
+</script>
+
+<script type="text/javascript">
+
+  // main page angular app start
+  var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  app.controller('browseAllArtworkCtrl', function($scope, $http) {
+      
+    $scope.filter = function() {
+        
+        list_url = '/dashboard/projects/get_gallery_list?';
+
+        if(typeof $scope.post_type_category_id !== 'undefined' && $scope.post_type_category_id != ''&& $scope.post_type_category_id != 0){
+          list_url += 'post_type_category_id=' + $scope.post_type_category_id
+        }
+
+        if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
+          list_url += '&is_feature=' + $scope.viewFeaturedType
+        }
+
+        if(typeof $scope.medium_category_id !== 'undefined' && $scope.medium_category_id != ''  && $scope.medium_category_id != 'all'){
+          list_url += '&medium_category_id=' + $scope.medium_category_id
+        }
+
+        
+
+        $http.get(list_url).then(function (response) {
+          
+           /* if($scope.post_type_category_id == 1){
+                 $scope.IsShowGallery  = 1
+                 $scope.IsShowVideo    = 0
+                 $scope.IsShowWip      = 0
+                 $scope.IsShowArtwork  = 0
+            }else if($scope.post_type_category_id == 2){
+                 $scope.IsShowVideo    = 1
+                 $scope.IsShowWip      = 0
+                 $scope.IsShowArtwork  = 0
+                 $scope.IsShowGallery  = 0
+            }else if($scope.post_type_category_id == 3){
+                 $scope.IsShowWip      = 1
+                 $scope.IsShowArtwork  = 0
+                 $scope.IsShowGallery  = 0
+                 $scope.IsShowVideo    = 0
+            }else{
+                 $scope.IsShowArtwork  = 1
+                 $scope.IsShowGallery  = 0
+                 $scope.IsShowVideo    = 0
+                 $scope.IsShowWip      = 0
+
+            } */
+
+
+          $scope.artwork_data = response.data;
+            
+        });
+    };
+    $scope.filter();
+
+    $scope.searchByFeatured = function(value, id) {
+
+      angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
+      angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
+      
+      $scope.viewFeaturedType = value;
+      $scope.filter();
+
+    };
+
+    $scope.searchByPostType = function(id) {
+
+      angular.element( document.querySelectorAll( '.post-type-link, .post-type-category-link, .post-type-subcategory-link' ) ).removeClass('active');
+      angular.element( document.querySelectorAll( '#post-type-link-' + id + ', #post-type-category-link-all, #post-type-subcategory-link-all' ) ).addClass('active');
+
+      $scope.post_type_category_id = id;
+      $scope.filter();
+    };
+
+   $scope.searchByMediumType = function(id) {
+
+      angular.element( document.querySelectorAll( '.medium-type-link, .medium-type-category-link, .medium-type-subcategory-link' ) ).removeClass('active');
+      angular.element( document.querySelectorAll( '#medium-type-link-' + id + ', #medium-type-category-link-all, #medium-type-subcategory-link-all' ) ).addClass('active');
+
+      $scope.medium_category_id = id;
+      $scope.filter();
+    };
+
+  });
+
+  // main page angular app end
+
+</script>

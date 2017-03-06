@@ -103,26 +103,7 @@ class GalleryController < ApplicationController
   end  
   
 
-  def browse_all_artwork
-  end
- 
-  def browse_all_awards
-  end
   
-  def browse_all_challenge
-  end
-  
-  def browse_all_companies
-  end
-  
-  def browse_all_gallery
-  end
-  
-  def browse_all_video
-  end
-  
-  def browse_all_work_in_progress
-  end
   
   def challenge
 

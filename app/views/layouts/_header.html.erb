@@ -20,32 +20,39 @@
 	<ul class="nav navbar-nav text-uppercase">
 	  <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">community <span class="fa fa-chevron-down"></span></a>
 		<ul class="dropdown-menu text-uppercase">
-		  <li><%= link_to '<i class="fa fa-fw fa-picture-o fa-pad-right"></i> Browse art'.html_safe, gallery_browse_all_artwork_path %>
+		  <li><%= link_to '<i class="fa fa-fw fa-picture-o fa-pad-right"></i> Browse All'.html_safe, browse_all_artwork_path %>
 		  </li>
 		  <li><a href="#" target="_self"><i class="fa fa-fw fa-search fa-pad-right"></i> Search</a></li>
 		  <li class="divider hidden-xs hidden-sm"></li>
 		  <li><%= link_to '<i class="fa fa-heartbeat fa-lg fa-pad-right"></i>All Activity'.html_safe, all_activity_path %>
 		  </li>
 		  <li><%= link_to '<i class="fa fa-trophy fa-lg fa-pad-right"></i>Challenges'.html_safe, gallery_challenge_path %></li>
-		  <li><%= link_to '<i class="fa fa-fw fa-bookmark fa-pad-right"></i> BookMarks'.html_safe, bookmark_path %></li>
+		  <li><%= link_to '<i class="fa fa-fw fa-bookmark fa-pad-right"></i> BookMarks'.html_safe, index_collection_path %></li>
 		  <li><a href="#"><i class="fa fa-fw fa-bar-chart fa-pad-right"></i> Stats</a></li>
 		</ul>
 	  </li>
-	 <li><%= link_to 'news'.html_safe, news_index_path %></li>
+	  <li><%= link_to 'news'.html_safe, news_index_path %></li>
 	  <li><%= link_to 'downloads'.html_safe, downloads_path %></li>
 	  <li><%= link_to 'Tutorials'.html_safe, tutorials_path %></li>
 	  <li><%= link_to 'Jobs'.html_safe, jobs_path %></li>
 	  <li><a href="#">forum</a></li>
+	  
 	  <li>
-		<button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button>
-		<ul class="dropdown-menu">
+	<% if user_signed_in? %>
+	 	 <a href="<%= create_gallery_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i> Upload</a>
+	<% end %>  
+
+		<!-- <button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button> -->
+<!-- 		<ul class="dropdown-menu">
 		  <li><a href="#">Action</a></li>
 		  <li><a href="#">Another action</a></li>
 		  <li><a href="#">Something else here</a></li>
 		  <li role="separator" class="divider"></li>
 		  <li><a href="#">Separated link</a></li>
-		</ul>
+		</ul> -->
 	  </li>
+
+
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
 

@@ -107,6 +107,16 @@ Rails.application.routes.draw do
     post 'dashboard/projects/follow_artist'           => 'galleries#follow_artist', as: 'follow_artist' 
     post 'dashboard/projects/check_follow_artist'     => 'galleries#check_follow_artist', as: 'check_follow_artist' 
     
+    get 'dashboard/projects/browse_all_artwork'              => 'galleries#browse_all_artwork', as: 'browse_all_artwork' 
+    get 'dashboard/projects/browse_all_awards'               => 'galleries#browse_all_awards', as: 'browse_all_awards' 
+    get 'dashboard/projects/browse_all_challenge'            => 'galleries#browse_all_awards', as: 'browse_all_challenge' 
+    get 'dashboard/projects/browse_all_companies'            => 'galleries#browse_all_companies', as: 'browse_all_companies' 
+    get 'dashboard/projects/browse_all_gallery'              => 'galleries#browse_all_gallery', as: 'browse_all_gallery' 
+    get 'dashboard/projects/browse_all_video'                => 'galleries#browse_all_gallery', as: 'browse_all_video' 
+    get 'dashboard/projects/browse_all_work_in_progress'     => 'galleries#browse_all_gallery', as: 'browse_all_work_in_progress' 
+    get 'dashboard/projects/get_gallery_list'                => 'galleries#get_gallery_list', as: 'get_gallery_list' 
+
+    
 
    resources :collections
     
@@ -124,14 +134,6 @@ Rails.application.routes.draw do
 
 
 
-
-  get 'gallery/browse_all_artwork'
-  get 'gallery/browse_all_awards'
-  get 'gallery/browse_all_challenge'
-  get 'gallery/browse_all_companies'
-  get 'gallery/browse_all_gallery'
-  get 'gallery/browse_all_video'
-  get 'gallery/browse_all_work_in_progress'
   get 'gallery/challenge'
   get 'gallery/get_challenge_list'
   get 'gallery/challenge_post'
@@ -144,11 +146,8 @@ Rails.application.routes.draw do
   get 'gallery/download_post'
   get 'gallery/join_challenge'
   get 'gallery/search'  
-  
-
-  
-  
   get 'gallery/free_download'
+  
   get 'news/index'
   get 'news/free_news'
   get 'news/news_category'
