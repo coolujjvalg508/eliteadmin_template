@@ -125,7 +125,7 @@
             </li>     
 
         </ul>
-       <div ng-hide="artwork_data.length" class="clearfix downbox text-center err-msg no-result" style='line-height:50px'>No Result Found!</div>
+       <div  ng-hide="artwork_data.length" class="clearfix downbox text-center err-msg no-result" style='line-height:50px'>No Result Found!</div>
       </div>
  <!--  ############################################### All Gallery ################################################### -->
      <section ng-show="IsShowGallery" class="angularjswrap clearfix">
@@ -140,7 +140,7 @@
 
              <!-- <a href="#"><center><%= image_tag("database/roy-the-rat-girl.jpg", :alt => "Roy", :class=>"img-responsive") %></center></a>  -->
           </li>
-          <li ng-hide="artwork_data.length" class="text-center err-msg no-result">No Result Found!</li>
+          <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li>
         </ul>
       </section> 
 
@@ -155,14 +155,14 @@
                 <div class="video-box1"> 
                     <iframe title="Video" width="300" height="200" ng-src="{{ y }}" frameborder="0" allowfullscreen></iframe> 
                 </div>
-                <div class="video-title"><a href="#">{{x.user.professional_headline}}</a></div>
+                <div class="video-title"><a href="#">{{ x.user.professional_headline }}</a></div>
                 <div class="clearfix">
                 <div class="video-by-txt pull-left">by <a href="#">{{x.user.firstname}} {{x.user.lastname}}</a></div>
                 <div class="like-video pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.like_res.gallerylike}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 0</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 0</span> </div>
                 </div>
             </div>   
           </li>
-            <li ng-hide="artwork_data.length" class="text-center err-msg no-result">No Result Found!</li>
+            <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li>
         </ul>
       </div>    
 
@@ -192,7 +192,7 @@
               </div>
 
               </li>
-               <li ng-hide="artwork_data.length" class="text-center err-msg no-result">No Result Found!</li>
+               <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li>
           </ul>
         </div>   
 </div>
@@ -240,8 +240,7 @@
         if(typeof $scope.medium_category_id !== 'undefined' && $scope.medium_category_id != ''  && $scope.medium_category_id != 'all'){
           list_url += '&medium_category_id=' + $scope.medium_category_id
         }
-
-        
+   
 
         $http.get(list_url).then(function (response) {
           
