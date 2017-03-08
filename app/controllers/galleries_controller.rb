@@ -607,7 +607,7 @@ class GalleriesController < ApplicationController
 
 
 
-               final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data':video_data,'like_res':like_res}
+               final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data,'like_res': like_res}
 
              end  
 
