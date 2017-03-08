@@ -190,7 +190,7 @@ class GalleriesController < ApplicationController
             
            
             tags_list = params['gallery']['tag']['tag']
-
+ 
             tags_list.reject!{|a| a==""}
 
             tags_list.each do |tag_val|
@@ -543,7 +543,7 @@ class GalleriesController < ApplicationController
    
     def get_gallery_list
 
-        conditions = "true"
+        conditions = "is_trash=0"
 
         if(params[:post_type_category_id] && params[:post_type_category_id] != '')
           conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
@@ -554,15 +554,79 @@ class GalleriesController < ApplicationController
         end 
 
         if(params[:is_feature] && params[:is_feature] != '')
-          conditions += ' AND is_trash=0 AND is_featured=' + params[:is_feature] 
+          conditions += ' AND is_featured=' + params[:is_feature] 
         end 
 
-      
+
+       
         #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
-        result = Gallery.where(conditions).order('id DESC')
+        result    = Gallery.where(conditions).order('id DESC')
+       #abort(result.to_json)
+        final_data = []
+        if result.present?
+          
+         result.each_with_index do |value, index|
+                 video_data    = []
+                  if value.videos.present?  
+                        value.videos.each_with_index do |video_value, video_index|
 
-        render :json => result.to_json(:include => [:user, :category, :medium_category]), status: 200
+                               if(video_value.video.include?('youtube')) 
+                                    if video_value.video[/youtu\.be\/([^\?]*)/]
+                                      youtube_id = $1
+                                    else
+                                      video_value.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+                                      youtube_id = $5
+                                    end
+                                  
+                                  video_data[video_index] =   {'type': 'Youtube', 'videoid': 'https://www.youtube.com/embed/'+ youtube_id}
+                                
+                               elsif(video_value.video.include?('vimeo')) 
+                                    match = video_value.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
 
+                                    if match.present?
+                                      vimeoid = match[:id]
+                                      video_data[video_index] =   {'type': 'Vimeo', 'videoid': 'https://player.vimeo.com/video/'+vimeoid}   
+                                   
+                                    end
+                                
+                                elsif(video_value.video.include?('dailymotion'))  
+                                    match =  video_value.video.gsub('http://www.dailymotion.com/video/', "")
+                                    match1  = match.index('_')
+                                    match = match[0...match1]
+                                    if match.present?
+                                      dailymotionid = match
+                                      video_data[video_index] =   {'type': 'Dailymotion', 'videoid': '//www.dailymotion.com/embed/video/'+dailymotionid}   
+                                                          
+                                    end 
+                                end
+                        end  
+                  end   
+               
+                  like_res = gallery_like_count(value.id)
+
+
+
+
+               final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data':video_data,'like_res':like_res}
+
+             end  
+
+
+          
+        
+        end  
+            
+
+          
+       render :json => final_data.to_json, status: 200
+
+
+    end  
+
+    def gallery_like_count(value)
+
+        gallerylike    = PostLike.where('post_id = ?', value).count
+        res            = {'gallerylike':gallerylike} 
 
     end  
 

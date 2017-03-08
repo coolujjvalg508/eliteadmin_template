@@ -105,80 +105,96 @@
     </div>
   </div>
 
- <!-- ng-if="IsShowArtwork" ############################################### All artworks ################################################### -->
-  <div  class="artworkwrap clearfix">
-  <ul class="margin">
-           
-          <li class="lists clearfix" dir-paginate="x in artwork_data|filter:search|itemsPerPage:50">
-             <div class="artcamera"><a href="#"><%= image_tag("camera.png", :alt => "Camera") %></a></div>
-             <div class="clearfix userprowrap">
-                <div class="userprofile-content clearfix">
-                  <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"><%#= image_tag("userpro-img.jpg", :alt => "User Profile",:class=>"img-responsive") %></div>
-                  <div class="userproright">
-                    <h2>{{x.user.professional_headline}} </h2>
-                   {{x.user.firstname}} {{x.user.lastname}} </div>
+ <!-- ######################################### All artworks ################################################### -->
+      <div ng-show="IsShowArtwork" class="artworkwrap clearfix">
+        <ul class="margin">
+            <li class="lists clearfix" dir-paginate="x in artwork_data | itemsPerPage:50">
+                <div class="artcamera">   
+                 <!--  <a  href="#"><%= image_tag("camera.png", :alt => "Camera") %></a>  -->
                 </div>
-              </div>
-             <a href="/dashboard/projects/{{x.paramlink}}/show">  <img lazy-img="<%= root_url %>{{ x.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
-          </li>     
+                     <div class="clearfix userprowrap">
+                        <div class="userprofile-content clearfix">
+                          <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"><%#= image_tag("userpro-img.jpg", :alt => "User Profile",:class=>"img-responsive") %></div>
+                          <div class="userproright">
+                            <h2>{{x.user.professional_headline}} </h2>
+                           {{x.user.firstname}} {{x.user.lastname}} </div>
+                        </div>
+                      </div>
+               <a href="/dashboard/projects/{{x.result.paramlink}}/show">  
+                <img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
+            </li>     
 
-   </ul>
-   <div ng-hide="artwork_data.length" class="clearfix downbox text-center err-msg no-result" style='line-height:50px'>No Result Found!</div>
-  </div>
-
+        </ul>
+       <div ng-hide="artwork_data.length" class="clearfix downbox text-center err-msg no-result" style='line-height:50px'>No Result Found!</div>
+      </div>
  <!--  ############################################### All Gallery ################################################### -->
-<!--   <section ng-if="IsShowGallery" class="angularjswrap clearfix"  dir-paginate="x in artwork_data|filter:search|itemsPerPage:100">
+     <section ng-show="IsShowGallery" class="angularjswrap clearfix">
 
-    <ul class="margin">
-      <li class="lists">
-         <div class="photowrap"> 
-             <a href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a> 
-             <a href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a>
-         </div>
-         <a href="#"><center><%= image_tag("database/roy-the-rat-girl.jpg", :alt => "Roy", :class=>"img-responsive") %></center></a> 
-      </li>
-    </ul>
-  </section> -->
+        <ul class="margin">
+          <li class="lists" dir-paginate="x in artwork_data|itemsPerPage:100">
+             <div class="photowrap"> 
+                <!--  <a href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a> 
+                 <a href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a> -->
+             </div>
+               <a href="/dashboard/projects/{{x.result.paramlink}}/show"> <center><img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Gallery" class="img-responsive"></center></a>
 
+             <!-- <a href="#"><center><%= image_tag("database/roy-the-rat-girl.jpg", :alt => "Roy", :class=>"img-responsive") %></center></a>  -->
+          </li>
+          <li ng-hide="artwork_data.length" class="text-center err-msg no-result">No Result Found!</li>
+        </ul>
+      </section> 
 
+   
  <!--  ############################################### All Video ################################################### -->
 
-<!--   <div ng-if="IsShowVideo" class=" videowrap clearfix">
-    <ul class="margin">
-      <li class="lists clearfix">
-        <div class="video-box"><img src="images/database/browse-video.jpg" class="img-responsive" alt="Video"></div>
-        <div class="video-title"><a href="#">Garvel Hever</a></div>
-        <div class="clearfix">
-        <div class="video-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-        <div class="like-video pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-        </div>
-      </li>
-    </ul>
-  </div>    
- -->
+      <div ng-show="IsShowVideo" class=" videowrap clearfix">
+        <ul class="margin">
+
+          <li class="lists clearfix" dir-paginate="x in artwork_data | itemsPerPage:20">
+             <div ng-repeat="y in videoinfo">
+                <div class="video-box1"> 
+                    <iframe title="Video" width="300" height="200" ng-src="{{ y }}" frameborder="0" allowfullscreen></iframe> 
+                </div>
+                <div class="video-title"><a href="#">{{x.user.professional_headline}}</a></div>
+                <div class="clearfix">
+                <div class="video-by-txt pull-left">by <a href="#">{{x.user.firstname}} {{x.user.lastname}}</a></div>
+                <div class="like-video pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.like_res.gallerylike}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 0</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 0</span> </div>
+                </div>
+            </div>   
+          </li>
+            <li ng-hide="artwork_data.length" class="text-center err-msg no-result">No Result Found!</li>
+        </ul>
+      </div>    
+
  <!--  ############################################### All Wip ################################################### -->
 
 
-<!--  <div ng-if="IsShowWip" class="wip-indent clearfix">
-    <ul class="margin">
-        <li class="lists clearfix">
-        <div class="wip-pic"><img src="images/database/wip-gallery.jpg" class="img-responsive" alt="WIP"></div>
-        <div class="wip-title"><a href="#">Garvel Hever</a></div>
-        <div class="clearfix">
-        <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div> <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-        </div>
-        <div class="wip-small clearfix">
+      <div ng-show="IsShowWip" class="wip-indent clearfix">
           <ul class="margin">
-            <li class="lists"><img src="images/database/mioree-silas-sall.jpg" class="img-responsive" alt="img"></li>
-            <li class="lists"><img src="images/database/mioree-ana.jpg" class="img-responsive" alt="img"></li>
-            <li class="lists"><img src="images/database/mioree-snape.jpg" class="img-responsive" alt="img"></li>
+
+              <li class="lists clearfix" dir-paginate="x in artwork_data|itemsPerPage:10">
+              <div class="wip-pic">
+                <a href="/dashboard/projects/{{x.result.paramlink}}/show"><img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="WIP" class="img-responsive"></a>
+              </div>
+              <div class="wip-title"><a href="#">{{x.result.title}}</a></div>
+              <div class="clearfix">
+               <div class="wip-by-txt pull-left">by <a href="#">{{x.user.firstname}} {{x.user.lastname}}</a></div> <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.like_res.gallerylike}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 0</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 0</span> </div>
+              </div>
+              <div class="wip-small clearfix">
+                <ul class="margin">
+                    <li class="lists" ng-repeat="y in x.image | limitTo: 5">
+                        <img src="{{y.image.thumb.url}}" class="img-responsive" alt="img">
+                    </li> 
+              <!--     <li class="lists"><img src="images/database/mioree-silas-sall.jpg" class="img-responsive" alt="img"></li>
+                  <li class="lists"><img src="images/database/mioree-ana.jpg" class="img-responsive" alt="img"></li>
+                  <li class="lists"><img src="images/database/mioree-snape.jpg" class="img-responsive" alt="img"></li> -->
+                </ul>
+              </div>
+
+              </li>
+               <li ng-hide="artwork_data.length" class="text-center err-msg no-result">No Result Found!</li>
           </ul>
-        </div>
-
-        </li>
-    </ul>
-  </div>    -->   
-
+        </div>   
 </div>
   
    <div class="pagintionpage clearfix">
@@ -207,7 +223,7 @@
 
   // main page angular app start
   var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
-  app.controller('browseAllArtworkCtrl', function($scope, $http) {
+  app.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
       
     $scope.filter = function() {
         
@@ -229,33 +245,42 @@
 
         $http.get(list_url).then(function (response) {
           
-           /* if($scope.post_type_category_id == 1){
-                 $scope.IsShowGallery  = 1
-                 $scope.IsShowVideo    = 0
-                 $scope.IsShowWip      = 0
-                 $scope.IsShowArtwork  = 0
+            if($scope.post_type_category_id == 1){
+                 $scope.IsShowGallery  = true
+                 $scope.IsShowVideo    = false
+                 $scope.IsShowWip      = false
+                 $scope.IsShowArtwork  = false
             }else if($scope.post_type_category_id == 2){
-                 $scope.IsShowVideo    = 1
-                 $scope.IsShowWip      = 0
-                 $scope.IsShowArtwork  = 0
-                 $scope.IsShowGallery  = 0
+                 $scope.IsShowVideo    = true
+                 $scope.IsShowWip      = false
+                 $scope.IsShowArtwork  = false
+                 $scope.IsShowGallery  = false
             }else if($scope.post_type_category_id == 3){
-                 $scope.IsShowWip      = 1
-                 $scope.IsShowArtwork  = 0
-                 $scope.IsShowGallery  = 0
-                 $scope.IsShowVideo    = 0
+                 $scope.IsShowWip      = true
+                 $scope.IsShowArtwork  = false
+                 $scope.IsShowGallery  = false
+                 $scope.IsShowVideo    = false
             }else{
-                 $scope.IsShowArtwork  = 1
-                 $scope.IsShowGallery  = 0
-                 $scope.IsShowVideo    = 0
-                 $scope.IsShowWip      = 0
+                 $scope.IsShowArtwork  = true
+                 $scope.IsShowGallery  = false
+                 $scope.IsShowVideo    = false
+                 $scope.IsShowWip      = false
+            } 
 
-            } */
-
-
-          $scope.artwork_data = response.data;
+            resultdata            = [];
             
-        });
+            angular.forEach(response.data, function(value, key){
+                resultdata.push(value);
+                videoinfo      = [];
+                angular.forEach(value.video_data, function(value1, key1){ 
+                      videoinfo[key1] = $sce.trustAsResourceUrl(value1.videoid); 
+                });
+            });
+
+            $scope.artwork_data              = resultdata;
+            $scope.videoinfo                 = videoinfo;
+          
+          });
     };
     $scope.filter();
 
