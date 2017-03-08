@@ -125,7 +125,7 @@
             </li>     
 
         </ul>
-       <div  ng-hide="artwork_data.length" class="clearfix downbox text-center err-msg no-result" style="height: 100px;text-align: center;width: 100%;top: 50px;">No Result Found!</div>
+       <div  ng-hide="artwork_data.length" class="clearfix downbox text-center err-msg no-result">No Result Found!</div>
       </div>
  <!--  ############################################### All Gallery ################################################### -->
      <section ng-show="IsShowGallery" class="angularjswrap clearfix">
@@ -140,7 +140,7 @@
 
              <!-- <a href="#"><center><%= image_tag("database/roy-the-rat-girl.jpg", :alt => "Roy", :class=>"img-responsive") %></center></a>  -->
           </li>
-          <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox" style="height: 100px;text-align: center;width: 100%;top: 50px;">No Result Found!</li>
+          <!-- <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li> -->
         </ul>
       </section> 
 
@@ -151,7 +151,7 @@
         <ul class="margin">
 
           <li class="lists clearfix" dir-paginate="x in artwork_data | itemsPerPage:20">
-             <div ng-if="videoinfo.length > 0" ng-repeat="y in videoinfo">
+             <div ng-repeat="y in videoinfo">
                 <div class="video-box1"> 
                     <iframe title="Video" width="300" height="200" ng-src="{{ y }}" frameborder="0" allowfullscreen></iframe> 
                 </div>
@@ -162,7 +162,7 @@
                 </div>
             </div>   
           </li>
-            <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox" style="height: 100px;text-align: center;width: 100%;top: 50px;">No Result Found!</li>
+            <!-- <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li> -->
         </ul>
       </div>    
 
@@ -192,7 +192,7 @@
               </div>
 
               </li>
-               <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox" style="height: 100px;text-align: center;width: 100%;top: 50px;">No Result Found!</li>
+              <!--  <li ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li> -->
           </ul>
         </div>   
 </div>
