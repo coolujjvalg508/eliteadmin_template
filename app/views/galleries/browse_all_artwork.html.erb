@@ -151,7 +151,7 @@
         <ul class="margin">
 
           <li class="lists clearfix" dir-paginate="x in artwork_data | itemsPerPage:20">
-             <div ng-repeat="y in videoinfo">
+             <div ng-if="videoinfo.length > 0" ng-repeat="y in videoinfo">
                 <div class="video-box1"> 
                     <iframe title="Video" width="300" height="200" ng-src="{{ y }}" frameborder="0" allowfullscreen></iframe> 
                 </div>
