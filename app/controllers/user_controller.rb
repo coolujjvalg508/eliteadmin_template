@@ -49,6 +49,9 @@ class UserController < ApplicationController
 
     def browse_all_artist
     end
+    
+
+
 
     def connection_followers
     
@@ -309,6 +312,31 @@ class UserController < ApplicationController
             user_follow_me           = Follow.where('artist_id = ?', artist_id).count
             res                      =  {'user_like_me':user_like_me, 'user_follow_me':user_follow_me} 
             return res
+    end
+
+
+    def get_artist_list
+
+        orderby = 'DESC'
+        if(params[:order] && params[:order] != '') 
+                orderby = params[:order]
+        end
+    #  abort(params.to_json)
+
+        conditions = "is_deleted = 0 AND confirmed_at IS NOT NULL "
+
+        if(params[:profile_type] && params[:profile_type] != '') 
+            conditions += " AND profile_type= '"+ params[:profile_type] +"'"
+        end
+
+        if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
+             @users      = User.select("users.*, (SELECT COUNT(*) FROM follows WHERE follows.artist_id = users.id) AS following_count, (SELECT COUNT(*) FROM post_likes WHERE post_likes.user_id = users.id) AS like_count").where(conditions).order('like_count DESC, id DESC')
+        else  
+          @users      = User.select("users.*, (SELECT COUNT(*) FROM follows WHERE follows.artist_id = users.id) AS following_count, (SELECT COUNT(*) FROM post_likes WHERE post_likes.user_id = users.id) AS like_count").where(conditions).order('id '+ orderby)
+        end
+
+        render :json => @users.to_json(:include => [:country]), status: 200
+
     end 
 
 

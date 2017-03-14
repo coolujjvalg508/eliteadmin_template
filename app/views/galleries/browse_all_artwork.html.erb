@@ -20,20 +20,20 @@
       </div>
       <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left">
 
-        <select class="custom-select">
-          <option ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0">All</option>
-          <option ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1">Gallery</option>
-          <option ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2">Video</option>
-          <option ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3">WIP</option>
+        <select class="custom-select" ng-change="searchByPostType(selected)" ng-model='selected'>
+          <option value="" class="post-type-link"  id="post-type-link-0" selected="selected" >All</option>
+          <option value="1" class="post-type-link"  id="post-type-link-1">Gallery</option>
+          <option value="2" class="post-type-link"  id="post-type-link-2">Video</option>
+          <option value="3" class="post-type-link"  id="post-type-link-3">WIP</option>
         </select>
       </div>
       <div class="col-md-5 col-sm-4 col-xs-12 marginB10 text-left">
       <% mediumCategory =  MediumCategory.all  %>
-      <select class="custom-select medium-type-link">
-         <option ng-click="searchByMediumType('all')" class="medium-type-link"  id="medium-type-link-all">All</option>
-      <%  mediumCategory.each_with_index do |value,index| #abort(value.to_json) %>
-         <option ng-click="searchByMediumType(<%= value.id %>)" class="medium-type-link"  id="medium-type-link-<%= value.id %>"> <%= value['name'] %></option>
-      <% end %>
+      <select class="custom-select medium-type-link"  ng-change="searchByMediumType(selected)" ng-model='selected'>
+          <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">All</option>
+          <%  mediumCategory.each_with_index do |value,index| #abort(value.to_json) %>
+             <option value = "<%= value.id %>" class="medium-type-link"  id="medium-type-link-<%= value.id %>"> <%= value['name'] %></option>
+          <% end %>
       </select>
 
        <%#= select_tag(:medium_category_id, options_for_select(MediumCategory.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Medium Categories'}) %>
@@ -43,8 +43,8 @@
       <% if user_signed_in? %>
         <button onclick="redirect_to_create_gallery();" type="button" class="btn btn-success border-radius marginB10">Upload</button>
       <% end %>
-      <button type="button" class="btn btn-default border-radius marginB10">Browse Popular Artwork</button>
-      <button type="button" class="btn btn-default border-radius marginB10">Browse Top Artwork </button>
+      <button type="button" class="btn btn-default border-radius marginB10 browse-by" id="browse-by-link-popular" ng-click="browseBy('popular')">Browse Popular Artwork</button>
+      <button type="button" class="btn btn-default border-radius marginB10 browse-by" id="browse-by-link-top" ng-click="browseBy('top')">Browse Top Artwork </button>
     </div>
   </div>
 </section>
@@ -108,7 +108,7 @@
  <!-- ######################################### All artworks ################################################### -->
       <div ng-show="IsShowArtwork" class="artworkwrap clearfix">
         <ul class="margin">
-            <li class="lists clearfix" dir-paginate="x in artwork_data | itemsPerPage:50">
+            <li class="lists clearfix" dir-paginate="x in artwork_data | filter:search | itemsPerPage:50">
                 <div class="artcamera">   
                  <!--  <a  href="#"><%= image_tag("camera.png", :alt => "Camera") %></a>  -->
                 </div>
@@ -240,6 +240,10 @@
         if(typeof $scope.medium_category_id !== 'undefined' && $scope.medium_category_id != ''  && $scope.medium_category_id != 'all'){
           list_url += '&medium_category_id=' + $scope.medium_category_id
         }
+
+        if(typeof $scope.browse_by !== 'undefined' && $scope.browse_by != ''  && $scope.browse_by != 'all'){
+          list_url += '&browse_by=' + $scope.browse_by
+        }
    
 
         $http.get(list_url).then(function (response) {
@@ -308,6 +312,17 @@
       angular.element( document.querySelectorAll( '#medium-type-link-' + id + ', #medium-type-category-link-all, #medium-type-subcategory-link-all' ) ).addClass('active');
 
       $scope.medium_category_id = id;
+      $scope.filter();
+    };
+
+    $scope.browseBy = function(browse_by) {
+
+      angular.element( document.querySelectorAll( '.browse-by' ) ).removeClass('active btn-success');
+      angular.element( document.querySelectorAll( '.browse-by' ) ).addClass('btn-default');
+      angular.element( document.querySelectorAll( '#browse-by-link-' + browse_by ) ).removeClass('btn-default');
+      angular.element( document.querySelectorAll( '#browse-by-link-' + browse_by ) ).addClass('btn-success active');
+
+      $scope.browse_by = browse_by;
       $scope.filter();
     };
 

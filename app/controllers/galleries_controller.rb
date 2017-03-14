@@ -557,11 +557,14 @@ class GalleriesController < ApplicationController
           conditions += ' AND is_featured=' + params[:is_feature] 
         end 
 
-
-       
         #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
-        result    = Gallery.where(conditions).order('id DESC')
-       #abort(result.to_json)
+        
+        if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
+            result    = Gallery.select("galleries.*, (SELECT COUNT(*) AS count FROM post_likes WHERE post_id = galleries.id AND post_type = 'Gallery' ) AS browse_by_count").where(conditions).order('browse_by_count DESC, id DESC')
+        else  
+          result    = Gallery.where(conditions).order('id DESC')
+        end
+
         final_data = []
         if result.present?
           
@@ -578,14 +581,14 @@ class GalleriesController < ApplicationController
                                       youtube_id = $5
                                     end
                                   
-                                  video_data[video_index] =   {'type': 'Youtube', 'videoid': 'https://www.youtube.com/embed/'+ youtube_id}
+                                  video_data[video_index] =   { 'type': 'Youtube', 'videoid': 'https://www.youtube.com/embed/'+ youtube_id }
                                 
                                elsif(video_value.video.include?('vimeo')) 
                                     match = video_value.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
 
                                     if match.present?
                                       vimeoid = match[:id]
-                                      video_data[video_index] =   {'type': 'Vimeo', 'videoid': 'https://player.vimeo.com/video/'+vimeoid}   
+                                      video_data[video_index] =   { 'type': 'Vimeo', 'videoid': 'https://player.vimeo.com/video/'+vimeoid }   
                                    
                                     end
                                 
@@ -595,19 +598,16 @@ class GalleriesController < ApplicationController
                                     match = match[0...match1]
                                     if match.present?
                                       dailymotionid = match
-                                      video_data[video_index] =   {'type': 'Dailymotion', 'videoid': '//www.dailymotion.com/embed/video/'+dailymotionid}   
+                                      video_data[video_index] =   { 'type': 'Dailymotion', 'videoid': '//www.dailymotion.com/embed/video/'+dailymotionid }   
                                                           
                                     end 
                                 end
                         end  
                   end   
                
-                  like_res = gallery_like_count(value.id)
+                  like_res           = gallery_like_count(value.id)
 
-
-
-
-               final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data,'like_res': like_res}
+                  final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data,'like_res': like_res}
 
              end  
 

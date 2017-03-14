@@ -60,9 +60,7 @@ ActiveAdmin.register Gallery , as: "Project" do
 		  f.input :has_adult_content, as: :boolean,label: "Has Adult Content"
 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
-		  
-		  
-		 
+		 		 
 		  
 		  #f.input :tags, label:'Tags'
 		  f.input :use_tag_from_previous_upload, as: :boolean,label: "Use Tag From Previous Upload"
