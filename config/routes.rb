@@ -9,19 +9,65 @@ Rails.application.routes.draw do
     puts "ActiveAdmin: #{e.class}: #{e}"
   end
 
-  devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'sessions', omniauth_callbacks: 'omniauth_callbacks'}
+  root 'gallery#index'  
 
+  devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'sessions', omniauth_callbacks: 'omniauth_callbacks'}
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   
+
+
+
   get 'setting/index' 
   get 'setting/general'
-
   get 'appearance/index'
-
   get 'comment/index'
-
   get 'content/index'
+
+
   get 'users/login'
+  get 'user-signup' => 'user#signup'
+  get 'forgot-password'=> 'user#forgotpassword'
+
+
+  get 'user/dashboard'  
+  get 'user/index'
+  get 'user/add'
+  get 'user/profile'
+  get 'user/feed'
+  get 'user/trending'
+  get 'user/following'
+  get 'user/followers'
+  get 'bookmark' => 'user#bookmark'
+  get 'user/notification'
+  get 'user/browse_all_artist'  
+  get 'user/join_challenge'
+  get 'user/user_followers'
+  get 'user/user_following'
+  get 'user/user_profile_info'
+  get 'user/user_statistics'
+
+  get 'users'  => 'user#browse_all_artist', as: 'browse_all_artist' 
+
+
+  get 'connection-followers' => 'user#connection_followers', as: 'connection_followers' 
+  get 'connection-following' => 'user#connection_following', as: 'connection_following' 
+  get 'likes' => 'user#user_like', as: 'user_like' 
+  get 'user/get_user_likes' => 'user#get_user_likes', as: 'get_user_likes' 
+  get 'user/get_connection_followers' => 'user#get_connection_followers', as: 'get_connection_followers' 
+  get 'user/get_connection_following' => 'user#get_connection_following', as: 'get_connection_following' 
+  get 'user/get_artist_list' => 'user#get_artist_list', as: 'get_artist_list' 
+
+
+
+  get 'activity' => 'user#all_activity', as: 'all_activity' 
+  get 'setting' => 'user#user_setting', as: 'user_setting' 
+  get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
+  get 'profile' => 'user#user_profile_info', as: 'my_profile' 
+  get 'edit-profile' => 'user#edit_profile', as: 'edit_profile' 
+  get 'user/unfollow_artist' => 'user#unfollow_artist', as: 'unfollow_artist' 
+  get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
+  get 'connection' => 'user#connection', as: 'connection' 
+
 
 
   get 'tutorials'=> 'tutorial#index'
@@ -31,6 +77,10 @@ Rails.application.routes.draw do
   get 'tutorial/tutorial_post'
   get 'tutorial/tutorial_category/:id'=> 'tutorial#tutorial_category', as: 'tutorial_category'
   get 'tutorial/tutorial_all_category'
+
+
+
+  get 'message' => 'user#message', as: 'message'
   
   get 'store/index'
 
@@ -43,48 +93,12 @@ Rails.application.routes.draw do
   get 'job/job_category' 
   get 'job/job_company_list_on_map'
   get 'job/job_list_on_map'
-  
 
-  get 'user-signup' => 'user#signup'
-  get 'forgot-password'=> 'user#forgotpassword'
-  
-  get 'user/dashboard'
-  
-  get 'user/index'
-  get 'user/add'
-  get 'user/profile'
-  get 'user/feed'
-  get 'user/trending'
-  get 'user/following'
-  get 'user/followers'
-  get 'bookmark' => 'user#bookmark'
-  get 'user/notification'
-  get 'user/browse_all_artist'
-  
-  get 'user/join_challenge'
-  get 'user/user_followers'
-  get 'user/user_following'
-  get 'user/user_profile_info'
-  get 'user/user_statistics'
-  
 
-  get 'connection-followers' => 'user#connection_followers', as: 'connection_followers' 
-  get 'connection-following' => 'user#connection_following', as: 'connection_following' 
-  get 'likes' => 'user#user_like', as: 'user_like' 
-  get 'user/get_user_likes' => 'user#get_user_likes', as: 'get_user_likes' 
-  get 'user/get_connection_followers' => 'user#get_connection_followers', as: 'get_connection_followers' 
-  get 'user/get_connection_following' => 'user#get_connection_following', as: 'get_connection_following' 
+  put 'update_user_image' => 'job#update_user_image'
+  delete 'remove_cover_art' => 'job#remove_cover_art'
+    
 
-  get 'message' => 'user#message', as: 'message' 
-  get 'activity' => 'user#all_activity', as: 'all_activity' 
-  get 'setting' => 'user#user_setting', as: 'user_setting' 
-  get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
-  get 'profile' => 'user#user_profile_info', as: 'my_profile' 
-  get 'edit-profile' => 'user#edit_profile', as: 'edit_profile' 
-  get 'user/unfollow_artist' => 'user#unfollow_artist', as: 'unfollow_artist' 
-  get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
-  
-  get 'connection' => 'user#connection', as: 'connection' 
 
   resources :user, only: [:edit, :update]
 
@@ -107,13 +121,13 @@ Rails.application.routes.draw do
     post 'dashboard/projects/follow_artist'           => 'galleries#follow_artist', as: 'follow_artist' 
     post 'dashboard/projects/check_follow_artist'     => 'galleries#check_follow_artist', as: 'check_follow_artist' 
     
-    get 'dashboard/projects/browse_all_artwork'              => 'galleries#browse_all_artwork', as: 'browse_all_artwork' 
+    get 'gallery'                                           => 'galleries#browse_all_artwork', as: 'browse_all_artwork' 
     get 'dashboard/projects/browse_all_awards'               => 'galleries#browse_all_awards', as: 'browse_all_awards' 
     get 'dashboard/projects/browse_all_challenge'            => 'galleries#browse_all_awards', as: 'browse_all_challenge' 
     get 'dashboard/projects/browse_all_companies'            => 'galleries#browse_all_companies', as: 'browse_all_companies' 
     get 'dashboard/projects/browse_all_gallery'              => 'galleries#browse_all_gallery', as: 'browse_all_gallery' 
-    get 'dashboard/projects/browse_all_video'                => 'galleries#browse_all_gallery', as: 'browse_all_video' 
-    get 'dashboard/projects/browse_all_work_in_progress'     => 'galleries#browse_all_gallery', as: 'browse_all_work_in_progress' 
+    #get 'dashboard/projects/browse_all_video'                => 'galleries#browse_all_gallery', as: 'browse_all_video' 
+   # get 'dashboard/projects/browse_all_work_in_progress'     => 'galleries#browse_all_gallery', as: 'browse_all_work_in_progress' 
     get 'dashboard/projects/get_gallery_list'                => 'galleries#get_gallery_list', as: 'get_gallery_list' 
 
     
@@ -159,10 +173,8 @@ Rails.application.routes.draw do
   get 'downloads'=> 'gallery#download'
 
 
-  put 'update_user_image' => 'job#update_user_image'
-  delete 'remove_cover_art' => 'job#remove_cover_art'
 
-  root 'gallery#index'	
+  
   
   namespace :admin do
 	 post 'images/saveimage' => 'images#saveimages'
