@@ -329,6 +329,23 @@ class UserController < ApplicationController
             conditions += " AND profile_type= '"+ params[:profile_type] +"'"
         end
 
+        if(params[:country_id] && params[:country_id] != '') 
+            conditions += " AND country_id= '"+ params[:country_id] +"'"
+        end
+
+        if(params[:full_time_employment] && params[:full_time_employment] != '') 
+            conditions += " AND full_time_employment= '"+ params[:full_time_employment] +"'"
+        end
+
+        if(params[:contract] && params[:contract] != '') 
+            conditions += " AND contract= '"+ params[:contract] +"'"
+        end
+
+        if(params[:freelance] && params[:freelance] != '') 
+            conditions += " AND freelance= '"+ params[:freelance] +"'"
+        end
+
+
         if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
              @users      = User.select("users.*, (SELECT COUNT(*) FROM follows WHERE follows.artist_id = users.id) AS following_count, (SELECT COUNT(*) FROM post_likes WHERE post_likes.user_id = users.id) AS like_count").where(conditions).order('like_count DESC, id DESC')
         else  

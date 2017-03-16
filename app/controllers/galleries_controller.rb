@@ -441,7 +441,7 @@ class GalleriesController < ApplicationController
 
     def make_trash
          #abort(params.to_json)
-         paramlink            =  params[:paramlink]
+         paramlink             =  params[:paramlink]
          @is_gallery_exist     =  Gallery.where(paramlink: paramlink).first
         # abort(@is_gallery_exist.to_json)
          if @is_gallery_exist.present?
@@ -544,11 +544,15 @@ class GalleriesController < ApplicationController
     def get_gallery_list
 
         conditions = "is_trash=0"
-
-        if(params[:post_type_category_id] && params[:post_type_category_id] != '')
-          conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
-        end 
-
+         
+        if(params[:post_type_category_id] != '0')
+            if(params[:post_type_category_id] && params[:post_type_category_id] != '')
+              conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
+            else 
+              conditions += ' AND post_type_category_id= 1'
+            end 
+        end    
+ 
         if(params[:medium_category_id] && params[:medium_category_id] != '')
           conditions += ' AND medium_category_id=' + params[:medium_category_id]
         end 
@@ -557,12 +561,14 @@ class GalleriesController < ApplicationController
           conditions += ' AND is_featured=' + params[:is_feature] 
         end 
 
+
+       # abort(conditions.to_json)
         #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
         
         if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
             result    = Gallery.select("galleries.*, (SELECT COUNT(*) AS count FROM post_likes WHERE post_id = galleries.id AND post_type = 'Gallery' ) AS browse_by_count").where(conditions).order('browse_by_count DESC, id DESC')
         else  
-          result    = Gallery.where(conditions).order('id DESC')
+           result    = Gallery.where(conditions).order('id DESC')
         end
 
         final_data = []

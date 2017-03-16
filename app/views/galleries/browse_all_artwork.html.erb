@@ -54,18 +54,18 @@
 <div class="clearfix wipwrap">
     <div class="wiptabs clearfix">
       <ul class="nav nav-pills">
-        <li class="dropdown active"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Artwork
+        <li class="dropdown active"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> {{ selected_post_type }}
           <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="#"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
-            <li><a href="#"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Gallery</a></li>
-            <li><a href="#"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
-            <li><a href="#"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Gallery</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
           
           </ul>
         </li>
-       <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Category
+       <li ng-if="post_type_category_value != 'Wip'" class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Category
             <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
             </a>
             <ul class="dropdown-menu">
@@ -73,7 +73,7 @@
               if @medium_type.present?
               %>
               <li>
-                  <a href="javascript:void(0);" ng-click="searchByMediumType('all')" class="searchByMediumType medium-type-link1"  id="medium-type-link-all">
+                  <a href="javascript:void(0);" ng-click="searchByMediumType('all')" class="searchByMediumType medium-type-link"  id="medium-type-link-all">
                     All
                   </a>
               </li>
@@ -227,11 +227,24 @@
       
     $scope.filter = function() {
         
-        list_url = '/dashboard/projects/get_gallery_list?';
-
-        if(typeof $scope.post_type_category_id !== 'undefined' && $scope.post_type_category_id != ''&& $scope.post_type_category_id != 0){
-          list_url += 'post_type_category_id=' + $scope.post_type_category_id
+        list_url = '/dashboard/projects/get_gallery_list?'; 
+        
+          if(typeof $scope.post_type_category_value !== 'undefined' && $scope.post_type_category_value != ''){
+               $scope.selected_post_type = $scope.post_type_category_value
+           }else{
+               $scope.selected_post_type =  'Gallery'
+               angular.element( document.querySelectorAll( '#post-type-link-1') ).addClass('active');
+          }    
+            
+        if ($scope.post_type_category_id == 0){
+               list_url += 'post_type_category_id='+ 0
+        }else{
+             if(typeof $scope.post_type_category_id !== 'undefined' && $scope.post_type_category_id != ''){
+                list_url += 'post_type_category_id=' + $scope.post_type_category_id
+             }
         }
+
+       
 
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
           list_url += '&is_feature=' + $scope.viewFeaturedType
@@ -245,7 +258,7 @@
           list_url += '&browse_by=' + $scope.browse_by
         }
    
-
+      //  alert(list_url);
         $http.get(list_url).then(function (response) {
           
             if($scope.post_type_category_id == 1){
@@ -263,9 +276,14 @@
                  $scope.IsShowArtwork  = false
                  $scope.IsShowGallery  = false
                  $scope.IsShowVideo    = false
-            }else{
-                 $scope.IsShowArtwork  = true
+            }else if($scope.post_type_category_id == 0){
                  $scope.IsShowGallery  = false
+                 $scope.IsShowVideo    = false
+                 $scope.IsShowWip      = false
+                 $scope.IsShowArtwork  = true
+            }else {
+                 $scope.IsShowArtwork  = false
+                 $scope.IsShowGallery  = true
                  $scope.IsShowVideo    = false
                  $scope.IsShowWip      = false
             } 
@@ -302,7 +320,21 @@
       angular.element( document.querySelectorAll( '.post-type-link, .post-type-category-link, .post-type-subcategory-link' ) ).removeClass('active');
       angular.element( document.querySelectorAll( '#post-type-link-' + id + ', #post-type-category-link-all, #post-type-subcategory-link-all' ) ).addClass('active');
 
-      $scope.post_type_category_id = id;
+       $scope.post_type_category_id = id;
+        posttype_value = '';
+        if(id == 0){
+            posttype_value = 'All';
+        }else if(id == 1){
+            posttype_value = 'Gallery';
+        }else if(id == 2){
+            posttype_value = 'Video';
+        }else if(id == 3){
+            posttype_value = 'Wip';
+        }else{
+             posttype_value = 'Gallery';
+        }
+     
+      $scope.post_type_category_value = posttype_value;
       $scope.filter();
     };
 

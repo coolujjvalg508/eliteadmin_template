@@ -15,7 +15,7 @@
             <div class="clearfix wip-gallery-wrap">
                 <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
                     <div class="input-group stylish-input-group">
-                     <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
+                     <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search.firstname" />
                         <span class="input-group-addon">
                             <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
                         </span> 
@@ -26,7 +26,8 @@
 
 
                  <select class="custom-select" ng-change="searchByProfileType(selected)" ng-model='selected'>
-                      <option value="" class="profile-type-link"  id="profile-type-link-0" selected="selected" >All</option>
+                      <option value="" selected="selected">Select Profile Type</option>
+                      <option value="All" class="profile-type-link"  id="profile-type-link-all" selected="selected" >All</option>
                       <option value="Artist" class="profile-type-link"  id="profile-type-link-Artist">Artist</option>
                       <option value="Recruiter" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</option>
                       <option value="Studio" class="profile-type-link"  id="profile-type-link-Studio">Studio</option>
@@ -52,20 +53,21 @@
         </div>
     </section>
 
-    <!-- WIP Content Start -->-+
+    <!-- WIP Content Start -->
     <section class="clearfix browseallcompanies">
         <div class="clearfix wipwrap">
             <div class="wiptabs clearfix">
                 <ul class="nav nav-pills">
                     <li class="dropdown active"> 
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Profile Type
+                            <i class="fa fa-th txt15 marginR5" aria-hidden="true"></i>{{selected_profile_type}}
                             <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"  ng-click="searchByProfileType('Artist')" class="profile-type-link"  id="profile-type-link-Artist">Artist</a></li>
-                            <li><a href="#" ng-click="searchByProfileType('Recruiter')" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</a></li>
-                            <li><a href="#" ng-click="searchByProfileType('Studio')" class="profile-type-link"  id="profile-type-link-Studio">Studio</a></li>
+                            <li><a href="javascript:void(0);"  ng-click="searchByProfileType('All')" class="profile-type-link"  id="profile-type-link-All">All</a></li>
+                            <li><a href="javascript:void(0);"  ng-click="searchByProfileType('Artist')" class="profile-type-link"  id="profile-type-link-Artist">Artist</a></li>
+                            <li><a href="javascript:void(0);" ng-click="searchByProfileType('Recruiter')" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</a></li>
+                            <li><a href="javascript:void(0);" ng-click="searchByProfileType('Studio')" class="profile-type-link"  id="profile-type-link-Studio">Studio</a></li>
                         </ul>
                     </li>
                  <!--    <li class="dropdown"> 
@@ -111,7 +113,7 @@
         <div class="clearfix usernavivation hidden-xs">
             <ul class="nav nav-pills">
                 <li class="paddinT10 paddinB10">
-                <input type="text" placeholder="Search" class="form-control from-input"  ng-model="search">
+                <input type="text" placeholder="Search" class="form-control from-input"  ng-model="search.firstname">
                 </li>
                 <li class="dropdown pull-right recentdrop" role="presentation"> 
                     <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
@@ -182,45 +184,51 @@
                     <div class="filter-wrap clearfix">
                         <form role="form">
                             <div class="form-group">
-                                <label for="ajit">Search Terms</label>
-                                <input type="text" class="form-control from-input" placeholder="Search" id="searchterms" ng-model='search'>
-                            </div>
-                            <div class="form-group clearfix">
-                                <label for="City">City</label>
-                                <select class="custom-select" id="City">
-                                    <option>Select City</option>
-                                </select>
+                                <label for="ajit">Search by name</label>
+                                <input type="text" class="form-control from-input" placeholder="Search" id="searchterms" ng-model='search.firstname'>
                             </div>
                             <div class="form-group clearfix">
                                 <label for="Country">Country</label>
-                                <select class="custom-select" id="Country">
-                                    <option>Select Country</option>
+                                 <% country =  Country.all  %>
+                                <select class="custom-select" id="Country" ng-change="searchByCountry(selected)" ng-model='selected'>
+                                 <option value="">Select Country</option>
+                                <%  country.each_with_index do |value,index| #abort(value.to_json) %>
+                                    <option id="country_<%= value.id %>" value = "<%= value.id %>" ><%= value.name %></option>
+                                <% end %>    
                                 </select>
+                                 
+
                             </div>
-                            <div class="form-group">
+                            <div class="form-group clearfix">
+                                <label for="City">City</label>
+                                    <input type="text" class="form-control from-input" placeholder="Search" id="searchterms" ng-model='search.city'>
+                            </div>
+                           
+                         <!--    <div class="form-group">
                                 <label for="skills">Skills</label>
                                 <input type="text" class="form-control from-input" placeholder="Enter skill here" id="skills">
                             </div>
                             <div class="form-group">
                                 <label for="software">Software</label>
                                 <input type="text" class="form-control from-input" placeholder="Enter software here" id="software">
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <div class="marginB10 white-txt">Availability</div>
                                 <div class="checkbox-btn marginB10">
-                                    <input type="checkbox" value="value-1" id="rc3" name="rc3"/>
+                                     <input id='rc3' name="full_time_employment" type="checkbox" ng-change="fulltime_availability(selected)" ng-model="selected">
                                     <label for="rc3" onclick>Full-time</label>
                                 </div>
                                 <div class="checkbox-btn marginB10">
-                                    <input type="checkbox" value="value-1" id="rc4" name="rc4"/>
+                                    <input id='rc4' name="contract"  type="checkbox" ng-change="contract_availability(selected1)" ng-model="selected1">
                                     <label for="rc4" onclick>Contract</label>
                                 </div>
                                 <div class="checkbox-btn marginB10">
-                                    <input type="checkbox" value="value-1" id="rc5" name="rc5"/>
+
+                                    <input id='rc5'   name="freelance"  type="checkbox" ng-change="freelance_availability(selected2)" ng-model="selected2">
                                     <label for="rc5" onclick>Freelance</label>
                                 </div>
                             </div>
-                            <button type="submit" class="resetbtn border-radius"><i class="fa fa-refresh blue-txt marginR5" aria-hidden="true"></i> Reset</button>
+                          <!--   <button  type="submit" class="resetbtn border-radius"><i class="fa fa-refresh blue-txt marginR5" aria-hidden="true"></i> Reset</button> -->
                         </form>
                     </div>
                 </div>
@@ -286,17 +294,44 @@ var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "ang
 app.controller('artistCtrl', function($scope, $http) { 
      
     $scope.filter = function() {
-        list_url = '/user/get_artist_list?';
+        list_url = '';
+
+        if(typeof $scope.profile_type_value !== 'undefined' && $scope.profile_type_value != ''){
+               $scope.selected_profile_type = $scope.profile_type_value
+               list_url = '/user/get_artist_list?';
+        }else{
+
+               list_url = '/user/get_artist_list?profile_type=Artist';
+               $scope.selected_profile_type =  'Artist'
+               angular.element( document.querySelectorAll( '#profile-type-link-Artist') ).addClass('active');
+        }     
 
         if(typeof $scope.order !== 'undefined' && $scope.order != ''){
           list_url += '&order=' + $scope.order
         }
-         if(typeof $scope.profile_type !== 'undefined' && $scope.profile_type != ''&& $scope.profile_type != 0){
+         if(typeof $scope.profile_type !== 'undefined' && $scope.profile_type != '' && $scope.profile_type != 'all'&& $scope.profile_type != 'All'){
           list_url += '&profile_type=' + $scope.profile_type
         }
         if(typeof $scope.browse_by !== 'undefined' && $scope.browse_by != ''  && $scope.browse_by != 'all'){
           list_url += '&browse_by=' + $scope.browse_by
         }
+        if(typeof $scope.country_id !== 'undefined' && $scope.country_id != ''  && $scope.country_id != 'all'){
+          list_url += '&country_id=' + $scope.country_id
+        }
+         if(typeof $scope.full_time_employment !== 'undefined' && $scope.full_time_employment != ''  && $scope.full_time_employment != 'false'){
+          list_url += '&full_time_employment=' + $scope.full_time_employment
+        }
+
+        if(typeof $scope.contract !== 'undefined' && $scope.contract != ''  && $scope.contract != 'false'){
+          list_url += '&contract=' + $scope.contract
+        }
+
+        if(typeof $scope.freelance !== 'undefined' && $scope.freelance != ''  && $scope.freelance != 'false'){
+          list_url += '&freelance=' + $scope.freelance
+        }
+
+
+
 
         $http.get(list_url).then(function (response) {
           $scope.user_data = response.data;
@@ -320,6 +355,7 @@ app.controller('artistCtrl', function($scope, $http) {
       angular.element( document.querySelectorAll( '.profile-type-link, .profile-type-category-link, .profile-type-subcategory-link' ) ).removeClass('active');
       angular.element( document.querySelectorAll( '#profile-type-link-' + value + ', #profile-type-category-link-all, #profile-type-subcategory-link-all' ) ).addClass('active');
 
+      $scope.profile_type_value = value;
       $scope.profile_type = value;
       $scope.filter();
     };
@@ -333,6 +369,29 @@ app.controller('artistCtrl', function($scope, $http) {
 
     };
 
+    $scope.searchByCountry = function(value, id) {
+            
+      $scope.country_id = value;
+      $scope.filter();
+
+    };
+
+    $scope.fulltime_availability = function(value, id) {
+          $scope.full_time_employment = value;
+          $scope.filter();
+    };
+
+    $scope.contract_availability = function(value, id) {
+          $scope.contract = value;
+          $scope.filter();
+    };
+
+    $scope.freelance_availability = function(value, id) {
+          $scope.freelance = value;
+          $scope.filter();
+    };
+
+   
     $scope.unfollowuser = function(user_id) {
        
       if(confirm('Are you sure?')){
@@ -354,6 +413,8 @@ app.controller('artistCtrl', function($scope, $http) {
       $scope.browse_by = browse_by;
       $scope.filter();
     };
+
+  
 });
 </script>
 
