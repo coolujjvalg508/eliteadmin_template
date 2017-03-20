@@ -57,6 +57,9 @@ Rails.application.routes.draw do
   get 'user/get_connection_following' => 'user#get_connection_following', as: 'get_connection_following' 
   get 'user/get_artist_list' => 'user#get_artist_list', as: 'get_artist_list' 
 
+  get 'user/search_all_artists'                     => 'user#search_all_artists', as: 'search_all_artists' 
+  
+
 
 
   get 'activity' => 'user#all_activity', as: 'all_activity' 
@@ -129,6 +132,10 @@ Rails.application.routes.draw do
     #get 'dashboard/projects/browse_all_video'                => 'galleries#browse_all_gallery', as: 'browse_all_video' 
    # get 'dashboard/projects/browse_all_work_in_progress'     => 'galleries#browse_all_gallery', as: 'browse_all_work_in_progress' 
     get 'dashboard/projects/get_gallery_list'                => 'galleries#get_gallery_list', as: 'get_gallery_list' 
+    
+    get 'search'                                              => 'galleries#search', as: 'search' 
+    get 'dashboard/projects/search_all_projects'              => 'galleries#search_all_projects', as: 'search_all_projects' 
+    
 
     
 
@@ -159,7 +166,6 @@ Rails.application.routes.draw do
   get 'gallery/download_detail'
   get 'gallery/download_post'
   get 'gallery/join_challenge'
-  get 'gallery/search'  
   get 'gallery/free_download'
   
   get 'news/index'

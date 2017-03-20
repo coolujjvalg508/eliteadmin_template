@@ -1,0 +1,193 @@
+<!-- Join The Challange Page Start -->
+<section class="searchpage clearfix"  id="myApp2"  ng-app="myApp" ng-controller="searchCtrl"> 
+  <div class="container">
+    <h2>Search</h2>
+      <ul class="nav nav-tabs" role="tablist" style='margin-left:42%; border-bottom:none'>
+        <li role="presentation" id='project_tab' class="active lightbtn"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Projects</a></li>
+        <li role="presentation" id='user_tab'  class="lightbtn"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Artist</a></li>
+      </ul>
+    
+    <div class="searchwrap clearfix" style='margin-top:3%'>
+          <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="home">
+              <form>
+                  <div class="form-group marginB40">
+                      <input class="form-control" placeholder="Search..." ng-keyup="get_gallery(gallerysearch)" ng-model="gallerysearch">
+                  </div>
+              </form>
+               <div class="clearfix" style='margin-bottom:5%'>
+                  <div class="pull-left marginR5 lightcolor paddinT10">Sort by</div>  
+                    <div class="pull-left marginL5 marginR5 pos-rel">
+                          <select class="custom-select" ng-change="searchByCreated(selected)" ng-model='selected'>
+                            <option value=""  selected="selected" >Recent</option>
+                            <option value="1">Oldest</option>
+                          </select>
+                    </div> 
+
+                          <!-- <div class="pull-left marginL5 lightcolor paddinT10"> <span class="checkbox-btn">
+                            <input type="checkbox" value="value-1" id="rc3" name="rc3" />
+                            <label for="rc3" onclick>Show project title and artist name </label>
+                             </span> </div> -->
+                </div>
+               
+
+
+          </div>
+          <div role="tabpanel" class="tab-pane" id="profile">
+              <form>
+                    <div class="form-group marginB40">
+                        <input class="form-control" placeholder="Search..."  ng-keyup="get_user(galleryuser)" ng-model="galleryuser">
+                    </div>
+             </form>
+               <div class="clearfix" style='margin-bottom:5%'>
+                  <div class="pull-left marginR5 lightcolor paddinT10">Sort by</div>  
+                    <div class="pull-left marginL5 marginR5 pos-rel">
+                          <select class="custom-select" ng-change="searchByCreated(selected)" ng-model='selected'>
+                            <option value=""  selected="selected" >Recent</option>
+                            <option value="1">Oldest</option>
+                          </select>
+                    </div> 
+                    <div class="innerleft clearfix col-sm-12 col-xs-12"  id='user_data_section' style='margin-top:4%;margin-left: -14px;'>
+                          <ul>              
+                              <li class="clearfix" dir-paginate="x in user_data|filter:search|itemsPerPage:10" >
+
+                                <div class="connect-following-profile pull-left">
+                                    <img  lazy-img="<%= root_url %>{{ x.data.image.thumb.url }}" alt='User' class="img-responsive"></div>
+                                  
+                                <div class="connect-profile clearfix">
+                                  <div class="user-title">{{ x.data.firstname }} {{ x.data.lastname }}</div>
+                                  <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.data.professional_headline }}</div>
+                                  <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i>  {{ x.data.city }}, {{ x.country_name.name }}</div>
+                                  <button type="button" class="btn-default margin"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">{{ x.like_res.user_follow_me}}</span>
+                                <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{ x.like_res.user_like_me}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 0</span> 
+                                   </div>
+            
+                              </li>
+                             <li ng-hide="user_data.length" class="text-center err-msg no-result">No Result Found!</li>
+                          </ul>
+                          <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
+                                <%#= paginate @follower %>
+                                <div class="pagintionpage clearfix">
+                                    <dir-pagination-controls
+                                         max-size="1"
+                                         direction-links="true"
+                                         boundary-links="false" >
+                                    </dir-pagination-controls>
+
+                                </div>
+                          </div>
+                        </div>
+                    </div>
+
+          </div>
+        </div>
+   
+    </div>    
+
+
+    
+  </div>
+
+     <section class="clearfix" id='gallery_data_section'>
+             <div class="artworkwrap clearfix">
+                  <ul class="margin">
+                      <li class="lists clearfix" dir-paginate="x in gallery_data | filter:search | itemsPerPage:50">
+              
+                          <div class="artcamera">
+                           <!--  <a  href="#"><%= image_tag("camera.png", :alt => "Camera") %></a>  -->
+                          </div>
+                           <!--     <div class="clearfix userprowrap">
+                                  <div class="userprofile-content clearfix">
+                                    <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"><%#= image_tag("userpro-img.jpg", :alt => "User Profile",:class=>"img-responsive") %></div>
+                                    <div class="userproright">
+                                      <h2>{{x.user.professional_headline}} </h2>
+                                     {{x.user.firstname}} {{x.user.lastname}} </div>
+                                  </div>
+                                </div> -->
+                         <a href="/dashboard/projects/{{x.paramlink}}/show">  
+                          <img lazy-img="<%= root_url %>{{ x.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
+                      </li>     
+
+                  </ul>
+                 <div  ng-hide="gallery_data.length" class="clearfix downbox text-center err-msg no-result">No Result Found!</div>
+                </div>
+          </section>
+
+          
+    
+</section>
+
+<script>
+$(document).ready(function(){
+    $('#project_tab').on('click',function(){
+          $('#gallery_data_section').show();
+          $('#user_data_section').hide();
+    });
+    $('#user_tab').on('click',function(){
+          $('#gallery_data_section').hide();
+          $('#user_data_section').show();
+    });
+
+
+})
+
+
+var app   = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+app.controller('searchCtrl', function($scope, $http) { 
+     
+    $scope.filter = function() {
+      
+        list_url = '/dashboard/projects/search_all_projects?';
+
+        if(typeof $scope.title !== 'undefined' && $scope.title != ''){
+          list_url += '&title=' + $scope.title
+        }
+
+        if(typeof $scope.order !== 'undefined' && $scope.order != ''){
+          list_url += '&order=' + $scope.order
+        }
+
+       $http.get(list_url).then(function (response) {
+        //console.log(response.data);
+          $scope.gallery_data = response.data;
+        });
+
+
+
+       list_url1 = '/user/search_all_artists?';
+      
+        if(typeof $scope.firstname !== 'undefined' && $scope.firstname != ''){
+          list_url1 += '&firstname=' + $scope.firstname
+        }
+      
+       $http.get(list_url1).then(function (response) {
+          $scope.user_data = response.data;
+        });
+
+
+    };
+    $scope.filter();
+
+    $scope.get_gallery = function(value){
+
+      $scope.title = value;
+      $scope.filter();
+
+    };
+
+    $scope.get_user = function(value){
+
+      $scope.firstname = value;
+      $scope.filter();
+
+    };
+    $scope.searchByCreated = function(value, id) {
+
+      $scope.order = value;
+      $scope.filter();
+
+    };
+
+
+});
+</script>

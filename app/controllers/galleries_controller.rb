@@ -655,6 +655,33 @@ class GalleriesController < ApplicationController
     def browse_all_work_in_progress
     end
 
+    def search
+
+    end  
+
+    def search_all_projects
+
+       
+       conditions = "is_trash=0"
+         
+        if(params[:title] && params[:title] != '')
+          conditions += " AND title LIKE '%"+ params[:title] +"%'"
+        end 
+
+        order = 'DESC'
+         if params[:order].present?
+            order = 'ASC'
+         end 
+
+        result    = Gallery.where(conditions).order('id '+order)
+       
+        render :json => result.to_json(:include => [:user]), status: 200
+
+
+    end  
+
+    
+
 
     private
         def gallery_params

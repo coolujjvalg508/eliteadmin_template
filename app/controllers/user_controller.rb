@@ -315,6 +315,36 @@ class UserController < ApplicationController
     end
 
 
+     def search_all_artists
+
+       
+       conditions = "profile_type='Artist' AND is_deleted = 0 AND confirmed_at IS NOT NULL"
+         
+        if(params[:firstname] && params[:firstname] != '')
+          conditions += " AND firstname LIKE '%"+ params[:firstname] +"%'"
+        end 
+
+         order = 'DESC'
+         if params[:order].present?
+            order = 'ASC'
+         end   
+
+        result    = User.where(conditions).order('id '+order)
+
+        final_data = []
+         result.each_with_index do |data, index| 
+           # abort(data.id.to_json)
+            res     =   get_artist_like(data.id)
+            final_data[index]  = {'data': data,'country_name': data.country,'like_res': res}
+         end
+         #abort(final_data.to_json)
+        render :json => final_data.to_json, status: 200 
+
+
+
+    end  
+
+
     def get_artist_list
 
         orderby = 'DESC'
@@ -355,9 +385,6 @@ class UserController < ApplicationController
         render :json => @users.to_json(:include => [:country]), status: 200
 
     end 
-
-
-
 
 
     private
