@@ -11,6 +11,16 @@ class UserController < ApplicationController
     end
 
     def all_activity
+            following_records     =   Follow.where(user_id: current_user.id)
+            following_ids   =   []
+            following_records.each_with_index do |value , index|
+                following_ids[index]   =  value.artist_id
+            end 
+
+           @latestactivity_data =   LatestActivity.where(user_id: following_ids).page(params[:page]).per(10)  
+
+          #  abort(latestactivity_data.to_json)
+
     end
 
     def dashboard

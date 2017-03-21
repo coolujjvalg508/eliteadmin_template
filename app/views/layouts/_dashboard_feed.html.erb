@@ -11,7 +11,7 @@
     </div>
     <div class="collapse navbar-collapse" id="subtabs">
       <ul class="nav navbar-nav">
-        <li><%= link_to 'Feed', 'javascript:void(0);'  %></li>
+        <li class="<%= (activemenu == 'user/all_activity') ? 'active' : '' %>"><%= link_to 'Feed', all_activity_path  %></li>
         <li><%= link_to 'Trending',  'javascript:void(0);' %></li>
         <li class="<%= (activemenu == 'user/connection_following') ? 'active' : '' %>"><%= link_to 'Following', connection_following_path %></li>
         <li class="<%= (activemenu == 'user/connection_followers') ? 'active' : '' %>"><%= link_to 'Followers', connection_followers_path %></li>

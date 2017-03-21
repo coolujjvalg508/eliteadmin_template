@@ -14,76 +14,105 @@
   <div class="clearfix">
     <div class="notification-wrap clearfix col-sm-12 col-xs-12">
       <div class="row">
+      <%
+        if @latestactivity_data.present?
+            @latestactivity_data.each_with_index do |value, index|  
+        %>    
+
         <div class="clearfix notification-indent marginB15">
           <div class="clearfix marginB15 noti-comment">
-            <div class="notileft"><%= image_tag("noti-profile.jpg", :alt => "Notification") %></div>
+            <div class="notileft"><%= image_tag(value.user_detail.image.user_activity.url :alt => "Notification") %></div>
             <div class="notiright">
-              <div class="marginB10 paddinT10"><span class="blue-txt">Marco Plouffe </span> has liked artwork <span class="blue-txt">Golden family</span>.</div>
+              <div class="marginB10 paddinT10"><span class="blue-txt"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </span> has <%= value.activity_type %> artwork <span class="blue-txt"><a href='/dashboard/projects/<%= value.gallery.paramlink %>/show'><%= value.gallery.present? ? value.gallery.title : '' %></a></span>.</div>
             </div>
           </div>
           <div class="notification-profile clearfix">
-			   <%= image_tag("database/activity.jpg", :alt => "Activity",:class=>"img-responsive") %>
+			   <%= image_tag(value.gallery.company_logo.art_activity.url, :alt => "Activity",:class=>"img-responsive") %>
 			</div>
           <div class="activity-profile clearfix"> <span class="pull-left marginR5">
-			  <%= image_tag("activity-profile2.jpg", :alt => "Activity Profile",:class=>"img-responsive") %></span> <span class="pull-left marginL5 paddinT5">
-            <div class="blue-txt">Eart CG</div>
-            E art school of CG design </span> </div>
-          <div class="desert-title">Desert worker speedmodel</div>
-          <div class="activity-txt">I started learning MODO because of you, and I'm really loving it so far. I'm hoping to either replace Maya in my workflow with it, or make it an crucial part of it.</div>
-          <div class="activity-txt"><em>Posted 16 hours ago</em></div>
+			  
+        <%= image_tag(value.artist_detail.image.user_activity.url, :alt => "Activity Profile",:class=>"img-responsive") %></span> <span class="pull-left marginL5 paddinT5">
+            <div class="blue-txt"><%= value.artist_detail.present? ? value.artist_detail.firstname+" "+value.artist_detail.lastname : '' %> </div>
+           <%= value.artist_detail.professional_headline %> </span> </div>
+         <!--  <div class="desert-title">Desert worker speedmodel</div> -->
+          <div class="activity-txt">
+           <%= value.gallery.present? ? value.gallery.description.html_safe : '' %>
+          </div>
+
+
+          <div class="activity-txt"><em>Posted <%= time_ago_in_words(value.created_at) %> ago</em></div>
           <div class="clearfix marginB15">
             <div class="col-md-3 col-sm-4 col-xs-3 padding">
-              <button class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
+            <script>
+              $(document).ready(function(){
+                       $.ajax({
+                            type: "post",
+                            url: "<%= check_save_like_path %>" ,
+                            data: {'gallery_id': '<%= value.gallery.id %>','artist_id': '<%= value.gallery.user_id %>'},
+                           success: function(data){
+                             if(data.res == 1) {
+                                  $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>).addClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>).removeClass('hidden');
+                              }else{
+                                   $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>).removeClass('hidden');
+                                   $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>).addClass('hidden');
+                              }
+
+                            }
+                        });
+
+                     $.ajax({
+                            type: "post",
+                            url: "<%= get_like_comment_view_gallery_path %>" ,
+                            data: {'gallery_id': '<%= value.gallery.id %>'},
+                           success: function(data){
+                                  $('#like_<%= value.gallery.id %>').html('<i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> '+data['gallerylike']);
+                                  $('#comment_<%= value.gallery.id %>').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['gallerycomment']);
+                                
+                             
+                            }
+                        });
+
+                 });
+            </script>
+              <button id='post_like_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
+               <button id='post_dislike_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>
             </div>
-            <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> <span class="activity-like"><i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> 30</span> <span class="activity-like"><i aria-hidden="true" class="fa fa-eye marginR5"></i> 13</span> <span class="activity-like"><i aria-hidden="true" class="fa fa-comments marginR5"></i> 25</span> </div>
-          </div>
-          <div class="clearfix">
-            <div class="col-md-1 col-sm-2 col-xs-3 padding"><%= image_tag("activity-profile3.jpg", :alt => "Activity",:width=>"50",:height=>"50") %>
-			</div>
-            <div class="col-md-11 col-sm-8 col-xs-9 padding">
-              <textarea name="" cols="" rows="" class="form-control activitymessage"></textarea>
+            <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> 
+              <span class="activity-like" id='like_<%= value.gallery.id %>'></span> 
+              <span class="activity-like" id='view_<%= value.gallery.id %>'><i aria-hidden="true" class="fa fa-eye marginR5"></i> 0</span> 
+              <span class="activity-like" id='comment_<%= value.gallery.id %>'></span> 
             </div>
-            <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15">
-              <button type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
-            </div>
-          </div>
-        </div>
-        <div class="clearfix notification-indent marginB15">
-          <div class="clearfix marginB15 noti-comment">
-            <div class="notileft"><%= image_tag("noti-profile.jpg", :alt => "Notification") %>
-			</div>
-            <div class="notiright">
-              <div class="marginB10 paddinT10"><span class="blue-txt">Marco Plouffe </span> has liked artwork <span class="blue-txt">Golden family</span>.</div>
-            </div>
-          </div>
-          <div class="notification-profile clearfix"><%= image_tag("database/activity.jpg", :alt => "Activity",:class => "img-responsive") %>
-			  </div>
-          <div class="activity-profile clearfix"> <span class="pull-left marginR5">
-			  <%= image_tag("activity-profile2.jpg", :alt => "Activity Profile",:class =>"img-responsive") %></span> <span class="pull-left marginL5 paddinT5">
-            <div class="blue-txt">Eart CG</div>
-            E art school of CG design </span> </div>
-          <div class="desert-title">Desert worker speedmodel</div>
-          <div class="activity-txt">I started learning MODO because of you, and I'm really loving it so far. I'm hoping to either replace Maya in my workflow with it, or make it an crucial part of it.</div>
-          <div class="activity-txt"><em>Posted 16 hours ago</em></div>
-          <div class="clearfix marginB15">
-            <div class="col-md-3 col-sm-4 col-xs-3 padding">
-              <button class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
-            </div>
-            <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> <span class="activity-like"><i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> 30</span> <span class="activity-like"><i aria-hidden="true" class="fa fa-eye marginR5"></i> 13</span> <span class="activity-like"><i aria-hidden="true" class="fa fa-comments marginR5"></i> 25</span> </div>
           </div>
           <div class="clearfix">
             <div class="col-md-1 col-sm-2 col-xs-3 padding">
-				 <%= image_tag("activity-profile3.jpg", :alt => "Activity", :width=>'50',:height=>'50') %>
+            <%= image_tag(current_user.image.user_activity.url, :alt => "Activity",:width=>"50",:height=>"50") %>
 			</div>
-            <div class="col-md-11 col-sm-10 col-xs-9 padding">
-              <textarea name="" cols="" rows="" class="form-control activitymessage"></textarea>
+            <div class="col-md-11 col-sm-8 col-xs-9 padding">
+              <textarea class="form-control activitymessage" id='post_comments_<%= value.gallery.id %>' ></textarea>
             </div>
             <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15">
-              <button type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
+              <button id='post_comments_submit_<%= value.gallery.id %>' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
             </div>
           </div>
         </div>
+       <% end
+        end
+
+        %> 
+         <div class="text-center text-uppercase">
+             <%= paginate @latestactivity_data %>
+            <!--     <ul class="pagination">
+                  <li><a href="#">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">Next</a></li>
+                  <li><a href="#">Last</a></li>
+                </ul> -->
+            </div>
+
       </div>
+
     </div>
     <div class="aside col-sm-12 col-xs-12 padding">
       <div class="marginB15 clearfix">
@@ -154,3 +183,60 @@
 <footer class="footer clearfix padding">
 	<%= render "layouts/lastfooter" %>
 </footer>
+<script type='text/javascript'>
+  $(document).ready(function(){
+
+      $('[id^= post_like_button_],[id^= post_dislike_button_]').on('click',function(){
+        
+            gallery_id_and_user_id  = $(this).attr('id').replace('post_like_button_','');
+            gallery_id_and_user_id  = gallery_id_and_user_id.replace('post_dislike_button_','');
+ 
+            var res = gallery_id_and_user_id.split("_"); 
+              $.ajax({
+                  type: "post",
+                  url: "<%= save_like_path %>" ,
+                  data: {'gallery_id': res[0],'artist_id': res[1]},
+                  success: function(data){
+                    //alert(data.res)
+                   if(data.res == 1) {
+                        $('#post_like_button_'+gallery_id_and_user_id).addClass('hidden');
+                        $('#post_dislike_button_'+gallery_id_and_user_id).removeClass('hidden');
+                    }else{
+                         $('#post_like_button_'+gallery_id_and_user_id).removeClass('hidden');
+                         $('#post_dislike_button_'+gallery_id_and_user_id).addClass('hidden');
+                    }
+
+                  }
+              });
+      });
+
+
+      $('[id^= post_comments_submit_]').on('click',function(){
+
+          gallery_id = $(this).attr('id').replace('post_comments_submit_','');
+          textareavalue   = $('#post_comments_'+gallery_id).val();
+          if(textareavalue == ''){
+              alert('Comment cannot be blank.');
+              return false;
+           }else{
+
+                $.ajax({
+                    type: "post",
+                    url: "<%= save_comment_path %>" ,
+                    data: {'gallery_id': gallery_id,'description': textareavalue},
+                    success: function(data){
+                        $('#post_comments_'+gallery_id).val('');
+                      alert(data.message)
+                      return false;  
+
+                    }
+                });
+
+
+           } 
+
+      });
+
+
+  })
+</script>

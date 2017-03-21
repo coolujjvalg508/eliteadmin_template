@@ -68,15 +68,22 @@ class GalleriesController < ApplicationController
           artist_id      = params[:artist_id]
           user_id        = current_user.id
           is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').first
-          result = ''
+          result        = ''
+
+
+          activity_type = ''
           if is_like_exist.present?
+                activity_type = 'disliked'
                 PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').delete_all 
                 result  = {'res' => 0, 'message' => 'Post has disliked'}
           else
+                activity_type = 'liked'
                 PostLike.create(user_id: user_id, artist_id: artist_id, post_id: gallery_id, post_type: 'Gallery')  
                 result  = {'res' => 1, 'message' => 'Post has liked'}
 
           end 
+
+          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, activity_type: activity_type)  
 
           render json: result, status: 200       
     end  
@@ -91,7 +98,7 @@ class GalleriesController < ApplicationController
           else
                 result  = {'res' => 0, 'message' => 'Post has not liked'}
           end 
-
+         
           render json: result, status: 200       
     end  
 
@@ -109,6 +116,7 @@ class GalleriesController < ApplicationController
                 result  = {'res' => 1, 'message' => 'Artist Follow'}
 
           end 
+
 
           render json: result, status: 200       
     end  
@@ -231,6 +239,8 @@ class GalleriesController < ApplicationController
                    
                  end
             end  
+
+           LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'created')  
             ############################################
             redirect_to index_gallery_path, notice: 'Project Successfully Created.'
 
@@ -421,6 +431,7 @@ class GalleriesController < ApplicationController
                    
                  end
             end  
+            LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'updated')  
             ############################################
             redirect_to index_gallery_path, notice: 'Project Successfully Updated.'
 
@@ -432,6 +443,26 @@ class GalleriesController < ApplicationController
     
 
     end 
+
+    def save_comment
+          post_id         = params[:gallery_id]
+          description     = params[:description]
+          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id)  
+          render :json => {'res' => 1, 'message' => 'Comment has successfully sent'}, status: 200
+    end  
+
+
+    def get_like_comment_view_gallery
+          
+          post_id   = params[:gallery_id]
+        
+          gallerylike       = PostLike.where('post_id = ?', post_id).count
+          gallerycomment    = PostComment.where('post_id = ?', post_id).count
+          res               = {'gallerylike':gallerylike,'gallerycomment':gallerycomment} 
+          render :json => res, status: 200
+
+      
+    end  
 
     def upload_drag_image
          #  abort(params.to_json)

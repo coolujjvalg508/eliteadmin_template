@@ -135,6 +135,9 @@ Rails.application.routes.draw do
     
     get 'search'                                              => 'galleries#search', as: 'search' 
     get 'dashboard/projects/search_all_projects'              => 'galleries#search_all_projects', as: 'search_all_projects' 
+   
+    post 'dashboard/projects/save_comment'                    => 'galleries#save_comment', as: 'save_comment' 
+    post 'dashboard/projects/get_like_comment_view_gallery'    => 'galleries#get_like_comment_view_gallery', as: 'get_like_comment_view_gallery' 
     
 
     
