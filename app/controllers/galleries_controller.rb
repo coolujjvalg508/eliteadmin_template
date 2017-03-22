@@ -568,9 +568,29 @@ class GalleriesController < ApplicationController
         #abort(result.to_json)
   end  
 
+    #  ******************************************* Browse All Task ******************************************************************* #
+
     def browse_all_artwork
         @medium_type = MediumCategory.order('name ASC')
     end
+
+    def browse_all_awards
+    end
+    
+    def browse_all_challenge
+    end
+    
+    def browse_all_gallery
+        @medium_type = MediumCategory.order('name ASC')
+    end
+    
+    def browse_all_video
+      @medium_type = MediumCategory.order('name ASC')
+    end
+    
+    def browse_all_work_in_progress
+    end
+    
    
     def get_gallery_list
 
@@ -646,19 +666,16 @@ class GalleriesController < ApplicationController
 
                   final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data,'like_res': like_res}
 
-             end  
-
-
-          
+             end           
         
-        end  
-            
+        end            
 
           
        render :json => final_data.to_json, status: 200
 
+    end 
 
-    end  
+    # **************************************************************************************************************# 
 
     def gallery_like_count(value)
 
@@ -668,23 +685,7 @@ class GalleriesController < ApplicationController
     end  
 
 
-    def browse_all_awards
-    end
     
-    def browse_all_challenge
-    end
-    
-    def browse_all_companies
-    end
-    
-    def browse_all_gallery
-    end
-    
-    def browse_all_video
-    end
-    
-    def browse_all_work_in_progress
-    end
 
     def search
 

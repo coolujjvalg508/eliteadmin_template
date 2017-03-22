@@ -38,15 +38,14 @@ Rails.application.routes.draw do
   get 'user/following'
   get 'user/followers'
   get 'bookmark' => 'user#bookmark'
-  get 'user/notification'
-  get 'user/browse_all_artist'  
+  get 'user/notification' 
   get 'user/join_challenge'
   get 'user/user_followers'
   get 'user/user_following'
   get 'user/user_profile_info'
   get 'user/user_statistics'
 
-  get 'users'  => 'user#browse_all_artist', as: 'browse_all_artist' 
+  
 
 
   get 'connection-followers' => 'user#connection_followers', as: 'connection_followers' 
@@ -124,13 +123,7 @@ Rails.application.routes.draw do
     post 'dashboard/projects/follow_artist'           => 'galleries#follow_artist', as: 'follow_artist' 
     post 'dashboard/projects/check_follow_artist'     => 'galleries#check_follow_artist', as: 'check_follow_artist' 
     
-    get 'gallery'                                           => 'galleries#browse_all_artwork', as: 'browse_all_artwork' 
-    get 'dashboard/projects/browse_all_awards'               => 'galleries#browse_all_awards', as: 'browse_all_awards' 
-    get 'dashboard/projects/browse_all_challenge'            => 'galleries#browse_all_awards', as: 'browse_all_challenge' 
-    get 'dashboard/projects/browse_all_companies'            => 'galleries#browse_all_companies', as: 'browse_all_companies' 
-    get 'dashboard/projects/browse_all_gallery'              => 'galleries#browse_all_gallery', as: 'browse_all_gallery' 
-    #get 'dashboard/projects/browse_all_video'                => 'galleries#browse_all_gallery', as: 'browse_all_video' 
-   # get 'dashboard/projects/browse_all_work_in_progress'     => 'galleries#browse_all_gallery', as: 'browse_all_work_in_progress' 
+   
     get 'dashboard/projects/get_gallery_list'                => 'galleries#get_gallery_list', as: 'get_gallery_list' 
     
     get 'search'                                              => 'galleries#search', as: 'search' 
@@ -140,6 +133,18 @@ Rails.application.routes.draw do
     post 'dashboard/projects/get_like_comment_view_gallery'    => 'galleries#get_like_comment_view_gallery', as: 'get_like_comment_view_gallery' 
     
 
+
+
+    get 'gallery'               => 'galleries#browse_all_artwork', as: 'browse_all_artwork' 
+    get 'artworks'              => 'galleries#browse_all_gallery', as: 'browse_all_gallery' 
+    get 'videos'                => 'galleries#browse_all_video', as: 'browse_all_video' 
+    get 'wips'                  => 'galleries#browse_all_work_in_progress', as: 'browse_all_work_in_progress' 
+    get 'users'                 => 'user#browse_all_artist', as: 'browse_all_artist' 
+    get 'companies'             => 'user#browse_all_companies', as: 'browse_all_companies' 
+    get 'challenge'             => 'galleries#browse_all_challenge', as: 'browse_all_challenge' 
+    get 'awards'                => 'galleries#browse_all_awards', as: 'browse_all_awards' 
+  
+    
     
 
    resources :collections

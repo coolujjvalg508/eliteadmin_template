@@ -2,6 +2,7 @@
 <section class="wip-navigation-wrap">
       <%= render 'layouts/browse_sub_header' %>
 </section>
+
 <div id="myApp2"  ng-app="myApp" ng-controller="browseAllArtworkCtrl" >
 <!-- Showcase & Discover Creative Work -->
 <section class="clearfix showcase-wrap text-center">
@@ -56,18 +57,17 @@
   </div>
 </section>
 
-
 <!-- WIP Content Start -->
-<section class="clearfix">
+<section class="clearfix browseallcompanies">
 <div class="clearfix wipwrap">
     <div class="wiptabs clearfix">
       <ul class="nav nav-pills">
-        <li class="dropdown active"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> All
+        <li class="dropdown active"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Artwork
           <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
           </a>
           <ul class="dropdown-menu">
-              <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
-              <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
+              <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
@@ -115,30 +115,22 @@
       </ul>
     </div>
   </div>
+   <section class="angularjswrap clearfix">
+      <ul class="margin">
+        <li class="lists" dir-paginate="x in artwork_data| filter:search |itemsPerPage:100">
+           <div class="photowrap"> 
+                <a ng-show = 'x.image.length > 0' href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a> 
+                <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a>
+                <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#"><%= image_tag("3d-icon.png", :alt => "Video") %></a>
+           </div>
+             <a href="/dashboard/projects/{{x.result.paramlink}}/show"> <center><img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Gallery" class="img-responsive"></center></a>
+        </li>
+        <li style='width:100%; margin-top:2%; margin-bottom:2%' ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li> 
+      </ul>
+    </section> 
 
-<div class=" artworkwrap clearfix">
-    <ul class="margin">
-       <li class="lists clearfix" dir-paginate="x in artwork_data | filter:search | itemsPerPage:50">
-                <div class="artcamera">   
-                  <a ng-show = 'x.image.length > 0' href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a> 
-                  <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a>
-                  <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#"><%= image_tag("3d-icon.png", :alt => "Video") %></a>
-                </div>
-                     <div class="clearfix userprowrap">
-                        <div class="userprofile-content clearfix">
-                          <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"><%#= image_tag("userpro-img.jpg", :alt => "User Profile",:class=>"img-responsive") %></div>
-                          <div class="userproright">
-                            <h2>{{x.user.professional_headline}} </h2>
-                           {{x.user.firstname}} {{x.user.lastname}} </div>
-                        </div>
-                      </div>
-               <a href="/dashboard/projects/{{x.result.paramlink}}/show">  
-                <img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
-            </li> 
-    </ul>
-</div> 
 
-  <div class="pagintionpage clearfix">
+   <div class="pagintionpage clearfix">
       <dir-pagination-controls
            max-size="1"
            direction-links="true"
@@ -147,6 +139,7 @@
 
   </div>
 </section>
+</div>
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
@@ -166,7 +159,7 @@
       
     $scope.filter = function() {
         
-        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=0'; 
+        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=1'; 
         
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
           list_url += '&is_feature=' + $scope.viewFeaturedType
@@ -205,7 +198,6 @@
     $scope.searchByPostType = function(id) {
         
         if(id == 1){
-          window.location.href='<%= browse_all_gallery_path %>';
         }else if(id == 2){
           window.location.href='<%= browse_all_video_path %>';
         }else if(id == 3){
@@ -217,7 +209,7 @@
         }else if(id == 6){
           window.location.href='<%= browse_all_artist_path %>';
         }else{
-          
+          window.location.href='<%= browse_all_artwork_path %>';
         }
 
     };

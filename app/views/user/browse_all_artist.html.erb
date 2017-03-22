@@ -1,116 +1,93 @@
-    <!-- Submenu Navigation -->
-    <section class="wip-navigation-wrap">
-        <%= render 'layouts/browse_sub_header' %>
-    </section>
-<div id="myApp2"  ng-app="myApp" ng-controller="artistCtrl">
+<section class="wip-navigation-wrap">
+    <%= render 'layouts/browse_sub_header' %>
+</section>
 
+<div id="myApp2"  ng-app="myApp" ng-controller="browseAllArtworkCtrl" >
+<!-- Showcase & Discover Creative Work -->
+<section class="clearfix showcase-wrap text-center">
+  <div class="container">
+    <div class="showcase-title text-center">Showcase &amp; Discover Creative Work</div>
+    <div class="showcase-txt text-center">for <a href="#">Demo Reel <i></i></a>, <a href="#">Digital Art<i></i></a>, <a href="#">Making of &amp; Vfx Breakdown<i></i></a>, <a href="#">Concept Art<i></i></a> and more</div>
+    <div class="clearfix wip-gallery-wrap">
+      <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
+        <div class="input-group stylish-input-group">
+        <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
+  
+          <span class="input-group-addon">
+          <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+          </span> </div>
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left">
 
+        <select class="custom-select" ng-change="searchByPostType(selected)" ng-model='selected'>
+          <option value="" selected="selected" >Select</option>
+          <option value="0" class="post-type-link"  id="post-type-link-0" selected="selected" >All</option>
+          <option value="1" class="post-type-link"  id="post-type-link-1">Artwork</option>
+          <option value="2" class="post-type-link"  id="post-type-link-2">Video</option>
+          <option value="3" class="post-type-link"  id="post-type-link-3">WIP</option>
+          <option value="4" class="post-type-link"  id="post-type-link-4">Challenge</option>
+          <option value="5" class="post-type-link"  id="post-type-link-5">Awards</option>
+          <option value="6" class="post-type-link"  id="post-type-link-6">Users</option>
+        </select>
+      </div>
+      <div class="col-md-5 col-sm-4 col-xs-12 marginB10 text-left">
 
-
-    <!-- Showcase & Discover Creative Work -->
-    <section class="clearfix showcase-wrap text-center">
-        <div class="container">
-            <div class="showcase-title text-center">Showcase &amp; Discover Creative Work</div>
-            <div class="showcase-txt text-center">for <a href="#">Demo Reel <i></i></a>, <a href="#">Digital Art<i></i></a>, <a href="#">Making of &amp; Vfx Breakdown<i></i></a>, <a href="#">Concept Art<i></i></a> and more</div>
-            <div class="clearfix wip-gallery-wrap">
-                <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
-                    <div class="input-group stylish-input-group">
-                     <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search.firstname" />
-                        <span class="input-group-addon">
-                            <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                        </span> 
-                    </div>
-                </div>
-                <div class="col-md-8 col-sm-4 col-xs-12 marginB10 text-left">
+       <select class="custom-select" ng-change="searchByProfileType(selected)" ng-model='selected'>
+              <option value="" selected="selected">Select Profile Type</option>
+              <option value="All" class="profile-type-link"  id="profile-type-link-all" selected="selected" >All</option>
+              <option value="Artist" class="profile-type-link"  id="profile-type-link-Artist">Artist</option>
+              <option value="Recruiter" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</option>
+              <option value="Studio" class="profile-type-link"  id="profile-type-link-Studio">Companies</option>
               
+        </select>
 
+      </div>
+    </div>
+    <div class="showcase-btn-wrap clearfix text-center">
+      <% if user_signed_in? %>
+        <button onclick="redirect_to_create_gallery();" type="button" class="btn btn-success border-radius marginB10">Upload</button>
+      <% end %>
+      <button type="button" class="btn btn-default border-radius marginB10 browse-by" id="browse-by-link-popular" ng-click="browseBy('popular')">Browse Popular Artists</button>
+      <button type="button" class="btn btn-default border-radius marginB10 browse-by" id="browse-by-link-top" ng-click="browseBy('top')">Browse Top Artists </button>
+    </div>
+  </div>
+</section>
 
-                 <select class="custom-select" ng-change="searchByProfileType(selected)" ng-model='selected'>
-                      <option value="" selected="selected">Select Profile Type</option>
-                      <option value="All" class="profile-type-link"  id="profile-type-link-all" selected="selected" >All</option>
-                      <option value="Artist" class="profile-type-link"  id="profile-type-link-Artist">Artist</option>
-                      <option value="Recruiter" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</option>
-                      <option value="Studio" class="profile-type-link"  id="profile-type-link-Studio">Studio</option>
-                </select>
-     
-                </div>
-            <!--     <div class="col-md-5 col-sm-4 col-xs-12 marginB10 text-left">
-                    <select class="custom-select">
-                        <option>Category</option>
-                    </select>
-                </div> -->
-            </div>
-            <div class="showcase-btn-wrap clearfix text-center">
-                <% if user_signed_in? %>
-                     <button onclick="redirect_to_create_gallery();" type="button" class="btn btn-success border-radius marginB10">Upload</button>
-                <% end %>
-              
+<!-- WIP Content Start -->
+<section class="clearfix browseallcompanies">
+<div class="clearfix wipwrap">
+    <div class="wiptabs clearfix">
+      <ul class="nav nav-pills">
+        <li class="dropdown active"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Users
+          <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+          </a>
+          <ul class="dropdown-menu">
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li>
+              <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(6)" class="post-type-link"  id="post-type-link-6" >Users</a></li>
+          
+          </ul>
+        </li>
+       <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"> {{ profile_type_value }}
+          <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+          </a>
+          <ul class="dropdown-menu">
+              <li><a href="javascript:void(0);"  ng-click="searchByProfileType('All')" class="profile-type-link"  id="profile-type-link-All">All</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByProfileType('Artist')" class="profile-type-link"  id="profile-type-link-Artist">Artist</a></li>
+              <li><a href="javascript:void(0);" ng-click="searchByProfileType('Recruiter')" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</a></li>
+              <li><a href="javascript:void(0);" ng-click="searchByProfileType('Studio')" class="profile-type-link"  id="profile-type-link-Studio">Studio</a></li>
+          </ul>
+        </li>
 
+      </ul>
+    </div>
+  </div>
 
-                <button type="button" class="btn btn-default border-radius marginB10 browse-by"  id="browse-by-link-popular" ng-click="browseBy('popular')">Browse Popular Artists</button>
-                <button type="button" class="btn btn-default border-radius marginB10 browse-by" id="browse-by-link-top" ng-click="browseBy('top')">Browse Top Artists</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- WIP Content Start -->
-    <section class="clearfix browseallcompanies">
-        <div class="clearfix wipwrap">
-            <div class="wiptabs clearfix">
-                <ul class="nav nav-pills">
-                    <li class="dropdown active"> 
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="fa fa-th txt15 marginR5" aria-hidden="true"></i>{{selected_profile_type}}
-                            <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0);"  ng-click="searchByProfileType('All')" class="profile-type-link"  id="profile-type-link-All">All</a></li>
-                            <li><a href="javascript:void(0);"  ng-click="searchByProfileType('Artist')" class="profile-type-link"  id="profile-type-link-Artist">Artist</a></li>
-                            <li><a href="javascript:void(0);" ng-click="searchByProfileType('Recruiter')" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</a></li>
-                            <li><a href="javascript:void(0);" ng-click="searchByProfileType('Studio')" class="profile-type-link"  id="profile-type-link-Studio">Studio</a></li>
-                        </ul>
-                    </li>
-                 <!--    <li class="dropdown"> 
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Category
-                            <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Inbox</a></li>
-                            <li><a href="#">Drafts</a></li>
-                            <li><a href="#">Sent Items</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Trash</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown"> 
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Featured
-                        <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Inbox</a></li>
-                            <li><a href="#">Drafts</a></li>
-                            <li><a href="#">Sent Items</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Trash</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown"> 
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Worldwide
-                        <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Inbox</a></li>
-                            <li><a href="#">Drafts</a></li>
-                            <li><a href="#">Sent Items</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Trash</a></li>
-                        </ul>
-                    </li> -->
-                </ul>
-            </div>
-        </div>
-
-        <div class="clearfix usernavivation hidden-xs">
+   <div class="clearfix usernavivation hidden-xs">
             <ul class="nav nav-pills">
                 <li class="paddinT10 paddinB10">
                 <input type="text" placeholder="Search" class="form-control from-input"  ng-model="search.firstname">
@@ -118,14 +95,14 @@
                 <li class="dropdown pull-right recentdrop" role="presentation"> 
                     <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
                          <ul class="dropdown-menu">
-                        <li><a href="#" id="sort-link-older" ng-click="searchByCreated('ASC', 'older')" class="sort-link" >Older</a></li>
-                        <li><a href="#" id="sort-link-newest" ng-click="searchByCreated('DESC', 'newest')"  class="sort-link" >Newest </a></li>
+                        <li><a href="javascript:void(0);" id="sort-link-older" ng-click="searchByCreated('ASC', 'older')" class="sort-link" >Older</a></li>
+                        <li><a href="javascript:void(0);" id="sort-link-newest" ng-click="searchByCreated('DESC', 'newest')"  class="sort-link" >Newest </a></li>
                       </ul>
                 </li>
             </ul>
         </div>
 
-        <!-- User Followers Start -->
+         <!-- User Followers Start -->
         <section class="clearfix userfollowerswrap">
             <div class="col-md-9 col-sm-12 col-xs-12">
                 <div class="clearfix userfollowers-indent">
@@ -276,35 +253,44 @@
                 </div>
             </div>
         </section>
-    </section>
+   <div class="pagintionpage clearfix">
+      <dir-pagination-controls
+           max-size="1"
+           direction-links="true"
+           boundary-links="false" >
+      </dir-pagination-controls>
 
-    <!-- Footer Start -->
-    <footer class="footer clearfix padding">
+  </div>
+</section>
+
+<footer class="footer clearfix padding">
         <%= render 'layouts/lastfooter' %>
-    </footer>
-
-</div>
+</footer>
 <script type='text/javascript'>
   function redirect_to_create_gallery(){
       window.location.href = "<%= create_gallery_path %>";
   }
 </script>
-<script>
-var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
-app.controller('artistCtrl', function($scope, $http) { 
-     
+
+<script type="text/javascript">
+
+  // main page angular app start
+  var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  app.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
+      
     $scope.filter = function() {
-        list_url = '';
 
-        if(typeof $scope.profile_type_value !== 'undefined' && $scope.profile_type_value != ''){
-               $scope.selected_profile_type = $scope.profile_type_value
-               list_url = '/user/get_artist_list?';
+            profiliname = ''
+         if(typeof $scope.profile_type_value !== 'undefined' && $scope.profile_type_value != ''){
+               profiliname = $scope.profile_type_value;
         }else{
-
-               list_url = '/user/get_artist_list?profile_type=Artist';
-               $scope.selected_profile_type =  'Artist'
-               angular.element( document.querySelectorAll( '#profile-type-link-Artist') ).addClass('active');
+               profiliname = 'Artist';
+               $scope.profile_type_value  =  profiliname;
         }     
+
+
+         list_url = '/user/get_artist_list?profile_type=Artist';     
+         angular.element( document.querySelectorAll( '#profile-type-link-'+profiliname) ).addClass('active');    
 
         if(typeof $scope.order !== 'undefined' && $scope.order != ''){
           list_url += '&order=' + $scope.order
@@ -329,17 +315,25 @@ app.controller('artistCtrl', function($scope, $http) {
         if(typeof $scope.freelance !== 'undefined' && $scope.freelance != ''  && $scope.freelance != 'false'){
           list_url += '&freelance=' + $scope.freelance
         }
-
-
-
-
-        $http.get(list_url).then(function (response) {
+       $http.get(list_url).then(function (response) {
           $scope.user_data = response.data;
         });
+
     };
     $scope.filter();
 
-    $scope.searchByCreated = function(value, id) {
+    $scope.searchByProfileType = function(value) {
+
+      // alert(value);
+        angular.element( document.querySelectorAll( '.profile-type-link, .profile-type-category-link, .profile-type-subcategory-link' ) ).removeClass('active');
+        angular.element( document.querySelectorAll( '#profile-type-link-' + value + ', #profile-type-category-link-all, #profile-type-subcategory-link-all' ) ).addClass('active');
+
+        $scope.profile_type_value = value;
+        $scope.profile_type = value;
+        $scope.filter();
+    };
+
+     $scope.searchByCreated = function(value, id) {
 
       angular.element( document.querySelectorAll( '.sort-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#sort-link-' + id ) ).addClass('active');
@@ -349,27 +343,28 @@ app.controller('artistCtrl', function($scope, $http) {
 
     };
 
-  $scope.searchByProfileType = function(value) {
 
-   // alert(value);
-      angular.element( document.querySelectorAll( '.profile-type-link, .profile-type-category-link, .profile-type-subcategory-link' ) ).removeClass('active');
-      angular.element( document.querySelectorAll( '#profile-type-link-' + value + ', #profile-type-category-link-all, #profile-type-subcategory-link-all' ) ).addClass('active');
+    $scope.searchByPostType = function(id) {
+        
+        if(id == 1){
+          window.location.href='<%= browse_all_gallery_path %>';
+        }else if(id == 2){
+          window.location.href='<%= browse_all_video_path %>';
+        }else if(id == 3){
+          window.location.href='<%= browse_all_work_in_progress_path %>';
+        }else if(id == 4){
+         /* window.location.href='<%= browse_all_challenge_path %>';*/
+        }else if(id == 5){
+         /* window.location.href='<%= browse_all_awards_path %>';*/
+        }else if(id == 6){
+          
+        }else{
+          window.location.href='<%= browse_all_artwork_path %>';
+        }
 
-      $scope.profile_type_value = value;
-      $scope.profile_type = value;
-      $scope.filter();
     };
 
-    $scope.searchByCreated = function(value, id) {
-      angular.element( document.querySelectorAll( '.sort-link' ) ).removeClass('active');
-      angular.element( document.querySelector( '#sort-link-' + id ) ).addClass('active');
-      
-      $scope.order = value;
-      $scope.filter();
-
-    };
-
-    $scope.searchByCountry = function(value, id) {
+     $scope.searchByCountry = function(value, id) {
             
       $scope.country_id = value;
       $scope.filter();
@@ -402,7 +397,8 @@ app.controller('artistCtrl', function($scope, $http) {
      
      $scope.filter();
     
-    };   
+    }; 
+
     $scope.browseBy = function(browse_by) {
 
       angular.element( document.querySelectorAll( '.browse-by' ) ).removeClass('active btn-success');
@@ -414,7 +410,9 @@ app.controller('artistCtrl', function($scope, $http) {
       $scope.filter();
     };
 
-  
-});
+  });
+
+  // main page angular app end
+
 </script>
 
