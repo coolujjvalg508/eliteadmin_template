@@ -402,6 +402,13 @@
 <script>
 $(document).ready(function() {
     $('.pgwSlideshow').pgwSlideshow();
+    $.ajax({
+        type: "post",
+        url: "<%= save_view_count_path %>" ,
+        data: {'gallery_id': '<%= @gallery.id %>'},
+        success: function(data){
+        }
+    });
 
       $('#bookmarkbutton').on('click',function(){
      /*     $.ajax({
@@ -529,4 +536,6 @@ var app = angular.module('myApp',[]);
     app.controller('galleryCtrl', function($scope, $http) {
 
 });
+
+
 </script>

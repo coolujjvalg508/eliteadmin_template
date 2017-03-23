@@ -201,20 +201,6 @@ $(document).ready(function() {
       $("li.has_many_container a.has_many_add").show();
     }
   });
-
-   var gallery_post_type_category_id = $("#gallery_post_type_category_id").val();
-   $.getJSON("/admin/subject_matters/categories",{id: gallery_post_type_category_id, ajax: 'true'}, function(response){
-			
-		  var options = '';
-		  for (var i = 0; i < response.length; i++) {
-			options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
-		  }
-		 $("select#gallery_subject_matter_id").html('<option value="">Select Subject Matter</option>'+options);
-		 
-		 if(gallery_post_type_category_id != ''){
-			$('#gallery_subject_matter_id option[value='+gallery_post_type_category_id+']').attr('selected', true);
-		 }	
-	 })
   
     $("#gallery_post_type_category_id").change(function(e){
 		$.getJSON("/admin/subject_matters/categories",{id: $(this).val(), ajax: 'true'}, function(response){
@@ -223,8 +209,10 @@ $(document).ready(function() {
 		  for (var i = 0; i < response.length; i++) {
 			options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
 		  }
-		
-		  $("select#gallery_subject_matter_id").html('<option>Select Subject Matter</option>'+options);
+		  $("select#gallery_subject_matter_id").html('');
+		  $("select#gallery_subject_matter_id").append(options);
+		  $('select#gallery_subject_matter_id').trigger('chosen:updated');
+
 	 })
   })
   

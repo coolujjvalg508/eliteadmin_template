@@ -571,7 +571,7 @@ class GalleriesController < ApplicationController
     #  ******************************************* Browse All Task ******************************************************************* #
 
     def browse_all_artwork
-        @medium_type = MediumCategory.order('name ASC')
+        @medium_type = SubjectMatter.order('name ASC')
     end
 
     def browse_all_awards
@@ -581,11 +581,11 @@ class GalleriesController < ApplicationController
     end
     
     def browse_all_gallery
-        @medium_type = MediumCategory.order('name ASC')
+        @medium_type = SubjectMatter.where("parent_id = 1").order('name ASC')
     end
     
     def browse_all_video
-      @medium_type = MediumCategory.order('name ASC')
+      @medium_type = SubjectMatter.where("parent_id = 2").order('name ASC')
     end
     
     def browse_all_work_in_progress
@@ -605,15 +605,39 @@ class GalleriesController < ApplicationController
         end    
  
         if(params[:medium_category_id] && params[:medium_category_id] != '')
-          conditions += ' AND medium_category_id=' + params[:medium_category_id]
+          conditions +=  " AND subject_matter_id::jsonb ?| array['" + params[:medium_category_id] + "'] "
+          #conditions += ' AND subject_matter_id=' + params[:medium_category_id]
         end 
 
         if(params[:is_feature] && params[:is_feature] != '')
           conditions += ' AND is_featured=' + params[:is_feature] 
         end 
+         # orderby = 'DESC'
+
+       # if(params[:is_feature] && params[:is_feature] != '')
+        #      if params[:is_feature] == 'RECENT'
+      
+        #      elsif params[:is_feature] == 'POPULAR'
 
 
-       # abort(conditions.to_json)
+         #     elsif params[:is_feature] == 'AWARDED'
+
+
+         #     elsif params[:is_feature] == 'TOPLIKED'  
+
+
+          #    elsif params[:is_feature] == 'TOPVIEWED'    
+
+
+         #     elsif params[:is_feature] == 'TOPCOMMENTED'  
+              
+
+          #    end
+                    
+       # end
+
+
+        #abort(conditions.to_json)
         #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
         
         if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
@@ -713,6 +737,18 @@ class GalleriesController < ApplicationController
     end  
 
     
+    def save_view_count
+
+       if params[:gallery_id].present?
+            gallery_id      = params[:gallery_id]
+            record          = Gallery.where("id = ?",gallery_id).first
+
+            prevoius_view_count   = record.view_count
+            newview_count         =  prevoius_view_count + 1
+            
+            record.update(view_count: newview_count) 
+       end     
+    end  
 
 
     private

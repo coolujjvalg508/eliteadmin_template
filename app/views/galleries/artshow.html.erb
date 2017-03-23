@@ -489,9 +489,24 @@
 $('.single-item').slick();
 
 $('.lazy').slick({
-lazyLoad: 'ondemand',
-slidesToShow: 3,
-slidesToScroll: 1
+  lazyLoad: 'ondemand',
+  slidesToShow: 3,
+  slidesToScroll: 1
 });
+
+
+$(document).ready(function(){
+   
+    $.ajax({
+        type: "post",
+        url: "<%= save_view_count_path %>" ,
+        data: {'gallery_id': '<%= @gallery.id %>'},
+        success: function(data){
+        }
+    });
+
+});
+
+
 
 </script>

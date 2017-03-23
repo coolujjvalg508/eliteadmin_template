@@ -124,13 +124,15 @@ Rails.application.routes.draw do
     post 'dashboard/projects/check_follow_artist'     => 'galleries#check_follow_artist', as: 'check_follow_artist' 
     
    
-    get 'dashboard/projects/get_gallery_list'                => 'galleries#get_gallery_list', as: 'get_gallery_list' 
+    get 'dashboard/projects/get_gallery_list'                 => 'galleries#get_gallery_list', as: 'get_gallery_list' 
     
     get 'search'                                              => 'galleries#search', as: 'search' 
     get 'dashboard/projects/search_all_projects'              => 'galleries#search_all_projects', as: 'search_all_projects' 
    
     post 'dashboard/projects/save_comment'                    => 'galleries#save_comment', as: 'save_comment' 
-    post 'dashboard/projects/get_like_comment_view_gallery'    => 'galleries#get_like_comment_view_gallery', as: 'get_like_comment_view_gallery' 
+    post 'dashboard/projects/get_like_comment_view_gallery'   => 'galleries#get_like_comment_view_gallery', as: 'get_like_comment_view_gallery' 
+   
+    post 'save_view_count'    => 'galleries#save_view_count', as: 'save_view_count' 
     
 
 
