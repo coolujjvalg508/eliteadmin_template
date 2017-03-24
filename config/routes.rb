@@ -125,6 +125,7 @@ Rails.application.routes.draw do
     
    
     get 'dashboard/projects/get_gallery_list'                 => 'galleries#get_gallery_list', as: 'get_gallery_list' 
+    get 'dashboard/projects/get_portfolio_list'               => 'galleries#get_portfolio_list', as: 'get_portfolio_list' 
     
     get 'search'                                              => 'galleries#search', as: 'search' 
     get 'dashboard/projects/search_all_projects'              => 'galleries#search_all_projects', as: 'search_all_projects' 
@@ -132,7 +133,10 @@ Rails.application.routes.draw do
     post 'dashboard/projects/save_comment'                    => 'galleries#save_comment', as: 'save_comment' 
     post 'dashboard/projects/get_like_comment_view_gallery'   => 'galleries#get_like_comment_view_gallery', as: 'get_like_comment_view_gallery' 
    
-    post 'save_view_count'    => 'galleries#save_view_count', as: 'save_view_count' 
+    post 'save_view_count'            => 'galleries#save_view_count', as: 'save_view_count' 
+    
+
+    post 'get_subject_matter_list'    => 'galleries#get_subject_matter_list', as: 'get_subject_matter_list' 
     
 
 
@@ -189,7 +193,7 @@ Rails.application.routes.draw do
   get 'downloads'=> 'gallery#download'
 
 
-
+  get 'artist_profile/:id' => 'user#artist_profile', as: 'artist_profile' 
   
   
   namespace :admin do

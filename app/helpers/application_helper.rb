@@ -171,6 +171,17 @@ module ApplicationHelper
          return res
 	end
 
+
+	def connection_like_count_by_artist_id(artist_id)		
+		 
+		 follower         = Follow.where('artist_id = ?', artist_id).count
+         following        = Follow.where('user_id = ?', artist_id).count
+         like       	  = PostLike.where('user_id = ?', artist_id).count
+         myartworklike    = PostLike.where('artist_id = ?', artist_id).count
+       
+         res 			  =	{'follower':follower, 'following':following, 'like':like, 'myartworklike':myartworklike} 
+         return res
+	end
 		
 
 end

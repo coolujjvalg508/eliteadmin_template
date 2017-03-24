@@ -277,8 +277,10 @@ class UserController < ApplicationController
 
 
          @userlike  =  PostLike.where('user_id = ?', current_user).order('id '+ orderby)
+
          final_data = []
          @userlike.each_with_index do |data, index| 
+             #  abort( data.gallery.to_json)
             final_data[index]  = {'gallery': data.gallery,'images': data.gallery.images,'videos': data.gallery.videos,'upload_videos': data.gallery.upload_videos,'marmo_sets': data.gallery.marmo_sets,'sketchfebs': data.gallery.sketchfebs}
          end
         render :json => final_data, status: 200
@@ -391,14 +393,32 @@ class UserController < ApplicationController
 
 
         if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
-             @users      = User.select("users.*, (SELECT COUNT(*) FROM follows WHERE follows.artist_id = users.id) AS following_count, (SELECT COUNT(*) FROM post_likes WHERE post_likes.user_id = users.id) AS like_count").where(conditions).order('like_count DESC, id DESC')
+
+             if params[:browse_by] == 'popular'
+                  
+                  result    = User.where(conditions).order('view_count DESC, id DESC')
+              
+              elsif params[:browse_by] == 'top'
+                    
+                  result    = User.where(conditions).order('like_count DESC, id DESC')
+              end 
         else  
-          @users      = User.select("users.*, (SELECT COUNT(*) FROM follows WHERE follows.artist_id = users.id) AS following_count, (SELECT COUNT(*) FROM post_likes WHERE post_likes.user_id = users.id) AS like_count").where(conditions).order('id '+ orderby)
+
+          @users      = User.where(conditions).order('id '+ orderby)
         end
 
         render :json => @users.to_json(:include => [:country]), status: 200
 
     end 
+
+
+    def artist_profile
+
+        artist_id         =   params[:id]
+        @artist_data      =   User.where("id = ?",artist_id).first
+
+ 
+    end    
 
 
     private

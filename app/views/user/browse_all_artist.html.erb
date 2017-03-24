@@ -114,18 +114,22 @@
                                     <img lazy-img="<%= root_url %>{{ x.image.thumb.url }}" alt='User' class="img-responsive">
                                 </div>
                                 <div class="col-md-5 col-sm-6 col-xs-8">
-                                    <div class="user-title">{{ x.firstname }} {{ x.lastname }}</div>
+                                    <div class="user-title">
+                                   <!--  <a href='artist_profile/{{x.id}}'>{{ x.firstname }} {{ x.lastname }}</a> -->
+                                   {{ x.firstname }} {{ x.lastname }}
+
+                                    </div>
                                     <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.professional_headline }}</div>
                                     <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i>
                                             {{ x.city }} , {{ x.country.name}}
                                     </div>
                                     <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button>
-                                    <span class="follow-companies">{{x.following_count}}</span> 
+                                    <span class="follow-companies">{{x.follow_count}}</span> 
                                     <span class="white-txt txt13 marginR5"> 
                                         <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{x.like_count}}
                                     </span> 
                                     <span class="white-txt txt13 marginR5">
-                                        <i class="fa fa-eye marginR5" aria-hidden="true"></i> 0
+                                        <i class="fa fa-eye marginR5" aria-hidden="true"></i> {{x.view_count}}
                                     </span> 
                                 </div>
                                 <div class="col-md-5 col-sm-4 col-xs-12">

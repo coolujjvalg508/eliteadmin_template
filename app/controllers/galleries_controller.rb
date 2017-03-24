@@ -69,16 +69,24 @@ class GalleriesController < ApplicationController
           user_id        = current_user.id
           is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').first
           result        = ''
-
+          galleryrecord  = Gallery.where(id: gallery_id).first
 
           activity_type = ''
           if is_like_exist.present?
                 activity_type = 'disliked'
                 PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').delete_all 
+
+                newlike_count  =  (galleryrecord.like_count == 0) ? 0 : galleryrecord.like_count - 1
+                galleryrecord.update(like_count: newlike_count) 
+
                 result  = {'res' => 0, 'message' => 'Post has disliked'}
           else
                 activity_type = 'liked'
                 PostLike.create(user_id: user_id, artist_id: artist_id, post_id: gallery_id, post_type: 'Gallery')  
+                
+                newlike_count  =  galleryrecord.like_count + 1
+                galleryrecord.update(like_count: newlike_count) 
+
                 result  = {'res' => 1, 'message' => 'Post has liked'}
 
           end 
@@ -104,15 +112,26 @@ class GalleriesController < ApplicationController
 
 
     def follow_artist
-          artist_id     = params[:artist_id]
-          user_id        = current_user.id
+          artist_id        = params[:artist_id]
+          user_id          = current_user.id
           is_follow_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').first
           result = ''
+          
+          userrecord       = User.where(id: artist_id).first
+
           if is_follow_exist.present?
                 Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').delete_all 
+
+                newfollow_count  =  (userrecord.follow_count == 0) ? 0 : userrecord.follow_count - 1
+                userrecord.update(follow_count: newfollow_count) 
+
                 result  = {'res' => 0, 'message' => 'Artist Not Follow'}
           else
                 Follow.create(user_id: user_id, artist_id: artist_id, post_type: '')  
+
+                newfollow_count  =  userrecord.follow_count + 1
+                userrecord.update(follow_count: newfollow_count) 
+
                 result  = {'res' => 1, 'message' => 'Artist Follow'}
 
           end 
@@ -447,7 +466,12 @@ class GalleriesController < ApplicationController
     def save_comment
           post_id         = params[:gallery_id]
           description     = params[:description]
-          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id)  
+          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id) 
+
+          galleryrecord               = Gallery.where(id: post_id).first
+          newcomment_count_count      = galleryrecord.comment_count + 1
+          galleryrecord.update(comment_count: newcomment_count_count) 
+          
           render :json => {'res' => 1, 'message' => 'Comment has successfully sent'}, status: 200
     end  
 
@@ -609,41 +633,60 @@ class GalleriesController < ApplicationController
           #conditions += ' AND subject_matter_id=' + params[:medium_category_id]
         end 
 
+
+        #if(params[:is_feature] && params[:is_feature] != '')
+       #   conditions += ' AND is_featured=' + params[:is_feature] 
+       # end 
+
+          orderby = 'id DESC'
+
         if(params[:is_feature] && params[:is_feature] != '')
-          conditions += ' AND is_featured=' + params[:is_feature] 
-        end 
-         # orderby = 'DESC'
 
-       # if(params[:is_feature] && params[:is_feature] != '')
-        #      if params[:is_feature] == 'RECENT'
+              if params[:is_feature] == 'RECENT'
+                   
+                   orderby = 'id DESC'
       
-        #      elsif params[:is_feature] == 'POPULAR'
+              elsif params[:is_feature] == 'POPULAR'
+                   
+                   orderby = 'view_count DESC, id DESC'
+
+             elsif params[:is_feature] == 'AWARDED'
 
 
-         #     elsif params[:is_feature] == 'AWARDED'
+              elsif params[:is_feature] == 'TOPLIKED'  
 
+                  orderby = 'like_count DESC, id DESC'
 
-         #     elsif params[:is_feature] == 'TOPLIKED'  
+              elsif params[:is_feature] == 'TOPVIEWED'    
 
+                  orderby = 'view_count DESC, id DESC'
 
-          #    elsif params[:is_feature] == 'TOPVIEWED'    
+              elsif params[:is_feature] == 'TOPCOMMENTED'  
+                  
+                   orderby = 'comment_count DESC, id DESC'
 
-
-         #     elsif params[:is_feature] == 'TOPCOMMENTED'  
-              
-
-          #    end
+             end
                     
-       # end
+        end
 
 
-        #abort(conditions.to_json)
+       # abort(orderby.to_json)
         #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
         
         if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
-            result    = Gallery.select("galleries.*, (SELECT COUNT(*) AS count FROM post_likes WHERE post_id = galleries.id AND post_type = 'Gallery' ) AS browse_by_count").where(conditions).order('browse_by_count DESC, id DESC')
+            
+              if params[:browse_by] == 'popular'
+                  
+                  result    = Gallery.where(conditions).order('view_count DESC, id DESC')
+              
+              elsif params[:browse_by] == 'top'
+
+                  result    = Gallery.where(conditions).order('like_count DESC, id DESC')
+              
+              end             
+            
         else  
-           result    = Gallery.where(conditions).order('id DESC')
+           result    = Gallery.where(conditions).order(orderby)
         end
 
         final_data = []
@@ -686,9 +729,132 @@ class GalleriesController < ApplicationController
                         end  
                   end   
                
-                  like_res           = gallery_like_count(value.id)
+                  final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data}
 
-                  final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data,'like_res': like_res}
+             end           
+        
+        end            
+
+          
+       render :json => final_data.to_json, status: 200
+
+    end 
+
+
+    def get_portfolio_list
+
+        conditions = "is_trash=0"
+         
+        if(params[:post_type_category_id] != '0')
+            if(params[:post_type_category_id] && params[:post_type_category_id] != '')
+              conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
+            end 
+        end    
+ 
+        if(params[:medium_category_id] && params[:medium_category_id] != '')
+          conditions +=  " AND subject_matter_id::jsonb ?| array['" + params[:medium_category_id] + "'] "
+          #conditions += ' AND subject_matter_id=' + params[:medium_category_id]
+        end 
+
+  
+        #abort(conditions.to_json)
+
+        #if(params[:is_feature] && params[:is_feature] != '')
+       #   conditions += ' AND is_featured=' + params[:is_feature] 
+       # end 
+
+          orderby = 'id DESC'
+
+        if(params[:is_feature] && params[:is_feature] != '')
+
+              if params[:is_feature] == 'RECENT'
+                   
+                   orderby = 'id DESC'
+      
+              elsif params[:is_feature] == 'POPULAR'
+                   
+                   orderby = 'view_count DESC, id DESC'
+
+             elsif params[:is_feature] == 'AWARDED'
+
+
+              elsif params[:is_feature] == 'TOPLIKED'  
+
+                  orderby = 'like_count DESC, id DESC'
+
+              elsif params[:is_feature] == 'TOPVIEWED'    
+
+                  orderby = 'view_count DESC, id DESC'
+
+              elsif params[:is_feature] == 'TOPCOMMENTED'  
+                  
+                   orderby = 'comment_count DESC, id DESC'
+
+             end
+                    
+        end
+
+
+       # abort(orderby.to_json)
+        #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
+        
+        if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
+            
+              if params[:browse_by] == 'popular'
+                  
+                  result    = Gallery.where(conditions).order('view_count DESC, id DESC')
+              
+              elsif params[:browse_by] == 'top'
+
+                  result    = Gallery.where(conditions).order('like_count DESC, id DESC')
+              
+              end             
+            
+        else  
+           result    = Gallery.where(conditions).order(orderby)
+        end
+
+        final_data = []
+        if result.present?
+          
+         result.each_with_index do |value, index|
+                 video_data    = []
+                  if value.videos.present?  
+                        value.videos.each_with_index do |video_value, video_index|
+
+                               if(video_value.video.include?('youtube')) 
+                                    if video_value.video[/youtu\.be\/([^\?]*)/]
+                                      youtube_id = $1
+                                    else
+                                      video_value.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+                                      youtube_id = $5
+                                    end
+                                  
+                                  video_data[video_index] =   { 'type': 'Youtube', 'videoid': 'https://www.youtube.com/embed/'+ youtube_id }
+                                
+                               elsif(video_value.video.include?('vimeo')) 
+                                    match = video_value.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
+
+                                    if match.present?
+                                      vimeoid = match[:id]
+                                      video_data[video_index] =   { 'type': 'Vimeo', 'videoid': 'https://player.vimeo.com/video/'+vimeoid }   
+                                   
+                                    end
+                                
+                                elsif(video_value.video.include?('dailymotion'))  
+                                    match =  video_value.video.gsub('http://www.dailymotion.com/video/', "")
+                                    match1  = match.index('_')
+                                    match = match[0...match1]
+                                    if match.present?
+                                      dailymotionid = match
+                                      video_data[video_index] =   { 'type': 'Dailymotion', 'videoid': '//www.dailymotion.com/embed/video/'+dailymotionid }   
+                                                          
+                                    end 
+                                end
+                        end  
+                  end   
+               
+                  final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data}
 
              end           
         
@@ -701,15 +867,15 @@ class GalleriesController < ApplicationController
 
     # **************************************************************************************************************# 
 
-    def gallery_like_count(value)
 
-        gallerylike    = PostLike.where('post_id = ?', value).count
-        res            = {'gallerylike':gallerylike} 
+    def get_subject_matter_list
+         post_type_category_id     = params[:post_type_category_id]
+         subjectmatter             = SubjectMatter.where("parent_id = ?", post_type_category_id).order('name ASC')  
+
+         render json: {'res' => 1, 'result' => subjectmatter}, status: 200
 
     end  
 
-
-    
 
     def search
 

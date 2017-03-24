@@ -97,11 +97,12 @@
 
 <ul>
       <li dir-paginate="x in likes_data|filter:search|itemsPerPage:10">
+
          <!-- <div style='color:#fff; font-size:18px'> {{ x.images.length }}</div> -->
           <div class="userlike-social"> 
             <a ng-if="x.images.length > 0" href="javascript:void(0);"><%= image_tag("g-icon.png", :alt => "Gallery") %></a> 
-            <a ng-if="x.sketchfebs.length > 0 || x.marmo_sets.length > 0" href="javascript:void(0);"><%= image_tag("3d-icon.png", :alt => "3D") %></a> 
             <a ng-if="x.videos.length > 0 || x.upload_videos.length > 0" href="javascript:void(0);"><i class="fa fa-video-camera" aria-hidden="true"></i></a> 
+            <a ng-if="x.sketchfebs.length > 0 || x.marmo_sets.length > 0" href="javascript:void(0);"><%= image_tag("3d-icon.png", :alt => "3D") %></a> 
           </div>
           <a href="/dashboard/projects/{{x.gallery.paramlink}}/show"><img lazy-img="<%= root_url %>{{ x.gallery.company_logo.download_list.url }}" alt='User like' class="img-responsive"></a> 
       </li>

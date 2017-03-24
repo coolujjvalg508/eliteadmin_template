@@ -104,16 +104,17 @@
           <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
           </a>
            <ul class="dropdown-menu">
-              <li><a href="javascript:void(0);" ng-click="searchByFeatured('', 'all')" class="active featured-type-link"  id="featured-type-link-all">All</a></li>
+              <!-- <li><a href="javascript:void(0);" ng-click="searchByFeatured('', 'all')" class="active featured-type-link"  id="featured-type-link-all">All</a></li>
               <li><a href="javascript:void(0);" ng-click="searchByFeatured('TRUE', 'yes')" class="featured-type-link"  id="featured-type-link-yes">Show Only Featured</a></li>
-              <li><a href="javascript:void(0);" ng-click="searchByFeatured('FALSE', 'no')" class="featured-type-link"  id="featured-type-link-no">Show Without Featured</a></li>
+              <li><a href="javascript:void(0);" ng-click="searchByFeatured('FALSE', 'no')" class="featured-type-link"  id="featured-type-link-no">Show Without Featured</a></li> -->
 
-            <!-- <li><a href="javascript:void(0);" ng-click="searchByFeatured('RECENT', 'recent')" class="featured-type-link"  id="featured-type-link-recent">Recent</a></li>
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('RECENT', 'recent')" class="featured-type-link"  id="featured-type-link-recent">Recent</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('POPULAR', 'popular')" class="featured-type-link"  id="featured-type-link-popular">Popular</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('AWARDED', 'awarded')" class="featured-type-link"  id="featured-type-link-awarded">Awarded</a></li>
+            <li class="divider" role="separator"></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPLIKED', 'top_liked')" class="featured-type-link"  id="featured-type-link-top_liked">Top Liked</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPVIEWED', 'top_viewed')" class="featured-type-link"  id="featured-type-link-top_viewed">Top viewed</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li> -->
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li>
 
           </ul>
         </li>
@@ -132,7 +133,7 @@
                 <div class="video-title"><a href="/dashboard/projects/{{x.result.paramlink}}/show">{{ x.user.professional_headline }}</a></div>
                 <div class="clearfix">
                 <div class="video-by-txt pull-left">by <a href="#">{{x.user.firstname}} {{x.user.lastname}}</a></div>
-                <div class="like-video pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.like_res.gallerylike}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> {{x.result.view_count}}</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 0</span> </div>
+                <div class="like-video pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.result.like_count}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> {{x.result.view_count}}</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> {{x.result.comment_count}}</span> </div>
                 </div>
             </div>   
           </li>

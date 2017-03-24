@@ -67,8 +67,8 @@
                 <% if current_user.try(:city) || current_user.try(:country) %>
                   <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> <%= current_user.try(:city) %><%= (current_user.try(:city) != '' && current_user.try(:country).try(:name) != '') ? ', ' : '' %><%= current_user.try(:country).try(:name) %> </li>
                 <% end %>
-                <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> 114,660 Views </li>
-                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> <%= res[:myartworklike] %> Likes </li>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> <%= current_user.view_count %> Views </li>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> <%= current_user.like_count %> Likes </li>
               </ul>
             </div>
           </div>
