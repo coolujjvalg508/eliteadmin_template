@@ -45,15 +45,15 @@
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li> 
     </ul>
   </li>
-<!--   <li class="dropdown pull-right recentdrop hidden-sm" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Categories <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a> 
-    <ul class="dropdown-menu">
-    <li><a href="#">Animation</a></li>
-      <li><a href="#">Architectural Visualization</a></li>
-      <li><a href="#">Architecture</a></li>
-      <li><a href="#">Characters</a></li>
-     
-      </ul>
-  </li> -->
+      <li class="dropdown pull-right recentdrop hidden-sm" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Categories <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a> 
+          <ul class="dropdown-menu" id="categoryli">
+             <li ng-repeat = 'olist in optionlist'>
+                  <a href="javascript:void(0);" ng-click="searchByMediumType(olist.id)" class="medium-type-link"  id="medium-type-link-"+olist.id > {{olist.name}} </a>
+               </li>
+          </ul>
+
+
+      </li>
 </ul>
 </div>
 </section>
@@ -98,8 +98,7 @@
   // main page angular app start
   var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
   app.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
-      
-    $scope.filter = function() {
+      $scope.filter = function() {
         
         list_url = '/dashboard/projects/get_portfolio_list?'; 
         
@@ -113,24 +112,16 @@
 
         if(typeof $scope.post_type_id !== 'undefined' && $scope.post_type_id != ''  && $scope.post_type_id != 'all'){
           list_url += '&post_type_category_id=' + $scope.post_type_id
-/*
-           $.ajax({
-                type: "post",
-                url: "<%= get_subject_matter_list_path %>" ,
-                data: {'post_type_category_id': $scope.post_type_id},
-                success: function(data){
-                        console.log(data.result)
-                      for (var i = 0; i < data.result.length; i++) {
-                        console.log(data)
-                          options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
-                      }
-          
-                }
-           });
-*/
-
-
-        }
+         
+          $.ajax({
+                    type: "post",
+                    url: "<%= get_subject_matter_list_path %>" ,
+                    data: {'post_type_category_id': $scope.post_type_id},
+                    success: function(data){
+                        $scope.optionlist = data.result;
+                    }
+                });
+          }
 
        $http.get(list_url).then(function (response) {
           

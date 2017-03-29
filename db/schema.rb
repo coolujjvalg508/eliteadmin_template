@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321084750) do
+ActiveRecord::Schema.define(version: 20170324060647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -298,6 +298,9 @@ ActiveRecord::Schema.define(version: 20170321084750) do
     t.string   "crop_h"
     t.json     "challenge"
     t.integer  "is_trash",                     default: 0
+    t.integer  "view_count",                   default: 0
+    t.integer  "like_count",                   default: 0
+    t.integer  "comment_count",                default: 0
   end
 
   create_table "identities", force: :cascade do |t|
@@ -818,6 +821,9 @@ ActiveRecord::Schema.define(version: 20170321084750) do
     t.integer  "country_id"
     t.json     "skill_expertise"
     t.json     "software_expertise"
+    t.integer  "follow_count",           default: 0
+    t.integer  "view_count",             default: 0
+    t.integer  "like_count",             default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -69,7 +69,7 @@ class UserController < ApplicationController
 
 
     def connection_following
-    end
+    end 
 
      def get_connection_followers
         # @follower      = Follow.where('artist_id = ?', current_user).page(params[:page]).per(10)
