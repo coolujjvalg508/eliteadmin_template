@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324060647) do
+ActiveRecord::Schema.define(version: 20170330100642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20170324060647) do
     t.string   "opening_date"
     t.string   "team_member"
     t.string   "hosts"
+    t.integer  "is_submitted",       default: 0
   end
 
   create_table "collection_details", force: :cascade do |t|

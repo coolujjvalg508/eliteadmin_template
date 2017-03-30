@@ -14,9 +14,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'sessions', omniauth_callbacks: 'omniauth_callbacks'}
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   
-
-
-
   get 'setting/index' 
   get 'setting/general'
   get 'appearance/index'
@@ -39,13 +36,10 @@ Rails.application.routes.draw do
   get 'user/followers'
   get 'bookmark' => 'user#bookmark'
   get 'user/notification' 
-  get 'user/join_challenge'
   get 'user/user_followers'
   get 'user/user_following'
   get 'user/user_profile_info'
-  get 'user/user_statistics'
-
-  
+  get 'user/user_statistics' 
 
 
   get 'connection-followers' => 'user#connection_followers', as: 'connection_followers' 
@@ -55,10 +49,7 @@ Rails.application.routes.draw do
   get 'user/get_connection_followers' => 'user#get_connection_followers', as: 'get_connection_followers' 
   get 'user/get_connection_following' => 'user#get_connection_following', as: 'get_connection_following' 
   get 'user/get_artist_list' => 'user#get_artist_list', as: 'get_artist_list' 
-
   get 'user/search_all_artists'                     => 'user#search_all_artists', as: 'search_all_artists' 
-  
-
 
 
   get 'activity' => 'user#all_activity', as: 'all_activity' 
@@ -70,8 +61,6 @@ Rails.application.routes.draw do
   get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
   get 'connection' => 'user#connection', as: 'connection' 
 
-
-
   get 'tutorials'=> 'tutorial#index'
   get 'tutorial/get_tutorial_list'
   get 'tutorial/get_topic_list'
@@ -79,8 +68,6 @@ Rails.application.routes.draw do
   get 'tutorial/tutorial_post'
   get 'tutorial/tutorial_category/:id'=> 'tutorial#tutorial_category', as: 'tutorial_category'
   get 'tutorial/tutorial_all_category'
-
-
 
   get 'message' => 'user#message', as: 'message'
   
@@ -100,10 +87,7 @@ Rails.application.routes.draw do
   put 'update_user_image' => 'job#update_user_image'
   delete 'remove_cover_art' => 'job#remove_cover_art'
     
-
-
   resources :user, only: [:edit, :update]
-
 
   
   resources :galleries
@@ -121,36 +105,25 @@ Rails.application.routes.draw do
     post 'dashboard/projects/save_like'               => 'galleries#save_like', as: 'save_like' 
     post 'dashboard/projects/check_save_like'         => 'galleries#check_save_like', as: 'check_save_like' 
     post 'dashboard/projects/follow_artist'           => 'galleries#follow_artist', as: 'follow_artist' 
-    post 'dashboard/projects/check_follow_artist'     => 'galleries#check_follow_artist', as: 'check_follow_artist' 
-    
-   
+    post 'dashboard/projects/check_follow_artist'     => 'galleries#check_follow_artist', as: 'check_follow_artist'    
     get 'dashboard/projects/get_gallery_list'                 => 'galleries#get_gallery_list', as: 'get_gallery_list' 
     get 'dashboard/projects/get_portfolio_list'               => 'galleries#get_portfolio_list', as: 'get_portfolio_list' 
-    
     get 'search'                                              => 'galleries#search', as: 'search' 
     get 'dashboard/projects/search_all_projects'              => 'galleries#search_all_projects', as: 'search_all_projects' 
-   
     post 'dashboard/projects/save_comment'                    => 'galleries#save_comment', as: 'save_comment' 
     post 'dashboard/projects/get_like_comment_view_gallery'   => 'galleries#get_like_comment_view_gallery', as: 'get_like_comment_view_gallery' 
-   
     post 'save_view_count'            => 'galleries#save_view_count', as: 'save_view_count' 
-    
-
     post 'get_subject_matter_list'    => 'galleries#get_subject_matter_list', as: 'get_subject_matter_list' 
-    
+  
 
-
-
-    get 'gallery'               => 'galleries#browse_all_artwork', as: 'browse_all_artwork' 
-    get 'artworks'              => 'galleries#browse_all_gallery', as: 'browse_all_gallery' 
+    get 'artwork'               => 'galleries#browse_all_artwork', as: 'browse_all_artwork' 
+    get 'gallery'               => 'galleries#browse_all_gallery', as: 'browse_all_gallery' 
     get 'videos'                => 'galleries#browse_all_video', as: 'browse_all_video' 
     get 'wips'                  => 'galleries#browse_all_work_in_progress', as: 'browse_all_work_in_progress' 
     get 'users'                 => 'user#browse_all_artist', as: 'browse_all_artist' 
     get 'companies'             => 'user#browse_all_companies', as: 'browse_all_companies' 
     get 'challenge'             => 'galleries#browse_all_challenge', as: 'browse_all_challenge' 
     get 'awards'                => 'galleries#browse_all_awards', as: 'browse_all_awards' 
-  
-    
     
 
    resources :collections
@@ -167,11 +140,13 @@ Rails.application.routes.draw do
     get  'report'                                     => 'reports#index', as: 'index_report'
     post 'create_report'                              => 'reports#new', as: 'create_report'
 
+  
+    get  'challenges'                                          => 'challenges#index', as: 'challenge_home'
+    get  'challenges/get_challenge_list'                       => 'challenges#get_challenge_list'
+    get  'challenges/:id/join-challenge'                       => 'challenges#join_challenge', as: 'join_challenge'
+    get 'challenges/:id/show'                                  => 'challenges#show', as: 'show_challenge' 
 
 
-  get 'gallery/challenge'
-  get 'gallery/get_challenge_list'
-  get 'gallery/challenge_post'
   get 'gallery/gallery'
   get 'gallery/wip_detail'
   get 'gallery/get_download_list'
@@ -179,7 +154,7 @@ Rails.application.routes.draw do
   get 'gallery/download_category'
   get 'gallery/download_detail'
   get 'gallery/download_post'
-  get 'gallery/join_challenge'
+
   get 'gallery/free_download'
   
   get 'news/index'

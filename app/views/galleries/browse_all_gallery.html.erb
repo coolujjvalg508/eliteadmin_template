@@ -62,12 +62,12 @@
 <div class="clearfix wipwrap">
     <div class="wiptabs clearfix">
       <ul class="nav nav-pills">
-        <li class="dropdown active"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Artwork
+        <li class="dropdown active"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Gallery
           <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
           </a>
           <ul class="dropdown-menu">
-              <li><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
-              <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
+              <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
@@ -167,7 +167,7 @@
       
     $scope.filter = function() {
         
-        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=1'; 
+        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=0'; 
         
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
           list_url += '&is_feature=' + $scope.viewFeaturedType
@@ -206,6 +206,7 @@
     $scope.searchByPostType = function(id) {
         
         if(id == 1){
+           window.location.href='<%= browse_all_artwork_path %>';
         }else if(id == 2){
           window.location.href='<%= browse_all_video_path %>';
         }else if(id == 3){
@@ -217,7 +218,7 @@
         }else if(id == 6){
           window.location.href='<%= browse_all_artist_path %>';
         }else{
-          window.location.href='<%= browse_all_artwork_path %>';
+         
         }
 
     };

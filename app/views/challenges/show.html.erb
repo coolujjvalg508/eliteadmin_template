@@ -2,14 +2,14 @@
 <section class="challengewrap clearfix">
   <div class="container">
     <h2>ACCEPT THE CHALLENGE!</h2>
-    <div class="chanllenge-newtxt">Brought to you by <span class="blue-txt">Trojan Horse was a Unicorn, Lenovo, Wacom</span></div>
+    <div class="chanllenge-newtxt">Brought to you by <span class="blue-txt"><%= @challenge_data.present? ? @challenge_data.hosts : '' %></span></div>
     <div class="chanl-indent clearfix">
       <div class="row">
         <div class="col-md-8 col-sm-8 col-xs-12"><%= image_tag("database/challeng-img.jpg", :alt => "Challenges",:class=>"img-responsive") %>
           <div class="thu-txt">THU Reborn</div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
-          <div class="challenge-count">564<span class="txt15">Challengers</span></div>
+          <div class="challenge-count">0<span class="txt15">Challengers</span></div>
           <div class="challenge-count clearfix">
             <div class="count-down pull-left">20 <span class="count-day">D</span></div>
             <div class="count-down pull-left">23 <span class="count-day">H</span></div>

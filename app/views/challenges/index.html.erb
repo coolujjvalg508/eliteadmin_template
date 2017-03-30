@@ -1,240 +1,9 @@
+<section class="wip-navigation-wrap">
+      <%= render 'layouts/browse_sub_header' %>
+</section>
 <div id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
     <!-- Submenu Navigation -->
-    <section class="wip-navigation-wrap">
-        <div class="navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand hidden-md hidden-lg" href="#">All Artwork</a> 
-                    <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
-                </div>
-                <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#" class="dropdown-toggle" data-toggle="dropdown">All Artwork</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Popular Files</a></li>
-                                <li><a href="#">Featured Files</a></li>
-                                <li><a href="#">Top New Files</a></li>
-                                <li><a href="#">Follow Feed</a></li>
-                                <li><a href="#">Top Authors</a></li>
-                                <li><a href="#">Top New Authors</a></li>
-                                <li><a href="#">View All Categories</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">All Videos</a>
-                            <ul class="dropdown-menu">
-                                <li> <a href="#">Popular Items</a> </li>
-                                <li> <a href="#">All Items</a> </li>
-                                <li> <a href="#">Anatomy</a> </li>
-                                <li> <a href="#">Animals</a> </li>
-                                <li> <a href="#">Base Meshes</a> </li>
-                                <li> <a href="#">Buildings and Architecture</a> </li>
-                                <li> <a href="#">Clothes &amp; Accessories</a> </li>
-                                <li> <a href="#">Deco Objects</a> </li>
-                                <li> <a href="#">Design Elements</a> </li>
-                                <li> <a href="#">Electronics</a> </li>
-                                <li> <a href="#">Engines and Parts</a> </li>
-                                <li> <a href="#">Fantasy and Fiction</a> </li>
-                                <li> <a href="#">Food and Drinks</a> </li>
-                                <li> <a href="#">Furnishings</a> </li>
-                                <li> <a href="#">Humans</a> </li>
-                                <li> <a href="#">Music</a> </li>
-                                <li> <a href="#">Nature</a> </li>
-                                <li> <a href="#">Products</a> </li>
-                                <li> <a href="#">Science</a> </li>
-                                <li> <a href="#">Sports</a> </li>
-                                <li> <a href="#">Theme Packages</a> </li>
-                                <li> <a href="#">Tools</a> </li>
-                                <li> <a href="#">Toys and Games</a> </li>
-                                <li> <a href="#">Vehicles</a> </li>
-                                <li> <a href="#">Weapons and Armor</a> </li>
-                                <li> <a href="#">Miscellaneous</a> </li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Editor Picks</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Popular Files</a></li>
-                                <li><a href="#">Featured Files</a></li>
-                                <li><a href="#">Top New Files</a></li>
-                                <li><a href="#">Follow Feed</a></li>
-                                <li><a href="#">Top Authors</a></li>
-                                <li><a href="#">Top New Authors</a></li>
-                                <li><a href="#">View All Categories</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Concept Art</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">All Items</a></li>
-                                <li><a href="#">Exterior</a></li>
-                                <li><a href="#">Interior</a></li>
-                                <li><a href="#">Sky</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Animation</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">All Items</a></li>
-                                <li><a href="#">Exterior</a></li>
-                                <li><a href="#">Interior</a></li>
-                                <li><a href="#">Sky</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Making of</a>
-                            <ul class="dropdown-menu">
-                                <li> <a href="/popular_item/by_category?category=cg-textures">Popular Items</a> </li>
-                                <li> <a href="/category/cg-textures">All Items</a> </li>
-                                <li> <a href="/category/cg-textures/bones">Bones</a> </li>
-                                <li> <a href="/category/cg-textures/buildings">Buildings</a> </li>
-                                <li> <a href="/category/cg-textures/concrete">Concrete</a> </li>
-                                <li> <a href="/category/cg-textures/doors">Doors</a> </li>
-                                <li> <a href="/category/cg-textures/fabric">Fabric</a> </li>
-                                <li> <a href="/category/cg-textures/fauna">Fauna</a> </li>
-                                <li> <a href="/category/cg-textures/flora">Flora</a> </li>
-                                <li> <a href="/category/cg-textures/ground">Ground</a> </li>
-                                <li> <a href="/category/cg-textures/hdri-images">HDRI Images</a> </li>
-                                <li> <a href="/category/cg-textures/humans">Humans</a> </li>
-                                <li> <a href="/category/cg-textures/ice">Ice</a> </li>
-                                <li> <a href="/category/cg-textures/metal">Metal</a> </li>
-                                <li> <a href="/category/cg-textures/ornaments">Ornaments</a> </li>
-                                <li> <a href="/category/cg-textures/paper">Paper</a> </li>
-                                <li> <a href="/category/cg-textures/plaster">Plaster</a> </li>
-                                <li> <a href="/category/cg-textures/plastic">Plastic</a> </li>
-                                <li> <a href="/category/cg-textures/roads">Roads</a> </li>
-                                <li> <a href="/category/cg-textures/roofing">Roofing</a> </li>
-                                <li> <a href="/category/cg-textures/skies">Skies</a> </li>
-                                <li> <a href="/category/cg-textures/splatter">Splatter</a> </li>
-                                <li> <a href="/category/cg-textures/stone">Stone</a> </li>
-                                <li> <a href="/category/cg-textures/tiles">Tiles</a> </li>
-                                <li> <a href="/category/cg-textures/walls">Walls</a> </li>
-                                <li> <a href="/category/cg-textures/water">Water</a> </li>
-                                <li> <a href="/category/cg-textures/windows">Windows</a> </li>
-                                <li> <a href="/category/cg-textures/wood">Wood</a> </li>
-                                <li> <a href="/category/cg-textures/miscellaneous">Miscellaneous</a> </li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Vfx Breakdown</a>
-                            <ul class="dropdown-menu">
-                                <li> <a href="#">Popular Items</a> </li>
-                                <li> <a href="#">All Items</a> </li>
-                                <li> <a href="#">Anatomy</a> </li>
-                                <li> <a href="#">Animals</a> </li>
-                                <li> <a href="#">Base Meshes</a> </li>
-                                <li> <a href="#">Buildings and Architecture</a> </li>
-                                <li> <a href="#">Clothes &amp; Accessories</a> </li>
-                                <li> <a href="#">Deco Objects</a> </li>
-                                <li> <a href="#">Design Elements</a> </li>
-                                <li> <a href="#">Electronics</a> </li>
-                                <li> <a href="#">Engines and Parts</a> </li>
-                                <li> <a href="#">Fantasy and Fiction</a> </li>
-                                <li> <a href="#">Food and Drinks</a> </li>
-                                <li> <a href="#">Furnishings</a> </li>
-                                <li> <a href="#">Humans</a> </li>
-                                <li> <a href="#">Music</a> </li>
-                                <li> <a href="#">Nature</a> </li>
-                                <li> <a href="#">Products</a> </li>
-                                <li> <a href="#">Science</a> </li>
-                                <li> <a href="#">Sports</a> </li>
-                                <li> <a href="#">Theme Packages</a> </li>
-                                <li> <a href="#">Tools</a> </li>
-                                <li> <a href="#">Toys and Games</a> </li>
-                                <li> <a href="#">Vehicles</a> </li>
-                                <li> <a href="#">Weapons and Armor</a> </li>
-                                <li> <a href="#">Miscellaneous</a> </li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Illustration</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Popular Files</a></li>
-                                <li><a href="#">Featured Files</a></li>
-                                <li><a href="#">Top New Files</a></li>
-                                <li><a href="#">Follow Feed</a></li>
-                                <li><a href="#">Top Authors</a></li>
-                                <li><a href="#">Top New Authors</a></li>
-                                <li><a href="#">View All Categories</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Demoreel</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">All Items</a></li>
-                                <li><a href="#">Exterior</a></li>
-                                <li><a href="#">Interior</a></li>
-                                <li><a href="#">Sky</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Matte Painting</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">All Items</a></li>
-                                <li><a href="#">Exterior</a></li>
-                                <li><a href="#">Interior</a></li>
-                                <li><a href="#">Sky</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Motion Graphics</a>
-                            <ul class="dropdown-menu">
-                                <li> <a href="/popular_item/by_category?category=cg-textures">Popular Items</a> </li>
-                                <li> <a href="/category/cg-textures">All Items</a> </li>
-                                <li> <a href="/category/cg-textures/bones">Bones</a> </li>
-                                <li> <a href="/category/cg-textures/buildings">Buildings</a> </li>
-                                <li> <a href="/category/cg-textures/concrete">Concrete</a> </li>
-                                <li> <a href="/category/cg-textures/doors">Doors</a> </li>
-                                <li> <a href="/category/cg-textures/fabric">Fabric</a> </li>
-                                <li> <a href="/category/cg-textures/fauna">Fauna</a> </li>
-                                <li> <a href="/category/cg-textures/flora">Flora</a> </li>
-                                <li> <a href="/category/cg-textures/ground">Ground</a> </li>
-                                <li> <a href="/category/cg-textures/hdri-images">HDRI Images</a> </li>
-                                <li> <a href="/category/cg-textures/humans">Humans</a> </li>
-                                <li> <a href="/category/cg-textures/ice">Ice</a> </li>
-                                <li> <a href="/category/cg-textures/metal">Metal</a> </li>
-                                <li> <a href="/category/cg-textures/ornaments">Ornaments</a> </li>
-                                <li> <a href="/category/cg-textures/paper">Paper</a> </li>
-                                <li> <a href="/category/cg-textures/plaster">Plaster</a> </li>
-                                <li> <a href="/category/cg-textures/plastic">Plastic</a> </li>
-                                <li> <a href="/category/cg-textures/roads">Roads</a> </li>
-                                <li> <a href="/category/cg-textures/roofing">Roofing</a> </li>
-                                <li> <a href="/category/cg-textures/skies">Skies</a> </li>
-                                <li> <a href="/category/cg-textures/splatter">Splatter</a> </li>
-                                <li> <a href="/category/cg-textures/stone">Stone</a> </li>
-                                <li> <a href="/category/cg-textures/tiles">Tiles</a> </li>
-                                <li> <a href="/category/cg-textures/walls">Walls</a> </li>
-                                <li> <a href="/category/cg-textures/water">Water</a> </li>
-                                <li> <a href="/category/cg-textures/windows">Windows</a> </li>
-                                <li> <a href="/category/cg-textures/wood">Wood</a> </li>
-                                <li> <a href="/category/cg-textures/miscellaneous">Miscellaneous</a> </li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">More</a>
-                            <ul class="dropdown-menu">
-                                <li> <a href="#">Popular Items</a> </li>
-                                <li> <a href="#">All Items</a> </li>
-                                <li> <a href="#">Anatomy</a> </li>
-                                <li> <a href="#">Animals</a> </li>
-                                <li> <a href="#">Base Meshes</a> </li>
-                                <li> <a href="#">Buildings and Architecture</a> </li>
-                                <li> <a href="#">Clothes &amp; Accessories</a> </li>
-                                <li> <a href="#">Deco Objects</a> </li>
-                                <li> <a href="#">Design Elements</a> </li>
-                                <li> <a href="#">Electronics</a> </li>
-                                <li> <a href="#">Engines and Parts</a> </li>
-                                <li> <a href="#">Fantasy and Fiction</a> </li>
-                                <li> <a href="#">Food and Drinks</a> </li>
-                                <li> <a href="#">Furnishings</a> </li>
-                                <li> <a href="#">Humans</a> </li>
-                                <li> <a href="#">Music</a> </li>
-                                <li> <a href="#">Nature</a> </li>
-                                <li> <a href="#">Products</a> </li>
-                                <li> <a href="#">Science</a> </li>
-                                <li> <a href="#">Sports</a> </li>
-                                <li> <a href="#">Theme Packages</a> </li>
-                                <li> <a href="#">Tools</a> </li>
-                                <li> <a href="#">Toys and Games</a> </li>
-                                <li> <a href="#">Vehicles</a> </li>
-                                <li> <a href="#">Weapons and Armor</a> </li>
-                                <li> <a href="#">Miscellaneous</a> </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Showcase & Discover Creative Work -->
     <section class="clearfix showcase-wrap text-center">
@@ -242,24 +11,34 @@
             <div class="showcase-title text-center">Showcase &amp; Discover Creative Work</div>
             <div class="showcase-txt text-center">for <a href="#">Demo Reel <i></i></a>, <a href="#">Digital Art<i></i></a>, <a href="#">Making of &amp; Vfx Breakdown<i></i></a>, <a href="#">Concept Art<i></i></a> and more</div>
             <div class="clearfix wip-gallery-wrap">
-                <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
+                <div class="col-md-6 col-sm-4 col-xs-12 marginB10">
                     <div class="input-group stylish-input-group">
-                        <input type="text" class="form-control"  placeholder="Enter a keyword..." >
+                        <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
                         <span class="input-group-addon">
                         <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
                         </span> 
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left">
-                    <select class="custom-select">
-                        <option>Companies</option>
+                 <div class="col-md-6 col-sm-4 col-xs-12 marginB10 text-left">
+
+                    <select class="custom-select challenge-type-link"  ng-change="searchByChallengeType(selected)" ng-model='selected'>
+                      <option value="" class="challenge-type-link"  id="challenge-type-link-all" selected="selected">All</option>
+                      <% 
+                            challengetype  = Challenge::CHALLENGE_TYPE
+                            if challengetype.present?
+                                challengetype.each_with_index do |value,index| #abort(value[1].to_json) %>
+                                <option value = "<%= value[1] %>" class="challenge-type-link"  id="challenge-type-link-<%= value[1] %>"> <%= value[0] %></option>
+                      <% 
+                            end 
+                        end
+                      %>
                     </select>
                 </div>
-                <div class="col-md-5 col-sm-4 col-xs-12 marginB10 text-left">
+              <!--  <div class="col-md-5 col-sm-4 col-xs-12 marginB10 text-left">
                     <select class="custom-select">
                         <option>Category</option>
                     </select>
-                </div>
+                </div> -->
             </div>
             <div class="showcase-btn-wrap clearfix text-center">
                 <button type="button" class="btn btn-success border-radius marginB10">Upload</button>
@@ -284,6 +63,34 @@
                         </li>
                     </ul>
                 </li>
+
+                <!--     <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Category <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Inbox</a></li>
+                        <li><a href="#">Drafts</a></li>
+                        <li><a href="#">Sent Items</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Trash</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Featured <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Inbox</a></li>
+                        <li><a href="#">Drafts</a></li>
+                        <li><a href="#">Sent Items</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Trash</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Worldwide <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Inbox</a></li>
+                        <li><a href="#">Drafts</a></li>
+                        <li><a href="#">Sent Items</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Trash</a></li>
+                      </ul>
+                    </li> -->
             </ul>
 
         </div>
@@ -297,8 +104,8 @@
                 <div class="row">
                     <ul>
 
-                        <li class="col-md-3 col-sm-4 col-xs-12" ng-repeat="x in challenge_data">
-                            <div class="challeng-indent clearfix"> <a href="#" class="viewchallengebtn">View Challenge</a>
+                        <li class="col-md-3 col-sm-4 col-xs-12" dir-paginate="x in challenge_data | filter:search | itemsPerPage:50">
+                            <div class="challeng-indent clearfix"> <a href="/challenges/{{x.id}}/show" class="viewchallengebtn">View Challenge</a>
                                 <div class="challenge-profile"><img lazy-img="<%= root_url %>{{ x.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height" style="width: 100%;" ></div>
                                 <div class="padding10 clearfix">
                                     <div class="challenge-title">{{x.title}}</div>
@@ -319,8 +126,8 @@
 
                                     </div>
                                     <div class="challenge-txt"><i class="fa fa-users marginR5" aria-hidden="true"></i> 0 challengers</div>
-                                    <button class="lightbtn marginR5"><i class="fa fa-arrow-right blue-txt marginR5" aria-hidden="true"></i> View</button>  
-                                    <button class="lightbtn marginL5"><i class="fa fa-arrow-right marginR5 blue-txt" aria-hidden="true"></i> My Submission</button>
+                                    <button ng-click="redirect_to_show(x.id)" class="lightbtn marginR5"><i class="fa fa-arrow-right blue-txt marginR5" aria-hidden="true"></i> View</button>  
+                                    <button ng-click="redirect_to_join_challenge(x.id)" class="lightbtn marginL5"><i class="fa fa-arrow-right marginR5 blue-txt" aria-hidden="true"></i> My Submission</button>
                                 </div>
                             </div>
                         </li>
@@ -508,7 +315,7 @@
           <div class="challenge-home-indent clearfix">
             <div class="clearfix"><%= image_tag("database/chalenges7.jpg", :alt => "img",:class=>"img-responsive") %></div>
             <div class="padding10">
-    			<div class="wip-title clearfix"><a href="#">Garvel Hever</a>
+                <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
                           <button class="votebtn pull-right margin" type="button">Vote</button>
                         </div>
               <div class="clearfix">
@@ -861,15 +668,12 @@ accordionOn: ['xs', 'sm']
 
 
 <script>
-
     // main page angular app start
-    var app = angular.module('myApp', ["angularLazyImg"]);
+    var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
     app.controller('myCtrl', function($scope, $http) {
-
-
         $scope.filter = function() {
         
-            list_url = '/gallery/get_challenge_list?';
+            list_url = '/challenges/get_challenge_list?';
 
             if(typeof $scope.viewChallengeType !== 'undefined' && $scope.viewChallengeType != '' && $scope.viewChallengeType != 'all'){
               list_url += '&challenge_type_id=' + $scope.viewChallengeType
@@ -890,16 +694,16 @@ accordionOn: ['xs', 'sm']
             $scope.filter();
 
         };
+        $scope.redirect_to_join_challenge = function(value){
+                window.location.href = "/challenges/"+value+"/join-challenge"
+        }
+        $scope.redirect_to_show = function(value){
+               window.location.href = "/challenges/"+value+"/show" 
 
+        };
         $scope.dateFormat = function(value) {
             return new Date(value);
         };
-
-
-
-      
-
     
-    });
-
+     });
 </script>
