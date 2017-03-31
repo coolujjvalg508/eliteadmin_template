@@ -35,9 +35,9 @@
                # abort(time_diff_components.to_json)
             %>
               <div class="count-down pull-left"><%= total_days %> <span class="count-day">D</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:hour].present? time_diff_components[:hour] : '' %> <span class="count-day">H</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:minute].present? time_diff_components[:minute] : '' %> <span class="count-day">M</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:second].present? time_diff_components[:second] : '' %> <span class="count-day">s</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:hour].present? ?time_diff_components[:hour] : '' %> <span class="count-day">H</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:minute].present? ?time_diff_components[:minute] : '' %> <span class="count-day">M</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:second].present? ?time_diff_components[:second] : '' %> <span class="count-day">s</span></div>
               <div class="txt15 pull-left">Time left</div>
             
           </div>
