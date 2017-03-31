@@ -13,26 +13,31 @@
           <div class="challenge-count">0<span class="txt15">Challengers</span></div>
           <div class="challenge-count clearfix">
             <%
-                date               = @challenge_data.opening_date
-                end_time           = DateTime.parse(date).strftime("%Y-%m-%d %H:%M:%S")
-                start_time         = DateTime.parse(Time.now.to_s).strftime("%Y-%m-%d %H:%M:%S")
-                
-                require 'time_diff'
-                time_diff_components = Time.diff(start_time, end_time) 
-                #abort(time_diff_components.to_json)
-                total_days   = 0
-                if time_diff_components[:week].present?
-                    total_days   =  time_diff_components[:week] * 7 + time_diff_components[:day]
-                else 
-                    total_days   =  time_diff_components[:day]
-                end  
+              total_days   = 0
+
+              if @challenge_data.opening_date.present?
+
+                  date               = @challenge_data.opening_date
+                  end_time           = DateTime.parse(date).strftime("%Y-%m-%d %H:%M:%S")
+                  start_time         = DateTime.parse(Time.now.to_s).strftime("%Y-%m-%d %H:%M:%S")
+                  
+                  require 'time_diff'
+                  time_diff_components = Time.diff(start_time, end_time) 
+                  #abort(time_diff_components.to_json)
+                  
+                  if time_diff_components[:week].present?
+                      total_days   =  time_diff_components[:week] * 7 + time_diff_components[:day]
+                  else 
+                      total_days   =  time_diff_components[:day]
+                  end  
+              end    
                
                # abort(time_diff_components.to_json)
             %>
               <div class="count-down pull-left"><%= total_days %> <span class="count-day">D</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:hour] %> <span class="count-day">H</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:minute] %> <span class="count-day">M</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:second] %> <span class="count-day">s</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:hour].present? time_diff_components[:hour] : '' %> <span class="count-day">H</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:minute].present? time_diff_components[:minute] : '' %> <span class="count-day">M</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:second].present? time_diff_components[:second] : '' %> <span class="count-day">s</span></div>
               <div class="txt15 pull-left">Time left</div>
             
           </div>
