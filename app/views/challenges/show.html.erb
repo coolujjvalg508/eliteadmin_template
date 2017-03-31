@@ -20,7 +20,8 @@
                   date               = @challenge_data.opening_date
                   end_time           = DateTime.parse(date).strftime("%Y-%m-%d %H:%M:%S")
                   start_time         = DateTime.parse(Time.now.to_s).strftime("%Y-%m-%d %H:%M:%S")
-                  
+                    
+                    abort(start_time.to_json)
                   require 'time_diff'
                   time_diff_components = Time.diff(start_time, end_time) 
                   #abort(time_diff_components.to_json)
