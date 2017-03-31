@@ -46,7 +46,7 @@
           </div>
           <div class="country-txt marginB15">Dates: 
           <%= 
-             if @challenge_data.present? 
+             if @challenge_data.opening_date.present? 
                     date  = @challenge_data.opening_date
                     DateTime.parse(date).strftime("%d-%B-%Y")
               else
@@ -55,7 +55,7 @@
 
            %> -  
            <%= 
-             if @challenge_data.present? 
+             if @challenge_data.closing_date.present? 
                   date  = @challenge_data.closing_date
                   DateTime.parse(date).strftime("%d-%B-%Y")
               else
@@ -65,7 +65,7 @@
             %><br>
             Registration ends 
            <%= 
-             if @challenge_data.present? 
+             if @challenge_data.closing_date.present? 
                  date  =  @challenge_data.closing_date
                   DateTime.parse(date).strftime("%d-%B-%Y")
               else
@@ -90,9 +90,9 @@
       <div class="tab-content">
         <div class="tab-pane active" id="Briefing">
           <div class="clearfix challenge-briefing">
-             <%= @challenge_data.present? ? @challenge_data.awards.html_safe : '' %>
-             <%= @challenge_data.present? ? @challenge_data.terms_condition.html_safe : '' %>
-             <%= @challenge_data.present? ? @challenge_data.faq.html_safe : '' %>
+             <%= @challenge_data.awards.present? ? @challenge_data.awards.html_safe : '' %>
+             <%= @challenge_data.terms_condition.present? ? @challenge_data.terms_condition.html_safe : '' %>
+             <%= @challenge_data.faq.present? ? @challenge_data.faq.html_safe : '' %>
           </div>
         </div>
         <div class="tab-pane" id="Announcements">
