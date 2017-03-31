@@ -75,8 +75,13 @@ class ImageUploader < CarrierWave::Uploader::Base
   version :user_activity do
     process :resize_to_fill => [50, 50]
   end
-   version :art_activity do
+  
+  version :art_activity do
     process :resize_to_fill => [626, 404]
+  end
+
+  version :challenge_view do
+    process :resize_to_fill => [900, 402]
   end
 
 

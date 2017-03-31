@@ -1,24 +1,71 @@
-<!-- Join The Challange Page Start -->
+<!-- Join The Challange Page Start --> 
 <section class="challengewrap clearfix">
   <div class="container">
     <h2>ACCEPT THE CHALLENGE!</h2>
     <div class="chanllenge-newtxt">Brought to you by <span class="blue-txt"><%= @challenge_data.present? ? @challenge_data.hosts : '' %></span></div>
     <div class="chanl-indent clearfix">
       <div class="row">
-        <div class="col-md-8 col-sm-8 col-xs-12"><%= image_tag("database/challeng-img.jpg", :alt => "Challenges",:class=>"img-responsive") %>
-          <div class="thu-txt">THU Reborn</div>
+        <div class="col-md-8 col-sm-8 col-xs-12">
+            <%= image_tag(@challenge_data.company_logo.challenge_view.url, :alt => "Challenges",:class=>"img-responsive") %>
+          <div class="thu-txt"><%= @challenge_data.present? ? @challenge_data.title : '' %></div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="challenge-count">0<span class="txt15">Challengers</span></div>
           <div class="challenge-count clearfix">
-            <div class="count-down pull-left">20 <span class="count-day">D</span></div>
-            <div class="count-down pull-left">23 <span class="count-day">H</span></div>
-            <div class="count-down pull-left">1 <span class="count-day">M</span></div>
-            <div class="count-down pull-left">0 <span class="count-day">s</span></div>
-            <div class="txt15 pull-left">Time left</div>
+            <%
+                date               = @challenge_data.opening_date
+                end_time           = DateTime.parse(date).strftime("%Y-%m-%d %H:%M:%S")
+                start_time         = DateTime.parse(Time.now.to_s).strftime("%Y-%m-%d %H:%M:%S")
+                
+                require 'time_diff'
+                time_diff_components = Time.diff(start_time, end_time) 
+                #abort(time_diff_components.to_json)
+                total_days   = 0
+                if time_diff_components[:week].present?
+                    total_days   =  time_diff_components[:week] * 7 + time_diff_components[:day]
+                else 
+                    total_days   =  time_diff_components[:day]
+                end  
+               
+               # abort(time_diff_components.to_json)
+            %>
+              <div class="count-down pull-left"><%= total_days %> <span class="count-day">D</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:hour] %> <span class="count-day">H</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:minute] %> <span class="count-day">M</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:second] %> <span class="count-day">s</span></div>
+              <div class="txt15 pull-left">Time left</div>
+            
           </div>
-          <div class="country-txt marginB15">Dates: 06 April 2016 - 06 June 2016 05:00 UTC<br>
-            Registration ends 05 June 2016 05:00 UTC</div>
+          <div class="country-txt marginB15">Dates: 
+          <%= 
+             if @challenge_data.present? 
+                    date  = @challenge_data.opening_date
+                    DateTime.parse(date).strftime("%d-%B-%Y")
+              else
+                  '--'    
+             end 
+
+           %> -  
+           <%= 
+             if @challenge_data.present? 
+                  date  = @challenge_data.closing_date
+                  DateTime.parse(date).strftime("%d-%B-%Y")
+              else
+                  '--'    
+             end 
+
+            %><br>
+            Registration ends 
+           <%= 
+             if @challenge_data.present? 
+                 date  =  @challenge_data.closing_date
+                  DateTime.parse(date).strftime("%d-%B-%Y")
+              else
+                  '--'    
+             end 
+
+            %>
+            </div>
           <div class="clearfix jointhechallenge">
             <button class="greenbtn" type="button"><i class="fa fa-long-arrow-right marginR5" aria-hidden="true"></i> Join The Challenge</button>
           </div>
@@ -35,43 +82,9 @@
       <div class="tab-content">
         <div class="tab-pane active" id="Briefing">
           <div class="clearfix challenge-briefing">
-            <div class="ticket-txt">Welcome to THU 2016 Golden Ticket Challenge!</div>
-            <div class="bei-txt">For the the fourth year in a row we are holding the challenge that will let you win the last available ticket for the Trojan Horse was a Unicorn festival. And this year's theme is “THU Reborn”! </div>
-            <div class="clearfix marginB15 text-center">
-              <center>
-				  <%= image_tag("database/youtube-video.jpg", :alt => "Youtube",:class=>"img-responsive") %>
-              </center>
-            </div>
-            <div class="bei-heading">Theme: THU REBORN </div>
-            <div class="bei-txt">From the darkness, the spirit of the artist is reborn.<br>
-              After the war, we've arrived at a time of peace. A new era for the tribe.<br>
-              New bridges need to be built. The World is ready for our clans and for a new society grounded in art and passion.<br>
-              THU REBORN is the place where we want to see the way you imagine this new World of infinite possibilities. A world based on the THU <br>
-              culture. A new world for our tribe where art is the universal language. </div>
-            <div class="bei-heading">Jury</div>
-            <div class="bei-txt">The members of the Jury are the THU family members:
-              <ul class="challenge-team">
-                <li>José Alves da Silva (President)</li>
-                <li>Scott Ross</li>
-                <li>Löic Zimmermann</li>
-                <li>Marc Simonetti</li>
-                <li>Victor Hugo Queiroz</li>
-              </ul>
-            </div>
-            <div class="bei-heading">Judging Criteria</div>
-            <div class="bei-txt marginB15">Entries will be judged on both creative and technical details. The theme of the challenge must be clear in the final image. Originality on the theme and community interaction are highly valued.</div>
-            <div class="ticket-txt">Challenge Rules</div>
-            <div class="bei-heading">Deadline</div>
-            <div class="bei-txt marginB15">The deadline for entries is June 6th, 2016</div>
-            <div class="bei-heading">Winners Announcement</div>
-            <div class="bei-txt marginB15">Winners will be announced and posted on CGmeetup.net on June 13th, 2016.</div>
-            <div class="ticket-txt marginB15">Frequently Asked Questions</div>
-            <div class="bei-heading">Where do I ask questions about the challenge?</div>
-            <div class="bei-txt marginB15">Please direct all questions about the challenge to the announcements page. We'll do our best to address and clarify anything there. We will also be providing support at the THU Challenge facebook public group at</div>
-            <div class="bei-heading">Where do I ask about technical problems or feature requests?</div>
-            <div class="bei-txt marginB15">If you encounter any technical issues, please contact us at CGmeetup.net. Please provide as much detail as possible when reporting issues - provide a URL to the problem, screenshots and even video if possible. Thanks!</div>
-            <div class="bei-heading">Can I submit multiple submissions for a challenge?</div>
-            <div class="bei-txt marginB15">No. You can only submit 1 submission per challenge. Feel free to work on multiple entries if you like but submit only 1 for judging.</div>
+             <%= @challenge_data.present? ? @challenge_data.awards.html_safe : '' %>
+             <%= @challenge_data.present? ? @challenge_data.terms_condition.html_safe : '' %>
+             <%= @challenge_data.present? ? @challenge_data.faq.html_safe : '' %>
           </div>
         </div>
         <div class="tab-pane" id="Announcements">
@@ -319,9 +332,9 @@
                 </li>
                 <li class="clearfix col-md-3 col-sm-6 col-xs-12">
                   <div class="submisson-indent clearfix">
-                   <div class="winner-box">
-                  <i class="fa fa-trophy" aria-hidden="true"></i> HM
-                  </div>
+                    <div class="winner-box">
+                        <i class="fa fa-trophy" aria-hidden="true"></i> HM
+                    </div>
                     <div class="challenge-profile"><%= image_tag("database/browse-artwork1.jpg",:class=>"img-responsive", :alt => "img") %></div>
                     <div class="wip-title clearfix"><a href="#">Garvel Hever</a></div>
                     <div class="clearfix">
@@ -571,5 +584,10 @@ $('.pgwSlideshow').pgwSlideshow();
 });
 $(document).ready(function(){
 $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+<script>
+$('.responsive-tabs').responsiveTabs({
+accordionOn: ['xs', 'sm']
 });
 </script>
