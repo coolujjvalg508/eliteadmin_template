@@ -53,7 +53,7 @@ gem 'tinymce-rails'
  gem 'omniauth'
  gem 'omniauth-facebook'
  gem 'omniauth-twitter'
-
+ gem 'time_diff'
 
  gem 'video_info'
  #gem 'streamio-ffmpeg'
