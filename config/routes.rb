@@ -141,10 +141,19 @@ Rails.application.routes.draw do
     post 'create_report'                              => 'reports#new', as: 'create_report'
 
   
-    get  'challenges'                                          => 'challenges#index', as: 'challenge_home'
-    get  'challenges/get_challenge_list'                       => 'challenges#get_challenge_list'
-    get  'challenges/:id/join-challenge'                       => 'challenges#join_challenge', as: 'join_challenge'
-    get 'challenges/:id/show'                                  => 'challenges#show', as: 'show_challenge' 
+    get  'contest'                              => 'challenges#index', as: 'challenge_home'
+    get  'contest/get_challenge_list'           => 'challenges#get_challenge_list'
+    get  'contest/:id/show'                     => 'challenges#show', as: 'show_challenge' 
+    
+    resources :contests
+    get 'contests'                                => 'contests#index', as: 'contests_home' 
+    get 'contests/new'                            => 'contests#new', as: 'create_contest' 
+    get 'get_contest_post_list'                   => 'contests#get_contest_post_list'
+    get 'contests/:paramlink/make_trash'          => 'contests#make_trash', as: 'trash_contest'
+    get 'contests/:paramlink/edit'                => 'contests#edit', as: 'modify_contest' 
+    post 'contests/upload_drag_image'             => 'contests#upload_drag_image'
+    get 'contests/:paramlink/show'                => 'contests#show', as: 'show_contest' 
+    get 'contests/join_challenge/:challenge_type_id'    => 'contests#join_challenge', as: 'join_challenge' 
 
 
   get 'gallery/gallery'

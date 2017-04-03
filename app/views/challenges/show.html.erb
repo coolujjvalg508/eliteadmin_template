@@ -20,8 +20,7 @@
                   date               = @challenge_data.opening_date
                   end_time           = DateTime.parse(date).strftime("%Y-%m-%d %H:%M:%S")
                   start_time         = DateTime.parse(Time.now.to_s).strftime("%Y-%m-%d %H:%M:%S")
-                    
-                   # abort(end_time.to_json)
+                  
                   require 'time_diff'
                   time_diff_components = Time.diff(start_time, end_time) 
                   #abort(time_diff_components.to_json)
@@ -35,9 +34,9 @@
                
             
               <div class="count-down pull-left"><%= total_days %> <span class="count-day">D</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:hour].present? ?time_diff_components[:hour] : '' %> <span class="count-day">H</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:minute].present? ?time_diff_components[:minute] : '' %> <span class="count-day">M</span></div>
-              <div class="count-down pull-left"><%= time_diff_components[:second].present? ?time_diff_components[:second] : '' %> <span class="count-day">s</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:hour].present? ? time_diff_components[:hour] : '' %> <span class="count-day">H</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:minute].present? ? time_diff_components[:minute] : '' %> <span class="count-day">M</span></div>
+              <div class="count-down pull-left"><%= time_diff_components[:second].present? ? time_diff_components[:second] : '' %> <span class="count-day">s</span></div>
               <div class="txt15 pull-left">Time left</div>
             <%
             end    
@@ -56,12 +55,12 @@
 
            %> -  
            <%= 
-             if @challenge_data.closing_date.present? 
+            if @challenge_data.closing_date.present? 
                   date  = @challenge_data.closing_date
                   DateTime.parse(date).strftime("%d-%B-%Y")
               else
                   '--'    
-             end 
+            end 
 
             %><br>
             Registration ends 
@@ -76,7 +75,7 @@
             %>
             </div>
           <div class="clearfix jointhechallenge">
-            <button class="greenbtn" type="button"><i class="fa fa-long-arrow-right marginR5" aria-hidden="true"></i> Join The Challenge</button>
+            <button onclick="redirect_to_join_challenge(<%= @challenge_data.challenge_type_id %>, <%= @challenge_data.id %>);" class="greenbtn" type="button"><i class="fa fa-long-arrow-right marginR5" aria-hidden="true"></i> Join The Challenge</button>
           </div>
         </div>
       </div>
@@ -86,7 +85,7 @@
         <li class="active"><a href="#Briefing">Briefing <i></i></a></li>
         <li><a href="#Announcements">Announcements <i></i></a></li>
         <li><a href="#Submissions">Submissions <i></i></a></li>
-        <li><a href="#TwitchStreams">Twitch Streams <i></i></a></li>
+  <!--       <li><a href="#TwitchStreams">Twitch Streams <i></i></a></li> -->
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="Briefing">
@@ -588,15 +587,25 @@
  <%= render 'layouts/lastfooter' %>
 </footer>
 <script>
-$(document).ready(function() {
-$('.pgwSlideshow').pgwSlideshow();
-});
-$(document).ready(function(){
-$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
-<script>
-$('.responsive-tabs').responsiveTabs({
-accordionOn: ['xs', 'sm']
-});
+  $(document).ready(function() {
+    $('.pgwSlideshow').pgwSlideshow();
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+
+  $('.responsive-tabs').responsiveTabs({
+    accordionOn: ['xs', 'sm']
+  });
+
+
+  function redirect_to_join_challenge(value,challenge_id){
+      if(value == 1){
+        window.location.href = "<%= create_contest_path %>";  
+      }else  if(value == 2){
+        window.location.href = "<%= create_contest_path %>";  
+      }else  if(value == 3){
+        window.location.href = "<%= create_contest_path %>";  
+      }
+      
+  }
+
 </script>

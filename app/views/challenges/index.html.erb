@@ -42,8 +42,8 @@
             </div>
             <div class="showcase-btn-wrap clearfix text-center">
                 <button type="button" class="btn btn-success border-radius marginB10">Upload</button>
-                <button type="button" class="btn btn-default border-radius marginB10">Browse Popular Companies</button>
-                <button type="button" class="btn btn-default border-radius marginB10">Browse Top Companies</button>
+                <button type="button" class="btn btn-default border-radius marginB10">Browse Popular Challenges</button>
+                <button type="button" class="btn btn-default border-radius marginB10">Browse Top Challenges</button>
             </div>
         </div>
     </section>
@@ -63,36 +63,7 @@
                         </li>
                     </ul>
                 </li>
-
-                <!--     <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Category <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Inbox</a></li>
-                        <li><a href="#">Drafts</a></li>
-                        <li><a href="#">Sent Items</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Trash</a></li>
-                      </ul>
-                    </li>
-                    <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Featured <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Inbox</a></li>
-                        <li><a href="#">Drafts</a></li>
-                        <li><a href="#">Sent Items</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Trash</a></li>
-                      </ul>
-                    </li>
-                    <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Worldwide <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Inbox</a></li>
-                        <li><a href="#">Drafts</a></li>
-                        <li><a href="#">Sent Items</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Trash</a></li>
-                      </ul>
-                    </li> -->
             </ul>
-
         </div>
     </div>
 
@@ -104,8 +75,8 @@
                 <div class="row">
                     <ul>
 
-                        <li class="col-md-3 col-sm-4 col-xs-12" dir-paginate="x in challenge_data | filter:search | itemsPerPage:50">
-                            <div class="challeng-indent clearfix"> <a href="/challenges/{{x.id}}/show" class="viewchallengebtn">View Challenge</a>
+                        <li class="col-md-3 col-sm-4 col-xs-12" dir-paginate="x in challenge_data | filter:search | itemsPerPage:10">
+                            <div class="challeng-indent clearfix"> <a href="/contest/{{x.id}}/show" class="viewchallengebtn">View Challenge</a>
                                 <div class="challenge-profile"><img lazy-img="<%= root_url %>{{ x.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height" style="width: 100%;" ></div>
                                 <div class="padding10 clearfix">
                                     <div class="challenge-title">{{x.title}}</div>
@@ -127,7 +98,7 @@
                                     </div>
                                     <div class="challenge-txt"><i class="fa fa-users marginR5" aria-hidden="true"></i> 0 challengers</div>
                                     <button ng-click="redirect_to_show(x.id)" class="lightbtn marginR5"><i class="fa fa-arrow-right blue-txt marginR5" aria-hidden="true"></i> View</button>  
-                                    <button ng-click="redirect_to_join_challenge(x.id)" class="lightbtn marginL5"><i class="fa fa-arrow-right marginR5 blue-txt" aria-hidden="true"></i> My Submission</button>
+                                   <!--  <button ng-click="redirect_to_join_challenge(x.id)" class="lightbtn marginL5"><i class="fa fa-arrow-right marginR5 blue-txt" aria-hidden="true"></i> My Submission</button> -->
                                 </div>
                             </div>
                         </li>
@@ -137,516 +108,39 @@
                     <div class="clearfix downbox text-center err-msg no-result" ng-hide="challenge_data.length" >No Result Found!</div>   
                 </div>
     <%#= render 'layouts/paging' %>
+       <dir-pagination-controls
+           max-size="1"
+           direction-links="true"
+           boundary-links="false" >
+      </dir-pagination-controls>
     </div>
     <div class="clearfix challenge-home-submission">
     <h2>Submissions</h2>
-    <div class="challenge-home-link clearfix"> <span>Latest Updates</span> | <a href="#">Popular</a> | <a href="#">Following</a> </div>
+    <div class="challenge-home-link clearfix"> <span>Latest Updates</span> | <a href="#">Popular</a> | <a href="#">Following</a>  | <a href="#">My Submission</a></div>
     <div class="row">
       <ul>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges7.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges5.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges5.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges4.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges3.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges2.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges1.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges7.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
+          <li class="col-md-3 col-sm-4 col-xs-12">
+            <div class="challenge-home-indent clearfix">
+              <div class="clearfix"><%= image_tag("database/chalenges7.jpg", :alt => "img",:class=>"img-responsive") %></div>
+              <div class="padding10">
                 <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges5.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
+                            <button class="votebtn pull-right margin" type="button">Vote</button>
+                          </div>
+                <div class="clearfix">
+                  <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
+                  <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
+                </div>
+                <div class="wip-small clearfix">
+                  <ul class="margin">
+                      <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
+                      <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
+                      <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges5.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges4.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges3.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges2.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges1.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges7.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges5.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges5.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges4.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges3.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges2.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges1.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="col-md-3 col-sm-4 col-xs-12">
-          <div class="challenge-home-indent clearfix">
-            <div class="clearfix"><%= image_tag("database/chalenges.jpg", :alt => "img",:class=>"img-responsive") %></div>
-            <div class="padding10">
-              <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                          <button class="votebtn pull-right margin" type="button">Vote</button>
-                        </div>
-              <div class="clearfix">
-                <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                  <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </li>
+          </li>
+        
       </ul>
     </div>
     <%= render 'layouts/paging' %>
@@ -662,7 +156,7 @@
 </footer>
 <script>
 $('.responsive-tabs').responsiveTabs({
-accordionOn: ['xs', 'sm']
+    accordionOn: ['xs', 'sm']
 });
 </script>
 
@@ -673,7 +167,7 @@ accordionOn: ['xs', 'sm']
     app.controller('myCtrl', function($scope, $http) {
         $scope.filter = function() {
         
-            list_url = '/challenges/get_challenge_list?';
+            list_url = '/contest/get_challenge_list?';
 
             if(typeof $scope.viewChallengeType !== 'undefined' && $scope.viewChallengeType != '' && $scope.viewChallengeType != 'all'){
               list_url += '&challenge_type_id=' + $scope.viewChallengeType
@@ -694,11 +188,9 @@ accordionOn: ['xs', 'sm']
             $scope.filter();
 
         };
-        $scope.redirect_to_join_challenge = function(value){
-                window.location.href = "/challenges/"+value+"/join-challenge"
-        }
+
         $scope.redirect_to_show = function(value){
-               window.location.href = "/challenges/"+value+"/show" 
+               window.location.href = "/contest/"+value+"/show" 
 
         };
         $scope.dateFormat = function(value) {
