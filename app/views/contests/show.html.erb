@@ -4,25 +4,25 @@
 <div class="wipdetails-left clearfix">
 <div class="marginB15 clearfix">
 <ul class="pgwSlideshow">
-    <%
-    i = 1
-        if @gallery.images.present?
-          @gallery.images.each_with_index do |j, index|
+    <%   
+        if @contest.images.present?
+    i = @contest.images.count.to_i
+          @contest.images.each_with_index do |j, index|
 
     %>
         <li class="lists"><a href="#">
          <img src="<%= j.image.large_image.url %>" class="img-responsive" alt="img"> 
          <div class="wip-count"><%= i  %></div></a></li>
     <%
-      i = i + 1
+      i = i - 1
           end  
       end    
     %>
  </ul>   
 
        <%
-        if @gallery.videos.present?
-          @gallery.videos.each_with_index do |j, index|
+        if @contest.videos.present?
+          @contest.videos.each_with_index do |j, index|
           
           if(j.video.include?('youtube')) 
               if j.video[/youtu\.be\/([^\?]*)/]
@@ -69,8 +69,8 @@
 
 
   <%
-        if @gallery.sketchfebs.present?
-          @gallery.sketchfebs.each_with_index do |j, index|
+        if @contest.sketchfebs.present?
+          @contest.sketchfebs.each_with_index do |j, index|
           
           url = "https://sketchfab.com/oembed?url="+j.sketchfeb+"&maxwidth=700&maxheight=450&dataType=jsonp"
     %>
@@ -95,8 +95,8 @@
     %>
      <div class="clearfix"></div>
     <%
-        if @gallery.marmo_sets.present?
-          @gallery.marmo_sets.each_with_index do |j, index|
+        if @contest.marmo_sets.present?
+          @contest.marmo_sets.each_with_index do |j, index|
            url = j.marmoset.url
     %>
 
@@ -121,8 +121,8 @@
     %>
      <div class="clearfix"></div>
     <%
-        if @gallery.upload_videos.present?
-          @gallery.upload_videos.each_with_index do |j, index|
+        if @contest.upload_videos.present?
+          @contest.upload_videos.each_with_index do |j, index|
            url = j.uploadvideo.url
     %>
        <div class="slidervideos"><a href="#">
@@ -138,12 +138,12 @@
 </div>
 
 <div class="wipdetailtag publishwrap">
-<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Category:</strong> </span> <a href="#"><%= @gallery.category.present? ? @gallery.category.name : '' %></a> </div>
+<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Category:</strong> </span> <a href="#"><%= @contest.category.present? ? @contest.category.name : '' %></a> </div>
 <div class="marginB10 publish-txt"> <span class="txt-white"><strong>Tags:</strong> </span> 
   <% 
    alltag = ''
-   if @gallery.tags.present? 
-      @gallery.tags.each do |i|  
+   if @contest.tags.present? 
+      @contest.tags.each do |i|  
         alltag += i.tag+', '  
       end 
   end   
@@ -154,8 +154,8 @@
 <div class="marginB10 publish-txt"><span class="txt-white"><strong>Software Used: </strong></span> 
  <% 
    software  = ''
-   if @gallery.software_used.present?
-     software_used = @gallery.software_used
+   if @contest.software_used.present?
+     software_used = @contest.software_used
      software_used.reject!{|a| a==""}
       software_used.each do |i|  
            software_name =  SoftwareExpertise.where("id = ?", i).first
@@ -172,19 +172,19 @@
 <div class="wipdetails-right clearfix">
 <div class="clearfix marginB15 text-right">
     <div class="reply-down close-wip">
-      <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
-        <ul class="dropdown-menu">
-          <li><a href="#" data-toggle="modal" data-target="#reportAbuseModal">Report abuse</a></li>
-        </ul>
-      </div>
-    </div>
-    <a href='<%= index_gallery_path %>'><span class="close-wip"><i class="fa fa-times" aria-hidden="true"></i></span></a> 
+        <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
+          <ul class="dropdown-menu">
+            <li><a href="#" data-toggle="modal" data-target="#reportAbuseModal">Report abuse</a></li>
+          </ul>
+        </div>
+    </div> 
+    <a href='<%= contests_path %>'><span class="close-wip"><i class="fa fa-times" aria-hidden="true"></i></span></a> 
 </div>
 <div class="wip-profile row">
 <div class="col-md-3 col-sm-2 col-xs-3"><%= image_tag("user2.jpg",:alt => "user") %></div>
 <div class="col-md-9 col-sm-10 col-xs-9 row">
-  <div class="wipd-com"><%= @gallery.user.present? ? @gallery.user.firstname : '' %></div>
-  <div><%= @gallery.user.professional_headline.present? ? @gallery.user.professional_headline : '' %></div>
+  <div class="wipd-com"><%= @contest.user.present? ? @contest.user.firstname : '' %></div>
+  <div><%= @contest.user.professional_headline.present? ? @contest.user.professional_headline : '' %></div>
 </div>
 </div>
 <div class="clearfix marginB15">
@@ -193,29 +193,31 @@
 
 <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
 <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
-
+<!-- 
 <button id='bookmarkbutton' type="button" class="bluebtn" data-toggle="modal" data-target="#bookmarkModal">
   <i class="fa fa-book" aria-hidden="true"></i> BookMark
-</button>
+</button> -->
 <!-- <button type="button" class="bluebtn"><i class="fa fa-book" aria-hidden="true"></i> &nbsp; BookMark</button> -->
 
 
 
 </div>
 <div class="wipdetail-area">
-<%= @gallery.user.summary.present? ? @gallery.user.summary : '' %>
+<%= @contest.user.summary.present? ? @contest.user.summary : '' %>
 
-<div class="post-txt">In collections:  <span>
-  <%
-    @gallery.collection.each do |i|
+<!-- <div class="post-txt">In collections:  <span>
+  <%#
+    if @contest.collection.present?
+        @contest.collection.each do |i|
   %>
-  <a href='<%= collection_detail_path(i.id) %>'><%= i.title %></a> 
-  <%
-    end
+       <a href='<%#= collection_detail_path(i.id) %>'><%#= i.title %></a> 
+  <%#
+        end
+    end    
   %>
 
 
-</span></div>
+</span></div> -->
 
 <div class="post-txt">Posted a month ago</div>
 </div>
@@ -327,11 +329,11 @@
          %> -->
          <%= form_for(@collection, :html => {:id => 'bookmark_form_popup'}, :url => 'javascript:void(0);') do |f|
          %>
-         <%= f.hidden_field :gallery_id, value: @gallery.id %>
+         <%= f.hidden_field :gallery_id, value: @contest.id %>
           <div class="modal-content">
             <div class="modal-header">
              <button type="button" class="close" data-dismiss="modal"></button>
-              <h4 class="modal-title" id="exampleModalLabel">Add project to collection</h4>
+              <h4 class="modal-title" id="exampleModalLabel">Add contest to collection</h4>
             </div>
             <div class="modal-body">
             
@@ -355,16 +357,14 @@
       </div>
     </div>
 
-
-
-  <div class="modal fade default-popup" id="reportAbuseModal" tabindex="-1" role="dialog" aria-labelledby="reportAbuseModalLabel">
+     <div class="modal fade default-popup" id="reportAbuseModal" tabindex="-1" role="dialog" aria-labelledby="reportAbuseModalLabel">
       <div class="modal-dialog" role="document">
     <!--    <%#= form_for(@collection, :html => {:id => 'bookmark_form_popup'}, :url => create_collection_path) do |f|
          %> -->
          <%= form_for(@report, :html => {:id => 'report_abuse_popup'}, :url => 'javascript:void(0);') do |f|
          %>
-         <%= f.hidden_field :post_id, value: @gallery.id %>
-          <%= f.hidden_field :post_type, value: 'Gallery' %>
+         <%= f.hidden_field :post_id, value: @contest.id %>
+         <%= f.hidden_field :post_type, value: 'Contest' %>
           <div class="modal-content">
             <div class="modal-header">
              <button type="button" class="close" data-dismiss="modal"></button>
@@ -396,8 +396,6 @@
       </div>
     </div>
 
-
-
 </section>
 <%= javascript_include_tag "pgwslideshow" %>
 <script>
@@ -405,29 +403,28 @@ $(document).ready(function() {
     $('.pgwSlideshow').pgwSlideshow();
     $.ajax({
         type: "post",
-        url: "<%= save_view_count_path %>" ,
-        data: {'gallery_id': '<%= @gallery.id %>'},
+        url: "<%= save_contest_view_count_path %>" ,
+        data: {'contest_id': '<%= @contest.id %>'},
         success: function(data){
         }
     });
 
-      $('#bookmarkbutton').on('click',function(){
-     /*     $.ajax({
-                type: "get",
-                url: "<%= get_all_collection_path %>" ,
-               success: function(data){
-                   alert(data);
-
-                }
-            });*/
-      })
-
-
+    $('#report_abuse_popup').on('submit',function(){
+             $.ajax({
+              type: "post",
+              url: "<%= create_report_path %>" ,
+              data: $('#report_abuse_popup').serialize(),
+              success: function(data){
+                    $('#report_abuse_succ_msg').html(data.message);
+              }
+          
+            });
+    });
 
     $('#bookmark_form_popup').on('submit',function(){
              $.ajax({
               type: "post",
-              url: "<%= create_collection_path %>" ,
+              url: "<%#= create_collection_path %>" ,
               data: $('#bookmark_form_popup').serialize(),
               success: function(data){
                   if(data.res == 0){
@@ -445,7 +442,7 @@ $(document).ready(function() {
     $('#report_abuse_popup').on('submit',function(){
              $.ajax({
               type: "post",
-              url: "<%= create_report_path %>" ,
+              url: "<%#= create_report_path %>" ,
               data: $('#report_abuse_popup').serialize(),
               success: function(data){
                     $('#report_abuse_succ_msg').html(data.message);
@@ -456,8 +453,8 @@ $(document).ready(function() {
 
       $.ajax({
             type: "post",
-            url: "<%= check_save_like_path %>" ,
-            data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
+            url: "<%= check_contest_save_like_path %>" ,
+            data: {'contest_id': '<%= @contest.id %>','artist_id': '<%= @contest.user_id %>'},
            success: function(data){
               //alert(data.res)
              if(data.res == 1) {
@@ -477,8 +474,8 @@ $(document).ready(function() {
       //alert('gh');
             $.ajax({
                 type: "post",
-                url: "<%= save_like_path %>" ,
-                data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
+                url: "<%= save_contest_like_path %>" ,
+                data: {'contest_id': '<%= @contest.id %>','artist_id': '<%= @contest.user_id %>'},
                 success: function(data){
                   //alert(data.res)
                  if(data.res == 1) {
@@ -498,7 +495,7 @@ $(document).ready(function() {
     $.ajax({
             type: "post",
             url: "<%= check_follow_artist_path %>" ,
-            data: {'artist_id': '<%= @gallery.user.id %>'},
+            data: {'artist_id': '<%= @contest.user.id %>'},
             success: function(data){
                 //alert(data.res)
                if(data.res == 1) {
@@ -515,7 +512,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "post",
                 url: "<%= follow_artist_path %>" ,
-                data: {'artist_id': '<%= @gallery.user.id %>'},
+                data: {'artist_id': '<%= @contest.user.id %>'},
                 success: function(data){
                   //alert(data.res)
                  if(data.res == 1) {
@@ -535,6 +532,11 @@ $(document).ready(function() {
 });
 var app = angular.module('myApp',[]);
     app.controller('galleryCtrl', function($scope, $http) {
+
+
+
+
+
 
 });
 

@@ -50,6 +50,7 @@ $(document).ready(function() {
 	  $('#challenge_faq_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
 	  $('#job_apply_instruction_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
 	   $('#system_email_content_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
+	   $('#contest_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
   
 });
 

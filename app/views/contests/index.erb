@@ -90,7 +90,7 @@
   <div class="GalleryAuthor hidden-xs" ng-click="sort('category.name')">Categories<!-- <span class="glyphicon sort-icon" ng-show="sortKey=='category.name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> --></div>
   <div class="GalleryDate hidden-xs">Date</div>
   <div class="GalleryLike hidden-xs">Likes</div>
-  <div class="GalleryLike hidden-xs">Status</div>
+  <!-- <div class="GalleryLike hidden-xs">Status</div> -->
   <div class="GalleryLike hidden-xs">Actions</div>
 </div>
 <div class="panel-body padding">
@@ -125,12 +125,12 @@
           <div class="marginB15 clearfix"><i class="fa fa-globe marginR5" aria-hidden="true"></i> {{ x.view_count }}</div>
           <div class="marginB15 clearfix"><i class="fa fa-comment-o marginR5" aria-hidden="true"></i>  {{ x.comment_count }}</div>
         </div>
-        <div class="AllGalleryLike">
+  <!--       <div class="AllGalleryLike">
           <button class="draftbtn border-radius" type="button">
             {{ x.is_trash ? 'Trashed' : x.is_save_to_draft ? 'Draft' : x.publish ? 'Published' : 'Not Published' }} &nbsp;
           </button>
 
-        </div>
+        </div> -->
         <div class="AllGalleryLike clearfix">
             <div class="clearfix marginB15">
               <a class="lightbtn" href="/contests/{{x.paramlink}}/show"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>View</a>

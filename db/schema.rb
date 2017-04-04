@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330100642) do
+ActiveRecord::Schema.define(version: 20170404095329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,6 +178,63 @@ ActiveRecord::Schema.define(version: 20170330100642) do
     t.datetime "updated_at", null: false
     t.integer  "user_id"
     t.string   "email"
+  end
+
+  create_table "contest_likes", force: :cascade do |t|
+    t.integer  "user_id",    default: 0
+    t.integer  "post_id",    default: 0
+    t.integer  "artist_id",  default: 0
+    t.string   "post_type"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "contests", force: :cascade do |t|
+    t.string   "title"
+    t.string   "paramlink"
+    t.string   "schedule_time"
+    t.string   "is_admin"
+    t.text     "description"
+    t.integer  "post_type_category_id",        default: 0
+    t.integer  "user_id"
+    t.integer  "medium_category_id",           default: 0
+    t.json     "subject_matter_id"
+    t.boolean  "has_adult_content",            default: false
+    t.json     "software_used"
+    t.string   "tags"
+    t.boolean  "use_tag_from_previous_upload", default: false
+    t.boolean  "is_featured",                  default: false
+    t.integer  "status",                       default: 1
+    t.integer  "is_save_to_draft",             default: 1
+    t.integer  "visibility",                   default: 1
+    t.integer  "publish",                      default: 1
+    t.string   "company_logo"
+    t.json     "where_to_show"
+    t.json     "skill"
+    t.string   "location"
+    t.json     "team_member"
+    t.boolean  "show_on_cgmeetup"
+    t.boolean  "show_on_website"
+    t.boolean  "is_spam",                      default: false
+    t.integer  "like_count",                   default: 0
+    t.integer  "comment_count",                default: 0
+    t.integer  "view_count",                   default: 0
+    t.integer  "is_trash",                     default: 0
+    t.string   "zoom_w"
+    t.string   "zoom_h"
+    t.string   "zoom_x"
+    t.string   "zoom_y"
+    t.string   "drag_x"
+    t.string   "drag_y"
+    t.string   "rotation_angle"
+    t.string   "crop_x"
+    t.string   "crop_y"
+    t.string   "crop_w"
+    t.string   "crop_h"
+    t.json     "challenge"
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.integer  "winner_type"
   end
 
   create_table "countries", force: :cascade do |t|
@@ -402,6 +459,7 @@ ActiveRecord::Schema.define(version: 20170330100642) do
     t.string   "activity_type"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "section_type"
   end
 
   create_table "lessons", force: :cascade do |t|

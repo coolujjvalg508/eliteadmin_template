@@ -18,6 +18,8 @@ class Contest < ActiveRecord::Base
  
  has_many :videos, as: :videoable, dependent: :destroy
  has_many :caption_video
+
+ #has_many :collection
  
   
  has_many :upload_videos, as: :uploadvideoable, dependent: :destroy

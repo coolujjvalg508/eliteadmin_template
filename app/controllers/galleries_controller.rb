@@ -91,7 +91,7 @@ class GalleriesController < ApplicationController
 
           end 
 
-          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, activity_type: activity_type)  
+          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, activity_type: activity_type, section_type: 'Gallery')  
 
           render json: result, status: 200       
     end  
@@ -259,7 +259,7 @@ class GalleriesController < ApplicationController
                  end
             end  
 
-           LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'created')  
+           LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'created', section_type: 'Gallery')  
             ############################################
             redirect_to index_gallery_path, notice: 'Project Successfully Created.'
 
@@ -450,7 +450,7 @@ class GalleriesController < ApplicationController
                    
                  end
             end  
-            LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'updated')  
+            LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'updated', section_type: 'Gallery')  
             ############################################
             redirect_to index_gallery_path, notice: 'Project Successfully Updated.'
 
@@ -519,7 +519,7 @@ class GalleriesController < ApplicationController
 
     def get_gallery_post_list
     #abort(params.to_json)
-        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' AND is_trash = 0 "
 
         if(params[:post_type_category_id] && params[:post_type_category_id] != '')
           conditions += ' AND post_type_category_id=' + params[:post_type_category_id]

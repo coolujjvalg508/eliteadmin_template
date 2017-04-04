@@ -1,5 +1,5 @@
 <!-- Join The Challange Page Start --> 
-<section class="challengewrap clearfix">
+<section class="challengewrap clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
   <div class="container">
     <h2>ACCEPT THE CHALLENGE!</h2>
     <div class="chanllenge-newtxt">Brought to you by <span class="blue-txt"><%= @challenge_data.hosts.present? ? @challenge_data.hosts : '' %></span></div>
@@ -10,7 +10,7 @@
           <div class="thu-txt"><%= @challenge_data.title.present? ? @challenge_data.title : '' %></div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
-          <div class="challenge-count">0<span class="txt15">Challengers</span></div>
+          <div class="challenge-count"><%=  @countres %><span class="txt15">Challengers</span></div>
           <div class="challenge-count clearfix">
             <%
               total_days   = 0
@@ -238,78 +238,48 @@
         
         <div class="tab-pane" id="Submissions">
          
+        
          <div class="clearfix marginB15">
          <div class="clearfix submission-wrap">
          <h3>Winners <i></i></h3>
          </div>  
-         <div class="clearfix challenge-subission">
-            <div class="row">
-              <ul>
-                <li class="clearfix col-md-3 col-sm-6 col-xs-12">
-                  <div class="submisson-indent clearfix">
-                  <div class="winner-box">
-                  <i class="fa fa-trophy" aria-hidden="true"></i> 1st
-                  </div>                  
-                    <div class="challenge-profile"><%= image_tag("database/browse-artwork.jpg",:class=>"img-responsive", :alt => "img") %></div>
-                    <div class="wip-title clearfix"><a href="#">Garvel Hever</a></div>
-                    <div class="clearfix">
-                      <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                      <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-                    </div>
-                    <div class="wip-small clearfix">
-                      <ul class="margin">
-                        <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="clearfix col-md-3 col-sm-6 col-xs-12">
-                  <div class="submisson-indent clearfix">
-                   <div class="winner-box">
-                  <i class="fa fa-trophy" aria-hidden="true"></i> 2nd
-                  </div>
-                    <div class="challenge-profile"><%= image_tag("database/browse-artwork1.jpg",:class=>"img-responsive", :alt => "img") %></div>
-                    <div class="wip-title clearfix"><a href="#">Garvel Hever</a></div>
-                    <div class="clearfix">
-                      <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                      <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-                    </div>
-                    <div class="wip-small clearfix">
-                      <ul class="margin">
-                        <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="clearfix col-md-3 col-sm-6 col-xs-12">
-                  <div class="submisson-indent clearfix">
-                   <div class="winner-box">
-                  <i class="fa fa-trophy" aria-hidden="true"></i> 3rd
-                  </div>
-                    <div class="challenge-profile"><%= image_tag("database/browse-artwork2.jpg",:class=>"img-responsive", :alt => "img") %></div>
-                    <div class="wip-title clearfix"><a href="#">Garvel Hever</a></div>
-                    <div class="clearfix">
-                      <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                      <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-                    </div>
-                    <div class="wip-small clearfix">
-                      <ul class="margin">
-                        <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
+             <div class="clearfix challenge-subission">
+                <div class="row">
+                  <ul>
+                  
+                    <li class="clearfix col-md-3 col-sm-6 col-xs-12"  dir-paginate="x in winner_data | filter:search | itemsPerPage:10">
                    
-              </ul>
-            </div>
-          </div>
+                      <div class="submisson-indent clearfix">
+                     <div class="winner-box">
+                      <i class="fa fa-trophy" aria-hidden="true"></i>
+                           {{x.winner_type == 1 ? '1st' : (x.winner_type == 2 ? '2nd' : '3rd') }} 
+                      </div>                  
+                        <div class="challenge-profile"><a href='/contests/{{x.paramlink}}/show'><img lazy-img="<%= root_url %>{{ x.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height" style="width: 100%;" ></a></div>
+                        <div class="wip-title clearfix"><a href="#">{{x.title}}</a></div>
+                        <div class="clearfix">
+                          <div class="wip-by-txt pull-left">by <a href="#">{{x.user.firstname}}</a></div>
+                          <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.like_count}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> {{x.view_count}}</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> {{x.comment_count}}</span> </div>
+                        </div>
+                        <div class="wip-small clearfix">
+                          <ul class="margin">
+                            
+                            <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
+                            <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
+                            <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
+
+
+                          </ul>
+                        </div>
+                      </div>
+                    </li>   
+                     <li class="clearfix downbox text-center err-msg no-result" ng-hide="winner_data.length">No Record found</li> 
+                  </ul>
+                </div>
+              </div>
          </div>
+
+
+
          
          <div class="clearfix marginB15">
          <div class="clearfix submission-wrap">
@@ -318,90 +288,35 @@
          <div class="clearfix challenge-subission">
             <div class="row">
               <ul>
-                <li class="clearfix col-md-3 col-sm-6 col-xs-12">
-                  <div class="submisson-indent clearfix">
-                  <div class="winner-box">
-                  <i class="fa fa-trophy" aria-hidden="true"></i> HM
-                  </div>                  
-                    <div class="challenge-profile"><%= image_tag("database/browse-artwork.jpg",:class=>"img-responsive", :alt => "img") %></div>
-                    <div class="wip-title clearfix"><a href="#">Garvel Hever</a></div>
-                    <div class="clearfix">
-                      <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                      <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-                    </div>
-                    <div class="wip-small clearfix">
-                      <ul class="margin">
-                        <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="clearfix col-md-3 col-sm-6 col-xs-12">
-                  <div class="submisson-indent clearfix">
-                    <div class="winner-box">
-                        <i class="fa fa-trophy" aria-hidden="true"></i> HM
-                    </div>
-                    <div class="challenge-profile"><%= image_tag("database/browse-artwork1.jpg",:class=>"img-responsive", :alt => "img") %></div>
-                    <div class="wip-title clearfix"><a href="#">Garvel Hever</a></div>
-                    <div class="clearfix">
-                      <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                      <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-                    </div>
-                    <div class="wip-small clearfix">
-                      <ul class="margin">
-                        <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="clearfix col-md-3 col-sm-6 col-xs-12">
-                  <div class="submisson-indent clearfix">
-                   <div class="winner-box">
-                  <i class="fa fa-trophy" aria-hidden="true"></i> HM
-                  </div>
-                    <div class="challenge-profile"><%= image_tag("database/browse-artwork2.jpg",:class=>"img-responsive", :alt => "img") %></div>
-                    <div class="wip-title clearfix"><a href="#">Garvel Hever</a></div>
-                    <div class="clearfix">
-                      <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                      <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-                    </div>
-                    <div class="wip-small clearfix">
-                      <ul class="margin">
-                        <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="clearfix col-md-3 col-sm-6 col-xs-12">
-                  <div class="submisson-indent clearfix">
-                   <div class="winner-box">
-					<i class="fa fa-trophy" aria-hidden="true"></i> HM
-                  </div>
-                    <div class="challenge-profile"><%= image_tag("database/browse-artwork3.jpg",:class=>"img-responsive", :alt => "img") %></div>
-                    <div class="wip-title clearfix"><a href="#">Garvel Hever</a></div>
-                    <div class="clearfix">
-                      <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                      <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
-                    </div>
-                    <div class="wip-small clearfix">
-                      <ul class="margin">
-                        <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                        <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>   
+                   <li class="clearfix col-md-3 col-sm-6 col-xs-12"  dir-paginate="x in honour_data | filter:search | itemsPerPage:10">
+                      <div class="submisson-indent clearfix">
+                      <div class="winner-box">
+                      <i class="fa fa-trophy" aria-hidden="true"></i>HM
+
+                      </div>                  
+                        <div class="challenge-profile"><a href='/contests/{{x.paramlink}}/show'><img lazy-img="<%= root_url %>{{ x.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height" style="width: 100%;" ></a></div>
+                        <div class="wip-title clearfix"><a href="#">{{x.title}}</a></div>
+                        <div class="clearfix">
+                          <div class="wip-by-txt pull-left">by <a href="#">{{x.user.firstname}}</a></div>
+                          <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.like_count}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> {{x.view_count}}</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> {{x.comment_count}}</span> </div>
+                        </div>
+                        <div class="wip-small clearfix">
+                          <ul class="margin">
+                            <li class="lists"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:class=>"img-responsive", :alt => "img") %></li>
+                            <li class="lists"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:class=>"img-responsive", :alt => "img") %></li>
+                            <li class="lists"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:class=>"img-responsive", :alt => "img") %></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>   
+                     <li class="clearfix downbox text-center err-msg no-result" ng-hide="honour_data.length">No Record found</li> 
+                
               </ul>
             </div>
           </div>
          </div>
+
+
          
          <div class="clearfix marginB15">
          <div class="clearfix submission-wrap">
@@ -599,13 +514,36 @@
 
   function redirect_to_join_challenge(value,challenge_id){
       if(value == 1){
-        window.location.href = "<%= create_contest_path %>";  
+        window.location.href = "<%= contests_path %>";  
       }else  if(value == 2){
-        window.location.href = "<%= create_contest_path %>";  
+        window.location.href = "<%= contests_path %>";  
       }else  if(value == 3){
-        window.location.href = "<%= create_contest_path %>";  
+        window.location.href = "<%= contests_path %>";  
       }
       
   }
 
+</script>
+
+<script>
+    // main page angular app start
+    var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+    app.controller('myCtrl', function($scope, $http) {
+        $scope.filter = function() {
+        
+            list_url = '/get_winner_list?';
+            $http.get(list_url).then(function (response) {
+                $scope.winner_data = response.data;
+            });
+
+            list_url1 = '/get_honour_list?';
+            $http.get(list_url1).then(function (response) {
+                $scope.honour_data = response.data;
+            });
+
+
+        };
+        $scope.filter();
+
+     });
 </script>

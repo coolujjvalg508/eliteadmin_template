@@ -11,6 +11,12 @@ class ChallengesController < ApplicationController
     	challenge_id    = params[:id]	
     	@challenge_data = Challenge.where("id = ?",challenge_id).first
 
+      if @challenge_data.present?
+          @countres       = get_challengers_count(@challenge_data.id);
+      else
+          @countres       =   0
+      end 
+          
     end	
 
 
@@ -23,10 +29,28 @@ class ChallengesController < ApplicationController
       end
 
       challenge_data = Challenge.where(conditions).order('id DESC')
-      final_data = JSON.parse(challenge_data.to_json(:include => [:user]))
+      
+      #result     = JSON.parse(challenge_data.to_json(:include => [:user]))
+
+    # abort(result.to_json)
+
+      final_data = []
+      challenge_data.each_with_index do |data, index| 
+          res_count  = get_challengers_count(data.id)
+          final_data[index]  = {'result': data,'challenger_count': res_count}
+             
+      end
+      
+     #abort(final_data.to_json)
+
       render json: final_data, status: 200  
     
     
   end
+
+  def get_challengers_count(value)
+          result       = Contest.where("challenge::jsonb ?| array['" + value.to_s + "']").count
+          
+  end  
 
 end
