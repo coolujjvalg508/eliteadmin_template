@@ -8,8 +8,8 @@ class ChallengesController < ApplicationController
 
     def show
     	#abort(params.to_json)
-    	challenge_id    = params[:id]	
-    	@challenge_data = Challenge.where("id = ?",challenge_id).first
+    	@challenge_id    = params[:id]	
+    	@challenge_data = Challenge.where("id = ?",@challenge_id).first
 
       if @challenge_data.present?
           @countres       = get_challengers_count(@challenge_data.id);
@@ -18,6 +18,19 @@ class ChallengesController < ApplicationController
       end 
           
     end	
+
+    def save_view_count
+          if params[:challenge_id].present?
+              challenge_id      = params[:challenge_id]
+              record            = Challenge.where("id = ?",challenge_id).first
+
+              prevoius_view_count   = record.view_count
+              newview_count         =  prevoius_view_count + 1
+              
+              record.update(view_count: newview_count) 
+          end     
+          render json: {'res' => 0, 'message' => 'success'}, status: 200       
+    end 
 
 
   def get_challenge_list
@@ -28,7 +41,21 @@ class ChallengesController < ApplicationController
          conditions += " AND challenge_type_id=" + params[:challenge_type_id]
       end
 
-      challenge_data = Challenge.where(conditions).order('id DESC')
+
+     if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
+          
+            if params[:browse_by] == 'popular'
+                 challenge_data    = Challenge.where(conditions).order('view_count DESC, id DESC')
+             elsif params[:browse_by] == 'top'
+                 challenge_data    = Challenge.where(conditions).order('id DESC')
+            
+            end             
+          
+      else  
+               challenge_data = Challenge.where(conditions).order('id DESC')
+      end
+
+      
       
       #result     = JSON.parse(challenge_data.to_json(:include => [:user]))
 

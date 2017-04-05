@@ -494,8 +494,8 @@ $(document).ready(function() {
 
     $.ajax({
             type: "post",
-            url: "<%= check_follow_artist_path %>" ,
-            data: {'artist_id': '<%= @contest.user.id %>'},
+            url: "<%= follow_contest_path %>" ,
+            data: {'contest_id': '<%= @contest.id %>'},
             success: function(data){
                 //alert(data.res)
                if(data.res == 1) {
@@ -511,8 +511,8 @@ $(document).ready(function() {
     $('#follow_button, #unfollow_button').on('click',function(){
             $.ajax({
                 type: "post",
-                url: "<%= follow_artist_path %>" ,
-                data: {'artist_id': '<%= @contest.user.id %>'},
+                url: "<%= follow_contest_path %>" ,
+                data: {'contest_id': '<%= @contest.id %>'},
                 success: function(data){
                   //alert(data.res)
                  if(data.res == 1) {

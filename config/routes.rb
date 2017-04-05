@@ -145,12 +145,13 @@ Rails.application.routes.draw do
     get  'contest/get_challenge_list'           => 'challenges#get_challenge_list'
     get  'contest/:id/show'                     => 'challenges#show', as: 'show_challenge' 
     get  'contest/get_challengers_count'        => 'challenges#get_challengers_count', as: 'get_challengers_count' 
-    
+    post 'contest/save_view_count'              => 'challenges#save_view_count', as: 'save_challenge_view_count' 
     
     resources :contests
     get 'contests'                                => 'contests#index', as: 'contests_home' 
     get 'contests/new'                            => 'contests#new', as: 'create_contest' 
     get 'get_contest_post_list'                   => 'contests#get_contest_post_list'
+    get 'get_all_submission'                      => 'contests#get_all_submission'
     get 'contests/:paramlink/make_trash'          => 'contests#make_trash', as: 'trash_contest'
     get 'contests/:paramlink/edit'                => 'contests#edit', as: 'modify_contest' 
     post 'contests/upload_drag_image'             => 'contests#upload_drag_image'
@@ -162,6 +163,9 @@ Rails.application.routes.draw do
     post 'contests/save_view_count'                => 'contests#save_view_count', as: 'save_contest_view_count' 
     get  'get_winner_list'                         => 'contests#get_winner_list', as: 'get_winner_list' 
     get  'get_honour_list'                         => 'contests#get_honour_list', as: 'get_honour_list' 
+    post 'contests/follow_contest'                 => 'contests#follow_contest', as: 'follow_contest' 
+    post 'contests/check_follow_contest'           => 'contests#check_follow_contest', as: 'check_follow_contest'   
+
 
 
 

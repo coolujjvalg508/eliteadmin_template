@@ -41,9 +41,11 @@
                 </div> -->
             </div>
             <div class="showcase-btn-wrap clearfix text-center">
-                <button type="button" class="btn btn-success border-radius marginB10">Upload</button>
-                <button type="button" class="btn btn-default border-radius marginB10">Browse Popular Challenges</button>
-                <button type="button" class="btn btn-default border-radius marginB10">Browse Top Challenges</button>
+                <% if user_signed_in? %>
+                  <button onclick="redirect_to_create_gallery();" type="button" class="btn btn-success border-radius marginB10">Upload</button>
+                  <% end %>
+                  <button type="button" class="btn btn-default border-radius marginB10 browse-by" id="browse-by-link-popular" ng-click="browseBy('popular')">Browse Popular Challenges</button>
+                  <button type="button" class="btn btn-default border-radius marginB10 browse-by" id="browse-by-link-top" ng-click="browseBy('top')">Browse Top Challenges </button>
             </div>
         </div>
     </section>
@@ -75,7 +77,7 @@
                 <div class="row">
                     <ul>
 
-                        <li class="col-md-3 col-sm-4 col-xs-12" dir-paginate="x in challenge_data | filter:search | itemsPerPage:10">
+                        <li class="col-md-3 col-sm-4 col-xs-12" dir-paginate="x in challenge_data | filter:search | itemsPerPage:10" pagination_id = "challenge" >
                             <div class="challeng-indent clearfix"> <a href="/contest/{{x.result.id}}/show" class="viewchallengebtn">View Challenge</a>
                                 <div class="challenge-profile"><img lazy-img="<%= root_url %>{{ x.result.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height" style="width: 100%;" ></div>
                                 <div class="padding10 clearfix">
@@ -112,39 +114,55 @@
        <dir-pagination-controls
            max-size="1"
            direction-links="true"
+           pagination_id = "challenge"
            boundary-links="false" >
       </dir-pagination-controls>
     </div>
     <div class="clearfix challenge-home-submission">
     <h2>Submissions</h2>
-    <div class="challenge-home-link clearfix"> <span>Latest Updates</span> | <a href="#">Popular</a> | <a href="#">Following</a>  | <a href="#">My Submission</a></div>
+   
+    <div class="challenge-home-link clearfix"> <span>Latest Updates</span> | 
+             <a href="javascript:void(0);" id="popular_link" ng-click="browse_submission_By('popular')">Popular</a> | 
+             <a href="javascript:void(0);" id="following_link" ng-click="browse_submission_By('following')">Following</a>  |
+             <a href="javascript:void(0);" id="ms_link" ng-click="browse_submission_By('mysubmission')">My Submission</a>
+     </div>
     <div class="row">
-      <ul>
-          <li class="col-md-3 col-sm-4 col-xs-12">
-            <div class="challenge-home-indent clearfix">
-              <div class="clearfix"><%= image_tag("database/chalenges7.jpg", :alt => "img",:class=>"img-responsive") %></div>
-              <div class="padding10">
-                <div class="wip-title clearfix"><a href="#">Garvel Hever</a>
-                            <button class="votebtn pull-right margin" type="button">Vote</button>
-                          </div>
-                <div class="clearfix">
-                  <div class="wip-by-txt pull-left">by <a href="#">Matte Agr</a></div>
-                  <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 30</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> 13</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> 25</span> </div>
+        <ul>
+            <li class="col-md-3 col-sm-4 col-xs-12" dir-paginate="x in contest_data | filter:search | itemsPerPage:8" pagination_id = "submission" >
+
+                <div class="challenge-home-indent clearfix">
+                  <div class="clearfix"><a href='/contests/{{x.paramlink}}/show'><img lazy-img="<%= root_url %>{{ x.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height" style="width: 100%;" ></a></div>
+                  <div class="padding10">
+                    <div class="wip-title clearfix"><a href="#">{{x.title}}</a>
+                                <!-- <button class="votebtn pull-right margin" type="button">Vote</button> -->
+                    </div>
+                    <div class="clearfix">
+                      <div class="wip-by-txt pull-left">by <a href="#">{{x.user.firstname}}</a></div>
+                      <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.like_count}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> {{x.view_count}}</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> {{x.comment_count}}</span> </div>
+                    </div>
+                    <div class="wip-small clearfix">
+                      <ul class="margin">
+                            <li class="lists" ng-repeat = "y in x.images  | limitTo : 3 ">
+                                <img lazy-img="<%= root_url %>{{ y.image.user_activity.url }}" class="img-responsive">
+                            </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-                <div class="wip-small clearfix">
-                  <ul class="margin">
-                      <li class="lists"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                      <li class="lists"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                      <li class="lists"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-        
-      </ul>
+              </li>
+                <li class="clearfix downbox text-center err-msg no-result" ng-hide="contest_data.length" >No Result Found!</li>  
+
+
+        </ul>
     </div>
-    <%= render 'layouts/paging' %>
+
+       <dir-pagination-controls
+           max-size="1"
+           direction-links="true"
+           pagination_id = "submission" 
+           boundary-links="false" >
+      </dir-pagination-controls>
+    <%#= render 'layouts/paging' %>
     </div>
     </div>
     </section>
@@ -160,25 +178,54 @@ $('.responsive-tabs').responsiveTabs({
     accordionOn: ['xs', 'sm']
 });
 </script>
-
+<script type='text/javascript'>
+  function redirect_to_create_gallery(){
+      window.location.href = "<%= create_gallery_path %>";
+  }
+</script>
 
 <script>
     // main page angular app start
     var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
     app.controller('myCtrl', function($scope, $http) {
         $scope.filter = function() {
-        
+         
             list_url = '/contest/get_challenge_list?';
 
             if(typeof $scope.viewChallengeType !== 'undefined' && $scope.viewChallengeType != '' && $scope.viewChallengeType != 'all'){
               list_url += '&challenge_type_id=' + $scope.viewChallengeType
             }
 
+            if(typeof $scope.browse_by !== 'undefined' && $scope.browse_by != ''  && $scope.browse_by != 'all'){
+              list_url += '&browse_by=' + $scope.browse_by
+            }
+
             $http.get(list_url).then(function (response) {
                 $scope.challenge_data = response.data;
             });
+
+
+
+            list_url1 = '/get_all_submission?';
+
+            if(typeof $scope.browse_submission !== 'undefined' && $scope.browse_submission != ''  && $scope.browse_submission != 'all'){
+                  list_url1 += '&browse_submission_By=' + $scope.browse_submission
+            }
+
+            $http.get(list_url1).then(function (response) {
+              $scope.contest_data = response.data;
+            });
+
+
         };
         $scope.filter();
+
+        $scope.browse_submission_By = function(value) {
+             
+              $scope.browse_submission = value;
+              $scope.filter();
+        };
+
 
         $scope.searchByChallengeType = function(value) {
 
@@ -197,6 +244,21 @@ $('.responsive-tabs').responsiveTabs({
         $scope.dateFormat = function(value) {
             return new Date(value);
         };
+
+        $scope.browseBy = function(browse_by) {
+
+              angular.element( document.querySelectorAll( '.browse-by' ) ).removeClass('active btn-success');
+              angular.element( document.querySelectorAll( '.browse-by' ) ).addClass('btn-default');
+              angular.element( document.querySelectorAll( '#browse-by-link-' + browse_by ) ).removeClass('btn-default');
+              angular.element( document.querySelectorAll( '#browse-by-link-' + browse_by ) ).addClass('btn-success active');
+
+              $scope.browse_by = browse_by;
+              $scope.filter();
+        };
+
+  
+
+        
     
      });
 </script>

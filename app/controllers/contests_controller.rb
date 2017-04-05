@@ -381,6 +381,76 @@ class ContestsController < ApplicationController
   end
 
 
+    def get_all_submission
+    #abort(params.to_json)
+     # abort(params.to_json)
+        conditions = "is_trash = 0 "
+
+        if(params[:browse_submission_By] && params[:browse_submission_By] != '')
+              if params[:browse_submission_By] == "popular"
+                    result = Contest.where(conditions).order('like_count DESC, id DESC')
+              
+              elsif params[:browse_submission_By] == "following"    
+                    result = Contest.where(conditions).order('follow_count DESC, id DESC')
+              
+              elsif params[:browse_submission_By] == "mysubmission"      
+                   result = Contest.where("is_admin = ? AND user_id = ?", 'N',current_user.id).order('id DESC')
+              end  
+
+         else
+                 result = Contest.where(conditions).order('id DESC')
+            
+        end 
+
+        render :json => result.to_json(:include => [:user, :images]), status: 200
+
+  end
+
+
+  def follow_contest
+          contest_id        = params[:contest_id]
+          user_id           = current_user.id
+          is_follow_exist   = ContestFollow.where(user_id: user_id, contest_id: contest_id, post_type: '').first
+          result = ''
+          
+          contestrecord     = Contest.where(id: contest_id).first
+
+          if is_follow_exist.present?
+                ContestFollow.where(user_id: user_id, contest_id: contest_id, post_type: '').delete_all 
+
+                newfollow_count  =  (contestrecord.follow_count == 0) ? 0 : contestrecord.follow_count - 1
+                contestrecord.update(follow_count: newfollow_count) 
+
+                result  = {'res' => 0, 'message' => 'Contest Not Follow'}
+          else
+                ContestFollow.create(user_id: user_id, contest_id: contest_id, post_type: '')  
+
+                newfollow_count  =  contestrecord.follow_count + 1
+                contestrecord.update(follow_count: newfollow_count) 
+
+                result  = {'res' => 1, 'message' => 'Contest Follow'}
+
+          end 
+
+
+          render json: result, status: 200       
+    end  
+
+     def check_follow_contest
+          contest_id     = params[:contest_id]
+          user_id        = current_user.id
+          is_like_exist  = ContestFollow.where(user_id: user_id, contest_id: contest_id, post_type: '').first
+          result = ''
+          if is_like_exist.present?
+                result  = {'res' => 1, 'message' => 'Contest already followed'}
+          else
+                result  = {'res' => 0, 'message' => 'Contest not followed'}
+          end 
+
+          render json: result, status: 200       
+    end  
+
+
 
 
     private
