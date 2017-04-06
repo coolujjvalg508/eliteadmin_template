@@ -80,7 +80,7 @@ class ContestsController < ApplicationController
                  end
             end  
 
-           LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @contest['id'], activity_type: 'created', section_type: 'Contest')  
+         #  LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @contest['id'], activity_type: 'created', section_type: 'Contest')  
             ############################################
             redirect_to contests_path, notice: 'Contests Successfully Created.'
 
@@ -251,7 +251,7 @@ class ContestsController < ApplicationController
                    
                  end
             end  
-            LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @contest['id'], activity_type: 'updated', section_type: 'Contest')  
+           # LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @contest['id'], activity_type: 'updated', section_type: 'Contest')  
             ############################################
             redirect_to contests_path, notice: 'Contest Successfully Updated.'
 
@@ -289,7 +289,7 @@ class ContestsController < ApplicationController
 
           end 
 
-          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: contest_id, activity_type: activity_type, section_type: 'Contest')  
+          #LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: contest_id, activity_type: activity_type, section_type: 'Contest')  
 
           render json: result, status: 200       
     end  

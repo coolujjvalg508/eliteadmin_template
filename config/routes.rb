@@ -26,7 +26,8 @@ Rails.application.routes.draw do
   get 'forgot-password'=> 'user#forgotpassword'
 
 
-  get 'user/dashboard'  
+  get 'user/dashboard'  => 'user#dashboard', as: 'dashboard' 
+  get 'user/get_stats'  => 'user#get_stats', as: 'get_stats' 
   get 'user/index'
   get 'user/add'
   get 'user/profile'

@@ -32,7 +32,8 @@ include Bootsy::Container
  
  
   has_many :tags, as: :tagable, dependent: :destroy
-
+  
+  has_many :post_like, :foreign_key =>"post_id"
   belongs_to :user
  
  accepts_nested_attributes_for :images, reject_if: proc { |attributes| attributes['image'].blank? || attributes['image'].nil? }, allow_destroy: true 

@@ -478,11 +478,11 @@ class GalleriesController < ApplicationController
 
     def get_like_comment_view_gallery
           
-          post_id   = params[:gallery_id]
-        
-          gallerylike       = PostLike.where('post_id = ?', post_id).count
-          gallerycomment    = PostComment.where('post_id = ?', post_id).count
-          res               = {'gallerylike':gallerylike,'gallerycomment':gallerycomment} 
+          post_id           = params[:gallery_id]
+          gallery_record    = Gallery.where("id= ?",post_id).first
+          #gallerylike       = PostLike.where('post_id = ?', post_id).count
+          #gallerycomment    = PostComment.where('post_id = ?', post_id).count
+          res               = {'gallerylike': gallery_record.like_count,'gallerycomment': gallery_record.comment_count,'galleryview': gallery_record.view_count} 
           render :json => res, status: 200
 
       

@@ -17,13 +17,14 @@
       <%
         if @latestactivity_data.present?
             @latestactivity_data.each_with_index do |value, index|  
+            #abort(value.to_json)
         %>    
 
         <div class="clearfix notification-indent marginB15">
           <div class="clearfix marginB15 noti-comment">
             <div class="notileft"><%= image_tag(value.user_detail.image.user_activity.url :alt => "Notification") %></div>
             <div class="notiright">
-              <div class="marginB10 paddinT10"><span class="blue-txt"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </span> has <%= value.activity_type %> artwork <span class="blue-txt"><a href='/dashboard/projects/<%= value.gallery.paramlink %>/show'><%= value.gallery.present? ? value.gallery.title : '' %></a></span>.</div>
+              <div class="marginB10 paddinT10"><span class="blue-txt"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </span> has <%= value.activity_type %> <%= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='/dashboard/projects/<%= value.gallery.paramlink %>/show'><%= value.gallery.present? ? value.gallery.title : '' %></a></span>.</div>
             </div>
           </div>
           <div class="notification-profile clearfix">
@@ -66,8 +67,11 @@
                             url: "<%= get_like_comment_view_gallery_path %>" ,
                             data: {'gallery_id': '<%= value.gallery.id %>'},
                            success: function(data){
+                           // alert(<%= value.gallery.id %>);
                                   $('#like_<%= value.gallery.id %>').html('<i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> '+data['gallerylike']);
                                   $('#comment_<%= value.gallery.id %>').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['gallerycomment']);
+                                 
+                                  $('#view_<%= value.gallery.id %>').html('<i aria-hidden="true" class="fa fa-eye marginR5"></i> '+data['galleryview']);
                                 
                              
                             }
@@ -80,7 +84,7 @@
             </div>
             <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> 
               <span class="activity-like" id='like_<%= value.gallery.id %>'></span> 
-              <span class="activity-like" id='view_<%= value.gallery.id %>'><i aria-hidden="true" class="fa fa-eye marginR5"></i> 0</span> 
+              <span class="activity-like" id='view_<%= value.gallery.id %>'></span> 
               <span class="activity-like" id='comment_<%= value.gallery.id %>'></span> 
             </div>
           </div>

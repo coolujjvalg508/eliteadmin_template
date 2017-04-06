@@ -1,8 +1,26 @@
 class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
-    before_action :authenticate_user!, only: [:edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
+    before_action :authenticate_user!, only: [:dashboard, :bookmark, :edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
  
-   
+    def dashboard
+       
+        @like_count             =  Gallery.where("is_admin = ? AND user_id = ?",'N', current_user.id).sum(:like_count)
+        @view_count             =  Gallery.where("is_admin = ? AND user_id = ?",'N', current_user.id).sum(:view_count)
+        @comment_count          =  Gallery.where("is_admin = ? AND user_id = ?",'N', current_user.id).sum(:comment_count)
+        @user_view_count        =  User.where("id = ? AND is_deleted = ?", current_user.id,0).sum(:view_count)
+
+    end    
+
+    def get_stats
+
+        gallery_past_30_days    = Gallery.where('created_at > ?', 30.days.ago)
+        #abort(gallery_past_30_days.to_json)
+
+        #render :json =>  gallery_past_30_days.to_json(:include => [:post_like]), status: 200 
+        render :json =>  gallery_past_30_days.to_json(:include => [:post_like => {:include => [:user]}]), status: 200 
+        
+    end 
+        
     def signup
 
     end
@@ -21,9 +39,6 @@ class UserController < ApplicationController
 
           #  abort(latestactivity_data.to_json)
 
-    end
-
-    def dashboard
     end
 
     def message

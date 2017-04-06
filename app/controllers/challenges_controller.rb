@@ -1,6 +1,6 @@
 class ChallengesController < ApplicationController
 
-    before_action :authenticate_user!, only: [:index,:get_challenge_list,:join_challenge,:dashboard]
+    before_action :authenticate_user!, only: [:index,:get_challenge_list]
  
     def index
 
@@ -21,8 +21,8 @@ class ChallengesController < ApplicationController
 
     def save_view_count
           if params[:challenge_id].present?
-              challenge_id      = params[:challenge_id]
-              record            = Challenge.where("id = ?",challenge_id).first
+              challenge_id          = params[:challenge_id]
+              record                = Challenge.where("id = ?",challenge_id).first
 
               prevoius_view_count   = record.view_count
               newview_count         =  prevoius_view_count + 1
@@ -48,11 +48,9 @@ class ChallengesController < ApplicationController
                  challenge_data    = Challenge.where(conditions).order('view_count DESC, id DESC')
              elsif params[:browse_by] == 'top'
                  challenge_data    = Challenge.where(conditions).order('id DESC')
-            
             end             
-          
       else  
-               challenge_data = Challenge.where(conditions).order('id DESC')
+             challenge_data        = Challenge.where(conditions).order('id DESC')
       end
 
       
