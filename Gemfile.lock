@@ -52,6 +52,8 @@ GEM
       xdan-datetimepicker-rails (~> 2.5.1)
     active_admin_flat_skin (0.1.2)
     active_admin_theme (1.0.3)
+    active_median (0.1.4)
+      activerecord
     activejob (4.2.6)
       activesupport (= 4.2.6)
       globalid (>= 0.3.0)
@@ -92,6 +94,7 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
       mimemagic (>= 0.3.0)
+    chartkick (1.2.5)
     chosen-rails (1.5.2)
       coffee-rails (>= 3.2)
       railties (>= 3.0)
@@ -129,6 +132,8 @@ GEM
     formtastic_i18n (0.6.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    groupdate (2.1.1)
+      activerecord (>= 3.0.0)
     has_scope (0.7.0)
       actionpack (>= 4.1, < 5.1)
       activesupport (>= 4.1, < 5.1)
@@ -323,21 +328,24 @@ DEPENDENCIES
   active_admin_datetimepicker
   active_admin_flat_skin
   active_admin_theme
+  active_median (~> 0.1.0)
   activeadmin!
   awesome_nested_set
   bootsy
   byebug
   carrierwave
+  chartkick (~> 1.2.4)
   chosen-rails
   coffee-rails (~> 4.1.0)
   country_select
   devise (~> 3.5.3)
   figaro!
+  groupdate (~> 2.1.1)
   jbuilder (~> 2.0)
   jquery-rails
   just-datetime-picker
   kaminari-bootstrap (~> 3.0.1)
-  mini_magick
+  mini_magick (~> 4.5, >= 4.5.1)
   nested_form
   omniauth
   omniauth-facebook
