@@ -27,8 +27,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise', '~> 3.5.3'
 gem 'bootsy'
 gem 'carrierwave'
-gem 'mini_magick'
 gem 'rmagick', :require => 'rmagick'
+gem 'mini_magick', '~> 4.5', '>= 4.5.1'
 gem 'simple_captcha2', require: 'simple_captcha'
 gem 'figaro',github: 'laserlemon/figaro'
 # Awesome Nested Set is an implementation of the nested set pattern for ActiveRecord models.
@@ -38,13 +38,13 @@ gem 'kaminari-bootstrap', '~> 3.0.1'
 gem 'activeadmin', github: 'activeadmin'
 gem 'active_admin_theme'
 gem 'active_admin-awesome_nested_set'
- 
+
 gem "just-datetime-picker"
 gem "nested_form"
 gem 'active_admin_flat_skin'
 gem 'active_admin_datetimepicker'
 gem 'country_select'
-gem 'chosen-rails' 
+gem 'chosen-rails'
 
 gem 'tinymce-rails'
 #gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'
@@ -53,11 +53,14 @@ gem 'tinymce-rails'
  gem 'omniauth'
  gem 'omniauth-facebook'
  gem 'omniauth-twitter'
- gem 'time_diff'
 
  gem 'video_info'
- #gem 'streamio-ffmpeg'
+ gem 'time_diff'
 
+ gem 'chartkick', '~> 1.2.4'
+ gem 'groupdate', '~> 2.1.1'
+ gem 'active_median', '~> 0.1.0'
+ #gem 'streamio-ffmpeg'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

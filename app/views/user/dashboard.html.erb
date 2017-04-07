@@ -1,4 +1,7 @@
+
 <!-- All Dashboard Start -->
+
+<%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
 <section class="clearfix container-fluid-full" id="myApp2"  ng-app="myApp" ng-controller="dashboardCtrl">
   <div class="row-fluid">
     <div class="sidebar-left">
@@ -46,13 +49,24 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="userstat-indent1 clearfix">
             <div class="white-txt txt16 marginB15">Project Views</div>
-            <div><img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"></div>
+            <div><%= 
+               # line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").count, discrete: true , colors: ["red", "#FF0000"] 
+                line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").sum('view_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
+            %>
+
+
+            <!-- <img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"> --></div>
           </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="userstat-indent1 clearfix">
             <div class="white-txt txt16 marginB15">Project Likes</div>
-            <div><img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"></div>
+            <div>
+              <%= 
+                line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").sum('like_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
+              %>
+
+            </div>
           </div>
         </div>
       </div>
@@ -109,118 +123,73 @@
       <div class="row">
         <div class="col-md-6 col-xs-12 col-sm-6">
           <div class="marginB10 white-txt txt16"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</div>
-          <div class="userstatapp clearfix">
-            <ul class="row">
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Carlos Siqueira</h3>
-                  <div class="appr-txt">27 Likes</div>
+            <%
+              if  @allpostlikerecords.present?
+            %>    
+                <div class="userstatapp clearfix">
+                    <ul class="row">
+                    <% @allpostlikerecords.each_with_index do |value, index| 
+                           # abort(value.user.image.user_activity.url.to_json)
+                           if index > 6
+                              break
+                           end 
+                    %>   
+
+                      <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                        <div class="user-stat-pic pull-left"><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></div>
+                        <div class="pull-left">
+                          <h3><%= value.user.firstname %> <%= value.user.lastname %></h3>
+                          <div class="appr-txt"><%= value.user.like_count %>  Likes</div>
+                        </div>
+                      </li>
+
+
+                  <% end %>  
+
+                    </ul>
                 </div>
-              </li>
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Dariusz Palarczyk</h3>
-                  <div class="appr-txt">27 Likes</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="userstatapp clearfix">
-            <ul class="row">
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat2.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Carlos Siqueira</h3>
-                  <div class="appr-txt">27 Likes</div>
-                </div>
-              </li>
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat3.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Dariusz Palarczyk</h3>
-                  <div class="appr-txt">27 Likes</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="userstatapp clearfix">
-            <ul class="row">
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Carlos Siqueira</h3>
-                  <div class="appr-txt">27 Likes</div>
-                </div>
-              </li>
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Dariusz Palarczyk</h3>
-                  <div class="appr-txt">27 Likes</div>
-                </div>
-              </li>
-            </ul>
-          </div>
+
+          <%      
+            end
+          %> 
         </div>
         <div class="col-md-6 col-xs-12 col-sm-6 userappmobi">
           <div class="marginB10 white-txt txt16"><i class="fa fa-comments" aria-hidden="true"></i> Commenters</div>
-          <div class="userstatapp clearfix">
-            <ul class="row">
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Carlos Siqueira</h3>
-                  <div class="appr-txt">27 comments</div>
-                </div>
-              </li>
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Dariusz Palarczyk</h3>
-                  <div class="appr-txt">27 comments</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="userstatapp clearfix">
-            <ul class="row">
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat2.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Carlos Siqueira</h3>
-                  <div class="appr-txt">27 comments</div>
-                </div>
-              </li>
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat3.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Dariusz Palarczyk</h3>
-                  <div class="appr-txt">27 comments</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="userstatapp clearfix">
-            <ul class="row">
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Carlos Siqueira</h3>
-                  <div class="appr-txt">27 comments</div>
-                </div>
-              </li>
-              <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                <div class="user-stat-pic pull-left"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="User"></div>
-                <div class="pull-left">
-                  <h3>Dariusz Palarczyk</h3>
-                  <div class="appr-txt">27 comments</div>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <%
+                  if  @allpostcommentrecords.present?
+                %>    
+                    <div class="userstatapp clearfix">
+                        <ul class="row">
+                        <% @allpostcommentrecords.each_with_index do |value, index| 
+                               # abort(value.user.image.user_activity.url.to_json)
+                               if index > 6
+                                  break
+                               end 
+                        %>   
+
+                          <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                            <div class="user-stat-pic pull-left"><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></div>
+                            <div class="pull-left">
+                              <h3><%= value.user.firstname %> <%= value.user.lastname %></h3>
+                              <!-- <div class="appr-txt"><%#= value.user.like_count %>  comments</div> -->
+                            </div>
+                          </li>
+
+
+                      <% end %>  
+
+                        </ul>
+                    </div>
+
+              <%      
+                end
+              %> 
+
+
+
+
         </div>
+
       </div>
     </div>
 </section>
@@ -248,6 +217,7 @@
 
           $scope.stats_data = response.data;
         });
+
 
     };
     $scope.filter();
