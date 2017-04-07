@@ -1,6 +1,4 @@
-
 <!-- All Dashboard Start -->
-
 <%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
 <section class="clearfix container-fluid-full" id="myApp2"  ng-app="myApp" ng-controller="dashboardCtrl">
   <div class="row-fluid">
@@ -51,7 +49,7 @@
             <div class="white-txt txt16 marginB15">Project Views</div>
             <div><%= 
                # line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").count, discrete: true , colors: ["red", "#FF0000"] 
-                line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").sum('view_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
+                line_chart Gallery.group_by_month(:created_at, format: "%B %d, %Y").sum('view_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
             %>
 
 
@@ -63,7 +61,7 @@
             <div class="white-txt txt16 marginB15">Project Likes</div>
             <div>
               <%= 
-                line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").sum('like_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
+                line_chart Gallery.group_by_month(:created_at, format: "%B %d, %Y").sum('like_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
               %>
 
             </div>
