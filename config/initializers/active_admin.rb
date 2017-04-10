@@ -316,9 +316,9 @@ ActiveAdmin.setup do |config|
 
     menu.add priority: 11, label: "Comments" do |sites|
        sites.add label: "All Comments (Published Comments)", priority: 1,   url: "/admin/post_comments"
-       sites.add label: "Pending (Held for Review)", priority: 2,   url: "#"
-       sites.add label: "Spam", priority: 3,   url: "#"
-       sites.add label: "Trash", priority: 4,   url: "#"
+      # sites.add label: "Pending (Held for Review)", priority: 2,   url: "#"
+     #  sites.add label: "Spam", priority: 3,   url: "#"
+    #   sites.add label: "Trash", priority: 4,   url: "#"
     end
 
     menu.add priority: 12, label: "Tags" do |sites|
