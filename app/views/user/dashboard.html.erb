@@ -51,8 +51,6 @@
                # line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").count, discrete: true , colors: ["red", "#FF0000"] 
                 line_chart Gallery.group_by_month(:created_at, format: "%B %d, %Y").sum('view_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
             %>
-
-
             <!-- <img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"> --></div>
           </div>
         </div>

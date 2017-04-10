@@ -19,9 +19,10 @@ class GalleriesController < ApplicationController
     end 
 
     def show
-        @gallery    = Gallery.find_by(paramlink: params[:paramlink])
-        @collection = Collection.new
-        @report     = Report.new
+        @gallery        = Gallery.find_by(paramlink: params[:paramlink])
+        @collection     = Collection.new
+        @report         = Report.new
+        @latest_post    = Gallery.where("paramlink != ?",params[:paramlink]).order('id desc').limit(8)
        # abort(@gallery.post_type_category_id.to_json)
         if @gallery.post_type_category_id == 1
             render 'artshow'
@@ -464,9 +465,11 @@ class GalleriesController < ApplicationController
     end 
 
     def save_comment
-          post_id         = params[:gallery_id]
-          description     = params[:description]
-          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id) 
+          post_id           = params[:gallery_id]
+          description       = params[:description]
+          section_type      = params[:section_type]
+
+          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id, section_type: section_type) 
 
           galleryrecord               = Gallery.where(id: post_id).first
           newcomment_count_count      = galleryrecord.comment_count + 1
@@ -474,6 +477,36 @@ class GalleriesController < ApplicationController
           
           render :json => {'res' => 1, 'message' => 'Comment has successfully sent'}, status: 200
     end  
+
+
+
+    def get_comment
+
+          gallery_id           = params[:gallery_id]
+          user_id              = params[:user_id]
+          section_type         = params[:section_type]
+
+          commentrecord        = PostComment.where("post_id = ? AND user_id = ? AND section_type=?",gallery_id,user_id,section_type).order('id DESC')
+          
+
+          str = ''
+          if commentrecord.present?
+             
+            commentrecord.each_with_index do |value, index|
+    
+              str += '<div class="customer-wrap clearfix"><div class="customerleft"><img src = ' + value.user.image.user_activity.url + ' alt= "user"></div><div class="customerright"><div class="day-txt"><span>' + value.user.firstname + '</span> '+ DateTime.parse(value.created_at.to_s).strftime("%Y-%m-%d %H:%M:%S").to_s + '</div> <div class="date-txt">' + value.description + ' </div></div></div>'
+##
+              end  
+
+
+         end  
+       
+        render :json => {'res' => 1, 'data' => str, 'message' => 'data get successfully'}, status: 200   
+
+
+
+
+    end      
 
 
     def get_like_comment_view_gallery

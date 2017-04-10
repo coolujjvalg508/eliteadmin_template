@@ -196,29 +196,40 @@
         <div class="gallery-title"><%= @gallery.title.present? ? @gallery.title : '' %></div>
         <div class="clearfix row">
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="combox"><%= image_tag("comment.jpg",:alt => "Comment") %>
+            <div class="combox"> <%= image_tag(@gallery.user.image.user_activity.url,:alt => "Comment") %>
             </div>
-            <div class="comleft">The Gnomon Workshop
+            <div class="comleft"><%= @gallery.user.present? ? @gallery.user.firstname + ' ' + @gallery.user.lastname  : '' %>
               <div class="clearfix">
-                <button type="button" class="followbtnn"> Follow</button><span class="followcomment">36,686</span></div>
+                <button id='follow_button' type="button" class="followbtnn"><i class="fa fa-plus-circle" aria-hidden="true"></i>  Follow</button>
+                <button id='unfollow_button'  type="button" class="followbtnn hidden"><i class="fa fa-check" aria-hidden="true"></i>  Following</button>
+                <span class="followcomment"><%= @gallery.user.follow_count.present? ? @gallery.user.follow_count : '' %></span>
+              </div>
             </div>
           </div>
-          <div class="col-md-6 col-sm-6 col-xs-12 text-right"><a href="#" class="view-txt"><i class="fa fa-thumbs-up" aria-hidden="true"></i>Likes</a> <a href="" class="view-txt"><i class="fa fa-eye" aria-hidden="true"></i>2942</a> <a href="#" class="view-txt"><i class="fa fa-comment-o" aria-hidden="true"></i>115</a> </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 text-right comright">
+         <button id='post_like_button'  type="button" class="likebtn"> <i class="fa fa-thumbs-up" aria-hidden="true"></i> Like</button>
+         <button id='post_dislike_button'  type="button" class="likebtn hidden"> <i class="fa fa-check" aria-hidden="true"></i> Liked</button>
+         <span class="likecomment"><%= @gallery.like_count %></span>
+
+         <!--  <a href="#" class="view-txt"><i class="fa fa-thumbs-up" aria-hidden="true"></i>Likes</a> --> 
+         <a href="" class="view-txt"><i class="fa fa-eye" aria-hidden="true"></i><%= @gallery.view_count.present? ? @gallery.view_count : '' %></a> <a href="#" class="view-txt">
+         <i class="fa fa-comment-o" aria-hidden="true"></i><%= @gallery.comment_count.present? ? @gallery.comment_count : '' %></a> </div>
+
         </div>
-        <div class="bdr"></div>
+   <!--      <div class="bdr"></div>
         <div class="clearfix row">
           <div class="col-md-6 col-sm-6 col-xs-12 share-txt"> <a href="#"><i class="fa fa-share" aria-hidden="true"></i> Share</a> <a href="#"><i class="fa fa-plus" aria-hidden="true"></i> Bookmark </a> <a href="#"><i class="fa fa-ellipsis-h" aria-hidden="true"></i> More</a> </div>
           <div class="col-md-6 col-sm-6 col-xs-12 text-right comright">
             <div class="clearfix">
               <button type="button" class="likebtn"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Like</button><span class="likecomment">258</span></div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="sharewrap clearfix">
         <ul class="nav nav-tabs" id="maincontent" role="tablist">
           <li class="active"><a href="#Share" role="tab" data-toggle="tab">Share <i></i></a></li>
-          <li><a href="#Embed" role="tab" data-toggle="tab">Embed <i></i></a></li>
-          <li><a href="#Email" role="tab" data-toggle="tab">Email <i></i></a></li>
+<!--           <li><a href="#Embed" role="tab" data-toggle="tab">Embed <i></i></a></li>
+          <li><a href="#Email" role="tab" data-toggle="tab">Email <i></i></a></li> -->
           </li>
         </ul>
         <div class="tab-content">
@@ -228,14 +239,14 @@
             <div class="addthis_inline_share_toolbox_xe0e"></div>
 
              </div>
-            <div class="shareb marginB10 clearfix">
+         <!--    <div class="shareb marginB10 clearfix">
               <input type="text" class="form-control" placeholder="https://www.youtube.com/watch?v">
-            </div>
+            </div> -->
           </div>
-          <div class="tab-pane fade embedb" id="Embed">
+   <!--        <div class="tab-pane fade embedb" id="Embed">
             <input type="text" class="form-control" placeholder="https://www.youtube.com/watch?v">
           </div>
-          <div class="tab-pane fade emailb" id="Email"> <a href="#">Sign in</a> now! </div>
+          <div class="tab-pane fade emailb" id="Email"> <a href="#">Sign in</a> now! </div> -->
         </div>
       </div>
       <div class="publishwrap clearfix">
@@ -274,131 +285,55 @@
       </div>
     </div>
     <div class="allcommentwrap clearfix">
-      <h3>All comments ( 8 )</h3>
+      <h3>All comments ( <%= @gallery.comment_count  %> )</h3>
       <div class="clearfix comwrap marginB15">
-        <div class="compleft"><%= image_tag("user.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
-        <div class="compright">
-          <textarea name="" cols="" rows="" class="form-control" placeholder="Share your thoughts"></textarea>
+        <div class="compleft"><%= image_tag(current_user.image.user_activity.url, :width=>"48", :height=>"48", :alt=>"user") %></div>
+        <div class="col-md-11 col-sm-8 col-xs-9 padding compright"  >
+          <textarea class="form-control activitymessage" id='post_comments_<%= @gallery.id %>'  placeholder="Share your thoughts" ></textarea>
+          <!-- <textarea name="" cols="" rows="" class="form-control" placeholder="Share your thoughts"></textarea> -->
+        </div>
+        <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15" style="margin-left:57px">
+              <button id='post_comments_submit_<%= @gallery.id %>' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
         </div>
       </div>
-      <div class="customer-wrap clearfix">
-        <div class="customerleft"><%= image_tag("user1.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
+       <div id="commentslist_dev">
+       <!--  <div class="customerleft"><%#= image_tag("user1.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
         <div class="customerright">
           <div class="day-txt"><span>so0per</span> 2 days ago</div>
           <div class="date-txt"><span>1:00 </span> TASM1 suit?</div>
           <div class="day-txt txt12">Reply  - <span>2</span></div>
-        </div>
+        </div> -->
       </div>
-      <div class="customer-wrap clearfix leftspace">
-        <div class="customerleft"><%= image_tag("user.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
+      <!-- <div class="customer-wrap clearfix leftspace">
+        <div class="customerleft"><%#= image_tag("user.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
         <div class="customerright">
           <div class="day-txt"><span>Stick Pivoat Torres</span> 2 days ago</div>
           <div class="date-txt">look like, but i don’t think so. it’s a model 3D</div>
           <div class="day-txt txt12">Reply  - <span>2</span></div>
         </div>
+      </div> -->
       </div>
-      <div class="customer-wrap clearfix">
-        <div class="customerleft"><%= image_tag("user1.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
-        <div class="customerright">
-          <div class="day-txt"><span>Stick Pivoat Torres</span> 2 days ago</div>
-          <div class="date-txt">look like, but i don’t think so. it’s a model 3D</div>
-          <div class="day-txt txt12">Reply  - <span>2</span></div>
-        </div>
-      </div>
-      <div class="customer-wrap clearfix">
-        <div class="customerleft"><%= image_tag("user.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
-        <div class="customerright">
-          <div class="day-txt"><span>Stick Pivoat Torres</span> 2 days ago</div>
-          <div class="date-txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget faucibus elit. Aenean ut justo nisi. Duis tempor, </div>
-          <div class="day-txt txt12">Reply  - <span>2</span></div>
-        </div>
-      </div>
-      <div class="customer-wrap clearfix">
-        <div class="customerleft"><%= image_tag("user1.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
-        <div class="customerright">
-          <div class="day-txt"><span>Stick Pivoat Torres</span> 2 days ago</div>
-          <div class="date-txt">look like, but i don’t think so. it’s a model 3D</div>
-          <div class="day-txt txt12">Reply  - <span>2</span></div>
-        </div>
-      </div>
-      <div class="customer-wrap clearfix">
-        <div class="customerleft"><%= image_tag("user.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
-        <div class="customerright">
-          <div class="day-txt"><span>Stick Pivoat Torres</span> 2 days ago</div>
-          <div class="date-txt">look like, but i don’t think so. it’s a model 3D</div>
-          <div class="day-txt txt12">Reply  - <span>2</span></div>
-        </div>
-      </div>
-      <div class="customer-wrap clearfix">
-        <div class="customerleft"><%= image_tag("user1.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>
-        <div class="customerright">
-          <div class="day-txt"><span>Stick Pivoat Torres</span> 2 days ago</div>
-          <div class="date-txt">look like, but i don’t think so. it’s a model 3D</div>
-          <div class="day-txt txt12">Reply  - <span>2</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="latest-gallery clearfix">
+        <div class="latest-gallery clearfix">
       <div class="productbox clearfix margin">
-        <h2>Latest Posts <a href="#" class="pull-right viewbtn">view all</a></h2>
+        <h2>Latest Posts <!-- <a href="javascript:void(0)" class="pull-right viewbtn">view all</a> --></h2>
         <div class="photos">
           <ul>
-            <li class="clearfix marginB10">
-              <div class="borders2 marginB5"><%= image_tag("database/artists.jpg", :width=>"48", :height=>"48", :alt=>"user") %>
-                <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div>
-              </div>
-              <div class="pro-title"><a href="#">Arene</a></div>
-              <div class="pro-text">36, 568 views - 3 hours ago</div>
-            </li>
-            <li class="clearfix marginB10">
-              <div class="borders2 marginB5"><%= image_tag("database/artists1.jpg", :class=>"img-responsive", :alt=>"img") %>
-                <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div>
-              </div>
-              <div class="pro-title"><a href="#">Homefront: The Revolution </a></div>
-              <div class="pro-text">36, 568 views - 3 hours ago</div>
-            </li>
-            <li class="clearfix marginB10">
-              <div class="borders2 marginB5"><%= image_tag("database/artists2.jpg", :class=>"img-responsive", :alt=>"img") %>
-                <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div>
-              </div>
-              <div class="pro-title"><a href="#">The Technomancer Gameplay</a></div>
-              <div class="pro-text">36, 568 views - 3 hours ago</div>
-            </li>
-            <li class="clearfix marginB10">
-              <div class="borders2 marginB5"><%= image_tag("database/artists3.jpg", :class=>"img-responsive", :alt=>"img") %>
-                <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div>
-              </div>
-              <div class="pro-title"><a href="#">Mafia III – One Way Road Story </a></div>
-              <div class="pro-text">36, 568 views - 3 hours ago</div>
-            </li>
-            <li class="clearfix">
-              <div class="borders2 marginB5"><%= image_tag("database/artists4.jpg", :class=>"img-responsive", :alt=>"img") %>
-                <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div>
-              </div>
-              <div class="pro-title"><a href="#">Arene</a></div>
-              <div class="pro-text">36, 568 views - 3 hours ago</div>
-            </li>
-            <li class="clearfix">
-              <div class="borders2 marginB5"><%= image_tag("database/artists5.jpg", :class=>"img-responsive", :alt=>"img") %>
-                <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div>
-              </div>
-              <div class="pro-title"><a href="#">The Technomancer Gameplay </a></div>
-              <div class="pro-text">36, 568 views - 3 hours ago</div>
-            </li>
-            <li class="clearfix">
-              <div class="borders2 marginB5"><%= image_tag("database/artists6.jpg", :class=>"img-responsive", :alt=>"img") %>
-                <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div>
-              </div>
-              <div class="pro-title"><a href="#">Mafia III – One Way Road Story </a></div>
-              <div class="pro-text">36, 568 views - 3 hours ago</div>
-            </li>
-            <li class="clearfix">
-              <div class="borders2 marginB5"><%= image_tag("database/artists7.jpg", :class=>"img-responsive", :alt=>"img") %>
-                <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div>
-              </div>
-              <div class="pro-title"><a href="#">Homefront: The Revolution </a></div>
-              <div class="pro-text">36, 568 views - 3 hours ago</div>
-            </li>
+           <%
+            if  @latest_post.present?
+                   @latest_post.each_with_index do |value, index|
+           %> 
+
+              <li class="clearfix marginB10">
+                <div class="borders2 marginB5">
+                  <a href="/dashboard/projects/<%= value.paramlink %>/show"><%= image_tag(value.company_logo.tutorial_list.url, :alt=>"user") %></a>
+                  <!-- <div class="overlay"><span class="expand"><i class="fa fa-play" aria-hidden="true"></i></span></div> -->
+                </div>
+                <div class="pro-title"><a href="/dashboard/projects/<%= value.paramlink %>/show"><%= value.title %></a></div>
+                <div class="pro-text"><%= value.view_count %> views - <%= time_ago_in_words(value.created_at) %> ago</div>
+              </li>
+           <%    end
+              end
+           %> 
           </ul>
         </div>
       </div>
@@ -413,13 +348,13 @@
   <div class="gallery-right">
    <div class="marginB15 clearfix"> 
         <a class="pull-right closebtn" href='<%= index_gallery_path %>'><i class="fa fa-times" aria-hidden="true"></i></a> 
-        <a class="pull-right closebtn"><i data-toggle="dropdown" aria-hidden="true" class="fa fa-chevron-down"></i></a> 
+        <!-- <a class="pull-right closebtn"><i data-toggle="dropdown" aria-hidden="true" class="fa fa-chevron-down"></i></a>  -->
     </div>
      
     <div class="aside clearfix">
       <div class="wiphome marginB15 clearfix">
-        <h2>More by <span>Glauco Longhi</span>
-          <button type="button" class="followbtn"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
+        <h2>More by <span><%= @gallery.user.present? ? @gallery.user.firstname + ' ' + @gallery.user.lastname  : '' %></span>
+          <!-- <button type="button" class="followbtn"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button> -->
         </h2>
         <ul class="margin">
           <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-exiles-end.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
@@ -475,12 +410,12 @@
           <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
         </ul>
       </div>
-      <div class="neverpost clearfix">
+<!--       <div class="neverpost clearfix">
         <div class="tophead">Never miss a post <i class="fa fa-times pull-right" aria-hidden="true"></i></div>
-        <div class="nevercontent clearfix"> <%= image_tag("anmit.jpg", :class=>"pull-left", :alt=>"anim") %> <span class="anmitext pull-left">animationtidbits<i>Animation Tidbits</i></span>
+        <div class="nevercontent clearfix"> <%#= image_tag("anmit.jpg", :class=>"pull-left", :alt=>"anim") %> <span class="anmitext pull-left">animationtidbits<i>Animation Tidbits</i></span>
           <button class="followbtn pull-right"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
@@ -502,6 +437,131 @@ $(document).ready(function(){
         success: function(data){
         }
     });
+
+
+     $.ajax({
+            type: "post",
+            url: "<%= check_save_like_path %>" ,
+            data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
+           success: function(data){
+              //alert(data.res)
+             if(data.res == 1) {
+                  $('#post_like_button').addClass('hidden');
+                  $('#post_dislike_button').removeClass('hidden');
+              }else{
+                   $('#post_like_button').removeClass('hidden');
+                   $('#post_dislike_button').addClass('hidden');
+              }
+
+            }
+        });
+
+
+
+    $('#post_like_button, #post_dislike_button').on('click',function(){
+      //alert('gh');
+            $.ajax({
+                type: "post",
+                url: "<%= save_like_path %>" ,
+                data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
+                success: function(data){
+                  //alert(data.res)
+                 if(data.res == 1) {
+                      $('#post_like_button').addClass('hidden');
+                      $('#post_dislike_button').removeClass('hidden');
+                  }else{
+                       $('#post_like_button').removeClass('hidden');
+                       $('#post_dislike_button').addClass('hidden');
+                  }
+
+                }
+            });
+    })
+
+    $.ajax({
+            type: "post",
+            url: "<%= check_follow_artist_path %>" ,
+            data: {'artist_id': '<%= @gallery.user.id %>'},
+            success: function(data){
+                //alert(data.res)
+               if(data.res == 1) {
+                        $('#follow_button').addClass('hidden');
+                        $('#unfollow_button').removeClass('hidden');
+                }else{
+                        $('#follow_button').removeClass('hidden');
+                        $('#unfollow_button').addClass('hidden');
+                }
+            }
+      });
+
+    $('#follow_button, #unfollow_button, #followtop_button').on('click',function(){
+            $.ajax({
+                type: "post",
+                url: "<%= follow_artist_path %>" ,
+                data: {'artist_id': '<%= @gallery.user.id %>'},
+                success: function(data){
+                  //alert(data.res)
+                 if(data.res == 1) {
+                      $('#follow_button').addClass('hidden');
+                      $('#unfollow_button').removeClass('hidden');
+                  }else{
+                       $('#follow_button').removeClass('hidden');
+                       $('#unfollow_button').addClass('hidden');
+                  }
+
+                }
+            });
+    })
+
+
+     $.ajax({
+        type: "get",
+        url: "<%= get_comment_path %>" ,
+        data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
+        success: function(data){
+          $('#commentslist_dev').html(data.data);
+        }
+    });  
+
+
+
+
+      $('[id^= post_comments_submit_]').on('click',function(){
+
+          gallery_id = $(this).attr('id').replace('post_comments_submit_','');
+          textareavalue   = $('#post_comments_'+gallery_id).val();
+          if(textareavalue == ''){
+              alert('Comment cannot be blank.');
+              return false;
+           }else{
+
+                $.ajax({
+                    type: "post",
+                    url: "<%= save_comment_path %>" ,
+                    data: {'gallery_id': gallery_id,'description': textareavalue,'section_type': 'gallery_detail'},
+                    success: function(data){
+                        $('#post_comments_'+gallery_id).val('');
+                     // alert(data.message)
+                   //   return false;  
+
+                       $.ajax({
+                            type: "get",
+                            url: "<%= get_comment_path %>" ,
+                            data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
+                            success: function(data){
+                              $('#commentslist_dev').html(data.data);
+                              //return false;  
+                            }
+                        }); 
+
+                    }
+                });
+
+
+           } 
+
+      });
+
 
 });
 

@@ -171,13 +171,13 @@
 </div>
 <div class="wipdetails-right clearfix">
 <div class="clearfix marginB15 text-right">
-    <div class="reply-down close-wip">
+<!--     <div class="reply-down close-wip">
       <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
         <ul class="dropdown-menu">
           <li><a href="#" data-toggle="modal" data-target="#reportAbuseModal">Report abuse</a></li>
         </ul>
       </div>
-    </div>
+    </div> -->
     <a href='<%= index_gallery_path %>'><span class="close-wip"><i class="fa fa-times" aria-hidden="true"></i></span></a> 
 </div>
 <div class="wip-profile row">
@@ -242,71 +242,67 @@
 
 
 </div>
-<div class="clearfix marginB15 com-txt"><i class="fa fa-comments" aria-hidden="true"></i> &nbsp; 10 Comment</div>
+<div class="clearfix marginB15 com-txt"><i class="fa fa-comments" aria-hidden="true"></i> &nbsp; <%= @gallery.comment_count  %> Comment</div>
 <div class="wipdetails-reply clearfix">
- <a class="pull-right closebtn" href='<%= index_gallery_path %>'><i class="fa fa-times" aria-hidden="true"></i></a> 
-   <a class="pull-right closebtn"><i data-toggle="dropdown" aria-hidden="true" class="fa fa-chevron-down"></i></a> 
+ <!-- <a class="pull-right closebtn" href='<%= index_gallery_path %>'><i class="fa fa-times" aria-hidden="true"></i></a>  -->
+   <!-- <a class="pull-right closebtn"><i data-toggle="dropdown" aria-hidden="true" class="fa fa-chevron-down"></i></a>  -->
 
-
-<div class="wipreplyleft"><%= image_tag("user1.jpg",:alt => "img",:class=>"img-responsive") %></div>
-<div class="wipreplyright clearfix">
-  <div class="wipreply-title marginB5">Henrik Evensen</div>
-  <div class="wiptxtcom">Freelance Illustrator & CG - Artist</div>
-  <div class="wiptxt">Wonderful mood,GREAT work as usual,love the express series very much ,more PLZ <i class="fa fa-meh-o" aria-hidden="true"></i></div>
-  <div class="wiplikewrap clearfix"> <a href="#">Like</a> <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a> <a href="#">Reply</a> <span class="pull-right wipdate">4 months ago</span> </div>
-</div>
 </div>
 <div class="wipdetails-reply clearfix">
-<div class="reply-down">
+<!-- <div class="reply-down">
   <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
     <ul class="dropdown-menu">
       <li><a href="#">Report abuse</a></li>
     </ul>
   </div>
-</div>
-<div class="wipreplyleft"><%= image_tag("user.jpg",:alt => "img",:class=>"img-responsive") %></div>
+</div> -->
+<div class="wipreplyleft"><%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %></div>
 <div class="wipreplyright clearfix">
-  <div class="wipreply-title marginB5">Henrik Evensen</div>
+<!--   <div class="wipreply-title marginB5">Henrik Evensen</div>
   <div class="wiptxtcom">Freelance Illustrator & CG - Artist</div>
   <div class="wiptxt">Foof! Thats the stuff !</div>
-  <div class="wiplikewrap clearfix"> <a href="#">Like</a> <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a> <a href="#">Reply</a> <span class="pull-right wipdate">4 months ago</span> </div>
+  <div class="wiplikewrap clearfix"> <a href="#">Like</a> <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a> <a href="#">Reply</a> <span class="pull-right wipdate">4 months ago</span> </div> -->
   <div class="wip-comment-box marginB10">
-    <textarea name="" cols="" rows="" class="form-control"></textarea>
+   <textarea class="form-control" id='post_comments_<%= @gallery.id %>'  style='margin-top:0px !important' ></textarea>
+  
   </div>
   <div class="clearfix">
-    <button type="button" class="bluebtn"><i class="fa fa-comment" aria-hidden="true"></i> Post Comment</button>
-    <button type="button" class="cancelbtn pull-right"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+   <button id='post_comments_submit_<%= @gallery.id %>' type="button" class="bluebtn"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
+
+    <!-- <button type="button" class="bluebtn"><i class="fa fa-comment" aria-hidden="true"></i> Post Comment</button> -->
+  <!--   <button type="button" class="cancelbtn pull-right"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button> -->
   </div>
 </div>
 </div>
 <div class="wipdetails-reply clearfix">
-<div class="reply-down">
+<!-- <div class="reply-down">
   <div class="dropdown"> <i class="fa fa-chevron-down" aria-hidden="true" data-toggle="dropdown"></i>
     <ul class="dropdown-menu">
       <li><a href="#">Report abuse</a></li>
     </ul>
   </div>
-</div>
-<div class="wipreplyleft"><%= image_tag("anmit.jpg",:alt => "img",:class=>"img-responsive") %></div>
+</div> -->
+<div id ='commentslist_dev'></div>
+<!-- <div class="wipreplyleft"><%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %></div>
 <div class="wipreplyright clearfix">
   <div class="wipreply-title marginB5">Henrik Evensen</div>
   <div class="wiptxtcom">Freelance Illustrator & CG - Artist</div>
   <div class="wiptxt">FDude, this is absolutely beautiful. I am completely in awe man, great job!</div>
-  <div class="wiplikewrap clearfix"> <a href="#">Like</a> <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a> <a href="#">Reply</a> <span class="pull-right wipdate">4 months ago</span> </div>
+  <div class="wiplikewrap clearfix"> <!-- <a href="#">Like</a> <a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</a> <a href="#">Reply</a>  <span class="pull-right wipdate">4 months ago</span> </div>
 </div>
-<div class="wip-comment-box1 marginB10 pull-left">
+ --><!-- <div class="wip-comment-box1 marginB10 pull-left">
   <textarea name="" cols="" rows="" class="form-control"></textarea>
 </div>
 <div class="clearfix">
   <button type="button" class="bluebtn"><i class="fa fa-comment" aria-hidden="true"></i> Post Comment</button>
-</div>
+</div> -->
 </div>
 <div class="friendsbox">
  
 <%= image_tag("database/google-ad1.jpg",:alt => "Google Ad",:class=>"img-responsive") %> </div>
 <div class="aside marginB15">
 <div class="wiphome clearfix proswrap">
-  <h2>More by <span>Michal Lisowski</span></h2>
+  <h2>More by <span><%= @gallery.user.present? ? @gallery.user.firstname + ' ' + @gallery.user.lastname  : '' %></span></h2>
   <ul class="margin">
     <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
     <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
@@ -420,7 +416,7 @@ $(document).ready(function() {
 
                 }
             });*/
-      })
+      });
 
 
 
@@ -491,7 +487,7 @@ $(document).ready(function() {
 
                 }
             });
-    })
+    });
 
 
 
@@ -528,7 +524,51 @@ $(document).ready(function() {
 
                 }
             });
-    })
+    });
+
+
+         $.ajax({
+        type: "get",
+        url: "<%= get_comment_path %>" ,
+        data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
+        success: function(data){
+          $('#commentslist_dev').html(data.data);
+        }
+    }); 
+
+
+    
+      $('[id^= post_comments_submit_]').on('click',function(){
+
+          gallery_id = $(this).attr('id').replace('post_comments_submit_','');
+          textareavalue   = $('#post_comments_'+gallery_id).val();
+          if(textareavalue == ''){
+              alert('Comment cannot be blank.');
+              return false;
+           }else{
+
+                  $.ajax({
+                      type: "post",
+                      url: "<%= save_comment_path %>" ,
+                      data: {'gallery_id': gallery_id,'description': textareavalue,'section_type': 'gallery_detail'},
+                      success: function(data){
+                          $('#post_comments_'+gallery_id).val('');
+                         
+                          $.ajax({
+                            type: "get",
+                            url: "<%= get_comment_path %>" ,
+                            data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
+                            success: function(data){
+                              $('#commentslist_dev').html(data.data);
+                              //return false;  
+                            }
+                        }); 
+
+                      }
+                  });
+              } 
+
+      });
 
 
 

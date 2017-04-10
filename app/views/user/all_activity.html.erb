@@ -227,7 +227,7 @@
                 $.ajax({
                     type: "post",
                     url: "<%= save_comment_path %>" ,
-                    data: {'gallery_id': gallery_id,'description': textareavalue},
+                    data: {'gallery_id': gallery_id,'description': textareavalue,'section_type': 'gallery_activity'},
                     success: function(data){
                         $('#post_comments_'+gallery_id).val('');
                       alert(data.message)
