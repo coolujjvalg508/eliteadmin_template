@@ -114,6 +114,9 @@ Rails.application.routes.draw do
     get 'dashboard/projects/search_all_projects'              => 'galleries#search_all_projects', as: 'search_all_projects' 
     post 'dashboard/projects/save_comment'                    => 'galleries#save_comment', as: 'save_comment' 
     get 'dashboard/projects/get_comment'                      => 'galleries#get_comment', as: 'get_comment' 
+    get 'dashboard/projects/get_artist_gallery'                => 'galleries#get_artist_gallery', as: 'get_artist_gallery' 
+
+
     post 'dashboard/projects/get_like_comment_view_gallery'   => 'galleries#get_like_comment_view_gallery', as: 'get_like_comment_view_gallery' 
     post 'save_view_count'            => 'galleries#save_view_count', as: 'save_view_count' 
     post 'get_subject_matter_list'    => 'galleries#get_subject_matter_list', as: 'get_subject_matter_list' 

@@ -16,7 +16,7 @@
     %>
     <div class="text-center lightcolor wip-txt"></div>
       <div class="galleryslide">
-          <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div>
+          <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
           <center>
             <%= image_tag(j.image.large_image.url,:alt => "Gallery",:class=>"img-responsive") %>
           </center>
@@ -39,7 +39,7 @@
     %>
      <div class="text-center lightcolor wip-txt"><%= j.caption_image %></div>
       <div class="galleryslide">
-          <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div>
+          <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
           <center>
             <%= image_tag(j.image.large_image.url,:alt => "Gallery",:class=>"img-responsive") %>
           </center>
@@ -64,7 +64,7 @@
           %>
            <div class="text-center lightcolor wip-txt"><%= j.caption_video %></div>
             <div class="galleryslide">
-                <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div>
+                <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
                 <center>
                  <iframe width="700px" height="450px" src="https://www.youtube.com/embed/<%= youtube_id %>" frameborder="0" allowfullscreen></iframe>
                 </center>
@@ -79,7 +79,7 @@
                 vimeoid = match[:id] %>
                    <div class="text-center lightcolor wip-txt"><%= j.caption_video %></div>
                  <div class="galleryslide">
-                    <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div>
+                   <!--  <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
                     <center>
                      <iframe width="700px" height="450px"  src="https://player.vimeo.com/video/<%= vimeoid %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                     </center>
@@ -95,7 +95,7 @@
                 dailymotionid = match %>
                 <div class="text-center lightcolor wip-txt"><%= j.caption_video %></div>
                  <div class="galleryslide">
-                    <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div>
+                    <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
                     <center>
                      <iframe width="700px" height="450px"  frameborder="0"  src="//www.dailymotion.com/embed/video/<%= dailymotionid %>" allowfullscreen></iframe>
                     </center>
@@ -127,7 +127,7 @@
       </script>
       <div class="text-center lightcolor wip-txt"><%= j.caption_sketchfeb %></div>
        <div class="galleryslide">
-                <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div>
+                <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
                 <center>
                  <span class="img-responsive"  id='sketch_span_<%= index %>'></span>
                 </center>
@@ -157,7 +157,7 @@
       </script>
        <div class="text-center lightcolor wip-txt"><%= j.caption_marmoset %></div>
         <div class="galleryslide">
-            <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div>
+           <!--  <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
             <center>
                <div   id='marmoset_span_<%= index %>'></div>
             </center>
@@ -177,7 +177,7 @@
 
        <div class="text-center lightcolor wip-txt"><%= j.caption_upload_video %></div>
         <div class="galleryslide">
-            <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div>
+            <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
             <center>
                 <iframe width="700px" height="450px"  frameborder="0"  src="<%= url %>" allowfullscreen></iframe>
             </center>
@@ -356,16 +356,16 @@
         <h2>More by <span><%= @gallery.user.present? ? @gallery.user.firstname + ' ' + @gallery.user.lastname  : '' %></span>
           <!-- <button type="button" class="followbtn"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button> -->
         </h2>
-        <ul class="margin">
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-exiles-end.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-ignatius-tan-terra-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-fiora-for-print.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-facecloseuprender.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-one-smoking-hot-fairy-tail-resized.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-mononoke-final-merged.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-phantom-assassin-merged.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-yuna-final-edited.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-lunar-diana-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+       <ul class="margin" id = "more_by_artist_dev">
+          <!-- <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-exiles-end.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-ignatius-tan-terra-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-fiora-for-print.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-facecloseuprender.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-one-smoking-hot-fairy-tail-resized.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-mononoke-final-merged.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-phantom-assassin-merged.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-yuna-final-edited.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-lunar-diana-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li> -->
         </ul>
       </div>
       <div class="wiphome clearfix critiqueright">
@@ -429,7 +429,7 @@ slidesToScroll: 1
 });
 
 $(document).ready(function(){
-   
+
     $.ajax({
         type: "post",
         url: "<%= save_view_count_path %>" ,
@@ -437,6 +437,18 @@ $(document).ready(function(){
         success: function(data){
         }
     });
+
+    $.ajax({
+          type: "get",
+          url: "<%= get_artist_gallery_path %>" ,
+          data: {'user_id': <%= @gallery.user.id %>},
+          success: function(data){
+                 $('#more_by_artist_dev').html(data.data);
+             // $('#post_comments_'+gallery_id).val('');
+          }
+     });
+
+
 
 
      $.ajax({
@@ -494,7 +506,7 @@ $(document).ready(function(){
             }
       });
 
-    $('#follow_button, #unfollow_button, #followtop_button').on('click',function(){
+    $('#follow_button, #unfollow_button').on('click',function(){
             $.ajax({
                 type: "post",
                 url: "<%= follow_artist_path %>" ,

@@ -38,30 +38,30 @@ ActiveAdmin.register_page "Dashboard" do
 				  column do
 					  panel "Download Section" do
 							ul do
-									li do
-										span class: 'dash_left' do
-											'Total Downloads'
-										end
-										span class: 'dash_right' do
-											link_to(Download.count, 'downloads')
-										end
+								li do
+									span class: 'dash_left' do
+										'Total Downloads'
 									end
-									li do
-										span class: 'dash_left' do
-											'Category & Subcategory'
-										end
-										span class: 'dash_right' do
-											link_to(PostTypeCategory.count, 'post_type_categories')
-										end
+									span class: 'dash_right' do
+										link_to(Download.count, 'downloads')
 									end
-									li do
-										span class: 'dash_left' do
-											'Post Type'
-										end
-										span class: 'dash_right' do
-											link_to(PostType.count, 'post_types')
-										end
+								end
+								li do
+									span class: 'dash_left' do
+										'Category & Subcategory'
 									end
+									span class: 'dash_right' do
+										link_to(PostTypeCategory.count, 'post_type_categories')
+									end
+								end
+								li do
+									span class: 'dash_left' do
+										'Post Type'
+									end
+									span class: 'dash_right' do
+										link_to(PostType.count, 'post_types')
+									end
+								end
 							end
 					  end
 				end

@@ -299,21 +299,21 @@
 </div>
 <div class="friendsbox">
  
-<%= image_tag("database/google-ad1.jpg",:alt => "Google Ad",:class=>"img-responsive") %> </div>
+<%= image_tag("database/Google-ad.jpg",:alt => "Google Ad",:class=>"img-responsive") %> </div>
 <div class="aside marginB15">
 <div class="wiphome clearfix proswrap">
   <h2>More by <span><%= @gallery.user.present? ? @gallery.user.firstname + ' ' + @gallery.user.lastname  : '' %></span></h2>
-  <ul class="margin">
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg",:alt => "img",:class=>"img-responsive") %></a></li>
-  </ul>
+  <ul class="margin" id = "more_by_artist_dev">
+          <!-- <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-exiles-end.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-ignatius-tan-terra-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-fiora-for-print.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-facecloseuprender.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-one-smoking-hot-fairy-tail-resized.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-mononoke-final-merged.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-phantom-assassin-merged.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-yuna-final-edited.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
+          <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-lunar-diana-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li> -->
+        </ul>
 </div>
 </div>
 </div>
@@ -406,6 +406,22 @@ $(document).ready(function() {
         success: function(data){
         }
     });
+
+
+      $.ajax({
+          type: "get",
+          url: "<%= get_artist_gallery_path %>" ,
+          data: {'user_id': <%= @gallery.user.id %>},
+          success: function(data){
+                 $('#more_by_artist_dev').html(data.data);
+             // $('#post_comments_'+gallery_id).val('');
+          }
+     });
+
+
+
+
+
 
       $('#bookmarkbutton').on('click',function(){
      /*     $.ajax({
@@ -571,12 +587,6 @@ $(document).ready(function() {
       });
 
 
-
 });
-var app = angular.module('myApp',[]);
-    app.controller('galleryCtrl', function($scope, $http) {
-
-});
-
 
 </script>

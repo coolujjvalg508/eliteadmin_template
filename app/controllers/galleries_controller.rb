@@ -113,6 +113,7 @@ class GalleriesController < ApplicationController
 
 
     def follow_artist
+        
           artist_id        = params[:artist_id]
           user_id          = current_user.id
           is_follow_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').first
@@ -138,7 +139,8 @@ class GalleriesController < ApplicationController
           end 
 
 
-          render json: result, status: 200       
+          render json: result, status: 200    
+             
     end  
 
      def check_follow_artist
@@ -947,6 +949,23 @@ class GalleriesController < ApplicationController
             
             record.update(view_count: newview_count) 
        end     
+    end  
+
+
+    def get_artist_gallery
+
+        userid    = params[:user_id]
+        result    = Gallery.where("user_id = ? AND is_admin = ?",userid,'N').order('id desc').limit(9)
+
+         str = ''
+          if result.present?
+             
+              result.each_with_index do |value, index|
+                 str += '<li class="lists"><a href="/dashboard/projects/' + value.paramlink + '/show"><img src = ' + value.company_logo.event_small.url + ' alt= "img" class="img-responsive"></a></li>'
+              end  
+          end        
+        
+        render :json => {'res' => 1, 'data' => str, 'message' => 'data get successfully'}, status: 200   
     end  
 
 

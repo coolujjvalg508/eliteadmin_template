@@ -11,17 +11,17 @@ class UserController < ApplicationController
 
 
         
-        @allpostlikerecords      =   PostLike.where(artist_id: current_user.id)
+        @allpostlikerecords      =   PostLike.where(artist_id: current_user.id).order('id desc').limit(6)
 
         allgalleryrecords        =   Gallery.where('is_trash = ? AND is_admin=? AND user_id=? ANd status=?',0,'N',current_user.id,1).order('id desc').limit(6).pluck(:id)
 
-         @allpostcommentrecords  =   PostComment.where(post_id: allgalleryrecords)
+         @allpostcommentrecords  =   PostComment.where(post_id: allgalleryrecords).order('id desc').limit(6)
     
     end    
 
     def get_stats
 
-        gallery_past_30_days    = Gallery.where('created_at > ? AND is_trash = ? AND is_admin=? AND user_id=? ANd status=?', 30.days.ago,0,'N',current_user.id,1)
+        gallery_past_30_days     = Gallery.where('created_at > ? AND is_trash = ? AND is_admin=? AND user_id=? ANd status=?', 30.days.ago,0,'N',current_user.id,1)
         render :json =>  gallery_past_30_days.to_json(:include => [:post_like => {:include => [:user]}]), status: 200 
         
     end 
