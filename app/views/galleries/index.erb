@@ -50,11 +50,11 @@
 </div>
 
 <%= form_tag do %>
-  <div class="alldated clearfix">
+<!--   <div class="alldated clearfix">
     <select class="custom-select">
       <option>All dates</option>
     </select>
-  </div>
+  </div> -->
   <div class="gallerytype clearfix">
     <%= select_tag(:post_type_category_id, options_for_select(Category.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'All Gallery Post Type', 'ng-model' => 'post_type_category_id'}) %>
   </div>
