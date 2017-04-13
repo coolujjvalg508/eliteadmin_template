@@ -2,6 +2,7 @@ class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
     before_action :authenticate_user!, only: [:dashboard, :bookmark, :edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
  
+
     def dashboard
        
         @like_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:like_count)
@@ -315,6 +316,18 @@ class UserController < ApplicationController
 
     end
 
+     def other_user_profile
+        #abort(params.to_json)
+        artist_id           =    params[:id]
+       # abort(params.to_json)
+        @artist_data        =    User.where("id = ?",artist_id).first
+       # abort( @artist_data.to_json)
+        @professional_experiences = ProfessionalExperience.where('user_id = ? ', artist_id)
+        @education_experiences = EducationExperience.where('user_id = ? ', artist_id)
+        @production_experiences = ProductionExperience.where('user_id = ? ', artist_id)
+
+    end
+
     def user_statistics
     end
 
@@ -439,6 +452,19 @@ class UserController < ApplicationController
 
  
     end    
+
+     def save_view_count
+#abort(params.to_json)
+       if params[:user_id].present?
+            user_id         = params[:user_id]
+            record          = User.where("id = ?",user_id).first
+
+            prevoius_view_count   =  record.view_count
+            newview_count         =  prevoius_view_count + 1
+            
+            record.update(view_count: newview_count) 
+       end     
+    end   
 
 
     private

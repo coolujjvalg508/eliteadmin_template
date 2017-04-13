@@ -40,8 +40,9 @@ Rails.application.routes.draw do
   get 'user/notification' 
   get 'user/user_followers'
   get 'user/user_following'
-  get 'user/user_profile_info'
+  
   get 'user/user_statistics' 
+  post 'save_view_count_user'            => 'user#save_view_count', as: 'save_view_count_user' 
 
 
   get 'connection-followers' => 'user#connection_followers', as: 'connection_followers' 
@@ -58,6 +59,9 @@ Rails.application.routes.draw do
   get 'setting' => 'user#user_setting', as: 'user_setting' 
   get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
   get 'profile' => 'user#user_profile_info', as: 'my_profile' 
+
+  get 'about-us/:id' => 'user#other_user_profile', as: 'user_profile_info' 
+
   get 'edit-profile' => 'user#edit_profile', as: 'edit_profile' 
   get 'user/unfollow_artist' => 'user#unfollow_artist', as: 'unfollow_artist' 
   get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
@@ -196,7 +200,7 @@ Rails.application.routes.draw do
   get 'downloads'=> 'gallery#download'
 
 
-  get 'artist_profile/:id' => 'user#artist_profile', as: 'artist_profile' 
+  get 'artist-profile/:id' => 'user#artist_profile', as: 'artist_profile' 
   
   
   namespace :admin do

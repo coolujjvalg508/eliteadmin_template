@@ -1,7 +1,8 @@
+    <!-- <button type="submit" id="saveCoverArtPic" value="UpdateCoverArt" ng-show="false" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button> -->
+       
 <%  res = connection_like_count_by_artist_id(@artist_data.id) %>
-<div class="artist-profile ng-scope" ng-app="myAppHeader" ng-controller="myCtrlHeader">
-
-  <div style="background-image: url({{cover_art_image}});" class="artist-masthead">
+<div class="artist-profile">
+  <div style="background-image: url(<%= @artist_data.cover_art_image.full.url  %>);" class="artist-masthead">
     
 <%= form_for(@artist_data, url: update_user_image_path(@artist_data), html: { method: :put, id: 'cover_art_image_form' }) do |f| %>
 
@@ -15,10 +16,8 @@
       </div>    
     <% end %>
 
-    <%= f.file_field(:cover_art_image, accept: "image/*", id: "covertArtPicUpload", "ng-model" => "covertArtPicUpload", onchange: "angular.element(this).scope().coverArtUpload(this)", style: "display: none;")%>
+    <%#= f.file_field(:cover_art_image, accept: "image/*", id: "covertArtPicUpload", "ng-model" => "covertArtPicUpload", onchange: "angular.element(this).scope().coverArtUpload(this)", style: "display: none;")%>
     
-    <!-- <button type="submit" id="saveCoverArtPic" value="UpdateCoverArt" ng-show="false" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button> -->
-       
 <% end %>    
 
 
@@ -42,7 +41,7 @@
 
                 <!-- <input id="profilePicUpload1" ng-model="profilePicUpload1" type='file' ng-model-instant onchange="angular.element(this).scope().imageUpload(this)" style="display: none;" accept="image/*" /> -->
 
-                <%= f.file_field(:image, accept: "image/*", id: "profilePicUpload", "ng-model" => "profilePicUpload", onchange: "angular.element(this).scope().imageUpload(this)", style: "display: none;")%>
+                <%#= f.file_field(:image, accept: "image/*", id: "profilePicUpload", "ng-model" => "profilePicUpload", onchange: "angular.element(this).scope().imageUpload(this)", style: "display: none;")%>
 
                <!--  <button type="submit" id="saveProfilePic" class="save-img" value="UpdateProfilePhoto" ng-show="false" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button> -->
 
@@ -67,19 +66,16 @@
                   <li class="ng-binding"> <i class="fa fa-pad-right fa-map-marker"></i> <%= @artist_data.try(:city) %><%= (@artist_data.try(:city) != '' && @artist_data.try(:country).try(:name) != '') ? ', ' : '' %><%= @artist_data.try(:country).try(:name) %> </li>
                 <% end %>
                 <li class="ng-binding"> <i class="fa fa-pad-right fa-eye"></i> <%= @artist_data.view_count %> Views </li>
-                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> <%= res[:myartworklike] %> Likes </li>
+                <li class="ng-binding"> <i class="fa fa-pad-right fa-thumbs-up"></i> <%= res[:like] %> Likes </li>
+                <!-- <li class="ng-binding"> <i class="fa fa fa-plus-circle fa-pad-right"></i> <%= res[:following] %> Following </li> -->
               </ul>
             </div>
+
           </div>
         </div>
         <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
           <ul class="list-inline pull-right">
-            <li class="ng-scope">
-              <div aria-label="..." role="group" class="btn-group">
-                <button type="button" title="Follow this user (F)" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
-                <button class="btn btn-sm user-follow" type="button"><%= res[:follower] %></button>
-              </div>
-            </li>
+            
        <!--      <li ng-if="artistCanContact" class="ng-scope">
               <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button>
             </li>
@@ -87,6 +83,19 @@
               <button href="" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
             </li>
  -->
+
+ <% if user_signed_in? %>
+            
+            <li class="ng-scope">
+              <div aria-label="..." role="group" class="btn-group">
+                <button id='follow_button' type="button" title="Follow this user" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
+                <button id='follow_button_count' class="btn btn-sm user-follow" type="button"><%= @artist_data.follow_count %></button>
+
+                <button id='unfollow_button' type="button" title="Follow this user" class="btn btn-primary btn-sm ng-binding ng-scope hidden"> <i class="fa fa-check fa-pad-right"></i>Following </button>
+                <button id='unfollow_button_count' class="btn btn-sm user-follow hidden" type="button"><%= @artist_data.follow_count %></button>  
+              </div>
+            </li>
+
             <li class="ng-scope">
               <a href="<%= message_path %>" class="btn btn-success btn-sm"><i class="fa fa-pad-right fa-envelope"></i>Message</a>
 
@@ -95,6 +104,16 @@
             <li class="ng-scope">
               <button href="javascript:void(0);" class="btn btn-warning btn-sm"> <i class="fa fa-globe fa-pad-right"></i>My Website </button>
             </li>
+  <%   else  %>
+            <li class="ng-scope">
+                <div aria-label="..." role="group" class="btn-group">
+                  <button type="button" title="Follow this user (F)" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
+                  <button class="btn btn-sm user-follow" type="button"><%= @artist_data.follow_count %></button>
+                </div>
+            </li>
+
+  <% end %>          
+
 
           </ul>
         </div>
@@ -102,6 +121,7 @@
     </div>
   </div>
 </div>
+<div id="myApp2"  ng-app="myApp" ng-controller="browseAllArtworkCtrl" >
 
 <!-- User Profile Menu -->
 <section class="usernavivation clearfix">
@@ -109,18 +129,11 @@
 <div class="container">
   <div class="navbar-artist-profile clearfix">
     <ul class="nav navbar-nav">
-      <li class="dropdown ng-scope active"> <a href="user-profile.html">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
-      <li> <a href="user-profile-info.html">About</a> </li>
-      <li> <a href="user-following.html"> Following <span class="counter-number ng-binding">(13)</span> </a> </li>
-      <li> <a href="user-like.html"> Likes<span class="counter-number ng-binding">(27)</span> </a> </li>
-      <li class=""> <a aria-expanded="false" href="#" data-toggle="dropdown" class="dropdown-toggle"> More <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
-        <ul class="dropdown-menu ng-scope">
-          <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Forum Post (12) </a> </li>
-          <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Followers (13) </a> </li>
-          <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-fw fa-pad-right fa-folder"></i> Jobs (7) </a> </li>
-          <li class="ng-scope"> <a href="#" class="ng-binding"> <i class="fa fa-bar-chart"></i> Stats </a> </li>
-        </ul>
-      </li>
+      <li class="dropdown ng-scope active"> <a href="<%= artist_profile_path(@artist_data.id) %>">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
+      <li> <a href="<%= user_profile_info_path(@artist_data.id) %>">About</a> </li>
+     <!--  <li> <a href="javascript:void(0);"> Following <span class="counter-number ng-binding">(<%= res[:following] %>)</span> </a> </li>
+       <li> <a href="javascript:void(0);"> Followers<span class="counter-number ng-binding">(<%#= @artist_data.follow_count %>)</span> </a> </li> -->
+     <!--  <li> <a href="javascript:void(0);"> Likes<span class="counter-number ng-binding">(<%#= res[:like] %>)</span> </a> </li> -->
     </ul>
   </div>
 </div>
@@ -129,139 +142,222 @@
 <ul class="nav nav-pills">
   <li class="dropdown recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">All Projects <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-      <li><a href="#">Artwork</a></li>
-      <li><a href="#">Videos </a></li>
-      <li><a href="#">Wip</a></li>
-      <li><a href="#">Downloads </a></li>
-      <li><a href="#">Tutorials</a></li>
-      <li><a href="#">Challenges</a></li>
+    <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
+    <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
+    <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
+    <li><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
+    <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
+    <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li>
+
     </ul>
   </li>
   <li role="presentation" style="padding:10px 0 0;">
-    <input type="text" placeholder="Search" class="form-control from-input">
+     <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" ng-model="search" />
   </li>
-  <li class="manage-btn manage-left"><a href="#"><i class="fa fa-picture-o marginR5 blue-txt" aria-hidden="true"></i> Manage portfolio</a></li>
-  <li class="manage-btn"><a href="#"><i class="fa fa-wrench marginR5 blue-txt" aria-hidden="true"></i> Portfolio display options</a></li>
-  <li class="dropdown pull-right recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
+ <!--  <li class="manage-btn manage-left"><a href="#"><i class="fa fa-picture-o marginR5 blue-txt" aria-hidden="true"></i> Manage portfolio</a></li>
+  <li class="manage-btn"><a href="#"><i class="fa fa-wrench marginR5 blue-txt" aria-hidden="true"></i> Portfolio display options</a></li> -->
+<li class="dropdown pull-right recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
     <ul class="dropdown-menu">
-      <li><a href="#">Recent</a></li>
-      <li><a href="#">Popular </a></li>
-      <li><a href="#">Featured</a></li>
-      <li><a href="#">Awarded</a></li>
-      <li class="divider" role="separator"></li>
-      <li><a href="#">Top liked</a></li>
-      <li><a href="#">Top Viewed</a></li>
-      <li><a href="#">Top Commented</a></li>
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('RECENT', 'recent')" class="featured-type-link"  id="featured-type-link-recent">Recent</a></li>
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('POPULAR', 'popular')" class="featured-type-link"  id="featured-type-link-popular">Popular</a></li>
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('AWARDED', 'awarded')" class="featured-type-link"  id="featured-type-link-awarded">Awarded</a></li>
+             <li class="divider" role="separator"></li>
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPLIKED', 'top_liked')" class="featured-type-link"  id="featured-type-link-top_liked">Top Liked</a></li>
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPVIEWED', 'top_viewed')" class="featured-type-link"  id="featured-type-link-top_viewed">Top viewed</a></li>
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li> 
     </ul>
   </li>
-  <li class="dropdown pull-right recentdrop hidden-sm" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Categories <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a> 
-    <!--<ul class="dropdown-menu">
-    <li><a href="#">Animation</a></li>
-      <li><a href="#">Architectural Visualization</a></li>
-      <li><a href="#">Architecture</a></li>
-      <li><a href="#">Characters</a></li>
-      <li><a href="#">Comic Art</a></li>
-      <li><a href="#">Concept Art</a></li>
-      <li><a href="#">Creatures</a></li>
-      <li><a href="#">Environments</a></li>
-      <li><a href="#">Fantasy</a></li>
-      <li><a href="#">Game Art</a></li>
-      <li><a href="#">Illustration</a></li>
-      <li><a href="#">Industrial Design</a></li>
-      <li><a href="#">Matte Painting</a></li>
-      <li><a href="#">Mecha</a></li>
-      <li><a href="#">Motion Graphics</a></li>
-      <li><a href="#">Product Design</a></li>
-      <li><a href="#">Props</a></li>
-      <li><a href="#">Science Fiction</a></li>
-      <li><a href="#">Still Life</a></li>
-      <li><a href="#">Storyboards</a></li>
-      <li><a href="#">Storytelling</a></li>
-      <li><a href="#">Surreal</a></li>
-      <li><a href="#">Textures &amp; Materials</a></li>
-      <li><a href="#">Transport &amp; Vehicles</a></li>
-      <li><a href="#">Tutorial</a></li>
-      <li><a href="#">User Interface</a></li>
-      <li><a href="#">Virtual Reality</a></li>
-      <li><a href="#">Visual Effects</a></li>
-      <li><a href="#">Weapons</a></li>
-      <li><a href="#">Whimsical</a></li>
-      </ul>--> 
-  </li>
+        <li class="dropdown pull-right recentdrop hidden-sm" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Categories <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a> 
+          <ul class="dropdown-menu" id="categoryli">
+             <li ng-repeat = 'olist in optionlist'>
+                  <a href="javascript:void(0);" ng-click="searchByMediumType(olist.id)" class="medium-type-link"  id="medium-type-link-"+olist.id > {{olist.name}} </a>
+               </li>
+          </ul>
+
+
+      </li>
 </ul>
 </div>
 </section>
 
-<!-- User Profile Menu -->
 <section class="userprofile celarfix">
 <ul class="margin">
-<li>
-  <div class="user-wrap"><a href="#" class="fa fa-picture-o" aria-hidden="true"></a> <a href="#" class="fa fa-video-camera" aria-hidden="true"></a></div>
-  <div class="clearfix userprowrap">
-    <div class="userprofile-content clearfix">
-      <div class="userproleft"><img src="images/userpro-img.jpg" class="img-responsive" alt="User Profile"></div>
-      <div class="userproright">
-        <h2>Lean Squared Skin Shader</h2>
-        Maciej Kuciara </div>
-    </div>
-  </div>
-  <a href="#"><img src="images/database/user-pro.jpg" class="img-responsive" alt="User Profile"></a> </li>
+  <li class="lists clearfix" dir-paginate="x in artwork_data | filter:search | itemsPerPage:20">
+
+       <div class="user-wrap">
+          <a ng-show = 'x.image.length > 0' href="#" class="fa fa-picture-o" aria-hidden="true"></a> 
+          <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#" class="fa fa-video-camera" aria-hidden="true"></a>
+          <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#" class="fa fa fa-cube" aria-hidden="true"></a>
+       </div>
+      <div class="clearfix userprowrap">
+        <div class="userprofile-content clearfix">
+          <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"></div>
+          <div class="userproright">
+          <h2>{{x.user.professional_headline}} </h2>
+             {{x.user.firstname}} {{x.user.lastname}} </div>
+        </div>
+      </div>
+      <a href="/dashboard/projects/{{x.result.paramlink}}/show">  
+        <img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
+ </li>
+
 </ul>
 </section>
+</div>
 <div class="clear"></div>
 <div class="text-center text-uppercase">
-<ul class="pagination">
-<li><a href="#">1</a></li>
-<li><a href="#">2</a></li>
-<li><a href="#">3</a></li>
-<li><a href="#">4</a></li>
-<li><a href="#">5</a></li>
-<li><a href="#">Next</a></li>
-<li><a href="#">Last</a></li>
-</ul>
+  <div class="pagintionpage clearfix">
+      <dir-pagination-controls
+           max-size="1"
+           direction-links="true"
+           boundary-links="false" >
+      </dir-pagination-controls>
+
+  </div>
 </div>
+<% if user_signed_in? %>
+<script type="text/javascript">
+  $(document).ready(function(){
+   
+    $.ajax({
+        type: "post",
+        url: "<%= save_view_count_user_path %>" ,
+        data: {'user_id': '<%= @artist_data.id %>'},
+        success: function(data){
+        }
+    });
+
+       $.ajax({
+            type: "post",
+            url: "<%= check_follow_artist_path %>" ,
+            data: {'artist_id': '<%= @artist_data.id %>'},
+            success: function(data){
+                //alert(data.res)
+               if(data.res == 1) {
+                        $('#follow_button').addClass('hidden');
+                        $('#follow_button_count').addClass('hidden');
+                     
+
+                        $('#unfollow_button').removeClass('hidden');
+                        $('#unfollow_button_count').removeClass('hidden');
+
+                }else{
+                        
+                       $('#follow_button').removeClass('hidden');
+                       $('#follow_button_count').removeClass('hidden');
+                       
+                       $('#unfollow_button').addClass('hidden');
+                       $('#unfollow_button_count').addClass('hidden');
+                }
+            }
+      });
+
+    $('#follow_button, #unfollow_button').on('click',function(){
+            $.ajax({
+                type: "post",
+                url: "<%= follow_artist_path %>" ,
+                data: {'artist_id': '<%= @artist_data.id %>'},
+                success: function(data){
+                  //alert(data.res)
+                 if(data.res == 1) {
+                      
+                      $('#follow_button').addClass('hidden');
+                      $('#follow_button_count').addClass('hidden');
+                   
+                      $('#unfollow_button').removeClass('hidden');
+                      $('#unfollow_button_count').removeClass('hidden');
+                  
+                  }else{
+                       
+                       $('#follow_button').removeClass('hidden');
+                       $('#follow_button_count').removeClass('hidden');
+                       
+                       $('#unfollow_button').addClass('hidden');
+                       $('#unfollow_button_count').addClass('hidden');
+                  }
+
+                }
+            });
+    });
+
+  })
+</script>
+<% end %>
 
 <script type="text/javascript">
   // header angular app start
-  var myAppHeader = angular.module('myAppHeader',[]);
+  var myAppHeader = angular.module('myApp',["angularUtils.directives.dirPagination", "angularLazyImg"]);
 
-  myAppHeader.controller('myCtrlHeader', function($scope) {
+  myAppHeader.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
+      
+    artist_id  = "<%= @artist_data.id %>"
+    $scope.filter = function() {
+          
+        list_url = '/dashboard/projects/get_portfolio_list?artist_id='+ artist_id; 
+        
+        if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
+          list_url += '&is_feature=' + $scope.viewFeaturedType
+        }
 
-    <% if (@artist_data.cover_art_image.blank? || @artist_data.cover_art_image.try(:full).blank?) %>
-     $scope.cover_art_image = "<%= asset_path 'artist-profile-masthead-gradient.png' %>";
-    <% else %>
-      $scope.cover_art_image = "<%= asset_path  @artist_data.cover_art_image.try(:full).try(:url) %>";
-    <% end %>
+        if(typeof $scope.medium_category_id !== 'undefined' && $scope.medium_category_id != ''  && $scope.medium_category_id != 'all'){
+          list_url += '&medium_category_id=' + $scope.medium_category_id
+        }
 
-    //profile pic upload
-    $scope.clickUpload = function(){
-      angular.element('#profilePicUpload').trigger('click');
+        if(typeof $scope.post_type_id !== 'undefined' && $scope.post_type_id != ''  && $scope.post_type_id != 'all'){
+          list_url += '&post_type_category_id=' + $scope.post_type_id
+         
+          $.ajax({
+                    type: "post",
+                    url: "<%= get_subject_matter_list_path %>" ,
+                    data: {'post_type_category_id': $scope.post_type_id},
+                    success: function(data){
+                        $scope.optionlist = data.result;
+                    }
+                });
+          }
+
+       $http.get(list_url).then(function (response) {
+          
+            resultdata            = [];
+            angular.forEach(response.data, function(value, key){
+                resultdata.push(value);
+            });
+
+            $scope.artwork_data              = resultdata;          
+
+          });
+    };
+    
+    $scope.filter();
+
+    $scope.searchByFeatured = function(value, id) {
+
+      angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
+      angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
+      
+      $scope.viewFeaturedType = value;
+      $scope.filter();
+
     };
 
-    $scope.stepsModel = '';
+    $scope.searchByPostType = function(id) {
+        
+      angular.element( document.querySelectorAll( '.post-type-link' ) ).removeClass('active');
+      angular.element( document.querySelector( '#post-type-link-' + id ) ).addClass('active');
+      
+      $scope.post_type_id = id;
+      $scope.filter();
 
-    $scope.imageUpload = function(element){
-        var reader = new FileReader();
-        reader.onload = $scope.imageIsLoaded;
-        reader.readAsDataURL(element.files[0]);
-    }
-
-    $scope.imageIsLoaded = function(e){
-        $scope.$apply(function() {
-            $scope.stepsModel= e.target.result;
-            angular.element( document.querySelector( '#saveProfilePic' ) ).removeClass('ng-hide');
-        });
-    }
-
-    //cover art upload
-    $scope.clickUploadCoverArt = function(){
-      angular.element('#covertArtPicUpload').trigger('click');
     };
 
-    $scope.coverArtUpload = function(element){
-        angular.element('#saveCoverArtPic').trigger('click');
-    }
-   
+   $scope.searchByMediumType = function(id) {
+
+      angular.element( document.querySelectorAll( '.medium-type-link, .medium-type-category-link, .medium-type-subcategory-link' ) ).removeClass('active');
+      angular.element( document.querySelectorAll( '#medium-type-link-' + id + ', #medium-type-category-link-all, #medium-type-subcategory-link-all' ) ).addClass('active');
+
+      $scope.medium_category_id = id;
+      $scope.filter();
+    };   
   });
-  // header angular app end
+
 </script>

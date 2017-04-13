@@ -777,8 +777,20 @@ class GalleriesController < ApplicationController
 
 
     def get_portfolio_list
+#abort(params.to_json)
+        
+       artist_id  = ''
+       
+       if params[:artist_id].present?
+             artist_id  = params[:artist_id]
+       else
+             artist_id  = current_user.id
 
-        conditions = "is_trash=0"
+       end 
+
+      # abort(artist_id.to_json)
+
+        conditions = "is_trash=0 AND user_id =" + artist_id + " AND is_admin = 'N'"
          
         if(params[:post_type_category_id] != '0')
             if(params[:post_type_category_id] && params[:post_type_category_id] != '')
@@ -792,7 +804,7 @@ class GalleriesController < ApplicationController
         end 
 
   
-        #abort(conditions.to_json)
+       # abort(conditions.to_json)
 
         #if(params[:is_feature] && params[:is_feature] != '')
        #   conditions += ' AND is_featured=' + params[:is_feature] 
@@ -848,6 +860,8 @@ class GalleriesController < ApplicationController
         else  
            result    = Gallery.where(conditions).order(orderby)
         end
+
+        #abort(result.to_json)
 
         final_data = []
         if result.present?

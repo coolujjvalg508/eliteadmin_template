@@ -51,10 +51,10 @@
                                        <ul>
                                             <li class="clearfix"  dir-paginate="x in following_data|filter:search|itemsPerPage:10" >
                                               <div class="connect-following-profile pull-left">
-                                                <img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt='User' class="img-responsive">
+                                               <a href="/artist-profile/{{x.user.id}}"> <img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt='User' class="img-responsive"></a>
                                               </div>
                                               <div class="connect-profile clearfix ">
-                                                  <div class="user-title">{{ x.user.firstname }} {{ x.user.lastname }}</div>
+                                                  <div class="user-title"><a href="/artist-profile/{{x.user.id}}">{{ x.user.firstname }} {{ x.user.lastname }}</a></div>
                                                   <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.user.professional_headline }}</div>
                                                   <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> {{ x.user.city }}, {{ x.country_name }}</div>
                                                  <button ng-click="unfollowuser(x.user.id)" type="button" class="red-btn border-radius marginR5"><i class="fa fa-times marginR5" aria-hidden="true"></i> Un Follow</button><span class="follow-companies">{{ x.like_res.user_follow_me}}</span> <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>  {{ x.like_res.user_like_me}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 0</span>

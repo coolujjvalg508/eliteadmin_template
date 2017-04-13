@@ -111,14 +111,15 @@
                         <li class="clearfix" dir-paginate="x in user_data | filter:search | itemsPerPage:10">
                             <div class="row">
                                 <div class="col-md-2 col-sm-2 col-xs-4"> 
-                                    <img lazy-img="<%= root_url %>{{ x.image.thumb.url }}" alt='User' class="img-responsive">
+                                   <a href="/artist-profile/{{x.id}}"><img lazy-img="<%= root_url %>{{ x.image.thumb.url }}" alt='User' class="img-responsive"></a>
                                 </div>
                                 <div class="col-md-5 col-sm-6 col-xs-8">
+                                <a href="/artist-profile/{{x.id}}">
                                     <div class="user-title">
                                    <!--  <a href='artist_profile/{{x.id}}'>{{ x.firstname }} {{ x.lastname }}</a> -->
                                    {{ x.firstname }} {{ x.lastname }}
 
-                                    </div>
+                                    </div> </a>
                                     <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.professional_headline }}</div>
                                     <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i>
                                             {{ x.city }} , {{ x.country.name}}
