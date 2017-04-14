@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   get 'user/dashboard'                    => 'user#dashboard', as: 'dashboard' 
   get 'user/get_stats'                    => 'user#get_stats', as: 'get_stats' 
+  get 'user/user_stats/:id'               => 'user#user_stats', as: 'user_stats' 
   
   get 'user/index'
   get 'user/add'

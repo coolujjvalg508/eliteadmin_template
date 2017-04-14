@@ -1,5 +1,4 @@
     <!-- <button type="submit" id="saveCoverArtPic" value="UpdateCoverArt" ng-show="false" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button> -->
-       
 <%  res = connection_like_count_by_artist_id(@artist_data.id) %>
 <div class="artist-profile">
   <div style="background-image: url(<%= @artist_data.cover_art_image.full.url  %>);" class="artist-masthead">
@@ -121,7 +120,8 @@
     </div>
   </div>
 </div>
-<div id="myApp2"  ng-app="myApp" ng-controller="browseAllArtworkCtrl" >
+<%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
+<div  class="clearfix container-fluid-full" id="myApp2"  ng-app="myApp" ng-controller="dashboardCtrl">
 
 <!-- User Profile Menu -->
 <section class="usernavivation clearfix">
@@ -129,9 +129,9 @@
 <div class="container">
   <div class="navbar-artist-profile clearfix">
     <ul class="nav navbar-nav">
-      <li class="dropdown ng-scope active"> <a href="<%= artist_profile_path(@artist_data.id) %>">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
+      <li> <a href="<%= artist_profile_path(@artist_data.id) %>">Portfolio</a></li>
       <li> <a href="<%= user_profile_info_path(@artist_data.id) %>">About</a> </li>
-      <li> <a href="<%= user_stats_path(@artist_data.id) %>">Stats</a> </li>
+      <li  class="dropdown ng-scope active"> <a href="<%= user_stats_path(@artist_data.id) %>">Stats <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a> </li>
      <!--  <li> <a href="javascript:void(0);"> Following <span class="counter-number ng-binding">(<%= res[:following] %>)</span> </a> </li>
        <li> <a href="javascript:void(0);"> Followers<span class="counter-number ng-binding">(<%#= @artist_data.follow_count %>)</span> </a> </li> -->
      <!--  <li> <a href="javascript:void(0);"> Likes<span class="counter-number ng-binding">(<%#= res[:like] %>)</span> </a> </li> -->
@@ -139,83 +139,192 @@
   </div>
 </div>
 </nav>
-<div class="clearfix hidden-xs" style="background:#171717;">
-<ul class="nav nav-pills">
-  <li class="dropdown recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">All Projects <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
-    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-    <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
-    <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
-    <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
-    <li><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
-    <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
-    <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li>
-
-    </ul>
-  </li>
-  <li role="presentation" style="padding:10px 0 0;">
-     <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" ng-model="search" />
-  </li>
- <!--  <li class="manage-btn manage-left"><a href="#"><i class="fa fa-picture-o marginR5 blue-txt" aria-hidden="true"></i> Manage portfolio</a></li>
-  <li class="manage-btn"><a href="#"><i class="fa fa-wrench marginR5 blue-txt" aria-hidden="true"></i> Portfolio display options</a></li> -->
-<li class="dropdown pull-right recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
-    <ul class="dropdown-menu">
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('RECENT', 'recent')" class="featured-type-link"  id="featured-type-link-recent">Recent</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('POPULAR', 'popular')" class="featured-type-link"  id="featured-type-link-popular">Popular</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('AWARDED', 'awarded')" class="featured-type-link"  id="featured-type-link-awarded">Awarded</a></li>
-             <li class="divider" role="separator"></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPLIKED', 'top_liked')" class="featured-type-link"  id="featured-type-link-top_liked">Top Liked</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPVIEWED', 'top_viewed')" class="featured-type-link"  id="featured-type-link-top_viewed">Top viewed</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li> 
-    </ul>
-  </li>
-        <li class="dropdown pull-right recentdrop hidden-sm" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Categories <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a> 
-          <ul class="dropdown-menu" id="categoryli">
-             <li ng-repeat = 'olist in optionlist'>
-                  <a href="javascript:void(0);" ng-click="searchByMediumType(olist.id)" class="medium-type-link"  id="medium-type-link-"+olist.id > {{olist.name}} </a>
-               </li>
-          </ul>
-
-
-      </li>
-</ul>
-</div>
+<div class="clearfix hidden-xs">&nbsp;</div>
 </section>
 
-<section class="userprofile celarfix">
-<ul class="margin">
-  <li class="lists clearfix" dir-paginate="x in artwork_data | filter:search | itemsPerPage:20">
+ <div><!-- User Statistics Start -->
+<section class="clearfix userstatisticswrap">
 
-       <div class="user-wrap">
-          <a ng-show = 'x.image.length > 0' href="#" class="fa fa-picture-o" aria-hidden="true"></a> 
-          <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#" class="fa fa-video-camera" aria-hidden="true"></a>
-          <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#" class="fa fa fa-cube" aria-hidden="true"></a>
-       </div>
-      <div class="clearfix userprowrap">
-        <div class="userprofile-content clearfix">
-          <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"></div>
-          <div class="userproright">
-          <h2>{{x.user.professional_headline}} </h2>
-             {{x.user.firstname}} {{x.user.lastname}} </div>
+    <div class="clearfix marginB15">
+      <div class="userstat-indent clearfix">
+        <div class="col-md-12 col-sm-12 col-xs-12 white-txt txt16 marginB15">All Time Statistics</div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+          <div class="viewbdr clearfix">
+            <div class="userview-title blue-txt"><%= @view_count  %></div>
+            <div class="text-uppercase view-txt">Project views</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+          <div class="viewbdr clearfix">
+            <div class="userview-title blue-txt"><%= @user_view_count %></div>
+            <div class="text-uppercase view-txt">Profile views</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+          <div class="viewbdr clearfix">
+            <div class="userview-title greencolor"><%= @like_count %></div>
+            <div class="text-uppercase view-txt">Project Likes</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+          <div class="userview-title darkcolor"><%= @comment_count %></div>
+          <div class="text-uppercase view-txt">Project comments</div>
         </div>
       </div>
-      <a href="/dashboard/projects/{{x.result.paramlink}}/show">  
-        <img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
- </li>
+    </div>
+    <div class="clearfix marginB15">
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="userstat-indent1 clearfix">
+            <div class="white-txt txt16 marginB15">Project Views</div>
+            <div><%= 
+               # line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").count, discrete: true , colors: ["red", "#FF0000"] 
+                line_chart Gallery.where('user_id=?',@artist_data.id).group_by_month(:created_at, format: "%B %d, %Y").sum('view_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
+            %>
+            <!-- <img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"> --></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="userstat-indent1 clearfix">
+            <div class="white-txt txt16 marginB15">Project Likes</div>
+            <div>
+              <%= 
+                line_chart Gallery.where('user_id=?',@artist_data.id).group_by_month(:created_at, format: "%B %d, %Y").sum('like_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
+              %>
 
-</ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix marginB15 userstat-indent1 hidden-xs">
+      <div class="clearfix marginB15">
+        <div class="row">
+          <div class="col-md-8 col-sm-7 col-xs-8 white-txt txt16">Project Monthly Review</div>
+          <div class="col-md-4 col-sm-5 col-xs-4 white-txt txt16 text-right lightcolor">(In last 30 days)</div>
+        </div>
+      </div>
+      <div class="clearfix reviewuser">
+        <div class="reviewfisrt lightcolor pull-left">Project</div>
+        <div class="reviewsec pull-left txt16 lightcolor text-center"><i class="fa fa-eye" aria-hidden="true"></i></div>
+        <div class="reviewsec pull-left txt16 lightcolor text-center"><i class="fa fa-thumbs-up" aria-hidden="true"></i></div>
+        <div class="reviewsec pull-left txt16 lightcolor text-center"><i class="fa fa-comments" aria-hidden="true"></i></div>
+        <div class="reviewlast lightcolor pull-left">Liked BY:</div>
+      </div>
+      
+      <div class="user-portfolio-wrap clearfix" ng-repeat = "x in stats_data | limitTo : 5 ">
+          <div class="clearfix user-portfolio-first pull-left">
+            <div class="user-stat-pic pull-left">
+           <!--  <img src="images/database/user-stat.jpg" width="51" height="51" alt="User"> -->
+            <img lazy-img="<%= root_url %>{{ x.company_logo.user_activity.url }}" class="img-responsive">
+            </div>
+            <div class="pull-left">
+              <h3>{{ x.title}}</h3>
+              <div class="appr-txt">Published: {{x.created_at}}</div>
+            </div>
+          </div>
+          <div class="user-portfolio-sec pull-left text-center">{{ x.view_count}}</div>
+          <div class="user-portfolio-sec pull-left text-center">{{ x.like_count}}</div>
+          <div class="user-portfolio-sec pull-left text-center">{{ x.comment_count}}</div>
+          <div class="clearfix user-portfolio-first pull-left"> 
+      
+              <a href="javascript:void(0);" class="marginR5" ng-repeat = "y in x.post_like | limitTo : 7 ">
+                <img src="<%= root_url %>{{ y.user.image.user_activity.url }}" width="51" height="51" alt="img">
+              </a> 
+              
+
+            <!--   <a href="#" class="marginR5"><img src="images/database/31.jpg" width="51" height="51" alt="img"></a> 
+              <a href="#" class="marginR5"><img src="images/database/32.jpg" width="51" height="51" alt="img"></a> 
+              <a href="#" class="marginR5"><img src="images/database/user-stat.jpg" width="51" height="51" alt="img"></a> 
+              <a href="#" class="marginR5"><img src="images/database/user-stat1.jpg" width="51" height="51" alt="img"></a> 
+              <a href="#" class="marginR5"><img src="images/database/30.jpg" width="51" height="51" alt="img"></a>
+              <a href="#" class="marginR5"><img src="images/database/31.jpg" width="51" height="51" alt="img"></a>  -->
+         </div>
+      </div> 
+       <div class="clearfix downbox text-center err-msg no-result marginT10" ng-hide="stats_data.length" >No Result Found!</div> 
+
+    </div>
+
+    <div class="clearfix marginB15 userstat-indent1">
+      <div class="row">
+        <div class="col-md-6 col-xs-12 col-sm-6">
+          <div class="marginB10 white-txt txt16"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Likes</div>
+            <%
+              if  @allpostlikerecords.present?
+            %>    
+                <div class="userstatapp clearfix">
+                    <ul class="row">
+                    <% @allpostlikerecords.each_with_index do |value, index| 
+                           # abort(value.user.image.user_activity.url.to_json)
+                           if index > 6
+                              break
+                           end 
+                    %>   
+
+                      <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                        <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.id) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
+                        <div class="pull-left">
+                          <h3><a href='<%= artist_profile_path(value.user.id) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
+                          <div class="appr-txt"><%= value.user.like_count %>  Likes</div>
+                        </div>
+                      </li>
+
+
+                  <% end %>  
+
+                    </ul>
+                </div>
+
+          <%      
+            end
+          %> 
+        </div>
+        <div class="col-md-6 col-xs-12 col-sm-6 userappmobi">
+          <div class="marginB10 white-txt txt16"><i class="fa fa-comments" aria-hidden="true"></i> Commenters</div>
+          <%
+                  if  @allpostcommentrecords.present?
+                %>    
+                    <div class="userstatapp clearfix">
+                        <ul class="row">
+                        <% @allpostcommentrecords.each_with_index do |value, index| 
+                               # abort(value.user.image.user_activity.url.to_json)
+                               if index > 6
+                                  break
+                               end 
+                        %>   
+
+                          <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
+                            <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.id) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
+                            <div class="pull-left">
+                              <h3><a href='<%= artist_profile_path(value.user.id) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
+                              <!-- <div class="appr-txt"><%#= value.user.like_count %>  comments</div> -->
+                            </div>
+                          </li>
+
+
+                      <% end %>  
+
+                        </ul>
+                    </div>
+
+              <%      
+                end
+              %> 
+
+
+
+
+        </div>
+
+      </div>
+    </div>
 </section>
+
+ </div>
+
 </div>
 <div class="clear"></div>
-<div class="text-center text-uppercase">
-  <div class="pagintionpage clearfix">
-      <dir-pagination-controls
-           max-size="1"
-           direction-links="true"
-           boundary-links="false" >
-      </dir-pagination-controls>
 
-  </div>
-</div>
 <% if user_signed_in? %>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -286,79 +395,32 @@
 <% end %>
 
 <script type="text/javascript">
-  // header angular app start
-  var myAppHeader = angular.module('myApp',["angularUtils.directives.dirPagination", "angularLazyImg"]);
 
-  myAppHeader.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
+  // main page angular app start
+  var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  app.controller('dashboardCtrl', function($sce, $scope, $http) {
       
-    artist_id  = "<%= @artist_data.id %>"
     $scope.filter = function() {
-          
-        list_url = '/dashboard/projects/get_portfolio_list?artist_id='+ artist_id; 
-        
-        if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
-          list_url += '&is_feature=' + $scope.viewFeaturedType
-        }
 
-        if(typeof $scope.medium_category_id !== 'undefined' && $scope.medium_category_id != ''  && $scope.medium_category_id != 'all'){
-          list_url += '&medium_category_id=' + $scope.medium_category_id
-        }
+        artist_id  = "<%= @artist_data.id %>"
+        list_url = '/user/get_stats?artist_id='+ artist_id;     
+        $http.get(list_url).then(function (response) {
 
-        if(typeof $scope.post_type_id !== 'undefined' && $scope.post_type_id != ''  && $scope.post_type_id != 'all'){
-          list_url += '&post_type_category_id=' + $scope.post_type_id
-         
-          $.ajax({
-                    type: "post",
-                    url: "<%= get_subject_matter_list_path %>" ,
-                    data: {'post_type_category_id': $scope.post_type_id},
-                    success: function(data){
-                        $scope.optionlist = data.result;
-                    }
-                });
-          }
+          $scope.stats_data = response.data;
+        });
 
-       $http.get(list_url).then(function (response) {
-          
-            resultdata            = [];
-            angular.forEach(response.data, function(value, key){
-                resultdata.push(value);
-            });
 
-            $scope.artwork_data              = resultdata;          
-
-          });
     };
-    
     $scope.filter();
 
-    $scope.searchByFeatured = function(value, id) {
-
-      angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
-      angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
-      
-      $scope.viewFeaturedType = value;
+    $scope.searchByCountry = function(value, id) {
+            
+      $scope.country_id = value;
       $scope.filter();
 
     };
-
-    $scope.searchByPostType = function(id) {
-        
-      angular.element( document.querySelectorAll( '.post-type-link' ) ).removeClass('active');
-      angular.element( document.querySelector( '#post-type-link-' + id ) ).addClass('active');
-      
-      $scope.post_type_id = id;
-      $scope.filter();
-
-    };
-
-   $scope.searchByMediumType = function(id) {
-
-      angular.element( document.querySelectorAll( '.medium-type-link, .medium-type-category-link, .medium-type-subcategory-link' ) ).removeClass('active');
-      angular.element( document.querySelectorAll( '#medium-type-link-' + id + ', #medium-type-category-link-all, #medium-type-subcategory-link-all' ) ).addClass('active');
-
-      $scope.medium_category_id = id;
-      $scope.filter();
-    };   
   });
+
+  // main page angular app end
 
 </script>

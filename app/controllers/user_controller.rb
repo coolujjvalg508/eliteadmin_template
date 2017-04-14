@@ -18,11 +18,40 @@ class UserController < ApplicationController
 
          @allpostcommentrecords  =   PostComment.where(post_id: allgalleryrecords).order('id desc').limit(6)
     
-    end    
+     end  
+
+
+
+    def user_stats
+
+        artist_id   = params[:id]
+
+        @artist_data            =  User.where("id = ? AND is_deleted = ?", artist_id,0).first
+        @like_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', artist_id, 1).sum(:like_count)
+        @view_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', artist_id, 1).sum(:view_count)
+        @comment_count          =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', artist_id, 1).sum(:comment_count)
+        @user_view_count        =  User.where("id = ? AND is_deleted = ?", artist_id,0).sum(:view_count)
+
+        
+        @allpostlikerecords      =   PostLike.where(artist_id: artist_id).order('id desc').limit(6)
+
+        allgalleryrecords        =   Gallery.where('is_trash = ? AND is_admin=? AND user_id=? AND status=?',0,'N',artist_id,1).order('id desc').limit(6).pluck(:id)
+
+        @allpostcommentrecords  =   PostComment.where(post_id: allgalleryrecords).order('id desc').limit(6)
+
+    end  
+
 
     def get_stats
 
-        gallery_past_30_days     = Gallery.where('created_at > ? AND is_trash = ? AND is_admin=? AND user_id=? AND status=?', 30.days.ago,0,'N',current_user.id,1)
+        user_id = ''
+        if params[:artist_id].present?
+            user_id = params[:artist_id]
+        else
+            user_id = current_user.id
+        end    
+
+        gallery_past_30_days     = Gallery.where('created_at > ? AND is_trash = ? AND is_admin=? AND user_id=? AND status=?', 30.days.ago,0,'N',user_id , 1)
         render :json =>  gallery_past_30_days.to_json(:include => [:post_like => {:include => [:user]}]), status: 200 
         
     end 

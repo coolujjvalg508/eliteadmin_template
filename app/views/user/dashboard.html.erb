@@ -49,7 +49,7 @@
             <div class="white-txt txt16 marginB15">Project Views</div>
             <div><%= 
                # line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").count, discrete: true , colors: ["red", "#FF0000"] 
-                line_chart Gallery.group_by_month(:created_at, format: "%B %d, %Y").sum('view_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
+                line_chart Gallery.where('user_id=?',current_user.id).group_by_month(:created_at, format: "%B %d, %Y").sum('view_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
             %>
             <!-- <img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"> --></div>
           </div>
@@ -59,7 +59,7 @@
             <div class="white-txt txt16 marginB15">Project Likes</div>
             <div>
               <%= 
-                line_chart Gallery.group_by_month(:created_at, format: "%B %d, %Y").sum('like_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
+                line_chart Gallery.where('user_id=?',current_user.id).group_by_month(:created_at, format: "%B %d, %Y").sum('like_count'),  xtitle: "Day", ytitle: "Likes", discrete: true , colors: ["red", "#FF0000"] 
               %>
 
             </div>
@@ -99,7 +99,7 @@
           <div class="clearfix user-portfolio-first pull-left"> 
       
               <a href="javascript:void(0);" class="marginR5" ng-repeat = "y in x.post_like | limitTo : 7 ">
-                <img src="<%= root_url %>{{ y.user.image.user_activity.url }}" width="51" height="51" alt="img">
+               <img src="<%= root_url %>{{ y.user.image.user_activity.url }}" width="51" height="51" alt="img">
               </a> 
               
 
@@ -132,9 +132,9 @@
                     %>   
 
                       <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                        <div class="user-stat-pic pull-left"><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></div>
+                        <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.id) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
                         <div class="pull-left">
-                          <h3><%= value.user.firstname %> <%= value.user.lastname %></h3>
+                          <h3><a href='<%= artist_profile_path(value.user.id) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
                           <div class="appr-txt"><%= value.user.like_count %>  Likes</div>
                         </div>
                       </li>
@@ -164,9 +164,9 @@
                         %>   
 
                           <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                            <div class="user-stat-pic pull-left"><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></div>
+                            <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.id) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
                             <div class="pull-left">
-                              <h3><%= value.user.firstname %> <%= value.user.lastname %></h3>
+                              <h3><a href='<%= artist_profile_path(value.user.id) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
                               <!-- <div class="appr-txt"><%#= value.user.like_count %>  comments</div> -->
                             </div>
                           </li>
