@@ -24,7 +24,7 @@
           </ul>
         </li>
 		    <li class="<%= (activemenu == 'collections/index' || activemenu == 'collections/show' ) ? 'active' : '' %>"><%= link_to 'Bookmark', index_collection_path %></li>
-        <li ><%= link_to 'Notifications', controller: 'user',action:'notification' %> </li>
+        <li class="<%= (activemenu == 'user/notification') ? 'active' : '' %>"><%= link_to 'Notifications', controller: 'user',action:'notification' %> </li>
       </ul>
     </div>
  </nav>

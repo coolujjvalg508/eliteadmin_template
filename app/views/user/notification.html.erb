@@ -22,6 +22,7 @@
           
           <div class="notification-wrap clearfix col-sm-12 col-xs-12">
           <div class="row">
+          <% if @notification_data.present? %>
             <div class="noti-top clearfix">All Notifications</div>
                           
                 <div class="clearfix notification-indent">
@@ -54,6 +55,7 @@
                   <% end %>
                 <% end %>
             </div>
+          <% end %>
              <%= paginate @notification_data %>
             </div>
           </div>

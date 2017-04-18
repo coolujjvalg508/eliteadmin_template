@@ -52,11 +52,11 @@
                             data: {'gallery_id': '<%= value.gallery.id %>','artist_id': '<%= value.gallery.user_id %>'},
                            success: function(data){
                              if(data.res == 1) {
-                                  $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>).addClass('hidden');
-                                  $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>).removeClass('hidden');
+                                  $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).addClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).removeClass('hidden');
                               }else{
-                                   $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>).removeClass('hidden');
-                                   $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>).addClass('hidden');
+                                   $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).removeClass('hidden');
+                                   $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).addClass('hidden');
                               }
 
                             }
@@ -68,10 +68,10 @@
                             data: {'gallery_id': '<%= value.gallery.id %>'},
                            success: function(data){
                            // alert(<%= value.gallery.id %>);
-                                  $('#like_<%= value.gallery.id %>').html('<i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> '+data['gallerylike']);
-                                  $('#comment_<%= value.gallery.id %>').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['gallerycomment']);
+                                  $('#like_<%= value.gallery.id %>_<%= value.id %>').html('<i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> '+data['gallerylike']);
+                                  $('#comment_<%= value.gallery.id %>_<%= value.id %>').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['gallerycomment']);
                                  
-                                  $('#view_<%= value.gallery.id %>').html('<i aria-hidden="true" class="fa fa-eye marginR5"></i> '+data['galleryview']);
+                                  $('#view_<%= value.gallery.id %>_<%= value.id %>').html('<i aria-hidden="true" class="fa fa-eye marginR5"></i> '+data['galleryview']);
                                 
                              
                             }
@@ -79,13 +79,13 @@
 
                  });
             </script>
-              <button id='post_like_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
-               <button id='post_dislike_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>
+              <button id='post_like_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
+               <button id='post_dislike_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>
             </div>
             <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> 
-              <span class="activity-like" id='like_<%= value.gallery.id %>'></span> 
-              <span class="activity-like" id='view_<%= value.gallery.id %>'></span> 
-              <span class="activity-like" id='comment_<%= value.gallery.id %>'></span> 
+              <span class="activity-like" id='like_<%= value.gallery.id %>_<%= value.id %>'></span> 
+              <span class="activity-like" id='view_<%= value.gallery.id %>_<%= value.id %>'></span> 
+              <span class="activity-like" id='comment_<%= value.gallery.id %>_<%= value.id %>'></span> 
             </div>
           </div>
           <div class="clearfix">
@@ -195,7 +195,7 @@
         
             gallery_id_and_user_id  = $(this).attr('id').replace('post_like_button_','');
             gallery_id_and_user_id  = gallery_id_and_user_id.replace('post_dislike_button_','');
- 
+
             var res = gallery_id_and_user_id.split("_"); 
               $.ajax({
                   type: "post",
