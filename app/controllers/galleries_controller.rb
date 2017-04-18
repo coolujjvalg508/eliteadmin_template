@@ -69,18 +69,19 @@ class GalleriesController < ApplicationController
           artist_id      = params[:artist_id]
           user_id        = current_user.id
           is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').first
-          result        = ''
+          result         = ''
           galleryrecord  = Gallery.where(id: gallery_id).first
 
           activity_type = ''
           if is_like_exist.present?
                 activity_type = 'disliked'
                 PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').delete_all 
-
+                Notification.where(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, notification_type: "like", section_type: 'Gallery').delete_all
                 newlike_count  =  (galleryrecord.like_count == 0) ? 0 : galleryrecord.like_count - 1
                 galleryrecord.update(like_count: newlike_count) 
 
                 result  = {'res' => 0, 'message' => 'Post has disliked'}
+
           else
                 activity_type = 'liked'
                 PostLike.create(user_id: user_id, artist_id: artist_id, post_id: gallery_id, post_type: 'Gallery')  
@@ -89,10 +90,12 @@ class GalleriesController < ApplicationController
                 galleryrecord.update(like_count: newlike_count) 
 
                 result  = {'res' => 1, 'message' => 'Post has liked'}
+                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, notification_type: "like", is_read: 0, section_type: 'Gallery')
 
           end 
 
           LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, activity_type: activity_type, section_type: 'Gallery')  
+            
 
           render json: result, status: 200       
     end  
@@ -123,13 +126,14 @@ class GalleriesController < ApplicationController
 
           if is_follow_exist.present?
                 Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').delete_all 
-
+                Notification.where(user_id: user_id,  artist_id: artist_id, notification_type: "follow user", section_type: 'Gallery').delete_all  
                 newfollow_count  =  (userrecord.follow_count == 0) ? 0 : userrecord.follow_count - 1
                 userrecord.update(follow_count: newfollow_count) 
 
                 result  = {'res' => 0, 'message' => 'Artist Not Follow'}
           else
-                Follow.create(user_id: user_id, artist_id: artist_id, post_type: '')  
+                Follow.create(user_id: user_id, artist_id: artist_id, post_type: '')
+                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: "", notification_type: "follow user", is_read: 0, section_type: 'Gallery')  
 
                 newfollow_count  =  userrecord.follow_count + 1
                 userrecord.update(follow_count: newfollow_count) 
@@ -472,11 +476,14 @@ class GalleriesController < ApplicationController
           section_type      = params[:section_type]
 
           PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id, section_type: section_type) 
+         
 
           galleryrecord               = Gallery.where(id: post_id).first
           newcomment_count_count      = galleryrecord.comment_count + 1
           galleryrecord.update(comment_count: newcomment_count_count) 
           
+          Notification.create(user_id: current_user.id, post_id: post_id, artist_id: galleryrecord.user_id, section_type: section_type, notification_type: "comment") 
+
           render :json => {'res' => 1, 'message' => 'Comment has successfully sent'}, status: 200
     end  
 

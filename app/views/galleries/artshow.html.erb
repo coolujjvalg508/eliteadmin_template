@@ -289,7 +289,11 @@
     <div class="allcommentwrap clearfix">
       <h3>All comments ( <%= @gallery.comment_count  %> )</h3>
       <div class="clearfix comwrap marginB15">
-        <div class="compleft"><%= image_tag(current_user.image.user_activity.url, :width=>"48", :height=>"48", :alt=>"user") %></div>
+        <div class="compleft">
+        <% if user_signed_in? %>
+            <%= image_tag(current_user.image.user_activity.url, :width=>"48", :height=>"48", :alt=>"user") %>
+        <% end %>  
+         </div>
         <div class="col-md-11 col-sm-8 col-xs-9 padding compright"  >
           <textarea class="form-control activitymessage" id='post_comments_<%= @gallery.id %>'  placeholder="Share your thoughts" ></textarea>
           <!-- <textarea name="" cols="" rows="" class="form-control" placeholder="Share your thoughts"></textarea> -->
@@ -533,14 +537,30 @@ $(document).ready(function(){
             });
     });
 
-     $.ajax({
+   
+
+
+});
+
+
+
+
+</script>
+
+<% if user_signed_in? %>
+
+<script>
+  $(document).ready(function(){ 
+
+      $.ajax({
         type: "get",
         url: "<%= get_comment_path %>" ,
         data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
         success: function(data){
           $('#commentslist_dev').html(data.data);
         }
-    }); 
+      }); 
+
 
 
     
@@ -576,9 +596,7 @@ $(document).ready(function(){
 
       });
 
-});
 
-
-
-
+  });
 </script>
+<% end %>  

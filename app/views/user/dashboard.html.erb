@@ -132,9 +132,9 @@
                     %>   
 
                       <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                        <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.id) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
+                        <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.username) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
                         <div class="pull-left">
-                          <h3><a href='<%= artist_profile_path(value.user.id) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
+                          <h3><a href='<%= artist_profile_path(value.user.username) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
                           <div class="appr-txt"><%= value.user.like_count %>  Likes</div>
                         </div>
                       </li>
@@ -164,9 +164,9 @@
                         %>   
 
                           <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                            <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.id) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
+                            <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.username) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
                             <div class="pull-left">
-                              <h3><a href='<%= artist_profile_path(value.user.id) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
+                              <h3><a href='<%= artist_profile_path(value.user.username) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
                               <!-- <div class="appr-txt"><%#= value.user.like_count %>  comments</div> -->
                             </div>
                           </li>

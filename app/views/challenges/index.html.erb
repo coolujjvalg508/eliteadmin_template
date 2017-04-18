@@ -78,7 +78,7 @@
                     <ul>
 
                         <li class="col-md-3 col-sm-4 col-xs-12" dir-paginate="x in challenge_data | filter:search | itemsPerPage:10" pagination_id = "challenge" >
-                            <div class="challeng-indent clearfix"> <a href="/contest/{{x.result.id}}/show" class="viewchallengebtn">View Challenge</a>
+                            <div class="challeng-indent clearfix"> <a href="/contest/{{x.result.paramlink}}/show" class="viewchallengebtn">View Challenge</a>
                                 <div class="challenge-profile"><img lazy-img="<%= root_url %>{{ x.result.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height" style="width: 100%;" ></div>
                                 <div class="padding10 clearfix">
                                     <div class="challenge-title">{{x.result.title}}</div>
@@ -100,7 +100,7 @@
                                     </div>
                                  
                                     <div class="challenge-txt"><i class="fa fa-users marginR5" aria-hidden="true"></i> {{x.challenger_count}} challengers</div>
-                                    <button ng-click="redirect_to_show(x.result.id)" class="lightbtn marginR5"><i class="fa fa-arrow-right blue-txt marginR5" aria-hidden="true"></i> View</button>  
+                                    <button ng-click="redirect_to_show(x.result.paramlink)" class="lightbtn marginR5"><i class="fa fa-arrow-right blue-txt marginR5" aria-hidden="true"></i> View</button>  
                                    <!--  <button ng-click="redirect_to_join_challenge(x.id)" class="lightbtn marginL5"><i class="fa fa-arrow-right marginR5 blue-txt" aria-hidden="true"></i> My Submission</button> -->
                                 </div>
                             </div>

@@ -52,10 +52,10 @@
                               <li class="clearfix" dir-paginate="x in user_data|filter:search|itemsPerPage:10" >
 
                                 <div class="connect-following-profile pull-left">
-                                    <a href='/artist-profile/{{x.data.id}}'><img  lazy-img="<%= root_url %>{{ x.data.image.thumb.url }}" alt='User' class="img-responsive"></a></div>
+                                    <a href='/user-profile/{{x.data.username}}'><img  lazy-img="<%= root_url %>{{ x.data.image.thumb.url }}" alt='User' class="img-responsive"></a></div>
                                   
                                 <div class="connect-profile clearfix">
-                                  <div class="user-title"><a href='/artist-profile/{{x.data.id}}'>{{ x.data.firstname }} {{ x.data.lastname }}</a></div>
+                                  <div class="user-title"><a href='/user-profile/{{x.data.username}}'>{{ x.data.firstname }} {{ x.data.lastname }}</a></div>
                                   <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.data.professional_headline }}</div>
                                   <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i>  {{ x.data.city }}, {{ x.country_name.name }}</div>
                                   <button type="button" class="btn-default margin"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">{{ x.data.follow_count}}</span>

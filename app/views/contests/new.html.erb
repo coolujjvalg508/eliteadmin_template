@@ -293,7 +293,6 @@
 
                             <div class="form-group clearfix">
                                 <label>Challenge</label>
-
                                 <%= f.select(:challenge, options_for_select(Challenge.where("challenge_type_id != 0").order('created_at DESC').pluck(:title, :id), params[:contest].present? ? params[:contest][:challenge] : @contest[:challenge]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'challenge', multiple: true})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@contest,:challenge, "Challenge") %></span>
                             </div>

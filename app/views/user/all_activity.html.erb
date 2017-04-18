@@ -24,7 +24,7 @@
           <div class="clearfix marginB15 noti-comment">
             <div class="notileft"><%= image_tag(value.user_detail.image.user_activity.url :alt => "Notification") %></div>
             <div class="notiright">
-              <div class="marginB10 paddinT10"><span class="blue-txt"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </span> has <%= value.activity_type %> <%= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='/dashboard/projects/<%= value.gallery.paramlink %>/show'><%= value.gallery.present? ? value.gallery.title : '' %></a></span>.</div>
+              <div class="marginB10 paddinT10"><span class="blue-txt"><a href="<%= artist_profile_path (value.user_detail.username) %>"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </a></span> has <%= value.activity_type %> <%= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='/dashboard/projects/<%= value.gallery.paramlink %>/show'><%= value.gallery.present? ? value.gallery.title : '' %></a></span>.</div>
             </div>
           </div>
           <div class="notification-profile clearfix">
@@ -33,7 +33,7 @@
           <div class="activity-profile clearfix"> <span class="pull-left marginR5">
 			  
         <%= image_tag(value.artist_detail.image.user_activity.url, :alt => "Activity Profile",:class=>"img-responsive") %></span> <span class="pull-left marginL5 paddinT5">
-            <div class="blue-txt"><%= value.artist_detail.present? ? value.artist_detail.firstname+" "+value.artist_detail.lastname : '' %> </div>
+            <div class="blue-txt"><a href="<%= artist_profile_path (value.artist_detail.username) %>"><%= value.artist_detail.present? ? value.artist_detail.firstname+" "+value.artist_detail.lastname : '' %> </a></div>
            <%= value.artist_detail.professional_headline %> </span> </div>
          <!--  <div class="desert-title">Desert worker speedmodel</div> -->
           <div class="activity-txt">
@@ -99,6 +99,7 @@
               <button id='post_comments_submit_<%= value.gallery.id %>' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
             </div>
           </div>
+           <div id="commentslist_dev"></div>
         </div>
        <% end
         end
@@ -190,7 +191,7 @@
 <script type='text/javascript'>
   $(document).ready(function(){
 
-      $('[id^= post_like_button_],[id^= post_dislike_button_]').on('click',function(){
+       $('[id^= post_like_button_],[id^= post_dislike_button_]').on('click',function(){
         
             gallery_id_and_user_id  = $(this).attr('id').replace('post_like_button_','');
             gallery_id_and_user_id  = gallery_id_and_user_id.replace('post_dislike_button_','');

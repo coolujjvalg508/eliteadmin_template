@@ -7,9 +7,9 @@ class ChallengesController < ApplicationController
     end   
 
     def show
-    	#abort(params.to_json)
-    	@challenge_id    = params[:id]	
-    	@challenge_data = Challenge.where("id = ?",@challenge_id).first
+      @challenge_id    = params[:id]  
+    #	abort(@challenge_id.to_json)
+    	@challenge_data = Challenge.where("paramlink = ?",@challenge_id).first
 
       if @challenge_data.present?
           @countres       = get_challengers_count(@challenge_data.id);

@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   get 'user/dashboard'                    => 'user#dashboard', as: 'dashboard' 
   get 'user/get_stats'                    => 'user#get_stats', as: 'get_stats' 
-  get 'user/user_stats/:id'               => 'user#user_stats', as: 'user_stats' 
+  get 'user/user-stats/:id'               => 'user#user_stats', as: 'user_stats' 
   
   get 'user/index'
   get 'user/add'
@@ -201,7 +201,7 @@ Rails.application.routes.draw do
   get 'downloads'=> 'gallery#download'
 
 
-  get 'artist-profile/:id' => 'user#artist_profile', as: 'artist_profile' 
+  get 'user-profile/:id' => 'user#artist_profile', as: 'artist_profile' 
   
   
   namespace :admin do

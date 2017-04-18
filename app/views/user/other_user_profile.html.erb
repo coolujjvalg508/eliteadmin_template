@@ -125,9 +125,9 @@
         <div class="container">
           <div class="navbar-artist-profile clearfix">
             <ul class="nav navbar-nav">
-              <li class=""> <a href="<%= artist_profile_path(@artist_data.id) %>">Portfolio </a></li>
-              <li class="dropdown ng-scope active"> <a href="<%= user_profile_info_path(@artist_data.id) %>">About <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a> </li>
-              <li> <a href="<%= user_stats_path(@artist_data.id) %>">Stats</a> </li>
+              <li class=""> <a href="<%= artist_profile_path(@artist_data.username) %>">Portfolio </a></li>
+              <li class="dropdown ng-scope active"> <a href="<%= user_profile_info_path(@artist_data.username) %>">About <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a> </li>
+              <li> <a href="<%= user_stats_path(@artist_data.username) %>">Stats</a> </li>
              <!--  <li> <a href="javascript:void(0);"> Following <span class="counter-number ng-binding">(<%= res[:following] %>)</span> </a> </li>
                <li> <a href="javascript:void(0);"> Followers<span class="counter-number ng-binding">(<%#= @artist_data.follow_count %>)</span> </a> </li> -->
              <!--  <li> <a href="javascript:void(0);"> Likes<span class="counter-number ng-binding">(<%#= res[:like] %>)</span> </a> </li> -->

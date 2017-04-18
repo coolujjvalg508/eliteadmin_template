@@ -129,9 +129,9 @@
 <div class="container">
   <div class="navbar-artist-profile clearfix">
     <ul class="nav navbar-nav">
-      <li> <a href="<%= artist_profile_path(@artist_data.id) %>">Portfolio</a></li>
-      <li> <a href="<%= user_profile_info_path(@artist_data.id) %>">About</a> </li>
-      <li  class="dropdown ng-scope active"> <a href="<%= user_stats_path(@artist_data.id) %>">Stats <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a> </li>
+      <li> <a href="<%= artist_profile_path(@artist_data.username) %>">Portfolio</a></li>
+      <li> <a href="<%= user_profile_info_path(@artist_data.username) %>">About</a> </li>
+      <li  class="dropdown ng-scope active"> <a href="<%= user_stats_path(@artist_data.username) %>">Stats <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a> </li>
      <!--  <li> <a href="javascript:void(0);"> Following <span class="counter-number ng-binding">(<%= res[:following] %>)</span> </a> </li>
        <li> <a href="javascript:void(0);"> Followers<span class="counter-number ng-binding">(<%#= @artist_data.follow_count %>)</span> </a> </li> -->
      <!--  <li> <a href="javascript:void(0);"> Likes<span class="counter-number ng-binding">(<%#= res[:like] %>)</span> </a> </li> -->
@@ -262,9 +262,9 @@
                     %>   
 
                       <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                        <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.id) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
+                        <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.username) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
                         <div class="pull-left">
-                          <h3><a href='<%= artist_profile_path(value.user.id) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
+                          <h3><a href='<%= artist_profile_path(value.user.username) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
                           <div class="appr-txt"><%= value.user.like_count %>  Likes</div>
                         </div>
                       </li>
@@ -294,9 +294,9 @@
                         %>   
 
                           <li class="col-md-6 col-xs-12 col-sm-12 marginB10">
-                            <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.id) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
+                            <div class="user-stat-pic pull-left"><a href='<%= artist_profile_path(value.user.username) %>'><img src="<%= value.user.image.user_activity.url %>" width="51" height="51" alt="User"></a></div>
                             <div class="pull-left">
-                              <h3><a href='<%= artist_profile_path(value.user.id) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
+                              <h3><a href='<%= artist_profile_path(value.user.username) %>'><%= value.user.firstname %> <%= value.user.lastname %></a></h3>
                               <!-- <div class="appr-txt"><%#= value.user.like_count %>  comments</div> -->
                             </div>
                           </li>

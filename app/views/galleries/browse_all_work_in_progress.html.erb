@@ -24,7 +24,7 @@
 
         <select class="custom-select" ng-change="searchByPostType(selected)" ng-model='selected'>
             <option value="" selected="selected" >Select</option>
-            <option value="0" class="post-type-link"  id="post-type-link-0" selected="selected" >All</option>
+            <option value="0" class="post-type-link"  id="post-type-link-0" selected="selected" >Gallery</option>
             <option value="1" class="post-type-link"  id="post-type-link-1">Artwork</option>
             <option value="2" class="post-type-link"  id="post-type-link-2">Video</option>
             <option value="3" class="post-type-link"  id="post-type-link-3">WIP</option>
@@ -54,7 +54,7 @@
           <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
           </a>
           <ul class="dropdown-menu">
-              <li><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >All</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(0)" class="post-type-link"  id="post-type-link-0" >Gallery</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
               <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>

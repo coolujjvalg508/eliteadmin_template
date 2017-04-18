@@ -256,7 +256,11 @@
     </ul>
   </div>
 </div> -->
-<div class="wipreplyleft"><%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %></div>
+<div class="wipreplyleft">
+<% if user_signed_in? %>
+    <%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %>
+<% end %>    
+</div>
 <div class="wipreplyright clearfix">
 <!--   <div class="wipreply-title marginB5">Henrik Evensen</div>
   <div class="wiptxtcom">Freelance Illustrator & CG - Artist</div>
@@ -283,7 +287,7 @@
   </div>
 </div> -->
 <div id ='commentslist_dev'></div>
-<!-- <div class="wipreplyleft"><%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %></div>
+<!-- <div class="wipreplyleft"><%#= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %></div>
 <div class="wipreplyright clearfix">
   <div class="wipreply-title marginB5">Henrik Evensen</div>
   <div class="wiptxtcom">Freelance Illustrator & CG - Artist</div>
@@ -397,6 +401,11 @@
 </section>
 <%= javascript_include_tag "pgwslideshow" %>
 <script>
+var app = angular.module('myApp',[]);
+    app.controller('galleryCtrl', function($scope, $http) {
+
+});
+
 $(document).ready(function() {
     $('.pgwSlideshow').pgwSlideshow();
     $.ajax({
@@ -543,17 +552,25 @@ $(document).ready(function() {
     });
 
 
-         $.ajax({
-        type: "get",
-        url: "<%= get_comment_path %>" ,
-        data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
-        success: function(data){
-          $('#commentslist_dev').html(data.data);
-        }
-    }); 
+});
+
+</script>
+
+<% if user_signed_in? %>
+
+<script>
+  $(document).ready(function(){
+
+      $.ajax({
+          type: "get",
+          url: "<%= get_comment_path %>" ,
+          data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
+          success: function(data){
+            $('#commentslist_dev').html(data.data);
+          }
+      }); 
 
 
-    
       $('[id^= post_comments_submit_]').on('click',function(){
 
           gallery_id = $(this).attr('id').replace('post_comments_submit_','');
@@ -587,6 +604,9 @@ $(document).ready(function() {
       });
 
 
-});
+  });
 
 </script>
+
+
+<% end %>  

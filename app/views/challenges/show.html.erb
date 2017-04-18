@@ -1,13 +1,13 @@
 <!-- Join The Challange Page Start --> 
 <section class="challengewrap clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
   <div class="container">
-    <h2>ACCEPT THE CHALLENGE!</h2>
+    <h2><%= @challenge_data.title.present? ? @challenge_data.title : '' %></h2>
     <div class="chanllenge-newtxt">Brought to you by <span class="blue-txt"><%= @challenge_data.hosts.present? ? @challenge_data.hosts : '' %></span></div>
     <div class="chanl-indent clearfix">
       <div class="row">
         <div class="col-md-8 col-sm-8 col-xs-12">
             <%= image_tag(@challenge_data.company_logo.challenge_view.url, :alt => "Challenges",:class=>"img-responsive") %>
-          <div class="thu-txt"><%= @challenge_data.title.present? ? @challenge_data.title : '' %></div>
+          <div class="thu-txt"><%= @challenge_data.description.present? ? @challenge_data.description.html_safe : '' %></div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="challenge-count"><%=  @countres %><span class="txt15">Challengers</span></div>

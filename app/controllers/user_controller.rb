@@ -1,14 +1,14 @@
 class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
-    before_action :authenticate_user!, only: [:dashboard, :bookmark, :edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
+    before_action :authenticate_user!, only: [:notification, :dashboard, :bookmark, :edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
  
 
     def dashboard
        
-        @like_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:like_count)
-        @view_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:view_count)
-        @comment_count          =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:comment_count)
-        @user_view_count        =  User.where("id = ? AND is_deleted = ?", current_user.id,0).sum(:view_count)
+        @like_count =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:like_count)
+        @view_count =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:view_count)
+        @comment_count =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:comment_count)
+        @user_view_count =  User.where("id = ? AND is_deleted = ?", current_user.id,0).sum(:view_count)
 
 
         
@@ -26,16 +26,17 @@ class UserController < ApplicationController
 
         artist_id   = params[:id]
 
-        @artist_data            =  User.where("id = ? AND is_deleted = ?", artist_id,0).first
-        @like_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', artist_id, 1).sum(:like_count)
-        @view_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', artist_id, 1).sum(:view_count)
-        @comment_count          =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', artist_id, 1).sum(:comment_count)
-        @user_view_count        =  User.where("id = ? AND is_deleted = ?", artist_id,0).sum(:view_count)
+        @artist_data            =  User.where("username = ? AND is_deleted = ?", artist_id,0).first
+       
+        @like_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:like_count)
+        @view_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:view_count)
+        @comment_count          =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:comment_count)
+        @user_view_count        =  User.where("id = ? AND is_deleted = ?", @artist_data.id,0).sum(:view_count)
 
         
-        @allpostlikerecords      =   PostLike.where(artist_id: artist_id).order('id desc').limit(6)
+        @allpostlikerecords      =   PostLike.where(artist_id: @artist_data.id).order('id desc').limit(6)
 
-        allgalleryrecords        =   Gallery.where('is_trash = ? AND is_admin=? AND user_id=? AND status=?',0,'N',artist_id,1).order('id desc').limit(6).pluck(:id)
+        allgalleryrecords        =   Gallery.where('is_trash = ? AND is_admin=? AND user_id=? AND status=?',0,'N',@artist_data.id,1).order('id desc').limit(6).pluck(:id)
 
         @allpostcommentrecords  =   PostComment.where(post_id: allgalleryrecords).order('id desc').limit(6)
 
@@ -105,6 +106,10 @@ class UserController < ApplicationController
     end
 
     def notification
+
+        @notification_data = Notification.where(artist_id: current_user.id).order('id DESC').page(params[:page]).per(10)
+
+        #abort(@notification_data.to_json)
     end
 
     def browse_all_artist
@@ -248,12 +253,12 @@ class UserController < ApplicationController
                 education_experiences.each_with_index do |d, index| 
 
                     EducationExperience.create(
-                        user_id: current_user.id, 
-                        school_name: d[1]['school_name'], 
-                        field_of_study: d[1]['field_of_study'], 
-                        month_val: d[1]['month_val'], 
-                        year_val: d[1]['year_val'], 
-                        description: d[1]['description']
+                            user_id: current_user.id, 
+                            school_name: d[1]['school_name'], 
+                            field_of_study: d[1]['field_of_study'], 
+                            month_val: d[1]['month_val'], 
+                            year_val: d[1]['year_val'], 
+                            description: d[1]['description']
                     )
 
                 end
@@ -339,6 +344,7 @@ class UserController < ApplicationController
 
     def user_profile_info
 
+
         @professional_experiences = ProfessionalExperience.where('user_id = ? ', current_user)
         @education_experiences = EducationExperience.where('user_id = ? ', current_user)
         @production_experiences = ProductionExperience.where('user_id = ? ', current_user)
@@ -349,11 +355,11 @@ class UserController < ApplicationController
         #abort(params.to_json)
         artist_id           =    params[:id]
        # abort(params.to_json)
-        @artist_data        =    User.where("id = ?",artist_id).first
+        @artist_data        =    User.where("username = ?",artist_id).first
        # abort( @artist_data.to_json)
-        @professional_experiences = ProfessionalExperience.where('user_id = ? ', artist_id)
-        @education_experiences = EducationExperience.where('user_id = ? ', artist_id)
-        @production_experiences = ProductionExperience.where('user_id = ? ', artist_id)
+        @professional_experiences = ProfessionalExperience.where('user_id = ? ',  @artist_data.id)
+        @education_experiences = EducationExperience.where('user_id = ? ', @artist_data.id)
+        @production_experiences = ProductionExperience.where('user_id = ? ', @artist_data.id)
 
     end
 
@@ -477,7 +483,7 @@ class UserController < ApplicationController
     def artist_profile
 
         artist_id         =   params[:id]
-        @artist_data      =   User.where("id = ?",artist_id).first
+        @artist_data      =   User.where("username = ?",artist_id).first
 
  
     end    

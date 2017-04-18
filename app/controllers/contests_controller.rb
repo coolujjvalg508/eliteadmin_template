@@ -104,7 +104,7 @@ class ContestsController < ApplicationController
         slugVal 		= create_slug(title)
         final_slug 		= check_slug_available(slugVal, slugVal, 0, contest_id = params[:id])
      
-
+       # abort(params.to_json)
         params['contest']['paramlink'] = final_slug
 
         @contest = Contest.find_by(id: params[:id])
