@@ -68,7 +68,6 @@
 		    		</span>
 	    		<% end %>
 	     </a>
-	    
 			<ul class="dropdown-menu  text-uppercase" style="width:325px">
 			<% 
 				if result_notification[0].present?
@@ -84,7 +83,7 @@
 			  <li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %></i><%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <br/><%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
 
 			  <% end 
-			  	
+			  		end
 			   %>
 			<% end %>
 			  <!-- <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Advertise</a></li>
@@ -92,7 +91,7 @@
 			  <li style="text-align:center"><a href="<%= user_notification_path %>"></i> See all</a></li>
 			 		  
 			</ul>
-		<% end %>	
+			
 		</li>
 
 
@@ -251,8 +250,8 @@
                      	}   	
                     }
                 });		
-		});
 
+		});	
 	});
 
 </script>
