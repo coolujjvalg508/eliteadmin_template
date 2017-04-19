@@ -76,7 +76,7 @@ Rails.application.routes.draw do
   get 'tutorial/tutorial_category/:id'=> 'tutorial#tutorial_category', as: 'tutorial_category'
   get 'tutorial/tutorial_all_category'
 
-  get 'message' => 'user#message', as: 'message'
+  get 'message' => 'messages#index', as: 'message'
   
   get 'store/index'
 
@@ -201,7 +201,8 @@ Rails.application.routes.draw do
   get 'downloads'=> 'gallery#download'
 
 
-  get 'user-profile/:id' => 'user#artist_profile', as: 'artist_profile' 
+  get 'user-profile/:id'         => 'user#artist_profile', as: 'artist_profile' 
+  get 'update_read_notification' => 'user#update_read_notification', as: 'update_read_notification' 
   
   
   namespace :admin do

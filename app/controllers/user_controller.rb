@@ -106,11 +106,18 @@ class UserController < ApplicationController
     end
 
     def notification
-
         @notification_data = Notification.where(artist_id: current_user.id).order('id DESC').page(params[:page]).per(10)
-
-        #abort(@notification_data.to_json)
     end
+
+
+    def update_read_notification
+
+            current_login_user = current_user.id
+            Notification.where("artist_id = ? ", current_login_user).update_all(:is_read => 1)
+            render :json => {'message': 'success','result':1}, status: 200 
+    end    
+
+
 
     def browse_all_artist
     end

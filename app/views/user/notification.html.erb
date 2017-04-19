@@ -44,11 +44,8 @@
                       <div class="marginB10"><span class="blue-txt"><a href="<%= artist_profile_path (notification.user.username) %>"><%= notification.user.firstname %> <%= notification.user.lastname %></a></span> has commented on post <span class="blue-txt"><a href="/dashboard/projects/<%= notification.gallery.paramlink %>/show"><%= notification.gallery.title %></a></span>.</div>
                       <div><em class="txt12"><%= time_ago_in_words(notification.created_at) %> ago</em></div>
                       <% end %>
-
                     </div>
                   </div>
-
-
                   <% if notification.notification_type=='like' ||  notification.notification_type=='comment' %>
                     <div class="notification-profile clearfix"><%= image_tag(notification.gallery.company_logo.art_activity.url, :class=>"img-responsive", :alt => "Notification") %>
         			        </div>

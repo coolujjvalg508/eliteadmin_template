@@ -182,6 +182,17 @@ module ApplicationHelper
          res 			  =	{'follower':follower, 'following':following, 'like':like, 'myartworklike':myartworklike} 
          return res
 	end
+
+	def notification_data
+
+		final_data = []
+		notification_list  = Notification.where(artist_id: current_user.id).order('id desc').limit(5)
+		notification_count = Notification.where(artist_id: current_user.id, is_read: 0).count
+		final_data[0] 	   = notification_list
+		final_data[1] 	   = notification_count
+		return final_data
+
+	end
 		
 
 end

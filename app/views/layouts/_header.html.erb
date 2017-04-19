@@ -42,22 +42,57 @@
 	 	 <a href="<%= create_gallery_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i> Upload</a>
 	<% end %>  
 
-		<!-- <button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button> -->
-<!-- 		<ul class="dropdown-menu">
+	<!--  <button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button>
+		<ul class="dropdown-menu">
 		  <li><a href="#">Action</a></li>
 		  <li><a href="#">Another action</a></li>
 		  <li><a href="#">Something else here</a></li>
 		  <li role="separator" class="divider"></li>
 		  <li><a href="#">Separated link</a></li>
-		</ul> -->
-	  </li>
+		</ul>
+	  </li> -->
 
 
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
 
-		<% if user_signed_in? %>
-          <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-bell fa-lg" aria-hidden="true"></i> <span class="noti-box">5</span></a></li>
+		<% if user_signed_in? 
+			result_notification = notification_data
+			noti_count  = result_notification[1].present? ? result_notification[1] : 0 
+		%>
+
+	    <li class="hidden-xs hidden-sm userprofile-rightside" ><a id="update_is_read_notipopup" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-bell fa-lg" aria-hidden="true" ></i>
+	    		<% if noti_count > 0 %>
+		    		<span class="noti-box" id="noti_read_count">
+		    			<%=  noti_count %> 	    			
+		    		</span>
+	    		<% end %>
+	     </a>
+			<ul class="dropdown-menu  text-uppercase" style="width:325px">
+			<% 
+				if result_notification[0].present?
+				result_notification[0].each do |notification_detail|
+			%>
+			 <% if notification_detail.notification_type == 'like' %>
+			  <li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
+
+			  <% elsif notification_detail.notification_type == 'follow user' %>
+			  <li><a href="<%= artist_profile_path(notification_detail.user.username) %>"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %><%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has started following you</a></li>
+
+			  <% elsif notification_detail.notification_type == 'comment' %>
+			  <li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %></i><%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <br/><%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
+
+			  <% end 
+			  		end
+			   %>
+			<% end %>
+			  <!-- <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Advertise</a></li>
+			  <li class="divider"></li> -->
+			  <li style="text-align:center"><a href="<%= user_notification_path %>"></i> See all</a></li>
+			 		  
+			</ul>
+		</li>
+
           <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> <span class="noti-box">25</span></a></li>
           <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
           <li class="profile hidden-sm text-center"><a href="#" class="dropdown-toggle padding" data-toggle="dropdown" ><span class="hidden-xs"> <span class="pull-left">
@@ -134,7 +169,7 @@
 		<div class="modal-body">	
 
 		  <div class="col-md-12 signin-alert err-msg padding text-center"></div>	
-<%= form_for(resource, :as => resource_name, :html => {:id => 'log_in_form_popup'}, :url => user_session_path, :remote => :true, :format => :json) do |f| %>
+		<%= form_for(resource, :as => resource_name, :html => {:id => 'log_in_form_popup'}, :url => user_session_path, :remote => :true, :format => :json) do |f| %>
 		  <div class="form-group">
 			<label for="email">Your email</label>
 			<%= f.email_field :email, :autofocus => true, :placeholder => "email", :id => 'login_email', class:"form-control", :type => 'email' %>
@@ -193,8 +228,29 @@
 				$('.signin-alert').html('');
 				$('.signin-alert').hide();
 			});
+
 		});
 				
 	</script>
+<% else %>
+
+<script>
+	$(document).ready(function(){
+
+		$('#update_is_read_notipopup').on('click',function(){
+				$.ajax({
+                    type: "get",
+                    url: "<%= update_read_notification_path %>" ,
+                    success: function(data){
+                     	if(data.result == 1){
+                     		$('#noti_read_count').hide();
+                     	}   	
+                    }
+                });		
+
+		});	
+	});
+
+</script>
 
 <% end %>	
