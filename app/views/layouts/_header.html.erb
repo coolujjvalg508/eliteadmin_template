@@ -68,6 +68,7 @@
 		    		</span>
 	    		<% end %>
 	     </a>
+	     <% if noti_count > 0 %>
 			<ul class="dropdown-menu  text-uppercase" style="width:325px">
 			<% 
 				if result_notification[0].present?
@@ -91,7 +92,10 @@
 			  <li style="text-align:center"><a href="<%= user_notification_path %>"></i> See all</a></li>
 			 		  
 			</ul>
+		<% end %>	
 		</li>
+
+
 
           <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> <span class="noti-box">25</span></a></li>
           <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
