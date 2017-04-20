@@ -797,7 +797,7 @@ class GalleriesController < ApplicationController
 
       # abort(artist_id.to_json)
 
-        conditions = "is_trash=0 AND user_id =" + artist_id + " AND is_admin = 'N'"
+        conditions = "is_trash=0 AND user_id =" + artist_id.to_s + " AND is_admin = 'N'"
          
         if(params[:post_type_category_id] != '0')
             if(params[:post_type_category_id] && params[:post_type_category_id] != '')

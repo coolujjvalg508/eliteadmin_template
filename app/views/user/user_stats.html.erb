@@ -96,7 +96,7 @@
             </li>
 
             <li class="ng-scope">
-              <a href="<%= message_path %>" class="btn btn-success btn-sm"><i class="fa fa-pad-right fa-envelope"></i>Message</a>
+              <a href="javascript:void(0);" id="message_button" class="btn btn-success btn-sm"><i class="fa fa-pad-right fa-envelope"></i>Message</a>
 
               <!-- <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button> -->
             </li>
@@ -424,3 +424,94 @@
   // main page angular app end
 
 </script>
+
+<% if user_signed_in? %>
+
+<script type="text/javascript">
+  var Config = {
+    
+      'LOGGINED_USER_LOGIN': "<%=  current_user.email %>",
+      'LOGGINED_USER_ID': "<%=  current_user.qb_id %>",
+      'LOGGINED_USER_PASS': "<%=  current_user.qb_password %>",
+      'LOGGINED_FULL_NAME': "<%=  current_user.username %>",
+
+    };          
+</script>
+<%= javascript_include_tag "quickblox/quickblox.min","quickblox/jquery.nicescroll.min","quickblox/config","quickblox/main" %>
+<script type="text/javascript">  
+ 
+ function create_current_user_quickblox(current_user_qb_id, current_user_qb_password){
+       
+            if(current_user_qb_id == '' || current_user_qb_password == ''){
+                 
+                  random_password = "<%=  rand(11111111..99999999).to_s %>";
+                  var params = { login: "<%=  current_user.email %>", password:  random_password , email: "<%=  current_user.email %>", full_name: "<%=  current_user.username %>" };
+                  QB.createSession(function (err, result) {
+                     QB.users.create(params, function (err, result1) {
+                          
+                          if(result1){
+                               $.ajax({
+                                    url: "/save_qb_data",
+                                    data: {qb_id:result1.id, qb_password: random_password  ,user_id: "<%=  current_user.id %>"},
+                                    type:'post', 
+                                    success: function(r){
+                                       return true;
+                                    }
+                                });
+                          }
+                       });
+                  });   
+            }       
+       }
+
+
+  function create_other_user_quickblox(other_user_qb_id, other_user_qb_password){
+       
+          if(other_user_qb_id == '' || other_user_qb_password == ''){
+                  
+                  random_password = "<%=  rand(11111111..99999999).to_s %>";
+                  var params = { login: "<%=  @artist_data.email %>", password:  random_password , email: "<%=  @artist_data.email %>", full_name: "<%=  @artist_data.username %>" };
+
+                  QB.createSession(function (err, result) {
+                    QB.users.create(params, function (err, result1) {
+                          
+                          if(result1){
+                             $.ajax({
+                                    url: "/save_qb_data",
+                                    data: {qb_id:result1.id, qb_password: random_password  ,user_id: "<%=  @artist_data.id %>"},
+                                    type:'post', 
+                                    success: function(r){
+                                      return true;
+                                    }
+                                });
+
+                          }
+                         
+                       
+                       });
+                  });   
+          }
+
+    }
+
+  $(document).ready(function(){
+
+      $('#message_button').on('click',function(){
+
+             current_user_qb_id        = "<%=  current_user.qb_id  %>";
+             current_user_qb_password  = "<%=  current_user.qb_password  %>";
+
+             other_user_qb_id          = "<%=  @artist_data.qb_id  %>";
+             other_user_qb_password    = "<%=  @artist_data.qb_password  %>";
+
+             res  =  create_current_user_quickblox(current_user_qb_id, current_user_qb_password);
+             res1 =  create_other_user_quickblox(other_user_qb_id, other_user_qb_password);
+             setTimeout(function(){ window.location.href = "<%= message_path %>"; }, 4000); 
+  
+             
+     });
+
+  });   
+</script>
+
+<% end %>

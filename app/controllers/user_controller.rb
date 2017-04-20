@@ -1,6 +1,6 @@
 class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
-    before_action :authenticate_user!, only: [:notification, :dashboard, :bookmark, :edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
+    before_action :authenticate_user!, only: [:save_qb_data, :notification, :dashboard, :bookmark, :edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
  
 
     def dashboard
@@ -116,6 +116,14 @@ class UserController < ApplicationController
             Notification.where("artist_id = ? ", current_login_user).update_all(:is_read => 1)
             render :json => {'message': 'success','result':1}, status: 200 
     end    
+
+    def save_qb_data
+        @user = User.find_by(id: params[:user_id]) 
+        @user.update(qb_id: params[:qb_id],qb_password: params[:qb_password])
+        render json: {message: 'ok',status: '200'}
+    end
+    
+    
 
 
 

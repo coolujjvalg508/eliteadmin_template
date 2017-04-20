@@ -203,6 +203,8 @@ Rails.application.routes.draw do
 
   get 'user-profile/:id'         => 'user#artist_profile', as: 'artist_profile' 
   get 'update_read_notification' => 'user#update_read_notification', as: 'update_read_notification' 
+
+  post 'save_qb_data' => 'user#save_qb_data'
   
   
   namespace :admin do

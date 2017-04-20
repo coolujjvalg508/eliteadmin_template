@@ -32,6 +32,16 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w( select2.css )
  Rails.application.config.assets.precompile += %w( ng-img-crop.css )
  Rails.application.config.assets.precompile += %w( cropper.css )
+ Rails.application.config.assets.precompile += %w(quickblox/quickblox.min)
+ Rails.application.config.assets.precompile += %w(quickblox/jquery.nicescroll.min.js)
+ Rails.application.config.assets.precompile += %w(quickblox/config.js)
+ Rails.application.config.assets.precompile += %w(quickblox/main.js)
+ Rails.application.config.assets.precompile += %w(quickblox/connection.js)
+ Rails.application.config.assets.precompile += %w(quickblox/messages.js)
+ Rails.application.config.assets.precompile += %w(quickblox/ui_helpers.js)
+ Rails.application.config.assets.precompile += %w(quickblox/dialogs.js)
+ Rails.application.config.assets.precompile += %w(quickblox/users.js)
+ Rails.application.config.assets.precompile += %w(jquery.timeago.min.js)
 
  
 
