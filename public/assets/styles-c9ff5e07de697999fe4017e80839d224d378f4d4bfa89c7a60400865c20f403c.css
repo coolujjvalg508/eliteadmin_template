@@ -9234,3 +9234,18 @@ footer .copyright a {
   position: relative;
   left: 20%;
 }
+
+/* line 1391, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs > li > a:hover {
+  background-color: #303136 !important;
+  border-color: #303136 #303136 transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* line 1399, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.notification_popup_li {
+  float: left;
+  width: 30px;
+  margin-right: 6px;
+}
