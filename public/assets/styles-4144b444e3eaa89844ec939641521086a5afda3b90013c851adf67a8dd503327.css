@@ -9249,3 +9249,240 @@ footer .copyright a {
   width: 30px;
   margin-right: 6px;
 }
+
+/* line 1402, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.icon-photo {
+  background-image: url(/images/photo-btn.png);
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 0 0;
+  display: block;
+  opacity: 0.7;
+  height: 24px;
+  width: 24px;
+}
+
+/* line 1413, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.icon-sticker {
+  background-image: url(/assets/sticker-btn-a1c2ab440e8f3fd687020649b92d7feee85395a5ec4692921fe139cc46f707dc.png);
+  background-repeat: no-repeat;
+  background-size: 48px 24px;
+  background-position: 0 0;
+  display: block;
+  opacity: 0.7;
+  height: 24px;
+  width: 24px;
+}
+
+/* line 1424, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.icon-sticker.active {
+  background-position: -24px 0;
+  height: 24px;
+  width: 24px;
+}
+
+/* line 1430, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#attach_btn.btn,
+#stickers_btn.btn {
+  background: transparent !important;
+  border-radius: 0;
+  margin-right: 10px;
+  padding: 4px;
+  outline: none !important;
+}
+
+/* line 1439, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#message_text {
+  display: inline-block;
+  border-radius: 0px;
+  width: 100%;
+  box-shadow: none;
+}
+
+/* line 1446, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#message_text:focus {
+  box-shadow: none;
+  border: 1px solid #04B624;
+}
+
+/* line 1451, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#send_btn.btn {
+  border-radius: 0px;
+  margin-left: 10px;
+}
+
+/* line 1456, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#all_occupants {
+  margin-bottom: 25px;
+}
+
+/* line 1460, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.attachments.img-responsive {
+  max-width: 40%;
+}
+
+/* line 1464, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.round {
+  border-radius: 50px;
+}
+
+/* line 1468, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.list-group.pre-scrollable.for-scroll {
+  width: 100%;
+  max-height: 325px;
+  height: 325px;
+  border: 1px solid #DDD;
+  border-left: none;
+  margin-bottom: 0px !important;
+}
+
+/* line 1477, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.img-place {
+  width: 100%;
+  height: 30px;
+  padding: 10px;
+}
+
+/* line 1483, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#users_list {
+  width: 100%;
+}
+
+/* line 1487, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.users_form, .push_form {
+  height: auto;
+  text-align: center;
+  line-height: 100%;
+  border-left: 1px solid #DDD;
+  border-bottom: 1px solid #DDD;
+  padding: 10px;
+}
+
+/* line 1496, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+a.users_form.active, a.push_form.active {
+  text-decoration: none;
+  color: #fff;
+  background-color: #337ab7;
+}
+
+/* line 1502, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#load-users {
+  width: 20%;
+  height: 10px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* line 1509, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#dlg_name {
+  display: none;
+  border-radius: 0px;
+  box-shadow: none;
+  margin-bottom: 10px;
+}
+
+/* line 1516, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#dlg_name:focus {
+  box-shadow: none;
+  border: 1px solid #04B624;
+}
+
+/* line 1521, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.list-group-item h4 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* line 1527, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.load-msg {
+  width: 15%;
+  height: 6px;
+  z-index: 99;
+  position: absolute;
+  top: 1%;
+  left: 42.5%;
+  display: none;
+}
+
+/* line 1537, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+#push_usersList {
+  width: 100%;
+  max-height: 150px;
+  height: 150px;
+  border: 1px solid #DDD;
+  border-left: none;
+  margin-bottom: 10px !important;
+}
+
+/* line 1546, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.push {
+  height: auto;
+  text-align: center;
+  line-height: 100%;
+  padding: 5px;
+}
+
+/* line 1553, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+a.pull_push.active {
+  text-decoration: none;
+  color: #fff;
+  background-color: #337ab7;
+}
+
+/* line 1559, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.new-info {
+  margin-bottom: 10px;
+}
+
+/* line 1563, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.pullorpush {
+  text-align: center;
+}
+
+/* line 1567, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.btn-block.for_width {
+  width: 49.5%;
+  display: inline;
+}
+
+/* line 1572, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.container.del-style {
+  width: 100%;
+  padding: 0;
+}
+
+/* line 1577, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.icon-small {
+  position: absolute;
+  right: 15px;
+  top: 30px;
+  display: none;
+}
+
+/* line 1584, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.emoji {
+  height: 1.5em;
+  margin: 0 .2em;
+  width: 1.5em;
+}
+
+/* line 1590, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.sp-modal-overlay {
+  z-index: 1000000;
+}
+
+/* line 1594, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.sp-modal {
+  z-index: 1000005;
+}
+
+/* line 1598, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+.visibility_hidden {
+  visibility: hidden;
+}
+
+/* line 1602, /home/ubuntu/ror/cgmeetup/app/assets/stylesheets/styles.css.scss */
+iframe::-webkit-scrollbar {
+  width: 0;
+}

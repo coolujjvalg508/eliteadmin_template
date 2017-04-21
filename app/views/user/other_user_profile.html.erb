@@ -567,7 +567,7 @@
 
              res  =  create_current_user_quickblox(current_user_qb_id, current_user_qb_password);
              res1 =  create_other_user_quickblox(other_user_qb_id, other_user_qb_password);
-             setTimeout(function(){ window.location.href = "<%= message_path %>"; }, 4000); 
+             setTimeout(function(){ window.location.href = "<%= message_path(@artist_data.username) %>"; }, 4000); 
   
              
      });

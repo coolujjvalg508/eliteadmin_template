@@ -19,7 +19,7 @@ function setupMsgScrollHandler() {
       if(dialogsMessages.length > 0){
         dateSent = dialogsMessages[0].date_sent;
       }
-     // retrieveChatMessages(currentDialog, dateSent);
+      retrieveChatMessages(currentDialog, dateSent);
     }
   });
 }
@@ -27,13 +27,11 @@ function setupMsgScrollHandler() {
 // on message listener
 //
 function onMessage(userId, msg) {
-
-  // check if it's a mesasges for current dialog
-  //
+  // check if it's a message for current dialog
   if (isMessageForCurrentDialog(userId, msg.dialog_id)){
     dialogsMessages.push(msg);
 
-    if (msg.markable === 1) {
+    if (msg.markable === 1 && userId != currentUser.id) {
       sendReadStatus(userId, msg.id, msg.dialog_id);
     }
 
@@ -63,39 +61,46 @@ function sendReadStatus(userId, messageId, dialogId) {
 }
 
 function onDeliveredStatusListener(messageId) {
-  $('#delivered_'+messageId).fadeIn(200);
+  showDeliveredСheckmark(messageId)
 }
 
 function onReadStatusListener(messageId) {
+  showReadСheckmark(messageId)
+}
+
+function showDeliveredСheckmark(messageId){
+  $('#read_'+messageId).fadeOut(100);
+  $('#delivered_'+messageId).fadeIn(200);
+}
+
+function showReadСheckmark(messageId){
   $('#delivered_'+messageId).fadeOut(100);
   $('#read_'+messageId).fadeIn(200);
 }
 
 function retrieveChatMessages(dialog, beforeDateSent){
-  // Load messages history
-  //
-  $(".load-msg").show(0);
+    // Load messages history
+    $(".load-msg").show(0);
 
-  var params = {chat_dialog_id: dialog._id,
-                     sort_desc: 'date_sent',
-                         limit: 10};
+    var params = {
+        chat_dialog_id: dialog._id,
+        sort_desc: 'date_sent',
+        limit: 10
+    };
 
-  // if we would like to load the previous history
-  if(beforeDateSent !== null){
-    params.date_sent = {lt: beforeDateSent};
-  }else{
-    currentDialog = dialog;
-    dialogsMessages = [];
-  }
+    // if we would like to load the previous history
+    if(beforeDateSent !== null){
+        params.date_sent = {lt: beforeDateSent};
+    } else {
+        currentDialog = dialog;
+        dialogsMessages = [];
+    }
 
-  QB.chat.message.list(params, function(err, messages) {
-    if (messages) {
-
-      console.log(messages);
-
-      if(messages.items.length === 0) {
-        $("#no-messages-label").removeClass('hide');
-      } else {
+    QB.chat.message.list(params, function(err, messages) {
+      if (messages) {
+        if(messages.items.length === 0) {
+          $("#no-messages-label").removeClass('hide');
+        } else {
         $("#no-messages-label").addClass('hide');
 
         messages.items.forEach(function(item, i, arr) {
@@ -127,11 +132,9 @@ function retrieveChatMessages(dialog, beforeDateSent){
 
           // Show delivered statuses
           if (item.read_ids.length > 1 && messageSenderId === currentUser.id) {
-            $('#delivered_'+messageId).fadeOut(100);
-            $('#read_'+messageId).fadeIn(200);
+            showReadСheckmark(messageId);
           } else if (item.delivered_ids.length > 1 && messageSenderId === currentUser.id) {
-            $('#delivered_'+messageId).fadeIn(100);
-            $('#read_'+messageId).fadeOut(200);
+            showDeliveredСheckmark(messageId);
           }
 
           if (i > 5) {$('#messages-list').scrollTop($('#messages-list').prop('scrollHeight'));}
@@ -148,73 +151,84 @@ function retrieveChatMessages(dialog, beforeDateSent){
 
 // sending messages after confirmation
 function clickSendMessage() {
-  var currentText = $('#message_text').val().trim();
-  if (currentText.length === 0){
-    return;
-  }
+    var currentText = $('#message_text').val().trim();
 
-  $('#message_text').val('').focus();
+    if (!currentText.length){
+        return;
+    }
 
-  sendMessage(currentText, null);
+    $('#message_text').val('').focus();
+
+    sendMessage(currentText, null);
 }
 
 function clickSendAttachments(inputFile) {
-  // upload image
-  QB.content.createAndUpload({name: inputFile.name, file: inputFile, type:
-        inputFile.type, size: inputFile.size, 'public': false}, function(err, response){
-    if (err) {
-      console.log(err);
-    } else {
-      $("#progress").fadeOut(400);
-      var uploadedFile = response;
+    QB.content.createAndUpload({
+        public: false,
+        file: inputFile,
+        name: inputFile.name,
+        type: inputFile.type,
+        size: inputFile.size
+    }, function(err, response){
+        if(err) {
+            console.error(err);
+        } else {
+            $("#progress").fadeOut(400, function() {
+                $(".input-group-btn_change_load").removeClass("visibility_hidden");
+            });
 
-      sendMessage("[attachment]", uploadedFile.id);
+            var uploadedFile = response;
 
-      $("input[type=file]").val('');
+            sendMessage("[attachment]", uploadedFile.id);
+
+            $("input[type=file]").val('');
     }
   });
 }
 
 // send text or attachment
 function sendMessage(text, attachmentFileId) {
-  var msg = {
-    type: currentDialog.type === 3 ? 'chat' : 'groupchat',
-    body: text,
-    extension: {
-      save_to_history: 1,
-    },
-    senderId: currentUser.id,
-    markable: 1
-  };
-  if(attachmentFileId !== null){
-    msg["extension"]["attachments"] = [{id: attachmentFileId, type: 'photo'}];
-  }
+    stickerpipe.onUserMessageSent(stickerpipe.isSticker(text));
 
-  if (currentDialog.type === 3) {
-    opponentId = QB.chat.helpers.getRecipientId(currentDialog.occupants_ids, currentUser.id);
-    QB.chat.send(opponentId, msg);
+    var msg = {
+        type: currentDialog.type === 3 ? 'chat' : 'groupchat',
+        body: text,
+        extension: {
+            save_to_history: 1,
+        },
+        markable: 1
+    };
 
-    $('.list-group-item.active .list-group-item-text').text(msg.body);
-
-    if(attachmentFileId === null){
-      showMessage(currentUser.id, msg);
-    } else {
-      showMessage(currentUser.id, msg, attachmentFileId);
+    if(attachmentFileId !== null){
+        msg['extension']['attachments'] = [{id: attachmentFileId, type: 'photo'}];
     }
-  } else {
-    QB.chat.send(currentDialog.xmpp_room_jid, msg);
-  }
 
-  // claer timer and send 'stop typing' status
-  clearTimeout(isTypingTimerId);
-  isTypingTimeoutCallback();
+    if (currentDialog.type === 3) {
+        opponentId = QB.chat.helpers.getRecipientId(currentDialog.occupants_ids, currentUser.id);
 
-  dialogsMessages.push(msg);
+        QB.chat.send(opponentId, msg);
+
+        $('.list-group-item.active .list-group-item-text')
+            .text(stickerpipe.isSticker(msg.body) ? 'Sticker' : msg.body);
+
+        if(attachmentFileId === null){
+            showMessage(currentUser.id, msg);
+        } else {
+            showMessage(currentUser.id, msg, attachmentFileId);
+        }
+    } else {
+        QB.chat.send(currentDialog.xmpp_room_jid, msg);
+    }
+
+    // claer timer and send 'stop typing' status
+    clearTimeout(isTypingTimerId);
+    isTypingTimeoutCallback();
+
+    dialogsMessages.push(msg);
 }
 
 // show messages in UI
 function showMessage(userId, msg, attachmentFileId) {
-  // add a message to list
   var userLogin = getUserLoginById(userId);
   var messageHtml = buildMessageHTML(msg.body, userLogin, new Date(), attachmentFileId, msg.id);
 
@@ -254,6 +268,14 @@ function setupIsTypingHandler() {
   });
 }
 
+function setupStreamManagementListeners(){
+    QB.chat.onSentMessageCallback = function(messageLost, messageSent){
+        console.group('onSentMessageCallback');
+            messageLost ? console.log('Message was lost', messageLost) : console.log('Message was sent successfully', messageSent)
+        console.groupEnd();
+    };
+}
+
 // delete timer and send 'stop typing' status
 function isTypingTimeoutCallback() {
   isTypingTimerId = undefined;
@@ -262,11 +284,11 @@ function isTypingTimeoutCallback() {
 
 // send 'is typing' status
 function sendTypingStatus() {
-  if (currentDialog.type == 3) {
-    QB.chat.sendIsTypingStatus(opponentId);
-  } else {
-    QB.chat.sendIsTypingStatus(currentDialog.xmpp_room_jid);
-  }
+    if (currentDialog.type == 3) {
+        QB.chat.sendIsTypingStatus(opponentId);
+    } else if(currentDialog && currentDialog.xmpp_room_jid) {
+        QB.chat.sendIsTypingStatus(currentDialog.xmpp_room_jid);
+    }
 }
 
 // send 'stop typing' status

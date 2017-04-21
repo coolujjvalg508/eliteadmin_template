@@ -193,6 +193,13 @@ module ApplicationHelper
 		return final_data
 
 	end
+
+	def get_artist_info(artist_username)
+
+		artist_data  = User.where(username: artist_username).first
+		return artist_data
+
+	end
 		
 
 end
