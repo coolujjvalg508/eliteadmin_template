@@ -139,227 +139,230 @@
                 </select>
               </div>
             </form>
-            <div class="clearfix emailwrap">
-              <h3 class="marginB15">Email Notifications</h3>
-              <div class="marginB15 lightbulb-txt"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> These settings control individual emails that will be sent to you when an event occurs.</div>
-              <div class="clearfix row">
-                <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
-                  <div class="panel-top"><i class="fa fa-envelope blue-txt" aria-hidden="true"></i> Email notifications on my activity</div>
-                  <div class="panel-indent clearfix">
-                    <div class="lightcolor marginB15">These notifications are to inform you when there is activity on your artwork, portfolio and comments. For the best experience, you probably want to leave these on.</div>
-                    <div class="white-txt marginB15">Email me:</div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="1" name="1"/>
-                      <label for="1" onclick>When someone likes my artwork</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="2" name="2"/>
-                      <label for="2" onclick>When someone comments on my artwork</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="3" name="3"/>
-                      <label for="3" onclick>When someone follows me</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="4" name="4"/>
-                      <label for="4" onclick>When someone likes my comment</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
-                  <div class="panel-top"><i class="fa fa-envelope blue-txt" aria-hidden="true"></i> Email notifications on other people's artwork</div>
-                  <div class="panel-indent clearfix">
-                    <div class="lightcolor marginB15">These notifications are to inform you when there is activity on other people's artwork, but that you follow or have participated in.</div>
-                    <div class="white-txt marginB15">Email me:</div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="5" name="5"/>
-                      <label for="5" onclick>When a user I'm following posts new artwork</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="6" name="6"/>
-                      <label for="6" onclick>When someone comments on artwork I've commented on</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="6" name="6"/>
-                      <label for="6" onclick>When someone replies to my comment on an artwork</label>
+            <%= form_for(@user_setting, url: notification_setting_path, html: { method: :post , :id => "edit_password_form"}) do |f| %>
+              <div class="clearfix emailwrap">
+                <h3 class="marginB15">Email Notifications</h3>
+                <div class="marginB15 lightbulb-txt"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> These settings control individual emails that will be sent to you when an event occurs.</div>
+                <div class="clearfix row">
+                  <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
+                    <div class="panel-top"><i class="fa fa-envelope blue-txt" aria-hidden="true"></i> Email notifications on my activity</div>
+                    <div class="panel-indent clearfix">
+                      <div class="lightcolor marginB15">These notifications are to inform you when there is activity on your artwork, portfolio and comments. For the best experience, you probably want to leave these on.</div>
+                      <div class="white-txt marginB15">Email me:</div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_like_myartwork, id:"emailnotify_like_myartwork", name:"emailnotify_like_myartwork" %>
+                        <label for="emailnotify_like_myartwork" onclick>When someone likes my artwork</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+
+                        <%= f.check_box :emailnotify_comment_myartwork, id:"emailnotify_comment_myartwork", name:"emailnotify_comment_myartwork" %>
+                        <label for="emailnotify_comment_myartwork" onclick>When someone comments on my artwork</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_followme, id:"emailnotify_followme", name:"emailnotify_followme" %>
+                        <label for="emailnotify_followme" onclick>When someone follows me</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_like_mycomment, id:"emailnotify_like_mycomment", name:"emailnotify_like_mycomment" %>
+                        <label for="emailnotify_like_mycomment" onclick>When someone likes my comment</label>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
-                  <div class="panel-top"><i class="fa fa-envelope blue-txt" aria-hidden="true"></i> Email notifications on challenges</div>
-                  <div class="panel-indent clearfix">
-                    <div class="lightcolor marginB15">These notifications are to inform you when there is activity on Artstation challenges.</div>
-                    <div class="white-txt marginB15">Email me:</div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="9" name="9"/>
-                      <label for="9" onclick>When there are updates on challenge submissions that I subscribe to</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="10" name="10"/>
-                      <label for="10" onclick>When someone likes my submission</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="11" name="11"/>
-                      <label for="11" onclick>When someone likes one of my submission update</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="12" name="12"/>
-                      <label for="12" onclick>When there are challenge announcements</label>
+                  <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
+                    <div class="panel-top"><i class="fa fa-envelope blue-txt" aria-hidden="true"></i> Email notifications on other people's artwork</div>
+                    <div class="panel-indent clearfix">
+                      <div class="lightcolor marginB15">These notifications are to inform you when there is activity on other people's artwork, but that you follow or have participated in.</div>
+                      <div class="white-txt marginB15">Email me:</div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_following_user_newartwork, id:"emailnotify_following_user_newartwork", name:"emailnotify_following_user_newartwork" %>
+                        <label for="emailnotify_following_user_newartwork" onclick>When a user I'm following posts new artwork</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_comment_on_mycommentedpost, id:"emailnotify_comment_on_mycommentedpost", name:"emailnotify_comment_on_mycommentedpost" %>
+                        <label for="emailnotify_comment_on_mycommentedpost" onclick>When someone comments on artwork I've commented on</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_reply_on_mycomment, id:"emailnotify_reply_on_mycomment", name:"emailnotify_reply_on_mycomment" %>
+                        <label for="emailnotify_reply_on_mycomment" onclick>When someone replies to my comment on an artwork</label>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
-                  <div class="panel-top"><i class="fa fa-envelope blue-txt" aria-hidden="true"></i> Email notifications on other people's artwork</div>
-                  <div class="panel-indent clearfix">
-                    <div class="lightcolor marginB15">These notifications are to inform you when there are new replies to discussions you are involved in.</div>
-                    <div class="white-txt marginB15">Email me:</div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="13" name="13"/>
-                      <label for="13" onclick>When there are new replies on challenge announcements</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="14" name="14"/>
-                      <label for="14" onclick>When there are new replies on challenge submission updates</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="15" name="15"/>
-                      <label for="15" onclick>When someone likes one of my replies to a discussion</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="16" name="16"/>
-                      <label for="16" onclick>When someone likes a challenge announcement that I posted</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="clearfix emailwrap">
-              <h3 class="marginB15">On-Site Notifications</h3>
-              <div class="marginB15 lightbulb-txt"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> These settings control what events will notify you on CGMeetup.net</div>
-              <div class="clearfix row">
-                <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
-                  <div class="panel-top"><i class="fa fa-bell blue-txt" aria-hidden="true"></i> On-site notifications on my activity</div>
-                  <div class="panel-indent clearfix">
-                    <div class="lightcolor marginB15">These notifications are to inform you when there is activity on your artwork, portfolio or comments. For the best experience, you probably want to leave these on.</div>
-                    <div class="white-txt marginB15">Notify me:</div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="17" name="17"/>
-                      <label for="17" onclick>When someone likes my artwork</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="18" name="18"/>
-                      <label for="18" onclick>When someone comments on my artwork</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="19" name="19"/>
-                      <label for="19" onclick>When someone follows me</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="20" name="20"/>
-                      <label for="20" onclick>When someone likes my comment</label>
+                  <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
+                    <div class="panel-top"><i class="fa fa-envelope blue-txt" aria-hidden="true"></i> Email notifications on challenges</div>
+                    <div class="panel-indent clearfix">
+                      <div class="lightcolor marginB15">These notifications are to inform you when there is activity on Artstation challenges.</div>
+                      <div class="white-txt marginB15">Email me:</div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_subcribed_challengesubmission, id:"emailnotify_subcribed_challengesubmission", name:"emailnotify_subcribed_challengesubmission" %>
+                        <label for="emailnotify_subcribed_challengesubmission" onclick>When there are updates on challenge submissions that I subscribe to</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_like_mysubmission, id:"emailnotify_like_mysubmission", name:"emailnotify_like_mysubmission" %>
+                        <label for="emailnotify_like_mysubmission" onclick>When someone likes my submission</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_like_mysubmissionupdate, id:"emailnotify_like_mysubmissionupdate", name:"emailnotify_like_mysubmissionupdate" %>
+                        <label for="emailnotify_like_mysubmissionupdate" onclick>When someone likes one of my submission update</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_challenge_announcements, id:"emailnotify_challenge_announcements", name:"emailnotify_challenge_announcements" %>
+                        <label for="emailnotify_challenge_announcements" onclick>When there are challenge announcements</label>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
-                  <div class="panel-top"><i class="fa fa-bell blue-txt" aria-hidden="true"></i> On-site notifications on other people's artwork</div>
-                  <div class="panel-indent clearfix">
-                    <div class="lightcolor marginB15">These notifications are to inform you when there is activity on other people's artwork, but that you follow or have participated in.</div>
-                    <div class="white-txt marginB15">Notify me:</div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="21" name="21"/>
-                      <label for="21" onclick>When a user I'm following posts new artwork</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="22" name="22"/>
-                      <label for="22" onclick>When someone comments on artwork I've commented on</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="23" name="23"/>
-                      <label for="23" onclick>When someone replies to my comment on an artwork</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
-                  <div class="panel-top"><i class="fa fa-bell blue-txt" aria-hidden="true"></i> On-site notifications on challenges</div>
-                  <div class="panel-indent clearfix">
-                    <div class="lightcolor marginB15">These notifications are to inform you when there is activity on Artstation challenges.</div>
-                    <div class="white-txt marginB15">Notify me:</div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="25" name="25"/>
-                      <label for="25" onclick>When there are updates on challenge submissions that I subscribe to</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="26" name="26"/>
-                      <label for="26" onclick>When someone likes my submission</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="27" name="27"/>
-                      <label for="27" onclick>When someone likes one of my submission update</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="28" name="28"/>
-                      <label for="28" onclick>When there are challenge announcements</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
-                  <div class="panel-top"><i class="fa fa-bell blue-txt" aria-hidden="true"></i> On-site notifications on discussions</div>
-                  <div class="panel-indent clearfix">
-                    <div class="lightcolor marginB15">These notifications are to inform you when there are new replies to discussions you are involved in.</div>
-                    <div class="white-txt marginB15">Notify me:</div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="29" name="29"/>
-                      <label for="29" onclick>When there are new replies on challenge announcements</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="30" name="30"/>
-                      <label for="30" onclick>When there are new replies on challenge submission updates</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="31" name="31"/>
-                      <label for="31" onclick>When someone likes one of my replies to a discussion</label>
-                    </div>
-                    <div class="checkbox-btn marginB10">
-                      <input type="checkbox" value="value-1" id="32" name="32"/>
-                      <label for="32" onclick>When someone likes a challenge announcement that I posted</label>
+                  <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
+                    <div class="panel-top"><i class="fa fa-envelope blue-txt" aria-hidden="true"></i> Email notifications on other people's artwork</div>
+                    <div class="panel-indent clearfix">
+                      <div class="lightcolor marginB15">These notifications are to inform you when there are new replies to discussions you are involved in.</div>
+                      <div class="white-txt marginB15">Email me:</div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_newreply_on_challengeannouncement, id:"emailnotify_newreply_on_challengeannouncement", name:"emailnotify_newreply_on_challengeannouncement" %>
+                        <label for="emailnotify_newreply_on_challengeannouncement" onclick>When there are new replies on challenge announcements</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_newreply_on_challengesubmissionupdate, id:"emailnotify_newreply_on_challengesubmissionupdate", name:"emailnotify_newreply_on_challengesubmissionupdate" %>
+                        <label for="emailnotify_newreply_on_challengesubmissionupdate" onclick>When there are new replies on challenge submission updates</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_like_repliestodiscussion, id:"emailnotify_like_repliestodiscussion", name:"emailnotify_like_repliestodiscussion" %>
+                        <label for="emailnotify_like_repliestodiscussion" onclick>When someone likes one of my replies to a discussion</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :emailnotify_like_postedchallengeannouncement, id:"emailnotify_like_postedchallengeannouncement", name:"emailnotify_like_postedchallengeannouncement" %>
+                        <label for="emailnotify_like_postedchallengeannouncement" onclick>When someone likes a challenge announcement that I posted</label>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="clearfix socialnewbox marginB15">
-              <div class="white-txt marginB10">Email Subscriptions</div>
-              <div class="lightcolor marginB15">An email is sent to you whenever there are major new announcements about CGMeetup. Sent about once every 3 months.</div>
-              <div class="checkbox-btn">
-                <input type="checkbox" value="value-1" id="33" name="33"/>
-                <label for="33" onclick>Subscribe to announcements</label>
+              <div class="clearfix emailwrap">
+                <h3 class="marginB15">On-Site Notifications</h3>
+                <div class="marginB15 lightbulb-txt"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> These settings control what events will notify you on CGMeetup.net</div>
+                <div class="clearfix row">
+                  <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
+                    <div class="panel-top"><i class="fa fa-bell blue-txt" aria-hidden="true"></i> On-site notifications on my activity</div>
+                    <div class="panel-indent clearfix">
+                      <div class="lightcolor marginB15">These notifications are to inform you when there is activity on your artwork, portfolio or comments. For the best experience, you probably want to leave these on.</div>
+                      <div class="white-txt marginB15">Notify me:</div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_like_myartwork, id:"notifyme_like_myartwork", name:"notifyme_like_myartwork" %>
+                        <label for="notifyme_like_myartwork" onclick>When someone likes my artwork</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_comment_myartwork, id:"notifyme_comment_myartwork", name:"notifyme_comment_myartwork" %>
+                        <label for="notifyme_comment_myartwork" onclick>When someone comments on my artwork</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_followme, id:"notifyme_followme", name:"notifyme_followme" %>
+                        <label for="notifyme_followme" onclick>When someone follows me</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_like_mycomment, id:"notifyme_like_mycomment", name:"notifyme_like_mycomment" %>
+                        <label for="notifyme_like_mycomment" onclick>When someone likes my comment</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
+                    <div class="panel-top"><i class="fa fa-bell blue-txt" aria-hidden="true"></i> On-site notifications on other people's artwork</div>
+                    <div class="panel-indent clearfix">
+                      <div class="lightcolor marginB15">These notifications are to inform you when there is activity on other people's artwork, but that you follow or have participated in.</div>
+                      <div class="white-txt marginB15">Notify me:</div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_following_user_newartwork, id:"notifyme_following_user_newartwork", name:"notifyme_following_user_newartwork" %>
+                        <label for="notifyme_following_user_newartwork" onclick>When a user I'm following posts new artwork</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_comment_on_mycommentedpost, id:"notifyme_comment_on_mycommentedpost", name:"notifyme_comment_on_mycommentedpost" %>
+                        <label for="notifyme_comment_on_mycommentedpost" onclick>When someone comments on artwork I've commented on</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_reply_on_mycomment, id:"notifyme_reply_on_mycomment", name:"notifyme_reply_on_mycomment" %>
+                        <label for="notifyme_reply_on_mycomment" onclick>When someone replies to my comment on an artwork</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
+                    <div class="panel-top"><i class="fa fa-bell blue-txt" aria-hidden="true"></i> On-site notifications on challenges</div>
+                    <div class="panel-indent clearfix">
+                      <div class="lightcolor marginB15">These notifications are to inform you when there is activity on Artstation challenges.</div>
+                      <div class="white-txt marginB15">Notify me:</div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_subcribed_challengesubmission, id:"notifyme_subcribed_challengesubmission", name:"notifyme_subcribed_challengesubmission" %>
+                        <label for="notifyme_subcribed_challengesubmission" onclick>When there are updates on challenge submissions that I subscribe to</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_like_mysubmission, id:"notifyme_like_mysubmission", name:"notifyme_like_mysubmission" %>
+                        <label for="notifyme_like_mysubmission" onclick>When someone likes my submission</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_like_mysubmissionupdate, id:"notifyme_like_mysubmissionupdate", name:"notifyme_like_mysubmissionupdate" %>
+                        <label for="notifyme_like_mysubmissionupdate" onclick>When someone likes one of my submission update</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_challenge_announcements, id:"notifyme_challenge_announcements", name:"notifyme_challenge_announcements" %>
+                        <label for="notifyme_challenge_announcements" onclick>When there are challenge announcements</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6 marginB15">
+                    <div class="panel-top"><i class="fa fa-bell blue-txt" aria-hidden="true"></i> On-site notifications on discussions</div>
+                    <div class="panel-indent clearfix">
+                      <div class="lightcolor marginB15">These notifications are to inform you when there are new replies to discussions you are involved in.</div>
+                      <div class="white-txt marginB15">Notify me:</div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_newreply_on_challengeannouncement, id:"notifyme_newreply_on_challengeannouncement", name:"notifyme_newreply_on_challengeannouncement" %>
+                        <label for="notifyme_newreply_on_challengeannouncement" onclick>When there are new replies on challenge announcements</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_newreply_on_challengesubmissionupdate, id:"notifyme_newreply_on_challengesubmissionupdate", name:"notifyme_newreply_on_challengesubmissionupdate" %>
+                        <label for="notifyme_newreply_on_challengesubmissionupdate" onclick>When there are new replies on challenge submission updates</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_like_repliestodiscussion, id:"notifyme_like_repliestodiscussion", name:"notifyme_like_repliestodiscussion" %>
+                        <label for="notifyme_like_repliestodiscussion" onclick>When someone likes one of my replies to a discussion</label>
+                      </div>
+                      <div class="checkbox-btn marginB10">
+                        <%= f.check_box :notifyme_like_postedchallengeannouncement, id:"notifyme_like_postedchallengeannouncement", name:"notifyme_like_postedchallengeannouncement" %>
+                        <label for="notifyme_like_postedchallengeannouncement" onclick>When someone likes a challenge announcement that I posted</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="clearfix marginB15 socialnewbox">
-              <div class="white-txt marginB10">Jobs</div>
-              <div class="lightcolor marginB15">A daily jobs digest is sent to you of new jobs that are posted on CGMeetup.</div>
-              <div class="checkbox-btn">
-                <input type="checkbox" value="value-1" id="34" name="34"/>
-                <label for="34" onclick>Subscribe to jobs digest</label>
+              <div class="clearfix socialnewbox marginB15">
+                <div class="white-txt marginB10">Email Subscriptions</div>
+                <div class="lightcolor marginB15">An email is sent to you whenever there are major new announcements about CGMeetup. Sent about once every 3 months.</div>
+                <div class="checkbox-btn">
+                  <%= f.check_box :emailnotify_announcement_subscription, id:"emailnotify_announcement_subscription", name:"emailnotify_announcement_subscription" %>
+                  <label for="emailnotify_announcement_subscription" onclick>Subscribe to announcements</label>
+                </div>
               </div>
-            </div>
-            <div class="clearfix marginB15 socialnewbox">
-              <div class="white-txt marginB10">Tutorials</div>
-              <div class="lightcolor marginB15">A daily tutorials digest is sent to you of new tutorials are posted on CGMeetup.</div>
-              <div class="checkbox-btn">
-                <input type="checkbox" value="value-1" id="35" name="35"/>
-                <label for="35" onclick>Subscribe to jobs digest</label>
+              <div class="clearfix marginB15 socialnewbox">
+                <div class="white-txt marginB10">Jobs</div>
+                <div class="lightcolor marginB15">A daily jobs digest is sent to you of new jobs that are posted on CGMeetup.</div>
+                <div class="checkbox-btn">
+                  <%= f.check_box :emailnotify_newjob_jobdigest_subscription, id:"emailnotify_newjob_jobdigest_subscription", name:"emailnotify_newjob_jobdigest_subscription" %>
+                  <label for="emailnotify_newjob_jobdigest_subscription" onclick>Subscribe to jobs digest</label>
+                </div>
               </div>
-            </div>
-            <div class="clearfix marginB15">
-              <div class="white-txt marginB10">Downloads</div>
-              <div class="lightcolor marginB15">A daily downloads digest is sent to you of new downloads are posted on CGMeetup.</div>
-              <div class="checkbox-btn">
-                <input type="checkbox" value="value-1" id="36" name="36"/>
-                <label for="36" onclick>Subscribe to jobs digest</label>
+              <div class="clearfix marginB15 socialnewbox">
+                <div class="white-txt marginB10">Tutorials</div>
+                <div class="lightcolor marginB15">A daily tutorials digest is sent to you of new tutorials are posted on CGMeetup.</div>
+                <div class="checkbox-btn">
+                  <%= f.check_box :emailnotify_newtutorials_jobdigest_subscription, id:"emailnotify_newtutorials_jobdigest_subscription", name:"emailnotify_newtutorials_jobdigest_subscription" %>
+                  <label for="emailnotify_newtutorials_jobdigest_subscription" onclick>Subscribe to jobs digest</label>
+                </div>
               </div>
-            </div>
-            <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
+              <div class="clearfix marginB15">
+                <div class="white-txt marginB10">Downloads</div>
+                <div class="lightcolor marginB15">A daily downloads digest is sent to you of new downloads are posted on CGMeetup.</div>
+                <div class="checkbox-btn">
+                  <%= f.check_box :emailnotify_newdownloads_jobdigest_subscription, id:"emailnotify_newdownloads_jobdigest_subscription", name:"emailnotify_newdownloads_jobdigest_subscription" %>
+                  <label for="emailnotify_newdownloads_jobdigest_subscription" onclick>Subscribe to jobs digest</label>
+                </div>
+              </div>
+              <button type="submit" class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
+            <% end %>
           </div>
         </div>
       </section>

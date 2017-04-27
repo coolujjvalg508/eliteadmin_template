@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405102917) do
+ActiveRecord::Schema.define(version: 20170427071859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,13 @@ ActiveRecord::Schema.define(version: 20170405102917) do
     t.boolean  "interest_based",           default: false
   end
 
+  create_table "block_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.json     "block_user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "bootsy_image_galleries", force: :cascade do |t|
     t.integer  "bootsy_resource_id"
     t.string   "bootsy_resource_type"
@@ -145,6 +152,7 @@ ActiveRecord::Schema.define(version: 20170405102917) do
     t.string   "hosts"
     t.integer  "is_submitted",       default: 0
     t.integer  "view_count",         default: 0
+    t.string   "paramlink"
   end
 
   create_table "collection_details", force: :cascade do |t|
@@ -585,6 +593,17 @@ ActiveRecord::Schema.define(version: 20170405102917) do
     t.datetime "updated_at",                          null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id",           default: 0
+    t.integer  "post_id",           default: 0
+    t.integer  "artist_id",         default: 0
+    t.string   "notification_type"
+    t.string   "section_type"
+    t.integer  "is_read",           default: 0
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
   create_table "packages", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -598,13 +617,14 @@ ActiveRecord::Schema.define(version: 20170405102917) do
     t.string   "title"
     t.text     "description"
     t.integer  "user_id"
-    t.boolean  "is_pending",  default: false
-    t.boolean  "is_approve",  default: true
-    t.boolean  "is_spam",     default: false
-    t.boolean  "is_trash",    default: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "post_id",     default: 0
+    t.boolean  "is_pending",   default: false
+    t.boolean  "is_approve",   default: true
+    t.boolean  "is_spam",      default: false
+    t.boolean  "is_trash",     default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "post_id",      default: 0
+    t.string   "section_type"
   end
 
   create_table "post_likes", force: :cascade do |t|
@@ -840,6 +860,46 @@ ActiveRecord::Schema.define(version: 20170405102917) do
     t.datetime "updated_at",                    null: false
   end
 
+  create_table "user_settings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "emailnotify_like_myartwork",                        default: false
+    t.boolean  "emailnotify_comment_myartwork",                     default: false
+    t.boolean  "emailnotify_followme",                              default: false
+    t.boolean  "emailnotify_like_mycomment",                        default: false
+    t.boolean  "emailnotify_following_user_newartwork",             default: false
+    t.boolean  "emailnotify_comment_on_mycommentedpost",            default: false
+    t.boolean  "emailnotify_reply_on_mycomment",                    default: false
+    t.boolean  "emailnotify_subcribed_challengesubmission",         default: false
+    t.boolean  "emailnotify_like_mysubmission",                     default: false
+    t.boolean  "emailnotify_like_mysubmissionupdate",               default: false
+    t.boolean  "emailnotify_challenge_announcements",               default: false
+    t.boolean  "emailnotify_newreply_on_challengeannouncement",     default: false
+    t.boolean  "emailnotify_newreply_on_challengesubmissionupdate", default: false
+    t.boolean  "emailnotify_like_repliestodiscussion",              default: false
+    t.boolean  "emailnotify_like_postedchallengeannouncement",      default: false
+    t.boolean  "notifyme_like_myartwork",                           default: false
+    t.boolean  "notifyme_comment_myartwork",                        default: false
+    t.boolean  "notifyme_followme",                                 default: false
+    t.boolean  "notifyme_like_mycomment",                           default: false
+    t.boolean  "notifyme_following_user_newartwork",                default: false
+    t.boolean  "notifyme_comment_on_mycommentedpost",               default: false
+    t.boolean  "notifyme_reply_on_mycomment",                       default: false
+    t.boolean  "notifyme_subcribed_challengesubmission",            default: false
+    t.boolean  "notifyme_like_mysubmission",                        default: false
+    t.boolean  "notifyme_like_mysubmissionupdate",                  default: false
+    t.boolean  "notifyme_challenge_announcements",                  default: false
+    t.boolean  "notifyme_newreply_on_challengeannouncement",        default: false
+    t.boolean  "notifyme_newreply_on_challengesubmissionupdate",    default: false
+    t.boolean  "notifyme_like_repliestodiscussion",                 default: false
+    t.boolean  "notifyme_like_postedchallengeannouncement",         default: false
+    t.boolean  "emailnotify_announcement_subscription",             default: false
+    t.boolean  "emailnotify_newjob_jobdigest_subscription",         default: false
+    t.boolean  "emailnotify_newtutorials_jobdigest_subscription",   default: false
+    t.boolean  "emailnotify_newdownloads_jobdigest_subscription",   default: false
+    t.datetime "created_at",                                                        null: false
+    t.datetime "updated_at",                                                        null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -893,6 +953,8 @@ ActiveRecord::Schema.define(version: 20170405102917) do
     t.integer  "follow_count",           default: 0
     t.integer  "view_count",             default: 0
     t.integer  "like_count",             default: 0
+    t.string   "qb_id"
+    t.string   "qb_password"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   get 'setting' => 'user#user_setting', as: 'user_setting' 
   post 'update_profile' => 'user#update_profile', as: 'update_profile' 
   post 'blocked_users' => 'user#blocked_users', as: 'blocked_users' 
+  post 'notification_setting' => 'user#notification_setting', as: 'notification_setting' 
   get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
   get 'profile' => 'user#user_profile_info', as: 'my_profile' 
 
