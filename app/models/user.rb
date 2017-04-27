@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
        :recoverable, :rememberable, :trackable, :validatable, :confirmable, :omniauthable
 
   belongs_to  :country
+  belongs_to :block_user
   ############################ Associations #############################
   has_many :professional_experiences, as: :professionalexperienceable, dependent: :destroy     
   has_many :education_experiences, as: :educationexperienceable, dependent: :destroy        

@@ -5,40 +5,6 @@
 	end	
 	#abort(artist_data.image.user_activity.url.to_json)
 %>
-<%= stylesheet_link_tag "stickerpipe.min", :media => "all" %>
-<% if artist_data.present? %>
-	<script type="text/javascript">
-	    
-	    var Config = {
-				
-				'LOGGINED_USER_LOGIN': "<%=  current_user.email %>",
-				'LOGGINED_USER_ID': "<%=  current_user.qb_id %>",
-				'LOGGINED_USER_PASS': "<%=  current_user.qb_password %>",
-				'LOGGINED_FULL_NAME': "<%=  current_user.username %>",
-			   
-				'DOC_PAT_USER_LOGIN': "<%=  artist_data.email %>",
-				'DOC_PAT_USER_ID': "<%=  artist_data.qb_id %>",
-				'DOC_PAT_USER_PASS': "<%=  artist_data.qb_password %>",
-				'DOC_PAT_FULL_NAME': "<%=  artist_data.username %>" ,
-				'DOC_PAT_IMAGE_URL': "<%=  artist_data.image.user_activity.url %>" ,
-				
-			}; 
-	   
-	</script>
-<% else %>
-    <script type="text/javascript">
-	    
-	    var Config = {
-				
-				'LOGGINED_USER_LOGIN': "<%=  current_user.email %>",
-				'LOGGINED_USER_ID': "<%=  current_user.qb_id %>",
-				'LOGGINED_USER_PASS': "<%=  current_user.qb_password %>",
-				'LOGGINED_FULL_NAME': "<%=  current_user.username %>",
-			}; 
-	   
-	</script>
-
-<% end %>
 <style>
 	.list-group-item {
   background-color: #171717;
@@ -51,6 +17,25 @@
 }
 	
 </style>
+<%= stylesheet_link_tag "stickerpipe.min", :media => "all" %>
+<script type="text/javascript">
+    
+    var Config = {
+			
+			'LOGGINED_USER_LOGIN': "<%=  current_user.email %>",
+			'LOGGINED_USER_ID': "<%=  current_user.qb_id %>",
+			'LOGGINED_USER_PASS': "<%=  current_user.qb_password %>",
+			'LOGGINED_FULL_NAME': "<%=  current_user.username %>",
+		   
+			'DOC_PAT_USER_LOGIN': "<%=  artist_data.present? ? artist_data.email : '' %>",
+			'DOC_PAT_USER_ID'  :  "<%=  artist_data.present? ? artist_data.qb_id : '' %>",
+			'DOC_PAT_USER_PASS': "<%=  artist_data.present? ? artist_data.qb_password : '' %>",
+			'DOC_PAT_FULL_NAME': "<%=  artist_data.present? ? artist_data.username : '' %>" ,
+			'DOC_PAT_IMAGE_URL': "<%=  artist_data.present? ? artist_data.image.user_activity.url : '' %>" ,
+			
+		}; 
+   
+</script>
 
 <%= javascript_include_tag "quickblox/jquery.nicescroll.min","jquery.timeago.min.js" ,"quickblox/quickblox.min", "quickblox/stickerpipe_main","quickblox/config","quickblox/connection", "quickblox/messages", "quickblox/stickerpipe" ,"quickblox/ui_helpers","quickblox/dialogs", "quickblox/users" %>
   
@@ -80,9 +65,9 @@
 
 <div class="mCustomScrollbar clearfix">
 <div class="clearfix MessageLeftIndent">
-	 <div class="container1 del-style">
+	<div class="container1 del-style">
         <div class="list-group pre-scrollable nice-scroll" id="dialogs-list"></div>
-    </div>
+    </div> 
 		
 <!-- <ul>
 	<li class="clearfix">
@@ -221,8 +206,8 @@
 				<!-- <button type="button" id="attach_btn" class="btn btn-default hidden" onclick="">Attach</button> -->
 				<div class="clearfix pull-right PressEnterBox">
 					<div class="checkbox-btn pull-left paddinT5 presssend">
-					 <input type="checkbox" name="rc1" id="rc1" value="value-1">
-					  <label onclick="" for="rc1">Press Enter to send</label>
+					<!--  <input type="checkbox" name="rc1" id="rc1" >
+					  <label onclick="" for="rc1">Press Enter to send</label> -->
 					</div>
 					<div class="pull-right">
 						<button type="submit" id="send_btn" class="green-btn" onclick="clickSendMessage()">Reply</button>
@@ -230,12 +215,7 @@
 				</div>
 			</div>
 		</form>	
-
-
-
 	</div>
-
-
 </div>
 </div>
 </div>
@@ -251,5 +231,6 @@
 			$('#add_file_link').on('click',function(){
 					$('#load-img').trigger('click');
 			});
+			
 	});
 </script>

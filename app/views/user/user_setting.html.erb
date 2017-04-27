@@ -18,12 +18,12 @@
         <div class="panel panel-default">
           <div class="panel-heading">General</div>
           <div class="panel-body">
-            <form role="form">
+            <%= form_for(@user, url: update_profile_path, html: { method: :post , :id => "edit_profile_form"}) do |f| %>
               <div class="form-group clearfix">
                 <div class="row">
                   <div class="col-md-4 col-sm-6 col-xs-12">
                     <label>Email</label>
-                    <input type="email" placeholder="demo@testdemo.com" class="form-control from-input">
+                    <%= f.email_field :email, class: 'form-control from-input', id: 'fname', placeholder: 'demo@testdemo.com' %>
                   </div>
                 </div>
               </div>
@@ -71,27 +71,28 @@
                 <div class="marginB15"><a href="#" class="blue-txt">Cancel Account</a></div>
               </div>
               <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-            </form>
+            <% end %>
           </div>
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">Password</div>
           <div class="panel-body">
-            <form role="form">
-              <div class="form-group clearfix">
-                <label onClick="">Current password</label>
-                <input type="password" placeholder="Your Current password" class="form-control from-input">
-              </div>
+           <%= form_for(@user, url: update_profile_path, html: { method: :post , :id => "edit_password_form"}) do |f| %>
+              
               <div class="form-group clearfix">
                 <label onClick="">Password</label>
-                <input type="password" placeholder="Your new password" class="form-control from-input">
+                <%= f.password_field :password, autocomplete: "off", class: 'form-control from-input', id: 'password', placeholder: 'Enter New Password ' %>
+                <span class="error"><%= @user.errors[:password].first if @user.errors.any? %></span>
+                
               </div>
               <div class="form-group clearfix">
                 <label onClick="">Password confirmation</label>
-                <input type="password" placeholder="Confirm your new password" class="form-control from-input">
+                <%= f.password_field :confirm_password, autocomplete: "off", class: 'form-control from-input', id: 'oldpassword', placeholder: 'Confirm your new password ' %>
+                
               </div>
-              <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-            </form>
+
+              <button class="green-btn border-radius" name="commit" type="submit"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
+            <% end %>
           </div>
         </div>
         <div class="panel panel-default">
@@ -102,7 +103,7 @@
                 <div class="txt16 marginB15 blue-txt">Warning - Danger ahead</div>
                 <div class="marginB10 lightcolor">Changing your username will change the URL of your ArtStation profiles. You will need to update any links that you have to these URL's:</div>
                 <div class="blue-txt marginB15">https://www.cgmeetup.com/artist/sher_1234567898</div>
-                <div class="blue-txt marginB15">https://sher_1234567898.cgmeetup.com</div>
+                <div class="blue-txt marginB15">https://sher_1234567898.cgmeetup.com</div>
                 <div class="lightcolor">Usernames must have between 3 and 63 letters and cannot start or end with a '-' or '_'</div>
               </div>
               <div class="form-group clearfix">
@@ -117,12 +118,13 @@
           <div class="panel-heading">Block Users</div>
           <div class="panel-body">
             <div class="lightcolor marginB15">Blocking a user prevents that user from commenting on your projects and discussion posts. Note that it does not remove his artwork from the main walls of art (Trending/Picks/etc.). The purpose of this feature is to prevent users from harassing you on CGMeetup.</div>
-            <form class="form-inline" role="form">
+            <%= form_for(@user, url: blocked_users_path, html: { method: :post , :id => "edit_password_form"}) do |f| %>
               <div class="form-group">
-                <input type="text" class="form-control from-input block-input" placeholder="Type a user's name">
+              <%= f.select(:username, options_for_select(User.order('username ASC').pluck(:username, :id), params[:user].present? ? params[:user][:username] : @user[:username]), {:include_blank => false}, {'class' => 'form-control form-input multi-select js-chosen-select-multi', 'id' => 'blocked_user', multiple: true})  %>
+             
               </div>
-              <button type="button" class="green-btn block-btn"><i class="fa fa-plus" aria-hidden="true"></i> Block</button>
-            </form>
+              <button type="submit" class="green-btn block-btn"><i class="fa fa-plus" aria-hidden="true"></i> Block</button>
+            <% end %>
           </div>
         </div>
         <div class="panel panel-default">
@@ -369,3 +371,29 @@
 <footer class="footer clearfix padding">
   <%= render 'layouts/lastfooter' %>
 </footer>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+       
+    var validator = $("#edit_password_form").validate({
+      ignore: ':hidden:not(select)',
+      rules: {
+        "user[confirm_password]": "required",
+        "user[password]": {
+          required: true
+        },
+      },
+      messages: {
+        "user[password]": {
+          required: "New password can't be blank"
+        },
+        "user[confirm_password]": {
+          required: "Confirm Password can't be blank",
+        },
+      },
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+      }
+    });
+  });
+</script>

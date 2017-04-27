@@ -20,24 +20,24 @@ class GalleriesController < ApplicationController
 
     def show
         @gallery        = Gallery.find_by(paramlink: params[:paramlink])
+        
         @collection     = Collection.new
         @report         = Report.new
         @latest_post    = Gallery.where("paramlink != ?",params[:paramlink]).order('id desc').limit(8)
-       # abort(@gallery.post_type_category_id.to_json)
+     
+        #abort(@gallery.post_type_category_id.to_json)
+        @blocked_users    = BlockUser.where("user_id="+@gallery.user_id.to_s+" AND block_user_id::jsonb ?| array['" + current_user.id.to_s + "']")
+
         if @gallery.post_type_category_id == 1
             render 'artshow'
 
-         elsif  @gallery.post_type_category_id == 2
+          elsif  @gallery.post_type_category_id == 2
             render 'videoshow'
          
-         else 
+          else 
             render 'show'
-         
-         end 
+        end 
     end  
-
-    
-
 
     def create_collection
        # abort(params.to_json)

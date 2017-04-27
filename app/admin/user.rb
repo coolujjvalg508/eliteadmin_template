@@ -1,10 +1,9 @@
 ActiveAdmin.register User do
    menu label: 'Users Management', parent: 'Account', priority: 1
-	permit_params :firstname, :username, :password,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country_id, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel, {:skill_expertise => []}, {:software_expertise => []}, :public_email_address, :website_url, :facebook_url, 
+	permit_params :firstname, :confirmed_at, :username, :password,:lastname,:image,:professional_headline,:email,:phone_number, :profile_type, :country_id, :city,:show_message_button, :full_time_employment, :contract , :freelance, :available_from,:summary, :demo_reel, {:skill_expertise => []}, {:software_expertise => []}, :public_email_address, :website_url, :facebook_url, 
 	:linkedin_profile_url,:twitter_handle,:instagram_username ,:behance_username,:tumbler_url,:pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url,:professional_experiences_attributes => [:id,:company_id,:title,:location,:description, :from_month,:from_year, :to_month,:to_year,:currently_worked,:professionalexperienceable_id,:professionalexperienceable_type, :_destroy,:tmp_professionalexperience,:professionalexperience_cache], :production_experiences_attributes => [:id,:production_title,:release_year,:production_type,:your_role, :company,:productionexperienceable_id,:productionexperienceable_type, :_destroy,:tmp_productionexperience,:productionexperience_cache], 
 	
 	:education_experiences_attributes => [:id,:school_name,:field_of_study,:month_val,:year_val, :description,:educationexperienceable_id,:educationexperienceable_type, :_destroy,:tmp_educationexperience,:educationexperience_cache],
-
 	 :company_attributes => [:id,:name]
 
 
@@ -184,6 +183,12 @@ ActiveAdmin.register User do
   
    controller do
 	  def create
+	  	  #@current_Time = DateTime.now
+  			#@current_Time = @current_time.strftime("%Y-%m-%d %H:%M")
+
+  			#abort(@current_Time.to_json)
+	  	params[:user][:confirmed_at] = DateTime.now
+	  	#abort(params[:user][:confirmed_at].to_json)
 			if (params[:user].present? && params[:user][:professional_experiences_attributes].present?)
 					params[:user][:professional_experiences_attributes].each do |index,img|
 						  unless params[:user][:professional_experiences_attributes][index][:title].present?

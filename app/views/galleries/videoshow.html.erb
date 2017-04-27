@@ -1,3 +1,4 @@
+
 <!-- Gallery Content Start -->
 <div class="gallery-container clearfix">
   <div class="gallery-left clearfix">
@@ -292,13 +293,15 @@
             <%= image_tag(current_user.image.user_activity.url, :width=>"48", :height=>"48", :alt=>"user") %>
         <% end %>        
         </div>
-        <div class="col-md-11 col-sm-8 col-xs-9 padding compright"  >
-          <textarea class="form-control activitymessage" id='post_comments_<%= @gallery.id %>'  placeholder="Share your thoughts" ></textarea>
-          <!-- <textarea name="" cols="" rows="" class="form-control" placeholder="Share your thoughts"></textarea> -->
-        </div>
-        <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15" style="margin-left:57px">
-              <button id='post_comments_submit_<%= @gallery.id %>' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
-        </div>
+        <% if !@blocked_users.present? %>
+          <div class="col-md-11 col-sm-8 col-xs-9 padding compright"  >
+            <textarea class="form-control activitymessage" id='post_comments_<%= @gallery.id %>'  placeholder="Share your thoughts" ></textarea>
+            <!-- <textarea name="" cols="" rows="" class="form-control" placeholder="Share your thoughts"></textarea> -->
+          </div>
+          <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15" style="margin-left:57px">
+                <button id='post_comments_submit_<%= @gallery.id %>' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
+          </div>
+        <% end %>
       </div>
        <div id="commentslist_dev">
        <!--  <div class="customerleft"><%#= image_tag("user1.jpg", :width=>"48", :height=>"48", :alt=>"user") %></div>

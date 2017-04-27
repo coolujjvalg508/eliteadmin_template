@@ -18,15 +18,20 @@ function onSystemMessageListener(message) {
 }
 
 function retrieveChatDialogs() {
+  //alert(Config.LOGGINED_USER_ID);
+
     QB.chat.dialog.list(null, function(err, resDialogs) {
         if (err) {
-          console.error(err);
+         // alert(err);
+          //console.error(err);
         } else {
             // repackage dialogs data and collect all occupants ids
             var occupantsIds = [];
 
             // hide login form
             $('#loginForm').modal('hide');
+
+           // alert(resDialogs.items.length);
 
             if(resDialogs.items.length === 0){
                 // setup attachments button handler
@@ -46,7 +51,7 @@ function retrieveChatDialogs() {
             resDialogs.items.forEach(function(item, i, arr) {
                 var dialogId = item._id;
                 dialogs[dialogId] = item;
-
+                // alert(item.type); 
                 // join room
                 if (item.type != 3) {
                     QB.chat.muc.join(item.xmpp_room_jid, function() {
@@ -58,6 +63,8 @@ function retrieveChatDialogs() {
                     occupantsIds.push(userId);
                 });
             });
+
+            //alert(dialogs.stringify);
 
             // load dialogs' users
             updateDialogsUsersStorage(jQuery.unique(occupantsIds), function(){
@@ -98,21 +105,23 @@ function showOrUpdateDialogInUI(itemRes, updateHtml) {
     opponentLogin = getUserLoginById(opponentId);
     //dialogName    = opponentLogin;
   }
-
+  //alert(updateHtml);
   if (updateHtml === true) {
   	var updatedDialogHtml = buildDialogHtml(dialogId, dialogUnreadMessagesCount, dialogIcon, dialogName, dialogLastMessage);
-  	$('#dialogs-list').prepend(updatedDialogHtml);
+  	$('#dialogs-list').append(updatedDialogHtml);
   	$('.list-group-item.active .badge').text(0).hide(0);
 	} else {
     var dialogHtml = buildDialogHtml(dialogId, dialogUnreadMessagesCount, dialogIcon, dialogName, dialogLastMessage);
+//alert(dialogHtml);
+
     $('#dialogs-list').append(dialogHtml);
 	}
 }
 
 // add photo to dialogs
 function getDialogIcon (dialogType) {
-  var groupPhoto = '<img style="float:left" src="images/ava-group.svg" width="30" height="30" class="round">';
-  var privatPhoto  = '<img style="float:left" src=' + Config.DOC_PAT_IMAGE_URL + ' width="30" height="30" class="round">';
+  var groupPhoto   = '<img style="float:left" src="assets/ava-group.svg" width="30" height="30" class="round">';
+  var privatPhoto  = '<img style="float:left" src="assets/ava-single.svg" width="30" height="30" class="round">';
   var defaultPhoto = '<span class="glyphicon glyphicon-eye-close"></span>';
 
   var dialogIcon;
@@ -211,67 +220,77 @@ function clickToAdd(forFocus) {
 }
 
 // create new dialog
-function createNewDialog() {
-  var usersIds = [];
-  var usersNames = [];
+function createNewDialog(toidss, toname) {
+    var usersIds = [];
+    var usersNames = [];
 
-  $('#users_list .users_form.active').each(function(index) {
-    usersIds[index] = $(this).attr('id');
-    usersNames[index] = $(this).text();
-  });
-
-  $("#add_new_dialog").modal("hide");
-  $('#add_new_dialog .progress').show();
-
-  var dialogName;
-  var dialogOccupants;
-  var dialogType;
-
-  if (usersIds.length > 1) {
-    if (usersNames.indexOf(currentUser.login) > -1) {
-      dialogName = usersNames.join(', ');
-    }else{
-      dialogName = currentUser.login + ', ' + usersNames.join(', ');
+    if (toname != null) {
+        usersIds[0] = toidss;
+        usersNames[0] = toname;
     }
-    dialogOccupants = usersIds;
-    dialogType = 2;
-  } else {
-    dialogOccupants = usersIds;
-    dialogType = 3;
-  }
+    else {
+        $('#users_list .users_form.active').each(function (index) {
+            usersIds[index] = $(this).attr('id');
+            usersNames[index] = $(this).text();
+        });
+    }
 
-  var params = {
-    type: dialogType,
-    occupants_ids: dialogOccupants,
-    name: dialogName
-  };
+      //console.log(usersIds);
+      //console.log(usersNames);
 
-  // create a dialog
-  //
-  console.log("Creating a dialog with params: " + JSON.stringify(params));
+    $("#add_new_dialog").modal("hide");
+    $('#add_new_dialog .progress').show();
 
-  QB.chat.dialog.create(params, function(err, createdDialog) {
-    if (err) {
-      console.log(err);
+    var dialogName;
+    var dialogOccupants;
+    var dialogType;
+
+    if (usersIds.length > 1) {
+        if (usersNames.indexOf(currentUser.login) > -1) {
+            dialogName = usersNames.join(', ');
+        } else {
+            dialogName = currentUser.login + ', ' + usersNames.join(', ');
+        }
+        dialogOccupants = usersIds;
+        dialogType = 2;
     } else {
-      console.log("Dialog " + createdDialog._id + " created with users: " + dialogOccupants);
-
-      // save dialog to local storage
-      var dialogId = createdDialog._id;
-      dialogs[dialogId] = createdDialog;
-
-      currentDialog = createdDialog;
-
-      joinToNewDialogAndShow(createdDialog);
-
-      notifyOccupants(createdDialog.occupants_ids, createdDialog._id, 1);
-
-      triggerDialog(createdDialog._id);
-
-      $('a.users_form').removeClass('active');
+        dialogOccupants = usersIds;
+        dialogType = 3;
     }
-  });
+
+    var params = {
+        type: dialogType,
+        occupants_ids: dialogOccupants,
+        name: dialogName
+    };
+//alert(params.stringify);
+    // create a dialog
+    //
+    console.log("Creating a dialog with params: " + JSON.stringify(params));
+
+    QB.chat.dialog.create(params, function (err, createdDialog) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Dialog " + createdDialog._id + " created with users: " + dialogOccupants);
+
+            // save dialog to local storage
+            var dialogId = createdDialog._id;
+            dialogs[dialogId] = createdDialog;
+
+            currentDialog = createdDialog;
+
+            joinToNewDialogAndShow(createdDialog);
+
+            notifyOccupants(createdDialog.occupants_ids, createdDialog._id, 1);
+
+            triggerDialog(createdDialog._id);
+
+            $('a.users_form').removeClass('active');
+        }
+    });
 }
+
 
 //
 function joinToNewDialogAndShow(itemDialog) {
@@ -279,6 +298,7 @@ function joinToNewDialogAndShow(itemDialog) {
   var dialogName = itemDialog.name;
   var dialogLastMessage = itemDialog.last_message;
   var dialogUnreadMessagesCount = itemDialog.unread_messages_count;
+  
   var dialogIcon = getDialogIcon(itemDialog.type);
 
   // join if it's a group dialog
@@ -290,11 +310,12 @@ function joinToNewDialogAndShow(itemDialog) {
   } else {
     opponentId = QB.chat.helpers.getRecipientId(itemDialog.occupants_ids, currentUser.id);
     opponentLogin = getUserLoginById(opponentId);
-    dialogName = chatName = 'Dialog with ' + opponentLogin;
+   chatName = opponentLogin = dialogName;
   }
 
   // show it
   var dialogHtml = buildDialogHtml(dialogId, dialogUnreadMessagesCount, dialogIcon, dialogName, dialogLastMessage);
+  //alert(dialogHtml);
   $('#dialogs-list').prepend(dialogHtml);
 }
 

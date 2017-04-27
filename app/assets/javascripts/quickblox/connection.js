@@ -6,6 +6,8 @@ var toname = "";
 var token = "";
 
 $(function() {
+
+  
     
     /*$('#loginForm').modal('show');
     $('#loginForm .progress').hide();
@@ -28,7 +30,10 @@ $(function() {
      var patientEmail = Config.DOC_PAT_USER_LOGIN;
      var patientPassword = Config.DOC_PAT_USER_PASS;
 
+
+
     QB.createSession(function (err, result) {
+
             QB.users.get({ email: doctorEmail }, function (error, response) {
                 QB.users.get({ email: patientEmail }, function (err, res) {
                         QBUser1 = {
@@ -38,10 +43,11 @@ $(function() {
                             full_name: response.full_name
                         };
                         
-                        
+                    //    console.log(QBUser1);
                         toidss = res.id;
                         toname = res.login;
-                        
+                      //  alert(toidss);
+                      //  alert(toname);
                         
                         currentUser = QBUser1;
                         connectToChat(QBUser1);
@@ -66,21 +72,24 @@ function connectToChat(user) {
    /* $('#loginForm button').hide();
     $('#loginForm .progress').show();*/
 
-
-
+    //alert(user.login);
+    //alert(user.pass);
 
     QB.createSession({login: user.login, password: user.pass}, function(err, res) {
+
         if (res) {
             token = res.token;
             user.id = res.user_id;
 
             mergeUsers([{user: user}]);
 
+          
             QB.chat.connect({userId: user.id, password: user.pass}, function(err, roster) {
                 if (err) {
                     console.log(err);
                 } else {
                     // setup scroll stickerpipe module
+                   // createNewDialog(toidss, toname); 
                     setupStickerPipe();
 
                     retrieveChatDialogs();
@@ -95,6 +104,7 @@ function connectToChat(user) {
                 }
             });
         }
+        
     });
 }
 
@@ -104,7 +114,7 @@ function setupAllListeners() {
   QB.chat.onDeliveredStatusListener = onDeliveredStatusListener;
   QB.chat.onReadStatusListener      = onReadStatusListener;
 
-  setupIsTypingHandler();
+  //setupIsTypingHandler();
 }
 // reconnection listeners
 function onDisconnectedListener(){

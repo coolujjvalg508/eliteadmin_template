@@ -58,6 +58,8 @@ Rails.application.routes.draw do
 
   get 'activity' => 'user#all_activity', as: 'all_activity' 
   get 'setting' => 'user#user_setting', as: 'user_setting' 
+  post 'update_profile' => 'user#update_profile', as: 'update_profile' 
+  post 'blocked_users' => 'user#blocked_users', as: 'blocked_users' 
   get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
   get 'profile' => 'user#user_profile_info', as: 'my_profile' 
 

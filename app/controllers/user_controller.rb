@@ -385,8 +385,55 @@ class UserController < ApplicationController
     end
 
     def user_setting
+        @user = User.find_by(id: current_user.id)
     end
     
+    def update_profile
+        
+        @user = User.find_by(id: current_user.id)
+        
+        if (params[:user][:password].present? && params[:user][:confirm_password].present?)
+            if (params[:user][:password] == params[:user][:confirm_password])
+                if @user.update_attributes(user_params)
+                    # Sign in the user by passing validation in case their password changed
+                    sign_in @user, :bypass => true
+                    flash[:notice] = "Password changed successfully."
+                    redirect_to user_setting_path
+                end
+            else
+                flash[:error] = "Password and Confirm password are different."
+                redirect_to user_setting_path 
+            end
+        elsif(!params[:user][:password].present?)
+            flash[:error] = "Password field can't be blank."
+            redirect_to user_setting_path
+        elsif(!params[:user][:confirm_password].present?)
+            flash[:error] = "Confirm Password field can't be blank."
+            redirect_to user_setting_path  
+        end 
+    end
+
+    def blocked_users
+        @blockuserdata = BlockUser.find_by(user_id: current_user.id)
+
+        if params[:user][:username].present?
+            if !@blockuserdata.present?
+                BlockUser.create(user_id: current_user.id, block_user_id: params[:user][:username])
+                flash[:notice] = "Users successfully blocked."
+                redirect_to user_setting_path
+            elsif @blockuserdata.present?
+                BlockUser.where(id: @blockuserdata.id).update_all(user_id: current_user.id, block_user_id: params[:user][:username])
+               
+                flash[:notice] = "Users successfully blocked."
+                redirect_to user_setting_path
+            end
+                
+        else
+            flash[:error] = "Please select users to block."
+            redirect_to user_setting_path
+        end
+    end
+
     def unfollow_artist
         artist_id = params[:artist_id]
         user_id   = current_user.id
@@ -514,13 +561,15 @@ class UserController < ApplicationController
             
             record.update(view_count: newview_count) 
        end     
+       render :json => {'message': 'success'}, status: 200 
     end   
 
 
     private
         def user_params
-            params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :firstname, :lastname, :professional_headline, :phone_number, :profile_type, :country_id, :city, :image, :summary, :demo_reel, {:skill_expertise => []}, {:software_expertise => []}, :public_email_address, :website_url, :facebook_url, :linkedin_profile_url, :twitter_handle, :instagram_username, :behance_username, :tumbler_url, :pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :show_message_button, :full_time_employment, :contract, :freelance, :available_from, :professional_experiences_attributes => [:id,:company_id,:company_name,:title, :location, :from_month, :from_year, :to_month, :to_year, :currently_worked, :description, :professionalexperienceable_id, :professionalexperienceable_type, :_destroy, :tmp_professionalexperience, :professionalexperience_cache, :user_id])
+            params.require(:user).permit(:email, :password, {:block_user_id => [:username]}, :password_confirmation, :current_password, :firstname, :lastname, :professional_headline, :phone_number, :profile_type, :country_id, :city, :image, :summary, :demo_reel, {:skill_expertise => []}, {:software_expertise => []}, :public_email_address, :website_url, :facebook_url, :linkedin_profile_url, :twitter_handle, :instagram_username, :behance_username, :tumbler_url, :pinterest_url, :youtube_url, :vimeo_url, :google_plus_url, :stream_profile_url, :show_message_button, :full_time_employment, :contract, :freelance, :available_from, :professional_experiences_attributes => [:id,:company_id,:company_name,:title, :location, :from_month, :from_year, :to_month, :to_year, :currently_worked, :description, :professionalexperienceable_id, :professionalexperienceable_type, :_destroy, :tmp_professionalexperience, :professionalexperience_cache, :user_id])
         end
+       
 
         def find_associated_data
             @professional_experiences = ProfessionalExperience.where('user_id = ?', current_user)

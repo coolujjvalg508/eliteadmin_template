@@ -139,6 +139,7 @@
   </div>
 </div>
 </nav>
+<div id='loading_div' style="display: block; left: 45%; position: relative; top: -36px;"><img src="/assets/loading1.gif"></div>
 <div class="clearfix hidden-xs" style="background:#171717;">
 <ul class="nav nav-pills">
   <li class="dropdown recentdrop" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">All Projects <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
@@ -216,6 +217,10 @@
 
   </div>
 </div>
+<div></div>
+
+
+
 <% if user_signed_in? %>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -375,40 +380,39 @@
 
     };          
 </script>
-<%= javascript_include_tag "quickblox/quickblox.min","quickblox/jquery.nicescroll.min","quickblox/config","quickblox/main" %>
+<%= javascript_include_tag "quickblox/quickblox.min","quickblox/jquery.nicescroll.min","quickblox/config", "quickblox/main" %>
 <script type="text/javascript">  
  
  function create_current_user_quickblox(current_user_qb_id, current_user_qb_password){
        
-            if(current_user_qb_id == '' || current_user_qb_password == ''){
-                 
-                  random_password = "<%=  rand(11111111..99999999).to_s %>";
-                  var params = { login: "<%=  current_user.email %>", password:  random_password , email: "<%=  current_user.email %>", full_name: "<%=  current_user.username %>" };
-                  QB.createSession(function (err, result) {
-                     QB.users.create(params, function (err, result1) {
-                          
-                          if(result1){
-                               $.ajax({
-                                    url: "/save_qb_data",
-                                    data: {qb_id:result1.id, qb_password: random_password  ,user_id: "<%=  current_user.id %>"},
-                                    type:'post', 
-                                    success: function(r){
-                                       return true;
-                                    }
-                                });
-                          }
-                       });
-                  });   
-            }       
-       }
+      if(current_user_qb_id == '' || current_user_qb_password == ''){
 
+           random_password = "<%=  rand(11111111..99999999).to_s %>";
+              var params = { login: "<%=  current_user.email %>", password:  random_password , email: "<%=  current_user.email %>", full_name: "<%=  current_user.username %>" };
+              QB.createSession(function (err, result) {
+                 QB.users.create(params, function (err, result1) {
+                      
+                      if(result1){
+                           $.ajax({
+                                url: "/save_qb_data",
+                                data: {qb_id:result1.id, qb_password: random_password  ,user_id: "<%=  current_user.id %>"},
+                                type:'post', 
+                                success: function(r){
+                                 }
+                            });
+                      }
+                   });
+              });   
+
+          }   
+    }
 
   function create_other_user_quickblox(other_user_qb_id, other_user_qb_password){
        
-          if(other_user_qb_id == '' || other_user_qb_password == ''){
-                  
-                  random_password = "<%=  rand(11111111..99999999).to_s %>";
-                  var params = { login: "<%=  @artist_data.email %>", password:  random_password , email: "<%=  @artist_data.email %>", full_name: "<%=  @artist_data.username %>" };
+      if(other_user_qb_id == '' || other_user_qb_password == ''){  
+
+         random_password = "<%=  rand(11111111..99999999).to_s %>";
+         var params = { login: "<%=  @artist_data.email %>", password:  random_password , email: "<%=  @artist_data.email %>", full_name: "<%=  @artist_data.username %>" };
 
                   QB.createSession(function (err, result) {
                     QB.users.create(params, function (err, result1) {
@@ -422,34 +426,39 @@
                                       return true;
                                     }
                                 });
+                              }
+                         });
+                }); 
 
-                          }
-                         
-                       
-                       });
-                  });   
-          }
-
-    }
+           }          
+     }
 
   $(document).ready(function(){
-
+      $('#loading_div').hide();
       $('#message_button').on('click',function(){
-
+            $('#loading_div').show();
              current_user_qb_id        = "<%=  current_user.qb_id  %>";
              current_user_qb_password  = "<%=  current_user.qb_password  %>";
-
+             
              other_user_qb_id          = "<%=  @artist_data.qb_id  %>";
              other_user_qb_password    = "<%=  @artist_data.qb_password  %>";
-
-             res  =  create_current_user_quickblox(current_user_qb_id, current_user_qb_password);
-             res1 =  create_other_user_quickblox(other_user_qb_id, other_user_qb_password);
-             setTimeout(function(){ window.location.href = "<%= message_path(@artist_data.username) %>"; }, 4000); 
-  
-             
-     });
+                        
+            create_current_user_quickblox(current_user_qb_id, current_user_qb_password);
+            create_other_user_quickblox(other_user_qb_id, other_user_qb_password);
+            
+            setTimeout(function(){  redirectToMessage(); }, 10000); 
+           
+      });
 
   });   
+
+  function redirectToMessage(){
+      $('#loading_div').hide();
+      window.location.href = "<%= message_path(@artist_data.username) %>";
+  }
+
+
+
 </script>
 
 <% end %>

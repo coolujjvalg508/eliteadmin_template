@@ -7,30 +7,30 @@ $(document).ready(function() {
 
   buildUsers('.users-wrap.caller');
  
-	caller = {
-		  id: Config.LOGGINED_USER_ID,
-		  full_name: Config.LOGGINED_FULL_NAME,
-		  login: Config.LOGGINED_USER_LOGIN,
-		  password: Config.LOGGINED_USER_PASS
+  caller = {
+      id: Config.LOGGINED_USER_ID,
+      full_name: Config.LOGGINED_FULL_NAME,
+      login: Config.LOGGINED_USER_LOGIN,
+      password: Config.LOGGINED_USER_PASS
     }; 
 
    chooseRecipient(caller.id); 
-	
+  
    callee = {
-		  id: Config.DOC_PAT_USER_ID,
-		  full_name: Config.DOC_PAT_FULL_NAME,
-		  login: Config.DOC_PAT_USER_LOGIN,
-		  password: Config.DOC_PAT_USER_PASS
+      id: Config.DOC_PAT_USER_ID,
+      full_name: Config.DOC_PAT_FULL_NAME,
+      login: Config.DOC_PAT_USER_LOGIN,
+      password: Config.DOC_PAT_USER_PASS
     };
 
     $('#calleeName').text(callee.full_name);
-	
-	QBUsers = [
-		caller,callee
-	];
-	
-	currentUser =  caller;
-	
+  
+  QBUsers = [
+    caller,callee
+  ];
+  
+  currentUser =  caller;
+  
   
   
  /* $(document).on('click', '.choose-user button', function() {
@@ -107,25 +107,22 @@ $(document).ready(function() {
     $('#ringtoneSignal')[0].pause();
     
   QB.webrtc.getUserMedia(mediaParams, function(err, stream) {
-		
-	  if (err) {
+    
+    if (err) {
         console.log(err);
         var deviceNotFoundError = 'Devices are not found';
         updateInfoMessage(deviceNotFoundError);
 
         QB.webrtc.reject(callee.id, {'reason': deviceNotFoundError});
       } else {
-		  		  
+            
         $('.btn_mediacall, #hangup').removeAttr('disabled');
         $('#audiocall, #videocall').attr('disabled', 'disabled');
 
         QB.webrtc.accept(callee.id);
         
         //console.log(caller_duration_type);
-		
-		 
-      
-        
+    
       }
     });
   });
@@ -229,24 +226,6 @@ QB.webrtc.onCallListener = function(userId, extension) {
     password: ""
   };
 
-
-  $.ajax({
-			url: "/get_chat_user_detail",
-			data: { 'callee_id': extension.opponents[0], 'caller_id': extension.callerID },
-			type: 'post',
-			success: function(r){
-		
-					 $('#callername').text(r.caller_user_data.username);
-					 $('#callprice').text(r.duration_data.rate_amount+'/'+ r.duration_data.duration);
-					
-					 callerid 				= r.caller_user_data.id; 
-					 caller_rate_amount 	= r.duration_data.rate_amount; 
-					 caller_duration_type 	= r.duration_data.duration; 
-					 currentwalletamount 	= r.caller_user_data.wallet_amount; 
-			}
-  });
-
-
   $('.caller').text(callee.full_name);
   
   $('#ringtoneSignal')[0].play();
@@ -262,57 +241,7 @@ QB.webrtc.onAcceptCallListener = function(userId, extension) {
 
   $('#callingSignal')[0].pause();
   updateInfoMessage(callee.full_name + ' has accepted this call');
-  
-   /**********************************************************************/
-   console.log('*******************');
-	$.ajax({
-			url: "/get_chat_user_detail",
-			data: { 'callee_id': userId, 'caller_id': caller.id },
-			type: 'post',
-			success: function(r){
-					
-						 if(r.duration_data.duration != ''){
-									interval_value	=	0;
-									
-									if(r.duration_data.duration == 'Second'){
-										interval_value	=	1000;
-									}else if(r.duration_data.duration == 'Minute'){
-										interval_value	=	1000 * 60 ;
-									}else if(r.duration_data.duration == 'Hour'){
-										interval_value	=	1000 * 3600;
-									}
-									
-									if (interval_value > 0){
-										chat_ref_id	=	new Date().getTime()+userId;
-									//	alert(chat_ref_id);
-									  call_interval	= setInterval(function(){
-										  
-										   $.ajax({
-												url: "/get_remaining_amount",
-												data: {'rate_amount': r.duration_data.rate_amount, 'caller_id': r.caller_user_data.id, 'callee_id': r.callee_user_data.id,'caller_username': r.caller_user_data.username,'callee_username': r.callee_user_data.username,'interval_type': r.duration_data.duration,'chat_ref_id': chat_ref_id},
-												type: 'post',
-												success: function(r1){
-													if(r1.remaining_amount < r.duration_data.rate_amount){
-															$('#hangup').trigger('click');
-													  }
-												}
-										   });
-									
-										}, interval_value);
-										
-										
-									}
-								}  
-				}
-    });
-   
-   
-   
-	
-  
-  
-  /**********************************************************************/
-  
+ 
 };
 
 QB.webrtc.onRejectCallListener = function(userId, extension) {
@@ -379,17 +308,19 @@ function hungUp(){
 function createSession() {
   QB.createSession(caller, function(err, res) {
     if (res) {
-			  
-		toidss = callee.id;
-		toname = callee.login;
-		  
-		retrieveChatDialogs();
-		setupAllListeners();
-		setupMsgScrollHandler();
-		createNewDialog(toidss, toname); 
-		  
-		connectChat();
-		
+        
+    toidss = callee.id;
+    toname = callee.login;
+      
+    setupStickerPipe();
+    retrieveChatDialogs();
+    setupAllListeners();
+    setupMsgScrollHandler();
+    setupStreamManagementListeners();
+    createNewDialog(toidss, toname); 
+      
+    connectChat();
+    
     }
   });
 }
@@ -418,10 +349,10 @@ function chooseRecipient(id) {
 }
 
 
-	function stopinterval(){
-		clearInterval(call_interval);
-		return;
-	}
+  function stopinterval(){
+    clearInterval(call_interval);
+    return;
+  }
 
 
 

@@ -1,5 +1,7 @@
 // build html for messages
 function buildMessageHTML(messageText, messageSenderId, messageDateSent, attachmentFileId, messageId, status){
+
+  //alert(messageSenderId);
   var messageAttach;
   if(attachmentFileId){
       messageAttach = '<img src="' + QB.content.publicUrl(attachmentFileId) + '/' + '/download.xml?token='+token+'" alt="attachment" class="attachments img-responsive" />';
