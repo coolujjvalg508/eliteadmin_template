@@ -3,7 +3,7 @@ function buildMessageHTML(messageText, messageSenderId, messageDateSent, attachm
 
   var messageAttach;
   if(attachmentFileId){
-     messageAttach = '<img src="http://api.quickblox.com/blobs/'+attachmentFileId+'/download.xml?token='+token+'" alt="attachment" class="attachments img-responsive" />';
+      messageAttach = '<img src="' + QB.content.publicUrl(attachmentFileId) + '/' + '/download.xml?token='+token+'" alt="attachment" class="attachments img-responsive" />';
   }
 
 	var isMessageSticker = stickerpipe.isSticker(messageText);
