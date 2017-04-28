@@ -19,19 +19,18 @@ function onSystemMessageListener(message) {
 
 function retrieveChatDialogs() {
   //alert(Config.LOGGINED_USER_ID);
-
     QB.chat.dialog.list(null, function(err, resDialogs) {
         if (err) {
-         // alert(err);
+        //  alert(err);
           //console.error(err);
         } else {
             // repackage dialogs data and collect all occupants ids
             var occupantsIds = [];
-
+//alert('jghj');
             // hide login form
             $('#loginForm').modal('hide');
 
-           // alert(resDialogs.items.length);
+          // alert(resDialogs.items.length);
 
             if(resDialogs.items.length === 0){
                 // setup attachments button handler
@@ -62,10 +61,10 @@ function retrieveChatDialogs() {
                 item.occupants_ids.map(function(userId) {
                     occupantsIds.push(userId);
                 });
+
             });
 
-            //alert(dialogs.stringify);
-
+            
             // load dialogs' users
             updateDialogsUsersStorage(jQuery.unique(occupantsIds), function(){
                 // show dialogs
@@ -170,6 +169,8 @@ function triggerDialog(dialogId){
 
     $('#messages-list').scrollTop($('#messages-list').prop('scrollHeight'));
 }
+
+
 
 function setupUsersScrollHandler(){
   // uploading users scroll event
@@ -290,6 +291,7 @@ function createNewDialog(toidss, toname) {
         }
     });
 }
+
 
 
 //

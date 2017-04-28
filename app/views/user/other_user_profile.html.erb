@@ -529,8 +529,8 @@
        
       if(other_user_qb_id == '' || other_user_qb_password == ''){  
 
-         random_password = "<%=  rand(11111111..99999999).to_s %>";
-         var params = { login: "<%=  @artist_data.email %>", password:  random_password , email: "<%=  @artist_data.email %>", full_name: "<%=  @artist_data.username %>" };
+         random_password1 = "<%=  rand(11111111..99999999).to_s %>";
+         var params = { login: "<%=  @artist_data.email %>", password:  random_password1 , email: "<%=  @artist_data.email %>", full_name: "<%=  @artist_data.username %>" };
 
                   QB.createSession(function (err, result) {
                     QB.users.create(params, function (err, result1) {
@@ -538,7 +538,7 @@
                           if(result1){
                              $.ajax({
                                     url: "/save_qb_data",
-                                    data: {qb_id:result1.id, qb_password: random_password  ,user_id: "<%=  @artist_data.id %>"},
+                                    data: {qb_id:result1.id, qb_password: random_password1  ,user_id: "<%=  @artist_data.id %>"},
                                     type:'post', 
                                     success: function(r){
                                       return true;
@@ -562,6 +562,7 @@
              other_user_qb_password    = "<%=  @artist_data.qb_password  %>";
                         
             create_current_user_quickblox(current_user_qb_id, current_user_qb_password);
+            setTimeout(function(){  }, 1000); 
             create_other_user_quickblox(other_user_qb_id, other_user_qb_password);
             
             setTimeout(function(){  redirectToMessage(); }, 10000); 

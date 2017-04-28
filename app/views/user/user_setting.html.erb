@@ -18,7 +18,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">General</div>
           <div class="panel-body">
-            <%= form_for(@user, url: update_profile_path, html: { method: :post , :id => "edit_profile_form"}) do |f| %>
+            <%= form_for(@user, url: update_userprofile_path, html: { method: :post , :id => "edit_profile_form"}) do |f| %>
               <div class="form-group clearfix">
                 <div class="row">
                   <div class="col-md-4 col-sm-6 col-xs-12">
@@ -70,7 +70,7 @@
                 <div class="marginB15"><a href="#" class="white-txt">Danger Zone</a></div>
                 <div class="marginB15"><a href="#" class="blue-txt">Cancel Account</a></div>
               </div>
-              <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
+              <button class="green-btn border-radius" type="submit"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
             <% end %>
           </div>
         </div>
@@ -98,7 +98,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">Username</div>
           <div class="panel-body">
-            <form role="form">
+            <%= form_for(@user, url: update_username_path, html: { method: :post , :id => "edit_profile_form"}) do |f|%>
               <div class="form-group clearfix warningbox marginB15">
                 <div class="txt16 marginB15 blue-txt">Warning - Danger ahead</div>
                 <div class="marginB10 lightcolor">Changing your username will change the URL of your ArtStation profiles. You will need to update any links that you have to these URL's:</div>
@@ -108,10 +108,12 @@
               </div>
               <div class="form-group clearfix">
                 <label onClick="">Change Username</label>
-                <input type="text" placeholder="Sher_123456789" class="form-control from-input">
+              
+                <%= f.text_field :username, placeholder: "omega_123456789", class: "form-control from-input", id: 'username'  %>
+                
               </div>
-              <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
-            </form>
+              <button class="green-btn border-radius" type="submit"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
+            <% end %>
           </div>
         </div>
         <div class="panel panel-default">

@@ -114,7 +114,7 @@ function setupAllListeners() {
   QB.chat.onDeliveredStatusListener = onDeliveredStatusListener;
   QB.chat.onReadStatusListener      = onReadStatusListener;
 
-  //setupIsTypingHandler();
+ // setupIsTypingHandler();
 }
 // reconnection listeners
 function onDisconnectedListener(){

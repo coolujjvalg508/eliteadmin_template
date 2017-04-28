@@ -306,19 +306,33 @@ function hungUp(){
 }
 
 function createSession() {
+  //alert(JSON.stringify(caller));
   QB.createSession(caller, function(err, res) {
     if (res) {
         
     toidss = callee.id;
     toname = callee.login;
+
+   // alert(toidss);
+   // alert(toname);
       
     setupStickerPipe();
-    retrieveChatDialogs();
+
+   if(Config.DOC_PAT_USER_LOGIN == ''){
+        retrieveChatDialogs();
+    }else{
+        updateDialogsUsersStorage(Config.LOGGINED_USER_ID, function(){});
+        updateDialogsUsersStorage(Config.DOC_PAT_USER_ID, function(){});
+    }
+
+    
     setupAllListeners();
     setupMsgScrollHandler();
     setupStreamManagementListeners();
-    createNewDialog(toidss, toname); 
-      
+    
+    //if(Config.DOC_PAT_USER_LOGIN == ''){
+      createNewDialog(toidss, toname); 
+    //}  
     connectChat();
     
     }
@@ -394,7 +408,7 @@ function setupAllListeners() {
     QB.chat.onSystemMessageListener = onSystemMessageListener;
     QB.chat.onDeliveredStatusListener = onDeliveredStatusListener;
     QB.chat.onReadStatusListener = onReadStatusListener;
-    setupIsTypingHandler();
+    //setupIsTypingHandler();
 }
 
 // reconnection listeners

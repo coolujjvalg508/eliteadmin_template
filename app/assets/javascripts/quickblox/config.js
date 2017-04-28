@@ -14,19 +14,20 @@ var config = {
     debug: {
         mode: 1,
         file: null
-    }/*,
+    },
+
     stickerpipe: {
         elId: 'stickers_btn',
         apiKey: 'e45d4bfc831b0cd3aa1f9fc070014f9b',
-        enableEmojiTab: true,
+        enableEmojiTab: false,
         enableHistoryTab: true,
-        enableStoreTab: false,
+        enableStoreTab: true,
 
         userId: null,
 
         priceB: '0.99 $',
         priceC: '1.99 $'
-    }*/
+    }
 };
 /*
 var QBUser1 = {
