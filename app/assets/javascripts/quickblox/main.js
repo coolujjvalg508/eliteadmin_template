@@ -2,6 +2,7 @@ var mediaParams, caller, callee ,userlist, callerid,caller_rate_amount,caller_du
 var toidss = '';
 var toname = "";
 var currentUser;
+var token = "";
 //QB.init(QBApp.appId, QBApp.authKey, QBApp.authSecret, config);
 $(document).ready(function() {
 
@@ -309,7 +310,7 @@ function createSession() {
   //alert(JSON.stringify(caller));
   QB.createSession(caller, function(err, res) {
     if (res) {
-        
+    token = res.token;    
     toidss = callee.id;
     toname = callee.login;
 
