@@ -243,36 +243,60 @@
   <div class="clearfix jobshomeheader">
   <div class="col-md-3 col-sm-4 col-xs-12 marginB10 jobs-padding">
   <div class="input-group stylish-input-group">
-    <input type="text" class="form-control"  placeholder="Enter a keyword..." >
+    <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
     <span class="input-group-addon">
     <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
     </span> </div>
   </div>
-  <div class="col-md-2 col-sm-4 col-xs-12 marginB10 jobs-padding">
-  <div class="job-location"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
-  <input type="text" class="form-control"  placeholder="Enter a location..." >
+  <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding"">
+  <select class="custom-select"  ng-change="searchByCountry(selected)" ng-model='selected'>
+    <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Country</option>
+    <% if @country_detail.present? %>
+      <% @country_detail.each do |country_detail| %>
+          <option   value="<%= country_detail.id %>"><%= country_detail.name %></option>
+      <% end %>
+    <% end %>
+  </select>
   </div>
 
   <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
-  <select class="custom-select">
-    <option>Job Type</option>
+  <select class="custom-select"  ng-change="searchByJobType(selected)" ng-model='selected'>
+    <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Job Type</option>
+    <% if @job_type.present? %>
+      <% @job_type.each do |job_type| %>
+        <option value="<%= job_type.name %>"><%= job_type.name %></option>
+      <% end %>
+    <% end %>
   </select>
   </div>
-  <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
-  <select class="custom-select">
-    <option>Select Category</option>
-  </select>
-  </div>
-  <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
-  <div class="clearfix"><div class="checkbox-btn"><input type="checkbox" value="value-1" id="rc101" name="rc101"/><label for="rc101" onclick>Work Remotely</label></div></div>
-  <div class="clearfix"><div class="checkbox-btn"><input type="checkbox" value="value-1" id="rc102" name="rc102"/><label for="rc102" onclick>Relocation Assistance</label></div></div>
+ <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
+    <select class="custom-select" ng-change="searchByCategoryType(selected)" ng-model='selected'>
+      <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Category Type</option>
+      <% if @catgorytype.present? %>  
+       <% @catgorytype.each do |cat_type| %>
+          <option value="<%= cat_type.id %>"><%= cat_type.name %></option>
+      <% end %>
+      <% end %>
+
+    </select>
+  </div> 
+
+   <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
+  <div class="clearfix"><div class="checkbox-btn">
+      <input type="checkbox" value="true" id="rc101" name="job[work_remotely]" ng-change="searchByWorkRemote(selected1)" ng-model='selected1'/><label for="rc101" onclick>Work Remotely</label></div></div>
+  <div class="clearfix"><div class="checkbox-btn">
+      
+      <input ng-change="searchByRelocationAssistance(selected)" ng-model='selected' type="checkbox" value="true" id="rc102" name="job[relocation_assistance]"/><label for="rc102" onclick>Relocation Assistance</label></div></div>
   </div>
 
 
   </div>
   <div class="showcase-btn-wrap clearfix text-center">
-  <button type="button" class="btn btn-success border-radius marginB10">Post a Job</button>
+  <% if user_signed_in? %>
+      <button onclick="redirect_to_create_job();" type="button" class="btn btn-success border-radius marginB10">Post a Job</button>
+  <% end %>
   <button type="button" class="btn btn-default border-radius marginB10">Job Map</button>
+
   <button type="button" class="btn btn-default border-radius marginB10">Companies</button>
   </div>
   </div>
@@ -303,8 +327,9 @@
 
     <div class="col-md-9 col-sm-12 col-xs-12">
       <ul>
-        <% if @final_result.present? %>
-          <li class="clearfix" ng-repeat="x in <%= @final_result.to_json %>">
+      
+          <li class="clearfix" dir-paginate="x in final_result | filter:search | itemsPerPage:10">
+         
             <div class="row">
               <div class="col-md-2 col-sm-3 col-xs-3">
                 <center><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"> </center>
@@ -312,56 +337,52 @@
               <div class="col-md-7 col-sm-6 col-xs-9 jobshomepagecontent">
                 <h2><a href="<%= root_url %>job/apply_job/{{x.id}}">{{x.title}}</a></h2>
                 <p>{{x.company.name}}</p>
-                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
-                <div class="clearfix"><span class="jobshometime">{{x.created_at | date:'dd MMMM yyyy'}} - 5,116 views</span></div>
+                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} 
+                <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
+                <div class="clearfix"><span class="jobshometime">{{x.created_at | date:'dd MMMM yyyy'}} - {{x.view_count}} views</span></div>
               </div>
               <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="jobhomelocation"><div class="job-maker"><i class="fa fa-map-marker" aria-hidden="true"></i></div> {{x.city}}, {{x.country.name}}</div>
               </div>
             </div>
           </li>
-          <% else %>
-            <li class="clearfix text-center err-msg no-result" >No Result Found!</li>
-          <% end %>
+          
+            <li class="clearfix text-center err-msg no-result" ng-hide="final_result.length" >No Result Found!</li>
+         
       </ul>
+     <div class="pagintionpage clearfix">
+          <dir-pagination-controls
+               max-size="1"
+               direction-links="true"
+               boundary-links="false" >
+          </dir-pagination-controls>
+
+      </div>
+     
     </div>
+
 
     <div class="col-md-3 col-sm-12 col-xs-12">
 
       <div class="FeaturedStudios clearfix marginB15">
         <ul>
+         <% if @featured_jobs.present?
+               @featured_jobs.each_with_index do |value, index|
+               # abort(value.to_json)
+         %>
           <li class="clearfix">
-            <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img2.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
+            <div class="FeaturedLeft pull-left"><%= image_tag(value.company_logo.thumb.url, :alt=>"Jobs", :class=>"img-responsive") %> </div>
             <div class="FeaturedRight pull-right clearfix">
-            <h2><a href="#">Maciek Blaźniak</a></h2>
-            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
-            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
+            <h2><a href="#"><%= value.title %></a></h2>
+            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%= value.job_type %> </p>
+            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%= value.city.present? ? value.city + ', ' : '' %> <%= value.country.present? ? value.country.name : '' %></p>
             </div>
           </li>
-          <li class="clearfix">
-            <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img3.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
-            <div class="FeaturedRight pull-right clearfix">
-            <h2><a href="#">Vera van Wolferen</a></h2>
-            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
-            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
-            </div>
-          </li>
-          <li class="clearfix">
-            <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img2.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
-            <div class="FeaturedRight pull-right clearfix">
-            <h2><a href="#">Maciek Blaźniak</a></h2>
-            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
-            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
-            </div>
-          </li>
-          <li class="clearfix">
-            <div class="FeaturedLeft pull-left"><%= image_tag("database/jobs-img3.jpg", :alt=>"Jobs", :class=>"img-responsive") %> </div>
-            <div class="FeaturedRight pull-right clearfix">
-            <h2><a href="#">Vera van Wolferen</a></h2>
-            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelance, Full Time </p>
-            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Animator, Architectual Visualiser</p>
-            </div>
-          </li>
+        <%
+              end
+           end  
+        %>  
+         
         </ul> 
       </div>
 
@@ -385,49 +406,33 @@
       <div class="contractwrap clearfix">
         <h2>contract type</h2>
         <ul>
+          <% if @contracttype.present? 
+              @contracttype.each_with_index do |value, index|
+          %>
           <li class="clearfix">
-            <div class="pull-left">Freelance</div>
-            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
+            <div class="pull-left"><%= value.name %></div>
+            <div class="pull-right gray-txt marginR5"><!-- <i aria-hidden="true" class="fa fa-bookmark txt16"></i> --></div>
           </li>
+          <%  
+              end
+          end %>
 
-          <li class="clearfix">
-            <div class="pull-left">Full Time</div>
-            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-          </li>
-
-          <li class="clearfix">
-            <div class="pull-left">Internship</div>
-            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-          </li>
-
-          <li class="clearfix">
-            <div class="pull-left">Part Time</div>
-            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-          </li>
-
-          <li class="clearfix">
-            <div class="pull-left">Contract</div>
-            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-          </li>
-
-          <li class="clearfix">
-            <div class="pull-left">Temporary</div>
-            <div class="pull-right gray-txt marginR5"><i aria-hidden="true" class="fa fa-bookmark txt16"></i></div>
-          </li>
+          
         </ul>
       </div>
 
       <div class="contractwrap clearfix">
         <h2>Job Categories</h2>
         <ul>
-          <li class="clearfix"><span class="pull-left">Animator</span><span class="pull-right gray-txt marginR5">27</span></li>
-          <li class="clearfix"><span class="pull-left">Architectual Visualiser</span><span class="pull-right gray-txt marginR5">0</span></li>
-          <li class="clearfix"><span class="pull-left">CG Lead</span><span class="pull-right gray-txt marginR5">2</span></li>
-          <li class="clearfix"><span class="pull-left">CG Supervisor</span><span class="pull-right gray-txt marginR5">27</span></li>
-          <li class="clearfix"><span class="pull-left">Character TD</span><span class="pull-right gray-txt marginR5">27</span></li>
-          <li class="clearfix"><span class="pull-left">Colorist</span><span class="pull-right gray-txt marginR5">27</span></li>
-          <li class="clearfix"><span class="pull-left">Compositor</span><span class="pull-right gray-txt marginR5">27</span></li>
-          <li class="clearfix"><span class="pull-left">Character TD</span><span class="pull-right gray-txt marginR5">27</span></li>
+          <% if @catgorytype.present? 
+              @catgorytype.each_with_index do |value, index|
+          %>
+
+          <li class="clearfix"><span class="pull-left"><%= value.name %></span><span class="pull-right gray-txt marginR5"></span></li>
+        
+         <% end 
+          end
+         %>  
          
         </ul>
       </div>
@@ -446,13 +451,80 @@
 <footer class="footer clearfix padding">
   <%= render 'layouts/lastfooter' %>
 </footer>
+<script type='text/javascript'>
+  function redirect_to_create_job(){
+      window.location.href = "<%= create_job_path %>";
+  }
+</script>
 
-<script>
+<script type="text/javascript">
+  var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  app.controller('myCtrl', function($sce, $scope, $http) {  
+//alert('jghj');
+    $scope.filter = function() {
+          
+          list_url = '/job/get_job_home_list?'; 
+          
+          if(typeof $scope.country_id !== 'undefined' && $scope.country_id != ''){
+            list_url += '&country_id=' + $scope.country_id
+          }
 
-  // main page angular app start
-  var app = angular.module('myApp', ["angularLazyImg"]);
-  app.controller('myCtrl', function($scope, $http) {
-      
+          if(typeof $scope.job_type !== 'undefined' && $scope.job_type != ''  && $scope.job_type != 'all'){
+            list_url += '&job_type=' + $scope.job_type
+          }
+
+          if(typeof $scope.job_category !== 'undefined' && $scope.job_category != ''  && $scope.job_category != 'all'){
+            list_url += '&job_category=' + $scope.job_category
+          }
+
+          if(typeof $scope.work_remotely !== 'undefined' && $scope.work_remotely != ''  && $scope.work_remotely != 'all'){
+            list_url += '&work_remotely=' + $scope.work_remotely
+          }
+
+          if(typeof $scope.relocation_asistance !== 'undefined' && $scope.relocation_asistance != ''  && $scope.relocation_asistance != 'all'){
+            list_url += '&relocation_asistance=' + $scope.relocation_asistance
+          }
+
+
+         
+          $http.get(list_url).then(function (response) {
+               $scope.final_result   = response.data;          
+          });
+      };
+      $scope.filter();
+
+     $scope.searchByCountry = function(id) {
+        $scope.country_id = id;
+         $scope.filter();
+     };
+
+     $scope.searchByJobType = function(value) {
+        $scope.job_type = value;
+         $scope.filter();
+     };
+
+    $scope.searchByCategoryType = function(value) {
+        $scope.job_category = value;
+         $scope.filter();
+     };
+
+    $scope.searchByWorkRemote = function(value) {
+        $scope.work_remotely = value;
+         $scope.filter();
+     };
+
+
+     $scope.searchByRelocationAssistance = function(value) {
+        $scope.relocation_asistance = value;
+         $scope.filter();
+     };
+
+
+
+
+
+
+
+
   });
-
 </script>

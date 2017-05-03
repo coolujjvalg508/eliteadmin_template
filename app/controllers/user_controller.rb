@@ -344,8 +344,6 @@ class UserController < ApplicationController
         if(params[:order] && params[:order] != '') 
                 orderby = params[:order]
         end
-
-
          @userlike  =  PostLike.where('user_id = ?', current_user).order('id '+ orderby)
 
          final_data = []
@@ -354,7 +352,6 @@ class UserController < ApplicationController
             final_data[index]  = {'gallery': data.gallery,'images': data.gallery.images,'videos': data.gallery.videos,'upload_videos': data.gallery.upload_videos,'marmo_sets': data.gallery.marmo_sets,'sketchfebs': data.gallery.sketchfebs}
          end
         render :json => final_data, status: 200
-
     end
 
     def user_profile_info
@@ -366,7 +363,7 @@ class UserController < ApplicationController
 
     end
 
-     def other_user_profile
+    def other_user_profile
         #abort(params.to_json)
         artist_id           =    params[:id]
        # abort(params.to_json)
@@ -375,7 +372,6 @@ class UserController < ApplicationController
         @professional_experiences = ProfessionalExperience.where('user_id = ? ',  @artist_data.id)
         @education_experiences = EducationExperience.where('user_id = ? ', @artist_data.id)
         @production_experiences = ProductionExperience.where('user_id = ? ', @artist_data.id)
-
     end
 
     def user_statistics

@@ -160,6 +160,30 @@ module ApplicationHelper
 
 	end
 
+	def get_previous_uploaded_job_tags
+
+		previous_job = Job.where("user_id = ? AND is_admin = 'N'", current_user.id).order('id DESC').first
+		tags = []
+
+		if previous_job.present?
+			if previous_job.tags.present?
+
+				previous_job.tags.each_with_index do |tag, i|
+					#abort(tag['tag'].to_json)
+
+					tags[i] = tag['tag']
+
+				end
+
+			end
+		end
+		return tags
+
+	end	
+
+
+
+
 	def connection_like_count()		
 		 
 		 follower         = Follow.where('artist_id = ?', current_user.id).count

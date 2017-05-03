@@ -9,6 +9,8 @@ class Job < ActiveRecord::Base
  
  belongs_to :company
  belongs_to  :country
+
+ attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :rotation_angle, :zoom_w, :zoom_h, :zoom_x, :zoom_y, :drag_x, :drag_y
  #belongs_to :job_category, :foreign_key =>"job_type"
  
  has_many :videos, as: :videoable, dependent: :destroy
@@ -36,5 +38,14 @@ class Job < ActiveRecord::Base
  accepts_nested_attributes_for :zip_files, reject_if: proc { |attributes| attributes['zipfile'].blank? || attributes['zipfile'].nil? }, allow_destroy: true
  
   accepts_nested_attributes_for :tags, reject_if: proc { |attributes| attributes['tag'].blank? || attributes['tag'].nil? }, allow_destroy: true
+
+
+VISIBILITY_TYPE = {'Public' => 0, 'Private' => 1}
+ GET_VISIBILITY_TYPE = {0 => 'Public', 1 => 'Private'}
+
+ PUBLISH_TYPE = {'Immediately' => 1, 'Schedule' => 0}
+ GET_PUBLISH_TYPE = {1 => 'Immediately', 0 => 'Schedule'}
+
+
 
 end

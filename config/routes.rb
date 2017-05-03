@@ -86,7 +86,7 @@ Rails.application.routes.draw do
   get 'store/index'
 
   get 'job/index'
-  get 'job/get_job_list'
+  #get 'job/get_job_list'
   get 'job/store'
   get 'job/job_post'
   get 'jobs'=> 'job#job_home'
@@ -94,6 +94,15 @@ Rails.application.routes.draw do
   get 'job/job_category' 
   get 'job/job_company_list_on_map'
   get 'job/job_list_on_map'
+  get 'job/new'  => 'job#new', as: 'create_job'
+  get 'job'   => 'job#listing_index', as: 'index_job'
+  get 'job/:paramlink/make_trash'    => 'job#make_trash', as: 'trash_job'
+  post 'job/create'                  => 'job#create',as: 'save_job'
+  get 'job/count_user_job_post'      => 'job#count_user_job_post', as: 'count_user_job_post'
+  get 'job/get_job_list'             => 'job#get_job_list', as: 'get_job_list'
+  get 'job/:paramlink/edit'          => 'job#edit', as: 'modify_job' 
+  patch 'job/:paramlink/update'       => 'job#update', as: 'update_job' 
+  get 'job/get_job_home_list'        => 'job#get_job_home_list', as: 'get_job_home_list' 
 
 
   put 'update_user_image' => 'job#update_user_image'

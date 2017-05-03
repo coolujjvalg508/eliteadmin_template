@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap.min
+//= require bootstrap-datetimepicker
 //= require wow.min
 //= require slick
 //= require jquery.bootstrap-responsive-tabs.min

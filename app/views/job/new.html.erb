@@ -1,48 +1,53 @@
-<% previous_tags = get_previous_uploaded_gallery_tags %>
+<% previous_tags = get_previous_uploaded_job_tags %>
 <!-- All Dashboard Start -->
-<!-- <input type ="file" id="marmosetTest">  -->
 <section class="clearfix container-fluid-full">
-    <div class="row-fluid">
-        <div class="sidebar-left">
-            <%= render 'layouts/navigation' %>
-        </div>
-        <div class="content clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
-            <div class="clearfix job-post-bread">
-                <ul class="breadcrumb">
-                  <li><%= link_to 'Gallery', index_gallery_path %></li>
-                    <li class="active">
-                        <% if 'edit' == params[:action] || 'update' == params[:action] %>
-                            Edit Project
-                        <% else %>
-                            Create Project
-                        <% end %>
-                    </li>
-                </ul>
-            </div>
+  <div class="row-fluid">
+    <div class="sidebar-left">
+         <%= render 'layouts/navigation' %>
+    </div>
+    <div class="content clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
+      <div class="clearfix job-post-bread">
+         <ul class="breadcrumb">
+          <li><%= link_to 'Jobs', index_job_path %></li>
+            <li class="active">
+               <% actiontype = '' %>
+                <% if 'edit' == params[:action] || 'update' == params[:action] 
+                        actiontype = update_job_path
+                %>
+                    Edit Job
+                <% else
+                        actiontype = save_job_path
+                 %>
+                    Create Job
+                <% end %>
+
+            </li>
+        </ul>
+      </div>
       
-            <!-- User Followers Start -->
-            <section class="clearfix jobswrap">
-<%= form_for( @gallery, html: { id: 'gallery_post_form',  role: "form" }) do |f| %>
-    <%= f.hidden_field :user_id, value: current_user.id %>   
-    <%= f.hidden_field :is_admin, value: 'N' %>      
-    <%= f.hidden_field :removedids, value: '' %>      
-    <%= f.hidden_field :removedimages, value: '' %>      
-    <%= f.hidden_field :removedvideourl, value: '' %>      
-    <%= f.hidden_field :removedsketchfab, value: '' %>      
-    <%= f.hidden_field :removedUploadVideo, value: '' %>      
-    <%= f.hidden_field :removedMarmoset, value: '' %>      
-<div id="hiddendata"></div>
-                <div class="clearfix notification-heading">
-                    <span class="noti-title" style="border:none;"> 
-                        <% if 'edit' == params[:action] || 'update' == params[:action] %>
-                            <%= @gallery.title %>
-                        <% else %>
-                            Untitled Project
-                        <% end %>
-                    </span> 
-                </div>
-                <div class="jobpostindent clearfix col-sm-12 col-xs-12 padding">
-                    <div class="clearfix marginB15 jobpostbox border-radius">
+      <!-- User Followers Start -->
+      <section class="clearfix jobswrap">
+      <%= form_for( @job, url: actiontype, html: { id: 'job_post_form',  role: "form" }) do |f| %>
+        <%= f.hidden_field :user_id, value: current_user.id, id: 'gallery_user_id' %>   
+        <%= f.hidden_field :is_admin, value: 'N', id: 'gallery_is_admin' %>      
+        <%= f.hidden_field :removedids, value: '', id: 'gallery_removedids' %>      
+        <%= f.hidden_field :removedimages, value: '', id: 'gallery_removedimages' %>      
+        <%= f.hidden_field :removedvideourl, value: '', id: 'gallery_removedvideourl' %>      
+        <%= f.hidden_field :removedsketchfab, value: '', id: 'gallery_removedsketchfab' %>      
+        <%= f.hidden_field :removedUploadVideo, value: '', id: 'gallery_removedUploadVideo' %>      
+        <%= f.hidden_field :removedMarmoset, value: '', id: 'gallery_removedMarmoset' %>   
+         <div id="hiddendata"></div>
+        <div class="clearfix notification-heading">  
+            <span class="noti-title" style="border:none;"> 
+                <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                    <%= @job.title %>
+                <% else %>
+                    Untitled Job
+                <% end %>
+            </span> </div>
+        <div class="jobpostindent clearfix col-sm-12 col-xs-12 padding">
+          
+          <div class="clearfix marginB15 jobpostbox border-radius">
                         <ul>
                             <li><a href="javascript:void(0);" ng-click="addNewImages()"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Add Images</a></li>
                             <li><a data-toggle="modal" href="#add-video-popup" ><i class="fa fa-film marginR5 blue-txt" aria-hidden="true"></i> Add Video</a></li>
@@ -65,17 +70,8 @@
                             </li>
                         </ul>
                     </div>
-                 <!--    <div class="marginB15 dragdrop text-center hidden-sm hidden-xs" id='dragimage'>   -->
 
-
-                    <div class="marginB15 dragdrop text-center hidden-sm hidden-xs" >
-                        <input accept="image/*" id='gallery_image_image_999' name='gallery[avatar][][image]' type='file' multiple="multiple" class='dragdrop-gallery'>
-                        <div class="marginB15"><i class="fa fa-files-o fa-2x" aria-hidden="true"></i></div>
-                         <div class="marginB15">Drag and drop your images here</div> 
-                        <button class="lightbtn padding10 lightcolor" type="button" ng-click="addNewImages()">Select Files</button>
-                    </div>
-                    
-                    <div class="clearfix marginB15 selectgallery">
+                     <div class="clearfix marginB15 selectgallery">
                         <ul>
 
                         <!-- Edit Mode Update Images list -->
@@ -88,7 +84,7 @@
                                     </center>
                                     
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[images_attributes_default][{{x.id}}][caption_image]" id="gallery_image_caption_image_default_{{$index}}" placeholder="Enter caption">{{x.caption_image}}</textarea>
+                                        <textarea class="form-control reel-txt" name="job[images_attributes_default][{{x.id}}][caption_image]" id="gallery_image_caption_image_default_{{$index}}" placeholder="Enter caption">{{x.caption_image}}</textarea>
                                     </div>
                                 </div>
 
@@ -102,11 +98,11 @@
                                     <center>
                                         <img src="" alt="image" class="img-responsive img-preview" id="gallery_image_view_{{$index}}" >
                                     </center>
-                                    <input type="file" name="gallery[images_attributes][{{$index}}][image]" id="gallery_image_image_{{$index}}" ng-show="false" accept="image/*" onchange="angular.element(this).scope().newImageUpload(this)" >
+                                    <input type="file" name="job[images_attributes][{{$index}}][image]" id="gallery_image_image_{{$index}}" ng-show="false" accept="image/*" onchange="angular.element(this).scope().newImageUpload(this)" >
 
 
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[images_attributes][{{$index}}][caption_image]" id="gallery_image_caption_image_{{$index}}" placeholder="Enter caption"></textarea>
+                                        <textarea class="form-control reel-txt" name="job[images_attributes][{{$index}}][caption_image]" id="gallery_image_caption_image_{{$index}}" placeholder="Enter caption"></textarea>
                                     </div>
                                 </div>
 
@@ -122,7 +118,7 @@
                                     </center>
 
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[videos_attributes_default][{{x.id}}][caption_video]" id="gallery_videos_caption_video_default_{{$index}}" placeholder="Enter caption">{{x.caption_video}}</textarea>
+                                        <textarea class="form-control reel-txt" name="job[videos_attributes_default][{{x.id}}][caption_video]" id="gallery_videos_caption_video_default_{{$index}}" placeholder="Enter caption">{{x.caption_video}}</textarea>
                                     </div>
                                 </div>
 
@@ -137,10 +133,10 @@
                                         <img src="" alt="Video Url" class="img-responsive img-preview" id="gallery_video_url_image_view_{{$index}}" >
                                     </center>
 
-                                    <input type="hidden" name="gallery[videos_attributes][{{$index}}][video]" id="gallery_videos_video_{{$index}}" />
+                                    <input type="hidden" name="job[videos_attributes][{{$index}}][video]" id="gallery_videos_video_{{$index}}" />
 
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[videos_attributes][{{$index}}][caption_video]" id="gallery_videos_caption_video_{{$index}}" placeholder="Enter caption"></textarea>
+                                        <textarea class="form-control reel-txt" name="job[videos_attributes][{{$index}}][caption_video]" id="gallery_videos_caption_video_{{$index}}" placeholder="Enter caption"></textarea>
                                     </div>
                                 </div>
 
@@ -156,7 +152,7 @@
                                     </center>
 
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[sketchfebs_attributes_default][{{x.id}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_default_{{$index}}" placeholder="Enter caption">{{x.caption_sketchfeb}}</textarea>
+                                        <textarea class="form-control reel-txt" name="job[sketchfebs_attributes_default][{{x.id}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_default_{{$index}}" placeholder="Enter caption">{{x.caption_sketchfeb}}</textarea>
                                     </div>
 
                                 </div>
@@ -173,10 +169,10 @@
                                         <img src="" alt="Sketchfab" class="img-responsive img-preview" id="gallery_sketchfab_url_image_view_{{$index}}" >
                                     </center>
 
-                                    <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][sketchfeb]" id="gallery_sketchfebs_sketchfeb_{{$index}}" /> 
+                                    <input type="hidden" name="job[sketchfebs_attributes][{{$index}}][sketchfeb]" id="gallery_sketchfebs_sketchfeb_{{$index}}" /> 
 
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[sketchfebs_attributes][{{$index}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_{{$index}}" placeholder="Enter caption"></textarea>
+                                        <textarea class="form-control reel-txt" name="job[sketchfebs_attributes][{{$index}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_{{$index}}" placeholder="Enter caption"></textarea>
                                     </div>
 
                                 </div>
@@ -193,7 +189,7 @@
                                     </center>
 
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[upload_videos_attributes_default][{{x.id}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_default_{{$index}}" placeholder="Enter caption">{{x.caption_upload_video}}</textarea>
+                                        <textarea class="form-control reel-txt" name="job[upload_videos_attributes_default][{{x.id}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_default_{{$index}}" placeholder="Enter caption">{{x.caption_upload_video}}</textarea>
                                     </div>
                                 </div>
 
@@ -207,10 +203,10 @@
                                     <center>
                                         <img src="" alt="Upload video" class="img-responsive img-preview" id="gallery_upload_video_view_{{$index}}" >
                                     </center>
-                                    <input type="file" name="gallery[upload_videos_attributes][{{$index}}][uploadvideo]" id="gallery_upload_videos_uploadvideo_{{$index}}" ng-show="false" accept="video/*" onchange="angular.element(this).scope().newVideoUpload(this)" >
+                                    <input type="file" name="job[upload_videos_attributes][{{$index}}][uploadvideo]" id="gallery_upload_videos_uploadvideo_{{$index}}" ng-show="false" accept="video/*" onchange="angular.element(this).scope().newVideoUpload(this)" >
 
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[upload_videos_attributes][{{$index}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_{{$index}}" placeholder="Enter caption"></textarea>
+                                        <textarea class="form-control reel-txt" name="job[upload_videos_attributes][{{$index}}][caption_upload_video]" id="gallery_upload_videos_caption_upload_video_{{$index}}" placeholder="Enter caption"></textarea>
                                     </div>
                                 </div>
 
@@ -226,7 +222,7 @@
                                     </center>
                                     
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[marmo_sets_attributes_default][{{x.id}}][caption_marmoset]" id="gallery_marmo_sets_caption_marmoset_default_{{$index}}" placeholder="Enter caption">{{x.caption_marmoset}}</textarea>
+                                        <textarea class="form-control reel-txt" name="job[marmo_sets_attributes_default][{{x.id}}][caption_marmoset]" id="gallery_marmo_sets_caption_marmoset_default_{{$index}}" placeholder="Enter caption">{{x.caption_marmoset}}</textarea>
                                     </div>
                                 </div>
 
@@ -240,10 +236,10 @@
                                     <center>
                                         <img src="" alt="Marmoset" class="img-responsive img-preview" id="gallery_marmo_set_view_{{$index}}" >
                                     </center>
-                                    <input type="file" name="gallery[marmo_sets_attributes][{{$index}}][marmoset]" id="gallery_marmo_sets_marmoset_{{$index}}" ng-show="false" accept=".mview" onchange="angular.element(this).scope().newMarmoSet(this)" >
+                                    <input type="file" name="job[marmo_sets_attributes][{{$index}}][marmoset]" id="gallery_marmo_sets_marmoset_{{$index}}" ng-show="false" accept=".mview" onchange="angular.element(this).scope().newMarmoSet(this)" >
                                     
                                     <div class="clearfix padding10">
-                                        <textarea class="form-control reel-txt" name="gallery[marmo_sets_attributes][{{$index}}][caption_marmoset]" id="gallery_marmo_sets_caption_marmoset_{{$index}}" placeholder="Enter caption"></textarea>
+                                        <textarea class="form-control reel-txt" name="job[marmo_sets_attributes][{{$index}}][caption_marmoset]" id="gallery_marmo_sets_caption_marmoset_{{$index}}" placeholder="Enter caption"></textarea>
                                     </div>
                                 </div>
 
@@ -252,106 +248,249 @@
 
                         </ul>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Project Details</div>
-                        <div class="panel-body">
-
-                            <div class="form-group clearfix ">
-                                <label>* Title</label>
-                                <%= f.text_field :title, class: 'form-control from-input skill-input', id: 'title', placeholder: 'Artwork Title', value: params[:gallery].present? ? params[:gallery][:title] : @gallery[:title] %>
-
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:title, "Title") %></span>
-                            </div>
-                            <div class="form-group clearfix">
-                                <label>Description</label>
-                                <%= f.text_area :description, class: 'form-control from-input message-form1', id: 'description', placeholder: 'Artwork Description', :value => params[:gallery].present? ? params[:gallery][:description] : @gallery[:description] %>
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:description, "Description") %></span>
-                                
-                            </div>
-                             <div class="form-group clearfix createpost">
-                                <label>Medium</label>
-                                <%= f.select(:medium_category_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:medium_category_id] : @gallery[:medium_category_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'medium_category_id'})  %>
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:medium_category_id, "Medium") %></span>
-                            </div>
-                            <div class="form-group clearfix createpost">
-                                <label>Post Type</label>
-                                <%= f.select(:post_type_category_id, options_for_select(Category.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:post_type_category_id] :  @gallery[:post_type_category_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'post_type_category_id'})  %>
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:post_type_category_id, "Post type") %></span>
-                            </div>
-                           
-                            <div class="form-group clearfix createpost">
-                                <label>Subject Matter</label>
-                                <%= f.select(:subject_matter_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:subject_matter_id] : @gallery[:subject_matter_id]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi input', 'id' => 'subject_matter_id', multiple: true})  %>
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:subject_matter_id, "Subject matter") %></span>
-                            </div>
-
-                            <div class="form-group clearfix">
-                                <label>Team Member</label>
-                                <%= f.select(:team_member, options_for_select(User.order('firstname ASC').pluck(:firstname, :id), params[:gallery].present? ? params[:gallery][:team_member] : @gallery[:team_member]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'software_used', multiple: true})  %>
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:team_member, "Software used") %></span>
-                            </div>
-
-                            <div class="form-group clearfix">
-                                <label>Challenge</label>
-
-                                <%= f.select(:challenge, options_for_select(Challenge.where("challenge_type_id = 0").order('created_at DESC').pluck(:title, :id), params[:gallery].present? ? params[:gallery][:challenge] : @gallery[:challenge]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'challenge', multiple: true})  %>
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:challenge, "Challenge") %></span>
-                            </div>
 
 
 
-                            <div class="form-group clearfix">
-                                <div class="checkbox-btn paddinT10">
-                                    <%= f.check_box :has_adult_content %>
-                                    <label for="gallery_has_adult_content">Has Adult Content (<span class="blue-txt">what is this?</span>)</label>
-                                </div>
-                            </div>
-                            <div class="form-group clearfix">
-                                <label>Add the software used on this project</label>
-                                <%= f.select(:software_used, options_for_select(SoftwareExpertise.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:software_used] :  @gallery[:software_used]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'software_used', multiple: true})  %>
-                                <span class="err-msg"><%= form_error_msg_for(@gallery,:software_used, "Software used") %></span>
-                            </div>
 
-    <%= f.fields_for :tag do |tag_form| %>
-        <% tag_options = [] 
-        if params[:gallery].present?
-            tag_options = params[:gallery][:tag][:tag]
-            tag_options.reject!{|a| a==""}
 
-        elsif @gallery.try(:tags).present?
-            @gallery.try(:tags).each_with_index do |tag, i|
-                tag_options[i] = tag['tag']
+
+
+                  <div class="marginB15">
+                      <label class="marginB15">* Title</label>
+                    <%= f.text_field :title, class: 'form-control from-input skill-input', id: 'title', placeholder: 'Job Title', value: params[:job].present? ? params[:job][:title] : @job[:title] %>
+                    <span class="err-msg"><%= form_error_msg_for(@job,:title, "Title") %></span>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading padding"><!--  <img src="images/database/txt-job-post.jpg" class="img-responsive" alt="img">  --></div>
+                    <div class="panel-body">
+                      <%= f.text_area :description, class: 'form-control from-input message-form1 ', id: 'description', placeholder: 'Job Description', :value => params[:job].present? ? params[:job][:description] : @job[:description] %>
+                      <span class="err-msg"><%= form_error_msg_for(@job,:description, "Description") %></span>
+                    </div>
+                  </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">More Details &amp; Address</div>
+            <div class="panel-body">
+              
+                <div class="row">
+                  <div class="form-group clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Company Name</label>
+                    <div class="col-md-6 col-sm-6 col-xs-10">
+                    <%= f.text_field :company_name, class: 'form-control from-input', id: 'company_id', placeholder: 'Add new if company name not listed' %>
+                      <!-- <input type="text" class="form-control from-input" placeholder="Add new if company name not listed"> -->
+                    </div>
+
+                    <div class="col-md-1 col-sm-1 col-xs-2 text-center white-txt paddinT10">or</div>
+                    <div class="col-md-5 col-sm-5 col-xs-12 txt13">
+
+                     
+                       <%= f.select(:company_id, options_for_select(Company.pluck(:name, :id), params[:job].present? ? params[:job][:company_id] : @job[:company_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'company_id'})  %>
+
+                       <!--    <input type="text" class="form-control from-input add-input" placeholder=""> -->
+                    
+                    <div class="add-txt pull-right"></div>
+                    </div>
+                  </div>
+                
+                  <div class="form-group clearfix">
+                    <label class="col-md-6 col-sm-6 col-xs-6">Job Type</label>
+                    <label class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6">Amount</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12 marginB10">
+                      <select class="custom-select" name="job[job_type]">
+                        <% if @jobcategory.present? 
+                          @jobcategory.each_with_index do |value, index|  
+                        %>
+                            <option value="<%= value.name %>"><%= value.name %></option>
+                        <% end
+                        end %> 
+                      </select>
+
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-5 col-md-offset-1">
+                     <%= f.text_field :from_amount, class: 'form-control from-input', id: 'from_amount', placeholder: 'From Amount', value: params[:job].present? ? params[:job][:from_amount] : @job[:from_amount] %>
+                    </div>
+
+                    <div class="col-md-1 col-sm-1 col-xs-2 text-center white-txt paddinT10">or</div>
+                    <div class="col-md-2 col-sm-6 col-xs-5">
+                        <%= f.text_field :to_amount, class: 'form-control from-input skill-input', id: 'to_amount', placeholder: 'To Amount', value: params[:job].present? ? params[:job][:to_amount] : @job[:to_amount] %>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Job Category</label>
+                    <div class="col-md-12 col-sm-12 col-xs-12 marginB10">
+                       <select class="custom-select" name="job[job_category]">
+                             <% job_category = CategoryType.pluck(:name,:id) 
+
+                                if job_category.present?
+                                    job_category.each_with_index do |value, index| 
+                             %>
+                              <option><%= value[0] %></option>
+                             <% 
+                                  end
+                                end
+                            %>
+                      </select>  
+
+                    <!--   <input type="text" class="form-control from-input"> -->
+                    
+                    </div>
+                  </div> 
+
+
+                <div class="form-group clearfix">
+                    <label class="col-md-6 col-sm-6 col-xs-6">How to Apply</label>
+                    <label class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6"></label>
+                    <div class="col-md-7 col-sm-6 col-xs-12 marginB10">
+                   
+                    <select class="custom-select" name="job[apply_type]" id="apply_type">
+                            <option value="email">Email</option>
+                            <option value="url">URL</option>
+                            <option value="instruction">Instruction</option>
+                      </select>                   </div>
+                    <div class="col-md-2 col-sm-6 col-xs-5 col-md-offset-1"> </div>
+                </div>
+
+                <div class="form-group clearfix" id="apply_email_div">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Application Email</label>
+                    <div class="col-md-12 col-sm-12 col-xs-10">
+                        <%= f.text_field :apply_email, class: 'form-control from-input', id: 'apply_email', placeholder: 'Apply by email', value: params[:job].present? ? params[:job][:apply_email] : @job[:apply_email] %>
+                     </div>
+                </div>
+                <div class="form-group clearfix" id="apply_url_div">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Application URL</label>
+                    <div class="col-md-12 col-sm-12 col-xs-10">
+                        <%= f.text_field :apply_url, class: 'form-control from-input', id: 'apply_url', placeholder: 'Apply by url', value: params[:job].present? ? params[:job][:apply_url] : @job[:apply_url] %>
+                     </div>
+                </div>
+                <div class="form-group clearfix" id="apply_instruction_div">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Application Instructions</label>
+                    <div class="col-md-12 col-sm-12 col-xs-10">
+                        <%= f.text_area :apply_instruction, class: 'form-control from-input message-form1', id: 'apply_instruction', placeholder: 'Apply by url', value: params[:job].present? ? params[:job][:apply_instruction] : @job[:apply_instruction] %>
+
+                        
+                     </div>
+                </div>
+
+                  <div class="form-group clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Location of Company</label>
+                    <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
+                     
+                        <%= f.select(:country_id, options_for_select(Country.active.pluck(:name, :id), params[:job].present? ? params[:job][:country_id] : @job[:country_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'country_id'})  %>
+                       
+                      
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
+                      <%= f.text_field :city, class: 'form-control from-input', id: 'city', placeholder: 'city', value: params[:job].present? ? params[:job][:city] : @job[:city] %>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
+                      <div class="checkbox-btn paddinT10">
+                        <%= f.check_box :is_featured, id: 'rc3', name: "job[is_featured]" %>
+                        <!-- <input type="checkbox" value="value-1" id="rc3" name="rc3"/> -->
+                        <label for="rc3" onclick>Work Remotely</label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-6 marginB10 padding">
+                      <div class="checkbox-btn paddinT10">
+                       <%= f.check_box :relocation_asistance, id: 'rc4', name: "job[relocation_asistance]" %>
+                       <!--  <input type="checkbox" value="value-1" id="rc4" name="rc4"/> -->
+                        <label for="rc4" onclick>Relocation Assistance</label>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="form-group clearfix margin">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Closing Date</label>
+                    <div class="col-md-6 col-sm-6 col-xs-6 marginB10">
+                       <%= f.text_field :closing_date, class: 'form-control from-input', id: 'closing_date', placeholder: 'closing date', value: params[:job].present? ? params[:job][:closing_date] : @job[:closing_date] %>
+                    </div>
+                  </div>
+                </div>
+                <!--<button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>-->
+           
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">Skills</div>
+            <div class="panel-body">
+
+                <div class="row">
+                  <div class="form-group clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
+                    <div class="col-md-8 col-sm-6 col-xs-6">
+                    
+                    <%= f.select(:skill, options_for_select(JobSkill.order('created_at DESC').pluck(:name, :id), params[:job].present? ? params[:job][:skill] : @job[:skill]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'jobskill', multiple: true})  %>
+                    
+                     <!--  <input type="text" class="form-control from-input skill-input" placeholder=""> -->
+                   
+                    </div>
+                  </div>
+                  <div class="form-group clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12">software expertise needed for job:</label>
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+
+                    <%= f.select(:software_expertise, options_for_select(SoftwareExpertise.order('created_at DESC').pluck(:name, :id), params[:job].present? ? params[:job][:software_expertise] : @job[:software_expertise]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'jobsoftware_expertise', multiple: true})  %>
+                     
+                   <!--    <input type="text" class="form-control from-input"> -->
+                   
+                    </div>
+                  </div>
+                </div>
+              <!--   <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button> -->
+           
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-body">
+            <%= f.fields_for :tag do |tag_form| %>
+            <% tag_options = [] 
+            if params[:job].present?
+                tag_options = params[:job][:tag][:tag]
+                tag_options.reject!{|a| a==""}
+
+            elsif @job.try(:tags).present?
+                @job.try(:tags).each_with_index do |tag, i|
+                    tag_options[i] = tag['tag']
+                end
             end
-        end
-        %>
-                            <div class="form-group clearfix">
-                                <label>Tags (use tags to add more detailed subject matter)</label>
-                                <!-- <input type="text" class="form-control from-input js-example-tags"> -->
-                                <%= tag_form.select(:tag, options_for_select(tag_options, params[:gallery].present? ? params[:gallery][:tag][:tag] : tag_options), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-tags', 'id' => 'tag', multiple: true})  %>
-                            </div>
-    <% end %>
+            %>
 
-                            <% if previous_tags.present? && 'edit' != params[:action] && 'update' != params[:action] %>
-                                <div class="form-group clearfix">
-                                    <div class="checkbox-btn">
-                                        <%= f.check_box :use_tag_from_previous_upload %>
-                                        <label for="gallery_use_tag_from_previous_upload" onclick>Use tags from previous upload </label>
-                                    </div>
-                                </div>
+                <div class="clearfix marginB15">
+                   <!--  <input type="text" class="form-control from-input add-input1"> -->
+                    <%= tag_form.select(:tag, options_for_select(tag_options, params[:job].present? ? params[:job][:tag][:tag] : tag_options), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-tags', 'id' => 'tag', multiple: true})  %>
+                     <!-- <button type="button" class="green-btn addbtn">Add</button> -->
+                </div>
+         <% end %> 
 
-                            <% end %>
+            <div class="white-txt marginB15"><em>Separate tags with commas</em></div>
+              <div class="blue-txt marginB15">Choose from the most used tags</div>
+             
 
-                            <div class="form-group clearfix margin">
-                                <div class="checkbox-btn">
-                                    <%= f.check_box :is_featured %>
-                                    <label for="gallery_is_featured" onclick>Feature this Post</label>
-                                </div>
-                            </div>
-                        </div>
+            <% if previous_tags.present? && 'edit' != params[:action] && 'update' != params[:action] %>
+                <div class="form-group clearfix">
+                    <div class="checkbox-btn">
+                        <%= f.check_box :use_tag_from_previous_upload, id: 'rc5', name: "job[use_tag_from_previous_upload]" %>
+                        <label for="rc5" onclick>Use tags from previous upload </label>
                     </div>
                 </div>
 
-                <div class="aside col-sm-12 col-xs-12 padding">
+            <% end %>
+                <div class="checkbox-btn paddinT10">
+                <%= f.check_box :is_featured, id: 'rc6', name: "job[is_featured]" %>
+                <!-- <input type="checkbox" value="value-1" id="rc6" name="rc6"/> -->
+                <label for="rc6" onclick>Feature this Post</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="aside col-sm-12 col-xs-12 padding">
                     <div class="panel panel-default">
                         <div class="panel-heading">Publish</div>
                         <div class="panel-body">
@@ -359,18 +498,20 @@
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <button type="submit" class="lightbtn" value="SaveDraft" name="commit">Save Draft</button>
                                 </div>
+                                <% if 'edit' == params[:action] || 'update' == params[:action] %>
                                 <div class="col-md-6 col-sm-6 col-xs-6 text-right">
                                     <button class="lightbtn" type="button">Preview</button>
                                 </div>
+                                <% end %>
                             </div>
 
                             <% if 'edit' == params[:action] || 'update' == params[:action] %>
                                 <div class="clearfix marginB15 status-link"> <i class="fa fa-key marginR5 lightcolor" aria-hidden="true"></i> Status : <strong>
-                                    <%  if @gallery.is_trash == 1 %>
+                                    <%  if @job.is_trash == 1 %>
                                         Trashed
-                                    <%  elsif @gallery.is_save_to_draft == 1 %>
+                                    <%  elsif @job.is_save_to_draft == 1 %>
                                         Draft
-                                    <% elsif @gallery.publish %>
+                                    <% elsif @job.publish %>
                                         Published
                                     <% else %>
                                         Not Published 
@@ -382,7 +523,7 @@
                             
                             <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a> 
                                 <div class="form-group clearfix createpost marginT10" ng-show="show_visibility_option">        
-                                    <select id="visibility" name="gallery[visibility]" class="custom-select" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption" ng-change="view_visibility_edit_option()"></select>
+                                    <select id="visibility" name="job[visibility]" class="custom-select" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption" ng-change="view_visibility_edit_option()"></select>
                                 </div>
                             </div>
 
@@ -392,7 +533,7 @@
 
                                 <div class='form-group clearfix marginT10' ng-show="show_publish_option">
                                     <div class='clearfix' >
-                                        <select id="publish" name="gallery[publish]" class="custom-select" ng-options="option.name for option in dataPublish.availableOptions track by option.id" ng-model="dataPublish.selectedOption" ng-change="update_publish_type()"></select>
+                                        <select id="publish" name="job[publish]" class="custom-select" ng-options="option.name for option in dataPublish.availableOptions track by option.id" ng-model="dataPublish.selectedOption" ng-change="update_publish_type()"></select>
                                     </div>
                                      <div class='clearfix input-group date marginT10 right-panel-datetime-picker' id='datetimepicker1' ng-show="show_schedule_time" >
                                         <%= f.text_field :schedule_time, class: 'form-control from-input', id: 'schedule_time', placeholder: '', "ng-model" => "ctrl.schedule_time.date", "is-open" => "ctrl.schedule_time.open", "datetime-picker" => "yyyy-MM-dd HH:mm", 'readonly' => 'readonly' %>
@@ -407,7 +548,7 @@
 
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <% if 'edit' == params[:action] || 'update' == params[:action] %>
-                                        <%= link_to 'Delete'.html_safe, trash_gallery_path(@gallery), data: { confirm: 'Are you sure?' }, title: "Delete", class: "btn-link" %>
+                                        <%= link_to 'Delete'.html_safe, trash_job_path(@job.paramlink), data: { confirm: 'Are you sure?' }, title: "Delete", class: "btn-link" %>
                                     <% end %>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6 text-right">
@@ -451,11 +592,11 @@
                         <div class="panel-body">
                             <div class="white-txt marginB15"> Where do you want this Project to show?</div>
                             <div class="checkbox-btn marginB15">
-                                <%= f.check_box :show_on_cgmeetup %>
+                                <%= f.check_box :show_on_cgmeetup , name: 'job[show_on_cgmeetup]', id: 'gallery_show_on_cgmeetup' %>
                                 <label for="gallery_show_on_cgmeetup" onclick>CGMeetup.net</label>
                             </div>
                             <div class="checkbox-btn">
-                                <%= f.check_box :show_on_website %>
+                                <%= f.check_box :show_on_website , name: 'job[show_on_website]', id: 'gallery_show_on_website' %>
                                 <label for="gallery_show_on_website" onclick>My Website</label>
                             </div>
                         </div>
@@ -466,9 +607,11 @@
                     </div> -->
                 </div>
 
-<% end %>   
-            </section>
-            <!-- Model Add Video URL Start-->
+
+
+
+        <% end %> 
+      </section>
             <div class="modal fade default-popup" id="add-video-popup" role="dialog">
                 <div class="modal-dialog"> 
 
@@ -492,9 +635,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Model Add Video URL End-->
 
-            <!-- Modal Crop Start-->
             <div  class="modal fade default-popup" id="modal_crop" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -515,10 +656,8 @@
                 </div>
               </div>
             </div>
-            <!-- Modal Crop End-->
 
-            <!-- Modal sketchfeb Start-->
-            <div class="modal fade default-popup" id="add-sketchfab-popup" role="dialog">
+             <div class="modal fade default-popup" id="add-sketchfab-popup" role="dialog">
                 <div class="modal-dialog"> 
 
                     <!-- Modal content-->
@@ -551,17 +690,43 @@
                     </div>
                 </div>
             </div>
-            <!-- Modal Crop End-->
 
-        </div>
+
     </div>
+  </div>
+
 </section>
+<script type="text/javascript">
+    $(document).ready(function(){
 
-<!-- Footer Start -->
-<footer class="footer clearfix padding">
- <%= render 'layouts/lastfooter' %>
-</footer>
+     $('#apply_email_div').show();
+     $('#apply_url_div').hide();
+     $('#apply_instruction_div').hide();
 
+
+        $('#apply_type').on('change',function(){
+                apply_type = $('#apply_type').val();
+                if(apply_type == 'email'){
+                        $('#apply_email_div').show();
+                        $('#apply_url_div').hide();
+                        $('#apply_instruction_div').hide();
+
+                }else if(apply_type == 'url'){
+                        $('#apply_email_div').hide();
+                        $('#apply_url_div').show();
+                        $('#apply_instruction_div').hide();
+
+                }else if(apply_type == 'instruction'){
+                        $('#apply_email_div').hide();
+                        $('#apply_url_div').hide();
+                        $('#apply_instruction_div').show();
+
+                }
+        });
+
+    })
+
+</script>
 <script>
 
 
@@ -577,8 +742,8 @@
         };
 
         $scope.companyLogoImage = '';
-        <% if @gallery.try(:company_logo).try(:large_image).try(:url).present? %>
-            $scope.companyLogoImage = "<%= @gallery.company_logo.large_image.url %>";
+        <% if @job.try(:company_logo).try(:large_image).try(:url).present? %>
+            $scope.companyLogoImage = "<%= @job.company_logo.large_image.url %>";
         <% end %>    
 
         $scope.imageUpload = function(element){
@@ -639,14 +804,14 @@
         };
         
 
-        <% if params['gallery'].present? %>
+        <% if params['job'].present? %>
 
-            <% if params['gallery']['visibility'] == '1' %>
+            <% if params['job']['visibility'] == '1' %>
                 visibility_sel_id = '1';
                 visibility_sel_name = 'Private';
             <% end %>
 
-            <% if params['gallery']['publish'] == '0' %>
+            <% if params['job']['publish'] == '0' %>
                 publish_sel_id = '0';
                 publish_sel_name = 'Schedule';
 
@@ -654,8 +819,8 @@
                 $scope.show_publish_edit_option = false;
                 $scope.show_schedule_time = true;
 
-                <% if params['gallery']['schedule_time'] != '' %>
-                    var schedule_time_val = '<%= params['gallery']['schedule_time'] %>';
+                <% if params['job']['schedule_time'] != '' %>
+                    var schedule_time_val = '<%= params['job']['schedule_time'] %>';
                     this.schedule_time = {
                         date: new Date(schedule_time_val)
                     };
@@ -666,12 +831,12 @@
             <% end %>
 
         <% elsif 'edit' == params[:action] || 'update' == params[:action] %>
-                <% if @gallery.visibility == 1 %>
+                <% if @job.visibility == 1 %>
                     visibility_sel_id = '1';
                     visibility_sel_name = 'Private'; 
                 <% end %>
 
-                <% if @gallery.publish == 0 %>
+                <% if @job.publish == 0 %>
                     publish_sel_id = '0';
                     publish_sel_name = 'Schedule';
 
@@ -679,8 +844,8 @@
                     $scope.show_publish_edit_option = false;
                     $scope.show_schedule_time = true;
 
-                    <% if @gallery.schedule_time != '' %>
-                        var schedule_time_val = '<%= @gallery.schedule_time %>';
+                    <% if @job.schedule_time != '' %>
+                        var schedule_time_val = '<%= @job.schedule_time %>';
                         this.schedule_time = {
                             date: new Date(schedule_time_val)
                         };
@@ -741,7 +906,7 @@
 
 /***** for edit page section start*******/
         //To get saved images and update them
-        $scope.add_images_default = <%= @gallery.images.to_json.html_safe %>;
+        $scope.add_images_default = <%= @job.images.to_json.html_safe %>;
         $scope.removeImageDefault = function (x, id) {   
             var removedid = angular.element('#gallery_removedimages').attr('value');
 
@@ -759,7 +924,7 @@
 
 
         //To get saved video_url and update them
-        $scope.add_video_url_default = <%= @gallery.videos.to_json.html_safe %>;
+        $scope.add_video_url_default = <%= @job.videos.to_json.html_safe %>;
         $scope.removeVideoURLDefault = function (x, id) {   
             var removedid = angular.element('#gallery_removedvideourl').attr('value');
 
@@ -791,7 +956,7 @@
         });
 
         //To get saved sketchfab and update them
-        $scope.add_sketchfab_url_default = <%= @gallery.sketchfebs.to_json.html_safe %>;
+        $scope.add_sketchfab_url_default = <%= @job.sketchfebs.to_json.html_safe %>;
         $scope.removeSketchfabURLDefault = function (x, id) {   
             var removedid = angular.element('#gallery_removedsketchfab').attr('value');
 
@@ -823,7 +988,7 @@
         });
 
         //To get saved upload video and update them
-        $scope.add_upload_videos_default = <%= @gallery.upload_videos.to_json.html_safe %>;
+        $scope.add_upload_videos_default = <%= @job.upload_videos.to_json.html_safe %>;
         $scope.removeUploadVideoDefault = function (x, id) {   
             var removedid = angular.element('#gallery_removedUploadVideo').attr('value');
 
@@ -855,7 +1020,7 @@
         });
 
         //To get saved marmoset and update them
-        $scope.add_marmo_sets_default = <%= @gallery.marmo_sets.to_json.html_safe %>;
+        $scope.add_marmo_sets_default = <%= @job.marmo_sets.to_json.html_safe %>;
         $scope.removeMarmoSetDefault = function (x, id) {   
             var removedid = angular.element('#gallery_removedMarmoset').attr('value');
 
@@ -1248,7 +1413,7 @@
                 return false;
             }
            reader.onload = function(event){
-                outputhtml  +=   '<li class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="li'+j+'"><div class="galleryselect clearfix"><div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a  href="javascript:void(0);" onclick="removethumb('+j+','+k+')" id="remove_'+j+'" class="fa fa-times" aria-hidden="true"></a></span> </div><center><img src="'+event.target.result+'" alt="img" class="img-responsive img-preview" id="gallery_image_view_'+j+'" ></center><div class="clearfix padding10"><textarea class="form-control reel-txt" name="gallery[avatar_caption][][caption_image]" id="gallery_image_caption_image_'+j+'" placeholder="Enter caption"></textarea></div></div></li>';
+                outputhtml  +=   '<li class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="li'+j+'"><div class="galleryselect clearfix"><div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a  href="javascript:void(0);" onclick="removethumb('+j+','+k+')" id="remove_'+j+'" class="fa fa-times" aria-hidden="true"></a></span> </div><center><img src="'+event.target.result+'" alt="img" class="img-responsive img-preview" id="gallery_image_view_'+j+'" ></center><div class="clearfix padding10"><textarea class="form-control reel-txt" name="job[avatar_caption][][caption_image]" id="gallery_image_caption_image_'+j+'" placeholder="Enter caption"></textarea></div></div></li>';
                 
                 j = j +1;
                 k = k +1;
@@ -1276,4 +1441,23 @@
 
     $('#gallery_removedids').val(removedid);
  }
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#closing_date').datetimepicker({
+
+    startDate: '-0d',
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0,
+    dateFormat: 'mm-dd-yy', 
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '-70:+10',
+        });
+    });
 </script>

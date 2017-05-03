@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427071859) do
+ActiveRecord::Schema.define(version: 20170502085139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -468,6 +468,22 @@ ActiveRecord::Schema.define(version: 20170427071859) do
     t.json     "package_id"
     t.string   "state"
     t.integer  "country_id"
+    t.string   "zoom_w"
+    t.string   "zoom_h"
+    t.string   "zoom_x"
+    t.string   "zoom_y"
+    t.string   "drag_x"
+    t.string   "drag_y"
+    t.string   "rotation_angle"
+    t.string   "crop_x"
+    t.string   "crop_y"
+    t.string   "crop_w"
+    t.string   "crop_h"
+    t.integer  "is_trash",                     default: 0
+    t.integer  "like_count",                   default: 0
+    t.integer  "view_count",                   default: 0
+    t.integer  "comment_count",                default: 0
+    t.integer  "follow_count",                 default: 0
   end
 
   create_table "latest_activities", force: :cascade do |t|

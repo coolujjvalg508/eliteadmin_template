@@ -1,8 +1,8 @@
 class GalleryController < ApplicationController
 
-  before_action :authenticate_user!, only: [:all_gallery_post, :get_gallery_post_list, :get_gallery_post_list, :count_user_gallery_post]
+  before_action :authenticate_user!, only: [:all_gallery_post, :get_gallery_post_list, :count_user_gallery_post]
  
-  def index
+  def ind
 
     #abort(current_user.to_json)
 

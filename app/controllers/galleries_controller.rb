@@ -561,7 +561,7 @@ class GalleriesController < ApplicationController
 
     def get_gallery_post_list
     #abort(params.to_json)
-        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' AND is_trash = 0 "
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y'"
 
         if(params[:post_type_category_id] && params[:post_type_category_id] != '')
           conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
@@ -610,15 +610,21 @@ class GalleriesController < ApplicationController
         r_data.each do |val|
 
           if val['is_featured'] == TRUE
-            total_featured = total_featured + 1
+            if val['is_trash'] == 0
+              total_featured = total_featured + 1
+            end
           end  
 
           if val['publish'] == 1
-            total_published = total_published + 1
+            if val['is_trash'] == 0
+              total_published = total_published + 1
+            end
           end  
 
           if val['is_save_to_draft'] == 1
-            total_draft = total_draft + 1
+            if val['is_trash'] == 0
+              total_draft = total_draft + 1
+            end
           end 
 
           if val['is_trash'] == 1
