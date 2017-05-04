@@ -434,9 +434,15 @@
                     <div class="col-md-8 col-sm-12 col-xs-12">
 
                     <%= f.select(:software_expertise, options_for_select(SoftwareExpertise.order('created_at DESC').pluck(:name, :id), params[:job].present? ? params[:job][:software_expertise] : @job[:software_expertise]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'jobsoftware_expertise', multiple: true})  %>
-                     
-                   <!--    <input type="text" class="form-control from-input"> -->
-                   
+    
+                    </div>
+                  </div>
+                  <div class="form-group clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Packages</label>
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+
+                    <%= f.select(:package_id, options_for_select(Package.order('created_at DESC').pluck(:title, :id), params[:job].present? ? params[:job][:package_id] : @job[:package_id]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'package_id', multiple: true})  %>
+    
                     </div>
                   </div>
                 </div>

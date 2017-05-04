@@ -434,6 +434,7 @@ class JobController < ApplicationController
   end
 
   def get_job_home_list
+
     conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
    
     if(params[:country_id] && params[:country_id] != '')
@@ -456,11 +457,21 @@ class JobController < ApplicationController
           conditions += " AND relocation_asistance=" + params[:relocation_asistance]
     end 
 
+     if(params[:user_id] && params[:user_id] != '')
+          conditions += " AND is_admin='N' AND user_id=" + params[:user_id]
+    end 
 
+
+    #abort(conditions.to_json)
+
+    orderby = 'DESC'
+    if(params[:order] && params[:order] != '') 
+              orderby = params[:order]
+    end
     
 
 
-    @result = Job.where(conditions).order('id DESC')
+    @result = Job.where(conditions).order('id '+ orderby)
     #@final_result = JSON.parse(@result.to_json(:include => [:company, :country]))
     render :json =>  @result.to_json(:include => [:company, :country]), status: 200
   
@@ -508,6 +519,23 @@ class JobController < ApplicationController
   
   def job_post  	
   end
+
+  def applied_job
+      paramlink         = params[:paramlink]
+      @result           = Job.where("paramlink = ? ", paramlink).first
+      @similar_jobs     = Job.where("paramlink != ? ", paramlink).order('random()').limit(4)
+      apply_type        = @result.apply_type
+      @success_message  = ""
+      
+      if apply_type == "email"
+          @success_message  = "Thank you for applying. We will get back to you shortly"  
+      elsif apply_type == "url"
+          redirect_to @result.apply_url
+      else
+          @success_message  = @result.apply_instruction  
+      end 
+
+  end  
   
  
   def apply_job
@@ -515,7 +543,7 @@ class JobController < ApplicationController
     @job_id = params[:id]
 
     conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
-    @result = Job.where(conditions).find_by(id: @job_id)
+    @result = Job.where(conditions).find_by(paramlink: @job_id)
 
     if @result.present?
 
@@ -525,7 +553,7 @@ class JobController < ApplicationController
       @software_expertise = SoftwareExpertise.where('id IN (?)', @result.software_expertise)
       @job_skills = JobSkill.where('id IN (?)', @result.skill)
 
-      similar_job_conditions = "id != #{@job_id} AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+      similar_job_conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) AND paramlink !='" + @job_id  + "'"
 
       @similar_jobs = Job.where(similar_job_conditions).order('random()').limit(4)
 
@@ -534,6 +562,52 @@ class JobController < ApplicationController
     end
 
   end 
+  def follow_job
+        
+          job_id        = params[:job_id]
+          company_id        = params[:company_id]
+          user_id          = current_user.id
+          is_follow_exist  = JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).first
+          result = ''
+          
+          userrecord       = Job.where(id: job_id).first
+
+          if is_follow_exist.present?
+                JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).delete_all 
+                
+                newfollow_count  =  (userrecord.follow_count == 0) ? 0 : userrecord.follow_count - 1
+                userrecord.update(follow_count: newfollow_count) 
+
+                result  = {'res' => 0, 'message' => 'Job Not Follow'}
+          else
+                JobFollow.create(user_id: user_id, job_id: job_id, company_id: company_id)
+                
+
+                newfollow_count  =  userrecord.follow_count + 1
+                userrecord.update(follow_count: newfollow_count) 
+
+                result  = {'res' => 1, 'message' => 'Job Follow'}
+
+          end 
+
+
+          render json: result, status: 200    
+             
+  end
+  def check_follow_job
+          job_id     = params[:job_id]
+          company_id     = params[:company_id]
+          user_id        = current_user.id
+          is_like_exist  = JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).first
+          result = ''
+          if is_like_exist.present?
+                result  = {'res' => 1, 'message' => 'Job already followed'}
+          else
+                result  = {'res' => 0, 'message' => 'Job not followed'}
+          end 
+
+          render json: result, status: 200       
+    end  
 
   def job_category
   end
@@ -542,6 +616,18 @@ class JobController < ApplicationController
   end
 
   def job_list_on_map
+
+    conditions      = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+    @result         = Job.where(conditions).order('id DESC').page(params[:page]).per(10)
+    @final_result   = JSON.parse(@result.to_json(:include => [:company, :country]))
+    @job_type       = JobCategory.all
+    @country_detail = Country.all
+    
+    @contracttype   = JobCategory.all
+    @catgorytype     = CategoryType.all
+    @featured_jobs  = Job.where("is_featured = ?", true).order('id DESC').limit(5)
+
+
   end
 
 

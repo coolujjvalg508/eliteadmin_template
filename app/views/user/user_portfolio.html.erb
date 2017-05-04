@@ -8,7 +8,9 @@
   <div class="navbar-artist-profile clearfix">
     <ul class="nav navbar-nav">
       <li class="dropdown ng-scope active"> <a href="<%= user_portfolio_path %>">Portfolio <i class="fa fa-chevron-down fa-pad-left blue-txt"></i></a></li>
+
       <li> <a href="<%= my_profile_path %>">About</a> </li>
+      <li> <a href="<%= user_jobs_path %>">Job</a> </li>
       <li> <a href="<%= connection_following_path %>"> Following <span class="counter-number ng-binding">(<%= res[:following] %>)</span> </a> </li>
        <li> <a href="<%= connection_followers_path %>"> Followers<span class="counter-number ng-binding">(<%= res[:follower] %>)</span> </a> </li>
       <li> <a href="<%= user_like_path %>"> Likes<span class="counter-number ng-binding">(<%= res[:like] %>)</span> </a> </li>

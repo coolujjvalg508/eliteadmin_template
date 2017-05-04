@@ -295,9 +295,9 @@
   <% if user_signed_in? %>
       <button onclick="redirect_to_create_job();" type="button" class="btn btn-success border-radius marginB10">Post a Job</button>
   <% end %>
-  <button type="button" class="btn btn-default border-radius marginB10">Job Map</button>
+  <button onclick="redirect_to_job_on_map();" type="button" class="btn btn-default border-radius marginB10">Job Map</button>
 
-  <button type="button" class="btn btn-default border-radius marginB10">Companies</button>
+  <button  onclick="redirect_to_company_on_map();" type="button" class="btn btn-default border-radius marginB10">Companies</button>
   </div>
   </div>
   </section>
@@ -335,7 +335,7 @@
                 <center><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"> </center>
               </div>
               <div class="col-md-7 col-sm-6 col-xs-9 jobshomepagecontent">
-                <h2><a href="<%= root_url %>job/apply_job/{{x.id}}">{{x.title}}</a></h2>
+                <h2><a href="<%= root_url %>job/apply-job/{{x.paramlink}}">{{x.title}}</a></h2>
                 <p>{{x.company.name}}</p>
                 <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} 
                 <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
@@ -441,7 +441,7 @@
     </div>
 
     <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
-        <%= paginate @result %>
+        <%#= paginate @result %>
     </div>
     
   </section>
@@ -455,6 +455,18 @@
   function redirect_to_create_job(){
       window.location.href = "<%= create_job_path %>";
   }
+
+  function redirect_to_job_on_map(){
+      window.location.href = "<%= job_list_on_map_path %>";
+  }
+
+  function redirect_to_company_on_map(){
+    window.location.href = "<%= job_company_list_on_map_path %>";
+  }
+
+
+
+  
 </script>
 
 <script type="text/javascript">
@@ -518,13 +530,5 @@
         $scope.relocation_asistance = value;
          $scope.filter();
      };
-
-
-
-
-
-
-
-
   });
 </script>

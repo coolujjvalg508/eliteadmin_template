@@ -1,6 +1,6 @@
 class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
-    before_action :authenticate_user!, only: [:save_qb_data, :notification, :dashboard, :bookmark, :edit_profile, :update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
+    before_action :authenticate_user!, only: [:save_qb_data, :notification, :dashboard, :bookmark, :edit_profile, :user_jobs,:update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
  
 
     def dashboard
@@ -361,6 +361,10 @@ class UserController < ApplicationController
         @education_experiences = EducationExperience.where('user_id = ? ', current_user)
         @production_experiences = ProductionExperience.where('user_id = ? ', current_user)
 
+    end
+
+    def user_jobs
+            @job_type = JobCategory.all
     end
 
     def other_user_profile

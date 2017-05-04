@@ -1,0 +1,124 @@
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+
+
+<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+    <section class="clearfix jobpostpage">
+        <div class="col-md-9 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="clearfix marginB15">
+                    <ul class="breadcrumb">
+                       <!--  <li><a href="<%= jobs_path %>">Jobs</a></li>
+                        <li class="active"><%= @result.title %></li> -->
+                    </ul>
+                </div>
+                
+               
+                <div class="clearfix marginB15 jobs-indent">
+                    <div class="col-md-12">
+                             <span style='text-align:center; color:#00FF00'><p>  <%= @success_message.html_safe %> </p></span>
+                    </div>
+                
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="studiowrap clearfix">
+                <div class="studio-profile">
+                   <!--  <img lazy-img="<%= @result.company_logo.thumb.url %>" class="img-responsive"> -->
+                <%#= image_tag("compnay-profile-img.jpg", :alt=>"img", :class=>"img-responsive") %></div>
+                <div class="studio-content clearfix">
+
+                <%#= abort(@result.company.name.to_json) %>
+                      <h3><%#= @result.company.present?  ? @result.company.name : '' %></h3>
+                      <p><%#= @result.city.present?  ? @result.city : '' %>  <%#= @result.country.present?  ? @result.country.name : '' %></p><!-- <p><a href="#" class=""><i class="fa fa-plus-circle marginR5" aria-hidden="true"></i> Follow</a></p> -->
+                </div>
+            </div>
+            <div class="FeaturedStudios clearfix marginB15">
+                <h3 class="studio-title">Similar Jobs</h3>
+                <ul>
+
+                    <% if @similar_jobs.present? %> 
+
+                        <% @similar_jobs.each do |similar_job| %>
+
+                            <li class="clearfix" >
+                                <div class="FeaturedLeft pull-left">
+                                <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
+                                </div>
+                                <div class="FeaturedRight pull-right clearfix">
+                                    <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
+                                    <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
+                                    <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
+                                </div>
+                            </li>
+                        <% end %>    
+                    <% else %>  
+                        <li class="clearfix text-center err-msg no-result" >No Similar Job Found!</li>
+                    <% end %> 
+                </ul>
+            </div>
+            # <div class="marginB15"><%= image_tag("/assets/database/googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %></div>
+            <div class="wiphome marginB15 clearfix">
+                <h2>Wants Critique / Wip</h2>
+                <ul class="margin">
+                    <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                    <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                    <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                    <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                    <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                    <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                    <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                    <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                    <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                </ul>
+            </div>
+
+            <div class="FeaturedStudios clearfix marginB15">
+                <h3 class="studio-title">Similar Jobs </h3>
+                <ul>
+                    <% if @similar_jobs.present? %> 
+
+                        <% @similar_jobs.each do |similar_job| %>
+
+                            <li class="clearfix" >
+                                <div class="FeaturedLeft pull-left">
+                                <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
+                                </div>
+                                <div class="FeaturedRight pull-right clearfix">
+                                    <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
+                                    <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
+                                    <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
+                                </div>
+                            </li>
+                        <% end %>    
+                    <% else %>  
+                        <li class="clearfix text-center err-msg no-result" >No Similar Job Found!</li>
+                    <% end %> 
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>    
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+ <%= render 'layouts/lastfooter' %>
+</footer>
+<script>
+    function applyJob(job_paramlink){
+           // alert(job_paramlink);
+           window.location.href = "<%= root_url %>" + "job/applied-job/"+job_paramlink;  
+
+    }
+</script>
+
+<script>
+
+    // main page angular app start
+    var app = angular.module('myApp', ["angularLazyImg"]);
+    app.controller('myCtrl', function($scope, $http) {
+
+    });
+
+</script>

@@ -1,3 +1,6 @@
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
+
 <div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
     <section class="clearfix jobpostpage">
         <div class="col-md-9 col-sm-12 col-xs-12">
@@ -34,12 +37,17 @@
                         <span class="price-txt">
                             <%= @result.from_amount != '' ? '$' + @result.from_amount : ''%> <%= @result.from_amount != '' && @result.to_amount != '' ? '-' : ''%> <%= @result.to_amount != '' ? '$' + @result.to_amount : ''%>
                         </span>
-                        <button class="green-btn" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
+                        <button onclick='return applyJob("<%= @result.paramlink %>")' class="green-btn" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
                     </div>
                 </div>
                 <div class="clearfix marginB15">
                     <div class="col-md-4 col-sm-4 col-xs-12 jobs-heading"><i class="fa fa-file-text-o marginR5" aria-hidden="true"></i> Job Description</div>
-                    <div class="col-md-8 col-sm-8 col-xs-12 text-right"><%= image_tag("sociall-follow.jpg", :alt=>"Sociall") %></div>
+                    <div class="col-md-8 col-sm-8 col-xs-12 text-right">
+                    <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
+                    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                        <div class="addthis_inline_share_toolbox_xe0e"></div>
+                        
+                    </div>
                 </div>
                 <div class="clearfix marginB15 jobs-indent">
                     <div class="col-md-12">
@@ -67,71 +75,37 @@
                         <% end %>
 
                         <h3><i class="fa fa-ellipsis-v" aria-hidden="true"></i> How to Apply</h3>
-                        <p>Please send your resume to <a href="mailto:hr@cgmeetup.net">hr@cgmeetup.net</a> with "Lead Character Artist-LA in the subject line if you are interst"</p>
+                        <p>Please send your resume to <a href="mailto:hr@cgmeetup.net">hr@cgmeetup.net</a>. if you are intersted"</p>
                     </div>
                     <div class="clearfix marginB40">
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <button class="green-btn" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
+                            <button onclick='return applyJob("<%= @result.paramlink %>")' class="green-btn" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
                         </div>
-                        <div class="col-md-8 col-sm-8 col-xs-12 text-right"><%= image_tag("sociall-follow.jpg", :alt=>"Sociall") %></div>
+                        <div class="col-md-8 col-sm-8 col-xs-12 text-right">
+                        <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
+                        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                        <div class="addthis_inline_share_toolbox_xe0e"></div>
+                            
+                        </div>
                     </div>
                     <div class="clearfix youmaylikewrap">
                         <h2>You May Also Like</h2>
                         <div class="youmaylikeindent clearfix">
-        
+                         <% if @similar_jobs.present? %> 
+                             <% @similar_jobs.each do |similar_job| %>
+                            
                             <div class="col-md-6 col-sm-6 col-xs-12 marginB25">
-                                <div class="maylikeleft pull-left"><%= image_tag("database/IrrationalGames_Logo.jpg", :alt=>"Jobs", :class=>"img-responsive") %></div>
+                                <div class="maylikeleft pull-left"> <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive"></div>
                                 <div class="maylikeright pull-right clearfix">
-                                    <h3><a href="#">3D Character Artist (Mobile RPG)</a></h3>
-                                    <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> Art Director / Concept Artist </p>
-                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i> aint John, NB, Canada</p>
+                                    <h3><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h3>
+                                    <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> <%=similar_job.job_type%> </p>
+                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i><%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
                                 </div>
                             </div>
+                            <% end %>   
+                        <% end %>   
           
-                            <div class="col-md-6 col-sm-6 col-xs-12 marginB25">
-                                <div class="maylikeleft pull-left"><%= image_tag("database/H13_BLACK_1.jpg", :alt=>"Jobs", :class=>"img-responsive") %></div>
-                                <div class="maylikeright pull-right clearfix">
-                                    <h3><a href="#">Concept Artist, Character - Temporary</a></h3>
-                                    <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> Hangar 13 </p>
-                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i> Novato, CA, USA</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-6 col-xs-12 marginB25">
-                                <div class="maylikeleft pull-left"><%= image_tag("database/black_stompy.jpg", :alt=>"Jobs", :class=>"img-responsive") %></div>
-                                <div class="maylikeright pull-right clearfix">
-                                    <h3><a href="#">3D Character Artist (Mobile RPG)</a></h3>
-                                    <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> Art Director / Concept Artist </p>
-                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i> aint John, NB, Canada</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-6 col-xs-12 marginB25">
-                                <div class="maylikeleft pull-left"><%= image_tag("database/logo_kulka.jpg", :alt=>"Jobs", :class=>"img-responsive") %></div>
-                                <div class="maylikeright pull-right clearfix">
-                                    <h3><a href="#">Level Artist</a></h3>
-                                    <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> Techland Sp. z o.o. </p>
-                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i> Wrocław, Warszawa, Poland</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-6 col-xs-12 marginB25">
-                                <div class="maylikeleft pull-left"><%= image_tag("database/logoGL_Chrome.jpg", :alt=>"Jobs", :class=>"img-responsive") %></div>
-                                <div class="maylikeright pull-right clearfix">
-                                    <h3><a href="#">FX Artist</a></h3>
-                                    <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> Gameloft Montreal </p>
-                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i> aint John, NB, Canada</p>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-sm-6 col-xs-12 marginB25">
-                                <div class="maylikeleft pull-left"><%= image_tag("database/Flame_Logo.jpg", :alt=>"Jobs", :class=>"img-responsive") %></div>
-                                <div class="maylikeright pull-right clearfix">
-                                    <h3><a href="#">Senior Environment Artist Map Lead</a></h3>
-                                    <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> Hangar 13 </p>
-                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i> Novato, CA, USA</p>
-                                </div>
-                            </div>
+                            
            
                         </div>
                     </div>
@@ -141,10 +115,17 @@
 
         <div class="col-md-3 col-sm-12 col-xs-12">
             <div class="studiowrap clearfix">
-                <div class="studio-profile"><%= image_tag("compnay-profile-img.jpg", :alt=>"img", :class=>"img-responsive") %></div>
+                <div class="studio-profile">
+                    <img lazy-img="<%= @result.company_logo.thumb.url %>" class="img-responsive">
+                <%#= image_tag("compnay-profile-img.jpg", :alt=>"img", :class=>"img-responsive") %></div>
                 <div class="studio-content clearfix">
-                      <h3>Streamline Studios</h3>
-                      <p>VFX Studio, Malaysia <a href="#" class=""><i class="fa fa-plus-circle marginR5" aria-hidden="true"></i> Follow</a></p>
+
+                <%#= abort(@result.company.name.to_json) %>
+                      <h3><%= @result.company.present?  ? @result.company.name : '' %></h3>
+                      <p><%= @result.city.present?  ? @result.city : '' %>,  <%= @result.country.present?  ? @result.country.name : '' %></p></br>
+                      <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
+                      <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
+                      
                 </div>
             </div>
             <div class="FeaturedStudios clearfix marginB15">
@@ -160,7 +141,7 @@
                                 <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
                                 </div>
                                 <div class="FeaturedRight pull-right clearfix">
-                                    <h2><a href="<%= apply_job_path(similar_job.id) %>"><%= similar_job.title %></a></h2>
+                                    <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
                                     <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
                                     <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
                                 </div>
@@ -199,7 +180,7 @@
                                 <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
                                 </div>
                                 <div class="FeaturedRight pull-right clearfix">
-                                    <h2><a href="<%= apply_job_path(similar_job.id) %>"><%= similar_job.title %></a></h2>
+                                    <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
                                     <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
                                     <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
                                 </div>
@@ -217,6 +198,13 @@
 <footer class="footer clearfix padding">
  <%= render 'layouts/lastfooter' %>
 </footer>
+<script>
+    function applyJob(job_paramlink){
+           // alert(job_paramlink);
+           window.location.href = "<%= root_url %>" + "job/applied-job/"+job_paramlink;  
+
+    }
+</script>
 
 <script>
 
@@ -225,5 +213,42 @@
     app.controller('myCtrl', function($scope, $http) {
 
     });
+
+$(document).ready(function() {
+    $.ajax({
+            type: "post",
+            url: "<%= check_follow_job_path %>" ,
+            data: {'job_id': '<%= @result.id %>','company_id': '<%= @result.company_id %>'},
+            success: function(data){
+                //alert(data.res)
+               if(data.res == 1) {
+                        $('#follow_button').addClass('hidden');
+                        $('#unfollow_button').removeClass('hidden');
+                }else{
+                        $('#follow_button').removeClass('hidden');
+                        $('#unfollow_button').addClass('hidden');
+                }
+            }
+      });
+
+    $('#follow_button, #unfollow_button').on('click',function(){
+            $.ajax({
+                type: "post",
+                url: "<%= follow_job_path %>" ,
+                data: {'job_id': '<%= @result.id %>','company_id': '<%= @result.company_id %>'},
+                success: function(data){
+                  //alert(data.res)
+                 if(data.res == 1) {
+                      $('#follow_button').addClass('hidden');
+                      $('#unfollow_button').removeClass('hidden');
+                  }else{
+                       $('#follow_button').removeClass('hidden');
+                       $('#unfollow_button').addClass('hidden');
+                  }
+
+                }
+            });
+    });
+});
 
 </script>

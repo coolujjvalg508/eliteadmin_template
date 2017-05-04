@@ -65,6 +65,7 @@ Rails.application.routes.draw do
   post 'notification_setting' => 'user#notification_setting', as: 'notification_setting' 
   get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
   get 'profile' => 'user#user_profile_info', as: 'my_profile' 
+  get 'user-jobs' => 'user#user_jobs', as: 'user_jobs' 
 
   get 'about-us/:id' => 'user#other_user_profile', as: 'user_profile_info' 
 
@@ -90,10 +91,11 @@ Rails.application.routes.draw do
   get 'job/store'
   get 'job/job_post'
   get 'jobs'=> 'job#job_home'
-  get 'job/apply_job/:id'=> 'job#apply_job', as: 'apply_job' 
+  get 'job/apply-job/:id'=> 'job#apply_job', as: 'apply_job' 
   get 'job/job_category' 
   get 'job/job_company_list_on_map'
-  get 'job/job_list_on_map'
+  get 'job/job-list-on-map'=> 'job#job_list_on_map', as: 'job_list_on_map'
+  get 'job/job-company-list-on-map'=> 'job#job_company_list_on_map', as: 'job_company_list_on_map'
   get 'job/new'  => 'job#new', as: 'create_job'
   get 'job'   => 'job#listing_index', as: 'index_job'
   get 'job/:paramlink/make_trash'    => 'job#make_trash', as: 'trash_job'
@@ -101,11 +103,13 @@ Rails.application.routes.draw do
   get 'job/count_user_job_post'      => 'job#count_user_job_post', as: 'count_user_job_post'
   get 'job/get_job_list'             => 'job#get_job_list', as: 'get_job_list'
   get 'job/:paramlink/edit'          => 'job#edit', as: 'modify_job' 
-  patch 'job/:paramlink/update'       => 'job#update', as: 'update_job' 
+  patch 'job/:paramlink/update'      => 'job#update', as: 'update_job' 
   get 'job/get_job_home_list'        => 'job#get_job_home_list', as: 'get_job_home_list' 
+  get 'job/applied-job/:paramlink'  => 'job#applied_job', as: 'applied_job' 
+  post 'job/follow_job'           => 'job#follow_job', as: 'follow_job' 
+  post 'job/check_follow_job'     => 'job#check_follow_job', as: 'check_follow_job'
 
-
-  put 'update_user_image' => 'job#update_user_image'
+  put 'update_user_image'   => 'job#update_user_image'
   delete 'remove_cover_art' => 'job#remove_cover_art'
     
   resources :user, only: [:edit, :update]
