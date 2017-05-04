@@ -581,16 +581,11 @@ class JobController < ApplicationController
                 result  = {'res' => 0, 'message' => 'Job Not Follow'}
           else
                 JobFollow.create(user_id: user_id, job_id: job_id, company_id: company_id)
-                
-
                 newfollow_count  =  userrecord.follow_count + 1
                 userrecord.update(follow_count: newfollow_count) 
 
                 result  = {'res' => 1, 'message' => 'Job Follow'}
-
           end 
-
-
           render json: result, status: 200    
              
   end

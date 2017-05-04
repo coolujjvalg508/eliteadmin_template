@@ -336,7 +336,7 @@
                 <center><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"> </center>
               </div>
               <div class="col-md-7 col-sm-6 col-xs-9 jobshomepagecontent">
-                <h2><a href="<%= root_url %>job/apply_job/{{x.id}}">{{x.title}}</a></h2>
+                <h2><a href="<%= root_url %>job/apply-job/{{x.paramlink}}">{{x.title}}</a></h2>
                 <p>{{x.company.name}}</p>
                 <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} 
                 <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
@@ -374,7 +374,7 @@
           <li class="clearfix">
             <div class="FeaturedLeft pull-left"><%= image_tag(value.company_logo.thumb.url, :alt=>"Jobs", :class=>"img-responsive") %> </div>
             <div class="FeaturedRight pull-right clearfix">
-            <h2><a href="#"><%= value.title %></a></h2>
+            <h2><a href="<%= root_url %>job/apply-job/<%= value.paramlink %>"><%= value.title %></a></h2>
             <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%= value.job_type %> </p>
             <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%= value.city.present? ? value.city + ', ' : '' %> <%= value.country.present? ? value.country.name : '' %></p>
             </div>
@@ -464,9 +464,6 @@
   function redirect_to_company_on_map(){
     window.location.href = "<%= job_company_list_on_map_path %>";
   }
-
-
-
   
 </script>
 
