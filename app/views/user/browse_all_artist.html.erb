@@ -134,21 +134,13 @@
                                         <i class="fa fa-eye marginR5" aria-hidden="true"></i> {{x.view_count}}
                                     </span> 
                                 </div>
-                                <div class="col-md-5 col-sm-4 col-xs-12">
+                                <div class="col-md-5 col-sm-4 col-xs-12" ng-show = "x.images.length > 0">
                                     <div class="border-radius followers-indent">
-                                        <ul>
-                                            <li>
-                                                <center><%= image_tag("database/followers-1.jpg", :alt => "Followers",:class=>"img-responsive") %></center>
+                                      <ul>
+                                           <li ng-repeat="y in x.images | limitTo: 4">
+                                                <center><img src="{{y.image.thumb.url}}" class="img-responsive" alt="img"></center>
                                             </li>
-                                            <li>
-                                                <center><%= image_tag("database/followers-2.jpg", :alt => "Followers",:class=>"img-responsive") %></center>
-                                            </li>
-                                            <li>
-                                                <center><%= image_tag("database/followers-3.jpg", :alt => "Followers",:class=>"img-responsive") %></center>
-                                            </li>
-                                            <li>
-                                                <center><%= image_tag("database/followers-4.jpg", :alt => "Followers",:class=>"img-responsive") %></center>
-                                            </li>
+                                            
                                         </ul>
                                     </div>
                                 </div>

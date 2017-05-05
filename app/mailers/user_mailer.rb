@@ -30,6 +30,18 @@ class UserMailer < Devise::Mailer
     devise_mail(record, :password_change, opts)
   end
 
+  def job_application_email(sender_email,receiver_email,job_title,current_user)
+      
+      @senderemail    = sender_email
+      @receiveremail  = receiver_email
+      @current_user   = current_user
+      @job_title      = job_title
+      subject         = 'Apply for' + job_title
+      #abort(@vendor_request.email.to_json)
+      #abort(receiver_email.to_json)
+      mail( :to => @receiveremail, :from => @senderemail, :subject => subject)
+  end
+
   private
 
    def add_inline_attachment!
@@ -41,5 +53,7 @@ class UserMailer < Devise::Mailer
 		attachments.inline["gl.png"] = File.read(Rails.root.join('app/assets/images/gl.png'))
 		attachments.inline["yt.png"] = File.read(Rails.root.join('app/assets/images/yt.png'))
   end 
+
+  
 
 end

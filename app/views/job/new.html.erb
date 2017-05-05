@@ -506,7 +506,7 @@
                                 </div>
                                 <% if 'edit' == params[:action] || 'update' == params[:action] %>
                                 <div class="col-md-6 col-sm-6 col-xs-6 text-right">
-                                    <button class="lightbtn" type="button">Preview</button>
+                                    <button onclick = "return preview('<%= @job.paramlink %>')" class="lightbtn" type="button">Preview</button>
                                 </div>
                                 <% end %>
                             </div>
@@ -730,7 +730,12 @@
                 }
         });
 
-    })
+    });
+
+
+    function preview(paramlink){
+      window.location.href = '<%= root_url %>'+'job/apply-job/'+paramlink;
+    }
 
 </script>
 <script>

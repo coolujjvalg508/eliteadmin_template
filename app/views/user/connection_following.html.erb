@@ -42,7 +42,7 @@
                         <span class="follow-companies">
                         {{ x.like_res.user_follow_me}}</span> <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{ x.like_res.user_like_me}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 0</span> 
                          </div>
-                      <div class="connection-followers-indent clearfix pull-right">
+                      <!-- <div class="connection-followers-indent clearfix pull-right">
                         <div class="col-md-3 col-sm-3 col-xs-3">
                           <center>
                             <%= image_tag("database/followers-1.jpg", :alt => "Followers",:class=>"img-responsive") %>
@@ -63,7 +63,7 @@
                             <%= image_tag("database/followers-4.jpg", :alt => "Followers",:class=>"img-responsive") %>
                           </center>
                         </div>
-                      </div>
+                      </div> -->
                     </li>
                    <li ng-hide="following_data.length" class="text-center err-msg no-result">No Result Found!</li>
 
@@ -172,7 +172,7 @@ app.controller('followingCtrl', function($scope, $http) {
 
     $scope.unfollowuser = function(user_id) {
          if(confirm('Are you sure?')){
-              list_url = '/user/unfollow_artist?user_id='+user_id;
+              list_url = '/user/unfollow_artist?artist_id='+user_id;
               $http.get(list_url).then(function (response) {
               });
           }

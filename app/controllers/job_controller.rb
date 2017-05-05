@@ -27,7 +27,7 @@ class JobController < ApplicationController
 
   def get_job_list
     
-        conditions = "user_id=#{current_user.id} AND is_admin != 'Y'"
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
 
         if(params[:job_type] && params[:job_type] != '')
           conditions += " AND job_type='" + params[:job_type] + "'"
@@ -61,7 +61,7 @@ class JobController < ApplicationController
 
   def count_user_job_post
 
-        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' "
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
 
         r_data = Job.where(conditions)
 
@@ -478,6 +478,49 @@ class JobController < ApplicationController
 
   end
 
+
+  def get_company_job_list
+
+    conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+   
+    if(params[:country_id] && params[:country_id] != '')
+          conditions += ' AND country_id=' + params[:country_id]
+    end 
+
+    if(params[:job_type] && params[:job_type] != '')
+          conditions += " AND job_type='" + params[:job_type] + "'"
+    end 
+
+    if(params[:job_category] && params[:job_category] != '')
+          conditions +=  " AND job_category::jsonb ?| array['" + params[:job_category] + "'] " 
+    end 
+
+    if(params[:work_remotely] && params[:work_remotely] != '')
+          conditions += " AND work_remotely=" + params[:work_remotely]
+    end 
+
+    if(params[:relocation_asistance] && params[:relocation_asistance] != '')
+          conditions += " AND relocation_asistance=" + params[:relocation_asistance]
+    end 
+
+     if(params[:user_id] && params[:user_id] != '')
+          conditions += " AND is_admin='N' AND user_id=" + params[:user_id]
+    end 
+
+
+    #abort(conditions.to_json)
+
+    orderby = 'DESC'
+    if(params[:order] && params[:order] != '') 
+              orderby = params[:order]
+    end
+
+    @result = Job.where(conditions).order('id '+ orderby)
+    render :json =>  @result.to_json(:include => [:company, :country, :images]), status: 200
+  
+
+  end
+
   def update_user_image
 
   	authenticate_user!
@@ -526,8 +569,12 @@ class JobController < ApplicationController
       @similar_jobs     = Job.where("paramlink != ? ", paramlink).order('random()').limit(4)
       apply_type        = @result.apply_type
       @success_message  = ""
-      
+      #abort(@result.to_json)
       if apply_type == "email"
+          sender_email      = current_user.email
+          receiver_email    = @result.apply_email
+          job_title         = @result.title
+          UserMailer.job_application_email(sender_email,receiver_email,job_title,current_user).deliver_later
           @success_message  = "Thank you for applying. We will get back to you shortly"  
       elsif apply_type == "url"
           redirect_to @result.apply_url
@@ -536,6 +583,20 @@ class JobController < ApplicationController
       end 
 
   end  
+
+  def save_job_view_count
+
+       if params[:paramlink].present?
+            paramlink       = params[:paramlink]
+            record          = Job.where("paramlink = ?",paramlink).first
+           
+            prevoius_view_count   = record.view_count
+            newview_count         =  prevoius_view_count + 1
+            
+            record.update(view_count: newview_count) 
+            render json: {'res' => 1, 'message' => 'success'}, status: 200
+       end     
+    end  
   
  
   def apply_job
@@ -608,6 +669,13 @@ class JobController < ApplicationController
   end
 
   def job_company_list_on_map
+
+    @job_type = JobCategory.all
+    @country_detail = Country.all
+    
+    @contracttype  = JobCategory.all
+    @catgorytype   = CategoryType.all
+
   end
 
   def job_list_on_map

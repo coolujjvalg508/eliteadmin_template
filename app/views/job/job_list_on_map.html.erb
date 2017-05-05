@@ -293,9 +293,9 @@
   </div>
   <div class="showcase-btn-wrap clearfix text-center">
   <% if user_signed_in? %>
-      <button onclick="redirect_to_create_job();" type="button" class="btn btn-success border-radius marginB10">Post a Job</button>
+      <button onclick="redirect_to_create_job();" type="button" class="btn btn-default border-radius marginB10">Post a Job</button>
   <% end %>
-  <button onclick="redirect_to_job_on_map();" type="button" class="btn btn-default border-radius marginB10">Job Map</button>
+  <button onclick="redirect_to_job_on_map();" type="button" class="btn btn-success border-radius marginB10">Job Map</button>
 
   <button  onclick="redirect_to_company_on_map();" type="button" class="btn btn-default border-radius marginB10">Companies</button>
   </div>
@@ -330,7 +330,7 @@
       <ul>
       
           <li class="clearfix" dir-paginate="x in final_result | filter:search | itemsPerPage:10">
-         
+      
             <div class="row">
               <div class="col-md-2 col-sm-3 col-xs-3">
                 <center><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"> </center>
@@ -442,7 +442,15 @@
     </div>
 
     <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
-        <%= paginate @result %>
+        <%#= paginate @result %>
+        <div class="pagintionpage clearfix">
+          <dir-pagination-controls
+               max-size="1"
+               direction-links="true"
+               boundary-links="false" >
+          </dir-pagination-controls>
+
+      </div>
     </div>
     
   </section>
@@ -452,6 +460,7 @@
 <footer class="footer clearfix padding">
   <%= render 'layouts/lastfooter' %>
 </footer>
+
 <script type='text/javascript'>
   function redirect_to_create_job(){
       window.location.href = "<%= create_job_path %>";
@@ -528,13 +537,5 @@
         $scope.relocation_asistance = value;
          $scope.filter();
      };
-
-
-
-
-
-
-
-
   });
 </script>

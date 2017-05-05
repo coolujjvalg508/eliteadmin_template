@@ -105,12 +105,15 @@ Rails.application.routes.draw do
   get 'job/:paramlink/edit'          => 'job#edit', as: 'modify_job' 
   patch 'job/:paramlink/update'      => 'job#update', as: 'update_job' 
   get 'job/get_job_home_list'        => 'job#get_job_home_list', as: 'get_job_home_list' 
+  get 'job/get_company_job_list'     => 'job#get_company_job_list', as: 'get_company_job_list' 
   get 'job/applied-job/:paramlink'  => 'job#applied_job', as: 'applied_job' 
   post 'job/follow_job'           => 'job#follow_job', as: 'follow_job' 
   post 'job/check_follow_job'     => 'job#check_follow_job', as: 'check_follow_job'
 
   put 'update_user_image'   => 'job#update_user_image'
   delete 'remove_cover_art' => 'job#remove_cover_art'
+
+  post 'save_job_view_count'        => 'job#save_job_view_count', as: 'save_job_view_count' 
     
   resources :user, only: [:edit, :update]
 

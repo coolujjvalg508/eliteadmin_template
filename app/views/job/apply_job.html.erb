@@ -45,7 +45,7 @@
                     <div class="col-md-8 col-sm-8 col-xs-12 text-right">
                     <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
                     <!-- Go to www.addthis.com/dashboard to customize your tools -->
-                        <div class="addthis_inline_share_toolbox_xe0e"></div>
+                         <div class="addthis_inline_share_toolbox_xe0e"></div>
                         
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                         <div class="col-md-8 col-sm-8 col-xs-12 text-right">
                         <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
                         <!-- Go to www.addthis.com/dashboard to customize your tools -->
-                        <div class="addthis_inline_share_toolbox_xe0e"></div>
+                       <div class="addthis_inline_share_toolbox_xe0e"></div> 
                             
                         </div>
                     </div>
@@ -123,6 +123,7 @@
                 <%#= abort(@result.company.name.to_json) %>
                       <h3><%= @result.company.present?  ? @result.company.name : '' %></h3>
                       <p><%= @result.city.present?  ? @result.city : '' %>,  <%= @result.country.present?  ? @result.country.name : '' %></p></br>
+                      
                       <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
                       <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
                       
@@ -154,7 +155,7 @@
             </div>
             <div class="marginB15"><%= image_tag("database/googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %></div>
             <div class="wiphome marginB15 clearfix">
-                <h2>Wants Critique / Wip</h2>
+                <h2 class="studio-title" >Wants Critique / Wip</h2>
                 <ul class="margin">
                     <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
                     <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
@@ -215,6 +216,15 @@
     });
 
 $(document).ready(function() {
+
+    $.ajax({
+        type: "post",
+        url: "<%= save_job_view_count_path %>" ,
+        data: {'paramlink': '<%= @job_id %>'},
+        success: function(data){
+        }
+    });
+    
     $.ajax({
             type: "post",
             url: "<%= check_follow_job_path %>" ,

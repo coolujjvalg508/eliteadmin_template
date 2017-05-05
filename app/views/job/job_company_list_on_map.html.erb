@@ -1,4 +1,5 @@
-`<!-- Submenu Navigation -->
+<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+<!-- Submenu Navigation -->
 <section class="wip-navigation-wrap">
 <div class="navbar-default">
 <div class="container-fluid">
@@ -241,38 +242,64 @@
 <div class="clearfix jobshomeheader">
 <div class="col-md-3 col-sm-4 col-xs-12 marginB10 jobs-padding">
 <div class="input-group stylish-input-group">
-  <input type="text" class="form-control"  placeholder="Enter a keyword..." >
+   <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
   <span class="input-group-addon">
   <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
   </span> </div>
 </div>
-<div class="col-md-2 col-sm-4 col-xs-12 marginB10 jobs-padding">
-<div class="job-location"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
-<input type="text" class="form-control"  placeholder="Enter a location..." >
+<div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding"">
+  <select class="custom-select"  ng-change="searchByCountry(selected)" ng-model='selected'>
+    <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Country</option>
+    <% if @country_detail.present? %>
+      <% @country_detail.each do |country_detail| %>
+          <option   value="<%= country_detail.id %>"><%= country_detail.name %></option>
+      <% end %>
+    <% end %>
+  </select>
+  </div>
+
+
+<div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
+<select class="custom-select"  ng-change="searchByJobType(selected)" ng-model='selected'>
+    <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Job Type</option>
+    <% if @job_type.present? %>
+      <% @job_type.each do |job_type| %>
+        <option value="<%= job_type.name %>"><%= job_type.name %></option>
+      <% end %>
+    <% end %>
+  </select>
+</div>
+<div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
+    <select class="custom-select" ng-change="searchByCategoryType(selected)" ng-model='selected'>
+      <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Category Type</option>
+      <% if @catgorytype.present? %>  
+       <% @catgorytype.each do |cat_type| %>
+          <option value="<%= cat_type.id %>"><%= cat_type.name %></option>
+      <% end %>
+      <% end %>
+
+    </select>
 </div>
 
 <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
-<select class="custom-select">
-  <option>Job Type</option>
-</select>
-</div>
-<div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
-<select class="custom-select">
-  <option>Select Category</option>
-</select>
-</div>
-<div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
-<div class="clearfix"><div class="checkbox-btn"><input type="checkbox" value="value-1" id="rc101" name="rc101"/><label for="rc101" onclick>Work Remotely</label></div></div>
-<div class="clearfix"><div class="checkbox-btn"><input type="checkbox" value="value-1" id="rc102" name="rc102"/><label for="rc102" onclick>Relocation Assistance</label></div></div>
-</div>
+  <div class="clearfix"><div class="checkbox-btn">
+      <input type="checkbox" value="true" id="rc101" name="job[work_remotely]" ng-change="searchByWorkRemote(selected1)" ng-model='selected1'/><label for="rc101" onclick>Work Remotely</label></div></div>
+  <div class="clearfix"><div class="checkbox-btn">
+      
+      <input ng-change="searchByRelocationAssistance(selected)" ng-model='selected' type="checkbox" value="true" id="rc102" name="job[relocation_assistance]"/><label for="rc102" onclick>Relocation Assistance</label></div></div>
+  </div>
 
 
 </div>
 <div class="showcase-btn-wrap clearfix text-center">
-<button type="button" class="btn btn-success border-radius marginB10">Post a Job</button>
-<button type="button" class="btn btn-default border-radius marginB10">Job Map</button>
-<button type="button" class="btn btn-default border-radius marginB10">Companies</button>
-</div>
+  <% if user_signed_in? %>
+      <button onclick="redirect_to_create_job();" type="button" class="btn btn-default border-radius marginB10">Post a Job</button>
+  <% end %>
+  
+  <button onclick="redirect_to_job_on_map();" type="button" class="btn btn-default border-radius marginB10">Job Map</button>
+
+  <button  onclick="redirect_to_company_on_map();" type="button" class="btn btn-success border-radius marginB10">Companies</button>
+  </div>
 </div>
 </section>
 
@@ -281,18 +308,19 @@
 
 <!-- WIP Content Start -->
 <section class="clearfix browseallcompanies">
-<div class="clearfix wipwrap">
-<div class="col-md-9 jobplacetitle">106 Place</div>
+<!-- <div class="clearfix wipwrap">
+<div class="col-md-9 jobplacetitle">{{final_result.length}} Place</div>
 <div class="col-md-3 addcompanyworldmap">
-<a href="#"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Add Company</a>
+ <a href="#"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Add Company</a> 
 </div>
-</div>
+</div> -->
 
 
 <div class="clearfix usernavivation hidden-xs">
 <ul class="nav nav-pills">
   <li class="paddinT10 paddinB10">
-    <input type="text" placeholder="Search" class="form-control from-input">
+  <input type="text" class="form-control from-input" placeholder="Search" ng-model="search" />
+    
   </li>
 </ul>
 </div>
@@ -306,604 +334,47 @@
   <div class="clearfix userfollowers-indent">
     <ul>
     
-      <li class="clearfix">
+      <li class="clearfix" dir-paginate="x in final_result | filter:search | itemsPerPage:20">
         <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img2.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
+          <div class="col-md-2 col-sm-2 col-xs-4"><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"></div>
           <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Miss Led</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelancer Character Artist 3D</div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Seoul, Korea, Republic of</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-2.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-3.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                 <li>
-                  <center>
-                    <%= image_tag("database/followers-4.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
+            <div class="user-title"><a href="<%= root_url %>job/apply-job/{{x.paramlink}}">{{x.company.name ? x.company.name : '----'}}</a></div>
+            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{x.job_type}}</div>
+            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> {{x.city}}, {{x.country.name}}</div>
+            
+            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button>
+            <span class="follow-companies">{{x.follow_count}}</span>
+
+
+
+            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{x.like_count}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> {{x.view_count}}</span> </div>
+            <div class="col-md-5 col-sm-4 col-xs-12" ng-show = "x.images.length > 0">
+              <div class="border-radius followers-indent">
+                <ul >
+                  <li ng-repeat="y in x.images | limitTo: 4">
+                    <center>
+                       <img src="{{y.image.thumb.url}}" class="img-responsive" alt="img">
+                      <%#= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
+                    </center>
+                  </li>
+                  
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
       </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Jakob Wagner</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Senior Character Artist</div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> London, United Kingdom</div>
-            <button type="button" class="red-btn border-radius marginR5"><i class="fa fa-times marginR5" aria-hidden="true"></i> Unfollow</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-5.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-6.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-7.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-8.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img1.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Vera van Wolferen</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Art Director / Concept Artist </div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Seoul, Korea, Republic of</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-9.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-10.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-11.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                 <li>
-                  <center>
-                    <%= image_tag("database/followers-12.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img3.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Maciek Blaźniak</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Character Artist </div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Montreal, Canada</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-13.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-14.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-15.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
+      <li class="clearfix text-center err-msg no-result" ng-hide="final_result.length" >No Result Found!</li>
+
+      </ul>
       
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img2.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Miss Led</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelancer Character Artist 3D</div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Seoul, Korea, Republic of</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-2.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-3.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                 <li>
-                  <center>
-                    <%= image_tag("database/followers-4.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Jakob Wagner</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Senior Character Artist</div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> London, United Kingdom</div>
-            <button type="button" class="red-btn border-radius marginR5"><i class="fa fa-times marginR5" aria-hidden="true"></i> Unfollow</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-5.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-6.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-7.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-8.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img1.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Vera van Wolferen</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Art Director / Concept Artist </div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Seoul, Korea, Republic of</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-9.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-10.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-11.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                 <li>
-                  <center>
-                    <%= image_tag("database/followers-12.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img3.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Maciek Blaźniak</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Character Artist </div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Montreal, Canada</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-13.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-14.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-15.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img2.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Miss Led</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelancer Character Artist 3D</div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Seoul, Korea, Republic of</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-2.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-3.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                 <li>
-                  <center>
-                    <%= image_tag("database/followers-4.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Jakob Wagner</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Senior Character Artist</div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> London, United Kingdom</div>
-            <button type="button" class="red-btn border-radius marginR5"><i class="fa fa-times marginR5" aria-hidden="true"></i> Unfollow</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-5.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-6.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-7.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-8.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img1.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Vera van Wolferen</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Art Director / Concept Artist </div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Seoul, Korea, Republic of</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-9.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-10.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-11.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                 <li>
-                  <center>
-                    <%= image_tag("database/followers-12.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img3.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Maciek Blaźniak</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Character Artist </div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Montreal, Canada</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-13.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-14.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-15.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img2.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Miss Led</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Freelancer Character Artist 3D</div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Seoul, Korea, Republic of</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-2.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-3.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                 <li>
-                  <center>
-                    <%= image_tag("database/followers-4.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Jakob Wagner</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Senior Character Artist</div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> London, United Kingdom</div>
-            <button type="button" class="red-btn border-radius marginR5"><i class="fa fa-times marginR5" aria-hidden="true"></i> Unfollow</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-5.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-6.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-7.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-8.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img1.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Vera van Wolferen</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Art Director / Concept Artist </div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Seoul, Korea, Republic of</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-9.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-10.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-11.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                 <li>
-                  <center>
-                    <%= image_tag("database/followers-12.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><%= image_tag("database/jobs-img3.jpg", :alt=>"User Followers", :class=>"img-responsive") %></div>
-          <div class="col-md-5 col-sm-6 col-xs-8">
-            <div class="user-title">Maciek Blaźniak</div>
-            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Character Artist </div>
-            <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Montreal, Canada</div>
-            <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">1256</span>
-            <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> 14086</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 321757</span> </div>
-          <div class="col-md-5 col-sm-4 col-xs-12">
-            <div class="border-radius followers-indent">
-              <ul>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-13.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-14.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-15.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-                <li>
-                  <center>
-                    <%= image_tag("database/followers-1.jpg", :alt=>"User Followers", :class=>"img-responsive") %>
-                  </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </li>
-      
-       
-    </ul>
+      <div class="pagintionpage clearfix">
+          <dir-pagination-controls
+               max-size="1"
+               direction-links="true"
+               boundary-links="false" >
+          </dir-pagination-controls>
+
+      </div>
   </div>
   
 </div>
@@ -915,36 +386,53 @@
    <div class="filter-wrap clearfix">
     <form role="form">
       <div class="form-group">
-        <label for="ajit">Search Terms</label>
-        <input type="text" class="form-control from-input" placeholder="Ajit" id="ajit">
+        <label for="ajit">Company name</label>
+        <input type="text" class="form-control from-input" placeholder="Search" id="searchterms" ng-model='search.company.name'>
+        
       </div>
       
       <div class="form-group clearfix">
         <label for="City">City</label>
-        <select class="custom-select" id="City">
-         <option>Select City</option>
-        </select>
+        <input type="text" class="form-control from-input" placeholder="Search" id="searchterms" ng-model='search.city'>
       </div>
       
       <div class="form-group clearfix">
         <label for="Country">Country</label>
-        <select class="custom-select" id="Country">
-         <option>Select Country</option>
+         <% country =  Country.all  %>
+        <select class="custom-select" id="Country" ng-change="searchByCountry(selected)" ng-model='selected'>
+             <option value="">Select Country</option>
+             <%  country.each_with_index do |value,index| #abort(value.to_json) %>
+                <option id="country_<%= value.id %>" value = "<%= value.id %>" ><%= value.name %></option>
+             <% end %>    
         </select>
       </div>
-      
-      
-      <div class="form-group">
-        <label for="skills">Skills</label>
-        <input type="text" class="form-control from-input" placeholder="Enter skill here" id="skills">
+            
+      <div class="form-group clearfix">
+        <label for="skills">Job Type</label>
+            <select class="custom-select"  ng-change="searchByJobType(selected)" ng-model='selected'>
+              <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Job Type</option>
+              <% if @job_type.present? %>
+                <% @job_type.each do |job_type| %>
+                  <option value="<%= job_type.name %>"><%= job_type.name %></option>
+                <% end %>
+              <% end %>
+            </select>
       </div>
       
-      <div class="form-group">
-        <label for="software">Software</label>
-        <input type="text" class="form-control from-input" placeholder="Enter software here" id="software">
+      <div class="form-group clearfix">
+        <label for="skills">Job Category</label>
+            <select class="custom-select" ng-change="searchByCategoryType(selected)" ng-model='selected'>
+                <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Category Type</option>
+                <% if @catgorytype.present? %>  
+                 <% @catgorytype.each do |cat_type| %>
+                    <option value="<%= cat_type.id %>"><%= cat_type.name %></option>
+                <% end %>
+                <% end %>
+
+            </select>
       </div>
       
-      <div class="form-group">
+      <!-- <div class="form-group">
       <div class="marginB10 white-txt">Availability</div>
        <div class="checkbox-btn marginB10">
                 <input type="checkbox" value="value-1" id="rc3" name="rc3"/>
@@ -958,11 +446,11 @@
                 <input type="checkbox" value="value-1" id="rc5" name="rc5"/>
                 <label for="rc5" onclick>Freelance</label>
                 </div>       
-      </div>
+      </div> -->
       
       
       
-      <button type="submit" class="resetbtn border-radius"><i class="fa fa-refresh blue-txt marginR5" aria-hidden="true"></i> Reset</button>
+      <!-- <button type="submit" class="resetbtn border-radius"><i class="fa fa-refresh blue-txt marginR5" aria-hidden="true"></i> Reset</button> -->
     </form>
    
   
@@ -1018,21 +506,87 @@
 </div>
 
 </section>
-
-
-<div class="text-center text-uppercase">
-<ul class="pagination">
-<li><a href="#">1</a></li>
-<li><a href="#">2</a></li>
-<li><a href="#">3</a></li>
-<li><a href="#">4</a></li>
-<li><a href="#">5</a></li>
-<li><a href="#">Next</a></li>
-<li><a href="#">Last</a></li>
-</ul>
-</div>
 </section>
-
+</div>
 <footer class="footer clearfix padding">
   <%= render 'layouts/lastfooter' %>
 </footer>
+
+<script type='text/javascript'>
+  function redirect_to_create_job(){
+      window.location.href = "<%= create_job_path %>";
+  }
+
+  function redirect_to_job_on_map(){
+      window.location.href = "<%= job_list_on_map_path %>";
+  }
+
+  function redirect_to_company_on_map(){
+    window.location.href = "<%= job_company_list_on_map_path %>";
+  }
+  
+</script>
+
+<script type="text/javascript">
+  var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  app.controller('myCtrl', function($sce, $scope, $http) {  
+//alert('jghj');
+    $scope.filter = function() {
+          
+          list_url = '/job/get_company_job_list?'; 
+          
+          if(typeof $scope.country_id !== 'undefined' && $scope.country_id != ''){
+            list_url += '&country_id=' + $scope.country_id
+          }
+
+          if(typeof $scope.job_type !== 'undefined' && $scope.job_type != ''  && $scope.job_type != 'all'){
+            list_url += '&job_type=' + $scope.job_type
+          }
+
+          if(typeof $scope.job_category !== 'undefined' && $scope.job_category != ''  && $scope.job_category != 'all'){
+            list_url += '&job_category=' + $scope.job_category
+          }
+
+          if(typeof $scope.work_remotely !== 'undefined' && $scope.work_remotely != ''  && $scope.work_remotely != 'all'){
+            list_url += '&work_remotely=' + $scope.work_remotely
+          }
+
+          if(typeof $scope.relocation_asistance !== 'undefined' && $scope.relocation_asistance != ''  && $scope.relocation_asistance != 'all'){
+            list_url += '&relocation_asistance=' + $scope.relocation_asistance
+          }
+
+
+         
+          $http.get(list_url).then(function (response) {
+               $scope.final_result   = response.data;          
+          });
+      };
+      $scope.filter();
+
+     $scope.searchByCountry = function(id) {
+        $scope.country_id = id;
+         $scope.filter();
+     };
+
+     $scope.searchByJobType = function(value) {
+        $scope.job_type = value;
+         $scope.filter();
+     };
+
+    $scope.searchByCategoryType = function(value) {
+        $scope.job_category = value;
+         $scope.filter();
+     };
+
+    $scope.searchByWorkRemote = function(value) {
+        $scope.work_remotely = value;
+         $scope.filter();
+     };
+
+
+     $scope.searchByRelocationAssistance = function(value) {
+        $scope.relocation_asistance = value;
+         $scope.filter();
+     };
+  });
+</script>
