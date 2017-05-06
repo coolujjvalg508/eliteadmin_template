@@ -27,7 +27,7 @@ class JobController < ApplicationController
 
   def get_job_list
     
-        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y'"
 
         if(params[:job_type] && params[:job_type] != '')
           conditions += " AND job_type='" + params[:job_type] + "'"
@@ -61,7 +61,7 @@ class JobController < ApplicationController
 
   def count_user_job_post
 
-        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y'"
 
         r_data = Job.where(conditions)
 
@@ -90,7 +90,7 @@ class JobController < ApplicationController
           end 
 
           if val['is_trash'] == 1
-            total_trash = total_trash + 1
+                   total_trash = total_trash + 1
           end   
 
         end  
