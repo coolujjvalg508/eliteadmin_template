@@ -27,7 +27,7 @@ class JobController < ApplicationController
 
   def get_job_list
     
-        conditions = "user_id=#{current_user.id} AND is_admin != 'Y'"
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' AND is_trash = 0"
 
         if(params[:job_type] && params[:job_type] != '')
           conditions += " AND job_type='" + params[:job_type] + "'"
@@ -41,11 +41,11 @@ class JobController < ApplicationController
 
         if(params[:view]) 
           if (params[:view] == 'featured')
-            conditions += ' AND is_featured=TRUE  AND is_trash = 0 '
+            conditions += ' AND is_featured=TRUE'
           elsif (params[:view] == 'published')
-            conditions += ' AND publish=1  AND is_trash = 0 '
+            conditions += ' AND publish=1'
           elsif (params[:view] == 'drafts')
-            conditions += ' AND is_save_to_draft=1  AND is_trash = 0 '
+            conditions += ' AND is_save_to_draft=1'
           elsif (params[:view] == 'trash')
             conditions += ' AND is_trash=1'
           end
