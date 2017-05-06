@@ -14,7 +14,9 @@
                 <div class="clearfix marginB40">
                     <div class="col-md-8 col-sm-8 col-xs-12">
                         <div class="jobprofilepic">
+                        <% if @result.company_logo.present? %>
                             <img lazy-img="<%= root_url + @result.company_logo.thumb.url %>" class="img-responsive">
+                        <% end %>    
                         </div>
                         <div class="jobprofile clearfix">
                             <h3><%= @result.title %></h3>
@@ -42,7 +44,7 @@
                 </div>
                 <div class="clearfix marginB15">
                     <div class="col-md-4 col-sm-4 col-xs-12 jobs-heading"><i class="fa fa-file-text-o marginR5" aria-hidden="true"></i> Job Description</div>
-                    <div class="col-md-8 col-sm-8 col-xs-12 text-right">
+                    <div class="col-md-8 col-sm-8 col-xs-12 text-right1">
                     <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
                     <!-- Go to www.addthis.com/dashboard to customize your tools -->
                          <div class="addthis_inline_share_toolbox_xe0e"></div>
@@ -81,7 +83,7 @@
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <button onclick='return applyJob("<%= @result.paramlink %>")' class="green-btn" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
                         </div>
-                        <div class="col-md-8 col-sm-8 col-xs-12 text-right">
+                        <div class="col-md-8 col-sm-8 col-xs-12 text-right1">
                         <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
                         <!-- Go to www.addthis.com/dashboard to customize your tools -->
                        <div class="addthis_inline_share_toolbox_xe0e"></div> 
