@@ -27,7 +27,7 @@ class JobController < ApplicationController
 
   def get_job_list
     
-        conditions = "user_id=#{current_user.id} AND is_admin != 'Y'"
+        conditions = "user_id=#{current_user.id} AND is_admin != 'Y' AND is_trash = 0"
 
         if(params[:job_type] && params[:job_type] != '')
           conditions += " AND job_type='" + params[:job_type] + "'"
