@@ -36,6 +36,7 @@
         <%= f.hidden_field :removedsketchfab, value: '', id: 'gallery_removedsketchfab' %>      
         <%= f.hidden_field :removedUploadVideo, value: '', id: 'gallery_removedUploadVideo' %>      
         <%= f.hidden_field :removedMarmoset, value: '', id: 'gallery_removedMarmoset' %>   
+        <%= f.hidden_field :removedZip, value: '', id: 'gallery_removedzip' %>   
          <div id="hiddendata"></div>
         <div class="clearfix notification-heading">  
             <span class="noti-title" style="border:none;"> 
@@ -64,10 +65,13 @@
                                     </li>
                                 </ul>
                             </li>
+
+
                             <li>
                                 <!-- <a href="javascript:void(0);"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a> -->
                                 <a href="javascript:void(0);" ng-click="addNewUploadVideos()"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a>
                             </li>
+                            <li><a href="javascript:void(0);" ng-click="addNewZip()"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Add Zip Files</a></li>    
                         </ul>
                     </div>
 
@@ -244,6 +248,48 @@
                                 </div>
 
                             </li>
+
+                            <!-- Edit Mode Update zip list -->
+                            <li ng-repeat="x in add_zip_default" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="lizipdefault{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeZipDefault($index, x.id)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="{{x.image.large_image.url}}" alt="image" class="img-responsive img-preview" id="gallery_zip_view_default_{{$index}}" >
+                                    </center>
+                                    
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="job[zip_files_attributes_default][{{x.id}}][zip_caption]" id="gallery_zip_caption_image_default_{{$index}}" placeholder="Enter caption">{{x.zip_caption}}</textarea>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                            <!-- Add Zip list -->
+                            <li ng-repeat="x in add_zip" class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15 hidden" id="lizip{{$index}}">
+
+                                <div class="galleryselect clearfix">
+                                    <div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a href="javascript:void(0);" ng-click="removeZip($index)" class="fa fa-times" aria-hidden="true"></a></span> </div>
+                                    <center>
+                                        <img src="" alt="image" class="img-responsive img-preview" id="gallery_zip_view_{{$index}}" >
+                                    </center>
+                                    <input type="file" name="job[zip_files_attributes][{{$index}}][zipfile]" id="gallery_zip_image_{{$index}}" ng-show="false"  accept="zip/*,rar/*" onchange="angular.element(this).scope().newZipUpload(this)" >
+
+
+                                    <div class="clearfix padding10">
+                                        <textarea class="form-control reel-txt" name="job[zip_files_attributes][{{$index}}][zip_caption]" id="gallery_zip_caption_image_{{$index}}" placeholder="Enter caption"></textarea>
+                                    </div>
+                                </div>
+
+                            </li>  
+
+
+
+
+
+
+
+
                             <div id='output'></div>
 
                         </ul>
@@ -263,7 +309,7 @@
                   <div class="panel panel-default">
                     <div class="panel-heading padding"><!--  <img src="images/database/txt-job-post.jpg" class="img-responsive" alt="img">  --></div>
                     <div class="panel-body">
-                      <%= f.text_area :description, class: 'form-control from-input message-form1 ', id: 'description', placeholder: 'Job Description', :value => params[:job].present? ? params[:job][:description] : @job[:description] %>
+                      <%= f.text_area :description, class: 'form-control from-input message-form1 tinymce', id: 'description', placeholder: 'Job Description', :value => params[:job].present? ? params[:job][:description] : @job[:description] %>
                       <span class="err-msg"><%= form_error_msg_for(@job,:description, "Description") %></span>
                     </div>
                   </div>
@@ -343,12 +389,16 @@
                     <label class="col-md-6 col-sm-6 col-xs-6">How to Apply</label>
                     <label class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6"></label>
                     <div class="col-md-7 col-sm-6 col-xs-12 marginB10">
+
+                    <%= f.select(:apply_type, options_for_select({ "Email" => "email", "URL" => "url", "Instruction" => "instruction" }, params[:job].present? ? params[:job][:apply_type] : @job[:apply_type]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'apply_type'})  %>
+
                    
-                    <select class="custom-select" name="job[apply_type]" id="apply_type">
-                            <option value="email">Email</option>
-                            <option value="url">URL</option>
-                            <option value="instruction">Instruction</option>
-                      </select>                   </div>
+                             <!--  <select class="custom-select" name="job[apply_type]" id="apply_type">
+                                <option value="email">Email</option>
+                                <option value="url">URL</option>
+                                <option value="instruction">Instruction</option>
+                             </select>  -->
+                    </div>
                     <div class="col-md-2 col-sm-6 col-xs-5 col-md-offset-1"> </div>
                 </div>
 
@@ -367,7 +417,7 @@
                 <div class="form-group clearfix" id="apply_instruction_div">
                     <label class="col-md-12 col-sm-12 col-xs-12">Application Instructions</label>
                     <div class="col-md-12 col-sm-12 col-xs-10">
-                        <%= f.text_area :apply_instruction, class: 'form-control from-input message-form1', id: 'apply_instruction', placeholder: 'Apply by url', value: params[:job].present? ? params[:job][:apply_instruction] : @job[:apply_instruction] %>
+                        <%= f.text_area :apply_instruction, class: 'form-control from-input message-form1 tinymce', id: 'apply_instruction', placeholder: 'Apply by url', value: params[:job].present? ? params[:job][:apply_instruction] : @job[:apply_instruction] %>
 
                         
                      </div>
@@ -378,12 +428,14 @@
                     <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
                      
                         <%= f.select(:country_id, options_for_select(Country.active.pluck(:name, :id), params[:job].present? ? params[:job][:country_id] : @job[:country_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'country_id'})  %>
+                         <span class="err-msg"><%= form_error_msg_for(@job,:country_id, "Country") %></span>
                        
                       
                     </div>
 
                     <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
                       <%= f.text_field :city, class: 'form-control from-input', id: 'city', placeholder: 'city', value: params[:job].present? ? params[:job][:city] : @job[:city] %>
+                       <span class="err-msg"><%= form_error_msg_for(@job,:city, "City") %></span>
                     </div>
 
                     <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
@@ -702,12 +754,40 @@
   </div>
 
 </section>
+
 <script type="text/javascript">
     $(document).ready(function(){
 
-     $('#apply_email_div').show();
-     $('#apply_url_div').hide();
-     $('#apply_instruction_div').hide();
+         selected_apply_type    =  "<%= @job[:apply_type] %>"
+         if(selected_apply_type != ''){
+
+                if(selected_apply_type == 'email'){
+                     $('#apply_email_div').show();
+                     $('#apply_url_div').hide();
+                     $('#apply_instruction_div').hide();
+
+
+                }else if(selected_apply_type == 'url'){
+
+                     $('#apply_email_div').hide();
+                     $('#apply_url_div').show();
+                     $('#apply_instruction_div').hide();   
+                    
+                }else if(selected_apply_type == 'instruction'){
+
+                     $('#apply_email_div').hide();
+                     $('#apply_url_div').hide();
+                     $('#apply_instruction_div').show();
+                    
+                }
+
+               
+         }else{
+                $('#apply_email_div').show();
+                $('#apply_url_div').hide();
+                $('#apply_instruction_div').hide();
+
+         }
 
 
         $('#apply_type').on('change',function(){
@@ -916,6 +996,27 @@
         };
 
 /***** for edit page section start*******/
+
+         //To get saved zip and update them
+        $scope.add_zip_default = <%= @job.zip_files.to_json.html_safe %>;
+        $scope.removeZipDefault = function (x, id) {   
+            var removedid = angular.element('#gallery_removedzip').attr('value');
+
+            if(removedid == ''){
+                removedid = id;
+            }else{
+                removedid = removedid + ',' +id;
+            }
+
+            angular.element('#gallery_removedzip').attr('value', removedid);
+
+            angular.element( document.querySelector( '#lizipdefault' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#lizipdefault' + x ) ).html('');
+        }
+
+
+
+
         //To get saved images and update them
         $scope.add_images_default = <%= @job.images.to_json.html_safe %>;
         $scope.removeImageDefault = function (x, id) {   
@@ -1050,6 +1151,49 @@
 
 
 /*********for edit page section end***************/
+
+    
+    /********* add new zip ***************/
+        var add_zip_count = 0;
+        $scope.add_zip = [];
+        
+        console.log($scope.add_zip);
+
+        $scope.addNewZip = function () {
+            $scope.add_zip.push(add_zip_count);
+
+            add_zip_count++;
+
+            setTimeout(function() {
+
+               add_zip_count_test = add_zip_count - 1; 
+               angular.element('#gallery_zip_image_' + add_zip_count_test).trigger('click');
+               
+            }, 200);
+
+        }
+
+        $scope.removeZip = function (x) {   
+            //angular.element( document.querySelectorAll( '#gallery_image_caption_image_' + x ) ).remove();
+            //angular.element( document.querySelectorAll( '#gallery_image_image_' + x ) ).remove();
+            angular.element( document.querySelector( '#lizip' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#lizip' + x ) ).html('');
+            //$scope.add_images.splice(x, 1);
+        }
+
+        $scope.newZipUpload = function(element){
+            var reader = new FileReader();
+            reader.onload = $scope.newZipIsLoaded;
+            reader.readAsDataURL(element.files[0]);
+        }
+
+        $scope.newZipIsLoaded = function(e){
+            $scope.$apply(function() {
+                add_zip_count_test = add_zip_count - 1;
+                angular.element( document.querySelector( '#gallery_zip_view_' + add_zip_count_test ) ).attr('src', e.target.result);
+                angular.element( document.querySelector( '#lizip' + add_zip_count_test ) ).removeClass('hidden');
+            });
+        }
 
 
 /********* add new images ***************/

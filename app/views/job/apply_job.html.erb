@@ -39,7 +39,7 @@
                         <span class="price-txt">
                             <%= @result.from_amount != '' ? '$' + @result.from_amount : ''%> <%= @result.from_amount != '' && @result.to_amount != '' ? '-' : ''%> <%= @result.to_amount != '' ? '$' + @result.to_amount : ''%>
                         </span>
-                        <button onclick='return applyJob("<%= @result.paramlink %>")' class="green-btn" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
+                        <button class="green-btn apply_button" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
                     </div>
                 </div>
                 <div class="clearfix marginB15">
@@ -77,11 +77,27 @@
                         <% end %>
 
                         <h3><i class="fa fa-ellipsis-v" aria-hidden="true"></i> How to Apply</h3>
-                        <p>Please send your resume to <a href="mailto:hr@cgmeetup.net">hr@cgmeetup.net</a>. if you are intersted"</p>
+                        <div id="apply_html" class="clearfix marginB15 jobs-indent">
+                          
+                              <p><%=
+                                if @result.apply_type == 'instruction'
+                                   
+                                    @result.apply_instruction.html_safe
+                                
+                                elsif @result.apply_type == 'email'
+                                    "Please send your resume to" +  @result.apply_email + ". if you are intersted"
+                                   
+                               
+                                end    
+                              %></p>  
+
+
+                        </div> 
+                        <!--  <p>Please send your resume to <a href="mailto:hr@cgmeetup.net">hr@cgmeetup.net</a>. if you are intersted"</p> -->
                     </div>
                     <div class="clearfix marginB40">
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <button onclick='return applyJob("<%= @result.paramlink %>")' class="green-btn" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
+                            <button class="green-btn apply_button" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
                         </div>
                         <div class="col-md-8 col-sm-8 col-xs-12 text-right1">
                         <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
@@ -261,6 +277,32 @@ $(document).ready(function() {
                 }
             });
     });
+
+ $('#apply_html').hide();
+
+    $('.apply_button').on('click',function(){
+
+        apply_type               = "<%= @result.apply_type %>"
+        if(apply_type == 'instruction'){
+                
+                $('#apply_html').show();
+
+         }else if(apply_type == 'url'){
+                window.location.href  = "<%= @result.apply_url %>"
+            
+         }else if(apply_type == 'email'){
+
+                $('#apply_html').show();
+        
+        }    
+       
+
+
+
+    });
+
+
+
 });
 
 </script>

@@ -46,6 +46,7 @@
 // require bootsy
 // require bootstrap-datetimepicker
 // require scaffold
+//= require tinymce
 
 $(document).ready(function(){
   	$(".alert").fadeIn();
@@ -58,4 +59,28 @@ $(document).ready(function(){
 	$ (".js-chosen-select-multi") .select2({
 		tags: false
 	});
+
+	tinymce.init({
+			  
+			  selector: '.tinymce',
+			  height: 300,
+			  width: 935,
+			  themes: "modern",
+			  menubar: false,
+			  /*uploadimage_form_url : '/admin/images/saveimage',*/ /* uploadimage */
+			  
+			  plugins: [
+				'advlist autolink lists link image charmap print preview anchor',
+				'searchreplace visualblocks code fullscreen',
+				'insertdatetime media table contextmenu paste code'
+			  ],
+			  toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | uploadimage | media | code',
+			   
+
+	  });
+
+
+
+
+
 });  

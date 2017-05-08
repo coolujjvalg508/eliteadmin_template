@@ -139,9 +139,23 @@
             <div class="clearfix marginB15">
                <a class="lightbtn" href="/dashboard/projects/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
             </div>
-           <div class="clearfix">
+           <div class="clearfix marginB15"  ng-show = "{{viewTypeValue != 'trash'}}">
             <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/dashboard/projects/{{x.paramlink}}/make_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to trash this post?" } %>
            </div>
+
+
+           <div class="clearfix marginB15"  ng-show = "{{viewTypeValue == 'trash'}}">
+            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/dashboard/projects/{{x.paramlink}}/delete_from_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to delete this post permanently?" } %>
+           </div>
+          <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
+            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Restore'.html_safe, "/dashboard/projects/{{x.paramlink}}/restore_post", class: 'lightbtn', data: { confirm: "Are you sure you want to restore this post?" } %>
+           </div>
+
+
+
+
+
+
         </div>
       </li>
 

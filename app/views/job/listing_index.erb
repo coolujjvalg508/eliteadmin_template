@@ -138,9 +138,20 @@
             <div class="clearfix marginB15">
                <a class="lightbtn" href="/job/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
             </div>
-           <div class="clearfix">
+           <div class="clearfix marginB15" ng-show = "{{viewTypeValue != 'trash'}}">
             <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/job/{{x.paramlink}}/make_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to trash this job?" } %>
+
            </div>
+
+           <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
+            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/job/{{x.paramlink}}/delete_from_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to delete this job permanently?" } %>
+
+           </div>           
+           <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
+            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Restore'.html_safe, "/job/{{x.paramlink}}/restore_job", class: 'lightbtn', data: { confirm: "Are you sure you want to restore this job?" } %>
+           </div>
+
+
         </div>
       </li>
 
@@ -210,7 +221,7 @@ app.controller('galleryCtrl', function($scope, $http) {
       angular.element( document.querySelector( '#' + value + '-link' ) ).addClass('white-txt');
 
       $scope.job_type =  $scope.job_category =  $scope.search = '';
-
+//alert(value);
       $scope.viewTypeValue = value;
       $scope.filter();
 

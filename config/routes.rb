@@ -99,6 +99,9 @@ Rails.application.routes.draw do
   get 'job/new'  => 'job#new', as: 'create_job'
   get 'job'   => 'job#listing_index', as: 'index_job'
   get 'job/:paramlink/make_trash'    => 'job#make_trash', as: 'trash_job'
+  get 'job/:paramlink/delete_from_trash'    => 'job#delete_from_trash', as: 'delete_job_from_trash'
+  get 'job/:paramlink/restore_job'          => 'job#restore_job', as: 'restore_job'
+
   post 'job/create'                  => 'job#create',as: 'save_job'
   get 'job/count_user_job_post'      => 'job#count_user_job_post', as: 'count_user_job_post'
   get 'job/get_job_list'             => 'job#get_job_list', as: 'get_job_list'
@@ -128,6 +131,10 @@ Rails.application.routes.draw do
     get 'dashboard/projects/:paramlink/show'          => 'galleries#show', as: 'show_gallery' 
     get 'get_upload_video_thumbnail'                  => 'galleries#get_upload_video_thumbnail', as: 'get_upload_video_thumbnail'
     get 'dashboard/projects/:paramlink/make_trash'    => 'galleries#make_trash', as: 'trash_gallery'
+    get 'dashboard/projects/:paramlink/delete_from_trash'    => 'galleries#delete_from_trash', as: 'delete_post_from_trash'
+    get 'dashboard/projects/:paramlink/restore_post'    => 'galleries#restore_post', as: 'restore_post'
+
+
     get 'dashboard/projects/get_gallery_post_list'    => 'galleries#get_gallery_post_list', as: 'get_gallery_post_list'
     get 'dashboard/projects/count_user_gallery_post'  => 'galleries#count_user_gallery_post', as: 'count_user_gallery_post'
     post 'dashboard/projects/save_like'               => 'galleries#save_like', as: 'save_like' 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502085139) do
+ActiveRecord::Schema.define(version: 20170508070150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,11 @@ ActiveRecord::Schema.define(version: 20170502085139) do
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "add_latlong_to_jobs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "admin_users", force: :cascade do |t|
     t.string   "email",                  default: "",            null: false
@@ -415,6 +420,14 @@ ActiveRecord::Schema.define(version: 20170502085139) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "job_follows", force: :cascade do |t|
+    t.integer  "user_id",    default: 0
+    t.integer  "job_id",     default: 0
+    t.integer  "company_id", default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "job_skills", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",              null: false
@@ -484,6 +497,8 @@ ActiveRecord::Schema.define(version: 20170502085139) do
     t.integer  "view_count",                   default: 0
     t.integer  "comment_count",                default: 0
     t.integer  "follow_count",                 default: 0
+    t.string   "latitude"
+    t.string   "longitude"
   end
 
   create_table "latest_activities", force: :cascade do |t|

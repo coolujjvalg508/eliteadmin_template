@@ -3,7 +3,7 @@ class JobController < ApplicationController
    before_action :authenticate_user!, only: [:new, :crete, :edit, :update, :get_job_list, :count_user_job_post]
 
   def index
-  	authenticate_user!
+    authenticate_user!
   end
 
   def listing_index
@@ -118,6 +118,33 @@ class JobController < ApplicationController
     end  
 
 
+  def delete_from_trash
+
+       paramlink             =  params[:paramlink]
+       @is_job_exist         =  Job.where(paramlink: paramlink).first
+      # abort(@is_gallery_exist.to_json)
+       if @is_job_exist.present?
+          Job.where('id = ?',@is_job_exist.id).delete_all
+          flash[:notice] = 'Job has successfully deleted.'
+          redirect_to index_job_path
+       end
+  end  
+
+
+  def restore_job
+       
+       paramlink             =  params[:paramlink]
+       @is_job_exist         =  Job.where(paramlink: paramlink).first
+      
+       if @is_job_exist.present?
+          Job.where('id = ?',@is_job_exist.id).update_all(:is_trash => 0)  
+          flash[:notice] = 'Job has successfully restored.'
+          redirect_to index_job_path
+       end
+
+  end  
+
+
 
 
 
@@ -134,6 +161,13 @@ class JobController < ApplicationController
         params['job']['paramlink'] = final_slug
         params['job']['user_id']   = current_user.id.to_s
         params['job']['is_admin']  = 'N'
+
+
+        latlong_result  = get_lat_long(params['job']['country_id'],params['job']['city'])
+        #abort(latlong_result.to_json)
+
+         params['job']['latitude']    =   latlong_result[0]
+         params['job']['longitude']   =   latlong_result[1]
 
         if params[:job][:company_name].present?
             companyexist = Company.where("name=?", params[:job][:company_name]).count
@@ -220,8 +254,20 @@ class JobController < ApplicationController
 
     end 
 
+    def get_lat_long(country,city)
+        countrydata  = Country.where("id = ?",country).pluck(:name, :id).first
+        countryname  = countrydata[0]
+        cityname     = city
+        coordinates  = Geocoder.coordinates(cityname + ' '+ countryname)
+        #abort(coordinates.to_json)
+        return coordinates  
+
+    end  
+
     def update
-    #abort(params.to_json)
+   # abort(params.inspect)
+
+
     @job = Job.find_by(paramlink: params[:paramlink])
     #abort(@job.id.to_s)
         title = params['job']['title']
@@ -234,6 +280,12 @@ class JobController < ApplicationController
 
         params['job']['paramlink'] = final_slug
 
+
+        latlong_result  = get_lat_long(params['job']['country_id'],params['job']['city'])
+        #abort(latlong_result.to_json)
+
+         params['job']['latitude']    =   latlong_result[0]
+         params['job']['longitude']   =   latlong_result[1]
 
         if params['commit'] == 'Publish'
             params['job']['is_save_to_draft'] = 0
@@ -353,6 +405,25 @@ class JobController < ApplicationController
 
             ############ marmoset update end #################
 
+            ############ zip update start #################
+
+            #to delete upload video 
+            if params['job']['removedZip'].present?
+              removed_zip_array = params[:job][:removedZip].split(',')
+              if removed_zip_array.present?
+                ZipFile.where("id IN (?)", removed_zip_array).delete_all
+              end
+            end
+
+            #to update caption of existing upload video
+            if params['job']['zip_files_attributes_default'].present?
+              params['job']['zip_files_attributes_default'].each do |data_update|
+                ZipFile.where('id = ?', data_update[0]).update_all(:zip_caption => data_update[1]['zip_caption'])
+              end
+            end
+
+            ############ zip update end #################
+
 
 
 
@@ -405,6 +476,8 @@ class JobController < ApplicationController
             redirect_to index_job_path, notice: 'Job Successfully Updated.'
 
         else
+
+          abort(@job.errors.to_json)
             render 'new'
         end    
 
@@ -419,9 +492,9 @@ class JobController < ApplicationController
 
   def job_home    
 
-  	conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
-  	@result = Job.where(conditions).order('id DESC').page(params[:page]).per(10)
-  	@final_result = JSON.parse(@result.to_json(:include => [:company, :country]))
+    conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+    @result = Job.where(conditions).order('id DESC').page(params[:page]).per(10)
+    @final_result = JSON.parse(@result.to_json(:include => [:company, :country]))
     @job_type = JobCategory.all
     @country_detail = Country.all
     
@@ -435,8 +508,8 @@ class JobController < ApplicationController
 
   def get_job_home_list
 
-    #conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
-    conditions = ""
+    conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+    #conditions = ""
    
     if(params[:country_id] && params[:country_id] != '')
           conditions += ' AND country_id=' + params[:country_id]
@@ -482,8 +555,8 @@ class JobController < ApplicationController
 
   def get_company_job_list
 
-    #conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
-    conditions = ""
+    conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+    #conditions = ""
    
     if(params[:country_id] && params[:country_id] != '')
           conditions += ' AND country_id=' + params[:country_id]
@@ -525,48 +598,49 @@ class JobController < ApplicationController
 
   def update_user_image
 
-  	authenticate_user!
-  	params[:user] ||= {'submit'=> true}
-  	if params[:user] == {'submit'=> true}
-	  	flash[:error] = "Image can't be blank."
-	  end
-  	@user = current_user
-  	
-  	if @user.update_attributes(user_params)
-  		if params[:commit] == "UpdateProfilePhoto"
-  			flash[:notice] = "Profile photo updated successfully."
-  		elsif params[:commit] == "UpdateCoverArt"
-  			flash[:notice] = "Cover art updated successfully."	
-  		else
-  			flash[:notice] = "Successfully updated."
-  		end	
+    authenticate_user!
+    params[:user] ||= {'submit'=> true}
+    if params[:user] == {'submit'=> true}
+      flash[:error] = "Image can't be blank."
+    end
+    @user = current_user
+    
+    if @user.update_attributes(user_params)
+      if params[:commit] == "UpdateProfilePhoto"
+        flash[:notice] = "Profile photo updated successfully."
+      elsif params[:commit] == "UpdateCoverArt"
+        flash[:notice] = "Cover art updated successfully."  
+      else
+        flash[:notice] = "Successfully updated."
+      end 
       #redirect_to request.referer
     else
       #render 'index'
     end
 
     redirect_to request.referer
-	  
-  end	
+    
+  end 
 
   def remove_cover_art
 
-  	authenticate_user!
-  	@user = current_user
-  	
-  	@user.remove_cover_art_image!	
-  	@user.save
+    authenticate_user!
+    @user = current_user
+    
+    @user.remove_cover_art_image! 
+    @user.save
 
-    flash[:notice] = "Cover art removed successfully."		
+    flash[:notice] = "Cover art removed successfully."    
     redirect_to request.referer
-	  
+    
   end
   
-  def job_post  	
+  def job_post    
   end
 
   def applied_job
-      paramlink         = params[:paramlink]
+     
+     /  paramlink         = params[:paramlink]
       @result           = Job.where("paramlink = ? ", paramlink).first
       @similar_jobs     = Job.where("paramlink != ? ", paramlink).order('random()').limit(4)
       apply_type        = @result.apply_type
@@ -582,7 +656,7 @@ class JobController < ApplicationController
           redirect_to @result.apply_url
       else
           @success_message  = @result.apply_instruction  
-      end 
+      end /
 
   end  
 
@@ -698,8 +772,8 @@ class JobController < ApplicationController
 
 
   private
-	 def job_params
-            params.require(:job).permit(:is_spam, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :job_type, :from_amount, :to_amount, {:job_category => []} , :application_email_or_url, :country_id, :city, :state,  :work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache])
+   def job_params
+            params.require(:job).permit(:latitude, :longitude, :is_spam, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :job_type, :from_amount, :to_amount, {:job_category => []} , :application_email_or_url, :country_id, :city, :state,  :work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache])
 
 
    end

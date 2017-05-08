@@ -3,6 +3,8 @@ class Job < ActiveRecord::Base
  #mount_uploader :image, ImageUploader
  validates :title, presence: true
  validates :paramlink, presence: true
+ validates :country_id, presence: true
+ validates :city, presence: true
 
  has_many :images, as: :imageable, dependent: :destroy
  has_many :caption_image

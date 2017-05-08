@@ -549,6 +549,34 @@ class GalleriesController < ApplicationController
           
     end   
 
+    def delete_from_trash
+          #abort(params.to_json)
+         paramlink             =  params[:paramlink]
+         @is_gallery_exist     =  Gallery.where(paramlink: paramlink).first
+        # abort(@is_gallery_exist.to_json)
+         if @is_gallery_exist.present?
+            Gallery.where('id = ?',@is_gallery_exist.id).delete_all
+            flash[:notice] = 'Post has successfully deleted.'
+            redirect_to index_gallery_path
+         end
+
+    end  
+
+
+    def restore_post
+       
+       #abort(params.to_json)
+         paramlink             =  params[:paramlink]
+         @is_gallery_exist     =  Gallery.where(paramlink: paramlink).first
+        # abort(@is_gallery_exist.to_json)
+         if @is_gallery_exist.present?
+            Gallery.where('id = ?',@is_gallery_exist.id).update_all(:is_trash => 0)  
+            flash[:notice] = 'Post has successfully restored.'
+            redirect_to index_gallery_path
+         end
+
+  end  
+
     def get_upload_video_thumbnail
 
       dir_path = File.dirname(params[:url])
