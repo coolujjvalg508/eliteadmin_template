@@ -164,10 +164,18 @@ class JobController < ApplicationController
 
 
         latlong_result  = get_lat_long(params['job']['country_id'],params['job']['city'])
-        #abort(latlong_result.to_json)
+        
 
-         params['job']['latitude']    =   latlong_result[0]
-         params['job']['longitude']   =   latlong_result[1]
+        if !latlong_result.nil?
+             params['job']['latitude']    =   latlong_result[0]
+             params['job']['longitude']   =   latlong_result[1]
+
+        else
+             params['job']['latitude']    =   ''
+             params['job']['longitude']   =   ''
+
+        end
+
 
         if params[:job][:company_name].present?
             companyexist = Company.where("name=?", params[:job][:company_name]).count
@@ -282,10 +290,19 @@ class JobController < ApplicationController
 
 
         latlong_result  = get_lat_long(params['job']['country_id'],params['job']['city'])
-        #abort(latlong_result.to_json)
+       # abort(latlong_result.to_json)
+        
+        if !latlong_result.nil?
+             params['job']['latitude']    =   latlong_result[0]
+             params['job']['longitude']   =   latlong_result[1]
 
-         params['job']['latitude']    =   latlong_result[0]
-         params['job']['longitude']   =   latlong_result[1]
+        else
+             params['job']['latitude']    =   ''
+             params['job']['longitude']   =   ''
+
+        end
+        
+       # abort(params.to_json)     
 
         if params['commit'] == 'Publish'
             params['job']['is_save_to_draft'] = 0
