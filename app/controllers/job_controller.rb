@@ -15,11 +15,17 @@ class JobController < ApplicationController
   def new
       @job = Job.new
       @jobcategory = JobCategory.all
+
+      @package     =  Package.all
+
+
+
   end  
 
    def edit
       @jobcategory = JobCategory.all
       @job = Job.find_by(paramlink: params[:paramlink])
+      @package     =  Package.all
 
       render 'new'
   end  
@@ -177,13 +183,28 @@ class JobController < ApplicationController
         end
 
 
+        if !params['job']['package_id'].nil?
+            is_exist_in_array  =  params['job']['package_id'].include? "2"
+            if is_exist_in_array == true
+                params['job']['is_featured']    =  true
+            else
+               params['job']['is_featured']     =  false       
+            end  
+        end   
+
         if params[:job][:company_name].present?
-            companyexist = Company.where("name=?", params[:job][:company_name]).count
-            if companyexist < 1
+            companyexist = Company.where("name=?", params[:job][:company_name]).first
+           
+            if !companyexist.present?
                 company_data =  Company.create(name: params[:job][:company_name], user_id: current_user.id)
                 params['job']['company_id']   = company_data.id
                 params['job']['company_name'] = params[:job][:company_name]
-            end    
+            else
+
+                params['job']['company_id']   = companyexist.id
+                params['job']['company_name'] = params[:job][:company_name]
+
+             end    
 
         end  
 
@@ -273,7 +294,8 @@ class JobController < ApplicationController
     end  
 
     def update
-   # abort(params.inspect)
+    
+    #abort(params.inspect)
 
 
     @job = Job.find_by(paramlink: params[:paramlink])
@@ -302,8 +324,17 @@ class JobController < ApplicationController
 
         end
         
-       # abort(params.to_json)     
-
+        #abort(params['job']['package_id'].to_json)
+        if !params['job']['package_id'].nil?
+            is_exist_in_array  =  params['job']['package_id'].include? "2"
+            if is_exist_in_array == true
+                params['job']['is_featured']    =  true
+            else
+               params['job']['is_featured']     =  false     
+            end  
+        end    
+#abort(params.to_json)
+ 
         if params['commit'] == 'Publish'
             params['job']['is_save_to_draft'] = 0
 
@@ -312,12 +343,17 @@ class JobController < ApplicationController
         end
 
         if params[:job][:company_name].present?
-            companyexist = Company.where("name=?", params[:job][:company_name]).count
-            if companyexist < 1
+            companyexist = Company.where("name=?", params[:job][:company_name]).first
+            if !companyexist.present?
                 company_data =  Company.create(name: params[:job][:company_name], user_id: current_user.id)
                 params['job']['company_id']   = company_data.id
                 params['job']['company_name'] = params[:job][:company_name]
-            end    
+            else
+
+                params['job']['company_id']   = companyexist.id
+                params['job']['company_name'] = params[:job][:company_name]
+
+             end    
 
         end  
 
@@ -763,12 +799,44 @@ class JobController < ApplicationController
 
   def job_company_list_on_map
 
-    @job_type = JobCategory.all
-    @country_detail = Country.all
+    @job_type        = JobCategory.all
+    @country_detail  = Country.all
     
-    @contracttype  = JobCategory.all
-    @catgorytype   = CategoryType.all
+    @contracttype    = JobCategory.all
+    @catgorytype     = CategoryType.all
+    
 
+    conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+    
+    @job_map = Job.where(conditions)
+       str = '['
+    if @job_map.present?
+        @job_map.each_with_index do |map_data,index|
+         
+          if !map_data.latitude.nil? && !map_data.longitude.nil?
+
+              company_name   =    ''
+              if !map_data.company_name.nil?
+                 company_name   =    map_data.company_name 
+
+              else
+                 company_name   =    'NA'
+
+             end 
+
+              str += '{ id: ' + index.to_s + ', name: "' + company_name.to_s + '" , pos: [' + map_data.latitude + ', ' + map_data.longitude + '] },'
+          end    
+      
+        end
+    end  
+      str += ']'
+      #abort(str.to_s)
+    #str.split(",").map(&:to_i)
+    @map_data   =  str
+      
+
+  # abort(str.to_json)
+   
   end
 
   def job_list_on_map
@@ -784,13 +852,25 @@ class JobController < ApplicationController
     @featured_jobs  = Job.where("is_featured = ?", true).order('id DESC').limit(5)
 
 
+    @mapdata =  [
+            { id: 1, name: 'Oslo', pos: [59.923043, 10.752839] },
+            { id: 2, name: 'Stockholm', pos: [59.339025, 18.065818] },
+            { id: 3, name: 'Copenhagen', pos: [55.675507, 12.574227] },
+            { id: 4, name: 'Berlin', pos: [52.521248, 13.399038] },
+            { id: 5, name: 'Paris', pos: [48.856127, 2.346525] }
+        ];
+
+
+
+
+
   end
 
 
 
   private
    def job_params
-            params.require(:job).permit(:latitude, :longitude, :is_spam, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :job_type, :from_amount, :to_amount, {:job_category => []} , :application_email_or_url, :country_id, :city, :state,  :work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache])
+            params.require(:job).permit(:company_name, :latitude, :longitude, :is_spam, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :job_type, :from_amount, :to_amount, {:job_category => []} , :application_email_or_url, :country_id, :city, :state,  :work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache])
 
 
    end

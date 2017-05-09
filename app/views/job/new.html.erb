@@ -75,6 +75,13 @@
                         </ul>
                     </div>
 
+                    <div class="marginB15 dragdrop text-center hidden-sm hidden-xs" >
+                        <input accept="image/*" id='gallery_image_image_999' name='job[avatar][][image]' type='file' multiple="multiple" class='dragdrop-gallery'>
+                        <div class="marginB15"><i class="fa fa-files-o fa-2x" aria-hidden="true"></i></div>
+                         <div class="marginB15">Drag and drop your images here</div> 
+                        <button class="lightbtn padding10 lightcolor" type="button" ng-click="addNewImages()">Select Files</button>
+                    </div>
+
                      <div class="clearfix marginB15 selectgallery">
                         <ul>
 
@@ -315,80 +322,116 @@
                   </div>
 
           <div class="panel panel-default">
-            <div class="panel-heading">More Details &amp; Address</div>
+            <div class="panel-heading">Job Details</div>
             <div class="panel-body">
-              
+
                 <div class="row">
-                  <div class="form-group clearfix">
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Job Type</label>
+                        <div class="col-md-12 col-sm-12 col-xs-10">
+                           <select class="custom-select" name="job[job_type]">
+                                <% if @jobcategory.present? 
+                                  @jobcategory.each_with_index do |value, index|  
+                                %>
+                                    <option value="<%= value.name %>"><%= value.name %></option>
+                                <% end
+                                end %> 
+                            </select>
+                         </div>
+                    </div>
+
+                     <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Job Category</label>
+                        <div class="col-md-12 col-sm-12 col-xs-10">
+                           <%= f.select(:job_category, options_for_select(CategoryType.order('created_at DESC').pluck(:name, :id), params[:job].present? ? params[:job][:job_category] : @job[:job_category]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'job_category_id', multiple: true})  %>
+                         </div>
+                    </div>
+                    <div class="form-group clearfix">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Location of Company</label>
+                    <div class="col-md-6 col-sm-6 col-xs-6 marginB10">
+                     
+                        <%= f.select(:country_id, options_for_select(Country.active.pluck(:name, :id), params[:job].present? ? params[:job][:country_id] : @job[:country_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'country_id'})  %>
+                         <span class="err-msg"><%= form_error_msg_for(@job,:country_id, "Country") %></span>
+                       
+                      
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-6 marginB10">
+                      <%= f.text_field :city, class: 'form-control from-input', id: 'city', placeholder: 'city', value: params[:job].present? ? params[:job][:city] : @job[:city] %>
+                       <span class="err-msg"><%= form_error_msg_for(@job,:city, "City") %></span>
+                    </div>
+
+                    
+
+                  </div>
+
+                 <div class="form-group clearfix">
                     <label class="col-md-12 col-sm-12 col-xs-12">Company Name</label>
-                    <div class="col-md-6 col-sm-6 col-xs-10">
+                    <div class="col-md-12 col-sm-12 col-xs-10">
                     <%= f.text_field :company_name, class: 'form-control from-input', id: 'company_id', placeholder: 'Add new if company name not listed' %>
                       <!-- <input type="text" class="form-control from-input" placeholder="Add new if company name not listed"> -->
                     </div>
 
-                    <div class="col-md-1 col-sm-1 col-xs-2 text-center white-txt paddinT10">or</div>
+                   <!--  <div class="col-md-1 col-sm-1 col-xs-2 text-center white-txt paddinT10">or</div>
                     <div class="col-md-5 col-sm-5 col-xs-12 txt13">
 
                      
-                       <%= f.select(:company_id, options_for_select(Company.pluck(:name, :id), params[:job].present? ? params[:job][:company_id] : @job[:company_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'company_id'})  %>
+                       <%#= f.select(:company_id, options_for_select(Company.pluck(:name, :id), params[:job].present? ? params[:job][:company_id] : @job[:company_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'company_id'})  %>
 
-                       <!--    <input type="text" class="form-control from-input add-input" placeholder=""> -->
+                       <!--    <input type="text" class="form-control from-input add-input" placeholder=""> 
                     
                     <div class="add-txt pull-right"></div>
-                    </div>
-                  </div>
-                
-                  <div class="form-group clearfix">
-                    <label class="col-md-6 col-sm-6 col-xs-6">Job Type</label>
-                    <label class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6">Amount</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12 marginB10">
-                      <select class="custom-select" name="job[job_type]">
-                        <% if @jobcategory.present? 
-                          @jobcategory.each_with_index do |value, index|  
-                        %>
-                            <option value="<%= value.name %>"><%= value.name %></option>
-                        <% end
-                        end %> 
-                      </select>
-
-                    </div>
-                    <div class="col-md-2 col-sm-6 col-xs-5 col-md-offset-1">
-                     <%= f.text_field :from_amount, class: 'form-control from-input', id: 'from_amount', placeholder: 'From Amount', value: params[:job].present? ? params[:job][:from_amount] : @job[:from_amount] %>
-                    </div>
-
-                    <div class="col-md-1 col-sm-1 col-xs-2 text-center white-txt paddinT10">or</div>
-                    <div class="col-md-2 col-sm-6 col-xs-5">
-                        <%= f.text_field :to_amount, class: 'form-control from-input skill-input', id: 'to_amount', placeholder: 'To Amount', value: params[:job].present? ? params[:job][:to_amount] : @job[:to_amount] %>
-                    </div>
+                    </div> -->
                   </div>
 
-
                   <div class="form-group clearfix">
-                    <label class="col-md-12 col-sm-12 col-xs-12">Job Category</label>
-                    <div class="col-md-12 col-sm-12 col-xs-12 marginB10">
-                       <select class="custom-select" name="job[job_category]">
-                             <% job_category = CategoryType.pluck(:name,:id) 
+                    <label class="col-md-12 col-sm-12 col-xs-12">Company URL</label>
+                    <div class="col-md-12 col-sm-12 col-xs-10">
+                        <%= f.text_field :company_url, class: 'form-control from-input', id: 'company_url', placeholder: 'Company URL', value: params[:job].present? ? params[:job][:company_url] : @job[:company_url] %>
+                     </div>
+                </div>
 
-                                if job_category.present?
-                                    job_category.each_with_index do |value, index| 
-                             %>
-                              <option><%= value[0] %></option>
-                             <% 
-                                  end
-                                end
-                            %>
-                      </select>  
 
-                    <!--   <input type="text" class="form-control from-input"> -->
-                    
+                  <div>
+                        <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
+                          <div class="checkbox-btn paddinT10">
+                            <%= f.check_box :is_featured, id: 'rc3', name: "job[is_featured]" %>
+                            <!-- <input type="checkbox" value="value-1" id="rc3" name="rc3"/> -->
+                            <label for="rc3" onclick>Work Remotely</label>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-6 marginB10 padding">
+                          <div class="checkbox-btn paddinT10">
+                           <%= f.check_box :relocation_asistance, id: 'rc4', name: "job[relocation_asistance]" %>
+                           <!--  <input type="checkbox" value="value-1" id="rc4" name="rc4"/> -->
+                            <label for="rc4" onclick>Relocation Assistance</label>
+                          </div>
+                        </div>
+                  </div>
+                   <div class="form-group clearfix margin">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Closing Date</label>
+                    <div class="col-md-12 col-sm-12 col-xs-6 marginB10">
+                       <%= f.text_field :closing_date, class: 'form-control from-input', id: 'closing_date', placeholder: 'closing date', value: params[:job].present? ? params[:job][:closing_date] : @job[:closing_date] %>
                     </div>
-                  </div> 
+                  </div>
 
+                  <div class="form-group clearfix margin">
+                      <label class="col-md-12 col-sm-12 col-xs-12">Amount</label>
+                      <div class="col-md-6 col-sm-6 col-xs-5 col-md-offset-0">
+                         <%= f.text_field :from_amount, class: 'form-control from-input', id: 'from_amount', placeholder: 'From Amount', value: params[:job].present? ? params[:job][:from_amount] : @job[:from_amount] %>
+                        </div>
 
-                <div class="form-group clearfix">
+                        
+                        <div class="col-md-6 col-sm-6 col-xs-5">
+                            <%= f.text_field :to_amount, class: 'form-control from-input skill-input', id: 'to_amount', placeholder: 'To Amount', value: params[:job].present? ? params[:job][:to_amount] : @job[:to_amount] %>
+                        </div> 
+                  </div>
+                  <div>&nbsp;</div>
+                 <div class="form-group clearfix">
                     <label class="col-md-6 col-sm-6 col-xs-6">How to Apply</label>
                     <label class="col-md-5 col-md-offset-1 col-sm-6 col-xs-6"></label>
-                    <div class="col-md-7 col-sm-6 col-xs-12 marginB10">
+                    <div class="col-md-12 col-sm-6 col-xs-12 marginB10">
 
                     <%= f.select(:apply_type, options_for_select({ "Email" => "email", "URL" => "url", "Instruction" => "instruction" }, params[:job].present? ? params[:job][:apply_type] : @job[:apply_type]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'apply_type'})  %>
 
@@ -423,44 +466,8 @@
                      </div>
                 </div>
 
-                  <div class="form-group clearfix">
-                    <label class="col-md-12 col-sm-12 col-xs-12">Location of Company</label>
-                    <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
-                     
-                        <%= f.select(:country_id, options_for_select(Country.active.pluck(:name, :id), params[:job].present? ? params[:job][:country_id] : @job[:country_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'country_id'})  %>
-                         <span class="err-msg"><%= form_error_msg_for(@job,:country_id, "Country") %></span>
-                       
-                      
-                    </div>
-
-                    <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
-                      <%= f.text_field :city, class: 'form-control from-input', id: 'city', placeholder: 'city', value: params[:job].present? ? params[:job][:city] : @job[:city] %>
-                       <span class="err-msg"><%= form_error_msg_for(@job,:city, "City") %></span>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6 col-xs-6 marginB10">
-                      <div class="checkbox-btn paddinT10">
-                        <%= f.check_box :is_featured, id: 'rc3', name: "job[is_featured]" %>
-                        <!-- <input type="checkbox" value="value-1" id="rc3" name="rc3"/> -->
-                        <label for="rc3" onclick>Work Remotely</label>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6 col-xs-6 marginB10 padding">
-                      <div class="checkbox-btn paddinT10">
-                       <%= f.check_box :relocation_asistance, id: 'rc4', name: "job[relocation_asistance]" %>
-                       <!--  <input type="checkbox" value="value-1" id="rc4" name="rc4"/> -->
-                        <label for="rc4" onclick>Relocation Assistance</label>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="form-group clearfix margin">
-                    <label class="col-md-12 col-sm-12 col-xs-12">Closing Date</label>
-                    <div class="col-md-6 col-sm-6 col-xs-6 marginB10">
-                       <%= f.text_field :closing_date, class: 'form-control from-input', id: 'closing_date', placeholder: 'closing date', value: params[:job].present? ? params[:job][:closing_date] : @job[:closing_date] %>
-                    </div>
-                  </div>
+                  
+                
                 </div>
                 <!--<button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>-->
            
@@ -473,7 +480,7 @@
                 <div class="row">
                   <div class="form-group clearfix">
                     <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
-                    <div class="col-md-8 col-sm-6 col-xs-6">
+                    <div class="col-md-12 col-sm-6 col-xs-6">
                     
                     <%= f.select(:skill, options_for_select(JobSkill.order('created_at DESC').pluck(:name, :id), params[:job].present? ? params[:job][:skill] : @job[:skill]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'jobskill', multiple: true})  %>
                     
@@ -483,20 +490,23 @@
                   </div>
                   <div class="form-group clearfix">
                     <label class="col-md-12 col-sm-12 col-xs-12">software expertise needed for job:</label>
-                    <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
 
                     <%= f.select(:software_expertise, options_for_select(SoftwareExpertise.order('created_at DESC').pluck(:name, :id), params[:job].present? ? params[:job][:software_expertise] : @job[:software_expertise]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'jobsoftware_expertise', multiple: true})  %>
     
                     </div>
                   </div>
-                  <div class="form-group clearfix">
+
+
+
+                 <!--  <div class="form-group clearfix">
                     <label class="col-md-12 col-sm-12 col-xs-12">Packages</label>
                     <div class="col-md-8 col-sm-12 col-xs-12">
 
                     <%= f.select(:package_id, options_for_select(Package.order('created_at DESC').pluck(:title, :id), params[:job].present? ? params[:job][:package_id] : @job[:package_id]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'package_id', multiple: true})  %>
     
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               <!--   <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button> -->
            
@@ -531,17 +541,56 @@
             <% if previous_tags.present? && 'edit' != params[:action] && 'update' != params[:action] %>
                 <div class="form-group clearfix">
                     <div class="checkbox-btn">
-                        <%= f.check_box :use_tag_from_previous_upload, id: 'rc5', name: "job[use_tag_from_previous_upload]" %>
-                        <label for="rc5" onclick>Use tags from previous upload </label>
+                        <%= f.check_box :use_tag_from_previous_upload %>
+                        <label for="job_use_tag_from_previous_upload" onclick>Use tags from previous upload </label>
                     </div>
                 </div>
 
             <% end %>
-                <div class="checkbox-btn paddinT10">
-                <%= f.check_box :is_featured, id: 'rc6', name: "job[is_featured]" %>
-                <!-- <input type="checkbox" value="value-1" id="rc6" name="rc6"/> -->
+
+            <%
+                if @package.present?
+                    @package.each_with_index do | value, index|
+                       is_checked  = ""
+                    if @job[:package_id].present? && !@job[:package_id].nil?   
+                           is_exist_in_array  =  @job[:package_id].include? value.id.to_s
+                           
+                            if is_exist_in_array == true
+                                    is_checked = "checked = checked"   
+                            end    
+                    end        
+            %>
+
+                    <label class="postJobUpgrade">
+                        <div><input name="job[package_id][]" id="upsell_ids_" value="<%= value.id %>" data-js="postJobUpgrade" type="checkbox" <%= is_checked %>></div>
+                        <div class="postJobUpgrade-intro">
+                          <h5 class="u-mt--xsmall"><%= value.title %></h5>
+                          <%= value.description %>
+                        </div>
+                        <div class="postJobUpgrade-price">$<%= value.amount %></div>
+                    </label>
+            <%      end 
+                end
+            %>
+         
+
+
+           <!--  <div class="form-group clearfix">
+                <label class="col-md-12 col-sm-12 col-xs-12">Packages</label>
+                <div class="col-md-12 col-sm-12 col-xs-10">
+                    <%#= f.select(:package_id, options_for_select(Package.order('created_at DESC').pluck(:title, :id), params[:job].present? ? params[:job][:package_id] : @job[:package_id]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'package_id', multiple: true})  %>
+
+                    
+                 </div>
+            </div> -->
+
+
+
+                <!-- <div class="checkbox-btn paddinT10">
+                <%#= f.check_box :is_featured, id: 'rc6', name: "job[is_featured]" %>
+                <input type="checkbox" value="value-1" id="rc6" name="rc6"/>
                 <label for="rc6" onclick>Feature this Post</label>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -616,7 +665,7 @@
                         </div>
                     </div>
                     <div class="panel panel-default">
-                        <div class="panel-heading">Company Thumbnail</div>
+                        <div class="panel-heading">Company Logo / Job Thumbnail</div>
                         <div class="panel-body padding">
                             <div class="marginB15 pos-rel img-company-logo">
 
@@ -759,6 +808,7 @@
     $(document).ready(function(){
 
          selected_apply_type    =  "<%= @job[:apply_type] %>"
+        // alert(selected_apply_type);
          if(selected_apply_type != ''){
 
                 if(selected_apply_type == 'email'){
@@ -779,11 +829,16 @@
                      $('#apply_url_div').hide();
                      $('#apply_instruction_div').show();
                     
+                }else{
+                     $('#apply_email_div').hide();
+                     $('#apply_url_div').hide();
+                     $('#apply_instruction_div').hide();
+
+
                 }
 
-               
-         }else{
-                $('#apply_email_div').show();
+         }else{  //alert('hello');
+                $('#apply_email_div').hide();
                 $('#apply_url_div').hide();
                 $('#apply_instruction_div').hide();
 
@@ -807,6 +862,11 @@
                         $('#apply_url_div').hide();
                         $('#apply_instruction_div').show();
 
+                }else{
+
+                        $('#apply_email_div').hide();
+                        $('#apply_url_div').hide();
+                        $('#apply_instruction_div').hide();
                 }
         });
 
@@ -1447,8 +1507,7 @@
 
     $(document).ready(function(){
 
-        $('#gallery_use_tag_from_previous_upload').click(function(){
-
+        $('#job_use_tag_from_previous_upload').click(function(){
             var previous_tags = <%= previous_tags.to_json.html_safe %>;
             
             if($(this). prop("checked") === true){

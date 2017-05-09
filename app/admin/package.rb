@@ -15,7 +15,7 @@ ActiveAdmin.register Package, as: "Job Package"  do
 
 	 menu label: 'Job Package', parent: 'Package'
 	 permit_params :title, :description, :amount, :image
-
+	 actions :all, except: [:destroy, :new, :create]
 	controller do 
 		def action_methods
 		 super                                    

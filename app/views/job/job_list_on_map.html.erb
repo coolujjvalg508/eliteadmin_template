@@ -1,3 +1,4 @@
+<%= javascript_include_tag "map/api","map/markerclusterer","map/ng-map" %>    
 <div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
 
   <!-- Submenu Navigation -->
@@ -300,10 +301,18 @@
   <button  onclick="redirect_to_company_on_map();" type="button" class="btn btn-default border-radius marginB10">Companies</button>
   </div>
   </div>
+  </section>   
+        
+  <section class="clearfix worldmap">
+     <ng-map zoom="6" style="height:500px" center="20.5937, 78.9629">
+        <info-window id="myInfoWindow">
+            <div ng-non-bindable>
+                <h4>{{selectedCity.name}}</h4>
+            </div>
+        </info-window>
+    </ng-map>
   </section>
-   
-  <section class="clearfix worldmap"><%= image_tag("database/World-Map.jpg", :alt=>"World Map") %></section>
- 
+
   <!-- User Profile Menu -->
   <section class="jobshomenav clearfix">
   <div class="clearfix hidden-xs">
@@ -477,8 +486,8 @@
 </script>
 
 <script type="text/javascript">
-  var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg"]);
-  app.controller('myCtrl', function($sce, $scope, $http) {  
+  var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap"]);
+  app.controller('myCtrl', function($sce, $scope, $http, NgMap) {  
 //alert('jghj');
     $scope.filter = function() {
           
@@ -537,5 +546,48 @@
         $scope.relocation_asistance = value;
          $scope.filter();
      };
+
+
+     /************************Map code goes here ***********************************************/
+     NgMap.getMap().then(function (map) {
+            $scope.map = map;
+            $scope.initMarkerClusterer();
+        });
+
+        $scope.cities = [
+            { id: 1, name: 'Oslo', pos: [59.923043, 10.752839] },
+            { id: 2, name: 'Stockholm', pos: [59.339025, 18.065818] },
+            { id: 3, name: 'Copenhagen', pos: [55.675507, 12.574227] },
+            { id: 4, name: 'Berlin', pos: [52.521248, 13.399038] },
+            { id: 5, name: 'Paris', pos: [48.856127, 2.346525] }
+        ];
+
+        
+        $scope.initMarkerClusterer = function () {
+            var markers = $scope.cities.map(function (city) {
+                return $scope.createMarkerForCity(city);
+            });
+            var mcOptions = { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' };
+            return new MarkerClusterer($scope.map, markers, mcOptions);
+        };
+
+
+        $scope.createMarkerForCity = function (city) {
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(city.pos[0], city.pos[1]),
+                title: city.name
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                $scope.selectedCity = city;
+                $scope.map.showInfoWindow('myInfoWindow', this);
+            });
+            return marker;
+        }
+
+     /***********************************************************************************************/   
+
+
+
+
   });
 </script>

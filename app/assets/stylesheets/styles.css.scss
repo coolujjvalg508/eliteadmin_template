@@ -1602,3 +1602,32 @@ a.pull_push.active  {
 iframe::-webkit-scrollbar {
 	width: 0;
 }
+.postJobUpgrade {
+  border: 2px solid #3a3a3a;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  font-weight: normal;
+  margin-bottom: 0;
+  padding: 15px;
+  width: 100%;
+}
+.postJobUpgrade-intro {
+  margin-right: 15px;
+  padding-left: 15px;
+  width: 60%;
+}
+.postJobUpgrade-price {
+  align-self: center;
+  flex: 1 1 0;
+  font-size: 20px;
+  text-align: right;
+}
+.postJobUpgrade-intro h5 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.postJobUpgrade-intro p {
+  line-height: 24px;
+}

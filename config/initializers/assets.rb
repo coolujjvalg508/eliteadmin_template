@@ -45,6 +45,9 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w(jquery.timeago.min.js)
  Rails.application.config.assets.precompile += %w(quickblox/stickerpipe.js)
  Rails.application.config.assets.precompile += %w(quickblox/stickerpipe_main.js)
+ Rails.application.config.assets.precompile += %w(map/api.js)
+ Rails.application.config.assets.precompile += %w(map/markerclusterer.js)
+ Rails.application.config.assets.precompile += %w(map/ng-map.js)
 
  
 
