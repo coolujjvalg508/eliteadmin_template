@@ -542,7 +542,7 @@
   var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap"]);
   app.controller('myCtrl', function($sce, $scope, $http, NgMap) {  
 //alert('jghj');
-$scope.final_result = '';
+
     $scope.filter = function() {
           
           list_url = '/job/get_company_job_list?'; 
@@ -578,6 +578,8 @@ $scope.final_result = '';
                   $scope.cities.push({ id: value.id, name: value.company_name, pos: [value.latitude, value.longitude] });
             
                 });
+
+                 $scope.initMarkerClusterer();
 
 
           });
