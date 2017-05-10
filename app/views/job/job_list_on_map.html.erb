@@ -500,7 +500,7 @@
   var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap"]);
   app.controller('myCtrl', function($sce, $scope, $http, NgMap) {  
 //alert('jghj');
-  
+  $scope.final_result = '';
     $scope.filter = function() {
           
           list_url = '/job/get_job_home_list?'; 
@@ -537,9 +537,7 @@
             
                 });
 
-                alert('Hi');
-                alert($scope.cities);
-                alert(JSON.stringify($scope.cities));
+
           });
       };
       $scope.filter();
@@ -578,9 +576,12 @@
         });
            
      //alert($scope.final_result);
+
+        
+
+        
         $scope.initMarkerClusterer = function () {
-  //alert($scope.cities);
-  //alert(JSON.stringify($scope.cities));
+
             var markers = $scope.cities.map(function (city) {
                 return $scope.createMarkerForCity(city);
             });
@@ -590,7 +591,6 @@
 
 
         $scope.createMarkerForCity = function (city) {
-
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(city.pos[0], city.pos[1]),
                 title: city.name
