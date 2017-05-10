@@ -581,7 +581,8 @@
 
         
         $scope.initMarkerClusterer = function () {
-
+alert($scope.cities);
+alert(JSON.stringify($scope.cities));
             var markers = $scope.cities.map(function (city) {
                 return $scope.createMarkerForCity(city);
             });
