@@ -587,6 +587,7 @@
 
 
         $scope.createMarkerForCity = function (city) {
+          alert(JSON.stringify(city));
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(city.pos[0], city.pos[1]),
                 title: city.name
