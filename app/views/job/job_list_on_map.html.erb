@@ -528,11 +528,20 @@
          
           $http.get(list_url).then(function (response) {
                  
-               //alert(response.data);
-               angular.forEach(response.data, function(value, key) {
-                  $scope.cities.push({ id: value.id, name: value.title, pos: [value.latitude, value.longitude] });
-            
-                });
+               
+
+                setTimeout(function(){
+                       //alert(response.data);
+                     angular.forEach(response.data, function(value, key) {
+                        $scope.cities.push({ id: value.id, name: value.title, pos: [value.latitude, value.longitude] });
+                  
+                      });
+
+
+                }, 1000);
+
+
+
 
                 $scope.final_result   = response.data;
              //alert($scope.cities);    
