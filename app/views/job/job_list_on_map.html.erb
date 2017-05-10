@@ -577,7 +577,8 @@
            
      //alert($scope.final_result);
         $scope.initMarkerClusterer = function () {
-
+  alert($scope.cities);
+  alert(JSON.stringify($scope.cities));
             var markers = $scope.cities.map(function (city) {
                 return $scope.createMarkerForCity(city);
             });
@@ -587,7 +588,7 @@
 
 
         $scope.createMarkerForCity = function (city) {
-          alert(JSON.stringify(city));
+
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(city.pos[0], city.pos[1]),
                 title: city.name
