@@ -1,5 +1,5 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEFPWdTCFDD4tc2P0P8KeMR5uEJD43DTo&sensor=false"></script>
-<%= javascript_include_tag "map/markerclusterer","map/ng-map" %>    
+<%= javascript_include_tag "map/markerclusterer","map/ng-map" %>   
 <div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
 
   <!-- Submenu Navigation -->
@@ -537,7 +537,7 @@
             
                 });
 
-
+                alert($scope.cities);
           });
       };
       $scope.filter();
