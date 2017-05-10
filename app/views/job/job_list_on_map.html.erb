@@ -1,5 +1,5 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEFPWdTCFDD4tc2P0P8KeMR5uEJD43DTo"></script> 
-<%= javascript_include_tag "map/markerclusterer","map/ng-map" %>   
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEFPWdTCFDD4tc2P0P8KeMR5uEJD43DTo"></script> -->
+<%= javascript_include_tag "map/api","map/markerclusterer","map/ng-map" %>   
 <div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
 
   <!-- Submenu Navigation -->
@@ -536,7 +536,7 @@
             
                 });
 
-              alert($scope.cities); 
+             
 
           });
       };
@@ -579,9 +579,10 @@
 
         
 
-        
+         alert($scope.cities); 
         $scope.initMarkerClusterer = function () {
-
+alert($scope.cities); 
+alert(JSON.stringify($scope.cities)); 
             var markers = $scope.cities.map(function (city) {
                 return $scope.createMarkerForCity(city);
             });
