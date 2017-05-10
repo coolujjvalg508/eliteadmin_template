@@ -40,8 +40,7 @@ class GalleriesController < ApplicationController
     end  
 
     def create_collection
-       # abort(params.to_json)
-          
+       # abort(params.to_json)        
           gallery_id              = params[:collection][:gallery_id] 
           title                   = params[:collection][:title].strip 
           is_collection_exist     = Collection.where(title: title)

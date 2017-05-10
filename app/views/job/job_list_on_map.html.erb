@@ -482,6 +482,16 @@
   function redirect_to_company_on_map(){
     window.location.href = "<%= job_company_list_on_map_path %>";
   }
+
+  function unescapeHtml(safe) {
+    return safe
+         .replace("&amp;", /&/g)
+         .replace("&lt;", /</g)
+         .replace( "&gt;", />/g)
+         .replace("&quot;", /"/g)
+         .replace("&#039;", /'/g);
+ }
+
   
 </script>
 
@@ -489,6 +499,7 @@
   var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap"]);
   app.controller('myCtrl', function($sce, $scope, $http, NgMap) {  
 //alert('jghj');
+  $scope.final_result = '';
     $scope.filter = function() {
           
           list_url = '/job/get_job_home_list?'; 
@@ -516,7 +527,16 @@
 
          
           $http.get(list_url).then(function (response) {
-               $scope.final_result   = response.data;          
+               $scope.final_result   = response.data;   
+               //alert(response.data);
+                $scope.cities = [];
+
+                angular.forEach(response.data, function(value, key) {
+                  $scope.cities.push({ id: value.id, name: value.title, pos: [value.latitude, value.longitude] });
+            
+                });
+
+
           });
       };
       $scope.filter();
@@ -553,17 +573,14 @@
             $scope.map = map;
             $scope.initMarkerClusterer();
         });
+           
+     //alert($scope.final_result);
 
-        $scope.cities = [
-            { id: 1, name: 'Oslo', pos: [59.923043, 10.752839] },
-            { id: 2, name: 'Stockholm', pos: [59.339025, 18.065818] },
-            { id: 3, name: 'Copenhagen', pos: [55.675507, 12.574227] },
-            { id: 4, name: 'Berlin', pos: [52.521248, 13.399038] },
-            { id: 5, name: 'Paris', pos: [48.856127, 2.346525] }
-        ];
+        
 
         
         $scope.initMarkerClusterer = function () {
+
             var markers = $scope.cities.map(function (city) {
                 return $scope.createMarkerForCity(city);
             });

@@ -541,6 +541,7 @@
   var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap"]);
   app.controller('myCtrl', function($sce, $scope, $http, NgMap) {  
 //alert('jghj');
+$scope.final_result = '';
     $scope.filter = function() {
           
           list_url = '/job/get_company_job_list?'; 
@@ -567,8 +568,17 @@
 
 
          
-          $http.get(list_url).then(function (response) {
-               $scope.final_result   = response.data;          
+           $http.get(list_url).then(function (response) {
+               $scope.final_result   = response.data;   
+               //alert(response.data);
+                $scope.cities = [];
+
+                angular.forEach(response.data, function(value, key) {
+                  $scope.cities.push({ id: value.id, name: value.company_name, pos: [value.latitude, value.longitude] });
+            
+                });
+
+
           });
       };
       $scope.filter();
@@ -604,17 +614,12 @@
             $scope.map = map;
             $scope.initMarkerClusterer();
         });
-
-        $scope.cities =[
-            { id: 1, name: 'Oslo', pos: [59.923043, 10.752839] },
-            { id: 2, name: 'Stockholm', pos: [59.339025, 18.065818] },
-            { id: 3, name: 'Copenhagen', pos: [55.675507, 12.574227] },
-            { id: 4, name: 'Berlin', pos: [52.521248, 13.399038] },
-            { id: 5, name: 'Paris', pos: [48.856127, 2.346525] }
-        ];
-        //alert($scope.cities);
+   
+        
         $scope.initMarkerClusterer = function () {
+          //alert($scope.cities);
             var markers = $scope.cities.map(function (city) {
+              //alert(city);
                 return $scope.createMarkerForCity(city);
             });
             var mcOptions = { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' };

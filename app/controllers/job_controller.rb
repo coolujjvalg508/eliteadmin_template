@@ -546,7 +546,7 @@ class JobController < ApplicationController
   def job_home    
 
     conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
-    @result = Job.where(conditions).order('id DESC').page(params[:page]).per(10)
+    @result = Job.where(conditions).order('id DESC')
     @final_result = JSON.parse(@result.to_json(:include => [:company, :country]))
     @job_type = JobCategory.all
     @country_detail = Country.all
@@ -804,65 +804,17 @@ class JobController < ApplicationController
     
     @contracttype    = JobCategory.all
     @catgorytype     = CategoryType.all
-    
-
-    conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
-    
-    @job_map = Job.where(conditions)
-       str = '['
-    if @job_map.present?
-        @job_map.each_with_index do |map_data,index|
-         
-          if !map_data.latitude.nil? && !map_data.longitude.nil?
-
-              company_name   =    ''
-              if !map_data.company_name.nil?
-                 company_name   =    map_data.company_name 
-
-              else
-                 company_name   =    'NA'
-
-             end 
-
-              str += '{ id: ' + index.to_s + ', name: "' + company_name.to_s + '" , pos: [' + map_data.latitude + ', ' + map_data.longitude + '] },'
-          end    
-      
-        end
-    end  
-      str += ']'
-      #abort(str.to_s)
-    #str.split(",").map(&:to_i)
-    @map_data   =  str
-      
-
-  # abort(str.to_json)
+  
    
   end
 
   def job_list_on_map
 
-    conditions      = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
-    @result         = Job.where(conditions).order('id DESC').page(params[:page]).per(10)
-    @final_result   = JSON.parse(@result.to_json(:include => [:company, :country]))
     @job_type       = JobCategory.all
     @country_detail = Country.all
-    
     @contracttype   = JobCategory.all
-    @catgorytype     = CategoryType.all
+    @catgorytype    = CategoryType.all
     @featured_jobs  = Job.where("is_featured = ?", true).order('id DESC').limit(5)
-
-
-    @mapdata =  [
-            { id: 1, name: 'Oslo', pos: [59.923043, 10.752839] },
-            { id: 2, name: 'Stockholm', pos: [59.339025, 18.065818] },
-            { id: 3, name: 'Copenhagen', pos: [55.675507, 12.574227] },
-            { id: 4, name: 'Berlin', pos: [52.521248, 13.399038] },
-            { id: 5, name: 'Paris', pos: [48.856127, 2.346525] }
-        ];
-
-
-
-
 
   end
 
