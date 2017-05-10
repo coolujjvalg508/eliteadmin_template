@@ -499,7 +499,7 @@
   var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap"]);
   app.controller('myCtrl', function($sce, $scope, $http, NgMap) {  
 //alert('jghj');
-  $scope.final_result = '';
+ $scope.cities = [];
     $scope.filter = function() {
           
           list_url = '/job/get_job_home_list?'; 
@@ -527,15 +527,14 @@
 
          
           $http.get(list_url).then(function (response) {
-               $scope.final_result   = response.data;   
+                 
                //alert(response.data);
-                $scope.cities = [];
-
-                angular.forEach(response.data, function(value, key) {
+               angular.forEach(response.data, function(value, key) {
                   $scope.cities.push({ id: value.id, name: value.title, pos: [value.latitude, value.longitude] });
             
                 });
 
+                $scope.final_result   = response.data;
 
           });
       };
