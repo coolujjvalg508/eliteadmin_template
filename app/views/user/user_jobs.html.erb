@@ -52,10 +52,10 @@
   <ul class="margin"> 
         <li class="clearfix" dir-paginate="x in final_result | filter:search | itemsPerPage:10">
          
-             <div class="jobs-post-left pull-left"><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"> </div>
+             <div class="jobs-post-left pull-left"><img lazy-img="<%= root_url %>{{ x.company_logo.jobs_home.url }}" class="img-responsive"> </div>
              
              <div class="jobs-content clearfix pull-left">
-             <div class="jobs-title marginB15"><a href="<%= root_url %>job/apply-job/{{x.paramlink}}">{{x.title}}</a></div>
+             <div class="jobs-title marginB15"><a href="<%= root_url %>company/{{x.paramlink}}/jobs">{{x.title}}</a></div>
              <!-- <div class="white-txt marginB15">{{x.job_type}} </div> -->
              <div class="jobs-view-txt txt12 marginB15">{{x.created_at | date:'dd MMMM yyyy'}} - {{x.view_count}} views</div>
              <div class="jobs-status txt13"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} </div>

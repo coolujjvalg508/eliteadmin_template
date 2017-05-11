@@ -92,6 +92,7 @@ Rails.application.routes.draw do
   get 'job/job_post'
   get 'jobs'=> 'job#job_home'
   get 'jobs/:id'=> 'job#apply_job', as: 'apply_job' 
+  get 'company/:id/jobs'=> 'user#apply_job', as: 'user_apply_job' 
   get 'job/job_category' 
   #get 'job/job_company_list_on_map'
   
@@ -158,6 +159,7 @@ Rails.application.routes.draw do
     post 'dashboard/projects/get_like_comment_view_gallery'   => 'galleries#get_like_comment_view_gallery', as: 'get_like_comment_view_gallery' 
     post 'save_view_count'            => 'galleries#save_view_count', as: 'save_view_count' 
     post 'get_subject_matter_list'    => 'galleries#get_subject_matter_list', as: 'get_subject_matter_list' 
+    post 'dashboard/projects/delete_galleries_post'    => 'galleries#delete_galleries_post', as: 'delete_galleries_post' 
   
 
     get 'artwork'               => 'galleries#browse_all_artwork', as: 'browse_all_artwork' 

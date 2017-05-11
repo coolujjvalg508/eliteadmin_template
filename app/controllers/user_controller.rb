@@ -22,6 +22,33 @@ class UserController < ApplicationController
 
 
 
+   def apply_job
+
+            @job_id = params[:id]
+
+            #conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+            @result = Job.where("paramlink = ?", @job_id).first
+
+            if @result.present?
+
+              @result.software_expertise.reject!{|a| a==""}
+              @result.skill.reject!{|a| a==""}
+
+              @software_expertise = SoftwareExpertise.where('id IN (?)', @result.software_expertise)
+              @job_skills = JobSkill.where('id IN (?)', @result.skill)
+
+              similar_job_conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) AND paramlink !='" + @job_id  + "'  AND user_id = #{current_user.id} AND is_admin = 'N' "
+
+              @similar_jobs = Job.where(similar_job_conditions).order('random()').limit(4)
+
+            else
+                redirect_to jobs_path, notice: 'Job not available !'
+            end
+
+    end 
+
+
+
     def user_stats
 
         artist_id   = params[:id]

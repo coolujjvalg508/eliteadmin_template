@@ -162,7 +162,7 @@ ActiveAdmin.register Job do
 	  		
 	  		countrydata  = Country.where("id = ?",params[:job][:country_id]).pluck(:name, :id).first
         	countryname  = countrydata[0]
-	  		coordinates  = Geocoder.coordinates(params[:job][:city] + ' '+ countryname)
+	  		coordinates  = Geocoder.coordinates(params[:job][:city] + ' ' +  params[:job][:state] + ' ' + countryname)
 	  		
 	  		if !coordinates.nil?
              	params[:job][:latitude]    =   coordinates[0]
@@ -252,7 +252,7 @@ ActiveAdmin.register Job do
 			#params[:job][:is_admin] = 'Y'
 			countrydata  = Country.where("id = ?",params[:job][:country_id]).pluck(:name, :id).first
         	countryname  = countrydata[0]
-	  		coordinates  = Geocoder.coordinates(params[:job][:city] + ' '+ countryname)
+	  		coordinates  = Geocoder.coordinates(params[:job][:city] + ' ' +  params[:job][:state] + ' ' + countryname)
 	  		
 	  		if !coordinates.nil?
              	params[:job][:latitude]    =   coordinates[0]

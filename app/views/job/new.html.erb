@@ -348,15 +348,22 @@
                     </div>
                     <div class="form-group clearfix">
                     <label class="col-md-12 col-sm-12 col-xs-12">Location of Company</label>
-                    <div class="col-md-6 col-sm-6 col-xs-6 marginB10">
+                    <div class="col-md-4 col-sm-4 col-xs-6 marginB10">
                      
                         <%= f.select(:country_id, options_for_select(Country.active.pluck(:name, :id), params[:job].present? ? params[:job][:country_id] : @job[:country_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'country_id'})  %>
                          <span class="err-msg"><%= form_error_msg_for(@job,:country_id, "Country") %></span>
                        
                       
                     </div>
+                    <div class="col-md-4 col-sm-4 col-xs-6 marginB10">
+                     
+                        <%= f.text_field :state, class: 'form-control from-input', id: 'state', placeholder: 'State', value: params[:job].present? ? params[:job][:state] : @job[:state] %>
+                       <span class="err-msg"><%= form_error_msg_for(@job,:state, "State") %></span>
+                       
+                      
+                    </div>
 
-                    <div class="col-md-6 col-sm-6 col-xs-6 marginB10">
+                    <div class="col-md-4 col-sm-4 col-xs-6 marginB10">
                       <%= f.text_field :city, class: 'form-control from-input', id: 'city', placeholder: 'city', value: params[:job].present? ? params[:job][:city] : @job[:city] %>
                        <span class="err-msg"><%= form_error_msg_for(@job,:city, "City") %></span>
                     </div>
@@ -466,18 +473,6 @@
                      </div>
                 </div>
 
-                  
-                
-                </div>
-                <!--<button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>-->
-           
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">Skills</div>
-            <div class="panel-body">
-
-                <div class="row">
                   <div class="form-group clearfix">
                     <label class="col-md-12 col-sm-12 col-xs-12">Skills and expertise needed for job:</label>
                     <div class="col-md-12 col-sm-6 col-xs-6">
@@ -499,25 +494,21 @@
 
 
 
-                 <!--  <div class="form-group clearfix">
-                    <label class="col-md-12 col-sm-12 col-xs-12">Packages</label>
-                    <div class="col-md-8 col-sm-12 col-xs-12">
 
-                    <%= f.select(:package_id, options_for_select(Package.order('created_at DESC').pluck(:title, :id), params[:job].present? ? params[:job][:package_id] : @job[:package_id]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'package_id', multiple: true})  %>
-    
-                    </div>
-                  </div> -->
+
+                
                 </div>
-              <!--   <button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button> -->
+                <!--<button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>-->
            
             </div>
           </div>
+          
           <div class="panel panel-default">
             <div class="panel-body">
             <%= f.fields_for :tag do |tag_form| %>
             <% tag_options = [] 
             if params[:job].present?
-                tag_options = params[:job][:tag][:tag]
+                tag_options  = params[:job][:tag][:tag]
                 tag_options.reject!{|a| a==""}
 
             elsif @job.try(:tags).present?

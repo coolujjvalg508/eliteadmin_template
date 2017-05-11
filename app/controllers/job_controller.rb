@@ -169,7 +169,7 @@ class JobController < ApplicationController
         params['job']['is_admin']  = 'N'
 
 
-        latlong_result  = get_lat_long(params['job']['country_id'],params['job']['city'])
+        latlong_result  = get_lat_long(params['job']['country_id'],params['job']['state'],params['job']['city'])
         
 
         if !latlong_result.nil?
@@ -283,11 +283,12 @@ class JobController < ApplicationController
 
     end 
 
-    def get_lat_long(country,city)
+    def get_lat_long(country,state,city)
         countrydata  = Country.where("id = ?",country).pluck(:name, :id).first
         countryname  = countrydata[0]
         cityname     = city
-        coordinates  = Geocoder.coordinates(cityname + ' '+ countryname)
+        statename    = state
+        coordinates  = Geocoder.coordinates(cityname + ' '+ statename + ' ' + countryname)
         #abort(coordinates.to_json)
         return coordinates  
 
@@ -311,7 +312,7 @@ class JobController < ApplicationController
         params['job']['paramlink'] = final_slug
 
 
-        latlong_result  = get_lat_long(params['job']['country_id'],params['job']['city'])
+        latlong_result  = get_lat_long(params['job']['country_id'],params['job']['state'],params['job']['city'])
        # abort(latlong_result.to_json)
         
         if !latlong_result.nil?
@@ -752,6 +753,7 @@ class JobController < ApplicationController
     end
 
   end 
+  
   def follow_job
         
           job_id        = params[:job_id]

@@ -348,7 +348,7 @@
     
       <li class="clearfix" dir-paginate="x in final_result | filter:search | itemsPerPage:20">
         <div class="row">
-          <div class="col-md-2 col-sm-2 col-xs-4"><img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive"></div>
+          <div class="col-md-2 col-sm-2 col-xs-4"><img lazy-img="<%= root_url %>{{ x.company_logo.jobs_home.url }}" class="img-responsive"></div>
           <div class="col-md-5 col-sm-6 col-xs-8">
             <div class="user-title"><a href="<%= root_url %>jobs/{{x.paramlink}}">{{x.company.name ? x.company.name : '----'}}</a></div>
             <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{x.job_type}}</div>
