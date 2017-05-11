@@ -91,13 +91,16 @@ Rails.application.routes.draw do
   get 'job/store'
   get 'job/job_post'
   get 'jobs'=> 'job#job_home'
-  get 'job/apply-job/:id'=> 'job#apply_job', as: 'apply_job' 
+  get 'jobs/:id'=> 'job#apply_job', as: 'apply_job' 
   get 'job/job_category' 
-  get 'job/job_company_list_on_map'
-  get 'job/job-list-on-map'=> 'job#job_list_on_map', as: 'job_list_on_map'
-  get 'job/job-company-list-on-map'=> 'job#job_company_list_on_map', as: 'job_company_list_on_map'
-  get 'job/new'  => 'job#new', as: 'create_job'
-  get 'job'   => 'job#listing_index', as: 'index_job'
+  #get 'job/job_company_list_on_map'
+  
+  get 'job/map'=> 'job#job_list_on_map', as: 'job_list_on_map'
+  get 'companies/map'=> 'job#job_company_list_on_map', as: 'job_company_list_on_map'
+  
+  get 'dashboard/jobs/new'  => 'job#new', as: 'create_job'
+  get 'dashboard/jobs'   => 'job#listing_index', as: 'index_job'
+  
   get 'job/:paramlink/make_trash'    => 'job#make_trash', as: 'trash_job'
   get 'job/:paramlink/delete_from_trash'    => 'job#delete_from_trash', as: 'delete_job_from_trash'
   get 'job/:paramlink/restore_job'          => 'job#restore_job', as: 'restore_job'
@@ -105,10 +108,12 @@ Rails.application.routes.draw do
   post 'job/create'                  => 'job#create',as: 'save_job'
   get 'job/count_user_job_post'      => 'job#count_user_job_post', as: 'count_user_job_post'
   get 'job/get_job_list'             => 'job#get_job_list', as: 'get_job_list'
-  get 'job/:paramlink/edit'          => 'job#edit', as: 'modify_job' 
+  get 'dashboard/jobs/:paramlink/edit'          => 'job#edit', as: 'modify_job' 
   patch 'job/:paramlink/update'      => 'job#update', as: 'update_job' 
+  
   get 'job/get_job_home_list'        => 'job#get_job_home_list', as: 'get_job_home_list' 
   get 'job/get_company_job_list'     => 'job#get_company_job_list', as: 'get_company_job_list' 
+  
   get 'job/applied-job/:paramlink'  => 'job#applied_job', as: 'applied_job' 
   post 'job/follow_job'           => 'job#follow_job', as: 'follow_job' 
   post 'job/check_follow_job'     => 'job#check_follow_job', as: 'check_follow_job'
