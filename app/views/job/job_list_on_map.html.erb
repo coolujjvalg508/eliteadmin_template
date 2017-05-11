@@ -526,7 +526,6 @@
             list_url += '&relocation_asistance=' + $scope.relocation_asistance
           }
 
-
          
           $http.get(list_url).then(function (response) {
                $scope.final_result   = response.data;
@@ -537,8 +536,14 @@
                   $scope.cities.push({ id: value.id, name: value.title, pos: [value.latitude, value.longitude] });
             
                 });
-             $scope.initMarkerClusterer();
+                  
+                if(response.data != ''){
+                   $scope.initMarkerClusterer();
+                }else{
+                  $scope.clearMarkerClusterer();
+                }
 
+              
           });
       };
       $scope.filter();
@@ -576,15 +581,19 @@
             $scope.initMarkerClusterer();
         });
            
-     //alert($scope.final_result);
+    
 
-        
+       $scope.clearMarkerClusterer = function () {
+                 markerClusterer.clearMarkers();
+       };
+       
         $scope.initMarkerClusterer = function () {
+           //alert($scope.cities);
             var markers = $scope.cities.map(function (city) {
                 return $scope.createMarkerForCity(city);
             });
             var mcOptions = { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' };
-            return new MarkerClusterer($scope.map, markers, mcOptions);
+            return markerClusterer =  new MarkerClusterer($scope.map, markers, mcOptions);
         };
 
 

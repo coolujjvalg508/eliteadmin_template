@@ -579,7 +579,12 @@
             
                 });
 
-                 $scope.initMarkerClusterer();
+             
+                if(response.data != ''){
+                   $scope.initMarkerClusterer();
+                }else{
+                  $scope.clearMarkerClusterer();
+                }
 
 
           });
@@ -618,7 +623,9 @@
             $scope.initMarkerClusterer();
         });
    
-        
+        $scope.clearMarkerClusterer = function () {
+                 markerClusterer.clearMarkers();
+        };
         $scope.initMarkerClusterer = function () {
           //alert($scope.cities);
             var markers = $scope.cities.map(function (city) {
@@ -626,7 +633,7 @@
                 return $scope.createMarkerForCity(city);
             });
             var mcOptions = { imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m' };
-            return new MarkerClusterer($scope.map, markers, mcOptions);
+            return markerClusterer =  new MarkerClusterer($scope.map, markers, mcOptions);
         };
 
 
@@ -639,6 +646,7 @@
             google.maps.event.addListener(marker, 'click', function () {
                 $scope.selectedCity = city;
                 $scope.map.showInfoWindow('myInfoWindow', this);
+
             });
             return marker;
         }
