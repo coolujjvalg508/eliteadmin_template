@@ -352,6 +352,13 @@
           <div class="col-md-5 col-sm-6 col-xs-8">
             <div class="user-title"><a href="<%= root_url %>jobs/{{x.paramlink}}">{{x.company.name ? x.company.name : '----'}}</a></div>
             <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{x.job_type}}</div>
+            <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{x.job_type}}</div>
+            <div class="user-position-txt"> Work Remotely: {{ (x.work_remotely == true) ? 'Yes' : 'No'  }}</div>
+            
+            <div class="user-position-txt"> Relocation Assistance: {{ (x.relocation_asistance == true) ? 'Yes' : 'No'  }}</div>
+
+
+
             <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> {{x.city}}, {{x.country.name}}</div>
             
             <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button>

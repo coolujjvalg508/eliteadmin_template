@@ -350,6 +350,12 @@
                 <p>{{x.company.name}}</p>
                 <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} 
                 <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
+
+               <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Work Remotely: 
+                <span class="price-freelance marginL5">{{ (x.work_remotely == true) ? 'Yes' : 'No'  }}</span></div>
+                
+                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Relocation Assistance: 
+                <span class="price-freelance marginL5">{{ (x.relocation_asistance == true) ? 'Yes' : 'No'  }}</span></div>
                 <div class="clearfix"><span class="jobshometime">{{x.created_at | date:'dd MMMM yyyy'}} - {{x.view_count}} views</span></div>
               </div>
               <div class="col-md-3 col-sm-3 col-xs-12">

@@ -519,6 +519,7 @@
             %>
 
                 <div class="clearfix marginB15">
+                <label>Tags</label>
                    <!--  <input type="text" class="form-control from-input add-input1"> -->
                     <%= tag_form.select(:tag, options_for_select(tag_options, params[:job].present? ? params[:job][:tag][:tag] : tag_options), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-tags', 'id' => 'tag', multiple: true})  %>
                      <!-- <button type="button" class="green-btn addbtn">Add</button> -->
