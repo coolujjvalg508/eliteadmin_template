@@ -535,21 +535,28 @@ class GalleriesController < ApplicationController
 
     def delete_galleries_post
        
-         id             =  params[:delete_id]
-        # abort(@is_gallery_exist.to_json)
-
+        id                   =  params[:delete_id]
+        viewtype             =  params[:viewtype]
         if id.present?
           id.each do |id|
             
-            @is_gallery_exist     =  Gallery.where(id: id).first
-              if @is_gallery_exist.present?
-                  Gallery.where(id: id).update_all(:is_trash => 1) 
-                  flash[:notice] = 'Post has successfully trashed.' 
-              end
+            if viewtype != "trash"
+                @is_gallery_exist     =  Gallery.where(id: id).first
+                  if @is_gallery_exist.present?
+                      Gallery.where(id: id).update_all(:is_trash => 1) 
+                      flash[:notice] = 'Post has successfully trashed.' 
+                  end
+            else
+                @is_gallery_exist     =  Gallery.where(id: id).first
+                  if @is_gallery_exist.present?
+                      Gallery.where(id: id).delete_all
+                      flash[:notice] = 'Post has successfully deleted.' 
+                  end
+
+            end  
           end
-           
-            #redirect_to index_gallery_path
-            render :json => {'res' => 1, 'message' => 'Post has successfully trashed'}, status: 200 
+
+          render :json => {'res' => 1, 'message' => 'Post has successfully trashed'}, status: 200 
         end
     end
 
@@ -583,15 +590,14 @@ class GalleriesController < ApplicationController
     def restore_post
        
        #abort(params.to_json)
-         paramlink             =  params[:paramlink]
-         @is_gallery_exist     =  Gallery.where(paramlink: paramlink).first
-        # abort(@is_gallery_exist.to_json)
-         if @is_gallery_exist.present?
-            Gallery.where('id = ?',@is_gallery_exist.id).update_all(:is_trash => 0)  
-            flash[:notice] = 'Post has successfully restored.'
-            redirect_to index_gallery_path
-         end
-
+       paramlink             =  params[:paramlink]
+       @is_gallery_exist     =  Gallery.where(paramlink: paramlink).first
+       # abort(@is_gallery_exist.to_json)
+       if @is_gallery_exist.present?
+          Gallery.where('id = ?',@is_gallery_exist.id).update_all(:is_trash => 0)  
+          flash[:notice] = 'Post has successfully restored.'
+          redirect_to index_gallery_path
+       end
   end  
 
     def get_upload_video_thumbnail

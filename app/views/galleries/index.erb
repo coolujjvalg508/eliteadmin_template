@@ -44,10 +44,10 @@
 <div class="clearfix marginB15 allpostwrap hidden-xs hidden-sm">
 <div class="bulkaction clearfix">
   <select class="custom-select" id="delete_check">
-    <option>Bulk Actions</option>
+   <!--  <option>Bulk Actions</option> -->
     <option value="delete" >Delete</option>
   </select>
-  <button type="button" id="delete_button" class="blue-btn">Apply</button>
+  <button type="button" id="delete_button" class="blue-btn" ng-click="deleteAll()">Apply</button>
 </div>
 
 <%= form_tag do %>
@@ -105,7 +105,6 @@
         <div class="AllGalleryCheck clearfix">
           <div class="checkbox-btn">
             <input type="checkbox" class="rcl" value="{{x.id}}" id="rc_{{x.id}}" name="galleries[id][]" ng-model="x.Selected">
-
             <label for="rc_{{x.id}}" onclick=""></label>
           </div>
         </div>
@@ -249,31 +248,25 @@ app.controller('galleryCtrl', function($scope, $http) {
 
     };
 
-});
+    $scope.deleteAll = function () {
 
-
-
-</script>
-
-<script type="text/javascript">
-  
-$(document).ready(function(){
-    $('#delete_button').on('click',function(){
         var arr = [];
         $('.rcl').each(function() {
             if($(this).prop( "checked" )){
                 arr.push($(this).val());
             }else{ }
         });
-
+        //alert($scope.viewTypeValue);
         if(arr!=""){
+            viewtype =  $scope.viewTypeValue;
+            
             var r = confirm("Do you want to perform this action");
             var val = $('#delete_check').val();
             if(r == true && val == 'delete'){  
                 $.ajax({
                         type: "post",
                         url: "/dashboard/projects/delete_galleries_post" ,
-                        data:{delete_id:arr},
+                        data:{delete_id:arr, viewtype: viewtype},
                         success: function(data){
                             if(data.res == 1)
                             {
@@ -286,6 +279,15 @@ $(document).ready(function(){
             alert("Please select atleast one record");
             return false;
         }
-    }); 
+
+    };
+
+
+
+
+
 });
+
+
+
 </script>

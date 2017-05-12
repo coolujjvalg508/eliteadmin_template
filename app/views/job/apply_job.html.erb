@@ -39,7 +39,8 @@
                         <span class="price-txt">
                             <%= @result.from_amount != '' ? '$' + @result.from_amount : ''%> <%= @result.from_amount != '' && @result.to_amount != '' ? '-' : ''%> <%= @result.to_amount != '' ? '$' + @result.to_amount : ''%>
                         </span>
-                       <!--  <button class="green-btn apply_button" type="button">Apply for Job <i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button> -->
+                     <button class="green-btn btn btn-danger mark_spam" type="button">Mark as Spam<i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button> 
+                     <button class="green-btn btn btn-danger unmark_spam hidden" type="button">Marked as Spam  </button> 
                     </div>
                 </div>
                 <div class="clearfix marginB15">
@@ -61,7 +62,7 @@
                             <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Software Expertise</h3>
                             <ul>
                                 <% @software_expertise.each do |se| %>
-                                    <li class="text-uppercase"><%= se.name%></li>
+                                    <li class="text-uppercase"><%= se.name %></li>
                                 <% end %>
                             </ul>
                         <% end %>
@@ -71,7 +72,7 @@
                             <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Job Skills</h3>
                             <ul>
                                 <% @job_skills.each do |js| %>
-                                    <li class="text-uppercase"><%= js.name%></li>
+                                    <li class="text-uppercase"><%= js.name %></li>
                                 <% end %>
                             </ul>
                         <% end %>
@@ -144,16 +145,17 @@
                       
                       <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
                       <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
-                      
+                     
+
                 </div>
             </div>
             <div class="FeaturedStudios clearfix marginB15">
-                <h3 class="studio-title">Similar Jobs</h3>
+                <h3 class="studio-title">Featured Jobs</h3>
                 <ul>
 
-                    <% if @similar_jobs.present? %> 
+                    <% if @featured_jobs.present? %> 
 
-                        <% @similar_jobs.each do |similar_job| %>
+                        <% @featured_jobs.each do |similar_job| %>
 
                             <li class="clearfix" >
                                 <div class="FeaturedLeft pull-left">
@@ -295,11 +297,54 @@ $(document).ready(function() {
                 $('#apply_html').show();
         
         }    
-       
-
-
-
+      
     });
+
+        $.ajax({
+                type: "post",
+                url: "<%= check_mark_spam_path %>" ,
+                data:{id: "<%= @result.id %>"},
+                success: function(data){
+                   // alert(data.res);
+                    if(data.res == 1)
+                    {
+                        $('.mark_spam').addClass('hidden');
+                        $('.unmark_spam').removeClass('hidden');        
+        
+                    }else{
+
+                        $('.mark_spam').removeClass('hidden');
+                        $('.unmark_spam').addClass('hidden');
+
+                    }
+                }
+        });
+
+  
+     $('.mark_spam, .unmark_spam').on('click',function(){
+
+            $.ajax({
+                    type: "post",
+                    url: "<%= mark_spam_path %>" ,
+                    data:{id: "<%= @result.id %>"},
+                    success: function(data){
+                        if(data.res == 1)
+                        {
+                            $('.mark_spam').addClass('hidden');
+                            $('.unmark_spam').removeClass('hidden');        
+            
+                        }else{
+
+                            $('.mark_spam').removeClass('hidden');
+                            $('.unmark_spam').addClass('hidden');
+
+                        }
+                    }
+            });
+        
+
+     });   
+
 
 
 

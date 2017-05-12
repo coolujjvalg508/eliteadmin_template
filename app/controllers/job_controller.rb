@@ -746,7 +746,8 @@ class JobController < ApplicationController
 
       similar_job_conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) AND paramlink !='" + @job_id  + "'"
 
-      @similar_jobs = Job.where(similar_job_conditions).order('random()').limit(4)
+      @similar_jobs = Job.where(similar_job_conditions).order('random()').limit(5)
+      @featured_jobs = Job.where("is_featured = ?", true).order('id DESC').limit(5)
 
     else
         redirect_to jobs_path, notice: 'Job not available !'
@@ -756,7 +757,7 @@ class JobController < ApplicationController
   
   def follow_job
         
-          job_id        = params[:job_id]
+          job_id            = params[:job_id]
           company_id        = params[:company_id]
           user_id          = current_user.id
           is_follow_exist  = JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).first
@@ -820,6 +821,67 @@ class JobController < ApplicationController
 
   end
 
+  def delete_job_post
+
+#abort(params.to_json)
+        id                   =  params[:delete_id]
+        viewtype             =  params[:viewtype]
+        if id.present?
+          id.each do |id|
+            
+            if viewtype != "trash"
+                @is_gallery_exist     =  Job.where(id: id).first
+                  if @is_gallery_exist.present?
+                      Job.where(id: id).update_all(:is_trash => 1) 
+                      flash[:notice] = 'Job has successfully trashed.' 
+                  end
+            else
+                @is_gallery_exist     =  Job.where(id: id).first
+                  if @is_gallery_exist.present?
+                      Job.where(id: id).delete_all
+                      flash[:notice] = 'Job has successfully deleted.' 
+                  end
+
+            end  
+          end
+
+          render :json => {'res' => 1, 'message' => 'Job has successfully trashed'}, status: 200 
+        end
+    end
+
+
+    def mark_spam
+        job_id_for_mark_spam    = params[:id]
+        jobdata  = Job.where(id: job_id_for_mark_spam).first
+        if jobdata.is_spam == true 
+            jobdata.update(is_spam: false) 
+            Report.where(user_id: current_user.id, post_id: job_id_for_mark_spam, post_type: 'Job', report_issue: 'Spam').delete_all
+
+            render :json => {'res' => 0, 'message' => 'Operation is successfully done'}, status: 200 
+
+        else  
+            
+            Report.create(user_id: current_user.id, post_id: job_id_for_mark_spam, post_type: 'Job', report_issue: 'Spam')
+            jobdata.update(is_spam: true) 
+            render :json => {'res' => 1, 'message' => 'Operation is successfully done'}, status: 200 
+        end
+
+         
+    end  
+
+
+    def check_mark_spam
+       
+        job_id_for_mark_spam    = params[:id]
+        jobdata                 = Job.where(id: job_id_for_mark_spam).first
+        #abort(jobdata.to_json)
+        if jobdata.is_spam == true 
+            render :json => {'res' => 1, 'message' => 'job is spam'}, status: 200 
+        else  
+            render :json => {'res' => 2, 'message' => 'job is not a spam'}, status: 200 
+        end   
+
+    end  
 
 
   private

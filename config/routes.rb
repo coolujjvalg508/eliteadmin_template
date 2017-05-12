@@ -122,7 +122,10 @@ Rails.application.routes.draw do
   put 'update_user_image'   => 'job#update_user_image'
   delete 'remove_cover_art' => 'job#remove_cover_art'
 
-  post 'save_job_view_count'        => 'job#save_job_view_count', as: 'save_job_view_count' 
+  post 'save_job_view_count'             => 'job#save_job_view_count', as: 'save_job_view_count' 
+  post 'jobs/delete_job_post'            => 'job#delete_job_post', as: 'delete_job_post' 
+  post 'jobs/mark_spam'                  => 'job#mark_spam', as: 'mark_spam' 
+  post 'jobs/check_mark_spam'             => 'job#check_mark_spam', as: 'check_mark_spam' 
     
   resources :user, only: [:edit, :update]
 
