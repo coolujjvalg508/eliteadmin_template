@@ -742,8 +742,12 @@ class JobController < ApplicationController
       @result.skill.reject!{|a| a==""}
 
       @software_expertise = SoftwareExpertise.where('id IN (?)', @result.software_expertise)
-      @job_skills = JobSkill.where('id IN (?)', @result.skill)
+      @job_skills   = JobSkill.where('id IN (?)', @result.skill)
+      
+      @result.job_category.reject!{|a| a==""}
+      @job_category = CategoryType.where('id IN (?)', @result.job_category)
 
+      #abort(@job_category.to_json)
       similar_job_conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) AND paramlink !='" + @job_id  + "'"
 
       @similar_jobs = Job.where(similar_job_conditions).order('random()').limit(5)

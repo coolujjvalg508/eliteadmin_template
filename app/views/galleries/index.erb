@@ -245,47 +245,40 @@ app.controller('galleryCtrl', function($scope, $http) {
         angular.forEach($scope.gallery_data, function (x) {
             x.Selected = $scope.selectedAll;
         });
-
     };
 
     $scope.deleteAll = function () {
 
-        var arr = [];
-        $('.rcl').each(function() {
-            if($(this).prop( "checked" )){
-                arr.push($(this).val());
-            }else{ }
-        });
-        //alert($scope.viewTypeValue);
-        if(arr!=""){
-            viewtype =  $scope.viewTypeValue;
-            
-            var r = confirm("Do you want to perform this action");
-            var val = $('#delete_check').val();
-            if(r == true && val == 'delete'){  
-                $.ajax({
-                        type: "post",
-                        url: "/dashboard/projects/delete_galleries_post" ,
-                        data:{delete_id:arr, viewtype: viewtype},
-                        success: function(data){
-                            if(data.res == 1)
-                            {
-                              window.location.reload(true);
-                            }
-                        }
-                });
-            }
-        }else{
-            alert("Please select atleast one record");
-            return false;
-        }
-
+      var arr = [];
+      $('.rcl').each(function() {
+          if($(this).prop( "checked" )){
+              arr.push($(this).val());
+          }else{ }
+      });
+      //alert($scope.viewTypeValue);
+      if(arr!=""){
+          viewtype =  $scope.viewTypeValue;
+          
+          var r = confirm("Do you want to perform this action");
+          var val = $('#delete_check').val();
+          if(r == true && val == 'delete'){  
+              $.ajax({
+                      type: "post",
+                      url: "/dashboard/projects/delete_galleries_post" ,
+                      data:{delete_id:arr, viewtype: viewtype},
+                      success: function(data){
+                          if(data.res == 1)
+                          {
+                            window.location.reload(true);
+                          }
+                      }
+              });
+          }
+      }else{
+          alert("Please select atleast one record");
+          return false;
+      }
     };
-
-
-
-
-
 });
 
 

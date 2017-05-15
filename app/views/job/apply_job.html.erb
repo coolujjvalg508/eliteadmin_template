@@ -2,14 +2,214 @@
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
 
 <div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
-    <section class="clearfix jobpostpage">
+
+<section class="clearfix jobpostpage">
         <div class="col-md-9 col-sm-12 col-xs-12">
+        <!-- <div class="gallery-left clearfix"> -->
+  
+              
+        <!-- </div> -->
+
             <div class="row">
-                <div class="clearfix marginB15">
+            <div class="clearfix marginB15">
                     <ul class="breadcrumb">
                         <li><a href="<%= jobs_path %>">Jobs</a></li>
                         <li class="active"><%= @result.title %></li>
                     </ul>
+                </div>
+            <div class="gallery-slide-wrap clearfix">
+              <!-- <div class="slick-prev"><a href="#" class="fa fa-angle-left" aria-hidden="true"></a></div>
+              <div class="slick-next"><a href="#" class="fa fa-angle-right" aria-hidden="true"></a></div> -->
+              
+                <%
+
+                    if @result.images.present?
+                      @result.images.each_with_index do |j, index|
+
+                        if index > 0
+                          break
+                        end  
+                %>
+                <div class="text-center lightcolor "></div>
+                  <div class="galleryslide">
+                      <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
+                      <center>
+                        <%= image_tag(j.image.large_image.url,:alt => "Gallery",:class=>"img-responsive") %>
+                      </center>
+                      
+                  </div>
+                <%
+                      end  
+                  end    
+                %>
+               
+               
+                <%
+                    if @result.images.present?
+                      @result.images.each_with_index do |j, index|
+                       # abort( j.caption_image.to_json)
+
+                        if index == 0
+                          next
+                        end  
+                %>
+                 <div class=" text-center lightcolor wip-txt" style="background: none !important"><%= j.caption_image %></div>
+                  <div class="galleryslide">
+                    <!--   <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
+                      <center>
+                        <%= image_tag(j.image.large_image.url,:alt => "Gallery",:class=>"img-responsive") %>
+                      </center>
+                      
+                  </div>
+                <%
+                      end  
+                  end    
+                %>
+
+                 <%
+                    if @result.videos.present?
+                      @result.videos.each_with_index do |j, index|
+                      
+                      if(j.video.include?('youtube')) 
+                          if j.video[/youtu\.be\/([^\?]*)/]
+                              youtube_id = $1
+                          else
+                              j.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+                              youtube_id = $5
+                          end 
+                      %>
+                       <div class="text-center lightcolor wip-txt" style="background: none !important"><%= j.caption_video %></div>
+                        <div class="galleryslide">
+                          <!--   <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
+                            <center>
+                             <iframe width="700px" height="450px" src="https://www.youtube.com/embed/<%= youtube_id %>" frameborder="0" allowfullscreen></iframe>
+                            </center>
+                          
+                        </div>
+
+                                  
+                    <% elsif(j.video.include?('vimeo')) 
+                        match = j.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
+
+                        if match.present?
+                            vimeoid = match[:id] %>
+                               <div class="text-center lightcolor wip-txt" style="background: none !important"><%= j.caption_video %></div>
+                             <div class="galleryslide">
+                                <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
+                                <center>
+                                 <iframe width="700px" height="450px"  src="https://player.vimeo.com/video/<%= vimeoid %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                </center>
+                          
+                             </div>
+
+                    <% end 
+                     elsif(j.video.include?('dailymotion'))  
+                        match =  j.video.gsub('http://www.dailymotion.com/video/', "")
+                        match1  = match.index('_')
+                        match = match[0...match1]
+                        if match.present?
+                            dailymotionid = match %>
+                            <div class="text-center lightcolor wip-txt" style="background: none !important"><%= j.caption_video %></div>
+                             <div class="galleryslide">
+                               <!--  <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
+                                <center>
+                                 <iframe width="700px" height="450px"  frameborder="0"  src="//www.dailymotion.com/embed/video/<%= dailymotionid %>" allowfullscreen></iframe>
+                                </center>
+                          
+                             </div>
+
+                    <% end 
+                    end %>
+                <%    
+                  end  
+                  end  
+              %>
+
+              <%
+                    if @result.sketchfebs.present?
+                      @result.sketchfebs.each_with_index do |j, index|
+                      
+                      url = "https://sketchfab.com/oembed?url="+j.sketchfeb+"&maxwidth=700&maxheight=450&dataType=jsonp"
+                %>
+
+                  <script type="text/javascript">
+                    $(document).ready(function(){
+                          $.getJSON("<%= url %>",{ajax: 'true'}, function(response){
+                             // console.log(response);  
+                              $('#sketch_span_'+"<%= index %>").html(response.html);
+                          }) 
+
+                    })
+                  </script>
+                  <div class="text-center lightcolor wip-txt" style="background: none !important"><%= j.caption_sketchfeb %></div>
+                   <div class="galleryslide">
+                            <!-- <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
+                            <center>
+                             <span class="img-responsive"  id='sketch_span_<%= index %>'></span>
+                            </center>
+                      
+                    </div>
+                <%
+                      end  
+                  end    
+                %>
+
+
+               <%
+                    if @result.marmo_sets.present?
+                      @result.marmo_sets.each_with_index do |j, index|
+                       url = j.marmoset.url
+                %>
+
+                  <script type="text/javascript">
+                    $(document).ready(function(){
+                       var params = { width: 700, height: 450, autoStart: false };
+                      // var myviewer = marmoset.embed( "<%= url %>", params ); 
+                      //   console.log(myviewer);
+                       // $('#marmoset_span_'+"<%#= index %>").html(myviewer);
+
+
+                    })
+                  </script>
+                   <div class="text-center lightcolor wip-txt" style="background: none !important"><%#= j.caption_marmoset %></div>
+                    <div class="galleryslide">
+                       <!--  <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
+                        <center>
+                           <div   id='marmoset_span_<%#= index %>'></div>
+                        </center>
+                        
+                    </div>
+                <%
+
+                      end  
+                  end    
+                %>
+
+                 <%
+                    if @result.upload_videos.present?
+                      @result.upload_videos.each_with_index do |j, index|
+                       url = j.uploadvideo.url
+                %>
+
+                   <div class="text-center lightcolor wip-txt" style="background: none !important"><%= j.caption_upload_video %></div>
+                    <div class="galleryslide">
+                       <!--  <div class="gallery-new"> <a href="#" class="fa fa-download" aria-hidden="true"></a> <a href="#" class="fa fa-expand" aria-hidden="true"></a> </div> -->
+                        <center>
+                            <iframe width="700px" height="450px"  frameborder="0"  src="<%= url %>" allowfullscreen></iframe>
+                        </center>
+                        
+                    </div>
+                  <%
+                      end  
+                  end    
+                %>
+              </div>
+
+                <div class="clearfix marginB15">
+                    <!-- <ul class="breadcrumb">
+                        <li><a href="<%= jobs_path %>">Jobs</a></li>
+                        <li class="active"><%= @result.title %></li>
+                    </ul> -->
                 </div>
                 <div class="clearfix marginB40">
                     <div class="col-md-8 col-sm-8 col-xs-12">
@@ -26,7 +226,7 @@
 
                                     <%= @result.try(:company).try(:name) %>
                                 <% else %>
-                                    <%=@result.company_name%>
+                                    <%= @result.company_name %>
                                 <% end %>
                                 
                                     
@@ -54,8 +254,38 @@
                 </div>
                 <div class="clearfix marginB15 jobs-indent">
                     <div class="col-md-12">
-
                         <%= @result.description.html_safe %>
+                                             
+
+                        <% if @result.tags.present? %>
+
+                            <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Tag</h3>
+                            <ul>
+                                <% 
+                                alltag = ''
+                                @result.tags.each do |i|
+                                    alltag += i.tag+', ' 
+
+                                 end    
+                                    
+                                 %>
+                                 <li class="text-uppercase"><%= alltag.chomp(', ') %> </li>
+                                
+                            </ul>
+                        <% end %>     
+
+
+                         <% if @job_category.present? %>
+
+                            <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Job Category</h3>
+                            <ul>
+                                <% @job_category.each do |js|
+                                    
+                                 %>
+                                    <li class="text-uppercase"><%= js.name %></li>
+                                <% end %>
+                            </ul>
+                        <% end %>
                         
                         <% if @software_expertise.present? %>
 
@@ -76,6 +306,18 @@
                                 <% end %>
                             </ul>
                         <% end %>
+
+                        <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Work Remotely</h3>
+                        <ul>
+                                <li class="text-uppercase"><%= @result.work_remotely? ? 'Yes' : 'No' %> </li>
+                                
+                        </ul>
+
+                         <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Relocation Assistance</h3>
+                        <ul>
+                                <li class="text-uppercase"><%= @result.relocation_asistance? ? 'Yes' : 'No' %> </li>
+                                
+                        </ul>
 
                         <h3><i class="fa fa-ellipsis-v" aria-hidden="true"></i> How to Apply</h3>
                         <div id="apply_html" class="clearfix marginB15 jobs-indent">
@@ -132,87 +374,87 @@
             </div>
         </div>
 
-        <div class="col-md-3 col-sm-12 col-xs-12">
-            <div class="studiowrap clearfix">
-                <div class="studio-profile">
-                    <img lazy-img="<%= @result.company_logo.thumb.url %>" class="img-responsive">
-                <%#= image_tag("compnay-profile-img.jpg", :alt=>"img", :class=>"img-responsive") %></div>
-                <div class="studio-content clearfix">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <div class="studiowrap clearfix">
+                        <div class="studio-profile">
+                            <img lazy-img="<%= @result.company_logo.thumb.url %>" class="img-responsive">
+                        <%#= image_tag("compnay-profile-img.jpg", :alt=>"img", :class=>"img-responsive") %></div>
+                        <div class="studio-content clearfix">
 
-                <%#= abort(@result.company.name.to_json) %>
-                      <h3><%= @result.company.present?  ? @result.company.name : '' %></h3>
-                      <p><%= @result.city.present?  ? @result.city : '' %>,  <%= @result.country.present?  ? @result.country.name : '' %></p></br>
-                      
-                      <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
-                      <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
-                     
+                        <%#= abort(@result.company.name.to_json) %>
+                              <h3><%= @result.company.present?  ? @result.company.name : '' %></h3>
+                              <p><%= @result.city.present?  ? @result.city : '' %>,  <%= @result.country.present?  ? @result.country.name : '' %></p><br/>
+                              
+                              <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
+                              <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
+                             
 
+                        </div>
+                    </div>
+                    <div class="FeaturedStudios clearfix marginB15">
+                        <h3 class="studio-title">Featured Jobs</h3>
+                        <ul>
+
+                            <% if @featured_jobs.present? %> 
+
+                                <% @featured_jobs.each do |similar_job| %>
+
+                                    <li class="clearfix" >
+                                        <div class="FeaturedLeft pull-left">
+                                        <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
+                                        </div>
+                                        <div class="FeaturedRight pull-right clearfix">
+                                            <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
+                                            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
+                                            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
+                                        </div>
+                                    </li>
+                                <% end %>    
+                            <% else %>  
+                                <li class="clearfix text-center err-msg no-result" >No Similar Job Found!</li>
+                            <% end %> 
+                        </ul>
+                    </div>
+                    <div class="marginB15"><%= image_tag("database/googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %></div>
+                    <div class="wiphome marginB15 clearfix">
+                        <h2 class="studio-title" >Wants Critique / Wip</h2>
+                        <ul class="margin">
+                            <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                            <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                            <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                            <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                            <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                            <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                            <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                            <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                            <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="FeaturedStudios clearfix marginB15">
+                        <h3 class="studio-title">Similar Jobs </h3>
+                        <ul>
+                            <% if @similar_jobs.present? %> 
+
+                                <% @similar_jobs.each do |similar_job| %>
+
+                                    <li class="clearfix" >
+                                        <div class="FeaturedLeft pull-left">
+                                        <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
+                                        </div>
+                                        <div class="FeaturedRight pull-right clearfix">
+                                            <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
+                                            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
+                                            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
+                                        </div>
+                                    </li>
+                                <% end %>    
+                            <% else %>  
+                                <li class="clearfix text-center err-msg no-result" >No Similar Job Found!</li>
+                            <% end %> 
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="FeaturedStudios clearfix marginB15">
-                <h3 class="studio-title">Featured Jobs</h3>
-                <ul>
-
-                    <% if @featured_jobs.present? %> 
-
-                        <% @featured_jobs.each do |similar_job| %>
-
-                            <li class="clearfix" >
-                                <div class="FeaturedLeft pull-left">
-                                <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
-                                </div>
-                                <div class="FeaturedRight pull-right clearfix">
-                                    <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
-                                    <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
-                                    <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
-                                </div>
-                            </li>
-                        <% end %>    
-                    <% else %>  
-                        <li class="clearfix text-center err-msg no-result" >No Similar Job Found!</li>
-                    <% end %> 
-                </ul>
-            </div>
-            <div class="marginB15"><%= image_tag("database/googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %></div>
-            <div class="wiphome marginB15 clearfix">
-                <h2 class="studio-title" >Wants Critique / Wip</h2>
-                <ul class="margin">
-                    <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                    <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                    <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                    <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                    <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                    <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                    <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                    <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                    <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                </ul>
-            </div>
-
-            <div class="FeaturedStudios clearfix marginB15">
-                <h3 class="studio-title">Similar Jobs </h3>
-                <ul>
-                    <% if @similar_jobs.present? %> 
-
-                        <% @similar_jobs.each do |similar_job| %>
-
-                            <li class="clearfix" >
-                                <div class="FeaturedLeft pull-left">
-                                <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
-                                </div>
-                                <div class="FeaturedRight pull-right clearfix">
-                                    <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
-                                    <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
-                                    <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
-                                </div>
-                            </li>
-                        <% end %>    
-                    <% else %>  
-                        <li class="clearfix text-center err-msg no-result" >No Similar Job Found!</li>
-                    <% end %> 
-                </ul>
-            </div>
-        </div>
     </section>
 </div>    
 <!-- Footer Start -->

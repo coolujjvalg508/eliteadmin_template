@@ -46,7 +46,7 @@
             <div class="col-md-3 col-sm-4 col-xs-3 padding">
             <script>
               $(document).ready(function(){
-                       $.ajax({
+                        $.ajax({
                             type: "post",
                             url: "<%= check_save_like_path %>" ,
                             data: {'gallery_id': '<%= value.gallery.id %>','artist_id': '<%= value.gallery.user_id %>'},
@@ -62,7 +62,7 @@
                             }
                         });
 
-                     $.ajax({
+                      $.ajax({
                             type: "post",
                             url: "<%= get_like_comment_view_gallery_path %>" ,
                             data: {'gallery_id': '<%= value.gallery.id %>'},
@@ -75,7 +75,7 @@
                                 
                              
                             }
-                        });
+                      });
 
                  });
             </script>
@@ -189,42 +189,41 @@
 	<%= render "layouts/lastfooter" %>
 </footer>
 <script type='text/javascript'>
-  $(document).ready(function(){
+    $(document).ready(function(){
 
-       $('[id^= post_like_button_],[id^= post_dislike_button_]').on('click',function(){
+        $('[id^= post_like_button_],[id^= post_dislike_button_]').on('click',function(){
         
             gallery_id_and_user_id  = $(this).attr('id').replace('post_like_button_','');
             gallery_id_and_user_id  = gallery_id_and_user_id.replace('post_dislike_button_','');
 
             var res = gallery_id_and_user_id.split("_"); 
-              $.ajax({
-                  type: "post",
-                  url: "<%= save_like_path %>" ,
-                  data: {'gallery_id': res[0],'artist_id': res[1]},
-                  success: function(data){
-                    //alert(data.res)
-                   if(data.res == 1) {
-                        $('#post_like_button_'+gallery_id_and_user_id).addClass('hidden');
-                        $('#post_dislike_button_'+gallery_id_and_user_id).removeClass('hidden');
-                    }else{
-                         $('#post_like_button_'+gallery_id_and_user_id).removeClass('hidden');
-                         $('#post_dislike_button_'+gallery_id_and_user_id).addClass('hidden');
-                    }
+            $.ajax({
+              type: "post",
+              url: "<%= save_like_path %>" ,
+              data: {'gallery_id': res[0],'artist_id': res[1]},
+              success: function(data){
+                //alert(data.res)
+                if(data.res == 1) {
+                  $('#post_like_button_'+gallery_id_and_user_id).addClass('hidden');
+                  $('#post_dislike_button_'+gallery_id_and_user_id).removeClass('hidden');
+                }else{
+                  $('#post_like_button_'+gallery_id_and_user_id).removeClass('hidden');
+                  $('#post_dislike_button_'+gallery_id_and_user_id).addClass('hidden');
+                }
 
-                  }
-              });
-      });
+              }
+            });
+        });
 
 
-      $('[id^= post_comments_submit_]').on('click',function(){
+        $('[id^= post_comments_submit_]').on('click',function(){
 
           gallery_id = $(this).attr('id').replace('post_comments_submit_','');
-          textareavalue   = $('#post_comments_'+gallery_id).val();
+          textareavalue = $('#post_comments_'+gallery_id).val();
           if(textareavalue == ''){
               alert('Comment cannot be blank.');
               return false;
            }else{
-
                 $.ajax({
                     type: "post",
                     url: "<%= save_comment_path %>" ,
@@ -233,15 +232,9 @@
                         $('#post_comments_'+gallery_id).val('');
                       alert(data.message)
                       return false;  
-
                     }
                 });
-
-
-           } 
-
-      });
-
-
-  })
+            } 
+        });
+    })
 </script>
