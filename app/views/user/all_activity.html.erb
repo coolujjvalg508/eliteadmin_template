@@ -44,25 +44,24 @@
           <div class="activity-txt"><em>Posted <%= time_ago_in_words(value.created_at) %> ago</em></div>
           <div class="clearfix marginB15">
             <div class="col-md-3 col-sm-4 col-xs-3 padding">
-            <script>
-              $(document).ready(function(){
+                <script>
+                    $(document).ready(function(){
                         $.ajax({
                             type: "post",
                             url: "<%= check_save_like_path %>" ,
                             data: {'gallery_id': '<%= value.gallery.id %>','artist_id': '<%= value.gallery.user_id %>'},
-                           success: function(data){
-                             if(data.res == 1) {
+                            success: function(data){
+                                if(data.res == 1) {
                                   $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).addClass('hidden');
                                   $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).removeClass('hidden');
-                              }else{
-                                   $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).removeClass('hidden');
-                                   $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).addClass('hidden');
-                              }
-
+                                }else{
+                                  $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).removeClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).addClass('hidden');
+                                }
                             }
                         });
 
-                      $.ajax({
+                        $.ajax({
                             type: "post",
                             url: "<%= get_like_comment_view_gallery_path %>" ,
                             data: {'gallery_id': '<%= value.gallery.id %>'},
@@ -72,13 +71,10 @@
                                   $('#comment_<%= value.gallery.id %>_<%= value.id %>').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['gallerycomment']);
                                  
                                   $('#view_<%= value.gallery.id %>_<%= value.id %>').html('<i aria-hidden="true" class="fa fa-eye marginR5"></i> '+data['galleryview']);
-                                
-                             
                             }
-                      });
-
-                 });
-            </script>
+                        });
+                    });
+                </script>
               <button id='post_like_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
                <button id='post_dislike_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>
             </div>

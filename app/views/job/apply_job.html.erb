@@ -360,7 +360,7 @@
                                 <div class="maylikeright pull-right clearfix">
                                     <h3><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h3>
                                     <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> <%=similar_job.job_type%> </p>
-                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i><%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
+                                    <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i><%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%= similar_job.try(:country).try(:name) %></p>
                                 </div>
                             </div>
                             <% end %>   
@@ -406,7 +406,7 @@
                                         <div class="FeaturedRight pull-right clearfix">
                                             <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
                                             <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%=similar_job.job_type%> </p>
-                                            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
+                                            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%= similar_job.city %><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name) %></p>
                                         </div>
                                     </li>
                                 <% end %>    

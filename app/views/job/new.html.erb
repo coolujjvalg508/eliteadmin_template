@@ -492,18 +492,7 @@
                     </div>
                   </div>
 
-
-
-
-
-                
-                </div>
-                <!--<button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>-->
-           
-            </div>
-          </div>
-          
-          <div class="panel panel-default">
+        <div class="panel panel-default">
             <div class="panel-body">
             <%= f.fields_for :tag do |tag_form| %>
             <% tag_options = [] 
@@ -564,27 +553,22 @@
             <%      end 
                 end
             %>
-         
-
-
-           <!--  <div class="form-group clearfix">
-                <label class="col-md-12 col-sm-12 col-xs-12">Packages</label>
-                <div class="col-md-12 col-sm-12 col-xs-10">
-                    <%#= f.select(:package_id, options_for_select(Package.order('created_at DESC').pluck(:title, :id), params[:job].present? ? params[:job][:package_id] : @job[:package_id]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'package_id', multiple: true})  %>
-
-                    
-                 </div>
-            </div> -->
-
-
-
-                <!-- <div class="checkbox-btn paddinT10">
-                <%#= f.check_box :is_featured, id: 'rc6', name: "job[is_featured]" %>
-                <input type="checkbox" value="value-1" id="rc6" name="rc6"/>
-                <label for="rc6" onclick>Feature this Post</label>
-              </div> -->
             </div>
           </div>
+
+
+
+
+
+
+                
+                </div>
+                <!--<button class="green-btn border-radius" type="button"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>-->
+           
+            </div>
+          </div>
+          
+          
         </div>
 
 

@@ -200,7 +200,7 @@ class JobController < ApplicationController
                 params['job']['company_id']   = company_data.id
                 params['job']['company_name'] = params[:job][:company_name]
             else
-
+ 
                 params['job']['company_id']   = companyexist.id
                 params['job']['company_name'] = params[:job][:company_name]
 
@@ -345,6 +345,7 @@ class JobController < ApplicationController
 
         if params[:job][:company_name].present?
             companyexist = Company.where("name=?", params[:job][:company_name]).first
+            
             if !companyexist.present?
                 company_data =  Company.create(name: params[:job][:company_name], user_id: current_user.id)
                 params['job']['company_id']   = company_data.id
@@ -754,7 +755,13 @@ class JobController < ApplicationController
       @featured_jobs = Job.where("is_featured = ?", true).order('id DESC').limit(5)
 
     else
-        redirect_to jobs_path, notice: 'Job not available !'
+
+     	if user_signed_in? 
+			redirect_to index_job_path, notice: 'Job not available!'
+     	else
+  			redirect_to jobs_path, notice: 'Job not available!'
+     	end	
+              
     end
 
   end 
@@ -763,8 +770,8 @@ class JobController < ApplicationController
         
           job_id            = params[:job_id]
           company_id        = params[:company_id]
-          user_id          = current_user.id
-          is_follow_exist  = JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).first
+          user_id           = current_user.id
+          is_follow_exist   = JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).first
           result = ''
           
           userrecord       = Job.where(id: job_id).first
