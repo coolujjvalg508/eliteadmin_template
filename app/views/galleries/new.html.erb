@@ -1,12 +1,15 @@
 <% previous_tags = get_previous_uploaded_gallery_tags %>
 <!-- All Dashboard Start -->
 <!-- <input type ="file" id="marmosetTest">  -->
+
+<div id="GalleryNew"  ng-app="GalleryNew" >
+<div ng-controller="myCtrl as ctrl" >
 <section class="clearfix container-fluid-full">
     <div class="row-fluid">
         <div class="sidebar-left">
             <%= render 'layouts/navigation' %>
         </div>
-        <div class="content clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
+        <div class="content clearfix">
             <div class="clearfix job-post-bread">
                 <ul class="breadcrumb">
                   <li><%= link_to 'Gallery', index_gallery_path %></li>
@@ -382,7 +385,7 @@
                                 </div>
                             <% end %>
                             
-                            <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a> 
+            <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a> 
                                 <div class="form-group clearfix createpost marginT10" ng-show="show_visibility_option">        
                                     <select id="visibility" name="gallery[visibility]" class="custom-select" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption" ng-change="view_visibility_edit_option()"></select>
                                 </div>
@@ -558,6 +561,8 @@
         </div>
     </div>
 </section>
+</div>
+</div>
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
@@ -571,7 +576,7 @@
     }
 
     // main page angular app start
-    var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+    var app = angular.module('GalleryNew', ["angularLazyImg", 'ui.bootstrap','MainModule', 'ui.bootstrap.datetimepicker']);
     app.controller('myCtrl', function($scope, $http) {
 
         var that = this;
@@ -1129,6 +1134,7 @@
         
 
     });
+ angular.bootstrap(document.getElementById("GalleryNew"), ['GalleryNew']);
 
     $(document).ready(function(){
 

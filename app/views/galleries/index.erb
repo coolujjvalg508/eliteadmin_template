@@ -1,6 +1,7 @@
 <!-- All Dashboard Start -->
-
-<section class="clearfix container-fluid-full" ng-app="myApp" ng-controller="galleryCtrl">
+<div id="MyGallery" ng-app="MyGallery" >
+<div  ng-controller="galleryCtrl">
+<section class="clearfix container-fluid-full">
 <div class="row-fluid">
 <div class="sidebar-left">
 <%= render 'layouts/navigation' %>
@@ -112,14 +113,14 @@
         <%#= image_tag(root_url + "{{ x.company_logo.thumb.url }}", :alt => "img", :class=>"img-responsive") %>
           
         <img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive">
-&nbsp;
+        &nbsp;
         </div>
         <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> {{ x.title }} &nbsp;</div>
         <div class="AllGalleryAuthor">{{ x.category.name }}&nbsp;</div>
         <div class="AllGalleryDate">
          <!--  <span ng-repeat="y in x.tags">{{ $index > 0 ? ', ' : '' }}{{ y.tag }}</span> -->
          {{ x.created_at | date:'MM/dd/yyyy HH:mm' }}
-&nbsp;
+        &nbsp;
         </div>
 
         <div class="AllGalleryLike clearfix">
@@ -171,6 +172,8 @@
 </div>
 </div>
 </section>
+</div>
+</div>
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
@@ -178,7 +181,8 @@
 </footer>
 
 <script>
-var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+/*var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);*/
+var app = angular.module('MyGallery', ["angularUtils.directives.dirPagination","angularLazyImg","MainModule"]);
 app.controller('galleryCtrl', function($scope, $http) {
 
     //function to get count of user gallery data
@@ -281,6 +285,6 @@ app.controller('galleryCtrl', function($scope, $http) {
     };
 });
 
-
+ angular.bootstrap(document.getElementById("MyGallery"), ['MyGallery']);
 
 </script>

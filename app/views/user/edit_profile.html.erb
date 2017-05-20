@@ -566,7 +566,7 @@
 <script>
 
     // main page angular app start
-    var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+    var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker','MainModule']);
     app.controller('myCtrl', function($scope, $http) {
 
         //app.controller('MyController', ['$scope', function($scope) {
@@ -640,5 +640,5 @@
         }
     
     });
-
+angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>

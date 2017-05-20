@@ -1,6 +1,6 @@
 <!-- New Profile Section -->
 <%  res = connection_like_count %>
-<div class="artist-profile ng-scope" ng-app="myAppHeader" ng-controller="myCtrlHeader">
+<div class="artist-profile ng-scope" id="myAppHeader" ng-app="myAppHeader" ng-controller="myCtrlHeader">
 
   <div style="background-image: url({{cover_art_image}});" class="artist-masthead">
     
@@ -108,6 +108,7 @@
   // header angular app start
   var myAppHeader = angular.module('myAppHeader',[]);
 
+
   myAppHeader.controller('myCtrlHeader', function($scope) {
 
     <% if (current_user.cover_art_image.blank? || current_user.cover_art_image.try(:full).blank?) %>
@@ -146,6 +147,7 @@
     }
    
   });
+  angular.bootstrap(document.getElementById("myAppHeader"), ['myAppHeader']);
   // header angular app end
 </script>
 

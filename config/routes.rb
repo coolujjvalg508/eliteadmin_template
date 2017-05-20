@@ -9,11 +9,14 @@ Rails.application.routes.draw do
     puts "ActiveAdmin: #{e.class}: #{e}"
   end
 
-  root 'gallery#index'  
+  
 
   devise_for :users, controllers: {registrations: 'users/registrations', sessions: 'sessions', omniauth_callbacks: 'omniauth_callbacks'}
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
   
+
+  root 'galleries#gallery'
+
   get 'setting/index' 
   get 'setting/general'
   get 'appearance/index'
@@ -119,18 +122,21 @@ Rails.application.routes.draw do
   post 'job/follow_job'           => 'job#follow_job', as: 'follow_job' 
   post 'job/check_follow_job'     => 'job#check_follow_job', as: 'check_follow_job'
 
-  put 'update_user_image'   => 'job#update_user_image'
-  delete 'remove_cover_art' => 'job#remove_cover_art'
+  put 'update_user_image'         => 'job#update_user_image'
+  delete 'remove_cover_art'       => 'job#remove_cover_art'
 
   post 'save_job_view_count'             => 'job#save_job_view_count', as: 'save_job_view_count' 
   post 'jobs/delete_job_post'            => 'job#delete_job_post', as: 'delete_job_post' 
   post 'jobs/mark_spam'                  => 'job#mark_spam', as: 'mark_spam' 
-  post 'jobs/check_mark_spam'             => 'job#check_mark_spam', as: 'check_mark_spam' 
+  post 'jobs/check_mark_spam'            => 'job#check_mark_spam', as: 'check_mark_spam' 
     
   resources :user, only: [:edit, :update]
 
   
   resources :galleries
+
+    
+
     get 'dashboard/projects'                          => 'galleries#index', as: 'index_gallery' 
     get 'dashboard/projects/new'                      => 'galleries#new', as: 'create_gallery' 
     get 'dashboard/projects/:paramlink/edit'          => 'galleries#edit', as: 'modify_gallery' 
@@ -190,11 +196,11 @@ Rails.application.routes.draw do
     post 'create_report'                              => 'reports#new', as: 'create_report'
 
   
-    get  'contest'                              => 'challenges#index', as: 'challenge_home'
-    get  'contest/get_challenge_list'           => 'challenges#get_challenge_list'
-    get  'contest/:id/show'                     => 'challenges#show', as: 'show_challenge' 
-    get  'contest/get_challengers_count'        => 'challenges#get_challengers_count', as: 'get_challengers_count' 
-    post 'contest/save_view_count'              => 'challenges#save_view_count', as: 'save_challenge_view_count' 
+    get  'contest'                                => 'challenges#index', as: 'challenge_home'
+    get  'contest/get_challenge_list'             => 'challenges#get_challenge_list'
+    get  'contest/:id/show'                       => 'challenges#show', as: 'show_challenge' 
+    get  'contest/get_challengers_count'          => 'challenges#get_challengers_count', as: 'get_challengers_count' 
+    post 'contest/save_view_count'                => 'challenges#save_view_count', as: 'save_challenge_view_count' 
     
     resources :contests
     get 'contests'                                => 'contests#index', as: 'contests_home' 
@@ -217,17 +223,6 @@ Rails.application.routes.draw do
 
 
 
-
-  get 'gallery/gallery'
-  get 'gallery/wip_detail'
-  get 'gallery/get_download_list'
-  get 'gallery/get_post_type_category_list'
-  get 'gallery/download_category'
-  get 'gallery/download_detail'
-  get 'gallery/download_post'
-
-  get 'gallery/free_download'
-  
   get 'news/index'
   get 'news/free_news'
   get 'news/news_category'
@@ -236,8 +231,32 @@ Rails.application.routes.draw do
   get 'news/get_news_list'
   get 'news/get_category_list'
  
-  get 'downloads'=> 'gallery#download'
 
+
+
+
+  get 'downloads'=> 'downloads#download'  
+  get 'downloads/get_download_list'
+  get 'downloads/get_post_type_category_list'
+  #get 'downloads/download_category'
+  #get 'downloads/download_detail'
+  get 'downloads/download_post'
+  get 'downloads/free_download'      => 'downloads#free_download', as: 'free_download'  
+  
+
+  get 'downloads/get_post_type_list' => 'downloads#get_post_type_list', as: 'get_post_type_list'   
+  get 'downloads/get_post_type_category_detail_list/:post_type' => 'downloads#get_post_type_category_detail_list', as: 'get_post_type_category_detail_list'   
+ 
+  get 'downloads/get_post_type_category_detail/:category_type' => 'downloads#get_post_type_category_detail', as: 'get_post_type_category_detail'   
+ 
+  get 'downloads/get_post_type_category_downloads_list' => 'downloads#get_post_type_category_downloads_list', as: 'get_post_type_category_downloads_list'   
+  
+
+  get 'downloads/get_filter_values' => 'downloads#get_filter_values', as: 'get_filter_values'   
+  get 'api/get_software_expertises_list' => 'api#get_software_expertises_list', as: 'get_software_expertises_list'   
+  get 'api/get_renderers_list' => 'api#get_renderers_list', as: 'get_renderers_list'   
+   
+  
 
   get 'user-profile/:id'         => 'user#artist_profile', as: 'artist_profile' 
   get 'update_read_notification' => 'user#update_read_notification', as: 'update_read_notification' 
@@ -248,6 +267,11 @@ Rails.application.routes.draw do
   namespace :admin do
 	 post 'images/saveimage' => 'images#saveimages'
   end
+
+  
+  get '/:post_type'                                           => 'downloads#download_detail', as: 'download_detail'   
+  get '/:post_type/:category_type'                            => 'downloads#download_category', as: 'download_category'   
+  get '/:post_type/:category_type/:sub_category_type'         => 'downloads#download_category', as: 'download_sub_category'   
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

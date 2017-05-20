@@ -1,4 +1,6 @@
-<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+<div id="tutorialindex" ng-app="tutorialindex">
+
+<div ng-controller="myCtrl">
 
 	<!-- Submenu Navigation -->
 	<section class="wip-navigation-wrap">
@@ -195,6 +197,7 @@
 		</div>
 	</section>
 </div>	
+</div>
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
@@ -204,7 +207,8 @@
 <script type="text/javascript">
 
   // main page angular app start
-  var app = angular.module('myApp', ["angularLazyImg"]);
+  var app = angular.module('tutorialindex', ["angularLazyImg","MainModule"]);
+ 
   app.controller('myCtrl', function($scope, $http) {
       
     $scope.filter = function() {
@@ -291,7 +295,7 @@
     };
 
   });
-
+ angular.bootstrap(document.getElementById("tutorialindex"), ['tutorialindex']);
   // main page angular app end
 
 </script>

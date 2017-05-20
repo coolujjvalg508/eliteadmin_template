@@ -5,7 +5,8 @@
 
 
 
-<div id="myApp2"  ng-app="myApp" ng-controller="browseAllArtworkCtrl" >
+<div id="Browse_wip"  ng-app="Browse_wip" >
+<div ng-controller="Browse_wipCtrl">
 <!-- Showcase & Discover Creative Work -->
 <section class="clearfix showcase-wrap text-center">
   <div class="container">
@@ -118,6 +119,9 @@
    </div>
 </section>
 
+</div>
+</div>
+
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
 <%= render 'layouts/lastfooter' %>
@@ -131,8 +135,8 @@
 <script type="text/javascript">
 
   // main page angular app start
-  var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
-  app.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
+  var app = angular.module('Browse_wip', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
+  app.controller('Browse_wipCtrl', function($sce, $scope, $http) {
       
     $scope.filter = function() {
         
@@ -202,5 +206,5 @@
   });
 
   // main page angular app end
-
+angular.bootstrap(document.getElementById("Browse_wip"), ['Browse_wip']);
 </script>

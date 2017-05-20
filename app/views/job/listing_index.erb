@@ -1,174 +1,177 @@
 <!-- All Dashboard Start -->
-
-<section class="clearfix container-fluid-full" ng-app="myApp" ng-controller="galleryCtrl">
-<div class="row-fluid">
-<div class="sidebar-left">
-<%= render 'layouts/navigation' %>
-</div>
-<div class="content clearfix">
-<div class="clearfix job-post-bread">
-<ul class="breadcrumb">
-<li><%= link_to 'Jobs', index_job_path %></li>
-<li class="active">All Job Post</li>
-</ul>
-</div>
-
-<!-- User Followers Start -->
-<section class="clearfix usersettings">
-<div class="clearfix notification-heading"> <span class="noti-title">All Job Post</span>
-<!-- <button class="addbtn" type="button">Add New</button> -->
-<%= link_to 'Add New', create_job_path, class:'addbtn' %>
-</div>
-<div class="clearfix marginB15 allgallerypost-link hidden-xs hidden-sm">
-<div class="row">
-  <div class="col-md-8 paddinT10">
-    <ul>
-      <li><a href="javascript:void(0);" class="white-txt view-type-link" id="all-link" ng-click="viewType('all')">All <span class="badge">({{total_count}})</span></a></li>
-      <li><a href="javascript:void(0);" class="view-type-link" id="featured-link" ng-click="viewType('featured')">Featured <span class="badge">({{total_featured}})</span></a></li>
-      <li><a href="javascript:void(0);" class="view-type-link" id="published-link" ng-click="viewType('published')">Published <span class="badge">({{total_published}})</span></a></li>
-      <li><a href="javascript:void(0);" class="view-type-link" id="drafts-link" ng-click="viewType('drafts')">Drafts <span class="badge">({{total_draft}})</span></a></li>
-       <li><a href="javascript:void(0);" class="view-type-link" id="trash-link" ng-click="viewType('trash')">Trash <span class="badge">({{total_trash}})</span></a></li>
-    </ul>
-
-    <input type="hidden" ng-model="viewTypeValue" value="">
-
+<div id="Job_list" ng-app="Job_list">
+<div ng-controller="jobCtrl">
+  <section class="clearfix container-fluid-full">
+  <div class="row-fluid">
+  <div class="sidebar-left">
+  <%= render 'layouts/navigation' %>
   </div>
-  <div class="col-md-4">
-    <div class="search clearfix pull-right">
-      <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" ng-model="search" />
-      <button type="submit" class="blue-btn">Search Job</button>
+  <div class="content clearfix">
+  <div class="clearfix job-post-bread">
+  <ul class="breadcrumb">
+  <li><%= link_to 'Jobs', index_job_path %></li>
+  <li class="active">All Job Post</li>
+  </ul>
+  </div>
+
+  <!-- User Followers Start -->
+  <section class="clearfix usersettings">
+  <div class="clearfix notification-heading"> <span class="noti-title">All Job Post</span>
+  <!-- <button class="addbtn" type="button">Add New</button> -->
+  <%= link_to 'Add New', create_job_path, class:'addbtn' %>
+  </div>
+  <div class="clearfix marginB15 allgallerypost-link hidden-xs hidden-sm">
+  <div class="row">
+    <div class="col-md-8 paddinT10">
+      <ul>
+        <li><a href="javascript:void(0);" class="white-txt view-type-link" id="all-link" ng-click="viewType('all')">All <span class="badge">({{total_count}})</span></a></li>
+        <li><a href="javascript:void(0);" class="view-type-link" id="featured-link" ng-click="viewType('featured')">Featured <span class="badge">({{total_featured}})</span></a></li>
+        <li><a href="javascript:void(0);" class="view-type-link" id="published-link" ng-click="viewType('published')">Published <span class="badge">({{total_published}})</span></a></li>
+        <li><a href="javascript:void(0);" class="view-type-link" id="drafts-link" ng-click="viewType('drafts')">Drafts <span class="badge">({{total_draft}})</span></a></li>
+         <li><a href="javascript:void(0);" class="view-type-link" id="trash-link" ng-click="viewType('trash')">Trash <span class="badge">({{total_trash}})</span></a></li>
+      </ul>
+
+      <input type="hidden" ng-model="viewTypeValue" value="">
+
+    </div>
+    <div class="col-md-4">
+      <div class="search clearfix pull-right">
+        <input type="text" class="form-control from-input" maxlength="64" placeholder="Search" ng-model="search" />
+        <button type="submit" class="blue-btn">Search Job</button>
+      </div>
     </div>
   </div>
-</div>
-</div>
-<div class="clearfix marginB15 allpostwrap hidden-xs hidden-sm">
-<div class="bulkaction clearfix">
-  <select class="custom-select" id="delete_check">
-   <!--  <option>Bulk Actions</option> -->
-    <option value="delete" >Delete</option>
-  </select>
-  <button type="button" id="delete_button" class="blue-btn" ng-click="deleteAll()">Apply</button>
-</div>
-
-
-
-<%= form_tag do %>
-<!--   <div class="alldated clearfix">
-    <select class="custom-select">
-      <option>All dates</option>
+  </div>
+  <div class="clearfix marginB15 allpostwrap hidden-xs hidden-sm">
+  <div class="bulkaction clearfix">
+    <select class="custom-select" id="delete_check">
+     <!--  <option>Bulk Actions</option> -->
+      <option value="delete" >Delete</option>
     </select>
-  </div> -->
-  <div class="gallerytype clearfix">
-    <%= select_tag(:job_type, options_for_select(@jobcategory.pluck(:name, :name)), {'class' => 'custom-select', :include_blank => 'Job Type', 'ng-model' => 'job_type'}) %>
-  </div>
-  <div class="gallerytype clearfix">
-    <%= select_tag(:job_category, options_for_select(CategoryType.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'Job Categories', 'ng-model' => 'job_category'}) %>
-  </div>
-  <div class="clearfix pull-left marginR10">    
-    <button type="button" class="blue-btn" ng-click="filter()">Filter</button>
+    <button type="button" id="delete_button" class="blue-btn" ng-click="deleteAll()">Apply</button>
   </div>
 
-<% end %>  
 
-<div class="allitem">{{gallery_data.length}} items</div>
-<div class="pagintionpage clearfix">
-  
-  <dir-pagination-controls
-       max-size="1"
-       direction-links="true"
-       boundary-links="false" >
-  </dir-pagination-controls>
 
-</div>
-</div>
-<div class="panel panel-default allgallerypostwrap">
-<div class="panel-heading clearfix padding">
-  <div class="postcheck clearfix">
-    <div class="checkbox-btn">
-     <input type="checkbox" id="rc15" name="rc15" value="" ng-model="selectedAll" ng-click="checkAll()" >
-      <label for="rc15" onclick=""></label>
+  <%= form_tag do %>
+  <!--   <div class="alldated clearfix">
+      <select class="custom-select">
+        <option>All dates</option>
+      </select>
+    </div> -->
+    <div class="gallerytype clearfix">
+      <%= select_tag(:job_type, options_for_select(@jobcategory.pluck(:name, :name)), {'class' => 'custom-select', :include_blank => 'Job Type', 'ng-model' => 'job_type'}) %>
+    </div>
+    <div class="gallerytype clearfix">
+      <%= select_tag(:job_category, options_for_select(CategoryType.pluck(:name, :id)), {'class' => 'custom-select', :include_blank => 'Job Categories', 'ng-model' => 'job_category'}) %>
+    </div>
+    <div class="clearfix pull-left marginR10">    
+      <button type="button" class="blue-btn" ng-click="filter()">Filter</button>
+    </div>
+
+  <% end %>  
+
+  <div class="allitem">{{gallery_data.length}} items</div>
+  <div class="pagintionpage clearfix">
+    
+    <dir-pagination-controls
+         max-size="1"
+         direction-links="true"
+         boundary-links="false" >
+    </dir-pagination-controls>
+
+  </div>
+  </div>
+  <div class="panel panel-default allgallerypostwrap">
+  <div class="panel-heading clearfix padding">
+    <div class="postcheck clearfix">
+      <div class="checkbox-btn">
+       <input type="checkbox" id="rc15" name="rc15" value="" ng-model="selectedAll" ng-click="checkAll()" >
+        <label for="rc15" onclick=""></label>
+      </div>
+    </div>
+    <div class="GalleryThumbnail hidden-xs">Thumbnail</div>
+    <div class="GalleryTitle hidden-xs" ng-click="sort('title')">Title<!-- <span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> --></div>
+    <div class="GalleryDate hidden-xs">Date</div>
+    <div class="GalleryLike hidden-xs">Likes</div>
+    <div class="GalleryLike hidden-xs">Status</div>
+    <div class="GalleryLike hidden-xs">Actions</div>
+  </div>
+  <div class="panel-body padding">
+    <div class="clearfix Allpostgallery">
+      <ul>
+
+      <!-- <li class="clearfix" ng-repeat="x in gallery_data|orderBy:sortKey:reverse|filter:search"> -->
+       <li class="clearfix" dir-paginate="x in job_data|orderBy:sortKey:reverse|filter:search|itemsPerPage:10">
+
+          <div class="AllGalleryCheck clearfix">
+            <div class="checkbox-btn">
+             <input type="checkbox" class="rcl" value="{{x.id}}" id="rc_{{x.id}}" name="job[id][]" ng-model="x.Selected">
+              <label for="rc_{{x.id}}" onclick=""></label>
+            </div>
+          </div>
+          <div class="AllGalleryThumbnail">
+          <%#= image_tag(root_url + "{{ x.company_logo.thumb.url }}", :alt => "img", :class=>"img-responsive") %>
+            
+          <img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive">
+  &nbsp;
+          </div>
+          <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> {{ x.title }} &nbsp;</div>
+         <!--  <div class="AllGalleryAuthor">{{ x.category.name }}&nbsp;</div> -->
+          <div class="AllGalleryDate">
+           <!--  <span ng-repeat="y in x.tags">{{ $index > 0 ? ', ' : '' }}{{ y.tag }}</span> -->
+           {{ x.created_at | date:'MM/dd/yyyy HH:mm' }}
+  &nbsp;
+          </div>
+
+          <div class="AllGalleryLike clearfix">
+            <div class="marginB15 clearfix"><i class="fa fa-thumbs-o-up marginR5" aria-hidden="true"></i> {{ x.like_count }}</div>
+            <div class="marginB15 clearfix"><i class="fa fa-globe marginR5" aria-hidden="true"></i> {{ x.view_count }}</div>
+            <div class="marginB15 clearfix"><i class="fa fa-comment-o marginR5" aria-hidden="true"></i>  {{ x.comment_count }}</div>
+          </div>
+          <div class="AllGalleryLike">
+            <button class="draftbtn border-radius" type="button">
+              {{ x.is_trash ? 'Trashed' : x.is_save_to_draft ? 'Draft' : x.publish ? 'Published' : 'Not Published' }} &nbsp;
+            </button>
+
+          </div>
+          <div class="AllGalleryLike clearfix">
+              <div class="clearfix marginB15">
+                <a class="lightbtn" href="/jobs/{{x.paramlink}}"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>View</a>
+              </div>
+              <div class="clearfix marginB15">
+                 <a class="lightbtn" href="/dashboard/jobs/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
+              </div>
+             <div class="clearfix marginB15" ng-show = "{{viewTypeValue != 'trash'}}">
+              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/job/{{x.paramlink}}/make_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to trash this job?" } %>
+
+             </div>
+
+             <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
+              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/job/{{x.paramlink}}/delete_from_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to delete this job permanently?" } %>
+
+             </div>           
+             <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
+              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Restore'.html_safe, "/job/{{x.paramlink}}/restore_job", class: 'lightbtn', data: { confirm: "Are you sure you want to restore this job?" } %>
+             </div>
+
+
+          </div>
+        </li>
+
+        <li ng-hide="job_data.length" class="text-center err-msg no-result">No Result Found!</li>
+
+      </ul>
+   
     </div>
   </div>
-  <div class="GalleryThumbnail hidden-xs">Thumbnail</div>
-  <div class="GalleryTitle hidden-xs" ng-click="sort('title')">Title<!-- <span class="glyphicon sort-icon" ng-show="sortKey=='title'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> --></div>
-  <div class="GalleryDate hidden-xs">Date</div>
-  <div class="GalleryLike hidden-xs">Likes</div>
-  <div class="GalleryLike hidden-xs">Status</div>
-  <div class="GalleryLike hidden-xs">Actions</div>
-</div>
-<div class="panel-body padding">
-  <div class="clearfix Allpostgallery">
-    <ul>
-
-    <!-- <li class="clearfix" ng-repeat="x in gallery_data|orderBy:sortKey:reverse|filter:search"> -->
-     <li class="clearfix" dir-paginate="x in job_data|orderBy:sortKey:reverse|filter:search|itemsPerPage:10">
-
-        <div class="AllGalleryCheck clearfix">
-          <div class="checkbox-btn">
-           <input type="checkbox" class="rcl" value="{{x.id}}" id="rc_{{x.id}}" name="job[id][]" ng-model="x.Selected">
-            <label for="rc_{{x.id}}" onclick=""></label>
-          </div>
-        </div>
-        <div class="AllGalleryThumbnail">
-        <%#= image_tag(root_url + "{{ x.company_logo.thumb.url }}", :alt => "img", :class=>"img-responsive") %>
-          
-        <img lazy-img="<%= root_url %>{{ x.company_logo.thumb.url }}" class="img-responsive">
-&nbsp;
-        </div>
-        <div class="AllGalleryTitle"><span class="pull-left marginB5 marginR5"><i class="fa fa-file-video-o" aria-hidden="true"></i></span> {{ x.title }} &nbsp;</div>
-       <!--  <div class="AllGalleryAuthor">{{ x.category.name }}&nbsp;</div> -->
-        <div class="AllGalleryDate">
-         <!--  <span ng-repeat="y in x.tags">{{ $index > 0 ? ', ' : '' }}{{ y.tag }}</span> -->
-         {{ x.created_at | date:'MM/dd/yyyy HH:mm' }}
-&nbsp;
-        </div>
-
-        <div class="AllGalleryLike clearfix">
-          <div class="marginB15 clearfix"><i class="fa fa-thumbs-o-up marginR5" aria-hidden="true"></i> {{ x.like_count }}</div>
-          <div class="marginB15 clearfix"><i class="fa fa-globe marginR5" aria-hidden="true"></i> {{ x.view_count }}</div>
-          <div class="marginB15 clearfix"><i class="fa fa-comment-o marginR5" aria-hidden="true"></i>  {{ x.comment_count }}</div>
-        </div>
-        <div class="AllGalleryLike">
-          <button class="draftbtn border-radius" type="button">
-            {{ x.is_trash ? 'Trashed' : x.is_save_to_draft ? 'Draft' : x.publish ? 'Published' : 'Not Published' }} &nbsp;
-          </button>
-
-        </div>
-        <div class="AllGalleryLike clearfix">
-            <div class="clearfix marginB15">
-              <a class="lightbtn" href="/jobs/{{x.paramlink}}"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>View</a>
-            </div>
-            <div class="clearfix marginB15">
-               <a class="lightbtn" href="/dashboard/jobs/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
-            </div>
-           <div class="clearfix marginB15" ng-show = "{{viewTypeValue != 'trash'}}">
-            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/job/{{x.paramlink}}/make_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to trash this job?" } %>
-
-           </div>
-
-           <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
-            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/job/{{x.paramlink}}/delete_from_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to delete this job permanently?" } %>
-
-           </div>           
-           <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
-            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Restore'.html_safe, "/job/{{x.paramlink}}/restore_job", class: 'lightbtn', data: { confirm: "Are you sure you want to restore this job?" } %>
-           </div>
-
-
-        </div>
-      </li>
-
-      <li ng-hide="job_data.length" class="text-center err-msg no-result">No Result Found!</li>
-
-    </ul>
- 
   </div>
+  </section>
+  </div>
+  </div>
+  </section>
 </div>
 </div>
-</section>
-</div>
-</div>
-</section>
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
@@ -176,8 +179,9 @@
 </footer>
 
 <script>
-var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
-app.controller('galleryCtrl', function($scope, $http) {
+
+var app = angular.module('Job_list', ["angularUtils.directives.dirPagination","angularLazyImg","MainModule"]);
+app.controller('jobCtrl', function($scope, $http) {
 
     //function to get count of user gallery data
     $scope.getCount = function() {
@@ -283,7 +287,7 @@ app.controller('galleryCtrl', function($scope, $http) {
 
 });
 
-
+angular.bootstrap(document.getElementById("Job_list"), ['Job_list']);
 
 </script>
 

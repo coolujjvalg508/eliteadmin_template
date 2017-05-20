@@ -1,10 +1,12 @@
 <!-- All Dashboard Start -->
 <%  res = connection_like_count %>
-<section class="clearfix container-fluid-full"  id="myApp2"  ng-app="myApp" ng-controller="followingCtrl"  >
+<div id="followingApp"  ng-app="followingApp">
+<div ng-controller="followingCtrl">
+<section class="clearfix container-fluid-full"  >
   <div class="row-fluid">
     <div class="sidebar-left">
   <%= render 'layouts/navigation' %>
-</div>
+  </div>
     <div class="content clearfix">
       <div class="submenutabs-dashboard clearfix margin">
         <%= render 'layouts/dashboard_feed' %>
@@ -136,6 +138,8 @@
     </div>
   </div>
 </section>
+</div>
+</div>
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
 <%= render 'layouts/lastfooter' %>
@@ -143,7 +147,8 @@
 
 
 <script>
-var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+
+var app = angular.module('followingApp', ["angularUtils.directives.dirPagination","angularLazyImg","MainModule"]);
 app.controller('followingCtrl', function($scope, $http) { 
      
     $scope.filter = function() {
@@ -182,4 +187,5 @@ app.controller('followingCtrl', function($scope, $http) {
     
     };   
 });
+ angular.bootstrap(document.getElementById("followingApp"), ['followingApp']);
 </script>

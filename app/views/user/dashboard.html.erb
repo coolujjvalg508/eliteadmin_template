@@ -202,7 +202,7 @@
 <script type="text/javascript">
 
   // main page angular app start
-  var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
   app.controller('dashboardCtrl', function($sce, $scope, $http) {
       
     $scope.filter = function() {
@@ -227,7 +227,7 @@
   });
 
   // main page angular app end
-
+angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>
 
 

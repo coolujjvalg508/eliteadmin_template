@@ -27,6 +27,10 @@
 //= require cropper
 //= require jquery-ui-1.10.3.custom.min
 //= require angular
+//= require angular_module
+//= require angularjs-slider/rzslider
+
+
 //= require dirPagination
 //= require angular-lazy-img
 //= require moment-with-locales
@@ -78,9 +82,6 @@ $(document).ready(function(){
 			   
 
 	  });
-
-
-
 
 
 });  

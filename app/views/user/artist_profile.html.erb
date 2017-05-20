@@ -292,7 +292,7 @@
 
 <script type="text/javascript">
   // header angular app start
-  var myAppHeader = angular.module('myApp',["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  var myAppHeader = angular.module('myApp',["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
 
   myAppHeader.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
       
@@ -365,7 +365,7 @@
       $scope.filter();
     };   
   });
-
+angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>
 
 <% if user_signed_in? %>

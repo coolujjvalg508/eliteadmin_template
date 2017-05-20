@@ -1,0 +1,18 @@
+<!-- Submenu Navigation -->
+<section  ng-controller="downloadHead" class="wip-navigation-wrap">
+  <div class="navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header"><a class="navbar-brand hidden-md hidden-lg" href="#">All Item</a> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
+      <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active">
+          <a href="#">All Item</a>
+          </li>
+         <li ng-repeat="post in download_Heads">
+         <a href="{{post.slug}}" ng-bind="post.type_name"></a>
+         </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

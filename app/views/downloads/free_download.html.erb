@@ -1,4 +1,5 @@
 <div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+
 <section class="wip-navigation-wrap">
 <div class="navbar-default">
 <div class="container">
@@ -26,7 +27,7 @@
 <div class="container">
 <div class="clearfix hidden-xs hidden-sm">
 <ol class="breadcrumb margin">
-      <li class="breadcrumb-item"><a href="<%= gallery_free_download_path %>">Free Download</a></li>
+      <li class="breadcrumb-item"><a href="<%= free_download_path %>">Free Download</a></li>
       <% if @topic_details.present? %>
       <li class="breadcrumb-item active"><%= @topic_details.name %></li>
       <% end %>
@@ -38,7 +39,7 @@
       <% if @topic_list.present? %>
       <ul>
         <% @topic_list.each_with_index do |val, i| %>
-          <li class="col-md-3 col-sm-4 col-xs-6"><a href="<%= gallery_free_download_path %>?post_type_id=<%= val.try(:id) %>"><%= val.try(:name) %> <span class="badge">(<%= val.try(:count_downloads) %>)</span></a></li>
+          <li class="col-md-3 col-sm-4 col-xs-6"><a href="<%= free_download_path %>?post_type_id=<%= val.try(:id) %>"><%= val.try(:name) %> <span class="badge">(<%= val.try(:count_downloads) %>)</span></a></li>
          
         <% end %>
       </ul>
@@ -91,5 +92,6 @@ var app = angular.module('myApp', ["angularLazyImg"]);
 app.controller('myCtrl', function($scope, $http) {
     
 });
+angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 
 </script>

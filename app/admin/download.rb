@@ -3,7 +3,7 @@ ActiveAdmin.register Download do
 	menu false
 	#menu label: 'Download' , parent: 'Downloads'
     
-    permit_params :title, :topic, :is_feature, :user_id,:is_admin, :changelog, {:challenge => []} , {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
+    permit_params :title, :file_format_id, :paramlink, :product_id, :topic, :is_feature, :user_id,:is_admin, :changelog, {:challenge => []} , {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption,{:software => []},{:software_version => []},{:renderer => []},{:renderer_version => []}],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 		
 		
 	collection_action :post_types, method: :get do
@@ -45,6 +45,7 @@ ActiveAdmin.register Download do
 		
 		f.inputs "Download" do
 		  f.input :title
+		  f.input :paramlink
 		   / li do
 			insert_tag(Arbre::HTML::Label, "Description", class: "label") { content_tag(:abbr, "*", title: "required") }
 			f.bootsy_area :description, :rows => 15, :cols => 15, editor_options: { html: true }
@@ -62,7 +63,9 @@ ActiveAdmin.register Download do
 		  f.input :sub_category_id, as: :select, collection: PostTypeCategory.where("parent_id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true ,label: 'Sub Category'
 		 
 		  f.input :software_used, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
-		 # f.input :tags, label:'Tags'
+
+		  f.input :file_format_id, as: :select, collection: FileFormat.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: false 
+		  # f.input :tags, label:'Tags'
 		 
 		  f.input :free, as: :boolean,label: "Share for free"
 		  f.input :price, label: "Price ($)"
@@ -123,27 +126,44 @@ ActiveAdmin.register Download do
 			end
 		 end	
 		 
-		  f.inputs '3D Model Details' do
+		  	f.inputs '3D Model Details' do
 				f.input :animated,label: "Animated"
 				f.input :rigged,label: "Rigged"
 				f.input :lowpoly,label: "Lowpoly (game-ready)"
-				f.input :geometry,label: "Geometry"
+				f.input :geometry,label: "Geometry", as: :select, collection: Download::GEOMETRY, include_blank: '---Choose geometry---'
 				f.input :polygon,label: "Polygon"
 				f.input :vertice,label: "vertice"
 				f.input :texture,label: "Textures"
 				f.input :material,label: "Material"
 				f.input :uv_mapping,label: "UV Mapping"
-				f.input :unwrapped_uv,label: "Unwrapped UVs"
+				f.input :unwrapped_uv,label: "Unwrapped UVs", as: :select, collection: Download::UNWRAPPED_UV, include_blank: '---Select Unwrapped UVs---'
 				f.input :plugin_used,label: "Plugins used"
-		  end	 
+		  	end	 
 
 		 
 		 f.inputs 'Upload Zip/Rar files' do
 			f.has_many :zip_files, allow_destroy: true, new_record: true do |ff|
 			  ff.input :zipfile, label: "Zip/Rar file", hint: ff.object.zipfile.try(:url)
-			  ff.input :zip_caption, label: "Caption"
 			  ff.input :zipfile_cache, :as => :hidden
+			  ff.input :zip_caption, label: "Caption"
+			 
+			 
+
+			 ff.input :software, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
+		      
+			  ff.input :software_version, as: :select, collection: [], :input_html => { :class => "form-control js-example-tags" }, include_blank: false,multiple: true
+			  #ff.input :software_version, as: :string
+
+
+			  ff.input :renderer, as: :select, collection: Renderer.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
+			 
+			 ff.input :renderer_version, as: :select, collection: [], :input_html => { :class => "form-control js-example-tags" }, include_blank: false,multiple: true
+			# ff.input :renderer_version, as: :string
+			 
+			
+
 			end
+
 		 end	
 		 
 		 
@@ -157,8 +177,15 @@ ActiveAdmin.register Download do
   
    controller do
 	  def create
+	  	
+	  	
 			params[:download][:user_id] = current_admin_user.id.to_s
 			params[:download][:is_admin] = 'Y'
+
+			
+			random_password 			   = get_rendom_password
+			params[:download][:product_id] = random_password
+
 			
 				
 			if params[:download][:free] == '1'
@@ -213,10 +240,20 @@ ActiveAdmin.register Download do
   		elsif (params[:download].present? && params[:download][:zip_files_attributes].present?)
 					params[:download][:zip_files_attributes].each do |index,img|
 						  unless params[:download][:zip_files_attributes][index][:zipfile].present?
-							params[:download][:zip_files_attributes][index][:zipfile] = params[:download][:zip_files_attributes][index][:zipfile_cache]
-							params[:download][:zip_files_attributes][index][:zip_caption] = params[:download][:zip_files_attributes][index][:zip_caption]
-						
+							params[:download][:zip_files_attributes][index][:zipfile] = params[:download][:zip_files_attributes][index][:zipfile_cache]							
+							params[:download][:zip_files_attributes][index][:zip_caption] = params[:download][:zip_files_attributes][index][:zip_caption]							
+												
 						  end
+
+						params[:download][:zip_files_attributes][index][:software] = params[:download][:zip_files_attributes][index][:software]
+
+				 		params[:download][:zip_files_attributes][index][:software_version] = params[:download][:zip_files_attributes][index][:software_version].to_json
+
+				  		params[:download][:zip_files_attributes][index][:renderer] = params[:download][:zip_files_attributes][index][:renderer]
+
+				  		params[:download][:zip_files_attributes][index][:renderer_version] = params[:download][:zip_files_attributes][index][:renderer_version].to_json
+					#	params[:download][:zip_files_attributes][index][:zip_caption] = params[:download][:zip_files_attributes][index][:zip_caption]
+	  
 					end
 			super
 				
@@ -226,6 +263,22 @@ ActiveAdmin.register Download do
 		  end
 		end
 
+
+	
+   		def get_rendom_password
+			random_password = (0...8).map { ('a'..'z').to_a[rand(26)] }.join
+   			result 			= Download.where('product_id = ?', random_password).count
+
+            if result == 0
+                return random_password
+            else
+                
+                get_rendom_password
+            end  
+
+
+   		end	
+
 		def update
 		#abort(params.to_json)
 			
@@ -233,6 +286,12 @@ ActiveAdmin.register Download do
 				params[:download][:price] = 0
 			end
 			
+			
+
+			
+
+			#random_password = Array.new(10).map { (65 + rand(58)).chr }.join
+
 			if (params[:download].present? && params[:download][:images_attributes].present?)
 					params[:download][:images_attributes].each do |index,img|
 						  unless params[:download][:images_attributes][index][:image].present?
@@ -278,16 +337,30 @@ ActiveAdmin.register Download do
 				super	
 
 			elsif (params[:download].present? && params[:download][:zip_files_attributes].present?)
-					params[:download][:zip_files_attributes].each do |index,img|
-						  unless params[:download][:zip_files_attributes][index][:zipfile].present?
-							params[:download][:zip_files_attributes][index][:zipfile] = params[:download][:zip_files_attributes][index][:zipfile_cache]
-							params[:download][:zip_files_attributes][index][:zip_caption] = params[:download][:zip_files_attributes][index][:zip_caption]
-						
-						  end
-					end
-			super	
-						
 				
+					params[:download][:zip_files_attributes].each do |index,img|
+						 
+							unless params[:download][:zip_files_attributes][index][:zipfile].present?
+									params[:download][:zip_files_attributes][index][:zipfile] = params[:download][:zip_files_attributes][index][:zipfile_cache]
+									
+									params[:download][:zip_files_attributes][index][:zip_caption] = params[:download][:zip_files_attributes][index][:zip_caption]
+
+									params[:download][:zip_files_attributes][index][:software] = params[:download][:zip_files_attributes][index][:software]
+
+							 		params[:download][:zip_files_attributes][index][:software_version] = params[:download][:zip_files_attributes][index][:software_version]
+
+							  		params[:download][:zip_files_attributes][index][:renderer] = params[:download][:zip_files_attributes][index][:renderer]
+
+							  		params[:download][:zip_files_attributes][index][:renderer_version] = params[:download][:zip_files_attributes][index][:renderer_version]
+
+							end
+									
+
+						
+							end
+					super	
+						
+			
 				
 		 else
 				super

@@ -1,4 +1,5 @@
-<header>
+
+<header id="mayShop" ng-app="ShopNav">
  <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 	<div class="navbar-header">
@@ -54,7 +55,7 @@
 
 
 	</ul>
-	<ul class="nav navbar-nav navbar-right">
+	<ul class="nav navbar-nav navbar-right" ng-controller="NavbarCtrl" >
 
 		<% if user_signed_in? 
 			result_notification = notification_data
@@ -97,7 +98,61 @@
 
 
           <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> <span class="noti-box">25</span></a></li>
-          <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></li>
+          
+          <!-- <li class="hidden-xs hidden-sm userprofile-rightside">
+          <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i><span class="noti-box">{{cart.getTotalCount()}}</span></a>
+          </li> -->
+
+          <li class="hidden-xs hidden-sm userprofile-rightside cartdropdown dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i><span class="noti-box">7</span></a>
+    <!-- {{cart.getTotalCount()}} -->
+		      <div ng-show="false" class="dropdown-menu">
+		      <div class="popover-box-title">Shopping cart</div>
+		      <div class="popover-box-inner">You have <span>{{cart.getTotalCount()}}</span>  items in your shopping cart.</div>
+
+		      <div class="popover-box-indent clearfix">
+		      <div class="product-list-containe clearfix">
+		      <ul>
+		      <li ng-repeat="item in cart.items" class="product-list__item clearfix">
+				
+		      <div class="product-list__item-preview">
+					<img alt=""
+					 src="{{item.image}}"></div>
+		      <div class="product-list__item-info">
+					<h1 class="product-list__item-title">
+					<a href="#">{{item.name}}</a></h1>
+					</div>
+		      <div class="product-list__item-price">{{item.price | currency}}</div>
+		      <div class="product-list__item-remove has-tooltip tooltipstered">
+					
+					<a title="Remove this item" class="remove" href="" ng-click="cart.addItem({sku:item.sku}, -10000000)">
+                        <i class="fa fa-times-circle-o fa-lg"></i>
+          </a>
+					</div>
+		      </li>
+		      
+		      </ul>
+		      </div>
+		      </div>
+
+		      <div class="popover-box__cart-price-info text-right">
+		        <div class="cart-price-info__total-price">Total: <strong>{{cart.getTotalPrice() | currency}}</strong></div>
+		       <!-- <div class="cart-price-info__credits-used">Credits used: <strong>$65.00</strong><span class="credits-used-tooltip tooltipstered"><i class="fa fa-question-circle"></i></span></div>
+		        <div class="cart-price-info__final-price">Final price: <strong>$454.00</strong></div> -->
+		      </div>
+
+		      <div class="popover-box__bonus-credits-info text-center">Add more models to cart to reach $600.00<br> and get $70.00 Bonus Credits <span class="js-bonus-credits-tooltip u-ml10 tooltipstered"><i class="fa fa-question-circle"></i></span></div>
+		         
+		      <div class="popover-box__actions clearfix">
+		      <a href="#"><i class="fa fa-shopping-cart fa-lg"></i> View cart </a>
+		      <a class="blue-btn pull-right" href="/cg/checkout/payment"><i class="fa fa-shopping-bag"></i>  Proceed to checkout </a>
+		      </div>   
+		         
+		      </div>
+		    
+		    
+		    
+		    </li>
+
           <li class="profile hidden-sm text-center"><a href="#" class="dropdown-toggle padding" data-toggle="dropdown" ><span class="hidden-xs"> <span class="pull-left">
           <%#= abort(current_user.to_json) %>
           <%= image_tag current_user.image? ? current_user.image.software_used.url : 'user-profile.jpg'  , border: 1, alt:"user profile" %>
@@ -257,3 +312,30 @@
 </script>
 
 <% end %>	
+
+<script type="text/javascript">
+	var app = angular.module('ShopNav',['MainModule']);
+    
+
+//Controller For Navbar
+app.controller('NavbarCtrl', function($scope, $http,Cart,$rootScope) {
+     $rootScope.cart = Cart.cart;
+    $rootScope.checkCart = function (id) {
+      if (!_.contains($scope.cart.skuArray, id)) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    $rootScope.getQuantity = function (slug) {
+      for (var i = 0; i < $scope.cart.items.length; i++) {
+        if ($scope.cart.items[i].slug === slug) {
+          return $scope.cart.items[i].quantity;
+        }
+      }
+    };
+  });
+
+
+</script>

@@ -1,4 +1,5 @@
- <div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+ <div id="newsindex" ng-app="newsindex" >
+ <div ng-controller="myCtrl">
   <!-- Submenu Navigation -->
   <section class="wip-navigation-wrap">
     <div class="navbar-default">
@@ -168,6 +169,8 @@
   </section>
 
 </div>
+</div>
+
 
 <footer class="footer clearfix">
   <%= render "layouts/lastfooter" %>
@@ -176,7 +179,9 @@
 <script type="text/javascript">
 
   // main page angular app start
-  var app = angular.module('myApp', ["angularLazyImg"]);
+  var app = angular.module('newsindex', ["angularLazyImg","MainModule"]);
+   
+
   app.controller('myCtrl', function($scope, $http) {
       
     $scope.filter = function() {
@@ -251,5 +256,5 @@
   });
 
   // main page angular app end
-
+angular.bootstrap(document.getElementById("newsindex"), ['newsindex']);
 </script>

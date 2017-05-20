@@ -1,7 +1,7 @@
 ActiveAdmin.register PostType do
 
 	menu label: 'Post Type' , parent: 'Download',priority: 3
-	permit_params :type_name, :parent_id, :image, :description, :slug
+	permit_params :type_name, :parent_id, :image, :description, :slug, :tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 	
 	controller do 
 		def action_methods
@@ -39,7 +39,7 @@ ActiveAdmin.register PostType do
 		
 		column :type_name
 		column :parent do |cat|
-		  PostType.find_by(id: cat.parent_id).try(:name)
+		  PostType.find_by(id: cat.parent_id).try(:type_name)
 		end
 		column 'Image' do |img|
 		  image_tag img.try(:image).try(:url, :thumb), height: 50, width: 50
@@ -50,12 +50,18 @@ ActiveAdmin.register PostType do
 
 
 	 form multipart: true do |f|
-		  f.inputs "Post Type" do
+		f.inputs "Post Type" do
 		   f.input :parent_id, as: :select, collection: PostType.where("parent_id IS NULL").pluck(:type_name, :id), include_blank: 'Select Parent'
 		   f.input :image
 		   f.input :type_name
 		   f.input :description
 		   f.input :slug
+		end
+		f.inputs 'Tags' do
+			f.has_many :tags, allow_destroy: true, new_record: true do |ff|
+			  ff.input :tag
+			 # ff.input :tag_cache, :as => :hidden
+			end 
 		end
 
 		f.actions
@@ -69,7 +75,7 @@ ActiveAdmin.register PostType do
     attributes_table do
       row :type_name
       row :parent do |cat|
-       PostType.find_by(id: cat.parent_id).try(:name)
+       PostType.find_by(id: cat.parent_id).try(:type_name)
      end
       row :image do |cat|
         unless !cat.image.present?

@@ -1,0 +1,544 @@
+<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+
+  <!-- Submenu Navigation -->
+  <section class="wip-navigation-wrap">
+  <div class="navbar-default">
+  <div class="container-fluid">
+  <div class="navbar-header"><a class="navbar-brand hidden-md hidden-lg" href="#">All Artwork</a> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
+  <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav">
+    <li class="active"><a href="#" class="dropdown-toggle" data-toggle="dropdown">All Jobs</a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Popular Files</a></li>
+        <li><a href="#">Featured Files</a></li>
+        <li><a href="#">Top New Files</a></li>
+        <li><a href="#">Follow Feed</a></li>
+        <li><a href="#">Top Authors</a></li>
+        <li><a href="#">Top New Authors</a></li>
+        <li><a href="#">View All Categories</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">3D Generalist</a>
+      <ul class="dropdown-menu">
+        <li> <a href="#">Popular Items</a> </li>
+        <li> <a href="#">All Items</a> </li>
+        <li> <a href="#">Anatomy</a> </li>
+        <li> <a href="#">Animals</a> </li>
+        <li> <a href="#">Base Meshes</a> </li>
+        <li> <a href="#">Buildings and Architecture</a> </li>
+        <li> <a href="#">Clothes &amp; Accessories</a> </li>
+        <li> <a href="#">Deco Objects</a> </li>
+        <li> <a href="#">Design Elements</a> </li>
+        <li> <a href="#">Electronics</a> </li>
+        <li> <a href="#">Engines and Parts</a> </li>
+        <li> <a href="#">Fantasy and Fiction</a> </li>
+        <li> <a href="#">Food and Drinks</a> </li>
+        <li> <a href="#">Furnishings</a> </li>
+        <li> <a href="#">Humans</a> </li>
+        <li> <a href="#">Music</a> </li>
+        <li> <a href="#">Nature</a> </li>
+        <li> <a href="#">Products</a> </li>
+        <li> <a href="#">Science</a> </li>
+        <li> <a href="#">Sports</a> </li>
+        <li> <a href="#">Theme Packages</a> </li>
+        <li> <a href="#">Tools</a> </li>
+        <li> <a href="#">Toys and Games</a> </li>
+        <li> <a href="#">Vehicles</a> </li>
+        <li> <a href="#">Weapons and Armor</a> </li>
+        <li> <a href="#">Miscellaneous</a> </li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Animator</a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Popular Files</a></li>
+        <li><a href="#">Featured Files</a></li>
+        <li><a href="#">Top New Files</a></li>
+        <li><a href="#">Follow Feed</a></li>
+        <li><a href="#">Top Authors</a></li>
+        <li><a href="#">Top New Authors</a></li>
+        <li><a href="#">View All Categories</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Character TD</a>
+      <ul class="dropdown-menu">
+        <li><a href="#">All Items</a></li>
+        <li><a href="#">Exterior</a></li>
+        <li><a href="#">Interior</a></li>
+        <li><a href="#">Sky</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Compositor</a>
+      <ul class="dropdown-menu">
+        <li><a href="#">All Items</a></li>
+        <li><a href="#">Exterior</a></li>
+        <li><a href="#">Interior</a></li>
+        <li><a href="#">Sky</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Concept Artist</a>
+      <ul class="dropdown-menu">
+        <li> <a href="/popular_item/by_category?category=cg-textures">Popular Items</a> </li>
+        <li> <a href="/category/cg-textures">All Items</a> </li>
+        <li> <a href="/category/cg-textures/bones">Bones</a> </li>
+        <li> <a href="/category/cg-textures/buildings">Buildings</a> </li>
+        <li> <a href="/category/cg-textures/concrete">Concrete</a> </li>
+        <li> <a href="/category/cg-textures/doors">Doors</a> </li>
+        <li> <a href="/category/cg-textures/fabric">Fabric</a> </li>
+        <li> <a href="/category/cg-textures/fauna">Fauna</a> </li>
+        <li> <a href="/category/cg-textures/flora">Flora</a> </li>
+        <li> <a href="/category/cg-textures/ground">Ground</a> </li>
+        <li> <a href="/category/cg-textures/hdri-images">HDRI Images</a> </li>
+        <li> <a href="/category/cg-textures/humans">Humans</a> </li>
+        <li> <a href="/category/cg-textures/ice">Ice</a> </li>
+        <li> <a href="/category/cg-textures/metal">Metal</a> </li>
+        <li> <a href="/category/cg-textures/ornaments">Ornaments</a> </li>
+        <li> <a href="/category/cg-textures/paper">Paper</a> </li>
+        <li> <a href="/category/cg-textures/plaster">Plaster</a> </li>
+        <li> <a href="/category/cg-textures/plastic">Plastic</a> </li>
+        <li> <a href="/category/cg-textures/roads">Roads</a> </li>
+        <li> <a href="/category/cg-textures/roofing">Roofing</a> </li>
+        <li> <a href="/category/cg-textures/skies">Skies</a> </li>
+        <li> <a href="/category/cg-textures/splatter">Splatter</a> </li>
+        <li> <a href="/category/cg-textures/stone">Stone</a> </li>
+        <li> <a href="/category/cg-textures/tiles">Tiles</a> </li>
+        <li> <a href="/category/cg-textures/walls">Walls</a> </li>
+        <li> <a href="/category/cg-textures/water">Water</a> </li>
+        <li> <a href="/category/cg-textures/windows">Windows</a> </li>
+        <li> <a href="/category/cg-textures/wood">Wood</a> </li>
+        <li> <a href="/category/cg-textures/miscellaneous">Miscellaneous</a> </li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Layout Artist</a>
+      <ul class="dropdown-menu">
+        <li> <a href="#">Popular Items</a> </li>
+        <li> <a href="#">All Items</a> </li>
+        <li> <a href="#">Anatomy</a> </li>
+        <li> <a href="#">Animals</a> </li>
+        <li> <a href="#">Base Meshes</a> </li>
+        <li> <a href="#">Buildings and Architecture</a> </li>
+        <li> <a href="#">Clothes &amp; Accessories</a> </li>
+        <li> <a href="#">Deco Objects</a> </li>
+        <li> <a href="#">Design Elements</a> </li>
+        <li> <a href="#">Electronics</a> </li>
+        <li> <a href="#">Engines and Parts</a> </li>
+        <li> <a href="#">Fantasy and Fiction</a> </li>
+        <li> <a href="#">Food and Drinks</a> </li>
+        <li> <a href="#">Furnishings</a> </li>
+        <li> <a href="#">Humans</a> </li>
+        <li> <a href="#">Music</a> </li>
+        <li> <a href="#">Nature</a> </li>
+        <li> <a href="#">Products</a> </li>
+        <li> <a href="#">Science</a> </li>
+        <li> <a href="#">Sports</a> </li>
+        <li> <a href="#">Theme Packages</a> </li>
+        <li> <a href="#">Tools</a> </li>
+        <li> <a href="#">Toys and Games</a> </li>
+        <li> <a href="#">Vehicles</a> </li>
+        <li> <a href="#">Weapons and Armor</a> </li>
+        <li> <a href="#">Miscellaneous</a> </li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Lighter</a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Popular Files</a></li>
+        <li><a href="#">Featured Files</a></li>
+        <li><a href="#">Top New Files</a></li>
+        <li><a href="#">Follow Feed</a></li>
+        <li><a href="#">Top Authors</a></li>
+        <li><a href="#">Top New Authors</a></li>
+        <li><a href="#">View All Categories</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Modeler</a>
+      <ul class="dropdown-menu">
+        <li><a href="#">All Items</a></li>
+        <li><a href="#">Exterior</a></li>
+        <li><a href="#">Interior</a></li>
+        <li><a href="#">Sky</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Rigger</a>
+      <ul class="dropdown-menu">
+        <li><a href="#">All Items</a></li>
+        <li><a href="#">Exterior</a></li>
+        <li><a href="#">Interior</a></li>
+        <li><a href="#">Sky</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Texture Artist</a>
+      <ul class="dropdown-menu">
+        <li> <a href="/popular_item/by_category?category=cg-textures">Popular Items</a> </li>
+        <li> <a href="/category/cg-textures">All Items</a> </li>
+        <li> <a href="/category/cg-textures/bones">Bones</a> </li>
+        <li> <a href="/category/cg-textures/buildings">Buildings</a> </li>
+        <li> <a href="/category/cg-textures/concrete">Concrete</a> </li>
+        <li> <a href="/category/cg-textures/doors">Doors</a> </li>
+        <li> <a href="/category/cg-textures/fabric">Fabric</a> </li>
+        <li> <a href="/category/cg-textures/fauna">Fauna</a> </li>
+        <li> <a href="/category/cg-textures/flora">Flora</a> </li>
+        <li> <a href="/category/cg-textures/ground">Ground</a> </li>
+        <li> <a href="/category/cg-textures/hdri-images">HDRI Images</a> </li>
+        <li> <a href="/category/cg-textures/humans">Humans</a> </li>
+        <li> <a href="/category/cg-textures/ice">Ice</a> </li>
+        <li> <a href="/category/cg-textures/metal">Metal</a> </li>
+        <li> <a href="/category/cg-textures/ornaments">Ornaments</a> </li>
+        <li> <a href="/category/cg-textures/paper">Paper</a> </li>
+        <li> <a href="/category/cg-textures/plaster">Plaster</a> </li>
+        <li> <a href="/category/cg-textures/plastic">Plastic</a> </li>
+        <li> <a href="/category/cg-textures/roads">Roads</a> </li>
+        <li> <a href="/category/cg-textures/roofing">Roofing</a> </li>
+        <li> <a href="/category/cg-textures/skies">Skies</a> </li>
+        <li> <a href="/category/cg-textures/splatter">Splatter</a> </li>
+        <li> <a href="/category/cg-textures/stone">Stone</a> </li>
+        <li> <a href="/category/cg-textures/tiles">Tiles</a> </li>
+        <li> <a href="/category/cg-textures/walls">Walls</a> </li>
+        <li> <a href="/category/cg-textures/water">Water</a> </li>
+        <li> <a href="/category/cg-textures/windows">Windows</a> </li>
+        <li> <a href="/category/cg-textures/wood">Wood</a> </li>
+        <li> <a href="/category/cg-textures/miscellaneous">Miscellaneous</a> </li>
+      </ul>
+    </li>
+    <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">More</a>
+      <ul class="dropdown-menu">
+        <li> <a href="#">Popular Items</a> </li>
+        <li> <a href="#">All Items</a> </li>
+        <li> <a href="#">Anatomy</a> </li>
+        <li> <a href="#">Animals</a> </li>
+        <li> <a href="#">Base Meshes</a> </li>
+        <li> <a href="#">Buildings and Architecture</a> </li>
+        <li> <a href="#">Clothes &amp; Accessories</a> </li>
+        <li> <a href="#">Deco Objects</a> </li>
+        <li> <a href="#">Design Elements</a> </li>
+        <li> <a href="#">Electronics</a> </li>
+        <li> <a href="#">Engines and Parts</a> </li>
+        <li> <a href="#">Fantasy and Fiction</a> </li>
+        <li> <a href="#">Food and Drinks</a> </li>
+        <li> <a href="#">Furnishings</a> </li>
+        <li> <a href="#">Humans</a> </li>
+        <li> <a href="#">Music</a> </li>
+        <li> <a href="#">Nature</a> </li>
+        <li> <a href="#">Products</a> </li>
+        <li> <a href="#">Science</a> </li>
+        <li> <a href="#">Sports</a> </li>
+        <li> <a href="#">Theme Packages</a> </li>
+        <li> <a href="#">Tools</a> </li>
+        <li> <a href="#">Toys and Games</a> </li>
+        <li> <a href="#">Vehicles</a> </li>
+        <li> <a href="#">Weapons and Armor</a> </li>
+        <li> <a href="#">Miscellaneous</a> </li>
+      </ul>
+    </li>
+  </ul>
+  </div>
+  </div>
+  </div>
+  </section>
+
+  <!-- Jobs Header Section -->
+  <section class="clearfix jobshomewrap text-center">
+  <div class="container">
+  <div class="jobshome-title text-center">Find Hundreds of The Best Jobs</div>
+  <div class="jobshome-txt text-center marginB10">for <a href="#">VFX Jobs <i></i></a>, <a href="#">Animations Jobs<i></i></a>, <a href="#">Video Game Jobs<i></i></a>, <a href="#">TV &amp; Flim Jobs<i></i></a>, <a href="#">Software Jobs<i></i></a> and more</div>
+  <div class="jobshome-txt text-center">Add Demo reels &amp; Artwork. list skills and connext with employers, with a free CGMeetup profile!</div>
+  <div class="clearfix jobshomeheader">
+  <div class="col-md-3 col-sm-4 col-xs-12 marginB10 jobs-padding">
+  <div class="input-group stylish-input-group">
+    <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
+    <span class="input-group-addon">
+    <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+    </span> </div>
+  </div>
+  <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding"">
+  <select class="custom-select"  ng-change="searchByCountry(selected)" ng-model='selected'>
+    <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Country</option>
+    <% if @country_detail.present? %>
+      <% @country_detail.each do |country_detail| %>
+          <option   value="<%= country_detail.id %>"><%= country_detail.name %></option>
+      <% end %>
+    <% end %>
+  </select>
+  </div>
+
+  <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
+  <select class="custom-select"  ng-change="searchByJobType(selected)" ng-model='selected'>
+    <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Job Type</option>
+    <% if @job_type.present? %>
+      <% @job_type.each do |job_type| %>
+        <option value="<%= job_type.name %>"><%= job_type.name %></option>
+      <% end %>
+    <% end %>
+  </select>
+  </div>
+ <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
+    <select class="custom-select" ng-change="searchByCategoryType(selected)" ng-model='selected'>
+      <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Category Type</option>
+      <% if @catgorytype.present? %>  
+       <% @catgorytype.each do |cat_type| %>
+          <option value="<%= cat_type.id %>"><%= cat_type.name %></option>
+      <% end %>
+      <% end %>
+
+    </select>
+  </div> 
+
+   <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
+  <div class="clearfix"><div class="checkbox-btn">
+      <input type="checkbox" value="true" id="rc101" name="job[work_remotely]" ng-change="searchByWorkRemote(selected1)" ng-model='selected1'/><label for="rc101" onclick>Work Remotely</label></div></div>
+  <div class="clearfix"><div class="checkbox-btn">
+      
+      <input ng-change="searchByRelocationAssistance(selected)" ng-model='selected' type="checkbox" value="true" id="rc102" name="job[relocation_assistance]"/><label for="rc102" onclick>Relocation Assistance</label></div></div>
+  </div>
+
+
+  </div>
+  <div class="showcase-btn-wrap clearfix text-center">
+  <% if user_signed_in? %>
+      <button onclick="redirect_to_create_job();" type="button" class="btn btn-success border-radius marginB10">Post a Job</button>
+  <% end %>
+  <button onclick="redirect_to_job_on_map();" type="button" class="btn btn-default border-radius marginB10">Job Map</button>
+
+  <button  onclick="redirect_to_company_on_map();" type="button" class="btn btn-default border-radius marginB10">Companies</button>
+  </div>
+  </div>
+  </section>
+   
+
+  <!-- User Profile Menu -->
+  <section class="jobshomenav clearfix">
+  <div class="clearfix hidden-xs">
+  <div class="col-md-9 col-sm-7">
+  <div class="row">
+  <div class="col-md-9"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> Jobs</div>
+
+  <div class="col-md-2 col-sm-2"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> Location</div>
+
+  </div>
+  </div>
+  <div class="col-md-3 col-sm-3 col-xs-12"> Featured Jobs</div>
+
+
+  </div>
+  </section> 
+   
+   
+  <!-- Jobs Content Start -->
+
+  <section class="clearfix jobshomepage">
+
+    <div class="col-md-9 col-sm-12 col-xs-12">
+      <ul>
+      
+          <li class="clearfix" dir-paginate="x in final_result | filter:search | itemsPerPage:10">
+         
+            <div class="row">
+              <div class="col-md-2 col-sm-3 col-xs-3">
+                <center><img lazy-img="<%= root_url %>{{ x.company_logo.jobs_home.url }}" class="img-responsive"> </center>
+              </div>
+              <div class="col-md-7 col-sm-6 col-xs-9 jobshomepagecontent">
+                <h2><a href="<%= root_url %>jobs/{{x.paramlink}}">{{x.title}}</a></h2>
+                <p>{{x.company.name}}</p>
+                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} 
+                <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
+
+                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Work Remotely: 
+                <span class="price-freelance marginL5">{{ (x.work_remotely == true) ? 'Yes' : 'No'  }}</span></div>
+                
+                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Relocation Assistance: 
+                <span class="price-freelance marginL5">{{ (x.relocation_asistance == true) ? 'Yes' : 'No'  }}</span></div>
+                
+
+              <div class="clearfix"><span class="jobshometime">{{x.created_at | date:'dd MMMM yyyy'}} - {{x.view_count}} views</span></div>
+
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="jobhomelocation"><div class="job-maker"><i class="fa fa-map-marker" aria-hidden="true"></i></div> {{x.city}}, {{x.country.name}}</div>
+              </div>
+            </div>
+          </li>
+          
+            <li class="clearfix text-center err-msg no-result" ng-hide="final_result.length" >No Result Found!</li>
+         
+      </ul>
+     <div class="pagintionpage clearfix">
+          <dir-pagination-controls
+               max-size="1"
+               direction-links="true"
+               boundary-links="false" >
+          </dir-pagination-controls>
+
+      </div>
+     
+    </div>
+
+
+    <div class="col-md-3 col-sm-12 col-xs-12">
+
+      <div class="FeaturedStudios clearfix marginB15">
+        <ul>
+         <% if @featured_jobs.present?
+               @featured_jobs.each_with_index do |value, index|
+               # abort(value.to_json)
+         %>
+          <li class="clearfix">
+            <div class="FeaturedLeft pull-left"><%= image_tag(value.company_logo.thumb.url, :alt=>"Jobs", :class=>"img-responsive") %> </div>
+            <div class="FeaturedRight pull-right clearfix">
+            <h2><a href="<%= root_url %>jobs/<%= value.paramlink %>"><%= value.title %></a></h2>
+            <p><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> <%= value.job_type %> </p>
+            <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%= value.city.present? ? value.city + ', ' : '' %> <%= value.country.present? ? value.country.name : '' %></p>
+            </div>
+          </li>
+        <%
+              end
+           end  
+        %>  
+         
+        </ul> 
+      </div>
+
+      <div class="marginB15"><%= image_tag("googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %> </div>
+
+      <div class="wiphome marginB15 clearfix">
+        <h2>Popular Today</h2>
+        <ul class="margin">
+          <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+          <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
+        </ul>
+      </div>
+
+      <div class="contractwrap clearfix">
+        <h2>contract type</h2>
+        <ul>
+          <% if @contracttype.present? 
+              @contracttype.each_with_index do |value, index|
+          %>
+          <li class="clearfix">
+            <div class="pull-left"><%= value.name %></div>
+            <div class="pull-right gray-txt marginR5"><!-- <i aria-hidden="true" class="fa fa-bookmark txt16"></i> --></div>
+          </li>
+          <%  
+              end
+          end %>
+
+          
+        </ul>
+      </div>
+
+      <div class="contractwrap clearfix">
+        <h2>Job Categories</h2>
+        <ul>
+          <% if @catgorytype.present? 
+              @catgorytype.each_with_index do |value, index|
+          %>
+
+          <li class="clearfix"><span class="pull-left"><%= value.name %></span><span class="pull-right gray-txt marginR5"></span></li>
+        
+         <% end 
+          end
+         %>  
+         
+        </ul>
+      </div>
+
+
+    </div>
+
+    <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
+        <%#= paginate @result %>
+    </div>
+    
+  </section>
+
+</div>
+
+<footer class="footer clearfix padding">
+  <%= render 'layouts/lastfooter' %>
+</footer>
+<script type='text/javascript'>
+  function redirect_to_create_job(){
+      window.location.href = "<%= create_job_path %>";
+  }
+
+  function redirect_to_job_on_map(){
+
+      window.location.href = "<%= job_list_on_map_path %>";
+  }
+
+  function redirect_to_company_on_map(){
+    window.location.href = "<%= job_company_list_on_map_path %>";
+  }
+
+
+
+  
+</script>
+
+<script type="text/javascript">
+  var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  app.controller('myCtrl', function($sce, $scope, $http) {  
+//alert('jghj');
+    $scope.filter = function() {
+          
+          list_url = '/job/get_job_home_list?'; 
+          
+          if(typeof $scope.country_id !== 'undefined' && $scope.country_id != ''){
+            list_url += '&country_id=' + $scope.country_id
+          }
+
+          if(typeof $scope.job_type !== 'undefined' && $scope.job_type != ''  && $scope.job_type != 'all'){
+            list_url += '&job_type=' + $scope.job_type
+          }
+
+          if(typeof $scope.job_category !== 'undefined' && $scope.job_category != ''  && $scope.job_category != 'all'){
+            list_url += '&job_category=' + $scope.job_category
+          }
+
+          if(typeof $scope.work_remotely !== 'undefined' && $scope.work_remotely != ''  && $scope.work_remotely != 'all'){
+            list_url += '&work_remotely=' + $scope.work_remotely
+          }
+
+          if(typeof $scope.relocation_asistance !== 'undefined' && $scope.relocation_asistance != ''  && $scope.relocation_asistance != 'all'){
+            list_url += '&relocation_asistance=' + $scope.relocation_asistance
+          }
+
+
+         
+          $http.get(list_url).then(function (response) {
+               $scope.final_result   = response.data;          
+          });
+      };
+      $scope.filter();
+
+     $scope.searchByCountry = function(id) {
+        $scope.country_id = id;
+         $scope.filter();
+     };
+
+     $scope.searchByJobType = function(value) {
+        $scope.job_type = value;
+         $scope.filter();
+     };
+
+    $scope.searchByCategoryType = function(value) {
+        $scope.job_category = value;
+         $scope.filter();
+     };
+
+    $scope.searchByWorkRemote = function(value) {
+        $scope.work_remotely = value;
+         $scope.filter();
+     };
+
+
+     $scope.searchByRelocationAssistance = function(value) {
+        $scope.relocation_asistance = value;
+         $scope.filter();
+     };
+  });
+</script>

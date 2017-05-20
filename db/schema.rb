@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508070150) do
+ActiveRecord::Schema.define(version: 20170519104028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -305,6 +305,9 @@ ActiveRecord::Schema.define(version: 20170508070150) do
     t.boolean  "is_feature",            default: false
     t.json     "post_type_id"
     t.json     "challenge"
+    t.string   "paramlink"
+    t.string   "product_id"
+    t.integer  "file_format_id"
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -325,6 +328,13 @@ ActiveRecord::Schema.define(version: 20170508070150) do
     t.text     "answer"
     t.boolean  "active",     default: true, null: false
     t.integer  "position"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "file_formats", force: :cascade do |t|
+    t.string   "name"
+    t.boolean  "status",     default: true
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
@@ -730,6 +740,19 @@ ActiveRecord::Schema.define(version: 20170508070150) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "renderers", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "image"
+    t.string   "slug"
+    t.integer  "parent_id"
+    t.integer  "status",      default: 1
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "renderers", ["parent_id"], name: "index_renderers_on_parent_id", using: :btree
+
   create_table "reports", force: :cascade do |t|
     t.integer  "user_id",      default: 0
     t.integer  "post_id",      default: 0
@@ -1021,6 +1044,10 @@ ActiveRecord::Schema.define(version: 20170508070150) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "zip_caption"
+    t.json     "software"
+    t.json     "software_version"
+    t.json     "renderer"
+    t.json     "renderer_version"
   end
 
   add_index "zip_files", ["zipfileable_id"], name: "index_zip_files_on_zipfileable_id", using: :btree

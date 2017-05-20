@@ -1623,3 +1623,73 @@ iframe::-webkit-scrollbar {
 .default-popup .signupnew{ width:100%; display:block;}
 .default-popup .select-wrapper { position:relative;}
 .default-popup .select-wrapper, .default-popup .select-wrapper select { width:100%; border:1px solid #333333; height: 39px; background:#171717 image-url("dropdown.png") no-repeat scroll 98% center}
+
+
+
+/*================================================== Cart Page Css =================================================*/
+.site-page--checkout .checkout-steps { display: block; width: 100%; font-size: 1.25rem; line-height: 30px; font-weight: 300; position: relative; top: 20px; z-index: 50; }
+.site-page--checkout .checkout-steps:after { display: block; width: 100%; height: 10px; border-radius: 0; background: #e0ddd2; position: absolute; bottom: 18px; left: 0; z-index: -1; content: ""; opacity: 0.5; }
+.site-page--checkout .checkout-steps ul { margin: 0; padding: 0; list-style: none; margin-top: 50px; position: relative; top: -5px; }
+.site-page--checkout .checkout-steps ul>li.is-active { font-weight: 400; }
+.site-page--checkout .checkout-steps--3-way ul>li { width: 33%; }
+.site-page--checkout .checkout-steps ul>li { display: block; width: 33%; float: left; text-align: center; position: relative; font-size: 18px; }
+.site-page--checkout .checkout-steps ul>li.is-active a { color: #0db3f1; cursor: default; opacity: 1; }
+.site-page--checkout .checkout-steps ul>li.is-active:after { display: block; width: 50%; height: 10px; border-radius: 0 10px 10px 0; background: #0db3f1; position: absolute; bottom: 13px; left: 0; z-index: 1; content: ""; }
+.site-page--checkout .checkout-steps ul a { display: inline-block; padding: 0 0 40px; background: image-url('dots.png') no-repeat center 40px; text-decoration: none; color: #131518; position: relative; z-index: 99; }
+.site-page--checkout .checkout-steps ul>li.is-disabled a { color: #ccc; cursor: default; }
+.checkout-content { background: #222; padding: 40px 20px 20px 20px; margin-bottom: 60px; }
+.cart-actions { display: block; width: 100%; margin-bottom: 10px; padding-bottom: 25px; border-bottom: 1px solid #333; }
+.cart-actions__checkbox-controls { float: left; line-height: 35px; }
+.button { background: #67c4b0; display: inline-block; height: 33px; padding: 0 10px; border: 0; border-radius: 5px; color: white; font-size: 1rem; line-height: 33px; text-decoration: none; text-align: center; -webkit-transition: 0.15s ease-in-out background; transition: 0.15s ease-in-out background; cursor: pointer; vertical-align: middle; -webkit-font-smoothing: antialiased; }
+.button--dark { background: #000; height: 24px; padding: 0 9px; font-size: 0.6875rem; line-height: 20px; padding-bottom: 4px; }
+.cart-actions__bonus-credits-info { display: inline-block; width: auto; margin: 0 auto; border: 1px solid #333; border-radius: 5px; padding: 0 10px; line-height: 35px; color: #6d6d6d; background: #111; }
+.cart-actions .bluebtn { line-height: 22px; padding: 5px 20px 7px; }
+.product-list { display: block; width: 100%; font-size: 0.875rem; line-height: 18px; }
+.product-list__item { display: block; width: 100%; padding: 10px 0; border-bottom: 1px solid #333; position: relative; overflow: hidden; }
+.product-list__item-check { display: inline-block; vertical-align: top; margin-right: 10px; }
+.product-list__item-preview { display: inline-block; vertical-align: top; width: 50px; height: 35px; margin-right: 10px; border-radius: 3px; overflow: hidden; }
+.product-list__item-preview.is-with-credit-badge { position: relative; overflow: hidden; }
+.product-list__item-info { display: inline-block; vertical-align: top; }
+.product-list__item-shop-credit-badge { font-size: 0.625rem; display: block; position: absolute; -webkit-transform: rotate(-45deg); transform: rotate(-45deg); z-index: 98; top: -11px; right: 44%; width: 50px; padding: 10px 0 0; background: #0db3f1; color: #fff; text-align: center; opacity: 0.7; }
+.product-list__item-title { margin: 0; font-size: 1rem; line-height: 20px; }
+.product-list__item-summary { font-size: 0.875rem; line-height: 18px; color: #ccc; }
+.product-list__item-price { font-size: 1rem; line-height: 38px; font-weight: bold; color: #ccc; position: absolute; top: 5px; right: 30px; }
+.product-list--spaced .product-list__item-price { top: 10px; }
+.product-list__item-remove { display: block; width: 16px; height: 16px; color: #ce3c5c; position: absolute; top: 15px; right: 5px; cursor: pointer; -webkit-transition: 0.15s ease-in-out color; transition: 0.15s ease-in-out color; font-size: 16px; }
+.cart-summary { margin-top: 10px; margin-bottom: 10px; padding: 10px 0; border-bottom: 1px solid #333; line-height: 32px; font-size: 14px; color: #ccc; }
+.site-page--checkout .cart-summary__price-info .cart-summary__total-price, .site-page--checkout .cart-summary__price-info .cart-summary__money-saved, .site-page--checkout .cart-summary__price-info .cart-summary__credits-used, .site-page--checkout .cart-summary__price-info .cart-summary__final-price { position: relative; margin-right: 30px; }
+.cart-footer .cart-new-store-credits { font-size: 1.125rem; color: #ccc; padding-top: 10px; }
+
+
+/*============ Cart DropDown =============*/
+.cartdropdown .dropdown-menu{ width:400px; background:#222;}
+
+.navbar-inverse .navbar-nav > .cartdropdown.open > a, .navbar-inverse .navbar-nav > .cartdropdown.open > a:hover, .navbar-inverse .navbar-nav > .cartdropdown.open > a:focus{ background:#222;}
+
+.popover-box-title{ font-size:22px; color:#fff; background: image-url('dot.png') 15px 10px no-repeat; padding:10px 15px 10px 45px;}
+.popover-box-inner { font-size:16px; color:#ccc; padding:15px 15px 0;}
+.popover-box-inner span{ background:#0090ff; border-radius:50%; width:22px; height:22px; line-height:20px; display:inline-block; text-align:center;}
+
+.popover-box-indent { padding:15px;}
+.popover-box-indent .product-list-containe{ overflow-y:auto; height:167px;} 
+
+.popover-box__cart-price-info{ padding:0 15px; color:#ccc; line-height:26px; font-size:14px;}
+
+.popover-box__bonus-credits-info {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background: #111;
+	color:#ccc;
+	line-height:24px;
+}
+.popover-box__actions {
+	padding:10px 15px;
+    line-height: 33px;
+}
+
+.downwrapprice .checkbox-btn {
+  margin: 0 0 5px 0 !important;
+  width: 120px;
+}

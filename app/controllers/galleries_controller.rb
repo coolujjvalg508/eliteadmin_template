@@ -6,6 +6,12 @@ class GalleriesController < ApplicationController
 
     end 
   
+    def gallery
+
+
+    end
+    
+      
     def new
         #VideoInfo.disable_providers = %w[Wistia Vkontakte] 
         #video = VideoInfo.new('https://www.youtube.com/watch?v=lvtfD_rJ2hE')

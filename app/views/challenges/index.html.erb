@@ -1,7 +1,9 @@
 <section class="wip-navigation-wrap">
       <%= render 'layouts/browse_sub_header' %>
 </section>
-<div id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
+<div id="ContestList" ng-app="ContestList" >
+
+<div ng-controller="myCtrl as ctrl">
     <!-- Submenu Navigation -->
 
 
@@ -168,6 +170,7 @@
     </section>
 
 </div>
+</div>
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
@@ -186,7 +189,8 @@ $('.responsive-tabs').responsiveTabs({
 
 <script>
     // main page angular app start
-    var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+    var app = angular.module('ContestList', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
+
     app.controller('myCtrl', function($scope, $http) {
         $scope.filter = function() {
          
@@ -261,4 +265,5 @@ $('.responsive-tabs').responsiveTabs({
         
     
      });
+    angular.bootstrap(document.getElementById("ContestList"), ['ContestList']);
 </script>

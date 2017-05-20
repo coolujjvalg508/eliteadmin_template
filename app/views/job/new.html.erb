@@ -1,11 +1,13 @@
 <% previous_tags = get_previous_uploaded_job_tags %>
 <!-- All Dashboard Start -->
+<div id="New_Job" ng-app="New_Job" >
+<div ng-controller="NewJobCtrl">
 <section class="clearfix container-fluid-full">
   <div class="row-fluid">
     <div class="sidebar-left">
          <%= render 'layouts/navigation' %>
     </div>
-    <div class="content clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
+    <div class="content clearfix" >
       <div class="clearfix job-post-bread">
          <ul class="breadcrumb">
           <li><%= link_to 'Jobs', index_job_path %></li>
@@ -779,6 +781,8 @@
   </div>
 
 </section>
+</div>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -858,8 +862,9 @@
 
 
     // main page angular app start
-    var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
-    app.controller('myCtrl', function($scope, $http) {
+    var app = angular.module('New_Job', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker',"MainModule"]);
+
+    app.controller('NewJobCtrl', function($scope, $http) {
 
         var that = this;
 
@@ -1650,4 +1655,6 @@
     yearRange: '-70:+10',
         });
     });
+
+    angular.bootstrap(document.getElementById("New_Job"), ['New_Job']);
 </script>

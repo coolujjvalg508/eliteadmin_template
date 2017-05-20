@@ -1,5 +1,7 @@
 <!-- All Dashboard Start -->
-<section class="clearfix container-fluid-full" ng-app="myApp" ng-controller="galleryCtrl">
+<div id="contestsindex" ng-app="contestsindex">
+<div ng-controller="galleryCtrl">
+<section class="clearfix container-fluid-full">
 <div class="row-fluid">
 <div class="sidebar-left">
 <%= render 'layouts/navigation' %>
@@ -155,14 +157,16 @@
 </div>
 </div>
 </section>
-
+</div>
+</div>
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
 <%= render "layouts/lastfooter" %>
 </footer>
 
 <script>
-var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+var app = angular.module('contestsindex', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
+
 app.controller('galleryCtrl', function($scope, $http) {
     $scope.filter = function() {
         
@@ -196,6 +200,6 @@ app.controller('galleryCtrl', function($scope, $http) {
 });
 
 
-
+angular.bootstrap(document.getElementById("contestsindex"), ['contestsindex']);
 </script>
 

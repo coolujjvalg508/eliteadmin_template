@@ -1,5 +1,5 @@
 <!-- Join The Challange Page Start -->
-<section class="searchpage clearfix"  id="myApp2"  ng-app="myApp" ng-controller="searchCtrl"> 
+<section class="searchpage clearfix"  id="myApp"  ng-app="myApp" ng-controller="searchCtrl"> 
   <div class="container">
     <h2>Search</h2>
       <ul class="nav nav-tabs" role="tablist" style='margin-left:42%; border-bottom:none'>
@@ -131,7 +131,8 @@ $(document).ready(function(){
 });
 
 
-var app   = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+var app   = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
+
 app.controller('searchCtrl', function($scope, $http) { 
      
     $scope.filter = function() {
@@ -189,4 +190,5 @@ app.controller('searchCtrl', function($scope, $http) {
 
 
 });
+angular.bootstrap(document.getElementById("myApp"), ['myApp']);
 </script>

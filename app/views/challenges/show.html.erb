@@ -1,5 +1,7 @@
 <!-- Join The Challange Page Start --> 
-<section class="challengewrap clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
+<div id="contestshow" ng-app="contestshow" >
+<div ng-controller="myCtrl as ctrl">
+<section class="challengewrap clearfix" >
   <div class="container">
     <h2><%= @challenge_data.title.present? ? @challenge_data.title : '' %></h2>
     <div class="chanllenge-newtxt">Brought to you by <span class="blue-txt"><%= @challenge_data.hosts.present? ? @challenge_data.hosts : '' %></span></div>
@@ -376,6 +378,8 @@
     </div>
   </div>
 </section>
+</div>
+</div>
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
@@ -416,7 +420,8 @@
 
 <script>
     // main page angular app start
-    var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+    var app = angular.module('contestshow', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
+
     app.controller('myCtrl', function($scope, $http) {
         $scope.filter = function() {
         
@@ -453,4 +458,5 @@
         };
 
      });
+    angular.bootstrap(document.getElementById("contestshow"), ['contestshow']);
 </script>

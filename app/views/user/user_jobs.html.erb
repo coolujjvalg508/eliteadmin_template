@@ -86,7 +86,7 @@
 </div>
 
 <script type="text/javascript">
-  var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+  var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
   app.controller('myCtrl', function($sce, $scope, $http) {  
 
     $scope.filter = function() {

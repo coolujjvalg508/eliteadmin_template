@@ -2,7 +2,8 @@
 <section class="wip-navigation-wrap">
       <%= render 'layouts/browse_sub_header' %>
 </section>
-<div id="myApp2"  ng-app="myApp" ng-controller="browseAllArtworkCtrl" >
+<div id="Browse_allartwork"  ng-app="Browse_allartwork" >
+<div ng-controller="Browse_allartworkCtrl">
 <!-- Showcase & Discover Creative Work -->
 <section class="clearfix showcase-wrap text-center">
   <div class="container">
@@ -156,6 +157,9 @@
 
   </div>
 </section>
+</div>
+</div>
+
 
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
@@ -170,8 +174,9 @@
 <script type="text/javascript">
 
   // main page angular app start
-  var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
-  app.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
+  var app = angular.module('Browse_allartwork', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
+ // var app = angular.module('myApp', []);
+  app.controller('Browse_allartworkCtrl', function($sce, $scope, $http) {
       
     $scope.filter = function() {
         
@@ -254,5 +259,5 @@
   });
 
   // main page angular app end
-
+angular.bootstrap(document.getElementById("Browse_allartwork"), ['Browse_allartwork']);
 </script>

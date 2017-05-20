@@ -116,9 +116,9 @@
 <script>
 
     // main page angular app start
-    var app = angular.module('myApp', ["angularLazyImg"]);
+    var app = angular.module('myApp', ["angularLazyImg","MainModule"]);
     app.controller('myCtrl', function($scope, $http) {
 
     });
-
+angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>

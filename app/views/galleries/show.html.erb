@@ -1,5 +1,6 @@
 <!-- WIP Details Section -->
-
+<div id="myApp" ng-app="myApp">
+<div ng-controller="galleryCtrl">
 <section class="wipdetails-container clearfix" ng-app="myApp" ng-controller="galleryCtrl">
 <div class="wipdetails-left clearfix">
 <div class="marginB15 clearfix">
@@ -401,13 +402,15 @@
 
 
 </section>
+</div>
+</div>
 <%= javascript_include_tag "pgwslideshow" %>
 <script>
 var app = angular.module('myApp',[]);
     app.controller('galleryCtrl', function($scope, $http) {
 
 });
-
+angular.bootstrap(document.getElementById("myApp"), ['myApp']);
 $(document).ready(function() {
     $('.pgwSlideshow').pgwSlideshow();
     $.ajax({

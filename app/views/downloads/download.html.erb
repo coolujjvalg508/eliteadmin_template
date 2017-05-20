@@ -1,29 +1,10 @@
-<!-- Submenu Navigation -->
-<section class="wip-navigation-wrap">
-  <div class="navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header"><a class="navbar-brand hidden-md hidden-lg" href="#">All Item</a> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
-      <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">All Item</a></li>
-          <li><a href="#">3D Models</a></li>
-          <li><a href="#">Cars</a></li>
-          <li><a href="#">HDRI Images</a></li>
-          <li><a href="#">CG Textures</a></li>
-          <li><a href="#">Materials &amp; Shaders</a></li>
-          <li><a href="#">Base Meshes</a></li>
-          <li><a href="#">Scripts &amp; Plugins</a></li>
-          <li><a href="#">Tutorial</a></li>
-          <li><a href="#">more</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
 
-<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+<div id="myApp2" ng-app="myApp" >
+<%= render 'layouts/download_sub_header' %>
+
+<div ng-controller="myCtrl" >
   <!-- Showcase & Discover Creative Work -->
-  <section class="clearfix downloadwrap text-center">
+  <section  class="clearfix downloadwrap text-center">
     <div class="container">
       <div class="download-title text-center">Buy &amp; Sell Marketplace &amp; Free Downloads</div>
       <div class="download-txt text-center">for <a href="#">3D Models <i></i></a>, <a href="#">3D Rigs<i></i></a>, <a href="#">Materials &amp; Shaders<i></i></a>, <a href="#">Textures<i></i></a> and more</div>
@@ -155,6 +136,7 @@
 
         <div class="clearfix downbox" ng-repeat="x in download_data">
           <div class="clearfix downtop">
+
             <h2>{{x.PostType.type_name}}</h2>
             <a href="#" class="text-uppercase pull-right">view all</a> </div>
           <div class="clearfix">
@@ -167,10 +149,20 @@
                   <div class="down-txt"><span>{{y.title}}</span> <span class="pull-right price-txt">{{(y.free) ? 'Free' : '$' + y.price}}</span></div>
                   <div class="clearfix down-name">
                     <div class="pull-left">by <span class="price-txt1">{{y.is_admin == 'Y' ? 'Admin' : y.user.firstname + ' ' + y.user.lastname}}</span></div>
-                    <div class="pull-right"> <span class="checkbox-btn">
-                      <input type="checkbox" value="value-1" id="rc{{y.id}}">
+                    <div class="pull-right"> 
+                    <span ng-if="!checkCart(y.product_id)" class="checkbox-btn">
+                      <input  type="checkbox" ng-click="AddTocart(y)" value="value-1" id="rc{{y.id}}">
+                    
+
                       <label for="rc{{y.id}}" onclick=""></label>
-                      </span> <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
+                    </span> 
+                    <span ng-if="checkCart(y.product_id)" class="checkbox-btn">
+                      <input  type="checkbox" ng-checked="true" ng-click="RemoveThis(y)" value="value-1" id="rc{{y.id}}">
+                    
+
+                      <label for="rc{{y.id}}" onclick=""></label>
+                      </span> 
+                      <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
                   </div>
                 </div>
               </li>
@@ -184,6 +176,7 @@
       </div>
     </div>
   </section>
+  <div>
 </div>
 
 <!-- Footer Start -->
@@ -195,12 +188,14 @@
 <script type="text/javascript">
 
   // main page angular app start
-  var app = angular.module('myApp', ["angularLazyImg"]);
-  app.controller('myCtrl', function($scope, $http) {
+  var app = angular.module('myApp', ["angularLazyImg","MainModule"]);
+   
+
+app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
       
     $scope.filter = function() {
         
-        list_url = '/gallery/get_download_list?';
+        list_url = '/downloads/get_download_list?';
 
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != '' && $scope.viewFeaturedType != 'all'){
           list_url += '&is_feature=' + $scope.viewFeaturedType
@@ -220,6 +215,7 @@
 
         $http.get(list_url).then(function (response) {
           $scope.download_data = response.data;
+          console.log(JSON.stringify($scope.download_data));
         });
     };
     $scope.filter();
@@ -274,7 +270,7 @@
 
       if(typeof $scope.viewPostType !== 'undefined' && $scope.viewPostType != '' && $scope.viewPostType != 'all'){
 
-        list_url = '/gallery/get_post_type_category_list?';
+        list_url = '/downloads/get_post_type_category_list?';
         list_url += '&post_type_id=' + $scope.viewPostType;
 
         $http.get(list_url).then(function (response) {
@@ -296,9 +292,45 @@
           });
         }
     };
+    $rootScope.cart = Cart.cart;
+        $rootScope.checkCart = function(id){
+  
+        if($scope.cart.skuArray.includes(id)){
+          debugger;
+            return true;
+        }else{
+            return false;
+        }
+    };
+  $scope.RemoveThis = function (product) {
+    
+      $scope.cart.addItem({ sku: product.product_id}, -10000000);
+      window.location.reload();
+  }
+    $scope.AddTocart = function (product) {
+      
+       $scope.cart.addItem(
+        { sku: product.product_id,
+          name: product.title,
+          slug:product.paramlink, 
+          mrp: product.price, 
+          price: product.price, 
+          quantity: 1, 
+          image: product.company_logo.thumb.url, 
+          weight: 0 }, true);
+       window.location.reload();
+    };
 
   });
+app.controller('downloadHead', function($scope, $http) {
+        var uRl = 'downloads/get_post_type_list';
+        $http.get(uRl).then(function (response) {
+          $scope.download_Heads = response.data;
+          
+        });
+  });
 
-  // main page angular app end
+ 
+    angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 
 </script>

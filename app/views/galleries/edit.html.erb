@@ -1,12 +1,14 @@
 <% previous_tags = get_previous_uploaded_gallery_tags %>
 <!-- All Dashboard Start -->
 <!-- <input type ="file" id="marmosetTest">  -->
+<div id="galleryedit" ng-app="galleryedit">
+<div ng-controller="myCtrl as ctrl">
 <section class="clearfix container-fluid-full">
     <div class="row-fluid">
         <div class="sidebar-left">
             <%= render 'layouts/navigation' %>
         </div>
-        <div class="content clearfix" id="myApp2" ng-app="myApp" ng-controller="myCtrl as ctrl">
+        <div class="content clearfix" >
             <div class="clearfix job-post-bread">
                 <ul class="breadcrumb">
                   <li><%= link_to 'Gallery', index_gallery_path %></li>
@@ -438,6 +440,9 @@
     </div>
 </section>
 
+</div>
+</div>
+
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
  <%= render 'layouts/lastfooter' %>
@@ -447,7 +452,8 @@
 
 
     // main page angular app start
-    var app = angular.module('myApp', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+    var app = angular.module('galleryedit', ["angularLazyImg", 'ui.bootstrap', 'ui.bootstrap.datetimepicker',"MainModule"]);
+
     app.controller('myCtrl', function($scope, $http) {
 
         var that = this;
@@ -841,6 +847,7 @@
 
     
     });
+    angular.bootstrap(document.getElementById("galleryedit"), ['galleryedit']);
 
     $(document).ready(function(){
 

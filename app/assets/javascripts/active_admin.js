@@ -10,6 +10,7 @@
 //= require sketchfab-viewer-1.0.0
 //= require active_admin_datetimepicker
 //= require chosen-jquery
+//= require select2
 
 //= require tinymce
 
@@ -54,10 +55,26 @@ $(document).ready(function() {
   
 });
 
+	$(document).on('click','.has_many_add',function(){
+		 setTimeout(function(){  
+			$(".chosen-input").chosen();
+			$(".js-example-tags").select2({
+				  tags: true
+			});
+		}, 500);
+
+	});
+
 
 
 $(document).ready(function() {
-	
+
+	$(".js-example-tags").select2({
+	  tags: true
+	});
+
+
+
   $('#deletecomment').on('click',function(){
 	  userid	=	$(this).attr('title');
 		if(confirm("Are you sure you want to delete comment of this user?")){

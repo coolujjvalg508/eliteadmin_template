@@ -222,8 +222,9 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:sketchfebs_attributes].each do |index,img|
 						  unless params[:gallery][:sketchfebs_attributes][index][:sketchfeb].present?
 							params[:gallery][:sketchfebs_attributes][index][:sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:sketchfeb_cache]
-							params[:gallery][:sketchfebs_attributes][index][:caption_sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:caption_sketchfeb]
+							
 						  end
+						params[:gallery][:sketchfebs_attributes][index][:caption_sketchfeb] = params[:gallery][:sketchfebs_attributes][index][:caption_sketchfeb]
 					end
 				super	
 			
@@ -231,8 +232,9 @@ ActiveAdmin.register Gallery , as: "Project" do
 					params[:gallery][:marmosets_attributes].each do |index,img|
 						  unless params[:gallery][:marmosets_attributes][index][:marmoset].present?
 							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:marmoset_cache]
-							params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:caption_marmoset]
+							
 						  end
+						  params[:gallery][:marmosets_attributes][index][:marmoset] = params[:gallery][:marmosets_attributes][index][:caption_marmoset]
 					end
 				super	
 		 else

@@ -16,6 +16,7 @@
  @import "font-awesome";
  @import "active_admin_datetimepicker";
  @import "chosen";
+ @import "select2";
   
 
 #wrapper .flashes .flash_notice{
@@ -286,9 +287,79 @@ margin-left:-187px
   width: 500px !important;
 }
 
-.chosen-container {
+.chosen-container, .select2-container {
 	width: 500px !important;
 }
+
+.select2-container--default .select2-selection--multiple
+{
+  background-color: rgb(255, 255, 255);
+    background-image: linear-gradient(rgb(238, 238, 238) 1%, rgb(255, 255, 255) 15%);
+    border: 1px solid rgb(170, 170, 170);
+    cursor: text;
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    padding: 0 5px;
+    position: relative;
+    width: 100%;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-clip: padding-box;
+    background-color: rgb(238, 238, 238);
+    background-image: linear-gradient(rgb(244, 244, 244) 20%, rgb(240, 240, 240) 50%, rgb(232, 232, 232) 52%, rgb(238, 238, 238) 100%);
+    background-repeat: repeat-x;
+    background-size: 100% 19px;
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 3px;
+    box-shadow: 0 0 2px rgb(255, 255, 255) inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+    color: rgb(51, 51, 51);
+    cursor: default;
+    line-height: 13px;
+    margin: 3px 5px 3px 0;
+    max-width: 100%;
+    padding: 3px 20px 3px 5px;
+    position: relative;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-clip: padding-box;
+    background-color: rgb(238, 238, 238);
+    background-image: linear-gradient(rgb(244, 244, 244) 20%, rgb(240, 240, 240) 50%, rgb(232, 232, 232) 52%, rgb(238, 238, 238) 100%);
+    background-repeat: repeat-x;
+    background-size: 100% 19px;
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 3px;
+    box-shadow: 0 0 2px rgb(255, 255, 255) inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+    color: rgb(51, 51, 51);
+    cursor: default;
+    line-height: 13px;
+    margin: 3px 5px 3px 0;
+    max-width: 100%;
+    padding: 3px 3px 3px 5px;
+    position: relative;
+    font-size: 13px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    box-sizing: border-box;
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 4px;
+    margin-right: 2px;
+}
+
 
 .label{
 	font-size:12px

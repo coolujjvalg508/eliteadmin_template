@@ -1,6 +1,7 @@
 class Download < ActiveRecord::Base
 include Bootsy::Container
-mount_uploader :company_logo, ImageUploader
+
+ mount_uploader :company_logo, ImageUploader
 
  validates :title, presence: true
 
@@ -22,6 +23,10 @@ mount_uploader :company_logo, ImageUploader
  has_many :lessons, as: :lessonable, dependent: :destroy
  has_many :zip_files, as: :zipfileable, dependent: :destroy
  has_many :zip_caption
+ has_many :software
+ has_many :software_version
+ has_many :renderer
+ has_many :renderer_version
  
  has_many :lesson_title
  has_many :lesson_description
@@ -32,9 +37,10 @@ mount_uploader :company_logo, ImageUploader
  
  has_many :tags, as: :tagable, dependent: :destroy
 
- 
- 
-  
+ UNWRAPPED_UV = ['Unknown', 'Non-overlapping', 'Overlapping', 'Mixed', 'No']
+ GEOMETRY = ['Polygon mesh', 'Subdivision-ready', 'Nurbs', 'Other']
+ LICENSE_TYPE = ['Royalty free', 'Editorial', 'Custom']
+   
  accepts_nested_attributes_for :images, reject_if: proc { |attributes| attributes['image'].blank? || attributes['image'].nil? }, allow_destroy: true 
  
  accepts_nested_attributes_for :videos, reject_if: proc { |attributes| attributes['video'].blank? || attributes['video'].nil? }, allow_destroy: true
@@ -45,5 +51,5 @@ mount_uploader :company_logo, ImageUploader
  accepts_nested_attributes_for :lessons, reject_if: proc { |attributes| attributes['lesson_video'].blank? || attributes['lesson_video'].nil? }, allow_destroy: true
  accepts_nested_attributes_for :zip_files, reject_if: proc { |attributes| attributes['zipfile'].blank? || attributes['zipfile'].nil? }, allow_destroy: true
  
-  accepts_nested_attributes_for :tags, reject_if: proc { |attributes| attributes['tag'].blank? || attributes['tag'].nil? }, allow_destroy: true
+ accepts_nested_attributes_for :tags, reject_if: proc { |attributes| attributes['tag'].blank? || attributes['tag'].nil? }, allow_destroy: true
 end

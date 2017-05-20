@@ -88,7 +88,7 @@
 </section>
 
 <script>
-var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
+var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
 app.controller('connectionCtrl', function($scope, $http) {
     
     $scope.filter = function() {
@@ -148,4 +148,5 @@ app.controller('connectionCtrl', function($scope, $http) {
     };
   
 });
+angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>

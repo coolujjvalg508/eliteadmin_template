@@ -1,6 +1,7 @@
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEFPWdTCFDD4tc2P0P8KeMR5uEJD43DTo"></script> -->
 <%= javascript_include_tag "map/api","map/markerclusterer","map/ng-map" %>
-<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+<div id="JobCompanyList" ng-app="JobCompanyList" >
+<div ng-controller="myCtrl">
 <!-- Submenu Navigation -->
 <section class="wip-navigation-wrap">
 <div class="navbar-default">
@@ -527,6 +528,8 @@
 </section>
 </section>
 </div>
+</div>
+
 <footer class="footer clearfix padding">
   <%= render 'layouts/lastfooter' %>
 </footer>
@@ -546,7 +549,7 @@
 </script>
 
 <script type="text/javascript">
-  var app = angular.module('myApp',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap"]);
+  var app = angular.module('JobCompanyList',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap","MainModule"]);
   app.controller('myCtrl', function($sce, $scope, $http, NgMap) {  
 //alert('jghj');
 
@@ -660,4 +663,6 @@
 
      /***********************************************************************************************/   
   });
+
+  angular.bootstrap(document.getElementById("JobCompanyList"), ['JobCompanyList']);
 </script>
