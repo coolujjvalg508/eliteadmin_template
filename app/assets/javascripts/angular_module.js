@@ -1,9 +1,56 @@
-angular.module('MainModule', [])
+angular.module('MainModule', ['credit-cards'])
 .factory('Cart', function ($location) {
         var myCart = new ShoppingCart('MyShop');
         return {
             cart: myCart
         };
+})
+.filter('formatDate', function(dateFilter) {
+   var formattedDate = '';
+   return function(dt) {
+     console.log(new Date(dt.split('-').join('/'))); 
+     formattedDate = dateFilter(new Date(dt.split('-').join('/')), 'd/M/yyyy');   
+     return formattedDate;
+   }
+     
+})
+.filter('yesNo', function () {
+  return function (boolean) {
+    return boolean ? 'Yes' : 'No';
+  }
+})
+  .directive('capitalize', function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, modelCtrl) {
+        var capitalize = function(inputValue) {
+          if (inputValue == undefined) inputValue = '';
+          var capitalized = inputValue.toUpperCase();
+          if (capitalized !== inputValue) {
+            modelCtrl.$setViewValue(capitalized);
+            modelCtrl.$render();
+          }
+          return capitalized;
+        }
+        modelCtrl.$parsers.push(capitalize);
+        capitalize(scope[attrs.ngModel]); // capitalize initial value
+      }
+    };
+  })
+.directive('onlyNumbers', function() {
+    return function(scope, element, attrs) {
+        var keyCode = [8,9,13,37,39,46,48,49,50,51,52,53,54,55,56,57,96,97,98,99,100,101,102,103,104,105,110,190];
+        element.bind('keydown', function(event) {
+            if($.inArray(event.which,keyCode) === -1) {
+                scope.$apply(function(){
+                    scope.$eval(attrs.onlyNum);
+                    event.preventDefault();
+                });
+                event.preventDefault();
+            }
+
+        });
+    };
 })
 .directive('checklistModel', ['$parse', '$compile', function($parse, $compile) {
   // contains
@@ -259,3 +306,17 @@ ShoppingCart.prototype.toNumber = function (value) {
     value = value * 1;
     return isNaN(value) ? 0 : value;
 };
+function loading() {
+            var loading_html = '<div style="margin: -3px; background-position: center; padding: 15% 37% 30% 30%; text-align: center; vertical-align: middle; font-family: Verdana; color: White;';
+            loading_html = loading_html + ' position:fixed; opacity:0.4; height: 100%; width: 100%; font-size: small; z-index: 110000;background-color:Black; top: 0px; right: 0px; bottom: 0px; left: 0px;" ';
+            loading_html = loading_html + ' id="dvProgress" style="z-index: 1550 !important;" ><div id="inner" style="float:right;" >';
+            loading_html = loading_html + '<img src="assets/loading.gif" style="vertical-align: middle; opacity:3.5;" alt="Processing" /><br/></div>';
+            loading_html = loading_html + ' </div>';
+            $("body").append(loading_html);
+            /*return false;*/
+        }
+        function unloading() {
+            $('#inner').fadeOut('fast');
+            $("#dvProgress").css("display", "none");
+            $("#dvProgress").remove();
+        }

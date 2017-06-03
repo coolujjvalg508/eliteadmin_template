@@ -29,6 +29,8 @@
 //= require angular
 //= require angular_module
 //= require angularjs-slider/rzslider
+//= require angular-sanitize
+//= require angular-credit-cards
 
 
 //= require dirPagination
@@ -51,6 +53,7 @@
 // require bootstrap-datetimepicker
 // require scaffold
 //= require tinymce
+//= require jquery.raty
 
 $(document).ready(function(){
   	$(".alert").fadeIn();
@@ -68,7 +71,7 @@ $(document).ready(function(){
 			  
 			  selector: '.tinymce',
 			  height: 300,
-			  width: 935,
+			  width: 770,
 			  themes: "modern",
 			  menubar: false,
 			  /*uploadimage_form_url : '/admin/images/saveimage',*/ /* uploadimage */

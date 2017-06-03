@@ -19,6 +19,30 @@
 	    });
 	}, 1000);
 
+	$(document).on('click','.addMoreBtn',function(){
+		set_custom_select();
+	});
+
+	$(document).on('change','.addMoreBtn',function(){
+		set_custom_select();
+	});
+
+	function set_custom_select(){
+		setTimeout(function(){
+			$(".custom-select").each(function(){
+				if(!$(this).parent().is('.select-wrapper')){
+				
+					$(this).wrap("<span class='select-wrapper'></span>");
+	        		$(this).after("<span class='holder'></span>");
+
+	        		var selectedOption = $(this).find(":selected").text();
+		        	$(this).next(".holder").text(selectedOption);
+				}
+		    });
+		}, 500);
+	}
+
+
 	/* $('.responsive').slick({
 		  dots: true,
 		  infinite: false,

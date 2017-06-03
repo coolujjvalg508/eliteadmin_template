@@ -1,6 +1,6 @@
 class JobController < ApplicationController
   
-   before_action :authenticate_user!, only: [:new, :crete, :edit, :update, :get_job_list, :count_user_job_post]
+   before_action :authenticate_user!, only: [:new, :listing_index, :create, :edit, :update, :get_job_list, :count_user_job_post]
 
   def index
     authenticate_user!
@@ -531,8 +531,6 @@ class JobController < ApplicationController
             redirect_to index_job_path, notice: 'Job Successfully Updated.'
 
         else
-
-          abort(@job.errors.to_json)
             render 'new'
         end    
 
@@ -915,6 +913,4 @@ class JobController < ApplicationController
             end  
 
         end 
-
-
 end

@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-md-12 header-search paddinB10 paddinT10">
             <div class="input-group stylish-input-group">
-              <input type="text" class="form-control"  placeholder="Search 520 000 3D models" >
+              <input type="text" class="form-control" ng-model="search" placeholder="Search 520 000 3D models" >
               <span class="input-group-addon">
               <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
               </span> </div>
@@ -33,7 +33,7 @@
 
   <!-- Download Indent Start -->
   <section class="clearfix downloadpageindent">
-    <div class="container" ng-repeat="post in post_type_category_data">
+    <div class="container" dir-paginate="post in post_type_category_data | filter:search | itemsPerPage:10" >
       <div class="downcontent clearfix">
         <div class="clearfix padding15">
           <div class="row">
@@ -55,8 +55,19 @@
         </div>
         <div class="clearfix downloadpagelink">
           <ul>
-            <li ng-repeat="subcat in post.post_type_sub_categories"><a href="#">{{subcat.name}}</a></li>
+            <li ng-repeat="subcat in post.post_type_sub_categories">
+            <a href="/downloads/{{PageName}}/{{post.post_type_category.slug}}/{{subcat.slug}}">{{subcat.name}}</a></li>
+     
           </ul>
+          <div class="text-center text-uppercase">
+    <div class="pagination clearfix">
+            <dir-pagination-controls
+                 max-size="3"
+                 direction-links="true"
+                 boundary-links="false" >
+            </dir-pagination-controls>
+          </div>
+    </div>
         </div>
       </div>
    
@@ -67,7 +78,7 @@
   <%= render "layouts/lastfooter" %>
 </footer>
 <script type="text/javascript">
-  var app = angular.module('downloadPost', []);
+  var app = angular.module('downloadPost',["angularUtils.directives.dirPagination","rzModule","MainModule"]);
    app.controller('postDetail',function($scope,$http,$location){
      var Url = window.location.href;
 

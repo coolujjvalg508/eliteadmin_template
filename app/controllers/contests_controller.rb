@@ -1,6 +1,6 @@
 class ContestsController < ApplicationController
 
-	before_action :authenticate_user!, only: [:join_challenge,:index, :new, :create, :edit, :update, :get_contest_post_list]
+	before_action :authenticate_user!, only: [:join_challenge,:index, :show, :new, :create, :edit, :update, :get_contest_post_list]
 	
 	def index
 	end

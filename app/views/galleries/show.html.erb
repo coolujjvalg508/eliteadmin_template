@@ -425,7 +425,7 @@ $(document).ready(function() {
       $.ajax({
           type: "get",
           url: "<%= get_artist_gallery_path %>" ,
-          data: {'user_id': <%= @gallery.user.id %>},
+          data: {'user_id': <%= @gallery.user_id %>},
           success: function(data){
                  $('#more_by_artist_dev').html(data.data);
              // $('#post_comments_'+gallery_id).val('');
@@ -433,20 +433,6 @@ $(document).ready(function() {
      });
 
 
-
-
-
-
-      $('#bookmarkbutton').on('click',function(){
-     /*     $.ajax({
-                type: "get",
-                url: "<%= get_all_collection_path %>" ,
-               success: function(data){
-                   alert(data);
-
-                }
-            });*/
-      });
 
 
 
@@ -480,81 +466,7 @@ $(document).ready(function() {
             });
     });
 
-      $.ajax({
-            type: "post",
-            url: "<%= check_save_like_path %>" ,
-            data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
-           success: function(data){
-              //alert(data.res)
-             if(data.res == 1) {
-                  $('#post_like_button').addClass('hidden');
-                  $('#post_dislike_button').removeClass('hidden');
-              }else{
-                   $('#post_like_button').removeClass('hidden');
-                   $('#post_dislike_button').addClass('hidden');
-              }
-
-            }
-        });
-
-
-
-    $('#post_like_button, #post_dislike_button').on('click',function(){
-      //alert('gh');
-            $.ajax({
-                type: "post",
-                url: "<%= save_like_path %>" ,
-                data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
-                success: function(data){
-                  //alert(data.res)
-                 if(data.res == 1) {
-                      $('#post_like_button').addClass('hidden');
-                      $('#post_dislike_button').removeClass('hidden');
-                  }else{
-                       $('#post_like_button').removeClass('hidden');
-                       $('#post_dislike_button').addClass('hidden');
-                  }
-
-                }
-            });
-    });
-
-
-
-    $.ajax({
-            type: "post",
-            url: "<%= check_follow_artist_path %>" ,
-            data: {'artist_id': '<%= @gallery.user.id %>'},
-            success: function(data){
-                //alert(data.res)
-               if(data.res == 1) {
-                        $('#follow_button').addClass('hidden');
-                        $('#unfollow_button').removeClass('hidden');
-                }else{
-                        $('#follow_button').removeClass('hidden');
-                        $('#unfollow_button').addClass('hidden');
-                }
-            }
-      });
-
-    $('#follow_button, #unfollow_button').on('click',function(){
-            $.ajax({
-                type: "post",
-                url: "<%= follow_artist_path %>" ,
-                data: {'artist_id': '<%= @gallery.user.id %>'},
-                success: function(data){
-                  //alert(data.res)
-                 if(data.res == 1) {
-                      $('#follow_button').addClass('hidden');
-                      $('#unfollow_button').removeClass('hidden');
-                  }else{
-                       $('#follow_button').removeClass('hidden');
-                       $('#unfollow_button').addClass('hidden');
-                  }
-
-                }
-            });
-    });
+     
 
 
 });
@@ -607,6 +519,82 @@ $(document).ready(function() {
               } 
 
       });
+
+       $.ajax({
+            type: "post",
+            url: "<%= check_save_like_path %>" ,
+            data: {'gallery_id': '<%= @gallery.id %>'},
+           success: function(data){
+              //alert(data.res)
+             if(data.res == 1) {
+                  $('#post_like_button').addClass('hidden');
+                  $('#post_dislike_button').removeClass('hidden');
+              }else{
+                   $('#post_like_button').removeClass('hidden');
+                   $('#post_dislike_button').addClass('hidden');
+              }
+
+            }
+        });
+
+
+
+    $('#post_like_button, #post_dislike_button').on('click',function(){
+      //alert('gh');
+            $.ajax({
+                type: "post",
+                url: "<%= save_like_path %>" ,
+                data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
+                success: function(data){
+                  //alert(data.res)
+                 if(data.res == 1) {
+                      $('#post_like_button').addClass('hidden');
+                      $('#post_dislike_button').removeClass('hidden');
+                  }else{
+                       $('#post_like_button').removeClass('hidden');
+                       $('#post_dislike_button').addClass('hidden');
+                  }
+
+                }
+            });
+    });
+
+
+
+    $.ajax({
+            type: "post",
+            url: "<%= check_follow_artist_path %>" ,
+            data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
+            success: function(data){
+                //alert(data.res)
+               if(data.res == 1) {
+                        $('#follow_button').addClass('hidden');
+                        $('#unfollow_button').removeClass('hidden');
+                }else{
+                        $('#follow_button').removeClass('hidden');
+                        $('#unfollow_button').addClass('hidden');
+                }
+            }
+      });
+
+    $('#follow_button, #unfollow_button').on('click',function(){
+            $.ajax({
+                type: "post",
+                url: "<%= follow_artist_path %>" ,
+                data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
+                success: function(data){
+                  //alert(data.res)
+                 if(data.res == 1) {
+                      $('#follow_button').addClass('hidden');
+                      $('#unfollow_button').removeClass('hidden');
+                  }else{
+                       $('#follow_button').removeClass('hidden');
+                       $('#unfollow_button').addClass('hidden');
+                  }
+
+                }
+            });
+    });
 
 
   });

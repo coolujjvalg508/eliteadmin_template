@@ -69,6 +69,28 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
+	type_value  =  $("#license_type_dropdown_download").val();
+	if(type_value == 'Custom'){
+		 $('#download_license_custom_info_input').show();
+	}else{
+		$('#download_license_custom_info_input').hide();
+
+	}
+
+	$('#license_type_dropdown_download').on('change',function(){
+		type_value  =  $(this).val();
+		if(type_value == 'Custom'){
+				$('#download_license_custom_info_input').show();
+		}else{
+			$('#download_license_custom_info_input').hide();
+
+		}
+
+	});
+
+
+
+
 	$(".js-example-tags").select2({
 	  tags: true
 	});

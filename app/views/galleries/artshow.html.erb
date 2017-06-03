@@ -198,7 +198,9 @@
         <div class="clearfix row">
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="combox">
+            <% if @gallery.user.present? %>
             <%= image_tag(@gallery.user.image.user_activity.url,:alt => "Comment") %>
+            <% end %>
             <%#= image_tag("comment.jpg",:alt => "Comment") %>
             </div>
             <div class="comleft"><%= @gallery.user.present? ? @gallery.user.firstname + ' ' + @gallery.user.lastname  : '' %>
@@ -207,7 +209,7 @@
                 <button id='follow_button' type="button" class="followbtnn"><i class="fa fa-plus-circle" aria-hidden="true"></i>  Follow</button>
                 <button id='unfollow_button'  type="button" class="followbtnn hidden"><i class="fa fa-check" aria-hidden="true"></i>  Following</button>
 
-                <span class="followcomment"><%= @gallery.user.follow_count.present? ? @gallery.user.follow_count : '' %></span></div>
+                <span class="followcomment"><%= @gallery.user.present? ? @gallery.user.follow_count : '' %></span></div>
             </div>
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12 text-right comright">
@@ -456,20 +458,70 @@ $(document).ready(function(){
      $.ajax({
           type: "get",
           url: "<%= get_artist_gallery_path %>" ,
-          data: {'user_id': <%= @gallery.user.id %>},
+          data: {'user_id': <%= @gallery.user_id %>},
           success: function(data){
                  $('#more_by_artist_dev').html(data.data);
              // $('#post_comments_'+gallery_id).val('');
           }
      });
 
+});
 
+</script>
+
+<% if user_signed_in? %>
+
+<script>
+
+  $(document).ready(function(){ 
+
+      $.ajax({
+        type: "get",
+        url: "<%= get_comment_path %>" ,
+        data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
+        success: function(data){
+          $('#commentslist_dev').html(data.data);
+        }
+      }); 
+
+    
+      $('[id^= post_comments_submit_]').on('click',function(){
+
+          gallery_id = $(this).attr('id').replace('post_comments_submit_','');
+          textareavalue   = $('#post_comments_'+gallery_id).val();
+          if(textareavalue == ''){
+              alert('Comment cannot be blank.');
+              return false;
+           }else{
+
+                  $.ajax({
+                      type: "post",
+                      url: "<%= save_comment_path %>" ,
+                      data: {'gallery_id': gallery_id,'description': textareavalue,'section_type': 'gallery_detail'},
+                      success: function(data){
+                          $('#post_comments_'+gallery_id).val('');
+                         
+                          $.ajax({
+                            type: "get",
+                            url: "<%= get_comment_path %>" ,
+                            data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
+                            success: function(data){
+                              $('#commentslist_dev').html(data.data);
+                              //return false;  
+                            }
+                        }); 
+
+                      }
+                  });
+              } 
+
+      });
 
 
       $.ajax({
             type: "post",
             url: "<%= check_save_like_path %>" ,
-            data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
+            data: {'gallery_id': '<%= @gallery.id %>'},
            success: function(data){
               //alert(data.res)
              if(data.res == 1) {
@@ -508,7 +560,7 @@ $(document).ready(function(){
     $.ajax({
             type: "post",
             url: "<%= check_follow_artist_path %>" ,
-            data: {'artist_id': '<%= @gallery.user.id %>'},
+            data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
             success: function(data){
                 //alert(data.res)
                if(data.res == 1) {
@@ -525,7 +577,7 @@ $(document).ready(function(){
             $.ajax({
                 type: "post",
                 url: "<%= follow_artist_path %>" ,
-                data: {'artist_id': '<%= @gallery.user.id %>'},
+                data: {'gallery_id': '<%= @gallery.id %>','artist_id': '<%= @gallery.user_id %>'},
                 success: function(data){
                   //alert(data.res)
                  if(data.res == 1) {
@@ -538,65 +590,6 @@ $(document).ready(function(){
 
                 }
             });
-    });
-
-   
-
-
-});
-
-
-
-
-</script>
-
-<% if user_signed_in? %>
-
-<script>
-  $(document).ready(function(){ 
-
-      $.ajax({
-        type: "get",
-        url: "<%= get_comment_path %>" ,
-        data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
-        success: function(data){
-          $('#commentslist_dev').html(data.data);
-        }
-      }); 
-
-
-
-    
-      $('[id^= post_comments_submit_]').on('click',function(){
-
-          gallery_id = $(this).attr('id').replace('post_comments_submit_','');
-          textareavalue   = $('#post_comments_'+gallery_id).val();
-          if(textareavalue == ''){
-              alert('Comment cannot be blank.');
-              return false;
-           }else{
-
-                  $.ajax({
-                      type: "post",
-                      url: "<%= save_comment_path %>" ,
-                      data: {'gallery_id': gallery_id,'description': textareavalue,'section_type': 'gallery_detail'},
-                      success: function(data){
-                          $('#post_comments_'+gallery_id).val('');
-                         
-                          $.ajax({
-                            type: "get",
-                            url: "<%= get_comment_path %>" ,
-                            data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
-                            success: function(data){
-                              $('#commentslist_dev').html(data.data);
-                              //return false;  
-                            }
-                        }); 
-
-                      }
-                  });
-              } 
-
       });
 
 

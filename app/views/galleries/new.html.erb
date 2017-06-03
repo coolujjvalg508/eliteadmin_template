@@ -411,8 +411,8 @@
                             <div class="clearfix row">
 
                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <% if 'edit' == params[:action] || 'update' == params[:action] %>
-                                        <%= link_to 'Delete'.html_safe, trash_gallery_path(@gallery), data: { confirm: 'Are you sure?' }, title: "Delete", class: "btn-link" %>
+                                    <% if 'edit' == params[:action] %>
+                                        <%= link_to 'Delete'.html_safe, trash_gallery_path(@gallery.paramlink), data: { confirm: 'Are you sure?' }, title: "Delete", class: "btn-link" %>
                                     <% end %>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-6 text-right">

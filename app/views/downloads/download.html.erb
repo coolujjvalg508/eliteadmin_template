@@ -11,37 +11,52 @@
       <div class="clearfix download-gallery-wrap">
         <div class="col-md-3 col-sm-3 col-xs-12 marginB10 ColPad">
           <div class="input-group stylish-input-group">
-            <input type="text" class="form-control"  placeholder="Enter a keyword..." >
+            <input type="text" class="form-control" ng-model="searchKey"  placeholder="Enter a keyword..." >
             <span class="input-group-addon">
             <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
             </span> </div>
         </div>
-        <div class="col-md-2 col-sm-3 col-xs-12 marginB10 text-left ColPad">
-          <select class="custom-select">
-            <option>Download</option>
-          </select>
+        <div class="col-md-3 col-sm-3 col-xs-12 marginB10 text-left ColPad">
+           
+            <select class="custom-select post-type-link"  ng-change="searchByPostType(selected)" ng-model='selected'>
+                <option value="" class="post-type-link"  id="post-type-link-all" selected="selected">All</option>
+                <% 
+                   if @post_types.present?
+                     @post_types.each_with_index do |value,index| #abort(value.to_json) %>
+                      <option value = "<%= value.id %>" class="post-type-link"  id="post-type-link-<%= value.id %>"> <%= value['type_name'] %></option>
+                <% 
+                    end 
+                  end
+                %>
+            </select>
+
+
         </div>
-        <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left ColPad">
-          <select class="custom-select">
-            <option>Category</option>
-          </select>
-        </div>
+
         <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left ColPad">
-          <select class="custom-select">
-            <option>Sub Category</option>
-          </select>
+            <select class="custom-select post-type-category-link"  ng-change="searchByPostTypeCategory(selected)" ng-model='selected'>
+                <option value="" class="post-type-category-link"  id="post-type-category-link-all" selected="selected">All</option>
+                <option ng-repeat="x in post_type_category_data"  ng-click="searchByPostTypeCategory(x.id)" class="post-type-category-link"  id="post-type-category-link-{{x.id}}">{{x.name}}</option>
+               
+            </select>
         </div>
-        <strong>
-        <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left ColPad">
-          <select class="custom-select">
-            <option>Filter</option>
-          </select>
+
+        <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left ColPad">
+            
+            <select class="custom-select post-type-subcategory-link"  ng-change="searchByPostTypeSubCategory(selected)" ng-model='selected'>
+                <option value="" class="post-type-subcategory-link"  id="post-type-subcategory-link" selected="selected">All</option>
+                <option ng-repeat="x in post_type_subcategory_data"  ng-click="searchByPostTypeSubCategory(x.id)" class="post-type-category-link"  id="post-type-subcategory-link-{{x.id}}">{{x.name}}</option>
+               
+            </select>
         </div>
-        </strong> </div>
+         </div>
       <div class="showcase-btn-wrap clearfix text-center">
-        <button type="button" class="btn btn-default border-radius marginB10">Top Downloaded</button>
-        <button type="button" class="btn btn-default border-radius marginB10">Top Sold</button>
-        <button type="button" class="btn btn-default border-radius marginB10">Browse Latest Items</button>
+        <button type="button" class="btn btn-default border-radius marginB10" 
+        ng-click="orderBy('-number_of_download');" >Top Downloaded</button>
+        <button type="button" class="btn btn-default border-radius marginB10" 
+        ng-click="orderBy('-number_of_sold');">Top Sold</button>
+        <button type="button" class="btn btn-default border-radius marginB10"
+         ng-click="orderBy('-id');">Browse Latest Items</button>
       </div>
     </div>
   </section>
@@ -134,22 +149,24 @@
       <div class="container">
 
 
-        <div class="clearfix downbox" ng-repeat="x in download_data">
+        <div class="clearfix downbox" dir-paginate="x in download_data | filter:searchKey | itemsPerPage:10">
           <div class="clearfix downtop">
 
-            <h2>{{x.PostType.type_name}}</h2>
-            <a href="#" class="text-uppercase pull-right">view all</a> </div>
+            <h2>{{x.PostType.type_name}} </h2>
+
+            <a href="/downloads/{{x.PostType.slug}}" class="text-uppercase pull-right">view all</a> </div>
           <div class="clearfix">
             <ul>
-              <li class="clearfix" ng-repeat="y in x.Download">
+              <li class="clearfix" ng-repeat="y in x.Download | orderBy:setorderBy">
+              
                 <div class="downwrap"> 
-                  <img lazy-img="<%= root_url %>{{ y.company_logo.download_list.url }}" class="img-responsive download-img-height">
+                <a href="/downloads/{{y.paramlink}}/show">  <img lazy-img="<%= root_url %>{{ y.company_logo.download_list.url }}" class="img-responsive download-img-height">
                 </div>
                 <div class="padding10 clearfix">
                   <div class="down-txt"><span>{{y.title}}</span> <span class="pull-right price-txt">{{(y.free) ? 'Free' : '$' + y.price}}</span></div>
                   <div class="clearfix down-name">
                     <div class="pull-left">by <span class="price-txt1">{{y.is_admin == 'Y' ? 'Admin' : y.user.firstname + ' ' + y.user.lastname}}</span></div>
-                    <div class="pull-right"> 
+                    <div ng-if="y.free==false" class="pull-right">
                     <span ng-if="!checkCart(y.product_id)" class="checkbox-btn">
                       <input  type="checkbox" ng-click="AddTocart(y)" value="value-1" id="rc{{y.id}}">
                     
@@ -162,15 +179,24 @@
 
                       <label for="rc{{y.id}}" onclick=""></label>
                       </span> 
-                      <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a></div>
+                      <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a>
+                      </div>
                   </div>
                 </div>
               </li>
 
             </ul>
+            
           </div>
-        </div>  
 
+        </div>  
+          <div class="pagintionpage clearfix">
+            <dir-pagination-controls
+                 max-size="1"
+                 direction-links="true"
+                 boundary-links="false" >
+            </dir-pagination-controls>
+          </div>
         <div class="clearfix downbox text-center err-msg no-result" ng-hide="download_data.length" >No Result Found!</div>      
       
       </div>
@@ -188,7 +214,7 @@
 <script type="text/javascript">
 
   // main page angular app start
-  var app = angular.module('myApp', ["angularLazyImg","MainModule"]);
+  var app = angular.module('myApp', ["angularUtils.directives.dirPagination","angularLazyImg","MainModule"]);
    
 
 app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
@@ -262,7 +288,13 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
       $scope.viewPostTypeSubCategory = id;
       $scope.filter();
     };
-    
+    $scope.setorderBy = '-number_of_download';
+    $scope.orderBy = function(val)
+    {
+     
+      $scope.setorderBy= val;
+    }
+
     $scope.getPostTypeCategory = function() {
         
       $scope.post_type_category_data = [];
@@ -285,7 +317,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
         $scope.post_type_subcategory_data = [];
 
         if(typeof $scope.viewPostTypeCategory !== 'undefined' && $scope.viewPostTypeCategory != '' && $scope.viewPostTypeCategory != 'all'){
-          list_url = '/gallery/get_post_type_category_list?';
+          list_url = '/downloads/get_post_type_category_list?';
           list_url += '&parent_id=' + $scope.viewPostTypeCategory;
           $http.get(list_url).then(function (response) {
             $scope.post_type_subcategory_data = response.data;
@@ -302,11 +334,11 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
             return false;
         }
     };
-  $scope.RemoveThis = function (product) {
-    
-      $scope.cart.addItem({ sku: product.product_id}, -10000000);
-      window.location.reload();
-  }
+    $scope.RemoveThis = function (product) {
+      
+        $scope.cart.addItem({ sku: product.product_id}, -10000000);
+        window.location.reload();
+    }
     $scope.AddTocart = function (product) {
       
        $scope.cart.addItem(

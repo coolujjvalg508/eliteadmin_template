@@ -22,15 +22,26 @@
                 <% 
                  @collection.each do |collection|  
                     src = '' 
+
                      if collection.collection_detail.present?
 
                         collection.collection_detail.each_with_index do | collectiondetail, index |
+                          if collectiondetail.gallery_id != 0
                             collectiondetail.gallery.images.each_with_index do | collectionimage, index |
                                 if index == 1
                                     break
                                 end  
                                  src =  collectionimage.image.large_image.url
                             end
+                          elsif collectiondetail.download_id != 0
+                           
+                              collectiondetail.download.images.each_with_index do | collectionimage, index |
+                                if index == 1
+                                    break
+                                end  
+                                 src =  collectionimage.image.large_image.url
+                              end
+                          end
                         end 
                     end                      
                   %>

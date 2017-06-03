@@ -1,5 +1,5 @@
 class CollectionsController < ApplicationController
- 
+   before_action :authenticate_user!, only: [:new, :show, :update_collection, :index, :create, :edit, :update, :get_gallery_post_list, :count_user_gallery_post]
 
     def index
   	   @collection     = Collection.all.page(params[:page]).per(10)
@@ -11,6 +11,7 @@ class CollectionsController < ApplicationController
     def new
           #abort(params.to_json)
           gallery_id              = params[:collection][:gallery_id].present? ?  params[:collection][:gallery_id] : 0
+          download_id              = params[:collection][:download_id].present? ?  params[:collection][:download_id] : 0
           title                   = params[:collection][:title].strip 
           is_collection_exist     = Collection.where(title: title)
 
@@ -21,10 +22,17 @@ class CollectionsController < ApplicationController
               result = {'res' => 0, 'message' => 'Title already exist.'}
              # render json: {'res' => 0, 'message' => 'Title already exist.'}, status: 200
           else
-              collectionrec = Collection.create(gallery_id: 0, title: title)
+              if gallery_id.present?
+                collectionrec = Collection.create(gallery_id: 0, title: title)
+              elsif download_id.present?
+                  collectionrec = Collection.create(download_id: 0, title: title)
+              end
               if gallery_id != 0
                   CollectionDetail.create(gallery_id: gallery_id, collection_id: collectionrec.id)
-              end    
+              end
+              if download_id != 0
+                  CollectionDetail.create(download_id: download_id, collection_id: collectionrec.id)
+              end     
               result = {'res' => 1, 'message' => 'Post has successfully added to bookmark.'}
               #flash[:notice] = 'Post has successfully added to collection.'
              # redirect_to request.referer

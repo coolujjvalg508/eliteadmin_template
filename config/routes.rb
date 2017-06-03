@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  mount Bootsy::Engine => '/bootsy', as: 'bootsy'
+  #mount Bootsy::Engine => '/bootsy', as: 'bootsy'
   
   devise_for :admin_users, ActiveAdmin::Devise.config
   # ActiveAdmin.routes(self)
@@ -112,7 +112,7 @@ Rails.application.routes.draw do
   post 'job/create'                  => 'job#create',as: 'save_job'
   get 'job/count_user_job_post'      => 'job#count_user_job_post', as: 'count_user_job_post'
   get 'job/get_job_list'             => 'job#get_job_list', as: 'get_job_list'
-  get 'dashboard/jobs/:paramlink/edit'          => 'job#edit', as: 'modify_job' 
+  get 'dashboard/jobs/:paramlink/edit' => 'job#edit', as: 'modify_job' 
   patch 'job/:paramlink/update'      => 'job#update', as: 'update_job' 
   
   get 'job/get_job_home_list'        => 'job#get_job_home_list', as: 'get_job_home_list' 
@@ -235,13 +235,14 @@ Rails.application.routes.draw do
 
 
 
-  get 'downloads'=> 'downloads#download'  
+  get 'downloads'=> 'downloads#download'
+  
   get 'downloads/get_download_list'
   get 'downloads/get_post_type_category_list'
   #get 'downloads/download_category'
   #get 'downloads/download_detail'
   get 'downloads/download_post'
-  get 'downloads/free_download'      => 'downloads#free_download', as: 'free_download'  
+  get 'downloads/free'      => 'downloads#free_download', as: 'free_download'  
   
 
   get 'downloads/get_post_type_list' => 'downloads#get_post_type_list', as: 'get_post_type_list'   
@@ -251,11 +252,75 @@ Rails.application.routes.draw do
  
   get 'downloads/get_post_type_category_downloads_list' => 'downloads#get_post_type_category_downloads_list', as: 'get_post_type_category_downloads_list'   
   
-
+  get 'downloads/get_userdownload_list'            => 'downloads#get_userdownload_list', as: 'get_userdownload_list'
+  
+  get 'downloads/get_free_category_downloads_list' => 'downloads#get_free_category_downloads_list', as: 'get_free_category_downloads_list'   
+  
+  post 'downloads/delete_download_post'            => 'downloads#delete_download_post', as: 'delete_download_post'
+  
+  get 'downloads/count_user_download_post'      => 'downloads#count_user_download_post', as: 'count_user_download_post'
   get 'downloads/get_filter_values' => 'downloads#get_filter_values', as: 'get_filter_values'   
   get 'api/get_software_expertises_list' => 'api#get_software_expertises_list', as: 'get_software_expertises_list'   
   get 'api/get_renderers_list' => 'api#get_renderers_list', as: 'get_renderers_list'   
+  get 'downloads/all' => 'downloads#all_post_type', as: 'all_post_type'   
+  
+  post 'downloads/get_like_comment_view_download' => 'downloads#get_like_comment_view_download', as: 'get_like_comment_view_download'   
+  
+
+  post 'downloads/mark_spam'                  => 'downloads#mark_spam', as: 'mark_spam_download' 
+  post 'downloads/check_mark_spam'            => 'downloads#check_mark_spam', as: 'check_mark_spam_download' 
+
    
+  get 'dashboard/downloads/new'                 => 'downloads#new', as: 'create_download' 
+  post 'downloads/create'                       => 'downloads#create',as: 'save_download'
+  get 'dashboard/downloads'                     => 'downloads#listing_index', as: 'index_download'
+  get 'dashboard/downloads/:paramlink/edit'     => 'downloads#edit', as: 'modify_download' 
+  patch 'downloads/:paramlink/update'           => 'downloads#update', as: 'update_download' 
+  get 'downloads/:paramlink/show'               => 'downloads#show', as: 'show_download' 
+  get 'get_free_download_category_detail'       => 'api#get_free_download_category_detail', as: 'get_free_download_category_detail' 
+  
+  get 'get_download_info/:paramlink'            => 'api#get_download_info', as: 'get_download_info' 
+  
+  get 'downloads/:paramlink/make_trash'         => 'downloads#make_trash', as: 'trash_download'
+  get 'downloads/:paramlink/delete_from_trash'  => 'downloads#delete_from_trash', as: 'delete_download_from_trash'
+  get 'downloads/:paramlink/restore_download'   => 'downloads#restore_download', as: 'restore_download'
+
+  post 'download/save_download_rating'          => 'downloads#save_download_rating', as: 'save_download_rating'
+  post 'download/get_download_avg_rating'       => 'downloads#get_download_avg_rating', as: 'get_download_avg_rating'
+  post 'check_valid_coupon_code'                => 'api#check_valid_coupon_code', as: 'check_valid_coupon_code'
+  
+  get 'get_latest_sale/:user_id'                => 'api#get_latest_sale', as: 'get_latest_sale'
+  get 'get_latest_download/:user_id'            => 'api#get_latest_download', as: 'get_latest_download'
+  get 'get_monthly_summary/:user_id'            => 'api#get_monthly_summary', as: 'get_monthly_summary'
+  
+  
+  
+
+
+    get 'cart'                               => 'downloads#cart', as: 'cart'
+
+    post 'downloads/save_like'               => 'downloads#save_like', as: 'downloadsave_like' 
+    post 'downloads/check_save_like'         => 'downloads#check_save_like', as: 'check_downloadsave_like' 
+    post 'downloads/follow_artist'           => 'downloads#follow_artist', as: 'download_follow_artist' 
+    post 'downloads/check_follow_artist'     => 'downloads#check_follow_artist', as: 'check_downloadfollow_artist'  
+    post 'downloads/save_comment'            => 'downloads#save_comment', as: 'save_download_comment' 
+    get 'downloads/get_comment'              => 'downloads#get_comment', as: 'get_download_comment' 
+
+
+
+    post 'checkout_paypal'                    => 'orders#checkout_paypal', as: 'checkout_paypal'
+    post 'checkout_credit_card_paypal'        => 'orders#checkout_credit_card_paypal', as: 'checkout_credit_card_paypal'
+    get 'paypal-success'                      => 'orders#paypal_success', as: 'paypal_success'    
+    post '/hook', to: 'orders#hook', as: 'hook'   
+
+
+  get  'coupons/new'                          => 'store#new_coupon', as: 'create_coupon'
+  post 'coupons/create'                       => 'store#create_coupon',as: 'save_coupon'
+  get  'coupons/:paramlink/edit'              => 'store#edit_coupon', as: 'modify_coupon' 
+  delete  'coupons/delete'                    => 'store#coupon_delete', as: 'coupon_delete' 
+  patch 'coupons/:paramlink/update'           => 'store#update_coupon', as: 'update_coupon'
+  
+
   
 
   get 'user-profile/:id'         => 'user#artist_profile', as: 'artist_profile' 
@@ -263,15 +328,18 @@ Rails.application.routes.draw do
 
   post 'save_qb_data' => 'user#save_qb_data'
   
-  
+
   namespace :admin do
 	 post 'images/saveimage' => 'images#saveimages'
   end
 
   
-  get '/:post_type'                                           => 'downloads#download_detail', as: 'download_detail'   
-  get '/:post_type/:category_type'                            => 'downloads#download_category', as: 'download_category'   
-  get '/:post_type/:category_type/:sub_category_type'         => 'downloads#download_category', as: 'download_sub_category'   
+
+  get 'downloads/:post_type'                                    => 'downloads#download_detail', as: 'download_detail'   
+  get 'downloads/:post_type/:category_type'                     => 'downloads#download_category', as: 'download_category'   
+  get 'downloads/:post_type/:category_type/:sub_category_type'  => 'downloads#download_sub_category', as: 'download_sub_category'  
+
+  
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -17,18 +17,30 @@
       <%
         if @latestactivity_data.present?
             @latestactivity_data.each_with_index do |value, index|  
-            #abort(value.to_json)
+             #abort(value.to_json)
         %>    
 
         <div class="clearfix notification-indent marginB15">
           <div class="clearfix marginB15 noti-comment">
             <div class="notileft"><%= image_tag(value.user_detail.image.user_activity.url :alt => "Notification") %></div>
             <div class="notiright">
-              <div class="marginB10 paddinT10"><span class="blue-txt"><a href="<%= artist_profile_path (value.user_detail.username) %>"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </a></span> has <%= value.activity_type %> <%= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='/dashboard/projects/<%= value.gallery.paramlink %>/show'><%= value.gallery.present? ? value.gallery.title : '' %></a></span>.</div>
+              <div class="marginB10 paddinT10">
+              <span class="blue-txt">
+                  <% if value.section_type == "Download" %>
+                       <a href="<%= artist_profile_path (value.user_detail.username) %>"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </a></span> has <%= value.activity_type %> product<%#= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='downloads/<%= value.download.paramlink %>/show'><%= value.download.present? ? value.download.title : '' %></a>
+                  <% else %>
+                        <a href="<%= artist_profile_path (value.user_detail.username) %>"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </a></span> has <%= value.activity_type %> <%= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='/dashboard/projects/<%= value.gallery.paramlink %>/show'><%= value.gallery.present? ? value.gallery.title : '' %></a>
+                  <% end %>   
+              
+              </span>.</div>
             </div>
           </div>
           <div class="notification-profile clearfix">
-			   <%= image_tag(value.gallery.company_logo.art_activity.url, :alt => "Activity",:class=>"img-responsive") %>
+            <% if value.section_type == "Download" %>
+			         <%= image_tag(value.download.company_logo.art_activity.url, :alt => "Activity",:class=>"img-responsive") %>
+            <% else %>
+               <%= image_tag(value.gallery.company_logo.art_activity.url, :alt => "Activity",:class=>"img-responsive") %>
+            <% end %>   
 			</div>
           <div class="activity-profile clearfix"> <span class="pull-left marginR5">
 			  
@@ -37,13 +49,48 @@
            <%= value.artist_detail.professional_headline %> </span> </div>
          <!--  <div class="desert-title">Desert worker speedmodel</div> -->
           <div class="activity-txt">
-           <%= value.gallery.present? ? value.gallery.description.html_safe : '' %>
+           <%= value.gallery.present? ? value.gallery.description.html_safe : value.download.description.html_safe %>
           </div>
 
 
           <div class="activity-txt"><em>Posted <%= time_ago_in_words(value.created_at) %> ago</em></div>
           <div class="clearfix marginB15">
             <div class="col-md-3 col-sm-4 col-xs-3 padding">
+            <% if value.section_type == "Download" %>
+                <script>
+                    $(document).ready(function(){
+                        $.ajax({
+                            type: "post",
+                            url: "<%= check_downloadsave_like_path %>" ,
+                            data: {'download_id': '<%= value.download.id %>'},
+                            success: function(data){
+                                if(data.res == 1) {
+                                  $('#post_like_button_'+<%= value.download.id %>+'_'+<%= value.download.user_id %>+'_'+<%= value.id %>+'_download').addClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.download.id %>+'_'+<%= value.download.user_id %>+'_'+<%= value.id %>+'_download').removeClass('hidden');
+                                }else{
+                                  $('#post_like_button_'+<%= value.download.id %>+'_'+<%= value.download.user_id %>+'_'+<%= value.id %>+'_download').removeClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.download.id %>+'_'+<%= value.download.user_id %>+'_'+<%= value.id %>+'_download').addClass('hidden');
+                                }
+                            }
+                        });
+
+                        $.ajax({
+                            type: "post",
+                            url: "<%= get_like_comment_view_download_path %>" ,
+                            data: {'download_id': '<%= value.download.id %>'},
+                           success: function(data){
+                         
+                                  $('#like_<%= value.download.id %>_<%= value.id %>_download').html('<i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> '+data['downloadlike']);
+                                  $('#comment_<%= value.download.id %>_<%= value.id %>_download').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['downloadcomment']);
+                                 
+                                  $('#view_<%= value.download.id %>_<%= value.id %>_download').html('<i aria-hidden="true" class="fa fa-eye marginR5"></i> '+data['downloadview']);
+                            }
+                        });
+                    });
+
+
+                </script>
+              <% else %>
                 <script>
                     $(document).ready(function(){
                         $.ajax({
@@ -52,11 +99,11 @@
                             data: {'gallery_id': '<%= value.gallery.id %>','artist_id': '<%= value.gallery.user_id %>'},
                             success: function(data){
                                 if(data.res == 1) {
-                                  $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).addClass('hidden');
-                                  $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).removeClass('hidden');
+                                  $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>+'_gallery').addClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>+'_gallery').removeClass('hidden');
                                 }else{
-                                  $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).removeClass('hidden');
-                                  $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>).addClass('hidden');
+                                  $('#post_like_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>+'_gallery').removeClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.gallery.id %>+'_'+<%= value.gallery.user_id %>+'_'+<%= value.id %>+'_gallery').addClass('hidden');
                                 }
                             }
                         });
@@ -66,34 +113,70 @@
                             url: "<%= get_like_comment_view_gallery_path %>" ,
                             data: {'gallery_id': '<%= value.gallery.id %>'},
                            success: function(data){
-                           // alert(<%= value.gallery.id %>);
-                                  $('#like_<%= value.gallery.id %>_<%= value.id %>').html('<i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> '+data['gallerylike']);
-                                  $('#comment_<%= value.gallery.id %>_<%= value.id %>').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['gallerycomment']);
+                          
+                                  $('#like_<%= value.gallery.id %>_<%= value.id %>_gallery').html('<i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> '+data['gallerylike']);
+                                  $('#comment_<%= value.gallery.id %>_<%= value.id %>_gallery').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['gallerycomment']);
                                  
-                                  $('#view_<%= value.gallery.id %>_<%= value.id %>').html('<i aria-hidden="true" class="fa fa-eye marginR5"></i> '+data['galleryview']);
+                                  $('#view_<%= value.gallery.id %>_<%= value.id %>_gallery').html('<i aria-hidden="true" class="fa fa-eye marginR5"></i> '+data['galleryview']);
                             }
                         });
                     });
+
+
                 </script>
-              <button id='post_like_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
-               <button id='post_dislike_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>
+
+              <% end %>  
+              <% if value.section_type == "Download" %>
+                  <button title = "<%= value.section_type %>" id='post_like_button_<%= value.download.id %>_<%= value.download.user_id %>_<%= value.id %>_download' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
+                 
+                   <button title = "<%= value.section_type %>" id='post_dislike_button_<%= value.download.id %>_<%= value.download.user_id %>_<%= value.id %>_download' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>   
+              <% else %>   
+                    <button title = "<%= value.section_type %>" id='post_like_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>_gallery' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
+                   <button title = "<%= value.section_type %>" id='post_dislike_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>_gallery' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>   
+
+
+              <% end %>     
+
             </div>
-            <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> 
-              <span class="activity-like" id='like_<%= value.gallery.id %>_<%= value.id %>'></span> 
-              <span class="activity-like" id='view_<%= value.gallery.id %>_<%= value.id %>'></span> 
-              <span class="activity-like" id='comment_<%= value.gallery.id %>_<%= value.id %>'></span> 
-            </div>
+             <% if value.section_type == "Download" %>
+                <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> 
+                  <span class="activity-like" id='like_<%= value.download.id %>_<%= value.id %>_download'></span> 
+                  <span class="activity-like" id='view_<%= value.download.id %>_<%= value.id %>_download'></span> 
+                  <span class="activity-like" id='comment_<%= value.download.id %>_<%= value.id %>_download'></span> 
+                </div>
+            <% else %>
+                <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> 
+                  <span class="activity-like" id='like_<%= value.gallery.id %>_<%= value.id %>_gallery'></span> 
+                  <span class="activity-like" id='view_<%= value.gallery.id %>_<%= value.id %>_gallery'></span> 
+                  <span class="activity-like" id='comment_<%= value.gallery.id %>_<%= value.id %>_gallery'></span> 
+                </div>
+
+            <% end %>    
+
           </div>
           <div class="clearfix">
             <div class="col-md-1 col-sm-2 col-xs-3 padding">
             <%= image_tag(current_user.image.user_activity.url, :alt => "Activity",:width=>"50",:height=>"50") %>
 			</div>
+            
+        <% if value.section_type == "Download" %>
             <div class="col-md-11 col-sm-8 col-xs-9 padding">
-              <textarea class="form-control activitymessage" id='post_comments_<%= value.gallery.id %>' ></textarea>
+              <textarea class="form-control activitymessage" id='post_comments_<%= value.download.id %>_download' ></textarea>
             </div>
             <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15">
-              <button id='post_comments_submit_<%= value.gallery.id %>' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
+              <button title = "<%= value.section_type %>" id='post_comments_submit_<%= value.download.id %>_download' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
             </div>
+        <% else %>
+             <div class="col-md-11 col-sm-8 col-xs-9 padding">
+              <textarea class="form-control activitymessage" id='post_comments_<%= value.gallery.id %>_gallery' ></textarea>
+            </div>
+            <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15">
+              <button title = "<%= value.section_type %>" id='post_comments_submit_<%= value.gallery.id %>_gallery' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
+            </div>
+
+        <% end %>    
+
+
           </div>
            <div id="commentslist_dev"></div>
         </div>
@@ -184,53 +267,106 @@
 <footer class="footer clearfix padding">
 	<%= render "layouts/lastfooter" %>
 </footer>
-<script type='text/javascript'>
-    $(document).ready(function(){
 
-        $('[id^= post_like_button_],[id^= post_dislike_button_]').on('click',function(){
-        
-            gallery_id_and_user_id  = $(this).attr('id').replace('post_like_button_','');
-            gallery_id_and_user_id  = gallery_id_and_user_id.replace('post_dislike_button_','');
+      <script type='text/javascript'>
+          $(document).ready(function(){
 
-            var res = gallery_id_and_user_id.split("_"); 
-            $.ajax({
-              type: "post",
-              url: "<%= save_like_path %>" ,
-              data: {'gallery_id': res[0],'artist_id': res[1]},
-              success: function(data){
-                //alert(data.res)
-                if(data.res == 1) {
-                  $('#post_like_button_'+gallery_id_and_user_id).addClass('hidden');
-                  $('#post_dislike_button_'+gallery_id_and_user_id).removeClass('hidden');
-                }else{
-                  $('#post_like_button_'+gallery_id_and_user_id).removeClass('hidden');
-                  $('#post_dislike_button_'+gallery_id_and_user_id).addClass('hidden');
-                }
+              $('[id^= post_like_button_],[id^= post_dislike_button_]').on('click',function(){
+              
+                        section_type  = $(this).attr('title');
+                        gallery_id_and_user_id  = $(this).attr('id').replace('post_like_button_','');
+                        gallery_id_and_user_id  = gallery_id_and_user_id.replace('post_dislike_button_','');
+                        gallery_id_and_user_id  = gallery_id_and_user_id.replace('_download','');
+                        gallery_id_and_user_id  = gallery_id_and_user_id.replace('_gallery','');
+                   
+                        var res = gallery_id_and_user_id.split("_"); 
+                        if(section_type == "Download") {
+                                 $.ajax({
+                                      type: "post",
+                                      url: "<%= downloadsave_like_path %>" ,
+                                      data: {'download_id': res[0],'artist_id': res[1]},
+                                      success: function(data){
+                                        //alert(data.res)
+                                        if(data.res == 1) {
+                                          $('#post_like_button_'+gallery_id_and_user_id + '_download' ).addClass('hidden');
+                                          $('#post_dislike_button_'+gallery_id_and_user_id + '_download' ).removeClass('hidden');
+                                        }else{
+                                          $('#post_like_button_'+gallery_id_and_user_id + '_download' ).removeClass('hidden');
+                                          $('#post_dislike_button_'+gallery_id_and_user_id + '_download' ).addClass('hidden');
+                                        }
 
-              }
-            });
+                                      }
+                                  });
+
+
+                        }else{
+                                 $.ajax({
+                                        type: "post",
+                                        url: "<%= save_like_path %>" ,
+                                        data: {'gallery_id': res[0],'artist_id': res[1]},
+                                        success: function(data){
+                                          //alert(data.res)
+                                          if(data.res == 1) {
+                                            $('#post_like_button_'+gallery_id_and_user_id+'_gallery').addClass('hidden');
+                                            $('#post_dislike_button_'+gallery_id_and_user_id+'_gallery').removeClass('hidden');
+                                          }else{
+                                            $('#post_like_button_'+gallery_id_and_user_id+'_gallery').removeClass('hidden');
+                                            $('#post_dislike_button_'+gallery_id_and_user_id+'_gallery').addClass('hidden');
+                                          }
+
+                                        }
+                                  });
+
+
+                        }  
+                
+                      
+              });
+
+
+              $('[id^= post_comments_submit_]').on('click',function(){
+                        
+                        section_type  = $(this).attr('title');
+                        gallery_id = $(this).attr('id').replace('post_comments_submit_','');
+                        gallery_id  = gallery_id.replace('_download','');
+                        gallery_id  = gallery_id.replace('_gallery','');
+                        textareavalue = $('#post_comments_'+gallery_id).val();
+                        if(textareavalue == ''){
+                            alert('Comment cannot be blank.');
+                            return false;
+                         }else{
+
+                              if(section_type == "Download") { 
+                                  $.ajax({
+                                      type: "post",
+                                      url: "<%= save_download_comment_path %>" ,
+                                      data: {'download_id': gallery_id,'description': textareavalue,'section_type': 'download_detail'},
+                                      success: function(data){
+                                          $('#post_comments_'+gallery_id+'_download').val('');
+                                        alert(data.message)
+                                        return false;  
+                                      }
+                                  });
+
+                              }else{
+
+                                   $.ajax({
+                                        type: "post",
+                                        url: "<%= save_comment_path %>" ,
+                                        data: {'gallery_id': gallery_id,'description': textareavalue,'section_type': 'gallery_activity'},
+                                        success: function(data){
+                                            $('#post_comments_'+gallery_id+'_gallery').val('');
+                                          alert(data.message)
+                                          return false;  
+                                        }
+                                    });
+
+
+                              }  
+                             
+                          } 
+
+                   });   
+
         });
-
-
-        $('[id^= post_comments_submit_]').on('click',function(){
-
-          gallery_id = $(this).attr('id').replace('post_comments_submit_','');
-          textareavalue = $('#post_comments_'+gallery_id).val();
-          if(textareavalue == ''){
-              alert('Comment cannot be blank.');
-              return false;
-           }else{
-                $.ajax({
-                    type: "post",
-                    url: "<%= save_comment_path %>" ,
-                    data: {'gallery_id': gallery_id,'description': textareavalue,'section_type': 'gallery_activity'},
-                    success: function(data){
-                        $('#post_comments_'+gallery_id).val('');
-                      alert(data.message)
-                      return false;  
-                    }
-                });
-            } 
-        });
-    })
-</script>
+  </script>

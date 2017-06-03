@@ -31,7 +31,13 @@
           <li><%= link_to 'Add New', create_job_path %></li>
         </ul>
       </li>
-
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="fa fa-download marginR5" aria-hidden="true"></i>
+      <span class="hidden-sm hidden-xs">Downloads</span></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to 'Downloads', index_download_path %></li>
+          <li><%= link_to 'Add New', create_download_path %></li>
+        </ul>
+      </li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="fa fa-users marginR5" aria-hidden="true"></i>
       <span class="hidden-sm hidden-xs">Connections</span></a>
         <ul class="dropdown-menu">
@@ -49,23 +55,23 @@
       
       <li><%= link_to '<i class="fa fa-laptop marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Tutorials</span>'.html_safe, controller: 'tutorial',action:'index' %></li>
     
-      <li><%= link_to '<i class="fa fa-file-text-o marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Content</span>'.html_safe, controller: 'content',action:'index' %></li>
+   <!--    <li><%#= link_to '<i class="fa fa-file-text-o marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Content</span>'.html_safe, controller: 'content',action:'index' %></li> -->
 
 
       
-      <li class="dropdown"><a href="users.html" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><i class="fa fa-users marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Users</span></a>
+      <!-- <li class="dropdown"><a href="users.html" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><i class="fa fa-users marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Users</span></a>
         <ul class="dropdown-menu">
-          <li><%= link_to '<i></i>All Users'.html_safe, controller: 'user',action:'index' %></li>
-          <li><%= link_to '<i></i>Add New'.html_safe, controller: 'user',action:'add' %></li>
-          <li><%= link_to '<i></i>Your Profile'.html_safe, controller: 'user',action:'profile' %></li>
+          <li><%#= link_to '<i></i>All Users'.html_safe, controller: 'user',action:'index' %></li>
+          <li><%#= link_to '<i></i>Add New'.html_safe, controller: 'user',action:'add' %></li>
+          <li><%#= link_to '<i></i>Your Profile'.html_safe, controller: 'user',action:'profile' %></li>
         </ul>
-      </li>
+      </li> -->
       
-      <li><%= link_to '<i class="fa fa-comments marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Comments</span>'.html_safe, controller: 'comment',action:'index' %></li>
+     <!--  <li><%#= link_to '<i class="fa fa-comments marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Comments</span>'.html_safe, controller: 'comment',action:'index' %></li> -->
       
-      <li><%= link_to '<i class="fa fa-newspaper-o marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Appearance</span>'.html_safe, controller: 'appearance',action:'index' %></li>
+      <!-- <li><%#= link_to '<i class="fa fa-newspaper-o marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Appearance</span>'.html_safe, controller: 'appearance',action:'index' %></li> -->
 
-       <li><%= link_to '<i class="fa fa-cog marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Settings</span>'.html_safe, controller: 'user',action:'user_setting' %></li>
+       <!-- <li><%#= link_to '<i class="fa fa-cog marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Settings</span>'.html_safe, controller: 'user',action:'user_setting' %></li> -->
       
       <!--  <li class="dropdown"><a href="user-settings.html" data-hover="dropdown" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-cog marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Settings</span></a>
       <!--  <ul class="dropdown-menu">

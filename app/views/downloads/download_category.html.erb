@@ -7,7 +7,7 @@
       
       <div class="col-md-12 header-search paddinB10 paddinT10">
       <div class="input-group stylish-input-group">
-          <input type="text" class="form-control"  placeholder="Search 520 000 3D models" >
+          <input type="text" class="form-control" ng-model="search"  placeholder="Search 520 000 3D models" >
           <span class="input-group-addon">
           <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
           </span> </div>
@@ -29,7 +29,8 @@
       </div>
   <div class="row">
   <ul>
-  <li ng-repeat="subcat in sub_category_list" class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">{{subcat.name}}<span class="badge">({{subcat.count_downloads}})</span></a></li>
+  <li ng-repeat="subcat in sub_category_list" class="col-md-3 col-sm-4 col-xs-6 marginB10">
+  <a href="/downloads/{{brodCampA}}/{{brodCampB}}/{{subcat.slug}}">{{subcat.name}}<span class="badge">({{subcat.count_downloads}})</span></a></li>
   
   </ul>
   </div>
@@ -42,7 +43,7 @@
   <div class="clearfix hidden-xs hidden-sm">
   <ol class="breadcrumb margin">
   <li class="breadcrumb-item"><a href="/downloads">Downloads</a></li>
-  <li class="breadcrumb-item"><a href="/{{brodCampA}}">{{brodCampA}}</a></li>
+  <li class="breadcrumb-item"><a href="/downloads/{{brodCampA}}">{{brodCampA}}</a></li>
   <li class="breadcrumb-item active">{{brodCampB}}</li>
   </ol>
   </div>
@@ -119,10 +120,12 @@
   
       <div class="clearfix">
         <ul>
-          <li ng-repeat="product in products.items"  class="clearfix">
+          <li dir-paginate="product in products.items | filter:search | itemsPerPage:10"  class="clearfix">
             <div class="downwrap">
          
-            <img ng-src="{{product.company_logo.download_list.url}}" class="img-responsive">
+            <a href="/downloads/{{product.paramlink}}/show">
+                <img ng-src="{{product.company_logo.download_list.url}}" class="img-responsive">
+                </a>
             </div>
             <div class="padding10 clearfix">
               <div class="down-txt">
@@ -132,6 +135,21 @@
                 <span ng-if="product.is_admin=='N'" class="price-txt1">{{product.user.firstname}}&nbsp;{{product.user.lastname}}</span>
                 <span ng-if="product.is_admin=='Y'" class="price-txt1">Admin</span>
                 </div>
+                  <div class="pull-right"> 
+                    <span ng-if="!checkCart(product.product_id)" class="checkbox-btn">
+                      <input  type="checkbox" ng-click="AddTocart(product)" value="value-1" id="rc{{product.id}}">
+                    
+
+                      <label for="rc{{product.id}}" onclick=""></label>
+                    </span> 
+                    <span ng-if="checkCart(product.product_id)" class="checkbox-btn">
+                      <input  type="checkbox" ng-checked="true" ng-click="RemoveThis(product)" value="value-1" id="rc{{product.id}}">
+                    
+
+                      <label for="rc{{product.id}}" onclick=""></label>
+                      </span> 
+                      <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a>
+          </div>
               </div>
             </div>
           </li>
@@ -140,15 +158,13 @@
       </div>
     </div>
     <div class="text-center text-uppercase">
-      <ul class="pagination">
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">Next</a></li>
-        <li><a href="#">Last</a></li>
-      </ul>
+    <div class="pagination clearfix">
+            <dir-pagination-controls
+                 max-size="3"
+                 direction-links="true"
+                 boundary-links="false" >
+            </dir-pagination-controls>
+          </div>
     </div>
     </div>
     </div>
@@ -160,8 +176,8 @@
 </footer>
 
 <script type="text/javascript">
-  var app = angular.module('FilterCate', ["rzModule","MainModule"]);
-   app.controller('FilterCategoriesCtrl',function($scope,$http,$rootScope,$location){
+  var app = angular.module('FilterCate', ["angularUtils.directives.dirPagination","rzModule","MainModule"]);
+   app.controller('FilterCategoriesCtrl',function($scope,$http,Cart,$rootScope,$location){
     $scope.priceSlider = {};
      $scope.fl = {};
      $scope.products = {};
@@ -199,6 +215,35 @@
             })
         });
   //End Get URl data-------------------------------------------------------------------------
+      /*Cart Data Mange*/
+       $rootScope.cart = Cart.cart;
+    $rootScope.checkCart = function(id){
+        if($scope.cart.skuArray.includes(id)){
+          debugger;
+            return true;
+        }else{
+            return false;
+        }
+    };
+   $scope.RemoveThis = function (product) {
+      
+        $scope.cart.addItem({ sku: product.product_id}, -10000000);
+        window.location.reload();
+    }
+    $scope.AddTocart = function (product) {
+      
+       $scope.cart.addItem(
+        { sku: product.product_id,
+          name: product.title,
+          slug:product.paramlink, 
+          mrp: product.price, 
+          price: product.price, 
+          quantity: 1, 
+          image: product.company_logo.thumb.url, 
+          weight: 0 }, true);
+       window.location.reload();
+    };
+/*Cart Data Mange*/
   $scope.currencyFormatting = function(value){
          if(value==undefined)
          {

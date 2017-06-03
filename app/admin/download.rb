@@ -3,7 +3,7 @@ ActiveAdmin.register Download do
 	menu false
 	#menu label: 'Download' , parent: 'Downloads'
     
-    permit_params :title, :file_format_id, :paramlink, :product_id, :topic, :is_feature, :user_id,:is_admin, :changelog, {:challenge => []} , {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption,{:software => []},{:software_version => []},{:renderer => []},{:renderer_version => []}],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
+    permit_params :title, :unit, :has_adult_content, :license_type, :license_custom_info, :file_format_id, :paramlink, :product_id, :topic, :is_feature, :user_id,:is_admin, :changelog, {:challenge => []} , {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []},  :schedule_time, :description, {:software_used => []} , :tags, :status, :free,  :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo, :sub_title, :user_title, :animated, :rigged, :lowpoly, :geometry, :polygon, :vertice, :texture, :material, :uv_mapping, :unwrapped_uv, :plugin_used, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache],  :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption,{:software => []},{:software_version => []},{:renderer => []},{:renderer_version => []}],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 		
 		
 	collection_action :post_types, method: :get do
@@ -71,6 +71,7 @@ ActiveAdmin.register Download do
 		  f.input :price, label: "Price ($)"
 		  #f.input :is_paid, as: :boolean,label: "Is Paid"
 		  f.input :is_feature, as: :boolean,label: "Is Feature"
+		  f.input :has_adult_content, as: :boolean,label: "Has Adult Content"
 		 
 		  
 		  
@@ -78,11 +79,17 @@ ActiveAdmin.register Download do
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
 		  f.input :visibility, as: :select, collection: [['Private',1], ['Public', 0]], include_blank: false
 		  f.input :publish, as: :select, collection: [['Immediately',1], ['Schedule', 0]], include_blank: false
+		  
 		  f.input :schedule_time, as: :date_time_picker
 		  f.input :company_logo,label: "Custom Thumbnail"
 		  f.input :changelog,label: "Changelog"
 		  f.input :challenge, as: :select, collection: Challenge.where("challenge_type_id = 2").pluck(:title, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
 		
+		  f.input :license_type, as: :select, collection: Download::LICENSE_TYPE, :input_html => { :class => "chosen-input1", :id => "license_type_dropdown_download" }, include_blank: false, multiple: false
+
+		   f.input :license_custom_info, as: :text
+		     f.input :show_on_cgmeetup, as: :boolean,label: "Show On CGmeetup"
+		  f.input :show_on_website, as: :boolean,label: "Show On Website"
 		   f.inputs 'Tags' do
 			f.has_many :tags, allow_destroy: true, new_record: true do |ff|
 			  ff.input :tag
@@ -133,6 +140,7 @@ ActiveAdmin.register Download do
 				f.input :geometry,label: "Geometry", as: :select, collection: Download::GEOMETRY, include_blank: '---Choose geometry---'
 				f.input :polygon,label: "Polygon"
 				f.input :vertice,label: "vertice"
+				f.input :unit, as: :select, collection: Download::UNIT_VALUE, :input_html => { :class => "chosen-input1"}, include_blank: '---Select Unit---', multiple: false
 				f.input :texture,label: "Textures"
 				f.input :material,label: "Material"
 				f.input :uv_mapping,label: "UV Mapping"
@@ -186,11 +194,16 @@ ActiveAdmin.register Download do
 			random_password 			   = get_rendom_password
 			params[:download][:product_id] = random_password
 
-			
-				
 			if params[:download][:free] == '1'
 				params[:download][:price] = 0
 			end
+				
+			if params[:download][:license_type] != 'Custom'
+				params[:download][:license_custom_info] = ''
+			end
+
+
+			#abort(params.to_json)
 			
 			if (params[:download].present? && params[:download][:images_attributes].present?)
 					params[:download][:images_attributes].each do |index,img|
@@ -266,7 +279,7 @@ ActiveAdmin.register Download do
 
 	
    		def get_rendom_password
-			random_password = (0...8).map { ('a'..'z').to_a[rand(26)] }.join
+			random_password = ([*'A'..'Z'] + [*'a'..'z'] + [*'0'..'9']).shuffle.take(10).join
    			result 			= Download.where('product_id = ?', random_password).count
 
             if result == 0
@@ -287,6 +300,9 @@ ActiveAdmin.register Download do
 			end
 			
 			
+			if params[:download][:license_type] != 'Custom'
+				params[:download][:license_custom_info] = ''
+			end
 
 			
 

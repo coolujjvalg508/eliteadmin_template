@@ -468,81 +468,46 @@
 
     }
 </script>
-
+<% if user_signed_in? %>
 <script>
-
-    // main page angular app start
-    var app = angular.module('myApp', ["angularLazyImg","MainModule"]);
-    app.controller('myCtrl', function($scope, $http) {
-
-    });
-angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
-$(document).ready(function() {
-
-    $.ajax({
-        type: "post",
-        url: "<%= save_job_view_count_path %>" ,
-        data: {'paramlink': '<%= @job_id %>'},
-        success: function(data){
-        }
-    });
-    
-    $.ajax({
-            type: "post",
-            url: "<%= check_follow_job_path %>" ,
-            data: {'job_id': '<%= @result.id %>','company_id': '<%= @result.company_id %>'},
-            success: function(data){
-                //alert(data.res)
-               if(data.res == 1) {
-                        $('#follow_button').addClass('hidden');
-                        $('#unfollow_button').removeClass('hidden');
-                }else{
-                        $('#follow_button').removeClass('hidden');
-                        $('#unfollow_button').addClass('hidden');
-                }
-            }
-      });
-
-    $('#follow_button, #unfollow_button').on('click',function(){
+    $(document).ready(function(){
             $.ajax({
                 type: "post",
-                url: "<%= follow_job_path %>" ,
+                url: "<%= check_follow_job_path %>" ,
                 data: {'job_id': '<%= @result.id %>','company_id': '<%= @result.company_id %>'},
                 success: function(data){
-                  //alert(data.res)
-                 if(data.res == 1) {
-                      $('#follow_button').addClass('hidden');
-                      $('#unfollow_button').removeClass('hidden');
-                  }else{
-                       $('#follow_button').removeClass('hidden');
-                       $('#unfollow_button').addClass('hidden');
-                  }
-
+                    //alert(data.res)
+                   if(data.res == 1) {
+                            $('#follow_button').addClass('hidden');
+                            $('#unfollow_button').removeClass('hidden');
+                    }else{
+                            $('#follow_button').removeClass('hidden');
+                            $('#unfollow_button').addClass('hidden');
+                    }
                 }
-            });
-    });
+          });
 
- $('#apply_html').hide();
+        $('#follow_button, #unfollow_button').on('click',function(){
+                $.ajax({
+                    type: "post",
+                    url: "<%= follow_job_path %>" ,
+                    data: {'job_id': '<%= @result.id %>','company_id': '<%= @result.company_id %>'},
+                    success: function(data){
+                      //alert(data.res)
+                     if(data.res == 1) {
+                          $('#follow_button').addClass('hidden');
+                          $('#unfollow_button').removeClass('hidden');
+                      }else{
+                           $('#follow_button').removeClass('hidden');
+                           $('#unfollow_button').addClass('hidden');
+                      }
 
-    $('.apply_button').on('click',function(){
+                    }
+                });
+        });
 
-        apply_type               = "<%= @result.apply_type %>"
-        if(apply_type == 'instruction'){
-                
-                $('#apply_html').show();
 
-         }else if(apply_type == 'url'){
-                window.location.href  = "<%= @result.apply_url %>"
-            
-         }else if(apply_type == 'email'){
-
-                $('#apply_html').show();
-        
-        }    
-      
-    });
-
-        $.ajax({
+          $.ajax({
                 type: "post",
                 url: "<%= check_mark_spam_path %>" ,
                 data:{id: "<%= @result.id %>"},
@@ -560,7 +525,7 @@ $(document).ready(function() {
 
                     }
                 }
-        });
+          });
 
   
      $('.mark_spam, .unmark_spam').on('click',function(){
@@ -587,8 +552,55 @@ $(document).ready(function() {
 
      });   
 
+   })
 
 
+</script>
+
+
+<% end %>
+
+
+
+
+<script>
+
+    // main page angular app start
+    var app = angular.module('myApp', ["angularLazyImg","MainModule"]);
+    app.controller('myCtrl', function($scope, $http) {
+
+    });
+angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
+$(document).ready(function() {
+
+    $.ajax({
+        type: "post",
+        url: "<%= save_job_view_count_path %>" ,
+        data: {'paramlink': '<%= @job_id %>'},
+        success: function(data){
+        }
+    });
+    
+
+ $('#apply_html').hide();
+
+    $('.apply_button').on('click',function(){
+
+        apply_type               = "<%= @result.apply_type %>"
+        if(apply_type == 'instruction'){
+                
+                $('#apply_html').show();
+
+         }else if(apply_type == 'url'){
+                window.location.href  = "<%= @result.apply_url %>"
+            
+         }else if(apply_type == 'email'){
+
+                $('#apply_html').show();
+        
+        }    
+      
+    });
 
 });
 

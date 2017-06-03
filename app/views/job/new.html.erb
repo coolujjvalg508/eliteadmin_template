@@ -1,7 +1,7 @@
 <% previous_tags = get_previous_uploaded_job_tags %>
 <!-- All Dashboard Start -->
 <div id="New_Job" ng-app="New_Job" >
-<div ng-controller="NewJobCtrl">
+<div ng-controller="NewJobCtrl as ctrl">
 <section class="clearfix container-fluid-full">
   <div class="row-fluid">
     <div class="sidebar-left">
@@ -632,7 +632,7 @@
                             <div class="clearfix row">
 
                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                                    <% if 'edit' == params[:action] %>
                                         <%= link_to 'Delete'.html_safe, trash_job_path(@job.paramlink), data: { confirm: 'Are you sure?' }, title: "Delete", class: "btn-link" %>
                                     <% end %>
                                 </div>

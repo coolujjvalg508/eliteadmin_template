@@ -6,10 +6,10 @@
       <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active">
-          <a href="#">All Item</a>
+          <a href="/downloads/all">All Item</a>
           </li>
          <li ng-repeat="post in download_Heads">
-         <a href="{{post.slug}}" ng-bind="post.type_name"></a>
+         <a href="/downloads/{{post.slug}}" ng-bind="post.type_name"></a>
          </li>
         </ul>
       </div>

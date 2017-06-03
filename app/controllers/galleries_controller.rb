@@ -1,6 +1,6 @@
 class GalleriesController < ApplicationController
 
-    before_action :authenticate_user!, only: [:new, :crete, :edit, :update, :get_gallery_post_list, :count_user_gallery_post]
+    before_action :authenticate_user!, only: [:index ,:new, :show, :create, :edit, :update, :get_gallery_post_list, :count_user_gallery_post]
  
     def index
 
@@ -73,15 +73,20 @@ class GalleriesController < ApplicationController
           gallery_id     = params[:gallery_id]
           artist_id      = params[:artist_id]
           user_id        = current_user.id
-          is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').first
-          result         = ''
+
           galleryrecord  = Gallery.where(id: gallery_id).first
+          is_admin       = galleryrecord.is_admin.to_s
+         
+          is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin).first
+          result         = ''
+         
 
           activity_type = ''
           if is_like_exist.present?
                 activity_type = 'disliked'
-                PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').delete_all 
-                Notification.where(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, notification_type: "like", section_type: 'Gallery').delete_all
+                PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin).delete_all 
+                Notification.where(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, notification_type: "like", section_type: 'Gallery', is_admin: is_admin).delete_all
+
                 newlike_count  =  (galleryrecord.like_count == 0) ? 0 : galleryrecord.like_count - 1
                 galleryrecord.update(like_count: newlike_count) 
 
@@ -89,17 +94,18 @@ class GalleriesController < ApplicationController
 
           else
                 activity_type = 'liked'
-                PostLike.create(user_id: user_id, artist_id: artist_id, post_id: gallery_id, post_type: 'Gallery')  
+                PostLike.create(user_id: user_id, artist_id: artist_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin)  
                 
                 newlike_count  =  galleryrecord.like_count + 1
                 galleryrecord.update(like_count: newlike_count) 
 
+                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, notification_type: "like", is_read: 0, section_type: 'Gallery', is_admin: is_admin)
+                
                 result  = {'res' => 1, 'message' => 'Post has liked'}
-                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, notification_type: "like", is_read: 0, section_type: 'Gallery')
 
           end 
 
-          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, activity_type: activity_type, section_type: 'Gallery')  
+          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, activity_type: activity_type, section_type: 'Gallery', is_admin: is_admin)  
             
 
           render json: result, status: 200       
@@ -107,8 +113,12 @@ class GalleriesController < ApplicationController
 
      def check_save_like
           gallery_id     = params[:gallery_id]
+          
+          galleryrecord  = Gallery.where(id: gallery_id).first
+          is_admin       = galleryrecord.is_admin.to_s
+
           user_id        = current_user.id
-          is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery').first
+          is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin).first
           result = ''
           if is_like_exist.present?
                 result  = {'res' => 1, 'message' => 'Post has already liked'}
@@ -122,23 +132,32 @@ class GalleriesController < ApplicationController
 
     def follow_artist
         
-          artist_id        = params[:artist_id]
+          artist_id      = params[:artist_id]
+          gallery_id     = params[:gallery_id]
+          
+          galleryrecord  = Gallery.where(id: gallery_id).first
+          is_admin       = galleryrecord.is_admin.to_s
+
           user_id          = current_user.id
-          is_follow_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').first
+          is_follow_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).first
           result = ''
           
-          userrecord       = User.where(id: artist_id).first
+          if is_admin == 'N'
+               userrecord          = User.where(id: artist_id).first
+          else
+               userrecord          = AdminUser.where(id: artist_id).first
+          end   
 
           if is_follow_exist.present?
-                Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').delete_all 
-                Notification.where(user_id: user_id,  artist_id: artist_id, notification_type: "follow user", section_type: 'Gallery').delete_all  
+                Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).delete_all 
+                Notification.where(user_id: user_id,  artist_id: artist_id, notification_type: "follow user", section_type: 'Gallery', is_admin: is_admin).delete_all  
                 newfollow_count  =  (userrecord.follow_count == 0) ? 0 : userrecord.follow_count - 1
                 userrecord.update(follow_count: newfollow_count) 
 
                 result  = {'res' => 0, 'message' => 'Artist Not Follow'}
           else
-                Follow.create(user_id: user_id, artist_id: artist_id, post_type: '')
-                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: "", notification_type: "follow user", is_read: 0, section_type: 'Gallery')  
+                Follow.create(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin)
+                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: "", notification_type: "follow user", is_read: 0, section_type: 'Gallery', is_admin: is_admin)  
 
                 newfollow_count  =  userrecord.follow_count + 1
                 userrecord.update(follow_count: newfollow_count) 
@@ -153,9 +172,14 @@ class GalleriesController < ApplicationController
     end  
 
      def check_follow_artist
-          artist_id     = params[:artist_id]
+          artist_id      = params[:artist_id]
+          gallery_id     = params[:gallery_id]
           user_id        = current_user.id
-          is_like_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '').first
+
+          galleryrecord  = Gallery.where(id: gallery_id).first
+          is_admin       = galleryrecord.is_admin.to_s
+
+          is_like_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).first
           result = ''
           if is_like_exist.present?
                 result  = {'res' => 1, 'message' => 'Artist already followed'}
@@ -480,14 +504,15 @@ class GalleriesController < ApplicationController
           description       = params[:description]
           section_type      = params[:section_type]
 
-          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id, section_type: section_type) 
-         
+          galleryrecord     = Gallery.where("id = ?",post_id).first
+          is_admin          = galleryrecord.is_admin.to_s
 
-          galleryrecord               = Gallery.where(id: post_id).first
+          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id, section_type: section_type, is_admin: is_admin) 
+         
           newcomment_count_count      = galleryrecord.comment_count + 1
           galleryrecord.update(comment_count: newcomment_count_count) 
           
-          Notification.create(user_id: current_user.id, post_id: post_id, artist_id: galleryrecord.user_id, section_type: section_type, notification_type: "comment") 
+          Notification.create(user_id: current_user.id, post_id: post_id, artist_id: galleryrecord.user_id, section_type: section_type, notification_type: "comment", is_admin: is_admin) 
 
           render :json => {'res' => 1, 'message' => 'Comment has successfully sent'}, status: 200
     end  
@@ -500,7 +525,10 @@ class GalleriesController < ApplicationController
           user_id              = params[:user_id]
           section_type         = params[:section_type]
 
-          commentrecord        = PostComment.where("post_id = ? AND user_id = ? AND section_type=?",gallery_id,user_id,section_type).order('id DESC')
+          gallery_record       = Gallery.where("id= ?",gallery_id).first
+          is_admin             = gallery_record.is_admin.to_s
+
+          commentrecord        = PostComment.where("post_id = ? AND user_id = ? AND section_type=? AND is_admin=?",gallery_id,user_id,section_type,is_admin).order('id DESC')
           
 
           str = ''

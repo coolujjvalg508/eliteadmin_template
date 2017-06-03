@@ -1,6 +1,6 @@
 class UserController < ApplicationController
     before_action :find_associated_data, only: [:edit_profile, :update]
-    before_action :authenticate_user!, only: [:save_qb_data, :notification, :dashboard, :bookmark, :edit_profile, :user_jobs,:update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
+    before_action :authenticate_user!, only: [:save_qb_data, :user_setting, :user_portfolio, :notification, :dashboard, :bookmark, :edit_profile, :user_jobs,:update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
  
 
     def dashboard
@@ -9,8 +9,8 @@ class UserController < ApplicationController
         @view_count =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:view_count)
         @comment_count =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:comment_count)
         @user_view_count =  User.where("id = ? AND is_deleted = ?", current_user.id,0).sum(:view_count)
-
-
+        
+        @transaction =  PurchasedProduct.joins(:download).where("downloads.user_id = ? AND downloads.is_admin = 'N' AND status = ?", @current_user.id, 1).pluck(:transaction_history_id)
         
         @allpostlikerecords      =   PostLike.where(artist_id: current_user.id).order('id desc').limit(6)
 
@@ -53,19 +53,19 @@ class UserController < ApplicationController
 
         artist_id   = params[:id]
 
-        @artist_data            =  User.where("username = ? AND is_deleted = ?", artist_id,0).first
+        @artist_data             =  User.where("username = ? AND is_deleted = ?", artist_id,0).first
        
-        @like_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:like_count)
-        @view_count             =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:view_count)
-        @comment_count          =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:comment_count)
-        @user_view_count        =  User.where("id = ? AND is_deleted = ?", @artist_data.id,0).sum(:view_count)
+        @like_count              =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:like_count)
+        @view_count              =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:view_count)
+        @comment_count           =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', @artist_data.id, 1).sum(:comment_count)
+        @user_view_count         =  User.where("id = ? AND is_deleted = ?", @artist_data.id,0).sum(:view_count)
 
         
-        @allpostlikerecords      =   PostLike.where(artist_id: @artist_data.id).order('id desc').limit(6)
+        @allpostlikerecords      =  PostLike.where(artist_id: @artist_data.id).order('id desc').limit(6)
 
-        allgalleryrecords        =   Gallery.where('is_trash = ? AND is_admin=? AND user_id=? AND status=?',0,'N',@artist_data.id,1).order('id desc').limit(6).pluck(:id)
+        allgalleryrecords        =  Gallery.where('is_trash = ? AND is_admin=? AND user_id=? AND status=?',0,'N',@artist_data.id,1).order('id desc').limit(6).pluck(:id)
 
-        @allpostcommentrecords  =   PostComment.where(post_id: allgalleryrecords).order('id desc').limit(6)
+        @allpostcommentrecords   =  PostComment.where(post_id: allgalleryrecords).order('id desc').limit(6)
 
     end  
 
@@ -92,18 +92,15 @@ class UserController < ApplicationController
     end
 
     def all_activity
-            following_records     =   Follow.where(user_id: current_user.id)
+            following_records     =   Follow.where("user_id = ? AND is_admin= ? ",current_user.id,'N')
             following_ids   =   []
             following_records.each_with_index do |value , index|
                 following_ids[index]   =  value.artist_id
             end 
 
-           @latestactivity_data =   LatestActivity.where(user_id: following_ids).page(params[:page]).per(10)  
-
-          #  abort(latestactivity_data.to_json)
-
+           @latestactivity_data    =   LatestActivity.where("user_id IN (?)  AND is_admin= ? ",following_ids, 'N').page(params[:page]).per(10) 
     end
-
+ 
     def message
 
     end

@@ -13,7 +13,7 @@ include Bootsy::Container
  has_many :videos, as: :videoable, dependent: :destroy
  has_many :caption_video
  
-  
+ has_many :collection
  has_many :upload_videos, as: :uploadvideoable, dependent: :destroy
  has_many :caption_upload_video
  
@@ -40,6 +40,7 @@ include Bootsy::Container
  UNWRAPPED_UV = ['Unknown', 'Non-overlapping', 'Overlapping', 'Mixed', 'No']
  GEOMETRY = ['Polygon mesh', 'Subdivision-ready', 'Nurbs', 'Other']
  LICENSE_TYPE = ['Royalty free', 'Editorial', 'Custom']
+ UNIT_VALUE = ['Millimeters (mm)', 'Centimeters (cm)', 'Inches (in)', 'Meters (m)']
    
  accepts_nested_attributes_for :images, reject_if: proc { |attributes| attributes['image'].blank? || attributes['image'].nil? }, allow_destroy: true 
  

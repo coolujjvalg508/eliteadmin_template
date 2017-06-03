@@ -21,7 +21,7 @@
       </div>
       <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left">
 
-        <select class="custom-select" ng-change="searchByPostType(selected)" ng-model='selected'>
+        <select class="custom-select" ng-click="searchByPostType(selected)" ng-model='selected'>
           <option value="" selected="selected" >Select</option>
           <option value="0" class="post-type-link"  id="post-type-link-0" selected="selected" >Gallery</option>
           <option value="1" class="post-type-link"  id="post-type-link-1">Artwork</option>
@@ -206,7 +206,7 @@
     };
 
     $scope.searchByPostType = function(id) {
-        
+       // alert(id);
         if(id == 1){
            window.location.href='<%= browse_all_artwork_path %>';
         }else if(id == 2){

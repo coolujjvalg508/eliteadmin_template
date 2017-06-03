@@ -23,28 +23,58 @@
               <ul>
                 <% @collectiondetail.each_with_index do | collectiondetail, index |
                    src = '' 
-                    collectiondetail.gallery.images.each_with_index do | collectionimage, index |
-                          if index == 1
-                              break
-                          end  
-                          src =  collectionimage.image.large_image.url
-                      end  
+                    if collectiondetail.gallery_id != 0
+                        collectiondetail.gallery.images.each_with_index do | collectionimage, index |
+                            if index == 1
+                                break
+                            end  
+                            src =  collectionimage.image.large_image.url
+                        end
+                    elsif collectiondetail.download_id != 0
+                        collectiondetail.download.images.each_with_index do | collectionimage, index |
+                            if index == 1
+                                break
+                            end  
+                            src =  collectionimage.image.large_image.url
+                        end
+                    end
+                            
                   %>
-                <li class="col-md-3 col-sm-6 col-xs-12">
-                  <div class="book-indent clearfix">
-                    <div class="book-profile"> <a href='<%= show_gallery_path(collectiondetail.gallery.paramlink) %>'>
-                            <img src="<%= src %>" class="img-responsive tutorial-img-height">
-                          </a></div>
-                    <div class="wip-title padding10"><%= link_to collectiondetail.gallery.title, show_gallery_path(collectiondetail.gallery.paramlink) %></div>
-                    <!-- <div class="wip-small clearfix">
-                      <ul class="margin">
-                        <li class="lists"><img src="images/database/mioree-silas-sall.jpg" class="img-responsive" alt="img"></li>
-                        <li class="lists"><img src="images/database/mioree-ana.jpg" class="img-responsive" alt="img"></li>
-                        <li class="lists"><img src="images/database/mioree-snape.jpg" class="img-responsive" alt="img"></li>
-                      </ul>
-                    </div> -->
-                  </div>
-                </li>
+                    <% if collectiondetail.gallery_id !=0 %>
+                        <li class="col-md-3 col-sm-6 col-xs-12">
+                          <div class="book-indent clearfix">
+                            <div class="book-profile"> 
+                                    <a href='<%= show_gallery_path(collectiondetail.gallery.paramlink) %>'>
+                                    <img src="<%= src %>" class="img-responsive tutorial-img-height">
+                                  </a></div>
+                            <div class="wip-title padding10"><%= link_to collectiondetail.gallery.title, show_gallery_path(collectiondetail.gallery.paramlink) %></div>
+                            <!-- <div class="wip-small clearfix">
+                              <ul class="margin">
+                                <li class="lists"><img src="images/database/mioree-silas-sall.jpg" class="img-responsive" alt="img"></li>
+                                <li class="lists"><img src="images/database/mioree-ana.jpg" class="img-responsive" alt="img"></li>
+                                <li class="lists"><img src="images/database/mioree-snape.jpg" class="img-responsive" alt="img"></li>
+                              </ul>
+                            </div> -->
+                          </div>
+                        </li>
+                    <% elsif collectiondetail.download_id !=0  %>
+                        <li class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="book-indent clearfix">
+                                <div class="book-profile"> 
+                                        <a href='<%= show_download_path(collectiondetail.download.paramlink) %>'>
+                                        <img src="<%= src %>" class="img-responsive tutorial-img-height">
+                                      </a></div>
+                                <div class="wip-title padding10"><%= link_to collectiondetail.download.title, show_download_path(collectiondetail.download.paramlink) %></div>
+                                <!-- <div class="wip-small clearfix">
+                                  <ul class="margin">
+                                    <li class="lists"><img src="images/database/mioree-silas-sall.jpg" class="img-responsive" alt="img"></li>
+                                    <li class="lists"><img src="images/database/mioree-ana.jpg" class="img-responsive" alt="img"></li>
+                                    <li class="lists"><img src="images/database/mioree-snape.jpg" class="img-responsive" alt="img"></li>
+                                  </ul>
+                                </div> -->
+                            </div>
+                        </li>
+                    <% end %>
               <% end %>
 
 
@@ -104,21 +134,19 @@
 $(document).ready(function() {
    $('#edit_bookmark_form_popup').on('submit',function(){
     //alert('ghdfg');
-             $.ajax({
-              type: "post",
-              url: "<%= update_collection_path %>" ,
-              data: $('#edit_bookmark_form_popup').serialize(),
-              success: function(data){
-                  if(data.res == 0){
-                      $('#bookmark_error_msg').html('');
-                      $('#bookmark_error_msg').html(data.message);
-                  }else{
-                      window.location.reload(true);
-
-                  }
-              }
-
-            });
+        $.ajax({
+            type: "post",
+            url: "<%= update_collection_path %>" ,
+            data: $('#edit_bookmark_form_popup').serialize(),
+            success: function(data){
+                if(data.res == 0){
+                  $('#bookmark_error_msg').html('');
+                  $('#bookmark_error_msg').html(data.message);
+                }else{
+                  window.location.reload(true);
+                }
+            }
+        });
     });
 
 });

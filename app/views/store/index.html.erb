@@ -1,66 +1,400 @@
 <!-- All Dashboard Start -->
+<div id="mayShop2" ng-app="StoreApp">
+  <div ng-controller="StoreCtrl">
 <section class="clearfix container-fluid-full">
-  <div class="row-fluid">
-    <div class="sidebar-left">
-      <%= render 'layouts/navigation' %>
-    </div>
-    <div class="content clearfix">
-      
-      
-       <div class="clearfix invoicepage">
-      <ul class="nav nav-tabs responsive-tabs">
-        <li class="active"><a href="#LatestSales">Latest Sales <i></i></a></li>
-        <li><a href="#LatestDownloads">Latest Downloads<i></i></a></li>
-        <li><a href="#MonthlySummary">Monthly Summary <i></i></a></li>
-        <li><a href="#Coupons">Coupons<i></i></a></li>
-      </ul>
-      <div class="tab-content">
-        
-        <div class="tab-pane active" id="LatestSales">
-          <div class="clearfix invoiceindent">
-           <h2 class="text-center">Oops, no sales!</h2>
-           <div class="text-center lightcolor">Ah. unfortunately you don't have any sales yet. We wish you best of luch in getting them soon!</div>
-          
+	<div class="row-fluid">
+		<div class="sidebar-left">
+			<%= render 'layouts/navigation' %>
+		</div>
+		<div class="content clearfix">
+			
+			
+			 <div class="clearfix invoicepage">
+			<ul class="nav nav-tabs responsive-tabs">
+				
+				<li class="active"><a href="#LatestSales">Latest Sales <i></i></a></li>
+				<li><a href="#LatestDownloads">Latest Downloads<i></i></a></li>
+				<li><a href="#MonthlySummary">Monthly Summary <i></i></a></li>
+				<% if @coupon_tab.present? %>
+				<li class="active"><a href="#Coupons">Coupons<i></i></a></li>
+				<% else %>
+				<li ><a href="#Coupons">Coupons<i></i></a></li>
+				<% end %>
+			</ul>
+			<div class="tab-content">
+				
+				<div class="tab-pane active" id="LatestSales">
+					<div class="clearfix invoiceindent">
+		
+					 	<div class="panel panel-default allgallerypostwrap panel-new-section">
+												<div class="panel-heading clearfix padding">
+														<div class="GalleryTitle">Title</div>
+														<div class="GalleryAuthor hidden-xs">User name</div>
+														<div class="GalleryDate hidden-xs">Price</div>
+
+														<div class="GalleryDate hidden-xs">Discount</div>
+														<div class="GalleryLike hidden-xs">Net Amount</div>
+														<div class="GalleryLike hidden-xs">Payment method</div>
+														<div class="GalleryLike hidden-xs">TXN id</div>
+												</div>
+												<div class="panel-body padding">
+													<div class="clearfix Allpostgallery">
+															<ul>
+											<li class="clearfix" dir-paginate="getSale in getlatestsale | itemsPerPage:10"  pagination-id="getLatestSales">
+																	<div class="AllGalleryTitle">{{getSale.download.title}}</div>
+																	<div class="AllGalleryAuthor">{{getSale.user.firstname}}</div>
+											<div class="AllGalleryAuthor">{{getSale.transaction_history.gross_amount | currency}}	</div>
+
+																	<div class="AllGalleryDate">
+																		{{getSale.transaction_history.discount_amount | currency}}
+																	</div>
+															<div class="AllGalleryDate">{{getSale.transaction_history.net_amount | currency}}</div>
+																	<div class="AllGalleryDate">
+																		{{getSale.transaction_history.payment_method}}
+																	</div>
+																	<div class="">
+																	{{getSale.transaction_history.txn_id}}
+																	</div>
+
+																</li>
+															</ul>
+														</div>
+												</div>
+						</div>
+						 <div class="pagintionpage clearfix">
+            <dir-pagination-controls
+                 max-size="3"
+                 direction-links="true" pagination-id="getLatestSales"
+                 boundary-links="false" >
+            </dir-pagination-controls>
           </div>
-        </div>
-        
-        <div class="tab-pane" id="LatestDownloads">
-          <div class="clearfix invoiceindent">
-           <div class="text-center lightcolor">Ah. unfortunately you don't have any sales yet. We wish you best of luch in getting them soon!</div>
-          
+					
+					</div>
+				</div>
+				
+				<div class="tab-pane" id="LatestDownloads">
+				 	<div class="clearfix invoiceindent">
+					<div class="panel panel-default allgallerypostwrap panel-new-section">
+												<div class="panel-heading clearfix padding">
+														<div class="GalleryTitle">Title</div>
+														<div class="GalleryAuthor hidden-xs">Is Free</div>
+														<div class="GalleryDate hidden-xs">Price</div>
+
+														<div class="GalleryDate hidden-xs">Number of download</div>
+														<div class="GalleryLike hidden-xs">Number of sold</div>
+														<div class="GalleryLike hidden-xs">license type</div>
+														<div class="GalleryLike hidden-xs">Product id</div>
+												</div>
+												<div class="panel-body padding">
+													<div class="clearfix Allpostgallery">
+															<ul>
+											<li class="clearfix" dir-paginate="getSale in getlatest_download | itemsPerPage:10"  pagination-id="getLatestDownloads">
+											<div class="AllGalleryTitle" ng-if="getSale.title!=null">{{getSale.title}}</div>
+											<div class="AllGalleryTitle" ng-if="getSale.title==null">&nbsp;</div>
+
+											<div class="AllGalleryAuthor" ng-if="getSale.free!=null">{{getSale.free}}</div>
+											<div class="AllGalleryAuthor" ng-if="getSale.free==null">&nbsp;</div>
+
+											<div class="AllGalleryAuthor" ng-if="getSale.price!=null">{{getSale.price | currency}}	</div>
+											<div class="AllGalleryAuthor" ng-if="getSale.price==null">&nbsp;</div>
+
+											<div class="AllGalleryDate" ng-if="getSale.number_of_download!=null">{{getSale.number_of_download}}</div>
+											<div class="AllGalleryDate" ng-if="getSale.number_of_download==null">&nbsp;</div>
+
+											<div class="AllGalleryDate" ng-if="getSale.number_of_sold!=null">{{getSale.number_of_sold}}</div>
+											<div class="AllGalleryDate" ng-if="getSale.number_of_sold==null">&nbsp;</div>
+
+											<div class="AllGalleryDate" ng-if="getSale.license_type!=''">{{getSale.license_type}}</div>
+											<div class="AllGalleryDate" ng-if="getSale.license_type==''">&nbsp;</div>
+     												
+     										<div ng-if="getSale.product_id!=null" class="">{{getSale.product_id}}</div>
+     										<div ng-if="getSale.product_id==null" class="">&nbsp;</div>
+
+
+																</li>
+															</ul>
+														</div>
+												</div>
+						</div>
+						<div class="pagintionpage clearfix">
+            <dir-pagination-controls
+                 max-size="3"
+                 direction-links="true" pagination-id="getLatestDownloads"
+                 boundary-links="false" >
+            </dir-pagination-controls>
           </div>
-        </div>
-        
-        <div class="tab-pane" id="MonthlySummary">
-         
-         <div class="clearfix invoiceindent">
-           <h2 class="text-center">Oops, no sales!</h2>
-           <div class="text-center lightcolor">Ah. unfortunately you don't have any sales yet. We wish you best of luch in getting them soon!</div>
-          
+					</div>
+				</div>
+				
+				<div class="tab-pane" id="MonthlySummary">
+				 
+				 <div class="clearfix invoiceindent">
+				<div class="panel panel-default allgallerypostwrap panel-new-section">
+												<div class="panel-heading clearfix padding">
+														<div class="GalleryAuthor hidden-xs">Month</div>
+
+														<div class="GalleryTitle">Total price</div>
+														
+												</div>
+												<div class="panel-body padding">
+													<div class="clearfix Allpostgallery">
+															<ul>
+											<li class="clearfix" dir-paginate="getSale in getMonthlySummaryReport | itemsPerPage:10"  pagination-id="getMonthlySummaryReport">
+																	<div class="AllGalleryTitle" ng-bind="formatDate(getSale.month) |  date:'MMMM'"></div>
+												<div class="AllGalleryTitle">{{getSale.total_price | currency}}</div>
+																	
+
+
+																</li>
+															</ul>
+														</div>
+												</div>
+						</div>
+						<div class="pagintionpage clearfix">
+            <dir-pagination-controls
+                 max-size="3"
+                 direction-links="true" pagination-id="getMonthlySummaryReport"
+                 boundary-links="false" >
+            </dir-pagination-controls>
           </div>
-        
-        </div>
-        
-        <div class="tab-pane" id="Coupons">
-         <div class="clearfix invoiceindent">
-           <div class="text-center lightcolor">Ah. unfortunately you don't have any sales yet. We wish you best of luch in getting them soon!</div>
-          
-          </div>
-        </div>
-        
-      </div>
-    </div>
-      
-      
-    </div>
-  </div>
+					
+					</div>
+				
+				</div>
+				
+				<div class="tab-pane" id="Coupons">
+				 <div class="clearfix invoiceindent">
+					<div class="clearfix notification-heading"> <span class="noti-title">All Coupons</span>
+						<button class="addbtn" id="create_button" type="button">Create New Coupon</button>
+					</div>
+						<% if @coupon_detail.present? %>
+								
+										<div class="panel panel-default allgallerypostwrap panel-new-section">
+												<div class="panel-heading clearfix padding">
+														<div class="GalleryTitle hidden-xs">Coupon Code</div>
+														<div class="GalleryAuthor hidden-xs">Discount Value</div>
+														<div class="GalleryDate hidden-xs">Discount Type</div>
+														<div class="GalleryDate hidden-xs">No. of Times Use</div>
+														<div class="GalleryLike hidden-xs">Valid From</div>
+														<div class="GalleryLike hidden-xs">Valid Till</div>
+														<div class="GalleryLike hidden-xs">Actions</div>
+												</div>
+												<% @coupon_detail.each do |coupon_data| %>
+												<div class="panel-body padding">
+														<div class="clearfix Allpostgallery">
+															<ul>
+																<li class="clearfix">
+																	<div class="AllGalleryTitle"> <%= coupon_data.coupon_code %> </div>
+																	<div class="AllGalleryAuthor"><%= coupon_data.discount_value %></div>
+																	<div class="AllGalleryDate"><%= coupon_data.discount_type %></div>
+																	<div class="AllGalleryDate"><%= coupon_data.no_of_use %></div>
+																	<div class="AllGalleryDate"><%= coupon_data.valid_from %></div>
+																	<div class="AllGalleryDate"><%= coupon_data.valid_till %></div>
+																	
+																	<div class="AllGalleryLike clearfix">
+																		<div class="clearfix marginB15 delet-icon-new">
+																		
+																			<%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i> Delete'.html_safe, coupon_delete_path(coupon_data),
+																					method: :delete,
+																					data: { confirm: 'Are you sure?' } %>
+																		</div>
+																	 
+																	</div>
+																</li>
+															</ul>
+														</div>
+												</div>
+												<% end %>
+										</div>
+								
+						<% else %>
+
+								<div class="text-center lightcolor">No Coupon Detail Found!!!!!!!</div>
+						<% end %>
+						<div id="create_new" class="panel panel-default allgallerypostwrap panel-new-section hidden">
+								<div class="panel-body padding">
+								<%= form_tag save_coupon_path, id: :save_coupon, method: :post do  %>
+										<div class="clearfix Allpostgallery">
+											<ul>
+												<li class="clearfix">
+													<div class="AllGalleryTitle "> <input type="text" class="form-control from-input" id="coupon_code" name = "coupon_code" placeholder="Coupon Code"> </div>
+													<div class="AllGalleryAuthor"><input type="text" class="form-control from-input" name = "discount_value" placeholder="Discount Value" id="discount_value"></div>
+													<div class="AllGalleryDate"><select class="form-control from-input" name = "discount_type" id="discount_type">
+																		<option value="Amount">Amount</option>
+																		<option value="Percent">Percent</option>
+																</select></div>
+													<div class="AllGalleryDate"><input type="text" class="form-control from-input" name = "no_of_use" placeholder="no. of time use" value="" id="no_of_use"></div>
+													<div class="AllGalleryDate"><input type="text" class="form-control from-input" name = "valid_from" placeholder="Valid From" id="valid_from"></div>
+													<div class="AllGalleryDate"><input type="text" class="form-control from-input" id="valid_till" name = "valid_till" placeholder="Valid Till" ></div>
+													
+													<div class="AllGalleryLike clearfix">
+														<div class="clearfix marginB15">
+															<button class="addbtn" type="submit" id="create_coupon" >Create</button>
+														</div>
+													 
+													</div>
+												</li>
+											</ul>
+										</div>
+								<% end %>
+								</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+			
+			
+		</div>
+	</div>
 </section>
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
  <%= render 'layouts/lastfooter' %>
 </footer>
+</div>
+</div>
 <script>
 $('.responsive-tabs').responsiveTabs({
 accordionOn: ['xs', 'sm']
 });
+
+
+
+$(document).ready(function(){
+		$('[id^= create_button]').on('click',function(){
+						
+				$('#create_button').addClass('hidden');
+				$('#create_new').removeClass('hidden');
+						
+		});
+
+		$('#create_coupon').on('click',function(e){
+					e.preventDefault();
+				var coupon_code         = $('#coupon_code').val();
+				var discount_value      = $('#discount_value').val();
+				var no_of_use           = $('#no_of_use').val();
+				var valid_from          = $('#valid_from').val();
+				var valid_till          = $('#valid_till').val();
+				var discount_type          = $('#discount_type').val();
+				
+				if(coupon_code==""){
+						alert("Please enter the coupon code");
+						return false;
+				}
+				else if(discount_value==""){
+						alert("Please enter the discount value");
+						return false;
+				}
+				else if(no_of_use==""){
+						alert("Please enter how many times it can be used");
+						return false;
+				}
+				else if(valid_from==""){
+						alert("Please enter valid from date");
+						return false;
+				}
+				else if(valid_till==""){
+						alert("Please enter valid till date");
+						return false;
+				}
+
+				else{
+					
+						$.ajax({
+								type: "post",
+								url: "<%= save_coupon_path %>",
+								data: {'coupon_code': coupon_code, 'discount_value': discount_value,'discount_type': discount_type,'no_of_use': no_of_use,'valid_from': valid_from,'valid_till': valid_till},
+								success: function(data){
+									// alert(data.res);
+										if(data.res == 0 || data.res == 2){
+												alert(data.message);
+												return false;
+										}else{
+												window.location.reload(true);
+										}
+								}
+						});
+				}
+	 
+		});
+})
+</script>
+
+<script type="text/javascript">
+		$(function () {
+				$('#valid_from').datetimepicker({
+
+						startDate: '-0d',
+						weekStart: 1,
+						todayBtn:  1,
+						autoclose: 1,
+						todayHighlight: 1,
+						startView: 2,
+						minView: 2,
+						forceParse: 0,
+						dateFormat: 'mm-dd-yy', 
+						changeMonth: true,
+						changeYear: true,
+						yearRange: '-70:+10',
+				});
+				$('#valid_till').datetimepicker({
+
+						startDate: '-0d',
+						weekStart: 1,
+						todayBtn:  1,
+						autoclose: 1,
+						todayHighlight: 1,
+						startView: 2,
+						minView: 2,
+						forceParse: 0,
+						dateFormat: 'mm-dd-yy', 
+						changeMonth: true,
+						changeYear: true,
+						yearRange: '-70:+10',
+				});
+		});
+</script>
+<script type="text/javascript">
+	  var app = angular.module('StoreApp', ['angularUtils.directives.dirPagination','MainModule']);
+  //Controller For Navbar
+  app.controller('StoreCtrl', function ($scope, $http, Cart, $rootScope) {
+
+$scope.get_latest_saleUrl = function()
+{
+  	 var latest_saleUrl ='/get_latest_sale/'+'<%= user_signed_in?  ? current_user.id : 0 %>'; 
+
+	 $http.get(latest_saleUrl)
+		 .then(function(responce){
+		 	$scope.getlatestsale = responce.data.latest_sale;
+		 });
+}
+$scope.get_latest_saleUrl();
+
+$scope.get_latest_download =function()
+{
+  	var latest_saleUrl ='/get_latest_download/'+'<%= user_signed_in?  ? current_user.id : 0 %>'; 
+  	$http.get(latest_saleUrl)
+		 .then(function(responce){
+		 	$scope.getlatest_download = responce.data.latest_download;
+		 });
+}
+$scope.get_latest_download();
+$scope.getMonthlySummary = function()
+{
+  var MonthlySummary ='/get_monthly_summary/'+'<%= user_signed_in?  ? current_user.id : 0 %>'; 
+  	$http.get(MonthlySummary)
+		 .then(function(responce){
+		 	$scope.getMonthlySummaryReport = responce.data.monthly_summary;
+		 });	
+}
+$scope.getMonthlySummary();		
+ $scope.formatDate = function(date){
+          var dateOut = new Date(date);
+          return dateOut;
+    };
+  });
+
+  angular.bootstrap(document.getElementById("mayShop2"), ['StoreApp']);
 </script>

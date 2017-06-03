@@ -40,7 +40,17 @@
 	  
 	  <li>
 	<% if user_signed_in? %>
-	 	 <a href="<%= create_gallery_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i> Upload</a>
+		<li>
+            <button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a href="<%= create_gallery_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Portfolio</a></li>
+              <li><a href="<%= create_download_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Product</a></li>
+             <!--  <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li> -->
+            </ul>
+          </li>
+	 	
 	<% end %>  
 
 	<!--  <button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button>
@@ -75,14 +85,26 @@
 				result_notification[0].each do |notification_detail|
 			%>
 			 <% if notification_detail.notification_type == 'like' %>
-			  <li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
+			 	<% if notification_detail.section_type == 'Download' %>
+
+			 		<li><a href="/downloads/<%= notification_detail.download.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <%= notification_detail.download.present? ? notification_detail.download.title : 0 %></a></li>
+			 	<% else %>
+			 		<li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
+			 	<% end %>
+			  
+
 
 			  <% elsif notification_detail.notification_type == 'follow user' %>
 			  <li><a href="<%= artist_profile_path(notification_detail.user.username) %>"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %><%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has started following you</a></li>
 
 			  <% elsif notification_detail.notification_type == 'comment' %>
-			  <li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %></i><%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <br/><%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
 
+			    <% if notification_detail.section_type == 'download_detail' %>
+
+			 		<li><a href="/downloads/<%= notification_detail.download.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <%= notification_detail.download.present? ? notification_detail.download.title : 0 %></a></li>
+			 	<% else %>
+			  		<li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %></i><%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <br/><%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
+			  	<% end %>
 			  <% end 
 			  		end
 			   %>
@@ -95,17 +117,15 @@
 			
 		</li>
 
-
-
-          <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> <span class="noti-box">25</span></a></li>
-          
+	
+        <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> <span class="noti-box">25</span></a></li>
+        <% end %>  
           <!-- <li class="hidden-xs hidden-sm userprofile-rightside">
           <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i><span class="noti-box">{{cart.getTotalCount()}}</span></a>
           </li> -->
 
-          <li class="hidden-xs hidden-sm userprofile-rightside cartdropdown dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i><span class="noti-box">7</span></a>
-    <!-- {{cart.getTotalCount()}} -->
-		      <div ng-show="false" class="dropdown-menu">
+          <li class="hidden-xs hidden-sm userprofile-rightside cartdropdown dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i><span class="noti-box">{{cart.getTotalCount()}}</span></a>
+		      <div class="dropdown-menu">
 		      <div class="popover-box-title">Shopping cart</div>
 		      <div class="popover-box-inner">You have <span>{{cart.getTotalCount()}}</span>  items in your shopping cart.</div>
 
@@ -140,19 +160,19 @@
 		        <div class="cart-price-info__final-price">Final price: <strong>$454.00</strong></div> -->
 		      </div>
 
-		      <div class="popover-box__bonus-credits-info text-center">Add more models to cart to reach $600.00<br> and get $70.00 Bonus Credits <span class="js-bonus-credits-tooltip u-ml10 tooltipstered"><i class="fa fa-question-circle"></i></span></div>
+		     <!--  <div class="popover-box__bonus-credits-info text-center">Add more models to cart<span class="js-bonus-credits-tooltip u-ml10 tooltipstered"><i class="fa fa-question-circle"></i></span></div> -->
 		         
 		      <div class="popover-box__actions clearfix">
-		      <a href="#"><i class="fa fa-shopping-cart fa-lg"></i> View cart </a>
-		      <a class="blue-btn pull-right" href="/cg/checkout/payment"><i class="fa fa-shopping-bag"></i>  Proceed to checkout </a>
+		      <a href="/cart"><i class="fa fa-shopping-cart fa-lg"></i> View cart </a>
+		      <a class="blue-btn pull-right" href="/cart"><i class="fa fa-shopping-bag"></i>  Proceed to checkout </a>
 		      </div>   
 		         
 		      </div>
-		    
-		    
-		    
-		    </li>
+		 </li>
 
+		
+
+		  <% if user_signed_in? %>  
           <li class="profile hidden-sm text-center"><a href="#" class="dropdown-toggle padding" data-toggle="dropdown" ><span class="hidden-xs"> <span class="pull-left">
           <%#= abort(current_user.to_json) %>
           <%= image_tag current_user.image? ? current_user.image.software_used.url : 'user-profile.jpg'  , border: 1, alt:"user profile" %>
@@ -177,10 +197,14 @@
             </ul>
           </li>
 			<!-- <li><%= link_to('<i class="fa fa-sign-out marginR5"></i> Signout'.html_safe, destroy_user_session_path, :method => :get) %></li> -->
+		
+
 		<% else %>
+			
 			<li> <%= link_to '<i class="fa fa-users marginR5"></i> Signup'.html_safe, new_user_registration_path %>
 			<!-- <a href="signup.html"><span class="fa fa-users marginR5"></span> Signup</a></li> -->
 		  	<li><a data-toggle="modal" href="#login-popup"><span class="glyphicon glyphicon-log-in marginR5 "></span> SignIn</a></li>	
+		
 		<% end %>	
 	  
 
@@ -262,12 +286,16 @@
 <script type="text/javascript">
 				
 		$(document).on('submit', '#log_in_form_popup', function(e) {
-			
+
 			//do stuff here
 		}).on('ajax:success', '#log_in_form_popup', function(e, data, status, xhr) {
 			
 			if(status == 'success'){
-				window.location.href = '<%= all_activity_path %>';
+				<% if params[:controller] == 'downloads' && params[:action] == 'cart' %>
+					window.location.href = '<%= cart_path %>';
+				<% else %>
+					window.location.href = '<%= all_activity_path %>';
+				<% end %>
 			}else{
 				$('.signin-alert').html('Invalid email or password.');
 				$('.signin-alert').show();
@@ -315,8 +343,7 @@
 
 <script type="text/javascript">
 	var app = angular.module('ShopNav',['MainModule']);
-    
-
+  
 //Controller For Navbar
 app.controller('NavbarCtrl', function($scope, $http,Cart,$rootScope) {
      $rootScope.cart = Cart.cart;

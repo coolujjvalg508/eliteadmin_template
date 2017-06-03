@@ -1,4 +1,5 @@
 module ApplicationHelper
+	
 	#The below method is for display error messages next to field (ActiveModel validation messages)
 	def form_error_msg_for(model_obj, field_name, field_name_as=nil)
 		begin
@@ -180,6 +181,27 @@ module ApplicationHelper
 		return tags
 
 	end	
+
+	def get_previous_uploaded_download_tags
+
+		previous_download = Download.where("user_id = ? AND is_admin = 'N'", current_user.id).order('id DESC').first
+		tags = []
+
+		if previous_download.present?
+			if previous_download.tags.present?
+
+				previous_download.tags.each_with_index do |tag, i|
+					#abort(tag['tag'].to_json)
+
+					tags[i] = tag['tag']
+
+				end
+
+			end
+		end
+		return tags
+
+	end
 
 
 
