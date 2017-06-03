@@ -337,12 +337,18 @@ class DownloadsController < ApplicationController
         @product_avg_rating             =  Rating.where('product_id = ? AND post_type = ?', @download_data.id, 'download').pluck("AVG(rating) as avg_rate")
 
         @collection     = Collection.new
-       # abort(@download_data.to_json)
         
         @has_user_already_given_rating = 0
+        @is_purchased = false
         if current_user.present?
           @has_user_already_given_rating  =  Rating.where('user_id = ? AND product_id=? AND post_type = ?', current_user.id, @download_data.id, 'download').count 
-        end      
+
+          purchased_product = PurchasedProduct.where('user_id = ? AND download_id = ?', current_user.id, @download_data.id).limit(1).count
+
+          if purchased_product > 0
+            @is_purchased = true
+          end  
+        end    
   end  
 
   def get_download_avg_rating

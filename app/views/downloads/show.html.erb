@@ -44,7 +44,7 @@
       <div class="clearfix">
         <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
         <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
-        <span class="followcomment">{{get_download_info.follow_count}}</span></div>
+        <!-- <span class="followcomment">{{get_download_info.follow_count}}</span> --></div>
     </div>
   </div>
   <div class="col-md-6 col-sm-6 col-xs-12 text-right"><a href="#" class="view-txt"><i class="fa fa-thumbs-up" aria-hidden="true"></i>{{get_download_info.like_count}}</a> <a href="" class="view-txt"><i class="fa fa-eye" aria-hidden="true"></i>{{get_download_info.view_count}}</a> <a href="#" class="view-txt"><i class="fa fa-comment-o" aria-hidden="true"></i>{{get_download_info.comment_count}}</a> </div>
@@ -156,161 +156,171 @@
 </div>
 </div>
 </div>
+
 <div class="DownloadPostRight clearfix">
-<div class="artist-title marginB10">{{get_download_info.title}}</div>
-<div class="product-name marginB15">by 
-<a ng-if="get_download_info.is_admin=='Y'" href="#">Admin</a>
-<a ng-if="get_download_info.is_admin=='N'" href="#">{{get_download_info.user.firstname}} &nbsp;{{get_download_info.user.lastname}}</a>
+  <div class="artist-title marginB10">{{get_download_info.title}}</div>
+  <div class="product-name marginB15">by 
+    <a ng-if="get_download_info.is_admin=='Y'" href="#">Admin</a>
+    <a ng-if="get_download_info.is_admin=='N'" href="#">{{get_download_info.user.firstname}}&nbsp;{{get_download_info.user.lastname}}</a>
+  </div>
+  <div class="post-price marginB10" ng-if="get_download_info.free==false">${{get_download_info.price}}</div>
+  <div class="post-price marginB10" ng-if="get_download_info.free==true">Free</div>
 
-</div>
-<div class="post-price marginB10" ng-if="get_download_info.free==false">${{get_download_info.price}}</div>
-<div class="post-price marginB10" ng-if="get_download_info.free==true">Free</div>
-
-<div class="offer-price marginB10">
-<%= image_tag("hand-icon.png", :alt => "Hand", :class => 'marginR5') %> Offer your price</div>
-<div class="clearfix marginB15"> 
-<a href="#" class="blue-btn" ng-if="get_download_info.free==false && !checkCart(get_download_info.product_id)"  ng-click="AddTocart(get_download_info)">
-<i class="fa fa-shopping-cart marginR5" aria-hidden="true"></i> Add to cart</a> 
-<a ng-if="checkCart(get_download_info.product_id)" ng-click="RemoveThis(get_download_info)" href="#" class="red-btn border-radius"><i class="fa fa-shopping-bag marginR5" aria-hidden="true"></i>Remove cart</a> 
-<a id="buy_now" ng-if="get_download_info.free==true" ng-click="BuyThis()" href="#" class="red-btn border-radius"><i class="fa fa-shopping-bag marginR5" aria-hidden="true"></i> Buy Now</a> 
-</div>
-
-<div class="offer-price offer-price-new-mar marginB10 hidden" id="download_show">
-  <ul>
-    <% if @download_data.zip_files.present? %>
-      <% @download_data.zip_files.each do |download_data|%>
-     
-        <li class="row">
-          <div class="col-md-8 col-sm-7 col-xs-8"><%= download_data.zip_caption %></div>
-          <div class="col-md-4 col-sm-5 col-xs-4 text-right"><a class="download-new-mar" href="<%= download_data.zipfile.url %>">Download</a></div>
-        </li>
-        
-      <% end %>
+  <div class="offer-price marginB10"><%= image_tag("hand-icon.png", :alt => "Hand", :class => 'marginR5') %> Offer your price</div>
+  <div class="clearfix marginB15"> 
+    <% if @is_purchased %>
+        <a id="buy_now" ng-click="BuyThis()" href="#" class="red-btn border-radius">
+          <i class="fa fa-shopping-bag marginR5" aria-hidden="true"></i> Buy Now
+        </a>
+    <% else %>
+        <a href="#" class="blue-btn" ng-if="get_download_info.free==false && !checkCart(get_download_info.product_id)"  ng-click="AddTocart(get_download_info)">
+          <i class="fa fa-shopping-cart marginR5" aria-hidden="true"></i> Add to cart
+        </a> 
+        <a ng-if="checkCart(get_download_info.product_id)" ng-click="RemoveThis(get_download_info)" href="#" class="red-btn border-radius">
+          <i class="fa fa-shopping-bag marginR5" aria-hidden="true"></i>Remove cart
+        </a> 
+        <a id="buy_now" ng-if="get_download_info.free==true" ng-click="BuyThis()" href="#" class="red-btn border-radius">
+          <i class="fa fa-shopping-bag marginR5" aria-hidden="true"></i> Buy Now
+        </a>   
     <% end %>
+  </div>    
+
+  <div class="offer-price offer-price-new-mar marginB10 hidden" id="download_show">
+    <ul>
+      <% if @download_data.zip_files.present? %>
+        <% @download_data.zip_files.each do |download_data|%>
+       
+          <li class="row">
+            <div class="col-md-8 col-sm-7 col-xs-8"><%= download_data.zip_caption %></div>
+            <div class="col-md-4 col-sm-5 col-xs-4 text-right"><a class="download-new-mar" href="<%= download_data.zipfile.url %>">Download</a></div>
+          </li>
+          
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="product-rating marginB15">Product Rating 
+    <% if user_signed_in? && @has_user_already_given_rating < 1 %>
+         <script>
+            $(function() {
+                $('#p_rating').raty({ score: 0, click: function(score, evt) {
+                     $.ajax({
+                          url: "<%= save_download_rating_path %>",
+                          data: { 'product_id': <%= @download_data.id %>, 'score': score, 'post_type': 'download' },
+                          type: 'post',
+                          success: function(r){
+                            $('#p_rating').raty({ score: r.ratingdata, readOnly: true});
+                          } 
+                      });
+                }});
+             });
+          </script>
+    <% else %>    
+        <script>
+            $(function() {
+                $.ajax({
+                    url: "<%= get_download_avg_rating_path %>",
+                    data: { 'product_id': <%= @download_data.id %>, 'post_type': 'download' },
+                    type: 'post',
+                    success: function(r){
+                      $('#p_rating').raty({ score: r.ratingdata, readOnly: true});
+                    } 
+                });
+
+                
+             });
+        </script> 
+    <% end %> 
+    <div id ="p_rating"></div>
+  </div>
+
+
+  <div class="clearfix download-cupon">
+  <ul>
+  <!-- <li><a href="#">Redeem a Coupon</a></li> -->
+
   </ul>
-</div>
+  </div>
 
-<div class="product-rating marginB15">Product Rating 
-  <% if user_signed_in? && @has_user_already_given_rating < 1 %>
-       <script>
-          $(function() {
-              $('#p_rating').raty({ score: 0, click: function(score, evt) {
-                   $.ajax({
-                        url: "<%= save_download_rating_path %>",
-                        data: { 'product_id': <%= @download_data.id %>, 'score': score, 'post_type': 'download' },
-                        type: 'post',
-                        success: function(r){
-                          $('#p_rating').raty({ score: r.ratingdata, readOnly: true});
-                        } 
-                    });
-              }});
-           });
-        </script>
-  <% else %>    
-      <script>
-          $(function() {
-              $.ajax({
-                  url: "<%= get_download_avg_rating_path %>",
-                  data: { 'product_id': <%= @download_data.id %>, 'post_type': 'download' },
-                  type: 'post',
-                  success: function(r){
-                    $('#p_rating').raty({ score: r.ratingdata, readOnly: true});
-                  } 
-              });
-
-              
-           });
-      </script> 
-  <% end %> 
-  <div id ="p_rating"></div>
-</div>
-
-
-<div class="clearfix download-cupon">
-<ul>
-<!-- <li><a href="#">Redeem a Coupon</a></li> -->
-
-</ul>
-</div>
-
-<div class="ProductDetail clearfix">
-<h2>Product Details</h2>
-<div class="filewrap clearfix marginB10">
-<h3>File Formats</h3>
-<ul>
-  <li ng-repeat="zip in zip_file_info" class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8"> <span>{{zip.software_name}}</span> {{zip.software_version}}<br>
-      {{zip.renderer}} {{zip.renderer_version}}</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{zip.file_size}}</div>
-  </li>
-</ul>
-</div>
-<div class="filewrap clearfix marginB15">
-<h3>3D Models Details</h3>
-<ul>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Product ID</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.product_id}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Publiched on </div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right" ng-bind="formatDate(get_download_info.created_at) |  date:'MM/dd/yyyy'">
-    </div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Animated</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right red-txt">{{get_download_info.animated}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Rigged</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right red-txt">{{get_download_info.rigged}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Lowpoly (game-ready)</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right green-txt">{{get_download_info.lowpoly}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Geometry</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.geometry}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Polygons</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.polygon}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Vertices</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.vertice}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Textures</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right green-txt">{{get_download_info.texture}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Materials</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right green-txt">{{get_download_info.material}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">UV Mapping</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right green-txt">{{get_download_info.uv_mapping}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Unwrapped UVs</div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.unwrapped_uv}}</div>
-  </li>
-  <li class="row">
-    <div class="col-md-8 col-sm-7 col-xs-8">Plugins Used </div>
-    <div class="col-md-4 col-sm-5 col-xs-4 text-right red-txt">{{get_download_info.plugin_used}}</div>
-  </li>
-</ul>
-</div>
-<div class="clearfix row lic-txt">
-<div class="col-md-6 col-sm-6 col-xs-6"><i class="fa fa-book marginR5" aria-hidden="true"></i> License :</div>
-<div class="col-md-6 col-sm-6 col-xs-6 text-right">{{get_download_info.license_type}}</div>
-</div>
-<div class="cont-pubilsh">
-{{get_download_info.license_custom_info}}
-</div>
-</div>
+  <div class="ProductDetail clearfix">
+  <h2>Product Details</h2>
+  <div class="filewrap clearfix marginB10">
+  <h3>File Formats</h3>
+  <ul>
+    <li ng-repeat="zip in zip_file_info" class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8"> <span>{{zip.software_name}}</span> {{zip.software_version}}<br>
+        {{zip.renderer}} {{zip.renderer_version}}</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{zip.file_size}}</div>
+    </li>
+  </ul>
+  </div>
+  <div class="filewrap clearfix marginB15">
+  <h3>3D Models Details</h3>
+  <ul>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Product ID</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.product_id}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Publiched on </div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right" ng-bind="formatDate(get_download_info.created_at) |  date:'MM/dd/yyyy'">
+      </div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Animated</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right red-txt">{{get_download_info.animated}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Rigged</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right red-txt">{{get_download_info.rigged}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Lowpoly (game-ready)</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right green-txt">{{get_download_info.lowpoly}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Geometry</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.geometry}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Polygons</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.polygon}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Vertices</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.vertice}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Textures</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right green-txt">{{get_download_info.texture}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Materials</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right green-txt">{{get_download_info.material}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">UV Mapping</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right green-txt">{{get_download_info.uv_mapping}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Unwrapped UVs</div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right">{{get_download_info.unwrapped_uv}}</div>
+    </li>
+    <li class="row">
+      <div class="col-md-8 col-sm-7 col-xs-8">Plugins Used </div>
+      <div class="col-md-4 col-sm-5 col-xs-4 text-right red-txt">{{get_download_info.plugin_used}}</div>
+    </li>
+  </ul>
+  </div>
+  <div class="clearfix row lic-txt">
+  <div class="col-md-6 col-sm-6 col-xs-6"><i class="fa fa-book marginR5" aria-hidden="true"></i> License :</div>
+  <div class="col-md-6 col-sm-6 col-xs-6 text-right">{{get_download_info.license_type}}</div>
+  </div>
+  <div class="cont-pubilsh">
+  {{get_download_info.license_custom_info}}
+  </div>
+  </div>
 </div>
 
  <div class="modal fade default-popup" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel">
