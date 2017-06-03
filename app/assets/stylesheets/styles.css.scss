@@ -1913,6 +1913,15 @@ input, button, select, textarea {
   font-size: inherit;
   line-height: 19px;
 }
+.table-store-tab .table.table-hover {
+  border: 1px solid;
+}
+.table-store-tab .table.table-hover thead tr {
+  background: #000 none repeat scroll 0 0;
+}
+.table-store-tab .table.table-hover th, .table-store-tab .table.table-hover td {
+  padding: 15px;
+}
 
 
 
