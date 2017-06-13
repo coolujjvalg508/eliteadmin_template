@@ -148,7 +148,7 @@ class OrdersController < ApplicationController
                         download_data    =  Download.where('product_id = ?', value1['sku']).first
                         PurchasedProduct.create(user_id:  value['user_id'].to_i, download_id: download_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f)   
                     end   
-                  tempdata.destroy  
+                  tempdata.destroy
                 end    
            
 
