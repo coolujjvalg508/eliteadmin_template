@@ -185,7 +185,7 @@ class OrdersController < ApplicationController
 
    def save_transaction data = [], payment_method = '', txn_id = '', payer_id = '', response_data = ''
 
-        #abort(response_data.to_json)
+        abort(data.to_json)
 
             company_name    = data[:data][:company_name].present? ? data[:data][:company_name] : ''
             company_code    = data[:data][:company_code].present? ? data[:data][:company_code] : ''
