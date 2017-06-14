@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
                     return: "#{Rails.application.secrets.app_host}paypal-success",
                     invoice: invoice,
                     amount: price,
-                    item_name: 'Purchase Product',
+                    item_name: 'purchase_product',
                     quantity: 1,
                     custom: tempdata.id,
                     rm: 0,
@@ -125,7 +125,7 @@ class OrdersController < ApplicationController
   protect_from_forgery except: [:hook]
      def hook 
         params.permit!    
-        if params['item_name'] == 'Purchase Product'       
+        if params['item_name'] == 'purchase_product'       
                 if params['payment_status'] == 'Completed'
 
                   tempdata              =   Temp.where("id = ?", params['custom'].to_i).first  
