@@ -3,8 +3,8 @@ class AddSomeFieldsToDownloads < ActiveRecord::Migration
   	add_column :downloads, :license_type, :string
 	  add_column :downloads, :has_adult_content, :boolean
 	  add_column :downloads, :license_custom_info, :string
-	  add_column :downloads, :number_of_download, :integer
-	  add_column :downloads, :number_of_sold, :integer
+	  add_column :downloads, :number_of_download, :integer, :default => 0
+	  add_column :downloads, :number_of_sold, :integer, :default => 0
 	  add_column :downloads, :like_count, :integer, :default => 0
 	  add_column :downloads, :view_count, :integer, :default => 0
 	  add_column :downloads, :comment_count, :integer, :default => 0

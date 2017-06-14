@@ -45,6 +45,7 @@
             <ul class="dropdown-menu">
               <li><a href="<%= create_gallery_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Portfolio</a></li>
               <li><a href="<%= create_download_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Product</a></li>
+              <li><a href="<%= create_tutorial_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Tutorial</a></li>
              <!--  <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Separated link</a></li> -->
@@ -87,9 +88,11 @@
 			 <% if notification_detail.notification_type == 'like' %>
 			 	<% if notification_detail.section_type == 'Download' %>
 
-			 		<li><a href="/downloads/<%= notification_detail.download.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <%= notification_detail.download.present? ? notification_detail.download.title : 0 %></a></li>
-			 	<% else %>
-			 		<li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
+			 		<li><a href="/downloads/<%= notification_detail.download.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <br /><%= notification_detail.download.present? ? notification_detail.download.title : 0 %></a></li>
+			 	<% elsif notification_detail.section_type == 'Gallery' || notification_detail.section_type == 'gallery_detail' %>
+			 		<li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <br /><%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
+			 	<% elsif notification_detail.section_type == 'Tutorial'%>
+			 		<li><a href="/tutorials/<%= notification_detail.tutorial.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <br /><%= notification_detail.tutorial.present? ? notification_detail.tutorial.title : 0 %></a></li>
 			 	<% end %>
 			  
 
@@ -99,9 +102,12 @@
 
 			  <% elsif notification_detail.notification_type == 'comment' %>
 
-			    <% if notification_detail.section_type == 'download_detail' %>
+			    <% if notification_detail.section_type == 'download_detail' || notification_detail.section_type == 'Download'%>
 
-			 		<li><a href="/downloads/<%= notification_detail.download.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <%= notification_detail.download.present? ? notification_detail.download.title : 0 %></a></li>
+			 		<li><a href="/downloads/<%= notification_detail.download.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <br /><%= notification_detail.download.present? ? notification_detail.download.title : 0 %></a></li>
+
+			 	<% elsif notification_detail.section_type == 'Tutorial' %>
+			 		<li><a href="/tutorials/<%= notification_detail.tutorial.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <br /><%= notification_detail.tutorial.present? ? notification_detail.tutorial.title : 0 %></a></li>
 			 	<% else %>
 			  		<li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %></i><%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <br/><%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
 			  	<% end %>
@@ -144,7 +150,7 @@
 		      <div class="product-list__item-price">{{item.price | currency}}</div>
 		      <div class="product-list__item-remove has-tooltip tooltipstered">
 					
-					<a title="Remove this item" class="remove" href="" ng-click="cart.addItem({sku:item.sku}, -10000000)">
+					<a title="Remove this item" class="remove" href="" ng-click="cart.addItem({sku:item.sku}, -10000000);reload()">
                         <i class="fa fa-times-circle-o fa-lg"></i>
           </a>
 					</div>
@@ -346,6 +352,11 @@
   
 //Controller For Navbar
 app.controller('NavbarCtrl', function($scope, $http,Cart,$rootScope) {
+	$scope.reload = function()
+	{
+		window.location.reload();
+	}
+
      $rootScope.cart = Cart.cart;
     $rootScope.checkCart = function (id) {
       if (!_.contains($scope.cart.skuArray, id)) {

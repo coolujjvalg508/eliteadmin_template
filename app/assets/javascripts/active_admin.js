@@ -15,14 +15,14 @@
 //= require tinymce
 
 
+var loopcount = 0; 
 $(document).ready(function() {
-	
-	
+
 	  tinymce.init({
 			  
 			  selector: '.tinymce',
 			  height: 500,
-			  width: 935,
+			  width: '100%',
 			  themes: "modern",
 			  menubar: false,
 			  /*uploadimage_form_url : '/admin/images/saveimage',*/ /* uploadimage */
@@ -36,38 +36,125 @@ $(document).ready(function() {
 
 	  });
 	  
-	  $('#news_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#download_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#gallery_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#job_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#static_page_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#faq_answer_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#tutorial_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#challenge_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#challenge_awards_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#challenge_terms_condition_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#challenge_terms_condition_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#challenge_judging_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#challenge_faq_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	  $('#job_apply_instruction_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	   $('#system_email_content_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-	   $('#contest_description_input').parent('div').css({'margin-left':'250px','margin-top': '28px'});
-  
+	  $('#news_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#download_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#gallery_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#job_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#static_page_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#faq_answer_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#tutorial_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#challenge_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#challenge_awards_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#challenge_terms_condition_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#challenge_terms_condition_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#challenge_judging_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#challenge_faq_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#job_apply_instruction_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#system_email_content_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#contest_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+
+	   $('.mediatype_value').each(function(index){
+				mediatype = $(this).val();
+
+		    	if(mediatype == 'Upload Image' || mediatype == 'Upload Video' || mediatype == 'Upload Zip' || mediatype == 'Upload Marmoset'){
+				//alert('hjgfhg');
+					$('#chapter_media_contents_attributes_'+ index +'_mediacontent_input').show();
+					if(mediatype == 'Upload Video' || mediatype == 'Video Url'){
+							$('#chapter_media_contents_attributes_'+ index +'_video_duration_input').show();
+					}else{
+							$('#chapter_media_contents_attributes_'+ index +'_video_duration_input').hide();
+					}		
+					$('#chapter_media_contents_attributes_'+ index +'_media_description_input').hide();
+
+			}else{
+
+			
+					$('#chapter_media_contents_attributes_'+ index +'_media_description').attr('placeholder','Enter '+ mediatype)
+					$('#chapter_media_contents_attributes_'+ index +'_mediacontent_input').hide();
+					if(mediatype == 'Upload Video' || mediatype == 'Video Url'){
+							$('#chapter_media_contents_attributes_'+ index +'_video_duration_input').show();
+					}else{
+							$('#chapter_media_contents_attributes_'+ index +'_video_duration_input').hide();
+					}	
+					$('#chapter_media_contents_attributes_'+ index +'_media_description_input').show();
+			}
+
+			loopcount  =   loopcount + 1;
+
+	  })
+
 });
 
+
 	$(document).on('click','.has_many_add',function(){
+		
 		 setTimeout(function(){  
 			$(".chosen-input").chosen();
 			$(".js-example-tags").select2({
 				  tags: true
 			});
+			
+			$('#chapter_media_contents_attributes_'+ loopcount +'_media_mediacontent_input').hide();
+			$('#chapter_media_contents_attributes_'+ loopcount +'_video_duration_input').hide();
+			$('#chapter_media_contents_attributes_'+ loopcount +'_media_description_input').hide();
+			//alert(loopcount)
+		
+			loopcount   	  +=  1;  
+
 		}, 500);
 
-	});
+ });
+
+
+
+
+	setTimeout(function(){  
+
+		$(document).on('change','.mediatype_value',function(){
+			
+			mediatype  		  =  $(this).val();	
+	
+			mediatypeattr     =  $(this).attr('id').replace('chapter_media_contents_attributes_','');	
+			loopnumber        =  mediatypeattr.replace('_media_type','');	
+			
+
+			//alert(loopnumber);
+			if(mediatype == 'Upload Image' || mediatype == 'Upload Video' || mediatype == 'Upload Zip' || mediatype == 'Upload Marmoset'){
+				//alert('hjgfhg');
+					$('#chapter_media_contents_attributes_'+ loopnumber +'_mediacontent_input').show();
+					if(mediatype == 'Upload Video' || mediatype == 'Video Url'){
+							$('#chapter_media_contents_attributes_'+ loopnumber +'_video_duration_input').show();
+					}else{
+							$('#chapter_media_contents_attributes_'+ loopnumber +'_video_duration_input').hide();
+					}		
+					$('#chapter_media_contents_attributes_'+ loopnumber +'_media_description_input').hide();
+
+			}else{
+
+			
+					$('#chapter_media_contents_attributes_'+ loopnumber +'_media_description').attr('placeholder','Enter '+ mediatype)
+					$('#chapter_media_contents_attributes_'+ loopnumber +'_mediacontent_input').hide();
+					if(mediatype == 'Upload Video' || mediatype == 'Video Url'){
+							$('#chapter_media_contents_attributes_'+ loopnumber +'_video_duration_input').show();
+					}else{
+							$('#chapter_media_contents_attributes_'+ loopnumber +'_video_duration_input').hide();
+					}	
+					$('#chapter_media_contents_attributes_'+ loopnumber +'_media_description_input').show();
+			}
+			
+
+
+
+		});
+	}, 500);
 
 
 
 $(document).ready(function() {
+
+		
+
+
 
 	type_value  =  $("#license_type_dropdown_download").val();
 	if(type_value == 'Custom'){
@@ -614,6 +701,7 @@ $(document).ready(function() {
   
 	$('#tutorial_topic').on('change',function(){
 			topic_ids	=	$(this).val();
+			//alert("Topic value :"+topic_ids);
 			$.getJSON("/admin/tutorials/get_sub_topic",{id: topic_ids, ajax: 'true'}, function(response){
 				
 				  var options = '';
@@ -624,6 +712,23 @@ $(document).ready(function() {
 				  $("select#tutorial_sub_topic").html('');
 				  $("select#tutorial_sub_topic").append(options);
 				  $('select#tutorial_sub_topic').trigger('chosen:updated');				  
+			}) 
+			
+	 })
+
+	$('#tutorial_sub_topic').on('change',function(){
+			topic_ids	=	$(this).val();
+			//alert("Subject Value :"+topic_ids);
+			$.getJSON("/admin/tutorials/get_sub_sub_topic",{id: topic_ids, ajax: 'true'}, function(response){
+				
+				  var options = '';
+				  for (var i = 0; i < response.length; i++) {
+					options += '<option value="' + response[i][1]+ '">' + response[i][0] + '</option>';
+				  }
+				  
+				  $("select#tutorial_sub_sub_topic").html('');
+				  $("select#tutorial_sub_sub_topic").append(options);
+				  $('select#tutorial_sub_sub_topic').trigger('chosen:updated');				  
 			}) 
 			
 	 })

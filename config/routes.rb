@@ -24,6 +24,10 @@ Rails.application.routes.draw do
   get 'content/index'
 
 
+  get 'setting/test'               => 'setting#test', as: 'test' 
+  post 'setting/create_test'       => 'setting#create_test', as: 'create_test' 
+
+
   get 'users/login'
   get 'user-signup' => 'user#signup'
   get 'forgot-password'=> 'user#forgotpassword'
@@ -77,16 +81,72 @@ Rails.application.routes.draw do
   get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
   get 'connection' => 'user#connection', as: 'connection' 
 
-  get 'tutorials'=> 'tutorial#index'
-  get 'tutorial/get_tutorial_list'
-  get 'tutorial/get_topic_list'
-  get 'tutorial/free_tutorial'
-  get 'tutorial/tutorial_post'
-  get 'tutorial/tutorial_category/:id'=> 'tutorial#tutorial_category', as: 'tutorial_category'
-  get 'tutorial/tutorial_all_category'
+
+
+
+  get 'tutorials'=> 'tutorials#index'
+  get 'tutorials/get_tutorial_list'
+  get 'tutorials/get_subject_list'
+ # get 'tutorials/free_tutorial'
+ # get 'tutorials/tutorial_post'
+  get 'tutorials/tutorial_category/:id'           => 'tutorials#tutorial_category', as: 'tutorial_category'
+  get 'tutorials/tutorial_all_category'
+  get 'tutorials/get_topic_type_list'             => 'tutorials#get_topic_type_list', as: 'get_topic_type_list'
+  get 'tutorials/all'                             => 'tutorials#all_topic_type', as: 'all_topic_type'
+  get 'tutorials/free'                            => 'tutorials#free_tutorial', as: 'free_tutorial'  
+  post 'tutorials/save_like'                      => 'tutorials#save_like', as: 'tutorialsave_like' 
+  post 'tutorials/check_save_like'                => 'tutorials#check_save_like', as: 'check_tutorialsave_like' 
+  post 'tutorials/follow_artist'                  => 'tutorials#follow_artist', as: 'tutorial_follow_artist' 
+  post 'tutorials/check_follow_artist'            => 'tutorials#check_follow_artist', as: 'check_tutorialfollow_artist'  
+  post 'tutorials/save_comment'                   => 'tutorials#save_comment', as: 'save_tutorial_comment' 
+  get 'tutorials/get_comment'                     => 'tutorials#get_comment', as: 'get_tutorial_comment' 
+
+  get 'dashboard/tutorials/new'                   => 'tutorials#new', as: 'create_tutorial' 
+  post 'tutorials/create'                         => 'tutorials#create',as: 'save_tutorial'
+  get 'dashboard/tutorials'                       => 'tutorials#listing_index', as: 'index_tutorial'
+  get 'dashboard/tutorials/:paramlink/edit'       => 'tutorials#edit', as: 'modify_tutorial' 
+  patch 'tutorials/:paramlink/update'             => 'tutorials#update', as: 'update_tutorial' 
+  get 'tutorials/:paramlink/show'                 => 'tutorials#show', as: 'show_tutorial' 
+  get 'get_free_tutorial_subject_detail'          => 'api#get_free_tutorial_subject_detail', as: 'get_free_tutorial_subject_detail' 
+  
+  get 'get_tutorial_info/:paramlink'              => 'api#get_tutorial_info', as: 'get_tutorial_info' 
+  
+  get 'tutorials/:paramlink/make_trash'           => 'tutorials#make_trash', as: 'trash_tutorial'
+  get 'tutorials/:paramlink/delete_from_trash'    => 'tutorials#delete_from_trash', as: 'delete_tutorial_from_trash'
+  get 'tutorials/:paramlink/restore_tutorial'     => 'tutorials#restore_tutorial', as: 'restore_tutorial'
+
+  post 'tutorials/save_tutorial_rating'           => 'tutorials#save_tutorial_rating', as: 'save_tutorial_rating'
+  post 'tutorials/get_tutorial_avg_rating'        => 'tutorials#get_tutorial_avg_rating', as: 'get_tutorial_avg_rating'
+
+  get 'tutorials/all'                             => 'tutorials#all_topic', as: 'all_topic'     
+  post 'tutorials/get_like_comment_view_tutorial' => 'tutorials#get_like_comment_view_tutorial', as: 'get_like_comment_view_tutorial'   
+  post 'tutorials/mark_spam'                      => 'tutorials#mark_spam', as: 'mark_spam_tutorial' 
+  post 'tutorials/check_mark_spam'                => 'tutorials#check_mark_spam', as: 'check_mark_spam_tutorial' 
+
+
+  get 'tutorials/get_topic_type_subject_detail_list/:topic' => 'tutorials#get_topic_type_subject_detail_list', as: 'get_topic_type_subject_detail_list'   
+
+  get 'tutorials/get_usertutorial_list'            => 'tutorials#get_usertutorial_list', as: 'get_usertutorial_list'
+  get 'tutorials/count_user_tutorial_post'         => 'tutorials#count_user_tutorial_post', as: 'count_user_tutorial_post'
+  get 'tutorials/get_filter_values'                => 'tutorials#get_filter_values', as: 'get_tutorial_filter_values'  
+
+  get 'tutorials/get_topic_subject_detail/:topic'  => 'tutorials#get_topic_subject_detail', as: 'get_topic_subject_detail' 
+ 
+  get 'tutorials/get_tutorial_subject_list'        => 'tutorials#get_tutorial_subject_list', as: 'get_tutorial_subject_list' 
+  
+  post 'tutorials/delete_tutorial_post'            => 'tutorials#delete_tutorial_post', as: 'delete_tutorial_post'
+
+  get 'tutorials/get_topic_subject_tutorials_list' => 'tutorials#get_topic_subject_tutorials_list', as: 'get_topic_subject_tutorials_list'   
+
+  get 'tutorials/get_topic_list' => 'tutorials#get_topic_list', as: 'get_topic_list' 
+
+  get 'get_latest_tutorial/:user_id'            => 'api#get_latest_tutorial', as: 'get_latest_tutorial'
+
+  get 'get_latest_tutorial_sale/:user_id'                => 'api#get_latest_tutorial_sale', as: 'get_latest_tutorial_sale'
+
+  get 'get_monthly_tutorial_summary/:user_id'            => 'api#get_monthly_tutorial_summary', as: 'get_monthly_tutorial_summary'
 
   get 'message' => 'messages#index', as: 'message'
-  
   get 'store/index'
 
   get 'job/index'
@@ -223,15 +283,21 @@ Rails.application.routes.draw do
 
 
 
-  get 'news/index'
-  get 'news/free_news'
-  get 'news/news_category'
-  get 'news/news_all_category'
-  get 'news/news_post'
-  get 'news/get_news_list'
-  get 'news/get_category_list'
+    get 'news/index'
+    get 'news/free_news'
+    get 'news/news_category'
+    get 'news/news_all_category'
+    get 'news/news_post'
+    get 'news/get_news_list'
+    get 'news/get_category_list'
+    get 'news/:paramlink/show'            => 'news#show', as: 'show_news' 
+    post 'news/check_save_like'           => 'news#check_save_like', as: 'check_newssave_like' 
+    post 'news/check_follow_artist'       => 'news#check_follow_artist', as: 'check_newsfollow_artist'
+    post 'news/follow_artist'             => 'news#follow_artist', as: 'news_follow_artist'
+    post 'news/save_like'                 => 'news#save_like', as: 'newssave_like' 
  
-
+    post 'news/save_news_rating'           => 'news#save_news_rating', as: 'save_news_rating'
+  	post 'news/get_news_avg_rating'        => 'news#get_news_avg_rating', as: 'get_news_avg_rating'
 
 
 
@@ -267,8 +333,9 @@ Rails.application.routes.draw do
   post 'downloads/get_like_comment_view_download' => 'downloads#get_like_comment_view_download', as: 'get_like_comment_view_download'   
   
 
-  post 'downloads/mark_spam'                  => 'downloads#mark_spam', as: 'mark_spam_download' 
-  post 'downloads/check_mark_spam'            => 'downloads#check_mark_spam', as: 'check_mark_spam_download' 
+  post 'downloads/mark_spam'                    => 'downloads#mark_spam', as: 'mark_spam_download' 
+  post 'downloads/check_mark_spam'              => 'downloads#check_mark_spam', as: 'check_mark_spam_download' 
+  post 'downloads/update_number_of_downloads'   => 'downloads#update_number_of_downloads', as: 'update_number_of_downloads' 
 
    
   get 'dashboard/downloads/new'                 => 'downloads#new', as: 'create_download' 
@@ -287,16 +354,13 @@ Rails.application.routes.draw do
 
   post 'download/save_download_rating'          => 'downloads#save_download_rating', as: 'save_download_rating'
   post 'download/get_download_avg_rating'       => 'downloads#get_download_avg_rating', as: 'get_download_avg_rating'
+
   post 'check_valid_coupon_code'                => 'api#check_valid_coupon_code', as: 'check_valid_coupon_code'
-  
   get 'get_latest_sale/:user_id'                => 'api#get_latest_sale', as: 'get_latest_sale'
   get 'get_latest_download/:user_id'            => 'api#get_latest_download', as: 'get_latest_download'
   get 'get_monthly_summary/:user_id'            => 'api#get_monthly_summary', as: 'get_monthly_summary'
   
   
-  
-
-
     get 'cart'                               => 'downloads#cart', as: 'cart'
 
     post 'downloads/save_like'               => 'downloads#save_like', as: 'downloadsave_like' 
@@ -332,6 +396,12 @@ Rails.application.routes.draw do
   namespace :admin do
 	 post 'images/saveimage' => 'images#saveimages'
   end
+
+
+  get 'tutorials/:topic'                              => 'tutorials#tutorial_detail', as: 'tutorial_detail'   
+  get 'tutorials/:topic/:subject'                     => 'tutorials#tutorial_subject', as: 'tutorial_subject'   
+  get 'tutorials/:topic/:subject/:sub_subject'        => 'tutorials#tutorial_sub_subject', as: 'tutorial_sub_subject'  
+
 
   
 

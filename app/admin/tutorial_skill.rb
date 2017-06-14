@@ -1,7 +1,7 @@
 ActiveAdmin.register TutorialSkill do
   config.sort_order = 'created_at_asc'
 
-  menu label: 'Skill', parent: 'Tutorial',priority: 4
+  menu label: 'Skill', parent: 'Tutorial',priority: 3
 
   permit_params :title
 

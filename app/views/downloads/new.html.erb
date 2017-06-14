@@ -1206,9 +1206,6 @@
         $scope.add_zip = [];
         $scope.zip_software_count = [];
 
-        
-        console.log($scope.add_zip);
-
         $scope.addNewZip = function () {
             $scope.add_zip.push(add_zip_count);
 
@@ -1880,19 +1877,18 @@ end
 <script type="text/javascript">
     $(function () {
         $('#closing_date').datetimepicker({
-
-    startDate: '-0d',
-    weekStart: 1,
-    todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    minView: 2,
-    forceParse: 0,
-    dateFormat: 'mm-dd-yy', 
-    changeMonth: true,
-    changeYear: true,
-    yearRange: '-70:+10',
+            startDate: '-0d',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            dateFormat: 'mm-dd-yy', 
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-70:+10'
         });
     });
 

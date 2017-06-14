@@ -12,9 +12,13 @@
 			 <div class="clearfix invoicepage">
 			<ul class="nav nav-tabs responsive-tabs">
 				
-				<li class="active"><a href="#LatestSales">Latest Sales <i></i></a></li>
+				<li class="active"><a href="#LatestSales">Download Sales <i></i></a></li>
 				<li><a href="#LatestDownloads">Latest Downloads<i></i></a></li>
-				<li><a href="#MonthlySummary">Monthly Summary <i></i></a></li>
+				<li><a href="#DownloadMonthlySummary">Download Summary <i></i></a></li>
+				<li><a href="#LatestTutorialsSale" ng-click="get_latest_tutorial_sale();">Tutorial Sale<i></i></a></li>
+				<li><a href="#LatestTutorials" ng-click="get_latest_tutorial();">Latest Tutorials<i></i></a></li>
+				<li><a href="#TutorialsMonthlySummary" ng-click="get_monthly_tutorial_summary();">Tutorial Summary <i></i></a></li>
+
 				<% if @coupon_tab.present? %>
 				<li class="active"><a href="#Coupons">Coupons<i></i></a></li>
 				<% else %>
@@ -25,74 +29,31 @@
 				
 				<div class="tab-pane active" id="LatestSales">
 					<div class="clearfix invoiceindent">
-		
-					 	<div class="panel panel-default allgallerypostwrap panel-new-section">
-												<div class="panel-heading clearfix padding">
-														<div class="GalleryTitle">Title</div>
-														<div class="GalleryAuthor hidden-xs">User name</div>
-														<div class="GalleryDate hidden-xs">Price</div>
-
-														<div class="GalleryDate hidden-xs">Discount</div>
-														<div class="GalleryLike hidden-xs">Net Amount</div>
-														<div class="GalleryLike hidden-xs">Payment method</div>
-														<div class="GalleryLike hidden-xs">TXN id</div>
-												</div>
-												<div class="panel-body padding">
-													<div class="clearfix Allpostgallery">
-															<ul>
-											<li class="clearfix" dir-paginate="getSale in getlatestsale | itemsPerPage:10"  pagination-id="getLatestSales">
-																	<div class="AllGalleryTitle">{{getSale.download.title}}</div>
-																	<div class="AllGalleryAuthor">{{getSale.user.firstname}}</div>
-											<div class="AllGalleryAuthor">{{getSale.transaction_history.gross_amount | currency}}	</div>
-
-																	<div class="AllGalleryDate">
-																		{{getSale.transaction_history.discount_amount | currency}}
-																	</div>
-															<div class="AllGalleryDate">{{getSale.transaction_history.net_amount | currency}}</div>
-																	<div class="AllGalleryDate">
-																		{{getSale.transaction_history.payment_method}}
-																	</div>
-																	<div class="">
-																	{{getSale.transaction_history.txn_id}}
-																	</div>
-
-																</li>
-															</ul>
-														</div>
-												</div>
-						</div>
-                        
-                        
-                        
-                        
                         
                         <div class="table-store-tab">
-                        
-                        
                         <table class="table table-hover">
                         <thead>
-                          <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
+                          <tr >
+                            <th>Title</th>
                             <th>Email</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Net Amount</th>
+                            <th>Payment Method</th>
+                            <th>TXN ID</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>john@example.com</td>
+                          <tr dir-paginate="getSale in getlatestsale | itemsPerPage:10"  pagination-id="getLatestSales">
+                            <td>{{getSale.download.title}}</td>
+                            <td>{{getSale.user.email}}</td>
+                            <td>{{getSale.transaction_history.gross_amount | currency}} </td>
+                            <td>{{getSale.transaction_history.discount_amount | currency}}</td>
+                            <td>{{getSale.transaction_history.net_amount | currency}}</td>
+                            <td>{{getSale.transaction_history.payment_method}}</td>
+                            <td>{{getSale.transaction_history.txn_id}}</td>
                           </tr>
-                          <tr>
-                            <td>Mary</td>
-                            <td>Moe</td>
-                            <td>mary@example.com</td>
-                          </tr>
-                          <tr>
-                            <td>July</td>
-                            <td>Dooley</td>
-                            <td>july@example.com</td>
-                          </tr>
+                          
                         </tbody>
                       </table>
                         
@@ -100,136 +61,81 @@
                         </div>
                         
                         
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
 						 <div class="pagintionpage clearfix">
-            <dir-pagination-controls
-                 max-size="3"
-                 direction-links="true" pagination-id="getLatestSales"
-                 boundary-links="false" >
-            </dir-pagination-controls>
-          </div>
+		            <dir-pagination-controls
+		                 max-size="3"
+		                 direction-links="true" pagination-id="getLatestSales"
+		                 boundary-links="false" >
+		            </dir-pagination-controls>
+                    </div>
 					
 					</div>
 				</div>
 				
 				<div class="tab-pane" id="LatestDownloads">
 				 	<div class="clearfix invoiceindent">
-					<div class="panel panel-default allgallerypostwrap panel-new-section">
-												<div class="panel-heading clearfix padding">
-														<div class="GalleryTitle">Title</div>
-														<div class="GalleryAuthor hidden-xs">Is Free</div>
-														<div class="GalleryDate hidden-xs">Price</div>
-
-														<div class="GalleryDate hidden-xs">Number of download</div>
-														<div class="GalleryLike hidden-xs">Number of sold</div>
-														<div class="GalleryLike hidden-xs">license type</div>
-														<div class="GalleryLike hidden-xs">Product id</div>
-												</div>
-												<div class="panel-body padding">
-													<div class="clearfix Allpostgallery">
-															<ul>
-											<li class="clearfix" dir-paginate="getSale in getlatest_download | itemsPerPage:10"  pagination-id="getLatestDownloads">
-											<div class="AllGalleryTitle" ng-if="getSale.title!=null">{{getSale.title}}</div>
-											<div class="AllGalleryTitle" ng-if="getSale.title==null">&nbsp;</div>
-
-											<div class="AllGalleryAuthor" ng-if="getSale.free!=null">{{getSale.free}}</div>
-											<div class="AllGalleryAuthor" ng-if="getSale.free==null">&nbsp;</div>
-
-											<div class="AllGalleryAuthor" ng-if="getSale.price!=null">{{getSale.price | currency}}	</div>
-											<div class="AllGalleryAuthor" ng-if="getSale.price==null">&nbsp;</div>
-
-											<div class="AllGalleryDate" ng-if="getSale.number_of_download!=null">{{getSale.number_of_download}}</div>
-											<div class="AllGalleryDate" ng-if="getSale.number_of_download==null">&nbsp;</div>
-
-											<div class="AllGalleryDate" ng-if="getSale.number_of_sold!=null">{{getSale.number_of_sold}}</div>
-											<div class="AllGalleryDate" ng-if="getSale.number_of_sold==null">&nbsp;</div>
-
-											<div class="AllGalleryDate" ng-if="getSale.license_type!=''">{{getSale.license_type}}</div>
-											<div class="AllGalleryDate" ng-if="getSale.license_type==''">&nbsp;</div>
-     												
-     										<div ng-if="getSale.product_id!=null" class="">{{getSale.product_id}}</div>
-     										<div ng-if="getSale.product_id==null" class="">&nbsp;</div>
-
-
-																</li>
-															</ul>
-														</div>
-												</div>
-						</div>
                         
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                           <div class="table-store-tab">
+					<table class="table table-hover">
+                        <thead>
+                          <tr >
+                            <th>Title</th>
+                            <th>Is Free</th>
+                            <th>Price</th>
+                            <th>license type</th>
+                            <th>Product id</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          <tr dir-paginate="getSale in getlatest_download | itemsPerPage:10"  pagination-id="getLatestDownloads">
+                            <td>{{getSale.title}}</td>
+                            <td>{{getSale.free}}</td>
+                            <td>{{getSale.price | currency}} </td>
+                            <td>{{getSale.license_type}}</td>
+                            <td>{{getSale.product_id}}</td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                      </div>
 						<div class="pagintionpage clearfix">
-            <dir-pagination-controls
-                 max-size="3"
-                 direction-links="true" pagination-id="getLatestDownloads"
-                 boundary-links="false" >
-            </dir-pagination-controls>
-          </div>
+		            <dir-pagination-controls
+		                 max-size="3"
+		                 direction-links="true" pagination-id="getLatestDownloads"
+		                 boundary-links="false" >
+		            </dir-pagination-controls>
+         			 </div>
 					</div>
 				</div>
 				
-				<div class="tab-pane" id="MonthlySummary">
-				 
+				<div class="tab-pane" id="DownloadMonthlySummary">
 				 <div class="clearfix invoiceindent">
-				<div class="panel panel-default allgallerypostwrap panel-new-section">
-												<div class="panel-heading clearfix padding">
-														<div class="GalleryAuthor hidden-xs">Month</div>
-
-														<div class="GalleryTitle">Total price</div>
-														
-												</div>
-												<div class="panel-body padding">
-													<div class="clearfix Allpostgallery">
-															<ul>
-											<li class="clearfix" dir-paginate="getSale in getMonthlySummaryReport | itemsPerPage:10"  pagination-id="getMonthlySummaryReport">
-																	<div class="AllGalleryTitle" ng-bind="formatDate(getSale.month) |  date:'MMMM'"></div>
-												<div class="AllGalleryTitle">{{getSale.total_price | currency}}</div>
-																	
-
-
-																</li>
-															</ul>
-														</div>
-												</div>
-						</div>
+				   <div class="table-store-tab">
+					<table class="table table-hover">
+                        <thead>
+                          <tr >
+                            <th>Month</th>
+                            <th>Total price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr dir-paginate="getSale in getMonthlySummaryReport | itemsPerPage:10"  pagination-id="getMonthlySummaryReport">
+                            <td ng-bind="formatDate(getSale.month) |  date:'MMMM'"></td>
+                            <td>{{getSale.total_price | currency}}</td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                      </div>
 						<div class="pagintionpage clearfix">
-            <dir-pagination-controls
-                 max-size="3"
-                 direction-links="true" pagination-id="getMonthlySummaryReport"
-                 boundary-links="false" >
-            </dir-pagination-controls>
-          </div>
-					
+			            <dir-pagination-controls
+			                 max-size="3"
+			                 direction-links="true" pagination-id="getMonthlySummaryReport"
+			                 boundary-links="false" >
+			            </dir-pagination-controls>
+			          </div>
 					</div>
-				
 				</div>
 				
 				<div class="tab-pane" id="Coupons">
@@ -311,7 +217,113 @@
 						</div>
 					</div>
 				</div>
-				
+
+	            <div class="tab-pane" id="LatestTutorialsSale">
+					<div class="clearfix invoiceindent">
+                        <div class="table-store-tab">
+                        <table class="table table-hover">
+                        <thead>
+                          <tr >
+                            <th>Title</th>
+                            <th>Email</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Net Amount</th>
+                            <th>Payment Method</th>
+                            <th>TXN ID</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr dir-paginate="getSale in Latest_tutorialsale | itemsPerPage:10"  pagination-id="get_latest_tutorial_saleDD">
+                            <td>{{getSale.tutorial.title}}</td>
+                            <td>{{getSale.user.email}}</td>
+                            <td>{{getSale.transaction_history.gross_amount | currency}} </td>
+                            <td>{{getSale.transaction_history.discount_amount | currency}}</td>
+                            <td>{{getSale.transaction_history.net_amount | currency}}</td>
+                            <td>{{getSale.transaction_history.payment_method}}</td>
+                            <td>{{getSale.transaction_history.txn_id}}</td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                        </div>
+						 <div class="pagintionpage clearfix">
+				            <dir-pagination-controls
+				                 max-size="3"
+				                 direction-links="true"
+				                 pagination-id="get_latest_tutorial_saleDD"
+				                 boundary-links="false" >
+				            </dir-pagination-controls>
+		                    </div>
+					
+					</div>
+				</div>
+
+				<div class="tab-pane" id="LatestTutorials">
+					<div class="clearfix invoiceindent">
+                        <div class="table-store-tab">
+                        <table class="table table-hover">
+                        <thead>
+                          <tr >
+                            <th>Title</th>
+                            <th>Is Free</th>
+                            <th>Price</th>
+                            <th>Tutorial id</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr dir-paginate="getSale in latest_tutorialList | itemsPerPage:10"  pagination-id="get_LatestSalessdsd">
+                             <td>{{getSale.title}}</td>
+                            <td>{{getSale.free}}</td>
+                            <td>{{getSale.price | currency}} </td>
+                            <td>{{getSale.tutorial_id}}</td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                        
+                        
+                        </div>
+                        
+                        
+						 <div class="pagintionpage clearfix">
+			            <dir-pagination-controls
+			                 max-size="3"
+			                 direction-links="true" pagination-id="get_LatestSalessdsd"
+			                 boundary-links="false" >
+			            </dir-pagination-controls>
+	                    </div>
+					</div>
+				</div>
+				<div class="tab-pane" id="TutorialsMonthlySummary">
+				 <div class="clearfix invoiceindent">
+				   <div class="table-store-tab">
+					<table class="table table-hover">
+                        <thead>
+                          <tr >
+                            <th>Month</th>
+                            <th>Total price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr dir-paginate="getSale in getTutorialMonthlySummaryReport | itemsPerPage:10"  pagination-id="getTutorialSummaryReport">
+                            <td ng-bind="formatDate(getSale.month) |  date:'MMMM'"></td>
+                            <td>{{getSale.total_price | currency}}</td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                      </div>
+						<div class="pagintionpage clearfix">
+			            <dir-pagination-controls
+			                 max-size="3"
+			                 direction-links="true" pagination-id="getTutorialSummaryReport"
+			                 boundary-links="false" >
+			            </dir-pagination-controls>
+			          </div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 			
@@ -459,12 +471,41 @@ $scope.getMonthlySummary = function()
 		 	$scope.getMonthlySummaryReport = responce.data.monthly_summary;
 		 });	
 }
-$scope.getMonthlySummary();		
+$scope.getMonthlySummary();
  $scope.formatDate = function(date){
           var dateOut = new Date(date);
           return dateOut;
     };
+
+
+//------------------------------------------------------------------------------------
+$scope.get_latest_tutorial_sale = function()
+{
+	var latesttutorial_sale ='/get_latest_tutorial_sale/'+'<%= user_signed_in?  ? current_user.id : 0 %>'; 
+  	$http.get(latesttutorial_sale)
+		 .then(function(responce){
+		 	$scope.Latest_tutorialsale = responce.data.latest_tutorial_sale;
+		 });
+}
+
+$scope.get_latest_tutorial = function()
+{
+	var latest_tutorial ='/get_latest_tutorial/'+'<%= user_signed_in?  ? current_user.id : 0 %>'; 
+  	$http.get(latest_tutorial)
+		 .then(function(responce){
+		 	$scope.latest_tutorialList = responce.data.latest_tutorial;
+		 });
+}  
+$scope.get_monthly_tutorial_summary = function()
+{
+	var monthlytutorial_summary ='/get_monthly_tutorial_summary/'+'<%= user_signed_in?  ? current_user.id : 0 %>'; 
+  	$http.get(monthlytutorial_summary)
+		 .then(function(responce){
+		 	$scope.getTutorialMonthlySummaryReport = responce.data.tutorial_summary;
+		 });
+}   
   });
 
   angular.bootstrap(document.getElementById("mayShop2"), ['StoreApp']);
+
 </script>

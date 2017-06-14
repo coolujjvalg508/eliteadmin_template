@@ -41,6 +41,18 @@
                                 end  
                                  src =  collectionimage.image.large_image.url
                               end
+                          elsif collectiondetail.news_id != 0
+                           
+                              collectiondetail.news.images.each_with_index do | collectionimage, index |
+                                if index == 1
+                                    break
+                                end  
+                                 src =  collectionimage.image.large_image.url
+                              end
+                          elsif collectiondetail.tutorial_id != 0
+                           
+                                 src =  collectiondetail.tutorial.company_logo.url
+                    
                           end
                         end 
                     end                      

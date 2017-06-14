@@ -35,8 +35,11 @@
                     <div class="notiright">
 
                       <% if notification.notification_type=='like' %> 
-                        <% if notification.section_type == 'Download' %>
+                        <% if notification.section_type == 'Download' || notification.section_type == 'download_detail' %>
                           <div class="marginB10"><span class="blue-txt"><a href="<%= artist_profile_path (notification.user.username) %>"><%= notification.user.firstname %> <%= notification.user.lastname %></a></span> has liked post <span class="blue-txt"><a href="/downloads/<%= notification.download.paramlink %>/show"><%= notification.download.title %></a></span>.</div>
+
+                        <% elsif notification.section_type == 'Tutorial' %>
+                          <div class="marginB10"><span class="blue-txt"><a href="<%= artist_profile_path (notification.user.username) %>"><%= notification.user.firstname %> <%= notification.user.lastname %></a></span> has liked post <span class="blue-txt"><a href="/tutorials/<%= notification.tutorial.paramlink %>/show"><%= notification.tutorial.title %></a></span>.</div>
                         <% else %>
                           <div class="marginB10"><span class="blue-txt"><a href="<%= artist_profile_path (notification.user.username) %>"><%= notification.user.firstname %> <%= notification.user.lastname %></a></span> has liked post <span class="blue-txt"><a href="/dashboard/projects/<%= notification.gallery.paramlink %>/show"><%= notification.gallery.title %></a></span>.</div>
                         <% end %>
@@ -47,6 +50,8 @@
                       <% elsif notification.notification_type=='comment' %>
                       <% if notification.section_type == 'Download' || notification.section_type == 'download_detail'%>
                         <div class="marginB10"><span class="blue-txt"><a href="<%= artist_profile_path (notification.user.username) %>"><%= notification.user.firstname %> <%= notification.user.lastname %></a></span> has commented on post <span class="blue-txt"><a href="/downloads/<%= notification.download.paramlink %>/show"><%= notification.download.title %></a></span>.</div>
+                      <% elsif notification.section_type == 'Tutorial' %>
+                        <div class="marginB10"><span class="blue-txt"><a href="<%= artist_profile_path (notification.user.username) %>"><%= notification.user.firstname %> <%= notification.user.lastname %></a></span> has commented on post <span class="blue-txt"><a href="/tutorials/<%= notification.tutorial.paramlink %>/show"><%= notification.tutorial.title %></a></span>.</div>
                       <% else %>
                         <div class="marginB10"><span class="blue-txt"><a href="<%= artist_profile_path (notification.user.username) %>"><%= notification.user.firstname %> <%= notification.user.lastname %></a></span> has commented on post <span class="blue-txt"><a href="/dashboard/projects/<%= notification.gallery.paramlink %>/show"><%= notification.gallery.title %></a></span>.</div>
                       <% end %>
@@ -58,6 +63,9 @@
                     <% if notification.section_type == 'Download' || notification.section_type == 'download_detail' %>
                       <div class="notification-profile clearfix"><%= image_tag(notification.download.company_logo.art_activity.url, :class=>"img-responsive", :alt => "Notification") %>
         			        </div>
+                    <% elsif notification.section_type == 'Tutorial' %>
+                      <div class="notification-profile clearfix"><%= image_tag(notification.tutorial.company_logo.art_activity.url, :class=>"img-responsive", :alt => "Notification") %>
+                      </div>
                     <% else %>
                       <div class="notification-profile clearfix"><%= image_tag(notification.gallery.company_logo.art_activity.url, :class=>"img-responsive", :alt => "Notification") %>
                       </div>

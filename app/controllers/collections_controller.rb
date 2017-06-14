@@ -10,10 +10,12 @@ class CollectionsController < ApplicationController
    
     def new
           #abort(params.to_json)
-          gallery_id              = params[:collection][:gallery_id].present? ?  params[:collection][:gallery_id] : 0
-          download_id              = params[:collection][:download_id].present? ?  params[:collection][:download_id] : 0
-          title                   = params[:collection][:title].strip 
-          is_collection_exist     = Collection.where(title: title)
+          gallery_id                = params[:collection][:gallery_id].present? ?  params[:collection][:gallery_id] : 0
+          download_id               = params[:collection][:download_id].present? ?  params[:collection][:download_id] : 0
+          tutorial_id               = params[:collection][:tutorial_id].present? ?  params[:collection][:tutorial_id] : 0
+          news_id                   = params[:collection][:news_id].present? ?  params[:collection][:news_id] : 0
+          title                     = params[:collection][:title].strip 
+          is_collection_exist       = Collection.where(title: title)
 
           if title==''
              result = {'res' => 0, 'message' => 'Title cannot be blank.'}
@@ -26,12 +28,20 @@ class CollectionsController < ApplicationController
                 collectionrec = Collection.create(gallery_id: 0, title: title)
               elsif download_id.present?
                   collectionrec = Collection.create(download_id: 0, title: title)
+              elsif tutorial_id.present?
+                  collectionrec = Collection.create(tutorial_id: 0, title: title)
+              elsif news_id.present?
+                  collectionrec = Collection.create(news_id: 0, title: title)              
               end
+
               if gallery_id != 0
                   CollectionDetail.create(gallery_id: gallery_id, collection_id: collectionrec.id)
-              end
-              if download_id != 0
+              elsif download_id != 0
                   CollectionDetail.create(download_id: download_id, collection_id: collectionrec.id)
+              elsif tutorial_id != 0
+                  CollectionDetail.create(tutorial_id: tutorial_id, collection_id: collectionrec.id)
+              elsif news_id != 0
+                  CollectionDetail.create(news_id: news_id, collection_id: collectionrec.id)
               end     
               result = {'res' => 1, 'message' => 'Post has successfully added to bookmark.'}
               #flash[:notice] = 'Post has successfully added to collection.'
@@ -44,11 +54,14 @@ class CollectionsController < ApplicationController
     end  
 
     def show 
-        #abort(params.to_json)
+        #abort(params.to_json)        
         collection_id     = params[:paramlink]
-        @collection       = Collection.find(collection_id)
+        #abort(collection_id.to_json)
+        @collection       = Collection.find(collection_id)        
         @collectiondetail = CollectionDetail.where(collection_id: collection_id).page(params[:page]).per(10)
+        #abort(@collectiondetail.to_json)
        # abort(@collectiondetail.to_json)
+       
    end  
 
    def update_collection

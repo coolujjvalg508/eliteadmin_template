@@ -1,6 +1,6 @@
 class DownloadsController < ApplicationController
   
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :save_download_rating]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :save_download_rating, :listing_index]
   before_filter :set_data, only: [:new, :create, :update, :edit]
 
 	def download
@@ -303,14 +303,14 @@ class DownloadsController < ApplicationController
     def get_comment
 
           download_id          = params[:download_id]
-          user_id              = params[:user_id]
+          
           section_type         = params[:section_type]
 
           galleryrecord        = Download.where("id = ?",download_id).first
           is_admin             = galleryrecord.is_admin.to_s
 
-          commentrecord        = PostComment.where("post_id = ? AND user_id = ? AND section_type=? AND is_admin=?",download_id,user_id,section_type,is_admin).order('id DESC')
-      
+          commentrecord        = PostComment.where("post_id = ? AND section_type=? AND is_admin=?",download_id,section_type,is_admin).order('id DESC')
+          #abort(commentrecord.to_json)
           str = ''
           if commentrecord.present?
              
@@ -542,7 +542,7 @@ class DownloadsController < ApplicationController
 
       paramlink       = params[:post_type]
       post_type_data  = PostType.where("slug = ?", paramlink).first
-      
+      #abort(post_type_data.to_json)
 		  conditions      = "post_type_id = #{post_type_data.id} AND parent_id IS NULL" 
 
 	    category_result = PostTypeCategory.where(conditions).order('name ASC')
@@ -573,6 +573,7 @@ class DownloadsController < ApplicationController
 
           sub_category_list =  PostTypeCategory.where('parent_id = ?', category_data.id).select("post_type_categories.*, (SELECT COUNT(*) FROM downloads WHERE sub_category_id::jsonb ?| array[cast(post_type_categories.id as text)] AND status=1 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))) AS count_downloads").order('name ASC')
           #abort(sub_category_result.to_json)
+         
 
         render json: {'category_data': category_data, 'sub_category_list': sub_category_list}, status: 200  
   end  
@@ -1132,6 +1133,23 @@ class DownloadsController < ApplicationController
 
   end  
 
+  protect_from_forgery except: [:update_number_of_downloads]
+  def update_number_of_downloads
+
+    download_data    =  Download.where('id = ?', params['id']).first
+
+    if !download_data.nil?
+      number_of_download = 1
+      if !download_data.number_of_download.nil?
+        number_of_download = download_data.number_of_download.to_i + 1
+      end
+      download_data.update(number_of_download: number_of_download)
+    end
+    
+    result = {'res' => 1, 'message' => 'Number of downloads updated successfully'}
+    render json: result, status: 200 
+
+  end
 
   private
     def download_params
@@ -1194,13 +1212,9 @@ class DownloadsController < ApplicationController
     end 
 
     def set_data
-      @post_type = PostType.where('parent_id IS NULL')
+      @post_type = PostType.where('parent_id IS NULL').order('type_name ASC')
       @software_expertise = SoftwareExpertise.where("parent_id IS NULL").order('name ASC').pluck(:name, :id)
       @renderer = Renderer.where("parent_id IS NULL").order('name ASC').pluck(:name, :id)
     end
-
-
- 
-
 
 end

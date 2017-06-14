@@ -31,6 +31,8 @@
 //= require angularjs-slider/rzslider
 //= require angular-sanitize
 //= require angular-credit-cards
+//= require angular-animate.min
+//= require v-accordion
 
 
 //= require dirPagination
@@ -85,6 +87,13 @@ $(document).ready(function(){
 			   
 
 	  });
+
+	$('.numericOnly').keyup(function () {
+        this.value = this.value.replace(/[^0-9]/g,'');
+    });
+    $('.floatOnly').keyup(function () {
+        this.value = this.value.replace(/[^0-9\.]/g,'');
+    });
 
 
 });  

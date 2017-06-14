@@ -169,18 +169,20 @@ class JobController < ApplicationController
         params['job']['is_admin']  = 'N'
 
 
-        latlong_result  = get_lat_long(params['job']['country_id'],params['job']['state'],params['job']['city'])
-        
+      if params['job']['country_id'].present?  && params['job']['state'].present? && params['job']['city'].present?
+            latlong_result  = get_lat_long(params['job']['country_id'],params['job']['state'],params['job']['city'])
+            
 
-        if !latlong_result.nil?
-             params['job']['latitude']    =   latlong_result[0]
-             params['job']['longitude']   =   latlong_result[1]
+            if !latlong_result.nil?
+                 params['job']['latitude']    =   latlong_result[0]
+                 params['job']['longitude']   =   latlong_result[1]
 
-        else
-             params['job']['latitude']    =   ''
-             params['job']['longitude']   =   ''
+            else
+                 params['job']['latitude']    =   ''
+                 params['job']['longitude']   =   ''
 
-        end
+            end
+      end      
 
 
         if !params['job']['package_id'].nil?

@@ -328,7 +328,6 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
         $rootScope.checkCart = function(id){
   
         if($scope.cart.skuArray.includes(id)){
-          debugger;
             return true;
         }else{
             return false;
@@ -340,9 +339,10 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
         window.location.reload();
     }
     $scope.AddTocart = function (product) {
-      
+     
        $scope.cart.addItem(
         { sku: product.product_id,
+          type:'download',
           name: product.title,
           slug:product.paramlink, 
           mrp: product.price, 

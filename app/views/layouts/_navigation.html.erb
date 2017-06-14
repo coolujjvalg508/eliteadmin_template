@@ -38,6 +38,13 @@
           <li><%= link_to 'Add New', create_download_path %></li>
         </ul>
       </li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="fa fa-laptop marginR5" aria-hidden="true"></i>
+        <span class="hidden-sm hidden-xs">Tutorials</span></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to 'Tutorials', index_tutorial_path %></li>
+          <li><%= link_to 'Add New', create_tutorial_path %></li>
+        </ul>
+      </li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="fa fa-users marginR5" aria-hidden="true"></i>
       <span class="hidden-sm hidden-xs">Connections</span></a>
         <ul class="dropdown-menu">
@@ -46,14 +53,14 @@
         </ul>
       </li>
 
-
+      
        <li><%= link_to '<i class="fa fa-clipboard marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Bookmarks</span>'.html_safe, index_collection_path %></li>
       
        <li><%= link_to '<i class="fa fa-file-text-o marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Contest</span>'.html_safe, contests_path %></li>
        
       <li><%= link_to '<i class="fa fa-shopping-cart marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Store</span>'.html_safe, controller: 'store',action:'index' %></li>
       
-      <li><%= link_to '<i class="fa fa-laptop marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Tutorials</span>'.html_safe, controller: 'tutorial',action:'index' %></li>
+
     
    <!--    <li><%#= link_to '<i class="fa fa-file-text-o marginR5" aria-hidden="true"></i> <span class="hidden-sm hidden-xs">Content</span>'.html_safe, controller: 'content',action:'index' %></li> -->
 

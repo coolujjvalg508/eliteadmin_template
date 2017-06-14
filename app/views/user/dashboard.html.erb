@@ -98,6 +98,37 @@
         </div>
       </div>
     </div>
+
+    <div class="clearfix marginB15">
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="userstat-indent1 clearfix">
+            <div class="white-txt txt16 marginB15">Monthly Tutorial</div>
+            <div><%= 
+               # line_chart Gallery.group_by_day(:created_at, format: "%B %d, %Y").count, discrete: true , colors: ["red", "#FF0000"] 
+                line_chart Tutorial.where('user_id=?',current_user.id).group_by_month(:created_at, format: "%B %d, %Y").count('id'),  xtitle: "Day", ytitle: "Tutorials", discrete: true , colors: ["red", "#FF0000"]       
+              
+            %>
+            <!-- <img src="images/user-project-view.jpg" class="img-responsive" alt="User Project View"> --></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="userstat-indent1 clearfix">
+            <div class="white-txt txt16 marginB15">Monthly Sale</div>
+            <div>
+              <%= 
+
+              if @transaction_tutorial.present?
+                #abort(@transaction.inspect)
+                line_chart TransactionHistory.where('id IN (?)',@transaction_tutorial).group_by_month(:created_at, format: "%B %d, %Y").sum('net_amount'),  xtitle: "Day", ytitle: "Amount", discrete: true , colors: ["red", "#FF0000"] 
+             end
+              %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     
 
     <div class="clearfix marginB15 userstat-indent1 hidden-xs">

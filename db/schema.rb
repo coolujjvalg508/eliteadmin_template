@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170519104028) do
+ActiveRecord::Schema.define(version: 20170613052428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,9 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.datetime "updated_at",                                     null: false
     t.integer  "group_id"
     t.string   "role",                   default: "super_admin"
+    t.integer  "like_count",             default: 0
+    t.integer  "view_count",             default: 0
+    t.integer  "follow_count",           default: 0
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -160,18 +163,32 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.string   "paramlink"
   end
 
+  create_table "chapters", force: :cascade do |t|
+    t.string   "title"
+    t.string   "image"
+    t.integer  "tutorial_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "collection_details", force: :cascade do |t|
     t.integer  "gallery_id",    default: 0
     t.integer  "collection_id", default: 0
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.integer  "download_id",   default: 0
+    t.integer  "tutorial_id",   default: 0
+    t.integer  "news_id",       default: 0
   end
 
   create_table "collections", force: :cascade do |t|
     t.string   "title"
-    t.integer  "gallery_id", default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "gallery_id",  default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "download_id", default: 0
+    t.integer  "tutorial_id", default: 0
+    t.integer  "news_id",     default: 0
   end
 
   create_table "comments", force: :cascade do |t|
@@ -268,46 +285,86 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.datetime "updated_at",                       null: false
   end
 
+  create_table "coupons", force: :cascade do |t|
+    t.string   "coupon_code",    limit: 20
+    t.integer  "discount_value"
+    t.string   "discount_type"
+    t.date     "valid_from"
+    t.date     "valid_till"
+    t.boolean  "status",                    default: true, null: false
+    t.integer  "no_of_use"
+    t.string   "is_admin"
+    t.integer  "user_id"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
   create_table "downloads", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
     t.json     "topic"
     t.json     "software_used"
-    t.integer  "is_paid",               default: 0
+    t.integer  "is_paid",                      default: 0
     t.float    "price"
     t.string   "tags"
-    t.integer  "status",                default: 1
-    t.integer  "is_save_to_draft",      default: 1
-    t.integer  "visibility",            default: 1
-    t.integer  "publish",               default: 1
+    t.integer  "status",                       default: 1
+    t.integer  "is_save_to_draft",             default: 1
+    t.integer  "visibility",                   default: 1
+    t.integer  "publish",                      default: 1
     t.string   "company_logo"
     t.string   "schedule_time"
-    t.integer  "user_id",               default: 0
+    t.integer  "user_id",                      default: 0
     t.string   "is_admin"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.json     "sub_topic"
-    t.boolean  "animated",              default: false
-    t.boolean  "rigged",                default: false
-    t.boolean  "lowpoly",               default: true
-    t.boolean  "texture",               default: false
-    t.boolean  "material",              default: false
-    t.boolean  "uv_mapping",            default: false
-    t.boolean  "plugin_used",           default: false
+    t.boolean  "animated",                     default: false
+    t.boolean  "rigged",                       default: false
+    t.boolean  "lowpoly",                      default: true
+    t.boolean  "texture",                      default: false
+    t.boolean  "material",                     default: false
+    t.boolean  "uv_mapping",                   default: false
+    t.boolean  "plugin_used",                  default: false
     t.string   "unwrapped_uv"
     t.string   "polygon"
     t.string   "vertice"
     t.string   "geometry"
     t.json     "post_type_category_id"
     t.json     "sub_category_id"
-    t.boolean  "free",                  default: false
+    t.boolean  "free",                         default: false
     t.text     "changelog"
-    t.boolean  "is_feature",            default: false
+    t.boolean  "is_feature",                   default: false
     t.json     "post_type_id"
     t.json     "challenge"
     t.string   "paramlink"
     t.string   "product_id"
     t.integer  "file_format_id"
+    t.string   "license_type"
+    t.boolean  "has_adult_content"
+    t.string   "license_custom_info"
+    t.integer  "number_of_download",           default: 0
+    t.integer  "number_of_sold",               default: 0
+    t.integer  "like_count",                   default: 0
+    t.integer  "view_count",                   default: 0
+    t.integer  "comment_count",                default: 0
+    t.integer  "follow_count",                 default: 0
+    t.string   "zoom_w"
+    t.string   "zoom_h"
+    t.string   "zoom_x"
+    t.string   "zoom_y"
+    t.string   "drag_x"
+    t.string   "drag_y"
+    t.string   "rotation_angle"
+    t.string   "crop_x"
+    t.string   "crop_y"
+    t.string   "crop_w"
+    t.string   "crop_h"
+    t.boolean  "show_on_cgmeetup"
+    t.boolean  "show_on_website"
+    t.integer  "is_trash",                     default: 0
+    t.string   "unit"
+    t.boolean  "use_tag_from_previous_upload", default: false
+    t.boolean  "is_spam",                      default: false
   end
 
   create_table "education_experiences", force: :cascade do |t|
@@ -345,6 +402,7 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.string   "post_type"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "is_admin"
   end
 
   create_table "galleries", force: :cascade do |t|
@@ -519,6 +577,7 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "section_type"
+    t.string   "is_admin"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -547,6 +606,21 @@ ActiveRecord::Schema.define(version: 20170519104028) do
 
   add_index "marmo_sets", ["marmosetable_id"], name: "index_marmo_sets_on_marmosetable_id", using: :btree
   add_index "marmo_sets", ["marmosetable_type"], name: "index_marmo_sets_on_marmosetable_type", using: :btree
+
+  create_table "media_contents", force: :cascade do |t|
+    t.string   "mediacontent"
+    t.integer  "mediacontentable_id",   null: false
+    t.string   "mediacontentable_type", null: false
+    t.string   "media_type"
+    t.string   "video_duration"
+    t.string   "media_caption"
+    t.text     "media_description"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "media_contents", ["mediacontentable_id"], name: "index_media_contents_on_mediacontentable_id", using: :btree
+  add_index "media_contents", ["mediacontentable_type"], name: "index_media_contents_on_mediacontentable_type", using: :btree
 
   create_table "medium_categories", force: :cascade do |t|
     t.string   "name"
@@ -608,6 +682,7 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.json     "sub_topic"
     t.json     "category_id"
     t.json     "sub_category_id"
+    t.string   "paramlink"
   end
 
   create_table "news_categories", force: :cascade do |t|
@@ -643,6 +718,7 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.integer  "is_read",           default: 0
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.string   "is_admin"
   end
 
   create_table "packages", force: :cascade do |t|
@@ -666,6 +742,7 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.datetime "updated_at",                   null: false
     t.integer  "post_id",      default: 0
     t.string   "section_type"
+    t.string   "is_admin"
   end
 
   create_table "post_likes", force: :cascade do |t|
@@ -675,6 +752,7 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "artist_id"
+    t.string   "is_admin"
   end
 
   create_table "post_type_categories", force: :cascade do |t|
@@ -733,9 +811,36 @@ ActiveRecord::Schema.define(version: 20170519104028) do
     t.string   "professionalexperienceable_type"
   end
 
+  create_table "purchased_products", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "download_id"
+    t.integer  "transaction_history_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.float    "price",                  default: 0.0
+  end
+
+  create_table "purchased_tutorials", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "tutorial_id"
+    t.integer  "transaction_history_id"
+    t.float    "price",                  default: 0.0
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
   create_table "questionaires", force: :cascade do |t|
     t.string   "question"
     t.text     "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "post_type"
+    t.integer  "rating"
+    t.integer  "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -843,6 +948,12 @@ ActiveRecord::Schema.define(version: 20170519104028) do
   add_index "tags", ["tagable_id"], name: "index_tags_on_tagable_id", using: :btree
   add_index "tags", ["tagable_type"], name: "index_tags_on_tagable_type", using: :btree
 
+  create_table "temps", force: :cascade do |t|
+    t.json     "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -857,41 +968,99 @@ ActiveRecord::Schema.define(version: 20170519104028) do
 
   add_index "topics", ["parent_id"], name: "index_topics_on_parent_id", using: :btree
 
+  create_table "transaction_histories", force: :cascade do |t|
+    t.integer  "user_id",         default: 0
+    t.string   "payment_method"
+    t.string   "txn_id"
+    t.string   "payer_id"
+    t.float    "gross_amount"
+    t.float    "discount_amount"
+    t.float    "net_amount"
+    t.string   "coupon_code"
+    t.boolean  "is_company",      default: false
+    t.string   "company_name"
+    t.string   "company_code"
+    t.string   "company_vat"
+    t.string   "company_country"
+    t.string   "company_city"
+    t.string   "company_address"
+    t.text     "response"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
   create_table "tutorial_skills", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "tutorial_subjects", force: :cascade do |t|
+    t.integer  "topic_id"
+    t.string   "name"
+    t.string   "image"
+    t.text     "description"
+    t.string   "slug"
+    t.integer  "parent_id"
+    t.integer  "status",      default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "tutorial_subjects", ["parent_id"], name: "index_tutorial_subjects_on_parent_id", using: :btree
+
   create_table "tutorials", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
     t.json     "topic"
     t.json     "software_used"
-    t.integer  "is_paid",             default: 0
+    t.integer  "is_paid",                      default: 0
     t.float    "price"
     t.string   "tags"
-    t.integer  "is_featured",         default: 0
-    t.integer  "status",              default: 1
-    t.integer  "is_save_to_draft",    default: 1
-    t.integer  "visibility",          default: 1
-    t.integer  "publish",             default: 1
+    t.integer  "is_featured",                  default: 0
+    t.integer  "status",                       default: 1
+    t.integer  "is_save_to_draft",             default: 1
+    t.integer  "visibility",                   default: 1
+    t.integer  "publish",                      default: 1
     t.string   "company_logo"
     t.string   "schedule_time"
-    t.boolean  "show_on_cgmeetup",    default: true
-    t.boolean  "show_on_website",     default: true
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.boolean  "show_on_cgmeetup",             default: true
+    t.boolean  "show_on_website",              default: true
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.string   "is_admin"
-    t.integer  "user_id",             default: 0
+    t.integer  "user_id",                      default: 0
     t.string   "skill_level"
     t.string   "language"
-    t.integer  "total_lecture",       default: 0
+    t.integer  "total_lecture",                default: 0
     t.text     "include_description"
     t.string   "sub_title"
     t.json     "sub_topic"
-    t.boolean  "free",                default: false
+    t.boolean  "free",                         default: false
     t.json     "challenge"
+    t.string   "paramlink"
+    t.string   "tutorial_id"
+    t.boolean  "has_adult_content"
+    t.integer  "number_of_sold",               default: 0
+    t.integer  "like_count",                   default: 0
+    t.integer  "view_count",                   default: 0
+    t.integer  "comment_count",                default: 0
+    t.integer  "follow_count",                 default: 0
+    t.string   "zoom_w"
+    t.string   "zoom_h"
+    t.string   "zoom_x"
+    t.string   "zoom_y"
+    t.string   "drag_x"
+    t.string   "drag_y"
+    t.string   "rotation_angle"
+    t.string   "crop_x"
+    t.string   "crop_y"
+    t.string   "crop_w"
+    t.string   "crop_h"
+    t.integer  "is_trash",                     default: 0
+    t.boolean  "use_tag_from_previous_upload", default: false
+    t.boolean  "is_spam",                      default: false
+    t.json     "sub_sub_topic"
   end
 
   create_table "upload_videos", force: :cascade do |t|

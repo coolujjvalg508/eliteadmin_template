@@ -10,7 +10,9 @@ class UserController < ApplicationController
         @comment_count =  Gallery.where("is_trash = ? AND is_admin = ? AND user_id = ? AND status = ?", 0, 'N', current_user.id, 1).sum(:comment_count)
         @user_view_count =  User.where("id = ? AND is_deleted = ?", current_user.id,0).sum(:view_count)
         
-        @transaction =  PurchasedProduct.joins(:download).where("downloads.user_id = ? AND downloads.is_admin = 'N' AND status = ?", @current_user.id, 1).pluck(:transaction_history_id)
+        @transaction             =  PurchasedProduct.joins(:download).where("downloads.user_id = ? AND downloads.is_admin = 'N' AND status = ?", @current_user.id, 1).pluck(:transaction_history_id)
+       
+        @transaction_tutorial   =  PurchasedTutorial.joins(:tutorial).where("tutorials.user_id = ? AND tutorials.is_admin = 'N' AND status = ?", @current_user.id, 1).pluck(:transaction_history_id)
         
         @allpostlikerecords      =   PostLike.where(artist_id: current_user.id).order('id desc').limit(6)
 

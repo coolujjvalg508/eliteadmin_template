@@ -28,16 +28,21 @@
               <span class="blue-txt">
                   <% if value.section_type == "Download" %>
                        <a href="<%= artist_profile_path (value.user_detail.username) %>"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </a></span> has <%= value.activity_type %> product<%#= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='downloads/<%= value.download.paramlink %>/show'><%= value.download.present? ? value.download.title : '' %></a>
+                  <% elsif value.section_type == "Tutorial"  %>
+                        <a href="<%= artist_profile_path (value.user_detail.username) %>"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </a></span> has <%= value.activity_type %> tutorial<%#= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='tutorials/<%= value.tutorials.paramlink %>/show'><%= value.tutorials.present? ? value.tutorials.title : '' %></a>
+
                   <% else %>
                         <a href="<%= artist_profile_path (value.user_detail.username) %>"><%= value.user_detail.present? ? value.user_detail.firstname+" "+value.user_detail.lastname : '' %> </a></span> has <%= value.activity_type %> <%= value.section_type.present? ? value.section_type : 'artwork' %> <span class="blue-txt"><a href='/dashboard/projects/<%= value.gallery.paramlink %>/show'><%= value.gallery.present? ? value.gallery.title : '' %></a>
                   <% end %>   
               
-              </span>.</div>
+              </span></div>
             </div>
           </div>
           <div class="notification-profile clearfix">
             <% if value.section_type == "Download" %>
 			         <%= image_tag(value.download.company_logo.art_activity.url, :alt => "Activity",:class=>"img-responsive") %>
+            <% elsif value.section_type == "Tutorial" %>
+                <%= image_tag(value.tutorial.company_logo.art_activity.url, :alt => "Activity",:class=>"img-responsive") %>
             <% else %>
                <%= image_tag(value.gallery.company_logo.art_activity.url, :alt => "Activity",:class=>"img-responsive") %>
             <% end %>   
@@ -49,7 +54,15 @@
            <%= value.artist_detail.professional_headline %> </span> </div>
          <!--  <div class="desert-title">Desert worker speedmodel</div> -->
           <div class="activity-txt">
-           <%= value.gallery.present? ? value.gallery.description.html_safe : value.download.description.html_safe %>
+           <% if value.section_type == "Download" %>
+              <%= value.download.present? ? value.download.description.html_safe : '' %>
+            <% elsif value.section_type == "Tutorial" %>
+               <%= value.tutorial.present? ? value.tutorial.description.html_safe : '' %>
+            <% else %>
+                <%= value.gallery.present? ? value.gallery.description.html_safe : '' %>
+            <% end %>  
+
+         
           </div>
 
 
@@ -90,6 +103,42 @@
 
 
                 </script>
+              <% elsif value.section_type == "Tutorial" %>
+
+                  <script>
+                    $(document).ready(function(){
+                        $.ajax({
+                            type: "post",
+                            url: "<%= check_tutorialsave_like_path %>" ,
+                            data: {'download_id': '<%= value.tutorial.id %>'},
+                            success: function(data){
+                                if(data.res == 1) {
+                                  $('#post_like_button_'+<%= value.tutorial.id %>+'_'+<%= value.tutorial.user_id %>+'_'+<%= value.id %>+'_tutorial').addClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.tutorial.id %>+'_'+<%= value.tutorial.user_id %>+'_'+<%= value.id %>+'_tutorial').removeClass('hidden');
+                                }else{
+                                  $('#post_like_button_'+<%= value.tutorial.id %>+'_'+<%= value.tutorial.user_id %>+'_'+<%= value.id %>+'_tutorial').removeClass('hidden');
+                                  $('#post_dislike_button_'+<%= value.tutorial.id %>+'_'+<%= value.tutorial.user_id %>+'_'+<%= value.id %>+'_tutorial').addClass('hidden');
+                                }
+                            }
+                        });
+
+                        $.ajax({
+                            type: "post",
+                            url: "<%= get_like_comment_view_tutorial_path %>" ,
+                            data: {'tutorial_id': '<%= value.tutorial.id %>'},
+                           success: function(data){
+                         
+                                  $('#like_<%= value.tutorial.id %>_<%= value.id %>_tutorial').html('<i aria-hidden="true" class="fa fa-thumbs-up marginR5"></i> '+data['tutoriallike']);
+                                  $('#comment_<%= value.tutorial.id %>_<%= value.id %>_tutorial').html('<i aria-hidden="true" class="fa fa-comments marginR5"></i> '+data['tutorialcomment']);
+                                 
+                                  $('#view_<%= value.tutorial.id %>_<%= value.id %>_tutorial').html('<i aria-hidden="true" class="fa fa-eye marginR5"></i> '+data['tutorialview']);
+                            }
+                        });
+                    });
+
+
+                </script>
+
               <% else %>
                 <script>
                     $(document).ready(function(){
@@ -130,6 +179,11 @@
                   <button title = "<%= value.section_type %>" id='post_like_button_<%= value.download.id %>_<%= value.download.user_id %>_<%= value.id %>_download' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
                  
                    <button title = "<%= value.section_type %>" id='post_dislike_button_<%= value.download.id %>_<%= value.download.user_id %>_<%= value.id %>_download' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>   
+              <% elsif value.section_type == "Tutorial" %>
+                  <button title = "<%= value.section_type %>" id='post_like_button_<%= value.tutorial.id %>_<%= value.tutorial.user_id %>_<%= value.id %>_tutorial' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
+                 
+                   <button title = "<%= value.section_type %>" id='post_dislike_button_<%= value.tutorial.id %>_<%= value.tutorial.user_id %>_<%= value.id %>_tutorial' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>  
+
               <% else %>   
                     <button title = "<%= value.section_type %>" id='post_like_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>_gallery' class="green-btn" type="button"><i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i>Like</button>
                    <button title = "<%= value.section_type %>" id='post_dislike_button_<%= value.gallery.id %>_<%= value.gallery.user_id %>_<%= value.id %>_gallery' class="green-btn hidden" type="button"><i class="fa fa-check marginR5" aria-hidden="true"></i>Liked</button>   
@@ -144,6 +198,13 @@
                   <span class="activity-like" id='view_<%= value.download.id %>_<%= value.id %>_download'></span> 
                   <span class="activity-like" id='comment_<%= value.download.id %>_<%= value.id %>_download'></span> 
                 </div>
+            <% elsif value.section_type == "Tutorial"  %>
+                <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> 
+                  <span class="activity-like" id='like_<%= value.tutorial.id %>_<%= value.id %>_tutorial'></span> 
+                  <span class="activity-like" id='view_<%= value.tutorial.id %>_<%= value.id %>_tutorial'></span> 
+                  <span class="activity-like" id='comment_<%= value.tutorial.id %>_<%= value.id %>_tutorial'></span> 
+                </div>
+
             <% else %>
                 <div class="col-md-9 col-sm-8 col-xs-9 text-right padding"> 
                   <span class="activity-like" id='like_<%= value.gallery.id %>_<%= value.id %>_gallery'></span> 
@@ -166,6 +227,14 @@
             <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15">
               <button title = "<%= value.section_type %>" id='post_comments_submit_<%= value.download.id %>_download' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
             </div>
+        <% elsif value.section_type == "Tutorial" %>
+            <div class="col-md-11 col-sm-8 col-xs-9 padding">
+              <textarea class="form-control activitymessage" id='post_comments_<%= value.tutorial.id %>_tutorial' ></textarea>
+            </div>
+            <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15">
+              <button title = "<%= value.section_type %>" id='post_comments_submit_<%= value.tutorial.id %>_tutorial' type="button" class="postbtn border-radius"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
+            </div>
+
         <% else %>
              <div class="col-md-11 col-sm-8 col-xs-9 padding">
               <textarea class="form-control activitymessage" id='post_comments_<%= value.gallery.id %>_gallery' ></textarea>
@@ -278,6 +347,7 @@
                         gallery_id_and_user_id  = gallery_id_and_user_id.replace('post_dislike_button_','');
                         gallery_id_and_user_id  = gallery_id_and_user_id.replace('_download','');
                         gallery_id_and_user_id  = gallery_id_and_user_id.replace('_gallery','');
+                        gallery_id_and_user_id  = gallery_id_and_user_id.replace('_tutorial','');
                    
                         var res = gallery_id_and_user_id.split("_"); 
                         if(section_type == "Download") {
@@ -298,6 +368,25 @@
                                       }
                                   });
 
+
+                        }else if(section_type == "Tutorial"){
+
+                                $.ajax({
+                                      type: "post",
+                                      url: "<%= tutorialsave_like_path %>" ,
+                                      data: {'tutorial_id': res[0],'artist_id': res[1]},
+                                      success: function(data){
+                                        //alert(data.res)
+                                        if(data.res == 1) {
+                                          $('#post_like_button_'+gallery_id_and_user_id + '_tutorial' ).addClass('hidden');
+                                          $('#post_dislike_button_'+gallery_id_and_user_id + '_tutorial' ).removeClass('hidden');
+                                        }else{
+                                          $('#post_like_button_'+gallery_id_and_user_id + '_tutorial' ).removeClass('hidden');
+                                          $('#post_dislike_button_'+gallery_id_and_user_id + '_tutorial' ).addClass('hidden');
+                                        }
+
+                                      }
+                                  });
 
                         }else{
                                  $.ajax({
@@ -330,6 +419,7 @@
                         gallery_id = $(this).attr('id').replace('post_comments_submit_','');
                         gallery_id  = gallery_id.replace('_download','');
                         gallery_id  = gallery_id.replace('_gallery','');
+                        gallery_id  = gallery_id.replace('_tutorial','');
                         textareavalue = $('#post_comments_'+gallery_id).val();
                         if(textareavalue == ''){
                             alert('Comment cannot be blank.');
@@ -347,6 +437,20 @@
                                         return false;  
                                       }
                                   });
+
+                              }else if(section_type == "Tutorial"){
+                                  $.ajax({
+                                      type: "post",
+                                      url: "<%= save_tutorial_comment_path %>" ,
+                                      data: {'tutorial_id': gallery_id,'description': textareavalue,'section_type': 'tutorial'},
+                                      success: function(data){
+                                          $('#post_comments_'+gallery_id+'_tutorial').val('');
+                                        alert(data.message)
+                                        return false;  
+                                      }
+                                  });
+
+
 
                               }else{
 

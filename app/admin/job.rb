@@ -160,18 +160,20 @@ ActiveAdmin.register Job do
   controller do
 	  def create
 	  		
-	  		countrydata  = Country.where("id = ?",params[:job][:country_id]).pluck(:name, :id).first
-        	countryname  = countrydata[0]
-	  		coordinates  = Geocoder.coordinates(params[:job][:city] + ' ' +  params[:job][:state] + ' ' + countryname)
-	  		
-	  		if !coordinates.nil?
-             	params[:job][:latitude]    =   coordinates[0]
-             	params[:job][:longitude]   =   coordinates[1]
-             	
-			else
-             	params[:job][:latitude]   =   ''
-             	params[:job][:longitude]    =   ''
-        	end
+	  		if params[:job][:country_id].present? &&  params[:job][:city].present? && params[:job][:state].present?
+				  		countrydata  = Country.where("id = ?",params[:job][:country_id]).pluck(:name, :id).first
+			        	countryname  = countrydata[0]
+				  		coordinates  = Geocoder.coordinates(params[:job][:city] + ' ' +  params[:job][:state] + ' ' + countryname)
+				  		
+				  		if !coordinates.nil?
+			             	params[:job][:latitude]    =   coordinates[0]
+			             	params[:job][:longitude]   =   coordinates[1]
+			             	
+						else
+			             	params[:job][:latitude]   	=   ''
+			             	params[:job][:longitude]    =   ''
+			        	end
+		     end   	
 
 
         	if params[:job][:company_attributes][:name].present?

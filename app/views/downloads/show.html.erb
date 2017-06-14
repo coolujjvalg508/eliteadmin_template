@@ -1,14 +1,13 @@
 <script type="text/javascript">
   $.fn.raty.defaults.path = '<%= root_url+'assets' %>';
-</script>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
+</script><script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script> 
 <!-- Submenu Navigation -->
 <div id="myApp2" ng-app="myApp" >
 <%= render 'layouts/download_sub_header' %>
 <div ng-controller="myCtrl" >
 <div class="clearfix download-post-bread hidden-xs">
 <ul class="breadcrumb">
-<li><a href="javascript:void(0);">Downloads</a></li>
+<li><a href="/downloads">Downloads</a></li>
 <li class="active">{{get_download_info.title}}</li>
 </ul>
 </div>
@@ -26,14 +25,129 @@
         <li class="lists" >
           <a href="#"><img src="<%= value.image.large_image.url %>" class="img-responsive" alt="<%= value.caption_image %>"></a>
         </li>
-
       <%
           end
         end  
       %>
-
   </ul>
+  <div class="clearfix">&nbsp;</div>
+
+  <%
+        if @download_data.videos.present?
+          @download_data.videos.each_with_index do |j, index|
+          
+          if(j.video.include?('youtube')) 
+              if j.video[/youtu\.be\/([^\?]*)/]
+                  youtube_id = $1
+              else
+                  j.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+                  youtube_id = $5
+              end 
+          %>
+            <div class="slidervideos">
+             <a href="#"> <iframe width="700px" height="450px" src="https://www.youtube.com/embed/<%= youtube_id %>" frameborder="0" allowfullscreen></iframe></a>
+            </div>  
+          <div class="clearfix"></div>
+                      
+        <% elsif(j.video.include?('vimeo')) 
+            match = j.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
+
+            if match.present?
+                vimeoid = match[:id] %>
+               <div class="slidervideos">     
+                  <a href="#"><iframe width="700px" height="450px"  src="https://player.vimeo.com/video/<%= vimeoid %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></a>
+               </div> 
+               <div class="clearfix"></div>
+        <% end 
+         elsif(j.video.include?('dailymotion'))  
+            match =  j.video.gsub('http://www.dailymotion.com/video/', "")
+            match1  = match.index('_')
+            match = match[0...match1]
+            if match.present?
+                dailymotionid = match %>
+                <div class="slidervideos"> <a href="#">   
+                  <iframe width="700px" height="450px"  frameborder="0"  src="//www.dailymotion.com/embed/video/<%= dailymotionid %>" allowfullscreen></iframe></a>
+                </div> 
+                <div class="clearfix"></div> 
+        <% end 
+        end %>
+    <%    
+          
+      end  
+      end  
+  %>
+   <div class="clearfix"></div>
+
+   <%
+        if @download_data.sketchfebs.present?
+          @download_data.sketchfebs.each_with_index do |j, index|
+          
+          url = "https://sketchfab.com/oembed?url="+j.sketchfeb+"&maxwidth=700&maxheight=450&dataType=jsonp"
+    %>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+              $.getJSON("<%= url%>",{ajax: 'true'}, function(response){
+                 // console.log(response);  
+                  $('#sketch_span_'+"<%= index %>").html(response.html);
+              }) 
+
+        })
+      </script>
+       <div class="slidervideos"><a href="#">
+        <span class="img-responsive"  id='sketch_span_<%= index %>'></span>
+        </a></div> 
+        <div class="clearfix"></div>
+    <%
+     
+          end  
+      end    
+    %>
+     <div class="clearfix"></div>
+    <%
+        if @download_data.marmo_sets.present?
+          @download_data.marmo_sets.each_with_index do |j, index|
+           url = j.marmoset.url
+    %>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+          //  var params = { width: 700, height: 450, autoStart: false };
+           // var myviewer = marmoset.embed( "<%= url %>", params ); 
+          //   console.log(myviewer);
+           // $('#marmoset_span_'+"<%#= index %>").html(myviewer);
+
+
+        })
+      </script>
+       <div class="slidervideos">
+        <div   id='marmoset_span_<%= index %>'></div>
+      </div> 
+        <div class="clearfix"></div>
+    <%
+     
+          end  
+      end    
+    %>
+
+     <div class="clearfix"></div>
+    <%
+        if @download_data.upload_videos.present?
+          @download_data.upload_videos.each_with_index do |j, index|
+           url = j.uploadvideo.url
+    %>
+       <div class="slidervideos"><a href="#">
+         <iframe width="700px" height="450px"  frameborder="0"  src="<%= url %>" allowfullscreen></iframe>
+       </a></div> 
+        <div class="clearfix"></div>
+    <%
+     
+          end  
+      end    
+    %>
+
 </div>
+
 <div class="comment-wrap clearfix">
 <div class="gallerycomment">
 <div class="gallery-title" ng-bind="get_download_info.title"></div>
@@ -84,39 +198,39 @@
   <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
   <li><a data-toggle="tab" href="#comments">COMMENTS <%= @download_data.comment_count  %></a></li>
 </ul>
-<div class="tab-content">
-  <div id="description" class="tab-pane fade in active">
-    <div class="publishwrap clearfix paddinT5">
-      <!-- <h3>Published on Aug 21, 2014</h3> -->
-      <div class="marginB15 publish-txt" ng-bind-html="get_download_info.description"> </div>
-      <!-- <h3>Cartoon Sport Girl</h3> -->
-     
-    </div>
-  </div>
-  <div id="comments" class="tab-pane fade in ">
-    <div class="clearfix commentwrap">
-      <div class="clearfix">
-        <div class="col-md-1 col-sm-2 col-xs-3 padding">
-            <% if user_signed_in? %>
-                <%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %>
-            <% end %>  
-        </div>
-        <div class="col-md-11 col-sm-10 col-xs-9 padding">
-          <textarea class="form-control" id='post_comments_<%= @download_data.id %>'  style='margin-top:0px !important' ></textarea>
-        </div>
-        <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15 text-right">
-<button id='post_comments_submit_<%= @download_data.id %>' type="button" class="bluebtn"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
-        </div>
-      </div>
-      <h3 class="content-heading-title">Comments</h3>
-      <div class="clearfix marginB15 comment-reply"> 
+  <div class="tab-content">
+    <div id="description" class="tab-pane fade in active">
+      <div class="publishwrap clearfix paddinT5">
+        <!-- <h3>Published on Aug 21, 2014</h3> -->
+        <div class="marginB15 publish-txt" ng-bind-html="get_download_info.description"> </div>
+        <!-- <h3>Cartoon Sport Girl</h3> -->
        
-            <div id ='commentslist_dev'></div>
-        
+      </div>
+    </div>
+    <div id="comments" class="tab-pane fade in ">
+      <div class="clearfix commentwrap">
+        <div class="clearfix">
+          <div class="col-md-1 col-sm-2 col-xs-3 padding">
+              <% if user_signed_in? %>
+                  <%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %>
+              <% end %>  
+          </div>
+          <div class="col-md-11 col-sm-10 col-xs-9 padding">
+            <textarea class="form-control" id='post_comments_<%= @download_data.id %>'  style='margin-top:0px !important' ></textarea>
+          </div>
+          <div class="col-md-11 col-sm-12 col-xs-12 padding col-md-offset-1 paddinT10 marginB15 text-right">
+            <button id='post_comments_submit_<%= @download_data.id %>' type="button" class="bluebtn"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
+          </div>
+        </div>
+        <h3 class="content-heading-title">Comments</h3>
+        <div class="clearfix marginB15 comment-reply"> 
+         
+              <div id ='commentslist_dev'></div>
+          
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <div class="wipdetailtag publishwrap">
 <div class="marginB10 publish-txt"> <span class="txt-white"><strong>Category:</strong> </span> 
@@ -608,7 +722,7 @@ $('[data-toggle="tooltip"]').tooltip();
     $.ajax({
           type: "get",
           url: "<%= get_download_comment_path %>" ,
-          data: {'download_id': "<%= @download_data.id %>",'user_id': "<%= current_user.id %>",'section_type': 'download_detail'},
+          data: {'download_id': "<%= @download_data.id %>",'section_type': 'download_detail'},
           success: function(data){
             $('#commentslist_dev').html(data.data);
           }
@@ -633,11 +747,11 @@ $('[data-toggle="tooltip"]').tooltip();
                          
                           $.ajax({
                             type: "get",
-                            url: "<%= get_comment_path %>" ,
-                            data: {'download_id': "<%= @download_data.id %>",'user_id': "<%= current_user.id %>",'section_type': 'download_detail'},
+                            url: "<%= get_download_comment_path %>" ,
+                            data: {'download_id': "<%= @download_data.id %>",'section_type': 'download_detail'},
                             success: function(data){
                               $('#commentslist_dev').html(data.data);
-                               window.location.reload(true);
+                               //window.location.reload(true);
                               //return false;  
                             }
                         }); 
@@ -647,6 +761,24 @@ $('[data-toggle="tooltip"]').tooltip();
               } 
 
       });
+
+
+      $('.download-new-mar').on('click',function(e){
+      //  e.preventDefault();
+
+             $.ajax({
+                  type: "post",
+                  url: "<%= update_number_of_downloads_path %>" ,
+                  data: {'id': "<%= @download_data.id %>"},
+                  async: false,
+                  success: function(data){
+                  }
+              }); 
+
+
+      });
+
+
 
   });
 

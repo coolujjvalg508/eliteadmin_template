@@ -186,17 +186,26 @@ module ApplicationHelper
 
 		previous_download = Download.where("user_id = ? AND is_admin = 'N'", current_user.id).order('id DESC').first
 		tags = []
-
 		if previous_download.present?
 			if previous_download.tags.present?
-
 				previous_download.tags.each_with_index do |tag, i|
-					#abort(tag['tag'].to_json)
-
 					tags[i] = tag['tag']
-
 				end
+			end
+		end
+		return tags
 
+	end
+
+	def get_previous_uploaded_tutorial_tags
+
+		previous_tutorial = Tutorial.where("user_id = ? AND is_admin = 'N'", current_user.id).order('id DESC').first
+		tags = []
+		if previous_tutorial.present?
+			if previous_tutorial.tags.present?
+				previous_tutorial.tags.each_with_index do |tag, i|
+					tags[i] = tag['tag']
+				end
 			end
 		end
 		return tags

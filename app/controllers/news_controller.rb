@@ -1,9 +1,166 @@
 class NewsController < ApplicationController
+	before_action :authenticate_user!, only: [:new, :create, :edit, :update, :save_news_rating, :listing_index]
 	def index
 
 		@categories = NewsCategory.where('parent_id IS NULL').order('name ASC')	
 
 	end	
+
+
+	def show
+		@paramlink = params[:paramlink]
+        @news_data = News.where('paramlink = ?', @paramlink).first
+
+       
+        #abort(@download_data.to_json)
+        @product_avg_rating = Rating.where('product_id = ? AND post_type = ?', @news_data.id, 'news').pluck("AVG(rating) as avg_rate")
+
+        @collection = Collection.new
+        
+        @has_user_already_given_rating = 0
+        @is_purchased = false
+        if current_user.present?
+          @has_user_already_given_rating = Rating.where('user_id = ? AND product_id=? AND post_type = ?', current_user.id, @news_data.id, 'news').count 
+
+           purchased_product = PurchasedProduct.where('user_id = ? AND download_id = ?', current_user.id, @news_data.id).limit(1).count
+
+           if purchased_product > 0
+             @is_purchased = true
+           end  
+        end 
+    
+
+	end	
+
+
+	def check_save_like
+
+           news_id = params[:news_id]
+          newsrecord  = News.where("id = ?",news_id).first
+          is_admin = newsrecord.is_admin.to_s
+       
+          user_id = current_user.id
+          is_like_exist = PostLike.where(user_id: user_id, post_id: news_id, post_type: 'News', is_admin: is_admin).first
+          result = ''
+          if is_like_exist.present?
+                result  = {'res' => 1, 'message' => 'Post has already liked'}
+          else
+                result  = {'res' => 0, 'message' => 'Post has not liked'}
+          end 
+          render json: result, status: 200    
+             
+    end
+
+
+
+      def save_like
+          news_id    	= params[:news_id]
+          artist_id     = params[:artist_id]
+          user_id       = current_user.id
+          
+          newsrecord  	= News.where("id = ?",news_id).first
+          is_admin    	= newsrecord.is_admin.to_s
+          
+          is_like_exist   = PostLike.where(user_id: user_id, post_id: news_id, post_type: 'News', is_admin: is_admin).first
+         
+          result          = ''
+
+          activity_type = ''
+          if is_like_exist.present?
+                activity_type = 'disliked'
+                PostLike.where(user_id: user_id, post_id: news_id, post_type: 'News', is_admin: is_admin).delete_all 
+                
+                Notification.where(user_id: user_id,  artist_id: artist_id,  post_id: news_id, notification_type: "like", section_type: 'News', is_admin: is_admin).delete_all
+                
+                newlike_count  =  (newsrecord.like_count == 0) ? 0 : newsrecord.like_count - 1
+                newsrecord.update(like_count: newlike_count) 
+
+                result  = {'res' => 0, 'message' => 'Post has disliked'}
+
+          else
+                activity_type = 'liked'
+                PostLike.create(user_id: user_id, artist_id: artist_id, post_id: news_id, post_type: 'News', is_admin: is_admin)  
+                
+                newlike_count  =  newsrecord.like_count + 1
+                newsrecord.update(like_count: newlike_count) 
+
+                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: news_id, notification_type: "like", is_read: 0, section_type: 'News', is_admin: is_admin)
+                 result  = {'res' => 1, 'message' => 'Post has liked'}
+
+          end 
+
+          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: news_id, activity_type: activity_type, section_type: 'News', is_admin: is_admin)  
+          render json: result, status: 200       
+    end 
+
+
+    def check_follow_artist
+          artist_id        	= params[:artist_id].to_i
+          news_id        	= params[:news_id]
+          newsrecord     	= News.where("id = ?",news_id).first
+          is_admin          = newsrecord.is_admin.to_s
+
+          user_id            = current_user.id
+          is_like_exist      = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).first
+          result = ''
+          if is_like_exist.present?
+                result  = {'res' => 1, 'message' => 'Artist already followed'}
+          else
+                result  = {'res' => 0, 'message' => 'Artist not followed'}
+          end 
+        
+
+          render json: result, status: 200       
+    end
+
+
+    def follow_artist
+        
+          artist_id          	= params[:artist_id].to_i
+          news_id        		= params[:news_id]
+          newsrecord     		= News.where("id = ?",news_id).first
+          is_admin           	= newsrecord.is_admin.to_s
+
+          user_id            	= current_user.id
+          is_follow_exist    	= Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).first
+          result = ''
+          
+          if is_admin == 'N'
+               userrecord          = User.where(id: artist_id).first
+          else
+               userrecord          = AdminUser.where(id: artist_id).first
+          end    
+
+          #abort(userrecord.to_json)
+
+          if is_follow_exist.present?
+                Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).delete_all 
+                Notification.where(user_id: user_id,  artist_id: artist_id, notification_type: "follow user", section_type: 'News', is_admin: is_admin).delete_all  
+                newfollow_count  =  (userrecord.follow_count == 0) ? 0 : userrecord.follow_count - 1
+                userrecord.update(follow_count: newfollow_count) 
+
+                result  = {'res' => 0, 'message' => 'Artist Not Follow'}
+          else
+                Follow.create(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin)
+                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: "", notification_type: "follow user", is_read: 0, section_type: 'News', is_admin: is_admin)  
+
+                newfollow_count  =  userrecord.follow_count + 1
+                userrecord.update(follow_count: newfollow_count) 
+
+                result  = {'res' => 1, 'message' => 'Artist Follow'}
+
+          end 
+
+        
+          render json: result, status: 200    
+             
+    end  
+
+
+
+
+
+
 
 	def free_news
 
@@ -91,5 +248,31 @@ class NewsController < ApplicationController
 	    result = NewsCategory.where(conditions).order('name ASC')
 	    render json: result, status: 200  
 	end
+
+
+
+
+
+	def save_news_rating
+
+     product_id   =  params[:product_id]
+     score        =  params[:score]
+     post_type    =  params[:post_type]
+     user_id      =  current_user.id
+   
+     Rating.create(product_id: product_id, rating: score, post_type: post_type, user_id: user_id)
+     result = {'res' => 1, 'message' => 'Rating successfully created', 'ratingdata' => score}
+     render json: result, status: 200 
+  end  
+
+
+  def get_news_avg_rating
+      
+      postid    =   params[:product_id]
+      product_avg_rating    =  Rating.where('product_id = ? AND post_type = ?', postid, 'news').pluck("AVG(rating) as avg_rate")
+      render json: {'ratingdata': product_avg_rating}, status: 200  
+  end  
+  
+
 
 end

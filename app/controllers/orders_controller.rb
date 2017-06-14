@@ -11,7 +11,7 @@ class OrdersController < ApplicationController
        # abort(params.to_json)
        
         if @success == 1
-            price           = params[:data][:final_price].to_f
+            price               = params[:data][:final_price].to_f
             if price.to_f > 0 
 
                 tempdata        =  Temp.create('value': params[:data])
@@ -145,10 +145,33 @@ class OrdersController < ApplicationController
                   transaction_data      =   TransactionHistory.create(user_id: value['user_id'].to_i, payment_method: 'Paypal', txn_id: params['txn_id'].to_s, payer_id: params['payer_id'].to_s, gross_amount: value['price_before_discount'].to_f, discount_amount: value['discount'].to_f, net_amount: value['final_price'].to_f, coupon_code: value['applied_coupon_code'].to_s, is_company: is_company, company_name: company_name, company_code: company_code, company_vat: company_vat, company_country: company_country, company_city: company_city, company_address: company_address, response: params)   
 
                     value['cart_data']['items'].each_with_index do |value1, index|
-                        download_data    =  Download.where('product_id = ?', value1['sku']).first
-                        PurchasedProduct.create(user_id:  value['user_id'].to_i, download_id: download_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f)   
+
+                        if value1[:type] == 'download'
+
+                            download_data    =  Download.where('product_id = ?', value1['sku']).first
+                            PurchasedProduct.create(user_id:  value['user_id'].to_i, download_id: download_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f) 
+
+                            number_of_sold = 1
+                            if !download_data.number_of_sold.nil?
+                              number_of_sold = download_data.number_of_sold.to_i + 1
+                            end
+                            download_data.update(number_of_sold: number_of_sold)  
+
+                        elsif value1[:type] == 'tutorial'  
+
+                            tutorial_data    =  Tutorial.where('tutorial_id = ?', value1['sku']).first
+                            PurchasedTutorial.create(user_id:  data[:data][:user_id].to_i, tutorial_id: tutorial_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f)   
+
+                            number_of_sold = 1
+                            if !tutorial_data.number_of_sold.nil?
+                              number_of_sold = tutorial_data.number_of_sold.to_i + 1
+                            end
+                            tutorial_data.update(number_of_sold: number_of_sold)
+
+                        end
+
                     end   
-                  tempdata.destroy
+                  tempdata.destroy  
                 end    
            
 
@@ -176,8 +199,31 @@ class OrdersController < ApplicationController
 
           transaction_data      =   TransactionHistory.create(user_id: data[:data][:user_id].to_i, payment_method: payment_method, txn_id: txn_id.to_s, payer_id: payer_id.to_s, gross_amount: data[:data][:price_before_discount].to_f, discount_amount: data[:data][:discount].to_f, net_amount: data[:data][:final_price].to_f, coupon_code: data[:data][:applied_coupon_code].to_s, is_company: is_company, company_name: company_name, company_code: company_code, company_vat: company_vat, company_country: company_country, company_city: company_city, company_address: company_address, response: response_data)   
             data[:data][:cart_data][:items].each_with_index do |value1, index|
+
+                if value1[:type] == 'download'
+
                   download_data    =  Download.where('product_id = ?', value1['sku']).first
                   PurchasedProduct.create(user_id:  data[:data][:user_id].to_i, download_id: download_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f)   
+
+                  number_of_sold = 1
+                  if !download_data.number_of_sold.nil?
+                    number_of_sold = download_data.number_of_sold.to_i + 1
+                  end
+                  download_data.update(number_of_sold: number_of_sold)
+
+                elsif value1[:type] == 'tutorial'  
+
+                  tutorial_data    =  Tutorial.where('tutorial_id = ?', value1['sku']).first
+                  PurchasedTutorial.create(user_id:  data[:data][:user_id].to_i, tutorial_id: tutorial_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f)   
+
+                  number_of_sold = 1
+                  if !tutorial_data.number_of_sold.nil?
+                    number_of_sold = tutorial_data.number_of_sold.to_i + 1
+                  end
+                  tutorial_data.update(number_of_sold: number_of_sold)
+
+                end  
+
             end  
 
          return true     

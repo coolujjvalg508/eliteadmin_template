@@ -19,7 +19,8 @@
           end  
       end    
     %>
- </ul>   
+ </ul>    
+ <div class="clearfix">&nbsp;</div>
 
        <%
         if @gallery.videos.present?
@@ -69,7 +70,7 @@
   <div class="clearfix"></div>
 
 
-  <%
+    <%
         if @gallery.sketchfebs.present?
           @gallery.sketchfebs.each_with_index do |j, index|
           
@@ -103,10 +104,10 @@
 
       <script type="text/javascript">
         $(document).ready(function(){
-          //  var params = { width: 700, height: 450, autoStart: false };
-           // var myviewer = marmoset.embed( "<%= url %>", params ); 
+           var params = { width: 700, height: 450, autoStart: false };
+            var myviewer = marmoset.embed( "<%= url %>", params ); 
           //   console.log(myviewer);
-           // $('#marmoset_span_'+"<%#= index %>").html(myviewer);
+            $('#marmoset_span_'+"<%#= index %>").html(myviewer);
 
 
         })

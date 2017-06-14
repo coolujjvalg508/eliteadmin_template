@@ -145,12 +145,12 @@
         <div class="clearfix">
         <ul>
           <li class="clearfix" ng-repeat="y in x.News">
-            <div class="downwrap">
-              <img lazy-img="<%= root_url %>{{ y.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height">
+            <div class="downwrap"> <a href="/news/{{y.paramlink}}/show">
+              <img lazy-img="<%= root_url %>{{ y.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height"></a>
             </div>
             <div class="padding10 clearfix">
               <div class="down-txt">
-                <span>{{y.title}}</span> <a href="#" class="pull-right tut-price txt13">View</a>
+                <span>{{y.title}}</span> <a href="/news/{{y.paramlink}}/show" class="pull-right tut-price txt13">View</a>
               </div>
               <div class="clearfix down-name">
                 <div class="pull-left">by <span class="price-txt1">{{y.is_admin == 'Y' ? 'Admin' : y.user.firstname + ' ' + y.user.lastname}}</span></div>

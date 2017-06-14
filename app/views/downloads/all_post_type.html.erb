@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-md-12 header-search paddinB10 paddinT10">
           <div class="input-group stylish-input-group">
-            <input type="text" class="form-control"  placeholder="Search 520 000 3D models" >
+            <input type="text" class="form-control"  placeholder="Search 520 000 3D models" ng-model="search" >
             <span class="input-group-addon">
             <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
             </span> </div>
@@ -41,7 +41,7 @@
 <!-- Download Indent Start -->
 <section class="clearfix downloadpageindent">
   <div class="container">
-    <div ng-repeat="data in all_DownloadsData" class="downcontent clearfix">
+    <div dir-paginate="data in all_DownloadsData | filter: search | itemsPerPage: 10" class="downcontent clearfix">
       <div class="clearfix padding15">
         <div class="row">
           <div class="col-md-3 col-sm-3 col-xs-12">
@@ -58,10 +58,23 @@
       </div>
       <div class="clearfix downloadpagelink">
         <ul>
-          <li ng-repeat="cat in data.post_type_categories"><a href="#">{{cat.name}}</a></li>
+          <li ng-repeat="cat in data.post_type_categories">
+          <a href="/downloads/{{data.slug}}/{{cat.slug}}">{{cat.name}}</a></li>
         </ul>
+        
       </div>
+      <div class="text-center text-uppercase">
+    <div class="pagination clearfix">
+            <dir-pagination-controls
+                 max-size="3"
+                 direction-links="true"
+                 boundary-links="false" >
+            </dir-pagination-controls>
+          </div>
     </div>
+    </div>
+
+
   </div>
 </section>
 </div>

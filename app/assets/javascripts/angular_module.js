@@ -19,7 +19,7 @@ angular.module('MainModule', ['credit-cards'])
     return boolean ? 'Yes' : 'No';
   }
 })
-  .directive('capitalize', function() {
+.directive('capitalize', function() {
     return {
       require: 'ngModel',
       link: function(scope, element, attrs, modelCtrl) {
@@ -194,9 +194,10 @@ function ShoppingCart(cartName) {
 
 //----------------------------------------------------------------
 // items in the cart
-function CartItem(sku, name, slug, mrp, price, quantity, image, category, size, weight) {
+function CartItem(sku, name,type, slug, mrp, price, quantity, image, category, size, weight) {
     // console.log(size);
     this.sku = sku;
+    this.type = type;
     this.name = name;
     this.slug = slug;
     this.image = image;
@@ -218,7 +219,7 @@ ShoppingCart.prototype.loadItems = function () {
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
                 if (item.sku !== null && item.name !== null && item.price !== null) {
-                    item = new CartItem(item.sku, item.name, item.slug, item.mrp, item.price, item.quantity, item.image, item.category, item.size, item.weight, item.status);
+                    item = new CartItem(item.sku, item.type, item.name, item.slug, item.mrp, item.price, item.quantity, item.image, item.category, item.size, item.weight, item.status);
                     this.items.push(item);
                     this.skuArray.push(item.sku);
                     // this.totalWeight = item.weight;
@@ -263,7 +264,7 @@ ShoppingCart.prototype.addItem = function (product, quantity) {
 
         // new item, add now
         if (!found) {
-            var itm = new CartItem(product.sku, product.name, product.slug, product.mrp, product.price, product.quantity, product.image, product.category, product.size, product.weight, 0);
+            var itm = new CartItem(product.sku,product.type, product.name, product.slug, product.mrp, product.price, product.quantity, product.image, product.category, product.size, product.weight, 0);
             this.items.push(itm);
             this.skuArray.push(itm.sku);
         }

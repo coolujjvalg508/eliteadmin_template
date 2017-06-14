@@ -1,0 +1,140 @@
+<!-- Submenu Navigation -->
+<div id="myApp2" ng-app="myApp" ng-controller="myCtrl">
+  <section class="wip-navigation-wrap">
+    <div class="navbar-default">
+      <div class="container-fluid">
+        <div class="row">
+        
+        <div class="col-md-3 col-sm-4 col-xs-9 header-search">
+        <div class="input-group stylish-input-group">
+            <input type="text" class="form-control" ng-model="search" placeholder="Search 520 000 3D models" >
+            <span class="input-group-addon">
+            <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+            </span> </div>
+        </div>
+        
+        <div class="col-md-9 col-sm-8 col-xs-3 downloadpage">
+        <div class="navbar-header"> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+                <li class="active"><a href="/tutorials/all">All Topic</a></li>
+                <li ng-repeat="topic in TopicsTypeList track by $index"><a href="/tutorials/{{topic.slug}}">{{topic.name}}</a></li>
+              
+        </ul>
+        </div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Download Indent Start -->
+<section class="clearfix downpadcategory">
+  <div class="container">
+  <div class="clearfix hidden-xs hidden-sm">
+    <ol class="breadcrumb margin">
+      <li class="breadcrumb-item"><a href="<%= free_tutorial_path %>">Free Tutorial</a></li>
+      <% if @topic_details.present? %>
+      <li class="breadcrumb-item active"><%= @topic_details.name %></li>
+      <% end %>
+    </ol>
+  </div>
+
+
+  <div class="freedownloadpage clearfix">
+  
+  <div class="row">
+  <% if @topic_list.present? %>
+  <ul>
+    <% @topic_list.each_with_index do |val, i| %>
+        <li class="col-md-3 col-sm-4 col-xs-6"><a href="<%= free_tutorial_path %>?topic_id=<%= val.try(:id) %>"><%= val.try(:name) %> <span class="badge">(<%= val.try(:count_tutorials) %>)</span></a></li>
+    <% end %>
+  </ul>
+  <% end %>
+</div>
+</div>
+
+ <!-- <div class="row">
+  <div class="col-md-3 col-sm-4 col-xs-12">
+     </div>
+    <div class="col-md-2 col-sm-3 col-xs-12">
+    
+    
+
+    </div>
+    <div class="col-md-4 col-sm-3 col-xs-12">
+   
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      
+       <select  class="custom-select" 
+     ng-options="options1.name for options1 in Sort"
+     ng-model="sort" ng-click="sortMe(sort);">
+     
+       </select>
+      
+    </div>
+    </div> -->
+
+  <!-- Download Indent Start -->
+  <section class="clearfix downpadcategory">
+  <div class="container">
+
+
+
+  <!-- User Followers Start -->
+  <div class="download-indent clearfix">
+  <div class="container">
+  <div class="clearfix downbox row">
+    <div class="clearfix">
+     
+      <% if @result.present? %>
+          <ul>
+              <li  class="clearfix marginL" ng-repeat="x in <%= @result.to_json %> | filter:search">
+                <div class="downwrap">
+<a href="/tutorials/{{x.paramlink}}/show">
+                <img lazy-img="<%= root_url %>{{ x.company_logo.medium.url }}" class="img-responsive"> 
+</a>
+                </div>
+                    <div class="padding10 clearfix">
+                      <div class="down-txt"><span>{{x.title}}</span> <a href="#" class="pull-right tut-price txt13">Free</a></div>
+                      <div class="clearfix down-name">
+                        <div class="pull-left">by <span class="price-txt1">{{x.is_admin == 'Y' ? 'Admin' : x.user.firstname + ' ' + x.user.lastname}}</span></div>
+                       
+                      </div>
+                </div>
+              </li>
+          </ul>    
+         <% else %>
+          <div class="clearfix downbox text-center err-msg no-result">No Result Found!</div>    
+
+        <% end %>    
+      
+    </div>
+    
+  </div>
+   <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
+          <%= paginate @result %>
+    </div>
+  </div>
+  </div>
+  </div>
+  </section>
+</div>
+<footer class="footer clearfix padding">
+  <%= render 'layouts/lastfooter' %>
+</footer>
+
+<script>
+// main page angular app start
+var app = angular.module('myApp', ["angularLazyImg","MainModule"]);
+app.controller('myCtrl', function($scope, $http) {
+   $scope.Sort = [{id:'asc',name:'Oldest'},{id:'dsc',name:'Newest'}];
+   $http.get('/tutorials/get_topic_type_list').then(function(response){
+      $scope.TopicsTypeList = response.data;
+    });
+    
+});
+angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
+</script>

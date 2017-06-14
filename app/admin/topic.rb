@@ -1,7 +1,7 @@
 ActiveAdmin.register Topic do
 
     menu label: 'Topic Management', parent: 'Tutorial',priority: 3
-	permit_params :name, :parent_id, :image, :description, :slug
+	permit_params :name, :parent_id, :image, :description, :slug, :tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 
 	
 	controller do 
@@ -71,6 +71,13 @@ ActiveAdmin.register Topic do
       f.input :name
       f.input :description
       f.input :slug
+    end
+
+    f.inputs 'Tags' do
+      f.has_many :tags, allow_destroy: true, new_record: true do |ff|
+        ff.input :tag
+       # ff.input :tag_cache, :as => :hidden
+      end 
     end
 
     f.actions

@@ -36,7 +36,18 @@
                                 break
                             end  
                             src =  collectionimage.image.large_image.url
-                        end
+                        end                        
+                    elsif collectiondetail.news_id != 0
+                    collectiondetail.news.images.each_with_index do | collectionimage, index |
+                        if index == 1
+                            break
+                        end  
+                        src =  collectionimage.image.large_image.url
+                    end
+                    elsif collectiondetail.tutorial_id != 0
+                          
+                            src =  collectiondetail.tutorial.company_logo.url
+                      
                     end
                             
                   %>
@@ -74,7 +85,42 @@
                                 </div> -->
                             </div>
                         </li>
+                    <% elsif collectiondetail.news_id !=0  %>
+                        <li class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="book-indent clearfix">
+                                <div class="book-profile"> 
+                                        <a href='<%= show_news_path(collectiondetail.news.paramlink) %>'>
+                                        <img src="<%= src %>" class="img-responsive tutorial-img-height">
+                                      </a></div>
+                                <div class="wip-title padding10"><%= link_to collectiondetail.news.title, show_news_path(collectiondetail.news.paramlink) %></div>
+                                <!-- <div class="wip-small clearfix">
+                                  <ul class="margin">
+                                    <li class="lists"><img src="images/database/mioree-silas-sall.jpg" class="img-responsive" alt="img"></li>
+                                    <li class="lists"><img src="images/database/mioree-ana.jpg" class="img-responsive" alt="img"></li>
+                                    <li class="lists"><img src="images/database/mioree-snape.jpg" class="img-responsive" alt="img"></li>
+                                  </ul>
+                                </div> -->
+                            </div>
+                        </li>
+                    <% elsif collectiondetail.tutorial_id !=0  %>
+                        <li class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="book-indent clearfix">
+                                <div class="book-profile"> 
+                                        <a href='<%= show_tutorial_path(collectiondetail.tutorial.paramlink) %>'>
+                                        <img src="<%= src %>" class="img-responsive tutorial-img-height">
+                                      </a></div>
+                                <div class="wip-title padding10"><%= link_to collectiondetail.tutorial.title, show_tutorial_path(collectiondetail.tutorial.paramlink) %></div>
+                                <!-- <div class="wip-small clearfix">
+                                  <ul class="margin">
+                                    <li class="lists"><img src="images/database/mioree-silas-sall.jpg" class="img-responsive" alt="img"></li>
+                                    <li class="lists"><img src="images/database/mioree-ana.jpg" class="img-responsive" alt="img"></li>
+                                    <li class="lists"><img src="images/database/mioree-snape.jpg" class="img-responsive" alt="img"></li>
+                                  </ul>
+                                </div> -->
+                            </div>
+                        </li>
                     <% end %>
+
               <% end %>
 
 

@@ -1,0 +1,1069 @@
+<% previous_tags = get_previous_uploaded_tutorial_tags %>
+<!-- All Dashboard Start -->
+<div id="New_Tutorial" ng-app="New_Tutorial" >
+<div ng-controller="NewTutorialCtrl as ctrl">
+<section class="clearfix container-fluid-full">
+  <div class="row-fluid">
+    <div class="sidebar-left">
+         <%= render 'layouts/navigation' %>
+    </div>
+    <div class="content clearfix" >
+      <div class="clearfix job-post-bread">
+         <ul class="breadcrumb">
+          <li><%= link_to 'Tutorials', index_tutorial_path %></li>
+            <li class="active">
+               <% actiontype = '' %>
+                <% if 'edit' == params[:action] || 'update' == params[:action] 
+                        actiontype = update_tutorial_path
+                %>
+                    Edit Tutorial
+                <% else
+                        actiontype = save_tutorial_path
+                 %>
+                    Create Tutorial
+                <% end %>
+
+            </li>
+        </ul>
+      </div>
+      
+      <!-- User Followers Start -->
+      <section class="clearfix jobswrap">
+      <%= form_for( @tutorial, url: actiontype, html: { id: 'tutorial_post_form',  role: "form" }) do |f| %>
+        <%= f.hidden_field :user_id, value: current_user.id, id: 'tutorial_user_id' %>   
+        <%= f.hidden_field :is_admin, value: 'N', id: 'tutorial_is_admin' %>
+        <%= f.hidden_field :removedChapter, value: '', id: 'tutorial_removed_chapter' %>   
+        <%= f.hidden_field :removedMediaContent, value: '', id: 'tutorial_removed_media_content' %>   
+         <div id="hiddendata"></div>
+        <div class="clearfix notification-heading">  
+            <span class="noti-title" style="border:none;"> 
+                <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                    <%= @tutorial.title %>
+                <% else %>
+                    Untitled Tutorial
+                <% end %>
+            </span> </div>
+        <div class="jobpostindent clearfix col-sm-12 col-xs-12 padding">
+
+                  <div class="marginB15">
+                      <label class="marginB15">* Title</label>
+                    <%= f.text_field :title, class: 'form-control from-input skill-input', id: 'title', placeholder: 'Tutorial Title', value: params[:tutorial].present? ? params[:tutorial][:title] : @tutorial[:title] %>
+                    <span class="err-msg"><%= form_error_msg_for(@tutorial,:title, "Title") %></span>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading padding"><!--  <img src="images/database/txt-job-post.jpg" class="img-responsive" alt="img">  --></div>
+                    <div class="panel-body">
+                      <%= f.text_area :description, class: 'form-control from-input message-form1 tinymce', id: 'description', placeholder: 'Tutorial Description', :value => params[:tutorial].present? ? params[:tutorial][:description] : @tutorial[:description] %>
+                      <span class="err-msg"><%= form_error_msg_for(@tutorial,:description, "Description") %></span>
+                    </div>
+                  </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Tutorial Details</div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Tutorial Topic</label>
+                        <div class="col-md-12 col-sm-12 col-xs-10">
+
+                           <select class="form-control multi-select js-chosen-select-multi" multiple="multiple" name="tutorial[topic][]" id="topic">
+                                <% if @topic.present? 
+                                  @topic.each_with_index do |value, index|  
+                                %>
+
+                                    <% selected_topic = ''
+                                        if params[:tutorial].present? && !params[:tutorial][:topic].nil? && params[:tutorial][:topic].include?(value.id.to_s)
+                                            selected_topic = 'selected="selected"'
+                                        elsif !@tutorial[:topic].nil? && @tutorial[:topic].include?(value.id.to_s)
+                                            selected_topic = 'selected="selected"'
+                                        end %>
+
+                                        <option value="<%= value.id %>" <%= selected_topic %> ><%= value.name %></option>
+
+                                <% end
+                                end %> 
+                            </select>
+                         </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Subject</label>
+                        <div class="col-md-12 col-sm-12 col-xs-10">
+                           <%= f.select(:sub_topic, options_for_select([]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'sub_topic', multiple: true})  %>
+                         </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Sub Subject</label>
+                        <div class="col-md-12 col-sm-12 col-xs-10">
+                           <%= f.select(:sub_sub_topic, options_for_select([]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'sub_sub_topic', multiple: true})  %>
+                         </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Software Used</label>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+
+                        <%= f.select(:software_used, options_for_select(@software_expertise, params[:tutorial].present? ? params[:tutorial][:software_used] : @tutorial[:software_used]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'tutorial_software_used', multiple: true})  %>
+    
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Level</label>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+
+                        <%= f.select(:skill_level, options_for_select(TutorialSkill.order('title ASC').pluck(:title, :id), params[:tutorial].present? ? params[:tutorial][:skill_level] : @tutorial[:skill_level]), {:include_blank => false}, {'class' => 'custom-select', 'id' => 'tutorial_skill_level'})  %>
+    
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">No. of Lectures</label>
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-0">
+                            <%= f.text_field :total_lecture, class: 'form-control from-input numericOnly', id: 'total_lecture', placeholder: '', value: params[:tutorial].present? ? params[:tutorial][:total_lecture] : @tutorial[:total_lecture] %>
+                            <span class="err-msg"><%= form_error_msg_for(@tutorial,:total_lecture, "TotalLecture") %></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Language</label>
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-0">
+                            <%= f.text_field :language, class: 'form-control from-input', id: 'language', placeholder: '', value: params[:tutorial].present? ? params[:tutorial][:language] : @tutorial[:language] %>
+                            <span class="err-msg"><%= form_error_msg_for(@tutorial,:language, "Language") %></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <label class="col-md-12 col-sm-12 col-xs-12">Price ($)</label>
+                        <div class="col-md-6 col-sm-6 col-xs-5 col-md-offset-0">
+                            <%= f.text_field :price, 'only-numbers' => 'only-numbers', class: 'form-control from-input', id: 'price', placeholder: '', value: params[:tutorial].present? ? params[:tutorial][:price] : @tutorial[:price] %>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-6 marginB10 padding">
+                          <div class="checkbox-btn paddinT10">
+                           <%= f.check_box :free, id: 'rcfree', name: "tutorial[free]" %>
+                            <label for="rcfree" onclick>Share For Free</label>
+                          </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 marginB10">
+                        <button class="lightbtn padding5 lightcolor addMoreBtn" type="button" ng-click="addChapter()" title="Add More Chapter">Add Chapter<span class="fa fa-plus marginL10" aria-hidden="true"></span></button>
+                    </div>
+
+                    <div ng-repeat="x in add_chapter_default" id="lichapter_default{{$index}}" class="col-md-12 col-sm-12 col-xs-12 marginB10 paddinB10 border-bottom-bold"> 
+                    	<div class="col-md-12 col-sm-12 col-xs-12 marginB10">  
+                        	<button class="lightbtn padding5 lightcolor pull-right addMoreBtn" type="button" ng-click="removeChapterDefault($index, x.id)" title="Remove Chapter">Remove Chapter<span class="fa fa-times marginL10" aria-hidden="true"></span></button>
+                        </div>
+
+                        <div class="form-group clearfix">
+                        	
+                        	<label class="col-md-12 col-sm-12 col-xs-12">Chapter Title:</label>
+                        	<div class="col-md-12 col-sm-12 col-xs-12">
+                        		<input type="text" name="chapter_default[{{x.id}}][title]" id="chapter_title_{{$index}}" placeholder="Enter Chapter Title" class="form-control from-input" value="{{x.title}}">
+                        	</div>
+                        </div>
+
+                        <div class="form-group clearfix">
+	                        <label class="col-md-12 col-sm-12 col-xs-12">Chapter Image:</label>
+	                        <div class="col-md-6 col-sm-12 col-xs-12">
+	                    		<input accept="image/*" type="file" name="chapter_default[{{x.id}}][image]" id="chapter_image_{{$index}}" onchange="angular.element(this).scope().newChapterImageUpload(this)" >
+	                    	</div>
+	                        <div class="col-md-6 col-sm-12 col-xs-12">
+	                    		<img ng-src="{{x.image.user_activity.url}}" id="chapter_image_default_{{$index}}" width="50">
+                    		</div>
+                    	</div>
+
+
+                        <div ng-repeat="y in x.media_contents track by $index" id="lichapter_child_default{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 border-bottom marginB10">
+
+                            <div class="form-group clearfix marginB10">
+                                <div class="gallery-select-top clearfix marginB10 col-md-12 col-sm-12 col-xs-12">
+                                    <button class="lightbtn padding5 lightcolor pull-right addMoreBtn" type="button" ng-click="removeMediaDefault($parent.$index, $index, y.id)" title="Remove Media Content">Remove Media Content<span class="fa fa-times marginL10" aria-hidden="true"></span></button>
+                                </div>
+                                <input type="hidden" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][id]" id="chapter_media_content_id_default_{{$parent.$index}}_{{$index}}" value="{{y.id}}">
+                                <div class="form-group clearfix">
+	                                <label class="col-md-4 col-sm-6 col-xs-12 marginT10">Select Media Content Type : </label>
+	                                <div class="col-md-8 col-sm-6 col-xs-12">
+	                                    <select class="custom-select" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_type]" id="chapter_media_content_media_type_default_{{$parent.$index}}_{{$index}}"
+	                                    onchange="angular.element(this).scope().changeMediaContentTypeDefault(this)"
+	                                     >
+	                                    	
+	                                    	<option value="">Select Media Content Type</option>
+	                                        <option  ng-repeat="m in media_content_type_options" value="{{m}}" ng-selected="m == y.media_type ? true : false">{{m}}</option> 
+
+	                                    </select>
+	                                </div>
+                                </div>
+
+                                <div id="chapter_media_content_mediacontent_div_default_{{$parent.$index}}_{{$index}}" class="form-group clearfix hidden">
+
+                                	<div class="col-md-6 col-sm-12 col-xs-12">
+	                        			<input type="file" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][mediacontent]" id="chapter_media_content_mediacontent_default_{{$parent.$index}}_{{$index}}" >
+	                        		</div>
+
+	                        		<div class="col-md-6 col-sm-12 col-xs-12">
+	                        			<img ng-if="y.media_type == 'Upload Image'" ng-src="{{y.mediacontent.url}}" width="50" id="chapter_media_image_default_old_{{$parent.$index}}_{{$index}}">
+
+	                        			<div ng-if="y.media_type == 'Upload Video' || y.media_type == 'Upload Zip' || y.media_type == 'Upload Marmoset'" id="chapter_media_file_default_old_{{$parent.$index}}_{{$index}}">
+	                        			{{y.mediacontent.url.split("/")[y.mediacontent.url.split("/").length-1]}}</div>
+
+	                        			<div id="chapter_media_file_default_{{$parent.$index}}_{{$index}}"></div>
+
+	                        			<img id="chapter_media_image_default_{{$parent.$index}}_{{$index}}" src="" class="hidden" width="50">
+	                        		</div>
+	                        	</div>
+
+                                <div id="chapter_media_content_media_description_div_default_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix {{(y.media_type == 'Video Url' || y.media_type == 'Sketchfab Url' || y.media_type == 'Description') ? '' : 'hidden'}}">
+	                        		<textarea name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_description]" id="chapter_media_content_media_description_default_{{$parent.$index}}_{{$index}}" placeholder="Enter Description" class="form-control from-input message-form1">{{y.media_description}}</textarea>
+	                        	</div>
+
+	                        	<div id="chapter_media_content_video_duration_div_default_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix {{(y.media_type == 'Upload Video' || y.media_type == 'Video Url') ? '' : 'hidden'}}">
+	                        		<input type="text" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][video_duration]" id="chapter_media_content_video_duration_default_{{$parent.$index}}_{{$index}}" placeholder="Enter Video Duration" class="form-control from-input" value="{{y.video_duration}}">
+	                        	</div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="gallery-select-top clearfix col-md-12 col-sm-12 col-xs-12">
+                            <button class="lightbtn padding5 lightcolor pull-right addMoreBtn" type="button" ng-click="addMoreMediaDefault($index)" title="Add More Media Content">Add More Media Content<span class="fa fa-plus marginL10" aria-hidden="true"></span></button>
+                        </div>
+
+                    </div>
+
+                    <div ng-repeat="x in add_chapter" id="lichapter{{$index}}" class="hidden col-md-12 col-sm-12 col-xs-12 marginB10 paddinB10 border-bottom-bold"> 
+                    	<div class="col-md-12 col-sm-12 col-xs-12 marginB10">  
+                        	<button class="lightbtn padding5 lightcolor pull-right addMoreBtn" type="button" ng-click="removeChapter($index)" title="Remove Chapter">Remove Chapter<span class="fa fa-times marginL10" aria-hidden="true"></span></button>
+                        </div>
+
+                        <div class="form-group clearfix">
+                        	
+                        	<label class="col-md-12 col-sm-12 col-xs-12">Chapter Title:</label>
+                        	<div class="col-md-12 col-sm-12 col-xs-12">
+                        		<input type="text" name="chapter[{{$index}}][title]" id="chapter_title_{{$index}}" placeholder="Enter Chapter Title" class="form-control from-input">
+                        	</div>
+                        </div>
+
+                        <div class="form-group clearfix">
+	                        <label class="col-md-12 col-sm-12 col-xs-12">Chapter Image:</label>
+	                        <div class="col-md-12 col-sm-12 col-xs-12">
+	                    		<input accept="image/*" type="file" name="chapter[{{$index}}][image]" id="chapter_image_{{$index}}" >
+	                    	</div>
+                    	</div>
+
+
+                        <div ng-repeat="y in chapter_media_count[$index]" id="lichapter_child{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 border-bottom marginB10">
+
+                            <div class="form-group clearfix marginB10">
+                                <div class="gallery-select-top clearfix marginB10 col-md-12 col-sm-12 col-xs-12">
+                                    <button class="lightbtn padding5 lightcolor pull-right addMoreBtn" type="button" ng-click="removeMedia($parent.$index, $index)" title="Remove Media Content">Remove Media Content<span class="fa fa-times marginL10" aria-hidden="true"></span></button>
+                                </div>
+
+                                <div class="form-group clearfix">
+	                                <label class="col-md-4 col-sm-6 col-xs-12 marginT10">Select Media Content Type : </label>
+	                                <div class="col-md-8 col-sm-6 col-xs-12">
+	                                    <select class="custom-select" name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][media_type]" id="chapter_media_content_media_type_{{$parent.$index}}_{{$index}}" ng-change="changeMediaContentType(chapter_media_content_media_type_$parent.$index_$index, $parent.$index, $index, '')" ng-model="chapter_media_content_media_type_$parent.$index_$index">
+	                                    	<option value="">Select Media Content Type</option>
+	                                        <% 
+	                                          MediaContent::MEDIA_CONTENT_TYPE.each_with_index do |value, index|  
+	                                        %>
+	                                            <option value="<%= value %>"><%= value %></option>
+	                                        <% end %> 
+	                                    </select>
+	                                </div>
+                                </div>
+
+                                <div id="chapter_media_content_mediacontent_div_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix hidden">
+	                        		<input type="file" name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][mediacontent]" id="chapter_media_content_mediacontent_{{$parent.$index}}_{{$index}}" >
+	                        	</div>
+
+                                <div id="chapter_media_content_media_description_div_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix hidden">
+	                        		<textarea name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][media_description]" id="chapter_media_content_media_description_{{$parent.$index}}_{{$index}}" placeholder="Enter Description" class="form-control from-input message-form1"></textarea>
+	                        	</div>
+
+	                        	<div id="chapter_media_content_video_duration_div_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix hidden">
+	                        		<input type="text" name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][video_duration]" id="chapter_media_content_video_duration_{{$parent.$index}}_{{$index}}" placeholder="Enter Video Duration" class="form-control from-input">
+	                        	</div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="gallery-select-top clearfix col-md-12 col-sm-12 col-xs-12">
+                            <button class="lightbtn padding5 lightcolor pull-right addMoreBtn" type="button" ng-click="addMoreMedia($index)" title="Add More Media Content">Add More Media Content<span class="fa fa-plus marginL10" aria-hidden="true"></span></button>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group clearfix">
+                        <%= f.fields_for :tag do |tag_form| %>
+                            <% tag_options = [] 
+                            if params[:tutorial].present?
+                                tag_options  = params[:tutorial][:tag][:tag]
+                                tag_options.reject!{|a| a==""}
+
+                            elsif @tutorial.try(:tags).present?
+                                @tutorial.try(:tags).each_with_index do |tag, i|
+                                    tag_options[i] = tag['tag']
+                                end
+                            end
+                            %>
+
+                            <label class="col-md-12 col-sm-12 col-xs-12">Tags</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <%= tag_form.select(:tag, options_for_select(tag_options, params[:tutorial].present? ? params[:tutorial][:tag][:tag] : tag_options), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-tags', 'id' => 'tag', multiple: true})  %>
+                            </div>
+                        <% end %> 
+
+                        <div class="white-txt marginB15 col-md-12 col-sm-12 col-xs-12"><em>Separate tags with commas</em></div>
+			            <div class="blue-txt marginB15 col-md-12 col-sm-12 col-xs-12">Choose from the most used tags</div>
+			             
+
+			            <% if previous_tags.present? && 'edit' != params[:action] && 'update' != params[:action] %>
+			                <div class="col-md-12 col-sm-12 col-xs-12">
+			                    <div class="checkbox-btn">
+			                        <%= f.check_box :use_tag_from_previous_upload %>
+			                        <label for="tutorial_use_tag_from_previous_upload" onclick>Use tags from previous upload </label>
+			                    </div>
+			                </div>
+
+			            <% end %>
+
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-6 marginB10">
+                      <div class="checkbox-btn paddinT10">
+                       <%= f.check_box :has_adult_content, id: 'has_adult_content', name: "tutorial[has_adult_content]" %>
+                        <label for="has_adult_content" onclick>Has Adult Content</label>
+                      </div>
+                    </div>
+
+                </div>
+           
+            </div>
+          </div>
+          
+          
+        </div>
+
+
+        <div class="aside col-sm-12 col-xs-12 padding">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Publish</div>
+                        <div class="panel-body">
+                            <div class="clearfix marginB15 row">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <button type="submit" class="lightbtn" value="SaveDraft" name="commit">Save Draft</button>
+                                </div>
+                                <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                                <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                    <button onclick = "return preview('<%= @tutorial.paramlink %>')" class="lightbtn" type="button">Preview</button>
+                                </div>
+                                <% end %>
+                            </div>
+
+                            <% if 'edit' == params[:action] || 'update' == params[:action] %>
+                                <div class="clearfix marginB15 status-link"> <i class="fa fa-key marginR5 lightcolor" aria-hidden="true"></i> Status : <strong>
+                                    <%  if @tutorial.is_trash == 1 %>
+                                        Trashed
+                                    <%  elsif @tutorial.is_save_to_draft == 1 %>
+                                        Draft
+                                    <% elsif @tutorial.publish %>
+                                        Published
+                                    <% else %>
+                                        Not Published 
+                                    <% end %>    
+                                        
+                                    </strong>
+                                </div>
+                            <% end %>
+                            
+                            <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a> 
+                                <div class="form-group clearfix createpost marginT10" ng-show="show_visibility_option">        
+                                    <select id="visibility" name="tutorial[visibility]" class="custom-select" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption" ng-change="view_visibility_edit_option()"></select>
+                                </div>
+                            </div>
+
+                            <div class="clearfix marginB15 status-link"> 
+                                <i class="fa fa-calendar marginR5 lightcolor" aria-hidden="true"></i> Publish : <strong>{{dataPublish.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_publish_option()" ng-show="show_publish_edit_option">Edit</a> 
+
+
+                                <div class='form-group clearfix marginT10' ng-show="show_publish_option">
+                                    <div class='clearfix' >
+                                        <select id="publish" name="tutorial[publish]" class="custom-select" ng-options="option.name for option in dataPublish.availableOptions track by option.id" ng-model="dataPublish.selectedOption" ng-change="update_publish_type()"></select>
+                                    </div>
+                                      <div class='clearfix input-group date marginT10 right-panel-datetime-picker' id='datetimepicker1' ng-show="show_schedule_time" >
+                                        <%= f.text_field :schedule_time, class: 'form-control from-input', id: 'schedule_time', placeholder: '', "ng-model" => "ctrl.schedule_time.date", "is-open" => "ctrl.schedule_time.open", "datetime-picker" => "yyyy-MM-dd HH:mm", 'readonly' => 'readonly' %>
+                                        <span class="input-group-addon" ng-click="ctrl.openCalendar($event, 'schedule_time')"> <span class="glyphicon glyphicon-calendar"></span> </span>
+                                    </div>      
+                                                         
+                                </div>
+
+
+                            </div>
+                            <div class="clearfix row">
+
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <% if 'edit' == params[:action] %>
+                                        <%= link_to 'Delete'.html_safe, trash_tutorial_path(@tutorial.paramlink), data: { confirm: 'Are you sure?' }, title: "Delete", class: "btn-link" %>
+                                    <% end %>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6 text-right">
+                                 <button type="submit" class="green-btn" value="Publish" name="commit">Publish</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Tutorial Thumbnail</div>
+                        <div class="panel-body padding">
+                            <div class="marginB15 pos-rel img-company-logo">
+
+                                <%= f.file_field(:company_logo, accept: "image/*", id: "companyLogoUpload", "ng-model" => "companyLogoUpload", onchange: "angular.element(this).scope().imageUpload(this)", class: "drag-photo") %>
+
+                                <center>
+                                    <img id='companylogoimage' src="/assets/database/jobs-logo.png" alt="img" class="img-responsive" ng-src="{{companyLogoImage}}">
+                                </center>
+
+                            </div>
+                             <!--  <div id='crop_container'></div>   -->
+                           <% for attribute in [:zoom_w, :zoom_h, :zoom_x, :zoom_y, :drag_x, :drag_y, :rotation_angle, :crop_x, :crop_y, :crop_w, :crop_h] %>
+                                <%= f.hidden_field attribute, :id => attribute %>
+                            <% end %>  
+                            <div class="clearfix marginB15 text-center project-btn">
+                               <!--  <div class="lightbtn"><i class="fa fa-crop marginR5 blue-txt" aria-hidden="true"></i> Crop</div> -->
+                               <button id="cropbutton" type="button" class="lightbtn hidden" data-target="#modal_crop" data-toggle="modal"> <i class="fa fa-crop marginR5 blue-txt" aria-hidden="true"></i> Crop</button>
+
+                                <div class="lightbtn" ng-click="clickCompanyLogoUpload()"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Upload</div>
+                                <%#= f.file_field(:company_logo, accept: "image/*", id: "companyLogoUpload", "ng-model" => "companyLogoUpload", onchange: "angular.element(this).scope().imageUpload(this)", style: "display: none;")%>
+
+
+                                <div id="remove-custom-thumb" class="lightbtn hidden" ng-click="removeCompanyLogo()"><i class="fa fa-times marginR5 blue-txt" aria-hidden="true"></i> Remove custom thumbnail</div>
+                            </div>
+                            <div class="lightcolor txt12 marginB15 text-center">Drag and drop an image above to replace</div>
+
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Visibility</div>
+                        <div class="panel-body">
+                            <div class="white-txt marginB15"> Where do you want this Project to show?</div>
+                            <div class="checkbox-btn marginB15">
+                                <%= f.check_box :show_on_cgmeetup , name: 'tutorial[show_on_cgmeetup]', id: 'gallery_show_on_cgmeetup' %>
+                                <label for="gallery_show_on_cgmeetup" onclick>CGMeetup.net</label>
+                            </div>
+                            <div class="checkbox-btn">
+                                <%= f.check_box :show_on_website , name: 'tutorial[show_on_website]', id: 'gallery_show_on_website' %>
+                                <label for="gallery_show_on_website" onclick>My Website</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="panel panel-default">
+                        <div class="panel-heading">Albums</div>
+                        <div class="panel-body"> </div>
+                    </div> -->
+                </div>
+
+        <% end %> 
+      </section>
+            
+            <div  class="modal fade default-popup" id="modal_crop" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal"></button>
+                    <h5 class="modal-title" id="modalLabel">Crop the image</h5>
+                  
+                  </div>
+                  <div class="modal-body">
+                    <div>
+                        <img id="cropimage" src="" alt="Picture">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default lightbtn" data-dismiss="modal">Crop</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+    </div>
+  </div>
+
+</section>
+</div>
+</div>
+
+<script type="text/javascript">
+    
+    function preview(paramlink){
+      window.location.href = '<%= root_url %>tutorials/' + paramlink + '/show';
+    }
+
+
+    // main page angular app start
+    var app = angular.module('New_Tutorial', ["angularLazyImg", 'ui.bootstrap','MainModule', 'ui.bootstrap.datetimepicker']);
+
+    app.controller('NewTutorialCtrl', function($scope, $http) {
+
+        var that = this;
+
+        //profile pic upload
+        $scope.clickCompanyLogoUpload = function(){
+          angular.element('#companyLogoUpload').trigger('click');
+        };
+
+        $scope.companyLogoImage = '';
+        <% if @tutorial.try(:company_logo).try(:large_image).try(:url).present? %>
+            $scope.companyLogoImage = "<%= @tutorial.company_logo.large_image.url %>";
+        <% end %>    
+
+        $scope.imageUpload = function(element){
+
+            var reader = new FileReader();
+            reader.onload = $scope.imageIsLoaded;
+
+            reader.readAsDataURL(element.files[0]);
+        }
+
+        $scope.imageIsLoaded = function(e){
+            $scope.$apply(function() {
+
+                $scope.companyLogoImage= e.target.result;
+                angular.element('#crop_w').val('');
+                angular.element('#crop_h').val('');
+                angular.element('#crop_x').val('');
+                angular.element('#crop_y').val('');
+                angular.element('#zoom_w').val('');
+                angular.element('#zoom_h').val('');
+                angular.element('#zoom_x').val('');
+                angular.element('#zoom_y').val('');
+                angular.element( document.querySelector( '#cropbutton' ) ).removeClass('hidden');
+                angular.element( document.querySelector( '#remove-custom-thumb' ) ).removeClass('hidden');
+
+            });
+        }
+
+        $scope.removeCompanyLogo = function(e){
+            $scope.companyLogoImage= "/assets/database/jobs-logo.png";
+            angular.element('#companyLogoUpload').val(null);
+            angular.element('#crop_w').val('');
+            angular.element('#crop_h').val('');
+            angular.element('#crop_x').val('');
+            angular.element('#crop_y').val('');
+            angular.element('#zoom_w').val('');
+            angular.element('#zoom_h').val('');
+            angular.element('#zoom_x').val('');
+            angular.element('#zoom_y').val('');
+            angular.element( document.querySelector( '#cropbutton' ) ).addClass('hidden');
+            angular.element( document.querySelector( '#remove-custom-thumb' ) ).addClass('hidden');
+        }
+
+        visibility_sel_id = '0';
+        visibility_sel_name = 'Public';
+
+        publish_sel_id = '1';
+        publish_sel_name = 'Immediately';
+
+        $scope.show_visibility_option = false;
+        $scope.show_visibility_edit_option = true;
+        $scope.show_schedule_time = false;
+        $scope.show_publish_option = false;
+        $scope.show_publish_edit_option = true;
+
+        this.schedule_time = {
+            date: new Date()
+          
+        };
+        
+        <% if params['tutorial'].present? %>
+
+            <% if params['tutorial']['visibility'] == '1' %>
+                visibility_sel_id = '1';
+                visibility_sel_name = 'Private';
+
+            <% end %>
+
+            <% if params['tutorial']['publish'] == '0' %>
+                publish_sel_id = '0';
+                publish_sel_name = 'Schedule';
+
+                $scope.show_publish_option = true;
+                $scope.show_publish_edit_option = false;
+                $scope.show_schedule_time = true;
+
+                <% if params['tutorial']['schedule_time'] != '' %>
+                    var schedule_time_val = '<%= params['tutorial']['schedule_time'] %>';
+                    this.schedule_time = {
+                        date: new Date(schedule_time_val)
+                    };
+                <% else %>
+                    this.schedule_time = {
+                    };   
+                <% end %>
+            <% end %>
+
+        <% elsif 'edit' == params[:action] || 'update' == params[:action] %>
+                <% if @tutorial.visibility == 1 %>
+                    visibility_sel_id = '1';
+                    visibility_sel_name = 'Private'; 
+                <% end %>
+
+                <% if @tutorial.publish == 0 %>
+                    publish_sel_id = '0';
+                    publish_sel_name = 'Schedule';
+
+                    $scope.show_publish_option = true;
+                    $scope.show_publish_edit_option = false;
+                    $scope.show_schedule_time = true;
+
+                    <% if @tutorial.schedule_time != '' %>
+                        var schedule_time_val = '<%= @tutorial.schedule_time %>';
+                        this.schedule_time = {
+                            date: new Date(schedule_time_val)
+                        };
+                    <% else %>
+                        this.schedule_time = {
+                        };   
+                    <% end %>
+                <% end %>
+
+
+        <% end %>
+
+        $scope.data = {
+            availableOptions: [
+                {id: '0', name: 'Public'},
+                {id: '1', name: 'Private'}
+            ],
+            selectedOption: {id: visibility_sel_id, name: visibility_sel_name} //This sets the default value of the select in the ui
+        };
+
+        $scope.view_visibility_option = function(){
+            $scope.show_visibility_option = true;
+            $scope.show_visibility_edit_option = false;
+        } 
+       
+        $scope.view_visibility_edit_option = function(){
+            $scope.show_visibility_option = false;
+            $scope.show_visibility_edit_option = true;
+        }
+
+
+        $scope.dataPublish = {
+            availableOptions: [
+                {id: '1', name: 'Immediately'},
+                {id: '0', name: 'Schedule'}
+            ],
+            selectedOption: {id: publish_sel_id, name: publish_sel_name} //This sets the default value of the select in the ui
+        };
+
+        $scope.view_publish_option = function(){
+            $scope.show_publish_option = true;
+            $scope.show_publish_edit_option = false;
+        } 
+       
+        $scope.update_publish_type = function(){
+            
+            if ($scope.dataPublish.selectedOption.id == 0){
+                $scope.show_schedule_time = true;
+            }else{
+                $scope.show_schedule_time = false;    
+            }
+
+        }
+
+        this.openCalendar = function(e, picker) {
+
+            that[picker].open = true;
+        };
+
+/********* add new chapter ***************/
+        var add_chapter_count = 0;
+        $scope.add_chapter = [];
+        $scope.chapter_media_count = [];
+
+        $scope.addChapter = function () {
+            $scope.add_chapter.push(add_chapter_count);
+
+            add_chapter_count++;
+
+            setTimeout(function() {
+                add_chapter_count_test = add_chapter_count - 1; 
+                angular.element( document.querySelector( '#lichapter' + add_chapter_count_test ) ).removeClass('hidden');
+               
+            }, 200);
+				
+			add_chapter_count_new = add_chapter_count - 1; 
+            $scope.chapter_media_count[add_chapter_count_new] = [0];
+
+        }
+
+        $scope.removeChapter = function (x) {   
+            angular.element( document.querySelector( '#lichapter' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#lichapter' + x ) ).html('');
+        }
+
+
+        $scope.removeMedia = function (parent_key, child_key) {
+            angular.element( document.querySelector( '#lichapter_child' + parent_key + '_' + child_key) ).html('');
+        }
+
+        $scope.removeChapterDefault = function (x, id) {   
+            angular.element( document.querySelector( '#lichapter_default' + x ) ).addClass('hidden');
+            angular.element( document.querySelector( '#lichapter_default' + x ) ).html('');
+
+            var removedid = angular.element('#tutorial_removed_chapter').attr('value');
+
+            if(removedid == ''){
+                removedid = id;
+            }else{
+                removedid = removedid + ',' +id;
+            }
+
+            angular.element('#tutorial_removed_chapter').attr('value', removedid);
+        }
+
+        $scope.removeMediaDefault = function (parent_key, child_key, id) {
+            angular.element( document.querySelector( '#lichapter_child_default' + parent_key + '_' + child_key) ).html('');
+            var removedid = angular.element('#tutorial_removed_media_content').attr('value');
+
+            if(removedid == ''){
+                removedid = id;
+            }else{
+                removedid = removedid + ',' +id;
+            }
+
+            angular.element('#tutorial_removed_media_content').attr('value', removedid);
+        }
+
+        $scope.addMoreMedia = function (parent_key) {
+            
+            var arr_len = $scope.chapter_media_count[parent_key].length;
+
+            new_child_val = 0;
+            if (arr_len > 0){
+                arr_len = arr_len - 1;
+                var val = $scope.chapter_media_count[parent_key][arr_len];
+                new_child_val = val + 1;
+            }
+
+            $scope.chapter_media_count[parent_key].push(new_child_val);
+
+        }
+
+        $scope.addMoreMediaDefault = function (parent_key) {
+            
+            var arr_len = $scope.add_chapter_default[parent_key]['media_contents'].length;
+
+            new_child_val = arr_len + 1;
+            
+            $scope.add_chapter_default[parent_key]['media_contents'].push(new_child_val);
+
+        }
+
+        $scope.changeMediaContentType = function (media_type, parent_key, child_key, default_txt){
+
+       
+        	angular.element( document.querySelector( '#chapter_media_content_mediacontent_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
+        	angular.element( document.querySelector( '#chapter_media_content_media_description_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
+        	angular.element( document.querySelector( '#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
+
+        	angular.element('#chapter_media_content_mediacontent_' + default_txt + parent_key + '_' + child_key).val('');
+        	angular.element('#chapter_media_content_media_description_' + default_txt + parent_key + '_' + child_key).val('');
+        	angular.element('#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key).val('');
+
+        	if (media_type == 'Upload Image' || media_type == 'Upload Video' || media_type == 'Upload Zip' || media_type == 'Upload Marmoset'){
+        		angular.element( document.querySelector( '#chapter_media_content_mediacontent_div_' + default_txt + parent_key + '_' + child_key ) ).removeClass('hidden');
+
+        		if (media_type == 'Upload Image'){
+        			angular.element('#chapter_media_content_mediacontent_' + default_txt + parent_key + '_' + child_key).attr('accept', 'image/*');
+        		}
+
+        		else if (media_type == 'Upload Video'){
+        			angular.element('#chapter_media_content_mediacontent_' + default_txt + parent_key + '_' + child_key).attr('accept', 'video/*');
+        		}
+
+        		else if (media_type == 'Upload Zip'){
+        			angular.element('#chapter_media_content_mediacontent_' + default_txt + parent_key + '_' + child_key).attr('accept', '.zip,.rar');
+        		}
+
+        		else if (media_type == 'Upload Marmoset'){
+        			angular.element('#chapter_media_content_mediacontent_' + default_txt + parent_key + '_' + child_key).attr('accept', '.mview');
+        		}
+
+        	}
+        	else if (media_type == 'Video Url' || media_type == 'Sketchfab Url' || media_type == 'Description'){
+        		angular.element( document.querySelector( '#chapter_media_content_media_description_div_' + default_txt + parent_key + '_' + child_key ) ).removeClass('hidden');
+
+        		angular.element('#chapter_media_content_media_description_' + default_txt + parent_key + '_' + child_key).attr('placeholder', 'Enter ' + media_type);
+        	}
+
+        	if (media_type == 'Upload Video' || media_type == 'Video Url'){
+        		angular.element( document.querySelector( '#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key ) ).removeClass('hidden');
+        	}
+
+        }
+
+        $scope.changeMediaContentTypeDefault = function (){
+
+        	var media_type = angular.element( document.querySelector( '#chapter_media_content_media_type_default_' + this.$parent.$index + '_' + this.$index ) ).val();
+        	
+        	$scope.changeMediaContentType(media_type, this.$parent.$index, this.$index, 'default_');
+        }
+
+        /***** for edit page section start*******/
+
+        <% @tutorial_chapter_data   = JSON.parse(@tutorial.chapters.to_json(:include => [:media_contents])) %>
+
+		$scope.add_chapter_default = <%= @tutorial_chapter_data.to_json.html_safe %>;
+		$scope.media_content_type_options = <%= MediaContent::MEDIA_CONTENT_TYPE.to_json.html_safe %>;
+
+		/***** for edit page section end*********/
+
+		$scope.newChapterImageUpload = function(element){
+
+			//alert(this.$index);
+
+//var media_type = angular.element( document.querySelector( '#chapter_media_content_media_type_default_' + this.$parent.$index + '_' + this.$index ) ).val();
+
+            var reader = new FileReader();
+            reader.onload = $scope.newChapterImageIsLoaded;
+            reader.readAsDataURL(element.files[0]);
+        }
+
+        $scope.newChapterImageIsLoaded = function(e){
+
+            $scope.$apply(function() {
+            	//alert('ok');
+                //angular.element( document.querySelector( '#chapter_image_default_0' ) ).attr('src', e.target.result);
+            });
+        }
+
+    });
+
+        
+    angular.bootstrap(document.getElementById("New_Tutorial"), ['New_Tutorial']);
+
+    $(document).ready(function(){
+
+/*****************Crop image code**********************/
+     var flag = 0;
+        $('#companylogoimage').on('load',function(){ 
+             $('#cropimage').attr('src',$('#companylogoimage').attr('src'));
+             var $image = $('#cropimage').attr('src');
+
+              var cropBoxData;
+              var canvasData;
+
+              $('#modal_crop').on('shown.bs.modal', function () {
+                    $('#cropimage').cropper({
+                          autoCropArea: 0.5,
+                          ready: function () {
+                                $('#cropimage').cropper('setCanvasData', canvasData);
+                                $('#cropimage').cropper('setCropBoxData', cropBoxData);
+                            }
+                    });
+              }).on('hidden.bs.modal', function () {
+                    
+                    cropBoxData = $('#cropimage').cropper('getCropBoxData');
+                    canvasData  = $('#cropimage').cropper('getCanvasData');
+
+                    var crop_w = '';   
+                    var crop_h = '';   
+                    var crop_x = '';   
+                    var crop_y = '';   
+                    var zoom_w = '';   
+                    var zoom_h = '';   
+                    var zoom_x = '';   
+                    var zoom_y = '';   
+
+                    if(flag == 0){
+                        
+                        zoom_w = canvasData.width;   
+                        zoom_h = canvasData.height;   
+                        zoom_x = canvasData.left;   
+                        zoom_y = canvasData.top;  
+                        crop_w = cropBoxData.width;   
+                        crop_h = cropBoxData.height;   
+                        crop_x = cropBoxData.left;   
+                        crop_y = cropBoxData.top;  
+
+                        $('#crop_w').val(crop_w);
+                        $('#crop_h').val(crop_h);
+                        $('#crop_x').val(crop_x);
+                        $('#crop_y').val(crop_y);
+                        $('#zoom_w').val(zoom_w);
+                        $('#zoom_h').val(zoom_h);
+                        $('#zoom_x').val(zoom_x);
+                        $('#zoom_y').val(zoom_y);    
+
+                    }   
+
+                    flag = 1;
+                    $('#cropimage').cropper('destroy');
+                });
+        });
+
+    <% topic_arr = []
+       sub_topic_arr = [] 
+       sub_sub_topic_arr = [] 
+    if params[:tutorial].present?
+
+        topic_arr = params[:tutorial][:topic]
+        sub_topic_arr = params[:tutorial][:sub_topic]
+        sub_sub_topic_arr = params[:tutorial][:sub_sub_topic]
+
+    elsif params[:action] == 'edit'
+
+        topic_arr = @tutorial[:topic]
+        sub_topic_arr = @tutorial[:sub_topic]
+        sub_sub_topic_arr = @tutorial[:sub_sub_topic]
+
+    end 
+        if !topic_arr.nil?
+            topic_arr.reject!{|a| a==""}
+        end
+        if !sub_topic_arr.nil?
+            sub_topic_arr.reject!{|a| a==""}
+        end
+        if !sub_sub_topic_arr.nil?
+            sub_sub_topic_arr.reject!{|a| a==""}
+        end
+    %>
+
+        var topic_arr = <%= topic_arr.to_json.html_safe %>;
+        var sub_topic_arr = <%= sub_topic_arr.to_json.html_safe %>;
+        var sub_sub_topic_arr = <%= sub_sub_topic_arr.to_json.html_safe %>;
+
+        get_subject_list(topic_arr, sub_topic_arr);
+        get_sub_subject_list(sub_topic_arr, sub_sub_topic_arr);
+
+
+        $('#topic').on('change',function(){
+            topic = $(this).val();
+            get_subject_list(topic, []);
+            $("select#sub_sub_topic").html('');
+        });
+
+        $('#sub_topic').on('change',function(){
+            sub_topic = $(this).val();
+            get_sub_subject_list(sub_topic, []);
+        }); 
+
+        function get_subject_list(topic, selected_val){
+
+            if (topic !== null && topic != ''){
+                $.ajax({
+                    type: "GET",
+                    url: "/tutorials/get_tutorial_subject_list",
+                    data:{topic_id:topic},
+                    success: function(data){
+                        var options = '';
+                          for (var i = 0; i < data.length; i++) {
+
+                            var selected = '';
+                            
+                            if ($.inArray(data[i]['id'].toString(),selected_val) != -1){    
+                                selected = 'selected="selected"';
+                            }
+
+                            options += '<option value="' + data[i]['id'] + '" ' + selected + '>' + data[i]['name'] + '</option>';
+                          }
+                        
+                     $("select#sub_topic").html(options);
+                    }
+                });
+            }else{
+                $("select#sub_topic").html('');
+            } 
+        }
+
+        function get_sub_subject_list(sub_topic, selected_val){
+            
+            if (sub_topic !== null && sub_topic != ''){
+                $.ajax({
+                    type: "GET",
+                    url: "/tutorials/get_tutorial_subject_list",
+                    data:{parent_id:sub_topic},
+                    success: function(data){
+                        var options = '';
+                          for (var i = 0; i < data.length; i++) {
+
+                            var selected = '';
+                            if ($.inArray(data[i]['id'].toString(), selected_val) != -1){ 
+                                selected = 'selected="selected"';
+                            }
+
+                            options += '<option value="' + data[i]['id'] + '" ' + selected + '>' + data[i]['name'] + '</option>';
+                          }
+                        
+                     $("select#sub_sub_topic").html(options);
+                    }
+                });
+            }else{
+                $("select#sub_sub_topic").html('');
+            }
+        }
+
+
+        check_free();
+        $('#rcfree').click(function(){  
+            check_free();
+        });
+
+        function check_free(){
+           if($('#rcfree'). prop("checked") === true){
+                $("#price").val('');
+                $("#price").prop('disabled',true);
+            }else{
+                $("#price").prop('disabled',false);
+            } 
+        }
+
+    });
+
+	$('#tutorial_use_tag_from_previous_upload').click(function(){
+		var previous_tags = <%= previous_tags.to_json.html_safe %>;
+
+		if($(this). prop("checked") === true){
+		    $( previous_tags ).each(function( index ) {
+		        $("#tag").append($('<option>', {value: this, text: this}));
+		    });
+		    $('#tag option').prop('selected', true);
+		}else{
+		    $( previous_tags ).each(function( index ) {
+		        $("#tag option[value='" + this + "']").remove();
+		    });
+		}
+
+	});
+
+    $(function () {
+        $('#closing_date').datetimepicker({
+
+            startDate: '-0d',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            dateFormat: 'mm-dd-yy', 
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-70:+10'
+        });
+    });
+
+
+</script>
