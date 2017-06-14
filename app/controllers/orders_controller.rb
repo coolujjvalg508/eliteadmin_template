@@ -160,7 +160,7 @@ class OrdersController < ApplicationController
                         elsif value1[:type] == 'tutorial'  
 
                             tutorial_data    =  Tutorial.where('tutorial_id = ?', value1['sku']).first
-                            PurchasedTutorial.create(user_id:  data[:data][:user_id].to_i, tutorial_id: tutorial_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f)   
+                            PurchasedTutorial.create(user_id:  value['user_id'].to_i, tutorial_id: tutorial_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f)   
 
                             number_of_sold = 1
                             if !tutorial_data.number_of_sold.nil?
