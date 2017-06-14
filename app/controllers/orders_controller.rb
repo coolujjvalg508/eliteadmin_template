@@ -119,7 +119,7 @@ class OrdersController < ApplicationController
 
   def paypal_success
       flash[:notice] = "Your payment is successfully completed"
-      redirect_to  downloads_path
+      redirect_to  root_path
   end  
 
   protect_from_forgery except: [:hook]
@@ -236,24 +236,24 @@ class OrdersController < ApplicationController
 
         if params[:data][:cart_data][:items].present? && !params[:data][:cart_data][:items].nil?
 
-	        if params[:data][:applied_coupon_code].present? && params[:data][:applied_coupon_code] != ''
-	            is_code_exist           =   Coupon.where("coupon_code = ?", params[:data][:applied_coupon_code]).first
-	            if is_code_exist.present?
-	                  is_applied  =  TransactionHistory.where("coupon_code = ? AND user_id = ?", params[:data][:applied_coupon_code], params[:data][:user_id]).count
-	                if  is_applied >= is_code_exist.no_of_use
-	                  @success = 0
-	                  @message = 'Coupon has already used'
-	                end  
-	            else
-	                @success = 0
-	                @message = 'Invalid Coupon Code'
-	            end 
-	      
-	        end
-	    else
-	    	@success = 0
-	        @message = 'No Item In Cart'
-	    end  
+          if params[:data][:applied_coupon_code].present? && params[:data][:applied_coupon_code] != ''
+              is_code_exist           =   Coupon.where("coupon_code = ?", params[:data][:applied_coupon_code]).first
+              if is_code_exist.present?
+                    is_applied  =  TransactionHistory.where("coupon_code = ? AND user_id = ?", params[:data][:applied_coupon_code], params[:data][:user_id]).count
+                  if  is_applied >= is_code_exist.no_of_use
+                    @success = 0
+                    @message = 'Coupon has already used'
+                  end  
+              else
+                  @success = 0
+                  @message = 'Invalid Coupon Code'
+              end 
+        
+          end
+      else
+        @success = 0
+          @message = 'No Item In Cart'
+      end  
 
     end  
 
