@@ -146,7 +146,7 @@ class OrdersController < ApplicationController
 
                     value['cart_data']['items'].each_with_index do |value1, index|
 
-                        if value1[:type] == 'download'
+                        if value1['type'] == 'download'
 
                             download_data    =  Download.where('product_id = ?', value1['sku']).first
                             PurchasedProduct.create(user_id:  value['user_id'].to_i, download_id: download_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f) 
@@ -157,7 +157,7 @@ class OrdersController < ApplicationController
                             end
                             download_data.update(number_of_sold: number_of_sold)  
 
-                        elsif value1[:type] == 'tutorial'  
+                        elsif value1['type'] == 'tutorial'  
 
                             tutorial_data    =  Tutorial.where('tutorial_id = ?', value1['sku']).first
                             PurchasedTutorial.create(user_id:  value['user_id'].to_i, tutorial_id: tutorial_data.id, transaction_history_id: transaction_data.id, price: value1['mrp'].to_f)   
