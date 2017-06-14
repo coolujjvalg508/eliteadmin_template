@@ -171,7 +171,7 @@ class OrdersController < ApplicationController
                         end
 
                     end   
-                  tempdata.destroy  
+                  #tempdata.destroy  
                 end    
            
 
