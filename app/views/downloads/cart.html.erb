@@ -437,14 +437,14 @@ debugger;
                      $scope.cart.clearItems();
                       alert(response.data.message);
                      
-                      window.location.href='<%= downloads_path %>';
+                      window.location.href='<%= root_path %>';
                      
 
                  }else if(response.data.success == 2){
                   unloading();
                       alert(response.data.message);
                       $scope.cart.clearItems();
-                      window.location.href='<%= downloads_path %>';
+                      window.location.href='<%= root_path %>';
 
                  }
                  else{
