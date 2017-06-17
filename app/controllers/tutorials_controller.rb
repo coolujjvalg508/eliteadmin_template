@@ -194,6 +194,8 @@ class TutorialsController < ApplicationController
   def edit
       @tutorial = Tutorial.find_by(paramlink: params[:paramlink])
 
+       # chapter = @tutorial.chapters
+       # abort(chapter.to_json)
       render 'new'
   end
 
@@ -253,7 +255,7 @@ class TutorialsController < ApplicationController
               params[:chapter].each_with_index do |chapter_data, k|
 
                 media_content = chapter_data[1][:media_contents_attributes]
-                @chapter = Chapter.create(title: chapter_data[1][:title], tutorial_id: @tutorial['id'], image: chapter_data[1][:image])
+                @chapter = Chapter.create(title: chapter_data[1][:title], tutorial_id: @tutorial['id'], image: chapter_data[1][:image], video_timing: chapter_data[1][:video_timing])
 
                 if !@chapter['id'].nil?
                   media_content.each_with_index do |media_data, k1|
@@ -327,7 +329,7 @@ class TutorialsController < ApplicationController
               params[:chapter].each_with_index do |chapter_data, k|
 
                 media_content = chapter_data[1][:media_contents_attributes]
-                @chapter = Chapter.create(title: chapter_data[1][:title], tutorial_id: @tutorial['id'], image: chapter_data[1][:image])
+                @chapter = Chapter.create(title: chapter_data[1][:title], tutorial_id: @tutorial['id'], image: chapter_data[1][:image], video_timing: chapter_data[1][:video_timing])
                 
                 if !@chapter['id'].nil?
                   media_content.each_with_index do |media_data, k1|
@@ -364,7 +366,7 @@ class TutorialsController < ApplicationController
               params[:chapter_default].each_with_index do |chapter_data, k|
 
                 @chapter_update = Chapter.find_by(id: chapter_data[0])
-                @chapter_update.update(title: chapter_data[1][:title], image: chapter_data[1][:image])
+                @chapter_update.update(title: chapter_data[1][:title], image: chapter_data[1][:image], video_timing: chapter_data[1][:video_timing])
 
                 media_content = chapter_data[1][:media_contents_attributes]
 
@@ -538,7 +540,7 @@ class TutorialsController < ApplicationController
 
     def restore_tutorial
        
-       paramlink             =  params[:paramlink]
+       paramlink                  =  params[:paramlink]
        @is_tutorial_exist         =  Tutorial.where(paramlink: paramlink).first
       
        if @is_tutorial_exist.present?
@@ -860,6 +862,20 @@ class TutorialsController < ApplicationController
         render :json => {'res' => 1, 'data' => str, 'message' => 'data get successfully'}, status: 200   
     end
     
+    def save_view_count
+
+       if params[:tutorial_id].present?
+            tutorial_id      = params[:tutorial_id]
+            record          = Tutorial.where("id = ?",tutorial_id).first
+
+            prevoius_view_count   = record.view_count
+            newview_count         =  prevoius_view_count + 1
+            
+            result = record.update(view_count: newview_count) 
+       end 
+       render json: result, status: 200     
+    end 
+
   	private
 
 	  	def get_rendom_tutorial_id

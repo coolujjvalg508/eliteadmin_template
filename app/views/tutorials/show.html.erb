@@ -2,8 +2,9 @@
 <script type="text/javascript">
   $.fn.raty.defaults.path = '<%= root_url+'assets' %>';
 </script>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
-   <link href="http://lukaszwatroba.github.io/v-accordion/dist/v-accordion.css" rel="stylesheet">
+<!-- <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
+ -->  
+ <%#= stylesheet_link_tag "v-accordion" %>
 <div id="myApp2" ng-app="myApp">
 <div ng-controller="myCtrl">
 <section class="wip-navigation-wrap">
@@ -42,9 +43,68 @@
 <section class="DownloadPostWrapper clearfix">
 <div class="clearfix DownloadPostLeft">
 <div class="clearfix">
-<div class="youtubewrap">
-<iframe width="100%" height="400" src="https://www.youtube.com/embed/6roIVjov4hw?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen></iframe>
+ 
+
+
+<div ng-repeat="Mc in BigMediaContant">
+ <!--  <iframe width="100px" height="400" src="https://www.youtube.com/embed/6roIVjov4hw?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen></iframe> -->
+<div ng-if="Mc.media_type=='Video Url'">
+                  <div ng-if="ifYoutube(Mc.Video_Url);">
+                  <div class="youtubewrap">
+                  <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
+                  </iframe>
+                 </div>
+                  </div>
+                  <div ng-if="!ifYoutube(Mc.Video_Url)">
+
+                  <div class="youtubewrap">
+                  <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
+                  </iframe>
+                  
+                 </div>
+                  </div>
 </div>
+<div ng-if="Mc.media_type=='Upload Image'">
+                   <div class="youtubewrap">
+                     <img src="{{Mc.mediacontent.url}}" class="img-responsive youtube-wrap-img-new" alt="img"> 
+                     </div>
+</div>
+
+<div ng-if="Mc.media_type=='Upload Video'">
+               
+                  <div class="youtubewrap">
+                     <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
+                  </div>
+ </div>
+ <div ng-if="Mc.media_type=='Description'">
+               
+                  <div class="youtubewrap">
+                  <img src="/uploads/media_content/mediacontent/71/455922-451515-virat-kohli-outstretched.jpg" class="img-responsive" alt="img"> 
+                   
+                  </div>
+ </div>
+  <div ng-if="Mc.media_type=='Sketchfab Url'">
+               
+                  <div class="youtubewrap">
+                  <img src="/uploads/media_content/mediacontent/71/455922-451515-virat-kohli-outstretched.jpg" class="img-responsive" alt="img"> 
+                  </div>
+ </div>
+  <div ng-if="Mc.media_type=='Upload Marmoset'">
+               
+                  <div class="youtubewrap">
+                  <img src="/uploads/media_content/mediacontent/71/455922-451515-virat-kohli-outstretched.jpg" class="img-responsive" alt="img"> 
+                  </div>
+ </div>
+ <div ng-if="Mc.media_type=='Upload Zip'">
+               
+                  <div class="youtubewrap">
+                  <img src="/uploads/media_content/mediacontent/71/455922-451515-virat-kohli-outstretched.jpg" class="img-responsive" alt="img"> 
+                  </div>
+ </div>
+
+
+</div>
+ 
 </div>
 <div class="comment-wrap clearfix">
 <div class="gallerycomment">
@@ -92,7 +152,7 @@
 <div class="clearfix tabsdownloadpost">
 <ul class="nav nav-tabs shadow">
   <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
-  <li><a data-toggle="tab" href="#comments">COMMENTS <%= @tutorial_data.comment_count  %></a></li>
+  <li><a data-toggle="tab" href="#comments">COMMENTS (<%= @tutorial_data.comment_count  %>)</a></li>
 </ul>
   <div class="tab-content">
     <div id="description" class="tab-pane fade in active">
@@ -130,93 +190,203 @@
 </div>
   
 <div class="lessonstutorial clearfix marginB15">
-<div class="col-md- col-sm-4 col-xs-12"> <h2>Lessons in this tutorial </h2></div><div class="col-md-8 col-sm-8 col-xs-12 text-right1"> <div class="addthis_inline_share_toolbox_xe0e"></div></div>
-<ul>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox">
-      <img src="images/message-profile4.jpg" alt="img"> 1. Course Overview
-      </div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt">
-      <a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-      </div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">
-      </div>
-   
+<div class="row">
+  <div class="col-md-4 col-sm-4 col-xs-12"> 
+    <h2>Lessons in this tutorial </h2>
+  </div>
 
-
-        
+  <div class="col-md-8 col-sm-8 col-xs-12 text-right1"> 
+    <div class="addthis_inline_share_toolbox_xe0e">
+      
     </div>
-  </li>
+  </div>
+</div>
+
+ <div class="clearfix"></div>
   <li class="clearfix">
-      <v-accordion style="background-color: #FFF;" id="accordionA" class="vAccordion--default" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+      <div ng-if="tutorial_data.free == true || is_purchasedTutorial== true">
+            <v-accordion style="background-color: #FFF;" id="accordionA" class="vAccordion--default" control   ="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
 
-            <v-pane id="{{ ::pane.id }}" ng-repeat="pane in all_chapters_data" expanded="pane.isExpanded">
-              <v-pane-header id="{{ ::pane.id }}-header" aria-controls="{{ ::pane.id }}-content">
-              <div class="col-md-8 col-sm-7 col-xs-7 lessonbox">
-               <img src="{{pane.image.thumb.url}}" alt="img"> {{$index +1}}. {{ ::pane.title }}
-              </div>
-              <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt">
-               <!-- <a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a> -->
-              </div>
-              <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">
-             </div>
-                <h5><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></h5>
-              </v-pane-header>
+                  <v-pane id="{{ ::pane.id }}" ng-repeat="pane in all_chapters_data" expanded="pane.isExpanded">
+                    <v-pane-header id="{{ ::pane.id }}-header" aria-controls="{{ ::pane.id }}-content">
+                    <div class="col-md-8 col-sm-7 col-xs-7 lessonbox">
+                     <img src="{{pane.image.thumb.url}}" alt="img"> {{$index +1}}. {{ ::pane.title }}
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt">
+                     <!-- <a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a> -->
 
-              <v-pane-content id="{{ ::pane.id }}-content" aria-labelledby="{{ ::pane.id }}-header">
-                <span ng-repeat="Mc in pane.media_contents">
-                <span ng-if="Mc.media_type=='Description'">
-                    <p>{{ ::Mc.media_description }}</p>
-                </span>
-                 <span ng-if="Mc.media_type=='Upload Image'">
-                 <div class="youtubewrap">
-                   <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img"> 
+                    </div>
+                    <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">
+                     {{pane.video_timing}}
                    </div>
-                </span><br>
-                 <span ng-if="Mc.media_type=='Upload Video'">
-               
-                  <div class="youtubewrap">
-              <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
-              </div>
-                </span><br>
+                      <h5><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></h5>
+                    </v-pane-header>
 
-                <span ng-if="Mc.media_type=='Video Url'">
-                  <span ng-if="ifYoutube(Mc.Video_Url);">
-                  <div class="youtubewrap">
-                  <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
-                  </iframe>
-                 </div>
-                  </span>
-                  <span ng-if="!ifYoutube(Mc.Video_Url)">
+                    <v-pane-content  id="{{ ::pane.id }}-content" aria-labelledby="{{ ::pane.id }}-header">
+                      <span ng-repeat="Mc in pane.media_contents">
+                       <span ng-if="Mc.media_type=='Upload Zip'">
+                          <div class="youtubewrap">
 
-                    <div class="youtubewrap">
-                  <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
-                  </iframe>
-                  
-                 </div>
-                  </span>
-                </span>
-                
-                <span ng-if="Mc.media_type=='Sketchfab Url'">
-                    <div class="youtubewrap" ng-init="ScetchFebData(Mc.id,Mc.media_description)">
-                      <div id="sketch_span_{{Mc.id}}"></div>
-                    </div>
-                  
-                 </span>
-                  <span ng-if="Mc.media_type=='Upload Marmoset'">
-                    <div class="youtubewrap" ng-init="MarmosetFebData(Mc.id,Mc.mediacontent.url)">
-                      <div id="marmoset_span_marmoset_span_{{Mc.id}}"></div>
-                    </div>
-                  </span>
-                  
-                </span>
+                    <a href="{{Mc.mediacontent.url}}" class="download-new-mar">Download Zip</a>&nbsp;&nbsp;
+                   <span style="color: #FFF;">
+                     {{Mc.mediacontent.url.split("/")[Mc.mediacontent.url.split("/").length-1]}}
+                   </span> 
+                          </div>
 
-             
-              </v-pane-content>
-            </v-pane>
+                        </span>
+                        <span ng-if="Mc.media_type=='Description'">
+                            <p>{{ ::Mc.media_description }}</p>
+                        </span>
+                        
+                        <span ng-if="Mc.media_type=='Upload Image'">
+                         <div class="youtubewrap">
+                           <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img"> 
+                          </div>
+                        </span>
+                        
 
-          </v-accordion>
+                      <span ng-if="Mc.media_type=='Upload Video'">
+                     
+                        <div class="youtubewrap">
+                           <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
+                        </div>
+                      </span>
+
+                      <span ng-if="Mc.media_type=='Video Url'">
+                        <span ng-if="ifYoutube(Mc.Video_Url);">
+                        <div class="youtubewrap">
+                        <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
+                        </iframe>
+                       </div>
+                        </span>
+                        <span ng-if="!ifYoutube(Mc.Video_Url)">
+
+                          <div class="youtubewrap">
+                        <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
+                        </iframe>
+                        
+                       </div>
+                        </span>
+                      </span>
+                      
+                      <span ng-if="Mc.media_type=='Sketchfab Url'">
+                          <div class="youtubewrap" ng-init="ScetchFebData(Mc.id,Mc.media_description)">
+                            <div id="sketch_span_{{Mc.id}}"></div>
+                          </div>
+                        
+                      </span>
+                        <span ng-if="Mc.media_type=='Upload Marmoset'" style="position: relative;">
+                          <div class="youtubewrap" ng-init="MarmosetFebData(Mc.id,Mc.mediacontent.url)">
+                            <div class="video-marmoset" id="marmoset_span_marmoset_span_{{Mc.id}}"></div>
+                      
+                          </div>
+                        </span>
+                        
+                      </span>
+
+                    </v-pane-content>
+                  </v-pane>
+
+            </v-accordion>
+      </div>
+        <div ng-if="tutorial_data.free == false">
+         <div ng-if="is_purchasedTutorial== false">
+               <v-accordion style="background-color: #FFF;" id="accordionB" class="vAccordion--default" control="accordionB" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)">
+
+                    <v-pane id="{{ ::pane.id }}" ng-repeat="pane in all_chapters_data | limitTo:(1)" expanded="pane.isExpanded">
+                      <v-pane-header id="{{ ::pane.id }}-header" aria-controls="{{ ::pane.id }}-content">
+                        <div class="col-md-8 col-sm-7 col-xs-7 lessonbox">
+                         <img src="{{pane.image.thumb.url}}" alt="img"> {{$index +1}}. {{ ::pane.title }}
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt">
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">
+                         {{pane.video_timing}}
+                        </div>
+                          <h5><a href="#">Watch it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></h5>
+                      </v-pane-header>
+
+                      <v-pane-content  id="{{ ::pane.id }}-content" aria-labelledby="{{ ::pane.id }}-header">
+                   
+                        <span ng-repeat="Mc in pane.media_contents">
+
+                        <span ng-if="Mc.media_type=='Upload Zip'">
+                          <div class="youtubewrap">
+
+                    <a href="{{Mc.mediacontent.url}}" class="download-new-mar">Download Zip</a>&nbsp;&nbsp;
+                   <span style="color: #FFF;">
+                     {{Mc.mediacontent.url.split("/")[Mc.mediacontent.url.split("/").length-1]}}
+                   </span> 
+                          </div>
+
+                        </span>
+                          <span ng-if="Mc.media_type=='Description'">
+                              <p>{{ ::Mc.media_description }}</p>
+                          </span>
+                          
+                          <span ng-if="Mc.media_type=='Upload Image'">
+                           <div class="youtubewrap">
+                             <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img"> 
+                             </div>
+                          </span>
+
+                        <span ng-if="Mc.media_type=='Upload Video'">
+                       
+                          <div class="youtubewrap">
+                             <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
+                          </div>
+                        </span>
+
+                        <span ng-if="Mc.media_type=='Video Url'">
+                          <span ng-if="ifYoutube(Mc.Video_Url);">
+                          <div class="youtubewrap">
+                          <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
+                          </iframe>
+                         </div>
+                          </span>
+                          <span ng-if="!ifYoutube(Mc.Video_Url)">
+
+                          <div class="youtubewrap">
+                          <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
+                          </iframe>
+                          
+                         </div>
+                          </span>
+                        </span>
+                        
+                        <span ng-if="Mc.media_type=='Sketchfab Url'">
+                            <div class="youtubewrap" ng-init="ScetchFebData(Mc.id,Mc.media_description)">
+                              <div id="sketch_span_{{Mc.id}}"></div>
+                            </div>
+                          
+                        </span>
+                          <span ng-if="Mc.media_type=='Upload Marmoset'" style="position: relative;">
+                          <div class="youtubewrap" ng-init="MarmosetFebData(Mc.id,Mc.mediacontent.url)">
+                            <div class="video-marmoset" id="marmoset_span_marmoset_span_{{Mc.id}}"></div>
+                       
+                          </div>
+                        </span>
+                          
+                        </span>
+                      </v-pane-content>
+                    </v-pane>
+
+              </v-accordion>
+         </div>
+        </div>
+          <div ng-if="is_purchasedTutorial== false && tutorial_data.free == false">
+                <div class="vAccordion--default" ng-repeat="chapters in all_chapters_data | limitTo:(1 - all_chapters_data.length )">
+                   <div class="col-md-8 col-sm-7 col-xs-7 lessonbox">
+                     <img src="{{chapters.image.thumb.url}}" alt="img"> {{$index +2}}. {{ ::chapters.title }}
+                   </div>
+                   <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt">
+                   </div>
+                   <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">
+                    {{chapters.video_timing}}
+                   </div>
+                   <h5><a href="#">Purchase tutorial</a></h5>
+                </div> 
+            </div> 
   </li>
 </ul>
 </div>
@@ -378,7 +548,7 @@
   <a href="/tutorials/{{Ft.paramlink}}/show">  <img src="{{Ft.company_logo.medium.url}}" class="img-responsive" alt="Video"></a>
   </div>
   <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">{{Ft.title}}</a></h2>
+    <h2 class="margin"><a href="/tutorials/{{Ft.paramlink}}/show">{{Ft.title}}</a></h2>
      <p ng-if="Ft.is_admin=='Y'">Admin</p>
      <p ng-if="Ft.is_admin=='N'">{{Ft.user.firstname}} {{Ft.user.lastname}}</p>
     <p>{{Ft.view_count}} views</p>
@@ -490,7 +660,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
     download1  = "<%= @paramlink %>"
      var uRl = '/get_tutorial_info/'+download1;
         $http.get(uRl).then(function (response) {
-
+            $scope.BigMediaContant = [];
             $scope.tutorial_data = response.data.tutorial_data;
             $scope.featured_tutorials = response.data.featured_tutorials;
             $scope.software_used_name = response.data.software_used_name;
@@ -498,6 +668,8 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
             $scope.subject_data = response.data.subject_data;
             $scope.similar_tutorial = response.data.similar_tutorial;
             $scope.all_chapters_data = response.data.all_chapters_data;
+            $scope.is_purchasedTutorial = response.data.is_purchased;
+            var keepGoing = true;
             angular.forEach($scope.all_chapters_data, function(v, k){ 
                 angular.forEach(v.media_contents, function(value1, key1){ 
                  
@@ -533,6 +705,49 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
                   }
                 });
                 });
+             angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
+
+              if(keepGoing) {
+                   if(value.media_type=='Upload Video')
+                   {
+                       $scope.BigMediaContant.push(value);
+                        keepGoing = false;
+                   }
+
+                   if(value.media_type=='Video Url')
+                   {
+                       $scope.BigMediaContant.push(value);
+                       keepGoing = false;
+                   }
+                   if(value.media_type=='Upload Image')
+                   {
+                       $scope.BigMediaContant.push(value);
+                        keepGoing = false;
+                   }
+                   if(value.media_type=='Description')
+                   {
+                       $scope.BigMediaContant.push(value);
+                        keepGoing = false;
+                   }
+                   if(value.media_type=='Sketchfab Url')
+                   {
+                       $scope.BigMediaContant.push(value);
+                        keepGoing = false;
+                   }
+                    if(value.media_type=='Upload Marmoset')
+                   {
+                       $scope.BigMediaContant.push(value);
+                        keepGoing = false;
+                   }
+                   if(value.media_type=='Upload Zip')
+                   {
+                       $scope.BigMediaContant.push(value);
+                        keepGoing = false;
+                   }
+                   
+                 }
+            });
+           
         });
 
     $rootScope.checkCart = function(id){
@@ -559,9 +774,10 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
     }
     $scope.MarmosetFebData =function(id,data)
     {
-            var params = { width: 700, height: 450, autoStart: false };
-            var myviewer = marmoset.embed( data, params ); 
-            $('#marmoset_span_marmoset_span_'+id).html(myviewer);
+            setTimeout(function() {
+                var myviewer = new marmoset.WebViewer( 1078, 650, data );
+                $('#marmoset_span_marmoset_span_'+id).html(myviewer.domRoot);
+            }, 1000);
     }
     $scope.AddTocart = function (product) {
        $scope.cart.addItem(
@@ -779,3 +995,17 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
 
 
 <% end %>  
+
+<script type="text/javascript">
+  
+$(document).ready(function(){
+  $.ajax({
+        type: "post",
+        url: "<%= tutorial_save_view_count_path %>" ,
+        data: {'tutorial_id': '<%= @tutorial_data.id %>'},
+        success: function(data){
+        }
+    });
+});
+
+</script>

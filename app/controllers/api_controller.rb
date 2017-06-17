@@ -225,8 +225,20 @@ class ApiController < ApplicationController
       tutorial_data_final = JSON.parse(tutorial_data.to_json(:include => [:user]))
       featured_tutorials_final = JSON.parse(featured_tutorials.to_json(:include => [:user]))
       all_chapters_data = JSON.parse(tutorial_data.chapters.to_json(:include => [:media_contents]))
+       # abort(all_chapters_data.to_json)
 
-      render json: {'tutorial_data': tutorial_data_final , 'all_chapters_data': all_chapters_data ,'similar_tutorial': similar_tutorial, 'topic_data': topic_data   , 'tag_data': tutorial_data.tags ,'subject_data': data, 'software_used_name': data1, 'featured_tutorials': featured_tutorials_final}, status: 200  
+      @is_purchased = false
+
+      if current_user.present?
+       
+        purchased_product = PurchasedTutorial.where('user_id = ? AND tutorial_id = ?', current_user.id, tutorial_data_final['id']).limit(1).count
+
+        if purchased_product > 0
+          @is_purchased = true
+        end  
+      end 
+
+      render json: {'tutorial_data': tutorial_data_final , 'all_chapters_data': all_chapters_data ,'similar_tutorial': similar_tutorial, 'topic_data': topic_data   , 'tag_data': tutorial_data.tags ,'subject_data': data, 'software_used_name': data1, 'featured_tutorials': featured_tutorials_final, 'is_purchased': @is_purchased}, status: 200  
 
   end 
   

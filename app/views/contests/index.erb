@@ -135,13 +135,13 @@
         </div> -->
         <div class="AllGalleryLike clearfix">
             <div class="clearfix marginB15">
-              <a class="lightbtn" href="/contests/{{x.paramlink}}/show"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>View</a>
+              <a class="lightbtn lightbtn-new-bor" href="/contests/{{x.paramlink}}/show"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>View</a>
             </div>
             <div class="clearfix marginB15">
-               <a class="lightbtn" href="/contests/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
+               <a class="lightbtn lightbtn-new-bor" href="/contests/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
             </div>
            <div class="clearfix">
-            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/contests/{{x.paramlink}}/make_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to trash this contest?" } %>
+            <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/contests/{{x.paramlink}}/make_trash", class: 'lightbtn lightbtn-new-bor', data: { confirm: "Are you sure you want to trash this contest?" } %>
            </div>
         </div>
       </li>

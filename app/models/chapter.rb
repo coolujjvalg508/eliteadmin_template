@@ -1,7 +1,7 @@
 class Chapter < ActiveRecord::Base
 
     mount_uploader :image, ImageUploader
-
+    default_scope { order(id: :ASC) }
 
     #validates :title, presence: true
     validates :tutorial_id, presence: true
@@ -10,7 +10,6 @@ class Chapter < ActiveRecord::Base
 	has_many :video_duration
 	has_many :media_caption
 	has_many :media_description
-
-    accepts_nested_attributes_for :media_contents, allow_destroy: true 
+	accepts_nested_attributes_for :media_contents, allow_destroy: true 
 
 end

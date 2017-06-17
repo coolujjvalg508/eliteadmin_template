@@ -42,7 +42,8 @@
           <div class="product-list__item-info">
             <h1 class="product-list__item-title"><a href="#">{{item.name}}</a></h1>
           </div>
-          <div class="product-list__item-price"><span>{{item.price | currency}}</span></div>
+          <div class="product-list__item-price"><span>{{item.price | currency}}</span>
+          </div>
           <div class="product-list__item-remove has-tooltip tooltipstered">
             <a class="js-checkout-cart-remove-item" ng-click="cart.addItem({sku:item.sku}, -10000000);resetDiscount()" href="#"><i class="fa fa-times-circle-o fa-24"></i></a></div>
         </article>
@@ -425,6 +426,7 @@
              'is_company': $scope.check 
         }};
 
+debugger;
           $http({
               method: "POST",
               url: "/checkout_credit_card_paypal",
@@ -522,7 +524,7 @@
                   unloading();
                       alert(response.data.message);
                       $scope.cart.clearItems();
-                      window.location.href='<%= downloads_path %>';
+                      window.location.href='<%= root_path %>';
 
                  }
                  else{

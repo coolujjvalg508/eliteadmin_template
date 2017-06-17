@@ -104,10 +104,14 @@
 
       <script type="text/javascript">
         $(document).ready(function(){
-           var params = { width: 700, height: 450, autoStart: false };
-            var myviewer = marmoset.embed( "<%= url %>", params ); 
+           setTimeout(function() {
+             var myviewer = new marmoset.WebViewer( 700, 450, "<%= url %>" );
+                $('#marmoset_span_'+"<%= index %>").html(myviewer.domRoot);
+            }, 1000);
+           
+           // var myviewer = marmoset.embed( "<%= url %>", params ); 
           //   console.log(myviewer);
-            $('#marmoset_span_'+"<%#= index %>").html(myviewer);
+           // $('#marmoset_span_'+"<%#= index %>").html(myviewer);
 
 
         })

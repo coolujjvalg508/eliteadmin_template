@@ -135,22 +135,22 @@
           </div>
           <div class="AllGalleryLike clearfix">
               <div class="clearfix marginB15">
-                <a class="lightbtn" href="/downloads/{{x.paramlink}}/show"><i class="fa fa-eye marginR5" aria-hidden="true"></i>View</a>
+                <a class="lightbtn lightbtn-new-bor" href="/downloads/{{x.paramlink}}/show"><i class="fa fa-eye marginR5" aria-hidden="true"></i>View</a>
               </div>
               <div class="clearfix marginB15">
-                 <a class="lightbtn" href="/dashboard/downloads/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
+                 <a class="lightbtn lightbtn-new-bor" href="/dashboard/downloads/{{x.paramlink}}/edit"><i class="fa fa-pencil-square-o marginR5" aria-hidden="true"></i>Edit</a>
               </div>
              <div class="clearfix marginB15" ng-show = "{{viewTypeValue != 'trash'}}">
-              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/downloads/{{x.paramlink}}/make_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to trash this Download?" } %>
+              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/downloads/{{x.paramlink}}/make_trash", class: 'lightbtn lightbtn-new-bor', data: { confirm: "Are you sure you want to trash this Download?" } %>
 
              </div>
 
              <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
-              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/downloads/{{x.paramlink}}/delete_from_trash", class: 'lightbtn', data: { confirm: "Are you sure you want to delete this Download permanently?" } %>
+              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Delete'.html_safe, "/downloads/{{x.paramlink}}/delete_from_trash", class: 'lightbtn lightbtn-new-bor', data: { confirm: "Are you sure you want to delete this Download permanently?" } %>
 
              </div>           
              <div class="clearfix marginB15" ng-show = "{{viewTypeValue == 'trash'}}">
-              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Restore'.html_safe, "/downloads/{{x.paramlink}}/restore_download", class: 'lightbtn', data: { confirm: "Are you sure you want to restore this Download?" } %>
+              <%= link_to '<i class="fa fa-trash marginR5" aria-hidden="true"></i>Restore'.html_safe, "/downloads/{{x.paramlink}}/restore_download", class: 'lightbtn lightbtn-new-bor', data: { confirm: "Are you sure you want to restore this Download?" } %>
              </div>
 
 

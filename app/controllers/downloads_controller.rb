@@ -187,6 +187,20 @@ class DownloadsController < ApplicationController
              
     end  
 
+    def save_view_count
+
+       if params[:download_id].present?
+            download_id      = params[:download_id]
+            record          = Download.where("id = ?",download_id).first
+
+            prevoius_view_count   = record.view_count
+            newview_count         =  prevoius_view_count + 1
+            
+            result = record.update(view_count: newview_count) 
+       end 
+       render json: result, status: 200     
+    end 
+
     def delete_download_post
         id                   =  params[:delete_id]
         viewtype             =  params[:viewtype]

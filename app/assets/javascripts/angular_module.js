@@ -194,7 +194,7 @@ function ShoppingCart(cartName) {
 
 //----------------------------------------------------------------
 // items in the cart
-function CartItem(sku, name,type, slug, mrp, price, quantity, image, category, size, weight) {
+function CartItem(sku, type,name, slug, mrp, price, quantity, image, category, size, weight) {
     // console.log(size);
     this.sku = sku;
     this.type = type;
@@ -220,6 +220,7 @@ ShoppingCart.prototype.loadItems = function () {
                 var item = items[i];
                 if (item.sku !== null && item.name !== null && item.price !== null) {
                     item = new CartItem(item.sku, item.type, item.name, item.slug, item.mrp, item.price, item.quantity, item.image, item.category, item.size, item.weight, item.status);
+                    debugger;
                     this.items.push(item);
                     this.skuArray.push(item.sku);
                     // this.totalWeight = item.weight;

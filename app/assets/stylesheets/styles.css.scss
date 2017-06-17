@@ -1314,7 +1314,7 @@ footer .copyright a{ display:inline-block; padding:0px;}
 .coursetuotorial p{ line-height:22px; color:#666; padding-bottom:15px;}
 .lessonstutorial { padding:0 25px 15px;}
 .lessonstutorial h2{ font-size:22px; font-weight:400; color:#bbb; margin-bottom:15px;}
-.lessonstutorial li{ border-bottom:1px solid #222; padding:10px 0;}
+.lessonstutorial li{ padding:10px 0;}
 .lessonstutorial li:first-child{ border-top:1px solid #222;}
 .lessonstutorial li .watch-txt{ padding-top:15px;}
 .lessonstutorial li .time-txt{ padding-top:15px; color:#666; font-size:14px;}
@@ -1936,11 +1936,48 @@ color:#FFF;     vertical-align: middle;     font-weight: bold;}
 
 
 
+.vAccordion--default v-pane {
+  background-color: #171717;
+  border-bottom: 1px solid #222;
+  overflow: hidden;
+}
+
+.vAccordion--default v-pane-header {
+  border-bottom:0;
+  height: 60px;
+  margin-bottom: 0;
+  padding: 10px 0;
+  transition: all 0.25s ease 0s;
+}
+
+.youtubewrap {
+  border: 1px solid #222;
+  margin: auto auto 20px;
+  padding: 10px;
+  width: 100%;
+}
+
+.youtubewrap iframe {
+  height: 610px;
+  width: 100%;
+}
+
+.ng-isolate-scope p.ng-binding {
+  color: #999;
+  line-height: 24px;
+}
 
 
+.ng-valid .dropdown-menu {
+  float: none;
+  left: auto;
+}
+img.youtube-wrap-img-new {
+  height: 560px;
+  width: 100%;
+}
+a.lightbtn-new-bor{ border:none;}
 
-
-
-
-
-
+.youtubewrap img {
+  width: 100%;
+}

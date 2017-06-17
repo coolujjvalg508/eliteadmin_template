@@ -9,8 +9,55 @@
 <% if user_signed_in? %>
 <script>
 
+
+
   
  $(document).ready(function(){
+
+    $.ajax({
+              type: "post",
+              url: "<%= check_mark_spam_news_path %>" ,
+              data:{id: "<%= @news_data.id %>"},
+              success: function(data){
+                 // alert(data.res);
+                  if(data.res == 1)
+                  {
+                      $('.mark_spam').addClass('hidden');
+                      $('.unmark_spam').removeClass('hidden');        
+
+                  }else{
+
+                      $('.mark_spam').removeClass('hidden');
+                      $('.unmark_spam').addClass('hidden');
+
+                  }
+              }
+        });
+
+          
+        $('.mark_spam, .unmark_spam').on('click',function(){
+
+          $.ajax({
+                  type: "post",
+                  url: "<%= mark_spam_news_path %>" ,
+                  data:{id: "<%= @news_data.id %>"},
+                  success: function(data){
+                      if(data.res == 1)
+                      {
+                          $('.mark_spam').addClass('hidden');
+                          $('.unmark_spam').removeClass('hidden');        
+          
+                      }else{
+
+                          $('.mark_spam').removeClass('hidden');
+                          $('.unmark_spam').addClass('hidden');
+
+                      }
+                  }
+          }); 
+        });
+
+
 
 
         $('#bookmark_form_popup').on('submit',function(){

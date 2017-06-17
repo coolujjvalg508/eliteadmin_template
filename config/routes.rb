@@ -140,6 +140,8 @@ Rails.application.routes.draw do
 
   get 'tutorials/get_topic_list' => 'tutorials#get_topic_list', as: 'get_topic_list' 
 
+  post 'tutorials/save_view_count'            => 'tutorials#save_view_count', as: 'tutorial_save_view_count'
+
   get 'get_latest_tutorial/:user_id'            => 'api#get_latest_tutorial', as: 'get_latest_tutorial'
 
   get 'get_latest_tutorial_sale/:user_id'                => 'api#get_latest_tutorial_sale', as: 'get_latest_tutorial_sale'
@@ -298,6 +300,8 @@ Rails.application.routes.draw do
  
     post 'news/save_news_rating'           => 'news#save_news_rating', as: 'save_news_rating'
   	post 'news/get_news_avg_rating'        => 'news#get_news_avg_rating', as: 'get_news_avg_rating'
+    post 'news/mark_spam'                  => 'news#mark_spam', as: 'mark_spam_news' 
+    post 'news/check_mark_spam'            => 'news#check_mark_spam', as: 'check_mark_spam_news'
 
 
 
@@ -370,7 +374,7 @@ Rails.application.routes.draw do
     post 'downloads/save_comment'            => 'downloads#save_comment', as: 'save_download_comment' 
     get 'downloads/get_comment'              => 'downloads#get_comment', as: 'get_download_comment' 
 
-
+    post 'downloads/save_view_count'            => 'downloads#save_view_count', as: 'download_save_view_count'
 
     post 'checkout_paypal'                    => 'orders#checkout_paypal', as: 'checkout_paypal'
     post 'checkout_credit_card_paypal'        => 'orders#checkout_credit_card_paypal', as: 'checkout_credit_card_paypal'

@@ -3,8 +3,8 @@
   <div class="container">
     <h2>Search</h2>
       <ul class="nav nav-tabs" role="tablist" style='margin-left:42%; border-bottom:none'>
-        <li role="presentation" id='project_tab' class="active lightbtn"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Projects</a></li>
-        <li role="presentation" id='user_tab'  class="lightbtn"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Artist</a></li>
+        <li role="presentation" id='project_tab' class="active lightbtn"><a id= "projectlink" href="#home" aria-controls="home" role="tab" data-toggle="tab">Projects</a></li>
+        <li role="presentation" id='user_tab'  class="lightbtn"><a id= "userlink" href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Artist</a></li>
       </ul>
     
     <div class="searchwrap clearfix" style='margin-top:3%'>
@@ -47,36 +47,38 @@
                             <option value="1">Oldest</option>
                           </select>
                     </div> 
-                    <div class="innerleft clearfix col-sm-12 col-xs-12"  id='user_data_section' style='margin-top:4%;margin-left: -14px;'>
-                          <ul>              
-                              <li class="clearfix" dir-paginate="x in user_data|filter:search|itemsPerPage:10" >
+                    
+                      <div class="innerleft clearfix col-sm-12 col-xs-12"  id='user_data_section'  style='margin-top:4%;margin-left: -14px;'>
+                            <ul>              
+                                <li class="clearfix" dir-paginate="x in user_data|filter:search|itemsPerPage:10" >
 
-                                <div class="connect-following-profile pull-left">
-                                    <a href='/user-profile/{{x.data.username}}'><img  lazy-img="<%= root_url %>{{ x.data.image.thumb.url }}" alt='User' class="img-responsive"></a></div>
-                                  
-                                <div class="connect-profile clearfix">
-                                  <div class="user-title"><a href='/user-profile/{{x.data.username}}'>{{ x.data.firstname }} {{ x.data.lastname }}</a></div>
-                                  <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.data.professional_headline }}</div>
-                                  <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i>  {{ x.data.city }}, {{ x.country_name.name }}</div>
-                                  <button type="button" class="btn-default margin"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">{{ x.data.follow_count}}</span>
-                                <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{ x.data.like_count}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> {{ x.data.view_count}}</span> 
-                                   </div>
-            
-                              </li>
-                             <li ng-hide="user_data.length" class="text-center err-msg no-result">No Result Found!</li>
-                          </ul>
-                          <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
-                                <%#= paginate @follower %>
-                                <div class="pagintionpage clearfix">
-                                    <dir-pagination-controls
-                                         max-size="1"
-                                         direction-links="true"
-                                         boundary-links="false" >
-                                    </dir-pagination-controls>
+                                  <div class="connect-following-profile pull-left">
+                                      <a href='/user-profile/{{x.data.username}}'><img  lazy-img="<%= root_url %>{{ x.data.image.thumb.url }}" alt='User' class="img-responsive"></a></div>
+                                    
+                                  <div class="connect-profile clearfix">
+                                    <div class="user-title"><a href='/user-profile/{{x.data.username}}'>{{ x.data.firstname }} {{ x.data.lastname }}</a></div>
+                                    <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.data.professional_headline }}</div>
+                                    <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i>  {{ x.data.city }}, {{ x.country_name.name }}</div>
+                                    <button type="button" class="btn-default margin"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button><span class="follow-companies">{{ x.data.follow_count}}</span>
+                                  <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{ x.data.like_count}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> {{ x.data.view_count}}</span> 
+                                     </div>
+              
+                                </li>
+                               <li ng-hide="user_data.length" class="text-center err-msg no-result">No Result Found!</li>
+                            </ul>
+                            <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
+                                  <%#= paginate @follower %>
+                                  <div class="pagintionpage clearfix">
+                                      <dir-pagination-controls
+                                           max-size="1"
+                                           direction-links="true"
+                                           boundary-links="false" >
+                                      </dir-pagination-controls>
 
-                                </div>
+                                  </div>
+                            </div>
                           </div>
-                        </div>
+                          
                     </div>
 
           </div>
@@ -117,16 +119,68 @@
     
 </section>
 
+<script type="text/javascript">
+    function preloadFunc()
+    {
+         var type ='<%= @type_search %>';
+         if(type == "projects"){
+             
+              $('#gallery_data_section').show();
+              $('#user_data_section').hide();
+              
+              $('#projectlink').trigger('click');
+              
+              $('#user_tab').removeClass("active");
+              $('#project_tab').addClass("active");
+          
+          }else if(type == "artists"){ 
+              
+              $('#userlink').trigger('click');
+
+              $('#profile').addClass('active');
+              $('#home').removeClass('active');
+
+              $('#user_tab').addClass("active");
+              $('#project_tab').removeClass("active");
+
+              $('#gallery_data_section').hide();
+              $('#user_data_section').show();
+                              
+
+          }else{
+              $('#projectlink').trigger('click');
+
+              $('#home').addClass('active');
+              $('#profile').removeClass('active');
+              
+              $('#user_tab').removeClass("active");
+              $('#project_tab').addClass("active");
+
+              $('#gallery_data_section').show();
+              $('#user_data_section').hide();
+              
+
+          }
+
+    }
+
+</script>
+
+
 <script>
 $(document).ready(function(){
-    $('#project_tab').on('click',function(){
-          $('#gallery_data_section').show();
-          $('#user_data_section').hide();
-    });
-    $('#user_tab').on('click',function(){
-          $('#gallery_data_section').hide();
-          $('#user_data_section').show();
-    });
+  preloadFunc();
+        $('#project_tab').on('click',function(){
+            
+            $('#gallery_data_section').show();
+            $('#user_data_section').hide();
+        });
+    
+      $('#user_tab').on('click',function(){
+            $('#gallery_data_section').hide();
+            $('#user_data_section').show();
+      });
+   
 
 });
 
@@ -159,6 +213,11 @@ app.controller('searchCtrl', function($scope, $http) {
         if(typeof $scope.firstname !== 'undefined' && $scope.firstname != ''){
           list_url1 += '&firstname=' + $scope.firstname
         }
+
+        if(typeof $scope.order !== 'undefined' && $scope.order != ''){
+          list_url1 += '&order=' + $scope.order
+        }
+
       
        $http.get(list_url1).then(function (response) {
           $scope.user_data = response.data;

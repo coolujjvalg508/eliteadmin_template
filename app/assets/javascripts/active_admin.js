@@ -597,22 +597,22 @@ $(document).ready(function() {
    })
   
   if($("#download_free").prop('checked') == false){
-			$('#download_price').val(0)
+			//$('#download_price').val()
 			$('#download_price').css({'border':'1px solid #FF0000'});
 			$('#download_price').attr({'disabled':false});
 		}else{
-			$('#download_price').val(0)
+			//$('#download_price').val()
 			$('#download_price').css({'border':'1px solid #c9d0d6'});
 			$('#download_price').attr({'disabled':true});
 		}
   
   $("#download_free").on('click',function(e){
 		if($("#download_free").prop('checked') == false){
-			$('#download_price').val(0)
+			//$('#download_price').val()
 			$('#download_price').css({'border':'1px solid #FF0000'});
 			$('#download_price').attr({'disabled':false});
 		}else{
-			$('#download_price').val(0)
+			//$('#download_price').val()
 			$('#download_price').css({'border':'1px solid #c9d0d6'});
 			$('#download_price').attr({'disabled':true});
 		}
@@ -620,22 +620,22 @@ $(document).ready(function() {
   
   
   if($("#tutorial_free").prop('checked') == false){
-			$('#tutorial_price').val(0)
+			//$('#tutorial_price').val(0)
 			$('#tutorial_price').css({'border':'1px solid #FF0000'});
 			$('#tutorial_price').attr({'disabled':false});
 		}else{
-			$('#tutorial_price').val(0)
+			//$('#tutorial_price').val(0)
 			$('#tutorial_price').css({'border':'1px solid #c9d0d6'});
 			$('#tutorial_price').attr({'disabled':true});
 		}
   
   $("#tutorial_free").on('click',function(e){
 		if($("#tutorial_free").prop('checked') == false){
-			$('#tutorial_price').val(0)
+			//$('#tutorial_price').val(0)
 			$('#tutorial_price').css({'border':'1px solid #FF0000'});
 			$('#tutorial_price').attr({'disabled':false});
 		}else{
-			$('#tutorial_price').val(0)
+			//$('#tutorial_price').val(0)
 			$('#tutorial_price').css({'border':'1px solid #c9d0d6'});
 			$('#tutorial_price').attr({'disabled':true});
 		}

@@ -2,7 +2,7 @@ ActiveAdmin.register Chapter do
   menu label: 'Chapter', parent: 'Tutorial',priority: 5
   config.sort_order = 'created_at_asc'
 
-  permit_params :title, :image, :tutorial_id, :media_contents_attributes => [:id,:mediacontent,:media_caption,:mediacontentable_id,:mediacontentable_type, :_destroy, :tmp_mediacontent, :mediacontent_cache, :video_duration, :media_description, :media_type]
+  permit_params :title, :image, :video_timing, :tutorial_id, :media_contents_attributes => [:id,:mediacontent,:media_caption,:mediacontentable_id,:mediacontentable_type, :_destroy, :tmp_mediacontent, :mediacontent_cache, :video_duration, :media_description, :media_type]
 
 
   controller do
@@ -32,7 +32,7 @@ ActiveAdmin.register Chapter do
 							params[:chapter][:media_contents_attributes][index][:media_type] = params[:chapter][:media_contents_attributes][index][:media_type]
 							params[:chapter][:media_contents_attributes][index][:mediacontent] = params[:chapter][:media_contents_attributes][index][:mediacontent]
 							params[:chapter][:media_contents_attributes][index][:media_caption] = params[:chapter][:media_contents_attributes][index][:media_caption]
-							params[:chapter][:media_contents_attributes][index][:video_duration] = params[:chapter][:media_contents_attributes][index][:video_duration]
+							#params[:chapter][:media_contents_attributes][index][:video_duration] = params[:chapter][:media_contents_attributes][index][:video_duration]
 							params[:chapter][:media_contents_attributes][index][:media_description] = params[:chapter][:media_contents_attributes][index][:media_description]
 					
 					end
@@ -48,7 +48,7 @@ ActiveAdmin.register Chapter do
 							params[:chapter][:media_contents_attributes][index][:media_type] = params[:chapter][:media_contents_attributes][index][:media_type]
 							params[:chapter][:media_contents_attributes][index][:mediacontent] = params[:chapter][:media_contents_attributes][index][:mediacontent]
 							params[:chapter][:media_contents_attributes][index][:media_caption] = params[:chapter][:media_contents_attributes][index][:media_caption]
-							params[:chapter][:media_contents_attributes][index][:video_duration] = params[:chapter][:media_contents_attributes][index][:video_duration]
+							#params[:chapter][:media_contents_attributes][index][:video_duration] = params[:chapter][:media_contents_attributes][index][:video_duration]
 							params[:chapter][:media_contents_attributes][index][:media_description] = params[:chapter][:media_contents_attributes][index][:media_description]
 					
 					end
@@ -94,7 +94,8 @@ ActiveAdmin.register Chapter do
     	
 		f.input :tutorial_id, as: :select, collection: Tutorial.all.pluck(:title, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: false ,label: 'Select Tutorial'
       f.input :title
-    	f.input :image
+      f.input :image
+    	f.input :video_timing
     end
 
     f.inputs 'Media' do
@@ -104,7 +105,7 @@ ActiveAdmin.register Chapter do
 			  ff.input :mediacontent, label: "Media",  :input_html => { :class => "mediacontent" } #, hint: ff.template.video_tag(ff.object.uploadvideo.try(:url), :size => "150x150")
 			  ff.input :mediacontent_cache, :as => :hidden
 			  #ff.input :media_caption
-			  ff.input :video_duration,  :input_html => { :class => "video_duration" } 
+			  #ff.input :video_duration,  :input_html => { :class => "video_duration" } 
 			  ff.input :media_description,  :input_html => { :class => "media_description" } , label: 'Content'
 			end
 	end

@@ -1,6 +1,6 @@
 class GalleriesController < ApplicationController
 
-    before_action :authenticate_user!, only: [:index ,:new, :show, :create, :edit, :update, :get_gallery_post_list, :count_user_gallery_post]
+    before_action :authenticate_user!, only: [:index ,:new, :create, :edit, :update, :get_gallery_post_list, :count_user_gallery_post]
  
     def index
 
@@ -32,7 +32,11 @@ class GalleriesController < ApplicationController
         @latest_post    = Gallery.where("paramlink != ?",params[:paramlink]).order('id desc').limit(8)
      
         #abort(@gallery.post_type_category_id.to_json)
-        @blocked_users    = BlockUser.where("user_id="+@gallery.user_id.to_s+" AND block_user_id::jsonb ?| array['" + current_user.id.to_s + "']")
+        @blocked_users  = []
+        if current_user.present?
+          @blocked_users    = BlockUser.where("user_id="+@gallery.user_id.to_s+" AND block_user_id::jsonb ?| array['" + current_user.id.to_s + "
+            ']")
+       end   
 
         if @gallery.post_type_category_id == 1
             render 'artshow'
@@ -1025,6 +1029,7 @@ class GalleriesController < ApplicationController
 
 
     def search
+      @type_search=params[:type]
 
     end  
 

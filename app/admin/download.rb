@@ -68,7 +68,7 @@ ActiveAdmin.register Download do
 		  # f.input :tags, label:'Tags'
 		 
 		  f.input :free, as: :boolean,label: "Share for free"
-		  f.input :price, label: "Price ($)"
+		  f.input :price, label: "Price ($)" 
 		  #f.input :is_paid, as: :boolean,label: "Is Paid"
 		  f.input :is_feature, as: :boolean,label: "Is Feature"
 		  f.input :has_adult_content, as: :boolean,label: "Has Adult Content"

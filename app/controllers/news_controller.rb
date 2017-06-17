@@ -272,6 +272,37 @@ class NewsController < ApplicationController
       product_avg_rating    =  Rating.where('product_id = ? AND post_type = ?', postid, 'news').pluck("AVG(rating) as avg_rate")
       render json: {'ratingdata': product_avg_rating}, status: 200  
   end  
+
+
+
+  def mark_spam
+    news_id_for_mark_spam    = params[:id]
+    newsdata  = News.where(id: news_id_for_mark_spam).first
+    if newsdata.is_spam == true 
+        newsdata.update(is_spam: false) 
+        Report.where(user_id: current_user.id, post_id: news_id_for_mark_spam, post_type: 'News', report_issue: 'Spam').delete_all
+
+        render :json => {'res' => 0, 'message' => 'Operation is successfully done'}, status: 200 
+
+    else  
+        
+        Report.create(user_id: current_user.id, post_id: news_id_for_mark_spam, post_type: 'News', report_issue: 'Spam')
+        newsdata.update(is_spam: true) 
+        render :json => {'res' => 1, 'message' => 'Operation is successfully done'}, status: 200 
+    end
+  end  
+
+
+  def check_mark_spam
+    news_id_for_mark_spam    = params[:id]
+    newsdata                 = News.where(id: news_id_for_mark_spam).first
+    #abort(jobdata.to_json)
+    if newsdata.is_spam == true 
+        render :json => {'res' => 1, 'message' => 'news is spam'}, status: 200 
+    else  
+        render :json => {'res' => 2, 'message' => 'news is not a spam'}, status: 200 
+    end   
+  end 
   
 
 

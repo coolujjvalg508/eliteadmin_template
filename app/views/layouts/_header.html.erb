@@ -13,7 +13,11 @@
 	<div class="collapse navbar-collapse" id="myNavbar">
 	<form class="navbar-form navbar-left" role="search">
 	  <div class="form-group">
-		<input type="text" class="form-control" placeholder="Search">
+		<input type="text" class="form-control" placeholder="Search" data-toggle="dropdown">
+			<ul class="dropdown-menu ng-scope">
+      			<li><%= link_to "Search Artists", search_path(:type =>"artists") %></li>
+      			<li><%= link_to "Search Projects", search_path(:type =>"projects") %></li> 			
+    		</ul>
 	  </div>
 	</form>
 

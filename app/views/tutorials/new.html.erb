@@ -168,14 +168,24 @@
                         </div>
 
                         <div class="form-group clearfix">
-	                        <label class="col-md-12 col-sm-12 col-xs-12">Chapter Image:</label>
 	                        <div class="col-md-6 col-sm-12 col-xs-12">
-	                    		<input accept="image/*" type="file" name="chapter_default[{{x.id}}][image]" id="chapter_image_{{$index}}" onchange="angular.element(this).scope().newChapterImageUpload(this)" >
+	                        	<a href="javascript:void(0);" ng-click="selectChapterImage($index, 'default_')" title="Click to select chapter image"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Select Chapter Image</a>
+
+	                    		<input accept="image/*" type="file" name="chapter_default[{{x.id}}][image]" id="chapter_image_select_default_{{$index}}" onchange="angular.element(this).scope().newChapterImageUpload(this, 'default_')" class="hidden" >
 	                    	</div>
 	                        <div class="col-md-6 col-sm-12 col-xs-12">
 	                    		<img ng-src="{{x.image.user_activity.url}}" id="chapter_image_default_{{$index}}" width="50">
                     		</div>
                     	</div>
+
+
+                        <div class="form-group clearfix">
+                          
+                          <label class="col-md-12 col-sm-12 col-xs-12">Video Duration</label>
+                          <div class="col-md-12 col-sm-12 col-xs-12">
+                            <input type="text" name="chapter_default[{{x.id}}][video_timing]" id="chapter_video_timing_{{$index}}" placeholder="Enter video duration" class="form-control from-input" value="{{x.video_timing}}">
+                          </div>
+                        </div>
 
 
                         <div ng-repeat="y in x.media_contents track by $index" id="lichapter_child_default{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 border-bottom marginB10">
@@ -188,42 +198,71 @@
                                 <div class="form-group clearfix">
 	                                <label class="col-md-4 col-sm-6 col-xs-12 marginT10">Select Media Content Type : </label>
 	                                <div class="col-md-8 col-sm-6 col-xs-12">
-	                                    <select class="custom-select" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_type]" id="chapter_media_content_media_type_default_{{$parent.$index}}_{{$index}}"
-	                                    onchange="angular.element(this).scope().changeMediaContentTypeDefault(this)"
+	                                   <!--  <select class="custom-select" 
+                                      name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_type]" 
+                                      id="chapter_media_content_media_type_default_{{$parent.$index}}_{{$index}}"
+                                      onchange="angular.element(this).scope().changeMediaContentTypeDefault(this)"
 	                                     >
 	                                    	
 	                                    	<option value="">Select Media Content Type</option>
-	                                        <option  ng-repeat="m in media_content_type_options" value="{{m}}" ng-selected="m == y.media_type ? true : false">{{m}}</option> 
+	                                        <option  ng-repeat="m in media_content_type_options" 
+	                                         value="{{m}}" ng-selected="m == y.media_type ? true : false">
+                                           {{m}}
+                                        </option> 
 
-	                                    </select>
+	                                    </select> -->
+                                      
+
+<select
+  class="custom-select" 
+  ng-model="chapter_media_content_media_type_default_$parent.$index_$index"
+  ng-init="chapter_media_content_media_type_default_$parent.$index_$index = y.media_type"
+  ng-change="changeMediaContentTypeDefault(this);" 
+  name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_type]" 
+  id="chapter_media_content_media_type_default_{{$parent.$index}}_{{$index}}"
+  data-ng-options="blisterPackTemplate as blisterPackTemplate for blisterPackTemplate in media_content_type_options track by blisterPackTemplate"
+
+  >
+      <option value="">Select Media Content Type</option>
+</select> 
+	                       
+    
 	                                </div>
                                 </div>
 
-                                <div id="chapter_media_content_mediacontent_div_default_{{$parent.$index}}_{{$index}}" class="form-group clearfix hidden">
+                            <div id="chapter_media_content_mediacontent_div_default_{{$parent.$index}}_{{$index}}" class="form-group clearfix">
 
-                                	<div class="col-md-6 col-sm-12 col-xs-12">
-	                        			<input type="file" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][mediacontent]" id="chapter_media_content_mediacontent_default_{{$parent.$index}}_{{$index}}" >
-	                        		</div>
+                                <div class="col-md-6 col-sm-12 col-xs-12">
 
-	                        		<div class="col-md-6 col-sm-12 col-xs-12">
-	                        			<img ng-if="y.media_type == 'Upload Image'" ng-src="{{y.mediacontent.url}}" width="50" id="chapter_media_image_default_old_{{$parent.$index}}_{{$index}}">
+                                	<a ng-if="chapter_media_content_media_type_default_$parent.$index_$index=='Upload Image' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Video' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Zip' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Marmoset'" href="javascript:void(0);" ng-click="selectMediaContent($parent.$index, $index, 'default_')" title="Click to select media content file">
+                                    <i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Select Media Content File
+                                  </a>
 
-	                        			<div ng-if="y.media_type == 'Upload Video' || y.media_type == 'Upload Zip' || y.media_type == 'Upload Marmoset'" id="chapter_media_file_default_old_{{$parent.$index}}_{{$index}}">
-	                        			{{y.mediacontent.url.split("/")[y.mediacontent.url.split("/").length-1]}}</div>
+  	                        			<input type="file" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][mediacontent]" id="chapter_media_content_mediacontent_default_{{$parent.$index}}_{{$index}}" onchange="angular.element(this).scope().newMediaContent(this, 'default_')" class="hidden" >
+  	                        		</div>
 
-	                        			<div id="chapter_media_file_default_{{$parent.$index}}_{{$index}}"></div>
+  	                        		<div class="col-md-6 col-sm-12 col-xs-12">
+  	                        		
+  	                        			<img ng-show="y.media_type == 'Upload Image'" ng-src="{{y.mediacontent.url}}" width="50" id="chapter_media_image_default_old_{{$parent.$index}}_{{$index}}">
+   	                        			
+  	                        			<label ng-show="y.media_type == 'Upload Video' || y.media_type == 'Upload Zip' || y.media_type == 'Upload Marmoset'" id="chapter_media_file_default_old_{{$parent.$index}}_{{$index}}">
+  		                        			{{y.mediacontent.url.split("/")[y.mediacontent.url.split("/").length-1]}}
+  	                        			</label>
 
-	                        			<img id="chapter_media_image_default_{{$parent.$index}}_{{$index}}" src="" class="hidden" width="50">
-	                        		</div>
+  	                        			<label id="chapter_media_file_default_{{$parent.$index}}_{{$index}}"></label>
+
+  	                        			<img id="chapter_media_image_default_{{$parent.$index}}_{{$index}}" src="" class="hidden" width="50">
+
+  	                        		</div>
 	                        	</div>
 
                                 <div id="chapter_media_content_media_description_div_default_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix {{(y.media_type == 'Video Url' || y.media_type == 'Sketchfab Url' || y.media_type == 'Description') ? '' : 'hidden'}}">
 	                        		<textarea name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_description]" id="chapter_media_content_media_description_default_{{$parent.$index}}_{{$index}}" placeholder="Enter Description" class="form-control from-input message-form1">{{y.media_description}}</textarea>
 	                        	</div>
 
-	                        	<div id="chapter_media_content_video_duration_div_default_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix {{(y.media_type == 'Upload Video' || y.media_type == 'Video Url') ? '' : 'hidden'}}">
+	                        <!-- 	<div id="chapter_media_content_video_duration_div_default_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix {{(y.media_type == 'Upload Video' || y.media_type == 'Video Url') ? '' : 'hidden'}}">
 	                        		<input type="text" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][video_duration]" id="chapter_media_content_video_duration_default_{{$parent.$index}}_{{$index}}" placeholder="Enter Video Duration" class="form-control from-input" value="{{y.video_duration}}">
-	                        	</div>
+	                        	</div> -->
 
 
                             </div>
@@ -250,11 +289,23 @@
                         </div>
 
                         <div class="form-group clearfix">
-	                        <label class="col-md-12 col-sm-12 col-xs-12">Chapter Image:</label>
-	                        <div class="col-md-12 col-sm-12 col-xs-12">
-	                    		<input accept="image/*" type="file" name="chapter[{{$index}}][image]" id="chapter_image_{{$index}}" >
+	                        <div class="col-md-6 col-sm-12 col-xs-12">
+
+	                        	<a href="javascript:void(0);" ng-click="selectChapterImage($index, '')" title="Click to select chapter image"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Select Chapter Image</a>
+
+	                    		<input accept="image/*" type="file" name="chapter[{{$index}}][image]" id="chapter_image_select_{{$index}}" onchange="angular.element(this).scope().newChapterImageUpload(this, 'new_')" class="hidden" >
 	                    	</div>
+	                    	<div class="col-md-6 col-sm-12 col-xs-12">
+	                    		<img src="" id="chapter_image_new_{{$index}}" width="50">
+                    		</div>
                     	</div>
+                       <div class="form-group clearfix">
+                          
+                          <label class="col-md-12 col-sm-12 col-xs-12">Video Duration</label>
+                          <div class="col-md-12 col-sm-12 col-xs-12">
+                            <input type="text" name="chapter[{{$index}}][video_timing]" id="chapter_video_duration_{{$index}}" placeholder="Enter video duration" class="form-control from-input">
+                          </div>
+                        </div>
 
 
                         <div ng-repeat="y in chapter_media_count[$index]" id="lichapter_child{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 border-bottom marginB10">
@@ -278,17 +329,28 @@
 	                                </div>
                                 </div>
 
-                                <div id="chapter_media_content_mediacontent_div_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix hidden">
-	                        		<input type="file" name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][mediacontent]" id="chapter_media_content_mediacontent_{{$parent.$index}}_{{$index}}" >
+                                <div id="chapter_media_content_mediacontent_div_{{$parent.$index}}_{{$index}}" class="form-group clearfix hidden">
+                                	<div class="col-md-6 col-sm-12 col-xs-12">
+
+                                		<a href="javascript:void(0);" ng-click="selectMediaContent($parent.$index, $index, '')" title="Click to select media content file"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Select Media Content File</a>
+
+	                        			<input type="file" name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][mediacontent]" id="chapter_media_content_mediacontent_{{$parent.$index}}_{{$index}}" onchange="angular.element(this).scope().newMediaContent(this, '')" class="hidden">
+	                        		</div>
+
+	                        		<div class="col-md-6 col-sm-12 col-xs-12">
+
+	                        			<label id="chapter_media_file_{{$parent.$index}}_{{$index}}"></label>
+	                        			<img id="chapter_media_image_{{$parent.$index}}_{{$index}}" src="" class="hidden" width="50">
+	                        		</div>
 	                        	</div>
 
                                 <div id="chapter_media_content_media_description_div_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix hidden">
 	                        		<textarea name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][media_description]" id="chapter_media_content_media_description_{{$parent.$index}}_{{$index}}" placeholder="Enter Description" class="form-control from-input message-form1"></textarea>
 	                        	</div>
 
-	                        	<div id="chapter_media_content_video_duration_div_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix hidden">
+	                        	<!-- <div id="chapter_media_content_video_duration_div_{{$parent.$index}}_{{$index}}" class="col-md-12 col-sm-12 col-xs-12 form-group clearfix hidden">
 	                        		<input type="text" name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][video_duration]" id="chapter_media_content_video_duration_{{$parent.$index}}_{{$index}}" placeholder="Enter Video Duration" class="form-control from-input">
-	                        	</div>
+	                        	</div> -->
 
 
                             </div>
@@ -702,7 +764,7 @@
                
             }, 200);
 				
-			add_chapter_count_new = add_chapter_count - 1; 
+			      add_chapter_count_new = add_chapter_count - 1; 
             $scope.chapter_media_count[add_chapter_count_new] = [0];
 
         }
@@ -771,15 +833,14 @@
         }
 
         $scope.changeMediaContentType = function (media_type, parent_key, child_key, default_txt){
-
        
         	angular.element( document.querySelector( '#chapter_media_content_mediacontent_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
         	angular.element( document.querySelector( '#chapter_media_content_media_description_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
-        	angular.element( document.querySelector( '#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
+        	//angular.element( document.querySelector( '#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
 
         	angular.element('#chapter_media_content_mediacontent_' + default_txt + parent_key + '_' + child_key).val('');
         	angular.element('#chapter_media_content_media_description_' + default_txt + parent_key + '_' + child_key).val('');
-        	angular.element('#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key).val('');
+        	//angular.element('#chapter_media_content_video_duration_' + default_txt + parent_key + '_' + child_key).val('');
 
         	if (media_type == 'Upload Image' || media_type == 'Upload Video' || media_type == 'Upload Zip' || media_type == 'Upload Marmoset'){
         		angular.element( document.querySelector( '#chapter_media_content_mediacontent_div_' + default_txt + parent_key + '_' + child_key ) ).removeClass('hidden');
@@ -807,46 +868,120 @@
         		angular.element('#chapter_media_content_media_description_' + default_txt + parent_key + '_' + child_key).attr('placeholder', 'Enter ' + media_type);
         	}
 
-        	if (media_type == 'Upload Video' || media_type == 'Video Url'){
+        	/*if (media_type == 'Upload Video' || media_type == 'Video Url'){
         		angular.element( document.querySelector( '#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key ) ).removeClass('hidden');
-        	}
+        	}*/
+
+          //alert(123);
+          angular.element( document.querySelector( '#chapter_media_file_' + default_txt + parent_key + '_' + child_key ) ).html('');
+          angular.element( document.querySelector( '#chapter_media_image_' + default_txt + parent_key + '_' + child_key ) ).attr('src', '');
+          angular.element( document.querySelector( '#chapter_media_image_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
+
+          if(default_txt != ''){
+    				angular.element( document.querySelector( '#chapter_media_file_' + default_txt + 'old_' + parent_key + '_' + child_key ) ).html('');
+    				angular.element( document.querySelector( '#chapter_media_image_' + default_txt + 'old_' + parent_key + '_' + child_key ) ).attr('src', '');
+    				angular.element( document.querySelector( '#chapter_media_image_' + default_txt + 'old_' + parent_key + '_' + child_key ) ).addClass('hidden');
+          }
 
         }
 
         $scope.changeMediaContentTypeDefault = function (){
 
-        	var media_type = angular.element( document.querySelector( '#chapter_media_content_media_type_default_' + this.$parent.$index + '_' + this.$index ) ).val();
+        	var media_type = angular.element( document.querySelector( '#chapter_media_content_media_type_default_' + 
+        		this.$parent.$index + '_' + this.$index ) ).val();
         	
         	$scope.changeMediaContentType(media_type, this.$parent.$index, this.$index, 'default_');
+        }
+
+        $scope.$watch(function() {
+          return $scope.searchText;
+        }, function(n, o) {
+          if(n != o){
+            $scope.searchRecords();
+          }   
+        }, true);
+
+        $scope.newChapterImageUpload = function(element, default_txt){
+
+			    //alert(this.$index);
+
+    			$scope.chapter_index = this.$index;
+    			$scope.chapter_default_txt = default_txt;
+
+          var reader = new FileReader();
+          reader.onload = $scope.newChapterImageIsLoaded;
+          reader.readAsDataURL(element.files[0]);
+
+        }
+
+        $scope.newChapterImageIsLoaded = function(e){
+
+            $scope.$apply(function() {
+                angular.element( document.querySelector( '#chapter_image_' + $scope.chapter_default_txt + $scope.chapter_index ) ).attr('src', e.target.result);
+            });
+        }
+
+        $scope.newMediaContent = function(element, default_txt){
+
+    			//alert(this.$index);
+
+    			$scope.media_content_parent_index = this.$parent.$index;
+    			$scope.media_content_index = this.$index;
+    			$scope.media_content_default_txt = default_txt;
+
+			    var media_type = angular.element( document.querySelector( '#chapter_media_content_media_type_' + default_txt + this.$parent.$index + '_' + this.$index ) ).val();
+
+    			if (media_type != 'Description'){
+    				if (media_type == 'Upload Image'){
+
+    	            	var reader = new FileReader();
+    	            	reader.onload = $scope.newMediaContentIsLoaded;
+    	        	    reader.readAsDataURL(element.files[0]);
+
+    	        	    angular.element( document.querySelector( '#chapter_media_file_' + default_txt + this.$parent.$index + '_' + this.$index ) ).html('');
+    	        	    angular.element( document.querySelector( '#chapter_media_image_' + default_txt + this.$parent.$index + '_' + this.$index ) ).removeClass('hidden');
+
+
+
+    				}else{ 
+    					angular.element( document.querySelector( '#chapter_media_file_' + default_txt + this.$parent.$index + '_' + this.$index ) ).html(element.files.item(0).name);
+    					angular.element( document.querySelector( '#chapter_media_image_' + default_txt + this.$parent.$index + '_' + this.$index ) ).attr('src', '');
+    					angular.element( document.querySelector( '#chapter_media_image_' + default_txt + this.$parent.$index + '_' + this.$index ) ).addClass('hidden');
+    				}
+    			}
+
+    			angular.element( document.querySelector( '#chapter_media_image_default_old_' + this.$parent.$index + '_' + this.$index ) ).attr('src', '');
+    			angular.element( document.querySelector( '#chapter_media_image_default_old_' + this.$parent.$index + '_' + this.$index ) ).addClass('hidden');
+    			angular.element( document.querySelector( '#chapter_media_file_default_old_' + this.$parent.$index + '_' + this.$index ) ).html('');
+
+    			angular.element( document.querySelector( '#chapter_media_image_default_old_' + this.$parent.$index + '_' + this.$index ) ).attr('src', '');
+    			angular.element( document.querySelector( '#chapter_media_image_default_old_' + this.$parent.$index + '_' + this.$index ) ).addClass('hidden');
+
+        }
+
+        $scope.newMediaContentIsLoaded = function(e){
+
+            $scope.$apply(function() {
+                angular.element( document.querySelector( '#chapter_media_image_' + $scope.media_content_default_txt + $scope.media_content_parent_index + '_' + $scope.media_content_index ) ).attr('src', e.target.result);
+            });
+        }
+
+        $scope.selectChapterImage = function(child_key, default_txt){
+        	angular.element('#chapter_image_select_' + default_txt + child_key).trigger('click');
+        }
+
+        $scope.selectMediaContent = function(parent_key, child_key, default_txt){
+        	angular.element('#chapter_media_content_mediacontent_' + default_txt + parent_key + '_' +child_key).trigger('click');
         }
 
         /***** for edit page section start*******/
 
         <% @tutorial_chapter_data   = JSON.parse(@tutorial.chapters.to_json(:include => [:media_contents])) %>
 
-		$scope.add_chapter_default = <%= @tutorial_chapter_data.to_json.html_safe %>;
-		$scope.media_content_type_options = <%= MediaContent::MEDIA_CONTENT_TYPE.to_json.html_safe %>;
-
-		/***** for edit page section end*********/
-
-		$scope.newChapterImageUpload = function(element){
-
-			//alert(this.$index);
-
-//var media_type = angular.element( document.querySelector( '#chapter_media_content_media_type_default_' + this.$parent.$index + '_' + this.$index ) ).val();
-
-            var reader = new FileReader();
-            reader.onload = $scope.newChapterImageIsLoaded;
-            reader.readAsDataURL(element.files[0]);
-        }
-
-        $scope.newChapterImageIsLoaded = function(e){
-
-            $scope.$apply(function() {
-            	//alert('ok');
-                //angular.element( document.querySelector( '#chapter_image_default_0' ) ).attr('src', e.target.result);
-            });
-        }
+    		$scope.add_chapter_default = <%= @tutorial_chapter_data.to_json.html_safe %>;
+    		$scope.media_content_type_options = <%= MediaContent::MEDIA_CONTENT_TYPE.to_json.html_safe %>;
+        
+    		/***** for edit page section end*********/
 
     });
 
