@@ -356,9 +356,37 @@
               <button type="button" class="lightbtn" data-dismiss="modal">Close</button>
               <button type="submit" class="lightbtn">Create</button>
             </div>
-          </div>
-        <% end %>  
+         
+        <% end %> 
 
+                <div class="modal-header">
+                  <h4 class="modal-title" id="exampleModalLabel">Saved collections</h4>
+                </div>
+                
+                <div class="modal-body">            
+                  <div class="form-group">
+                    <ul style="width: 570px; height: 250px; overflow: auto">
+                      <% if @collections!=nil %>
+                        <% i=1 %>
+                        <%  @collections.each do |d| %>                   
+                          <li>
+                             <span class="col-sm-2"> <%= i %>.</span>
+                             <span class="col-sm-4"><%= d.title %></span>
+                             <% if find_gallery_id(d.id,@gallery.id) %>
+                              <button class="collection btn btn-primary" id=<%= d.id %> type="button">Added</button>
+                            <% else %>
+                              <button class="collection btn btn-primary" id=<%= d.id %> type="button">Add to collection</button>
+                            <% end %>
+                          </li>
+                          <br></br>
+                          <% i=i+1 %>     
+                        
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div> 
+               </div>
 
       </div>
     </div>
@@ -398,10 +426,11 @@
               <button type="submit" class="lightbtn">Report abuse</button>
             </div>
           </div>
-        <% end %>  
+        <% end %> 
 
+        
 
-      </div>
+      
     </div>
 
 
@@ -417,6 +446,8 @@ var app = angular.module('myApp',[]);
 });
 angular.bootstrap(document.getElementById("myApp"), ['myApp']);
 $(document).ready(function() {
+
+
     $('.pgwSlideshow').pgwSlideshow();
     $.ajax({
         type: "post",
@@ -438,9 +469,6 @@ $(document).ready(function() {
      });
 
 
-
-
-
     $('#bookmark_form_popup').on('submit',function(){
              $.ajax({
               type: "post",
@@ -456,7 +484,7 @@ $(document).ready(function() {
                   }
               }
             });
-    });
+        });
 
 
     $('#report_abuse_popup').on('submit',function(){
@@ -482,6 +510,8 @@ $(document).ready(function() {
 
 <script>
   $(document).ready(function(){
+
+
 
       $.ajax({
           type: "get",
@@ -523,6 +553,20 @@ $(document).ready(function() {
                   });
               } 
 
+      });
+
+      $(".collection").on('click',function() {
+        var id = $(this).attr("id");  
+          $.ajax({          
+            type: "post",
+            url: "<%= add_collection_detail_path %>",
+            data: {'collection_id': id,'gallery_id': '<%= @gallery.id %>'},
+            success: function(r){ 
+               if(r.res == 1) {
+                  $("#"+id).html("Added");
+                 }              
+              } 
+          });
       });
 
        $.ajax({
@@ -600,6 +644,9 @@ $(document).ready(function() {
                 }
             });
     });
+
+    
+
 
 
   });

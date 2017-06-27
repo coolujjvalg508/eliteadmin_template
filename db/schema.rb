@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170616082749) do
+ActiveRecord::Schema.define(version: 20170627061917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(version: 20170616082749) do
     t.integer  "download_id", default: 0
     t.integer  "tutorial_id", default: 0
     t.integer  "news_id",     default: 0
+    t.integer  "user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -568,6 +569,8 @@ ActiveRecord::Schema.define(version: 20170616082749) do
     t.integer  "follow_count",                 default: 0
     t.string   "latitude"
     t.string   "longitude"
+    t.boolean  "is_approved",                  default: true
+    t.boolean  "is_urgent",                    default: false
   end
 
   create_table "latest_activities", force: :cascade do |t|
@@ -667,23 +670,43 @@ ActiveRecord::Schema.define(version: 20170616082749) do
     t.json     "software_used"
     t.float    "price"
     t.string   "tags"
-    t.integer  "is_featured",      default: 0
-    t.integer  "status",           default: 1
-    t.integer  "is_save_to_draft", default: 1
-    t.integer  "visibility",       default: 1
-    t.integer  "publish",          default: 1
+    t.integer  "is_featured",                  default: 0
+    t.integer  "status",                       default: 1
+    t.integer  "is_save_to_draft",             default: 1
+    t.integer  "visibility",                   default: 1
+    t.integer  "publish",                      default: 1
     t.string   "company_logo"
     t.string   "schedule_time"
-    t.integer  "user_id",          default: 0
+    t.integer  "user_id",                      default: 0
     t.string   "is_admin"
-    t.boolean  "show_on_cgmeetup", default: true
-    t.boolean  "show_on_website",  default: true
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.boolean  "show_on_cgmeetup",             default: true
+    t.boolean  "show_on_website",              default: true
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.json     "sub_topic"
     t.json     "category_id"
     t.json     "sub_category_id"
     t.string   "paramlink"
+    t.boolean  "has_adult_content"
+    t.integer  "like_count",                   default: 0
+    t.integer  "view_count",                   default: 0
+    t.string   "zoom_w"
+    t.string   "zoom_h"
+    t.string   "zoom_x"
+    t.string   "zoom_y"
+    t.string   "drag_x"
+    t.string   "drag_y"
+    t.string   "rotation_angle"
+    t.string   "crop_x"
+    t.string   "crop_y"
+    t.string   "crop_w"
+    t.string   "crop_h"
+    t.integer  "is_trash",                     default: 0
+    t.boolean  "use_tag_from_previous_upload", default: false
+    t.boolean  "is_spam",                      default: false
+    t.boolean  "is_approved",                  default: true
+    t.json     "package_id"
+    t.boolean  "is_urgent",                    default: false
   end
 
   create_table "news_categories", force: :cascade do |t|
@@ -699,6 +722,22 @@ ActiveRecord::Schema.define(version: 20170616082749) do
 
   add_index "news_categories", ["parent_id"], name: "index_news_categories_on_parent_id", using: :btree
 
+  create_table "news_contents", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "news_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "news_packages", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "amount"
+    t.string   "image"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "newsletter_settings", force: :cascade do |t|
     t.string   "email_digest_option"
     t.boolean  "job_email",           default: false
@@ -708,6 +747,12 @@ ActiveRecord::Schema.define(version: 20170616082749) do
     t.boolean  "news_email",          default: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+  end
+
+  create_table "newsletter_subscribers", force: :cascade do |t|
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -878,9 +923,31 @@ ActiveRecord::Schema.define(version: 20170616082749) do
     t.string   "no_of_video"
     t.string   "no_of_marmoset"
     t.string   "no_of_sketchfeb"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.text     "licence"
+    t.boolean  "show_news",                default: true
+    t.boolean  "show_community",           default: true
+    t.boolean  "show_behind_the_scenes",   default: true
+    t.boolean  "show_tutorials",           default: true
+    t.boolean  "show_news_press_release",  default: true
+    t.boolean  "show_movies_film_trailor", default: true
+    t.boolean  "show_job_updates",         default: true
+    t.boolean  "show_downloads",           default: true
+    t.boolean  "show_latest_post",         default: true
+    t.boolean  "show_top_artists",         default: true
+    t.boolean  "show_top_categories",      default: true
+    t.string   "facebook_link"
+    t.string   "facebook_like_count"
+    t.string   "twitter_link"
+    t.string   "twitter_like_count"
+    t.string   "google_plus_link"
+    t.string   "google_plus_like_count"
+    t.string   "youtube_link"
+    t.string   "youtube_like_count"
+    t.string   "instagram_link"
+    t.string   "instagram_like_count"
+    t.integer  "home_page_layout_type"
   end
 
   create_table "sketchfebs", force: :cascade do |t|
@@ -910,8 +977,10 @@ ActiveRecord::Schema.define(version: 20170616082749) do
     t.string   "title"
     t.string   "page_url"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.text     "meta_tag"
+    t.text     "meta_description"
   end
 
   create_table "subject_matters", force: :cascade do |t|
@@ -1122,6 +1191,7 @@ ActiveRecord::Schema.define(version: 20170616082749) do
     t.boolean  "emailnotify_newdownloads_jobdigest_subscription",   default: false
     t.datetime "created_at",                                                        null: false
     t.datetime "updated_at",                                                        null: false
+    t.integer  "email_digest_interval"
   end
 
   create_table "users", force: :cascade do |t|

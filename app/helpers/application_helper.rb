@@ -213,6 +213,21 @@ module ApplicationHelper
 	end
 
 
+	def get_previous_uploaded_news_tags
+
+		previous_news = News.where("user_id = ? AND is_admin = 'N'", current_user.id).order('id DESC').first
+		tags = []
+		if previous_news.present?
+			if previous_news.tags.present?
+				previous_news.tags.each_with_index do |tag, i|
+					tags[i] = tag['tag']
+				end
+			end
+		end
+		return tags
+
+	end
+
 
 
 	def connection_like_count()		

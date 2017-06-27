@@ -1,6 +1,6 @@
 <!-- Submenu Navigation -->
 <section class="wip-navigation-wrap">
-      <%= render 'layouts/browse_sub_header' %>
+      <%#= render 'layouts/browse_sub_header' %>
 </section>
 
 <div id="Browse_gallery"  ng-app="Browse_gallery"  >
@@ -21,14 +21,14 @@
       </div>
       <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left">
 
-        <select class="custom-select" ng-click="searchByPostType(selected)" ng-model='selected'>
+        <select class="custom-select" ng-change="searchByPostType1(selected)" ng-model='selected'>
           <option value="" selected="selected" >Select</option>
           <option value="0" class="post-type-link"  id="post-type-link-0" selected="selected" >Gallery</option>
           <option value="1" class="post-type-link"  id="post-type-link-1">Artwork</option>
           <option value="2" class="post-type-link"  id="post-type-link-2">Video</option>
           <option value="3" class="post-type-link"  id="post-type-link-3">WIP</option>
-          <option value="4" class="post-type-link"  id="post-type-link-4">Challenge</option>
-          <option value="5" class="post-type-link"  id="post-type-link-5">Awards</option>
+<!--           <option value="4" class="post-type-link"  id="post-type-link-4">Challenge</option>
+          <option value="5" class="post-type-link"  id="post-type-link-5">Awards</option> -->
           <option value="6" class="post-type-link"  id="post-type-link-6">Users</option>
         </select>
       </div>
@@ -71,8 +71,8 @@
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
-              <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
-              <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li>
+              <!-- <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
+              <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li> -->
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(6)" class="post-type-link"  id="post-type-link-6" >Users</a></li>
           
           </ul>
@@ -112,7 +112,7 @@
 
          <li><a href="javascript:void(0);" ng-click="searchByFeatured('RECENT', 'recent')" class="featured-type-link"  id="featured-type-link-recent">Recent</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('POPULAR', 'popular')" class="featured-type-link"  id="featured-type-link-popular">Popular</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('AWARDED', 'awarded')" class="featured-type-link"  id="featured-type-link-awarded">Awarded</a></li>
+            <!-- <li><a href="javascript:void(0);" ng-click="searchByFeatured('AWARDED', 'awarded')" class="featured-type-link"  id="featured-type-link-awarded">Awarded</a></li> -->
             <li class="divider" role="separator"></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPLIKED', 'top_liked')" class="featured-type-link"  id="featured-type-link-top_liked">Top Liked</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPVIEWED', 'top_viewed')" class="featured-type-link"  id="featured-type-link-top_viewed">Top viewed</a></li>
@@ -206,6 +206,26 @@
     };
 
     $scope.searchByPostType = function(id) {
+       // alert(id);
+        if(id == 1){
+           window.location.href='<%= browse_all_artwork_path %>';
+        }else if(id == 2){
+          window.location.href='<%= browse_all_video_path %>';
+        }else if(id == 3){
+          window.location.href='<%= browse_all_work_in_progress_path %>';
+        }else if(id == 4){
+         /* window.location.href='<%= browse_all_challenge_path %>';*/
+        }else if(id == 5){
+         /* window.location.href='<%= browse_all_awards_path %>';*/
+        }else if(id == 6){
+          window.location.href='<%= browse_all_artist_path %>';
+        }else{
+         
+        }
+
+    };
+
+    $scope.searchByPostType1 = function(id) {
        // alert(id);
         if(id == 1){
            window.location.href='<%= browse_all_artwork_path %>';

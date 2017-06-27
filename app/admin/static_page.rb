@@ -31,13 +31,14 @@ ActiveAdmin.register StaticPage do
      selectable_column
     
     column :title
-    column :page_url
-  
+    column "Paramlink", :page_url
     column 'Description' do |cms|
       tr_con = cms.description.first(50)
       tr_con.html_safe
-    end
-	column :created_at
+    end    
+    column :meta_tag
+    column :meta_description
+    column :created_at
     actions
   end   
     
@@ -47,7 +48,9 @@ ActiveAdmin.register StaticPage do
   form do |f|
     f.inputs "Static Page" do
     	f.input :title
-        f.input :page_url, :label => 'Page Url', :as => :string
+        f.input :page_url, :label => 'Paramlink', :as => :string
+        f.input :meta_tag, :label => 'Meta Tag', as: :text
+        f.input :meta_description, :label => 'Meta Description', as: :text
      # f.input :page_url, :label => 'Page Url', :as => :string
      / li do
        insert_tag(Arbre::HTML::Label, "Content", class: "label") { content_tag(:abbr, "*", title: "required") }
@@ -57,6 +60,7 @@ ActiveAdmin.register StaticPage do
         div do
 			f.input :description,  :input_html => { :class => "tinymce" }, :rows => 40, :cols => 50 ,label: false
 		  end
+
     end
     f.actions
   end
@@ -64,6 +68,21 @@ ActiveAdmin.register StaticPage do
   
   filter :title, :as => :string
   filter :page_url, :as => :string
+
+
+    show do
+      attributes_table do
+        row :title    
+        row "Paramlink",:page_url        
+        row :meta_tag
+        row :meta_description
+        row :description
+        row :created_at
+        row :updated_at
+      end
+    end
+
+    
  
    
     

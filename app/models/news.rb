@@ -21,12 +21,9 @@ mount_uploader :company_logo, ImageUploader
  has_many :lessons, as: :lessonable, dependent: :destroy
  has_many :zip_files, as: :zipfileable, dependent: :destroy
  has_many :zip_caption
- 
- has_many :lesson_title
- has_many :lesson_description
- has_many :lesson_video_link
- has_many :lesson_video
- has_many :lesson_image
+
+ has_many :tags, as: :tagable, dependent: :destroy
+ has_many :news_contents
 
  belongs_to :user
  

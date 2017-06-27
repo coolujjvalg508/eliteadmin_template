@@ -213,7 +213,7 @@
                     <div class="col-md-8 col-sm-8 col-xs-12">
                         <div class="jobprofilepic">
                         <% if @result.company_logo.present? %>
-                            <img lazy-img="<%= root_url + @result.company_logo.jobs_home.url %>" class="img-responsive">
+                            <img lazy-img="<%= @result.company_logo.jobs_home.url %>" class="img-responsive">
                         <% end %>    
                         </div>
                         <div class="jobprofile clearfix">
@@ -354,7 +354,7 @@
                              <% @similar_jobs.each do |similar_job| %>
                             
                             <div class="col-md-6 col-sm-6 col-xs-12 marginB25">
-                                <div class="maylikeleft pull-left"> <img lazy-img="<%= root_url + similar_job.company_logo.jobs_home.url %>" class="img-responsive"></div>
+                                <div class="maylikeleft pull-left"> <img lazy-img="<%= similar_job.company_logo.jobs_home.url %>" class="img-responsive"></div>
                                 <div class="maylikeright pull-right clearfix">
                                     <h3><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h3>
                                     <p><i aria-hidden="true" class="fa fa-briefcase marginR5"></i> <%=similar_job.job_type%> </p>
@@ -399,7 +399,7 @@
 
                                     <li class="clearfix" >
                                         <div class="FeaturedLeft pull-left">
-                                        <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
+                                        <img lazy-img="<%= similar_job.company_logo.thumb.url %>" class="img-responsive">
                                         </div>
                                         <div class="FeaturedRight pull-right clearfix">
                                             <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>
@@ -438,7 +438,7 @@
 
                                     <li class="clearfix" >
                                         <div class="FeaturedLeft pull-left">
-                                        <img lazy-img="<%= root_url + similar_job.company_logo.thumb.url %>" class="img-responsive">
+                                        <img lazy-img="<%= similar_job.company_logo.thumb.url %>" class="img-responsive">
                                         </div>
                                         <div class="FeaturedRight pull-right clearfix">
                                             <h2><a href="<%= apply_job_path(similar_job.paramlink) %>"><%= similar_job.title %></a></h2>

@@ -49,7 +49,6 @@ class ApiController < ApplicationController
   end
 
   def get_latest_sale
-
     @user_id = params[:user_id]
     @downloads = PurchasedProduct.joins(:download).where("downloads.user_id = ? AND downloads.is_admin = 'N'", @user_id).order('id DESC')
 
@@ -63,7 +62,6 @@ class ApiController < ApplicationController
     	$final_data.push new_data
     end
     render json: {'latest_sale': $final_data}, status: 200
-
   end
 
   def get_monthly_summary
@@ -161,8 +159,7 @@ class ApiController < ApplicationController
 
         end  
 
-      similar_download_conditions = "paramlink !='" + paramlink  + "'"
-      similar_download            = Download.where(similar_download_conditions)
+      similar_download            = Download.where("paramlink !='" + paramlink  + "' AND is_featured = 0 AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
       render json: {'download_data': download,'post_type_category_data': data, 'software_used_name': data1, 'similar_download': similar_download, 'zip_file_info': srdata}, status: 200  
 
   end 
@@ -219,9 +216,9 @@ class ApiController < ApplicationController
 
 
       #   end  
-      featured_tutorials            = Tutorial.where("is_featured = ?", '1')
-      similar_tutorial_conditions = "paramlink !='" + paramlink  + "'"
-      similar_tutorial            = Tutorial.where(similar_tutorial_conditions)
+      featured_tutorials            = Tutorial.where("is_featured = 1 AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
+     
+      similar_tutorial            = Tutorial.where("paramlink !='" + paramlink  + "' AND is_featured = 0 AND visibility = 1 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
       tutorial_data_final = JSON.parse(tutorial_data.to_json(:include => [:user]))
       featured_tutorials_final = JSON.parse(featured_tutorials.to_json(:include => [:user]))
       all_chapters_data = JSON.parse(tutorial_data.chapters.to_json(:include => [:media_contents]))
@@ -239,6 +236,56 @@ class ApiController < ApplicationController
       end 
 
       render json: {'tutorial_data': tutorial_data_final , 'all_chapters_data': all_chapters_data ,'similar_tutorial': similar_tutorial, 'topic_data': topic_data   , 'tag_data': tutorial_data.tags ,'subject_data': data, 'software_used_name': data1, 'featured_tutorials': featured_tutorials_final, 'is_purchased': @is_purchased}, status: 200  
+
+  end 
+
+  def get_news_info
+
+      paramlink     =   params[:paramlink]
+
+      news_data = News.where("paramlink=? AND is_approved = ?",paramlink,'TRUE').first
+      
+      data   = []
+      data1  = []
+     # abort(download_data.to_json)
+      if news_data.category_id.present?
+        news_data.category_id.reject!{|a| a==""}
+        data  = NewsCategory.find(news_data.category_id)
+      end 
+
+      if news_data.software_used.present?
+        news_data.software_used.reject!{|a| a==""}
+        data1  = SoftwareExpertise.find(news_data.software_used)
+      end  
+
+      # topic_data = []
+
+      # if tutorial_data.topic.present?
+      #     tutorial_data.topic.reject!{|a| a==""}
+      #     topic_data  = Topic.find(tutorial_data.topic)
+      # end 
+
+      #condition_inner = "is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
+      featured_news            = News.where("is_featured = 1 AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
+     
+      similar_news            = News.where("paramlink !='" + paramlink  + "' AND is_featured = 0 AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
+      news_data_final = JSON.parse(news_data.to_json(:include => [:user]))
+      featured_news_final = JSON.parse(featured_news.to_json(:include => [:user]))
+      all_news_media_data = JSON.parse(news_data.news_contents.to_json(:include => [:media_contents]))
+       # abort(all_chapters_data.to_json)
+
+      # @is_purchased = false
+
+      # if current_user.present?
+       
+      #   purchased_product = PurchasedTutorial.where('user_id = ? AND tutorial_id = ?', current_user.id, tutorial_data_final['id']).limit(1).count
+
+      #   if purchased_product > 0
+      #     @is_purchased = true
+      #   end  
+      # end 
+
+      render json: {'news_data': news_data_final ,'similar_news': similar_news , 'news_content_data': all_news_media_data ,'category_data': data , 'tag_data': news_data.tags, 'software_used_name': data1, 'featured_news': featured_news_final}, status: 200  
 
   end 
   
@@ -314,6 +361,62 @@ class ApiController < ApplicationController
         end  
 
         render json: result, status: 200  
-  end 
+  end
+
+
+  ########### API for home page start #################
+
+  def get_featured_news
+
+      featured_news = News.where("is_featured = 1 AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(8)
+      
+      render json: featured_news, status: 200  
+
+  end
+
+  def get_site_setting
+      data = SiteSetting.first
+      render json: data, status: 200  
+  end
+
+  def get_community
+      home_layout_type = SiteSetting.first
+      if home_layout_type.home_page_layout_type == 0
+        community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+      else
+        community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
+      end
+      all_community_data = JSON.parse(community_data.to_json(:include => [:images]))
+      render json: {'community_data': all_community_data ,'home_layout_type': home_layout_type.home_page_layout_type }, status: 200  
+  end
+
+  def get_downloads
+      download_data = Download.where("visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
+      
+      render json: download_data, status: 200  
+  end
+
+  def get_news
+      news_data = News.where("is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(3)
+      
+      render json: news_data, status: 200  
+  end
+
+  def get_jobs
+      jobs_data = Job.where("is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(6)
+      
+      render json: jobs_data, status: 200  
+  end
+
+  def get_top_artist
+      artist_data = User.where("profile_type = ?", 'Artist').order('like_count DESC').limit(6)
+      
+      render json: artist_data, status: 200  
+  end
+
+  
+
+  ########### API for home page end ###################
+
 
 end

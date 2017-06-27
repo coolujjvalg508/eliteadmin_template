@@ -1,7 +1,7 @@
 ActiveAdmin.register Job do
 	#menu label: 'Jobs', parent: 'Job Management'
 	menu false
-	permit_params :is_spam, :company_name, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :latitude, :longitude, :job_type, :from_amount, :to_amount, {:job_category => []} , 
+	permit_params :is_spam,:is_urgent, :company_name, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :latitude, :longitude, :job_type, :from_amount, :to_amount, {:job_category => []} , 
 	:application_email_or_url, :country_id, :city, :state,
 	:work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache]
 	
@@ -9,10 +9,123 @@ ActiveAdmin.register Job do
 		category = Package.where("id IS NOT NULL").order('id asc').pluck(:amount,:title, :id)
 		render json: category, status: 200
 	end
+
+	member_action :job_approve, method: :post do		
+		job = Job.find(params[:id])
+		attributes1={ }
+	    
+		# if (job.package_id.include?("1"))
+		# 	attributes1.merge!(is_featured: true)
+			
+		# else 
+		# 	attributes1.merge!(is_featured: false)
+			
+		# end
+		# if (job.package_id.include?("2"))
+		# 	attributes1.merge!(is_urgent: true)
+			
+		# else
+		# 	attributes1.merge!(is_urgent: false)
+			
+		# end
+		attributes1.merge!(is_approved: true)
+		#job.is_approved= true
+		#abort(attributes1.to_json)
+		job.update_attributes(attributes1)
+		redirect_to admin_jobs_path
+	end
+  	
+	member_action :job_disapprove, method: :post do
+		job = Job.find(params[:id])
+		attributes1={ }
+		
+		# if (job.package_id.include?("1"))
+		# 	attributes1.merge!(is_featured: true)
+			
+		# else 
+		# 	attributes1.merge!(is_featured: false)
+			
+		# end
+		# if (job.package_id.include?("2"))
+		# 	attributes1.merge!(is_urgent: true)
+			
+		# else
+		# 	attributes1.merge!(is_urgent: false)
+			
+		# end
+		attributes1.merge!(is_approved: false)
+		
+		job.update_attributes(attributes1)
+		redirect_to admin_jobs_path
+	end
+
+	# batch_action :approve do |ids|
+	#     batch_action_collection.find(ids).each do |job|
+	#     attributes1={ }
+	#     #abort(job.package_id.class)
+	# 	if (job.package_id.include?("1"))
+	# 		attributes1.merge!(is_featured: true)
+	# 		#job.is_featured = true
+	# 	else 
+	# 		attributes1.merge!(is_featured: false)
+	# 		#job.is_featured = false
+	# 	end
+	# 	if (job.package_id.include?("2"))
+	# 		attributes1.merge!(is_urgent: true)
+	# 		#job.is_urgent = true
+	# 	else
+	# 		attributes1.merge!(is_urgent: false)
+	# 		#job.is_urgent = false
+	# 	end
+	# 	attributes1.merge!(is_approved: true)
+	# 	#abort(attributes1.to_json)
+	# 	job.update_attributes(attributes1)
+	#     end
+ #    	redirect_to collection_path, alert: "The jobs have been approved."
+ #  	end
+
+  # 	batch_action :disapprove do |ids|
+	 #    batch_action_collection.find(ids).each do |job|
+	 #    attributes1={ }
+	 #    #abort(job.package_id.class)
+		# if (job.package_id.include?("1"))
+		# 	attributes1.merge!(is_featured: true)
+		# 	#job.is_featured = true
+		# else 
+		# 	attributes1.merge!(is_featured: false)
+		# 	#job.is_featured = false
+		# end
+		# if (job.package_id.include?("2"))
+		# 	attributes1.merge!(is_urgent: true)
+		# 	#job.is_urgent = true
+		# else
+		# 	attributes1.merge!(is_urgent: false)
+		# 	#job.is_urgent = false
+		# end
+		# attributes1.merge!(is_approved: false)
+		# #approved= true
+		# #abort(attributes1.to_json)
+		# job.update_attributes(attributes1)
+	 #    end
+  #   	redirect_to collection_path, alert: "The jobs have been disapproved."
+  # 	end
+  	
+
+  	 action_item :job_disapprove, only: :show do 
+  	 	link_to "Disapprove", job_disapprove_admin_job_path(job), method: :post if job.is_approved == true
+	end
+
+	action_item :job_approve, only: :show do 
+  	 	link_to "Approve",  job_approve_admin_job_path(job), method: :post if job.is_approved == false
+  	 end
 	
-	
-	
+
+	#job_disapprove_admin_job_path(job)   method: :put if job.is_approved == true
+
 	controller do 
+
+		
+
 		def action_methods
 		 super                                    
 			if current_admin_user.id.to_s == '1'
@@ -76,9 +189,9 @@ ActiveAdmin.register Job do
 		  f.input :closing_date, as: :date_time_picker,label:'Closing Date'
 		  f.input :skill, as: :select, collection: JobSkill.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false, multiple: true
 		  f.input :software_expertise, as: :select, collection: SoftwareExpertise.where("id IS NOT NULL").pluck(:name, :id), :input_html => { :class => "chosen-input" }, include_blank: false,multiple: true 
-		 # f.input :tags
-		 
+		 # f.input :tags			
 		  f.input :is_featured, as: :boolean,label: "Featured Job"
+		  f.input :is_urgent, as: :boolean,label: "Mark this job urgent!"			
 		  f.input :status, as: :select, collection: [['Active',1], ['Inactive', 0]], include_blank: false
 		  f.input :is_save_to_draft, as: :select, collection: [['Yes',1], ['No', 0]], include_blank: false, label: 'Save Draft'
 		  f.input :visibility, as: :select, collection: [['Public', 0], ['Private',1]], include_blank: false
@@ -347,13 +460,48 @@ ActiveAdmin.register Job do
  	   column 'Featured' do |feature|
 			(feature.is_featured == true) ? 'Yes' : 'No'
 	   end
+
+	   column 'Urgent' do |job|
+		  job.is_urgent? ? 'Yes' : 'No'
+		end
 	
 	    column 'Status' do |user|
 		  user.status? ? 'Active' : 'Inactive'
 		end
+		#abort(Job.is_approved.to_json)
+		# column "Approve State" ,:is_approved do |job|
+		# 	#abort(job.to_json)
+		# 	if job.is_approved == true
+		# 		link_to 'Approved', job_disapprove_admin_job_path(job), method: :put, :title => "Click it to make it Not Approved "
+				
+		# 	else
+		# 		link_to 'Not Approved', job_approve_admin_job_path(job), method: :put, :title => "Click it to make it Approved" 
+				
+		# 	end
+		# end
+
+		# column :is_approved do |job|
+		# 	#abort(job.to_json)
+			
+		# end
+		# column :is_approved do |job|
+		# 	link_to 'Approve', job_approve_path(job) ,method: :put if !job.is_approved?
+		# 
+
+		# column :is_approved do |job|
+		# 	link_to 'Disapprove', job_disapprove_path(job) ,method: :put if job.is_disapproved?
+		# end
 		actions
+		#actions :all, :except => [:create]
+ 
+		#actions :show
+
   end
+  		
   
+
+
+
   
    show do
 		attributes_table do
@@ -387,9 +535,39 @@ ActiveAdmin.register Job do
 		  row :use_tag_from_previous_upload do |utag|
 		    utag.use_tag_from_previous_upload? ? 'Yes' : 'No'
 		  end
-		  row :is_featured do |ifeature|
-		   (ifeature.is_featured == true) ? 'Yes' : 'No'
+		  
+		  row :is_featured do |ifeature|	
+		  #abort(ifeature.package_id[1].to_json)
+		  #abort(ifeature.package_id.to_json)
+		  #abort(ifeature.package_id.include?("1").to_s)
+		  ifeature.is_featured? ? 'Yes' : 'No'
+		  
+		 #  if(ifeature.package_id != nil)	  		
+			#  if(ifeature.package_id.include?("1")) 
+			#  	'Yes'
+			#  else
+			#  	'No'
+			#  end
+			# else
+		 # 		"No"
+		 # 	end
 		  end
+		  row :is_urgent do |urgent|
+		  		#abort(urgent.package_id[1].to_json)
+		  	#abort(urgent.package_id.class)
+		  	
+		  	urgent.is_urgent? ? 'Yes' : 'No'
+		  # 	if(urgent.package_id != nil)
+				#   if(urgent.package_id.include?("2")) 
+				#   	'Yes'
+			 # 	 else
+			 # 	 	'No'
+			 # 	 end
+			 # else
+			 # 	'No'
+		 	#  end
+		  end
+
 		  row :status do |st|
 		    st.status? ? 'Active' : 'Inactive'
 		  end
@@ -402,6 +580,11 @@ ActiveAdmin.register Job do
 		  row :publish do |st|
 		    st.publish? ? 'Yes' : 'No'
 		  end
+
+		  row :is_approved do |st|
+		    st.is_approved? ? 'Yes' : 'No'
+		  end
+
 
 		  row :company_logo do |cat|
 			unless !cat.company_logo.present?
@@ -500,7 +683,7 @@ ActiveAdmin.register Job do
 		  end
 		column :is_featured do |ifeature|
 			ifeature.is_featured? ? 'Yes' : 'No'
-		  end
+		  end		
 		column :status do |st|
 			st.status? ? 'Active' : 'Inactive'
 		  end

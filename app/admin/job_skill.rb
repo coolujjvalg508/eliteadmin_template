@@ -35,10 +35,6 @@ ActiveAdmin.register JobSkill, as: "Skills" do
 			  end
 	end
   end
-  
-  
-  
-
    controller do
 			def create
 			  unless params[:job_skill][:image].present?

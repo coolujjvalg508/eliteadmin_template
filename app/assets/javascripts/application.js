@@ -32,6 +32,8 @@
 //= require angular-sanitize
 //= require angular-credit-cards
 //= require angular-animate.min
+//= require angular-material.min
+//= require angular-aria.min
 //= require v-accordion
 
 

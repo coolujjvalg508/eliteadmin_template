@@ -6,7 +6,7 @@ ActiveAdmin.register SystemEmail do
 
   permit_params :title,:subject,:content, :active
 
-  actions :all, except: [:new, :destroy]
+  actions :all, except: [ :destroy]
 
   action_item :back, only: :show do
     link_to "Back", admin_system_emails_path, method: :get

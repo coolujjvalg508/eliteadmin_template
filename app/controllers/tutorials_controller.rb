@@ -3,7 +3,13 @@ class TutorialsController < ApplicationController
 	before_action :authenticate_user!, only: [:new, :create, :edit, :update, :listing_index]
   before_filter :set_data, only: [:new, :create, :update, :edit]
 
-	def index
+	def find_tutorial_id(c_id,d_id)
+   collection = CollectionDetail.where("tutorial_id = ? and collection_id = ?", d_id,c_id).first
+
+  end
+  helper_method :find_tutorial_id
+
+  def index
 		@topics 			= Topic.where('parent_id IS NULL').order('name ASC')
 		@tutorial_skill 	= TutorialSkill.order('title ASC')
 	end
@@ -40,11 +46,7 @@ class TutorialsController < ApplicationController
 		@sub_topics = Topic.where('parent_id = ?', @topic_id).select("topics.*, (SELECT COUNT(*) FROM tutorials WHERE sub_topic::jsonb ?| array[cast(topics.id as text)] AND status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))) AS count_tutorials")
 
 		@result = Tutorial.where("topic::jsonb ?| array['" + @topic_id + "'] OR sub_topic::jsonb ?| array['" + @topic_id + "'] AND status=1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").page(params[:page]).per(10)
-
-
-
-		#abort(@tutorial_list.to_json)
-
+  
 	end	
 
 	def tutorial_all_category
@@ -191,6 +193,10 @@ class TutorialsController < ApplicationController
       @tutorial = Tutorial.new
   end
 
+  def test_demo
+    
+  end
+
   def edit
       @tutorial = Tutorial.find_by(paramlink: params[:paramlink])
 
@@ -259,7 +265,7 @@ class TutorialsController < ApplicationController
 
                 if !@chapter['id'].nil?
                   media_content.each_with_index do |media_data, k1|
-                    MediaContent.create(mediacontent: media_data[1][:mediacontent], mediacontentable_id: @chapter['id'], mediacontentable_type: 'Chapter', media_type: media_data[1][:media_type], video_duration: media_data[1][:video_duration], media_description: media_data[1][:media_description])
+                    MediaContent.create(mediacontent: media_data[1][:mediacontent], mediacontentable_id: @chapter['id'], mediacontentable_type: 'Chapter', media_type: media_data[1][:media_type], media_description: media_data[1][:media_description])
                   end
                 end
 
@@ -333,7 +339,7 @@ class TutorialsController < ApplicationController
                 
                 if !@chapter['id'].nil?
                   media_content.each_with_index do |media_data, k1|
-                    MediaContent.create(mediacontent: media_data[1][:mediacontent], mediacontentable_id: @chapter['id'], mediacontentable_type: 'Chapter', media_type: media_data[1][:media_type], video_duration: media_data[1][:video_duration], media_description: media_data[1][:media_description])
+                    MediaContent.create(mediacontent: media_data[1][:mediacontent], mediacontentable_id: @chapter['id'], mediacontentable_type: 'Chapter', media_type: media_data[1][:media_type], media_description: media_data[1][:media_description])
                   end
                 end
 
@@ -349,7 +355,7 @@ class TutorialsController < ApplicationController
                 Chapter.where("id IN (?)", removed_chapter_array).delete_all
               end
             end
-            ######## to delete MediaContent end ############
+            ######## to delete Chapter end ############
 
             ######## to delete MediaContent start ###########
             if params['tutorial']['removedMediaContent'].present?
@@ -375,13 +381,13 @@ class TutorialsController < ApplicationController
 
                     if media_data[1][:id] == ''
 
-                      MediaContent.create(mediacontent: media_data[1][:mediacontent], mediacontentable_id: chapter_data[0], mediacontentable_type: 'Chapter', media_type: media_data[1][:media_type], video_duration: media_data[1][:video_duration], media_description: media_data[1][:media_description])
+                      MediaContent.create(mediacontent: media_data[1][:mediacontent], mediacontentable_id: chapter_data[0], mediacontentable_type: 'Chapter', media_type: media_data[1][:media_type], media_description: media_data[1][:media_description])
 
                     else
 
                       @media_content_update = MediaContent.find_by(id: media_data[1][:id])
                       
-                      @media_content_update.update(mediacontent: media_data[1][:mediacontent], media_type: media_data[1][:media_type], video_duration: media_data[1][:video_duration], media_description: media_data[1][:media_description])
+                      @media_content_update.update(mediacontent: media_data[1][:mediacontent], media_type: media_data[1][:media_type], media_description: media_data[1][:media_description])
                     end
 
                   end
@@ -410,6 +416,11 @@ class TutorialsController < ApplicationController
         @product_avg_rating             =  Rating.where('product_id = ? AND post_type = ?', @tutorial_data.id, 'tutorial').pluck("AVG(rating) as avg_rate")
 
         @collection     = Collection.new
+
+
+        if(current_user!=nil)
+          @collections = Collection.where('user_id = ?',current_user.id)
+        end
         
         @has_user_already_given_rating = 0
         @is_purchased = false

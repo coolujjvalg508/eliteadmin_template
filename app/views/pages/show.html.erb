@@ -1,0 +1,25 @@
+<div>
+    <section class="clearfix jobpostpage">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row">                
+                <div class="clearfix marginB15 jobs-indent">
+                    <div class="col-md-12">
+                        <span style="text-align:center; color:#00FF00;">
+                        	<p><h1> <%= @pagecontent.title %> </h1></p>
+                        </span>
+                    </div>
+                    <div class="clearfix marginB15 jobs-indent">
+	                    <div class="col-md-12" style="text-align:center; color:#FFFFFF;">
+	                    	<%= raw @pagecontent.description %>
+	                    </div>
+                   	</div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>    
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+ <%= render 'layouts/lastfooter' %>
+</footer>

@@ -6,9 +6,13 @@ class ApplicationController < ActionController::Base
   	before_action :configure_permitted_parameters, if: :devise_controller?
   	before_action :set_message, if: -> { controller_name == 'sessions' && action_name == 'new'}
   	#before_action :check_admin, if: -> { controller_path =~ /admin/ && controller_name != 'sessions' && controller_name != 'passwords'}
-  		
+  	before_action :site_url
+
     
     before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
+    def site_url
+    	@setting_data_m = SiteSetting.first 
+	end
 
   	def configure_permitted_parameters
 	    if params[:user].present? &&  params[:user][:image].present?

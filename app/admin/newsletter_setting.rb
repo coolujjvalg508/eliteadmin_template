@@ -1,5 +1,5 @@
 ActiveAdmin.register NewsletterSetting do
-
+	menu false
 	menu label: 'Notification', parent: 'Email', priority: 2
 	#menu false
 	permit_params :email_digest_option, :job_email,:gallery_email,:download_email,:tutorial_email,:news_email

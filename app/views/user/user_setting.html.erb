@@ -7,8 +7,8 @@
     <div class="content clearfix">
       <div class="clearfix job-post-bread">
         <ul class="breadcrumb">
-          <li><a href="jobs.html">Setting</a></li>
-          <li class="active">General</li>
+          <li><a class="active">Setting / </a></li>
+          <!-- <li class="active">General</li> -->
         </ul>
       </div>
       
@@ -27,7 +27,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group clearfix timezone">
+     <!--          <div class="form-group clearfix timezone">
                 <div class="row">
                   <div class="col-md-4 col-sm-6 col-xs-12">
                     <label>Timezone</label>
@@ -36,8 +36,8 @@
                     </select>
                   </div>
                 </div>
-              </div>
-              <div class="form-group clearfix timezone socialnewbox">
+              </div> -->
+              <!-- <div class="form-group clearfix timezone socialnewbox">
                 <div class="row">
                   <label class="col-md-12 col-sm-12 col-xs-12 marginB15">Social Media Integration</label>
                   <div class="col-md-3 col-sm-4 col-xs-12 lightcolor marginB10">Facebook
@@ -65,10 +65,12 @@
                   <input type="checkbox" value="value-1" id="rc7" name="rc7"/>
                   <label for="rc7" onclick>Show mature content</label>
                 </div>
-              </div>
+              </div> -->
+
               <div class="form-group clearfix">
-                <div class="marginB15"><a href="#" class="white-txt">Danger Zone</a></div>
-                <div class="marginB15"><a href="#" class="blue-txt">Cancel Account</a></div>
+                <!-- <div class="marginB15"><a href="#" class="white-txt">Danger Zone</a></div> -->
+
+                <div class="marginB15"><%= link_to "Cancel Account", cancel_account_path, method: :put, data: {confirm: "Are you sure?"}, class: "blue-txt" %></div>
               </div>
               <button class="green-btn border-radius" type="submit"><i class="fa fa-floppy-o marginR5" aria-hidden="true"></i> Save</button>
             <% end %>
@@ -99,13 +101,13 @@
           <div class="panel-heading">Username</div>
           <div class="panel-body">
             <%= form_for(@user, url: update_username_path, html: { method: :post , :id => "edit_profile_form"}) do |f|%>
-              <div class="form-group clearfix warningbox marginB15">
+             <!--  <div class="form-group clearfix warningbox marginB15">
                 <div class="txt16 marginB15 blue-txt">Warning - Danger ahead</div>
                 <div class="marginB10 lightcolor">Changing your username will change the URL of your ArtStation profiles. You will need to update any links that you have to these URL's:</div>
                 <div class="blue-txt marginB15">https://www.cgmeetup.com/artist/sher_1234567898</div>
                 <div class="blue-txt marginB15">https://sher_1234567898.cgmeetup.com</div>
                 <div class="lightcolor">Usernames must have between 3 and 63 letters and cannot start or end with a '-' or '_'</div>
-              </div>
+              </div> -->
               <div class="form-group clearfix">
                 <label onClick="">Change Username</label>
               
@@ -133,15 +135,11 @@
           <div class="panel-heading">Notifications</div>
           <div class="panel-body">
             <div class="marginB40 lightcolor">A daily or weekly email that keeps you up-to-date on what's happening with your CGMeetup account.  Digests are sent in addition to individual email notifications on events.</div>
-            <form role="form">
+            <%= form_for(@user_setting, url: notification_setting_path, html: { method: :post , :id => "edit_password_form"}) do |f| %>
               <div class="form-group clearfix timezone socialnewbox">
                 <label>Email digest option</label>
-                <select class="custom-select">
-                  <option>Email me daily</option>
-                </select>
+                <%= f.select :email_digest_interval, digest_options, {include_blank: true}, {class: "custom-select"} %>
               </div>
-            </form>
-            <%= form_for(@user_setting, url: notification_setting_path, html: { method: :post , :id => "edit_password_form"}) do |f| %>
               <div class="clearfix emailwrap">
                 <h3 class="marginB15">Email Notifications</h3>
                 <div class="marginB15 lightbulb-txt"><i class="fa fa-lightbulb-o" aria-hidden="true"></i> These settings control individual emails that will be sent to you when an event occurs.</div>

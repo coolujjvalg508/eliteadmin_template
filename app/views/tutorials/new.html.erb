@@ -230,16 +230,17 @@
 	                                </div>
                                 </div>
 
-                            <div id="chapter_media_content_mediacontent_div_default_{{$parent.$index}}_{{$index}}" class="form-group clearfix">
+                            	<div id="chapter_media_content_mediacontent_div_default_{{$parent.$index}}_{{$index}}" class="form-group clearfix">
 
-                                <div class="col-md-6 col-sm-12 col-xs-12">
+		                            <div class="col-md-6 col-sm-12 col-xs-12">
 
-                                	<a ng-if="chapter_media_content_media_type_default_$parent.$index_$index=='Upload Image' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Video' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Zip' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Marmoset'" href="javascript:void(0);" ng-click="selectMediaContent($parent.$index, $index, 'default_')" title="Click to select media content file">
-                                    <i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Select Media Content File
-                                  </a>
+		                            	<a ng-show="chapter_media_content_media_type_default_$parent.$index_$index=='Upload Image' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Video' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Zip' || chapter_media_content_media_type_default_$parent.$index_$index=='Upload Marmoset'" href="javascript:void(0);" ng-click="selectMediaContent($parent.$index, $index, 'default_')" title="Click to select media content file">
+		                                	<i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Select Media Content File
+		                              	</a>
 
-  	                        			<input type="file" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][mediacontent]" id="chapter_media_content_mediacontent_default_{{$parent.$index}}_{{$index}}" onchange="angular.element(this).scope().newMediaContent(this, 'default_')" class="hidden" >
-  	                        		</div>
+
+		                    			<input type="file" name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][mediacontent]" id="chapter_media_content_mediacontent_default_{{$parent.$index}}_{{$index}}" onchange="angular.element(this).scope().newMediaContent(this, 'default_')" class="hidden" >
+		                    		</div>
 
   	                        		<div class="col-md-6 col-sm-12 col-xs-12">
   	                        		
@@ -872,7 +873,6 @@
         		angular.element( document.querySelector( '#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key ) ).removeClass('hidden');
         	}*/
 
-          //alert(123);
           angular.element( document.querySelector( '#chapter_media_file_' + default_txt + parent_key + '_' + child_key ) ).html('');
           angular.element( document.querySelector( '#chapter_media_image_' + default_txt + parent_key + '_' + child_key ) ).attr('src', '');
           angular.element( document.querySelector( '#chapter_media_image_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
@@ -903,8 +903,6 @@
 
         $scope.newChapterImageUpload = function(element, default_txt){
 
-			    //alert(this.$index);
-
     			$scope.chapter_index = this.$index;
     			$scope.chapter_default_txt = default_txt;
 
@@ -922,8 +920,6 @@
         }
 
         $scope.newMediaContent = function(element, default_txt){
-
-    			//alert(this.$index);
 
     			$scope.media_content_parent_index = this.$parent.$index;
     			$scope.media_content_index = this.$index;

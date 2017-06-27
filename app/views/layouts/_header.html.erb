@@ -36,7 +36,7 @@
 		  <li><a href="<%= dashboard_path %>"><i class="fa fa-fw fa-bar-chart fa-pad-right"></i> Stats</a></li>
 		</ul>
 	  </li>
-	  <li><%= link_to 'news'.html_safe, news_index_path %></li>
+	  <li><%= link_to 'news'.html_safe, news_path %></li>
 	  <li><%= link_to 'downloads'.html_safe, downloads_path %></li>
 	  <li><%= link_to 'Tutorials'.html_safe, tutorials_path %></li>
 	  <li><%= link_to 'Jobs'.html_safe, jobs_path %></li>
@@ -50,6 +50,7 @@
               <li><a href="<%= create_gallery_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Portfolio</a></li>
               <li><a href="<%= create_download_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Product</a></li>
               <li><a href="<%= create_tutorial_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Tutorial</a></li>
+              <li><a href="<%= create_news_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>News</a></li>
              <!--  <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Separated link</a></li> -->
@@ -201,8 +202,7 @@
               <li><%= link_to('<i class="fa fa-clipboard" aria-hidden="true"></i> Bookmarks'.html_safe, index_collection_path ) %></li>
               <li class="divider"></li>
               <li><%= link_to('<i class="fa fa-cog" aria-hidden="true"></i> Settings'.html_safe, user_setting_path ) %></li>
-              <li><a href="#"><i class="fa fa-usd" aria-hidden="true"></i> Invoices</a></li>
-              <li class="divider"></li>
+              <li><%= link_to '<i class="fa fa-usd" aria-hidden="true"></i> Invoices'.html_safe, controller: 'store',action:'index' %></li>
               <li><%= link_to('<i class="fa fa-sign-out"></i> Signout'.html_safe, destroy_user_session_path, :method => :get) %></li>
             </ul>
           </li>
@@ -221,21 +221,21 @@
 
 	  <li class="hidden-xs userprofile-rightside"><a href="#" class="dropdown-toggle threedots" data-toggle="dropdown" ><i class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></i></a>
 		<ul class="dropdown-menu  text-uppercase">
-		  <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> About CGMeetup</a></li>
+		  <li><a href="<%= about_path %>"><i class="fa fa-user" aria-hidden="true"></i> About CGMeetup</a></li>
 		  <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Advertise</a></li>
 		  <li class="divider"></li>
 		  <li><a href="#"><i class="fa fa-question" aria-hidden="true"></i> Help</a></li>
 		  <li class="divider"></li>
-		  <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> Newsletter</a></li>
-		  <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
-		  <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
-		  <li><a href="#"><i class="fa fa-youtube-square" aria-hidden="true"></i> Youtube</a></li>
-		  <li><a href="#"><i class="fa fa-play-circle" aria-hidden="true"></i> Dailymotion</a></li>
-		  <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
-		  <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i> Google+</a></li>
+		  <!-- <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i> Newsletter</a></li> -->
+		  <li><a href="<%= @setting_data_m.facebook_link %>"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+		  <li><a href="<%= @setting_data_m.twitter_link %>"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
+		  <li><a href="<%= @setting_data_m.youtube_link %>"><i class="fa fa-youtube-square" aria-hidden="true"></i> Youtube</a></li>
+		  <!-- <li><a href="#"><i class="fa fa-play-circle" aria-hidden="true"></i> Dailymotion</a></li> -->
+		  <li><a href="<%= @setting_data_m.instagram_link %>"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+		  <li><a href="<%= @setting_data_m.google_plus_link %>"><i class="fa fa-google-plus" aria-hidden="true"></i> Google+</a></li>
 		  <li class="divider"></li>
-		  <li><a href="#"><i class="fa fa-gavel" aria-hidden="true"></i> Terms of Services</a></li>
-		  <li><a href="#"><i class="fa fa-lock" aria-hidden="true"></i> Privacy Policy</a></li>
+		  <li><a href="<%= terms_path %>"><i class="fa fa-gavel" aria-hidden="true"></i> Terms of Services</a></li>
+		  <li><a href="<%= privacy_path %>"><i class="fa fa-lock" aria-hidden="true"></i> Privacy Policy</a></li>
 		</ul>
 	  </li>
 	  <li class="hidden-lg hidden-md hidden-sm text-uppercase"><a href="#" type="button">Sign out</a></li>

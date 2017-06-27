@@ -3,8 +3,16 @@ class DownloadsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :save_download_rating, :listing_index]
   before_filter :set_data, only: [:new, :create, :update, :edit]
 
+
+
+  def find_download_id(c_id,d_id)
+   collection = CollectionDetail.where("download_id = ? and collection_id = ?", d_id,c_id).first
+
+  end
+  helper_method :find_download_id
+
 	def download
-    	@post_types = PostType.where("parent_id IS NULL").order('type_name ASC')
+    	@post_types   = PostType.where("parent_id IS NULL").order('type_name ASC')
 	end
 
   def listing_index
@@ -351,6 +359,26 @@ class DownloadsController < ApplicationController
         @product_avg_rating             =  Rating.where('product_id = ? AND post_type = ?', @download_data.id, 'download').pluck("AVG(rating) as avg_rate")
 
         @collection     = Collection.new
+
+
+        #abort(current_user.id.to_json)
+        if(current_user!=nil)
+          @collections = Collection.where('user_id = ?',current_user.id)
+        end
+          
+
+
+        #@collection_details = CollectionDetail.where('collection_id = ?',@download_data.id).first
+        #abort(@collection_details.to_json)
+
+        
+        #abort(@collection1.to_json)
+        #abort(@download_data.to_json)
+
+        #@collections = @download_data.
+
+        #@download_collection = @download_data.collection
+        #abort(@download_collection.to_json)
         
         @has_user_already_given_rating = 0
         @is_purchased = false
@@ -442,7 +470,7 @@ class DownloadsController < ApplicationController
 
         r_data.each do |val|
 
-          if val['is_featured'] == TRUE
+          if val['is_feature'] == TRUE
                 if val['is_trash'] == 0
                     total_featured = total_featured + 1
                 end    
@@ -490,7 +518,7 @@ class DownloadsController < ApplicationController
 
         if(params[:view]) 
           if (params[:view] == 'featured')
-            conditions += ' AND is_featured=TRUE  AND is_trash = 0'
+            conditions += ' AND is_feature=TRUE  AND is_trash = 0'
           elsif (params[:view] == 'published')
             conditions += ' AND publish=1  AND is_trash = 0'
           elsif (params[:view] == 'drafts')
@@ -1208,7 +1236,7 @@ class DownloadsController < ApplicationController
 
           #abort(params[:download][:zip_files_attributes].inspect)
 
-          params.require(:download).permit(:title, :use_tag_from_previous_upload, :product_id, :animated, :texture, :plugin_used, :material, :rigged, :lowpoly, :uv_mapping, :unwrapped_uv, :polygon, :geometry, :license_type, :license_custom_info, :changelog, :vertice, :unit, :has_adult_content,  :user_id, :is_admin, :paramlink, :description, :show_on_cgmeetup,:show_on_website, :schedule_time, :price, :free, {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []}, {:software_used => []} , :tags, :is_featured, :status, :is_save_to_draft, :visibility, :publish, :company_logo, :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id, :zipfileable_type, :_destroy, :tmp_zipfile, :zipfile_cache, :zip_caption, :software, :software_version, :renderer, :renderer_version],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache])
+          params.require(:download).permit(:title, :use_tag_from_previous_upload, :product_id, :animated, :texture, :plugin_used, :material, :rigged, :lowpoly, :uv_mapping, :unwrapped_uv, :polygon, :geometry, :license_type, :license_custom_info, :changelog, :vertice, :unit, :has_adult_content,  :user_id, :is_admin, :paramlink, :description, :show_on_cgmeetup,:show_on_website, :schedule_time, :price, :free, {:post_type_id => []}, {:post_type_category_id => []}, {:sub_category_id => []}, {:software_used => []} , :tags, :is_feature, :status, :is_save_to_draft, :visibility, :publish, :company_logo, :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id, :zipfileable_type, :_destroy, :tmp_zipfile, :zipfile_cache, :zip_caption, :software, :software_version, :renderer, :renderer_version],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache])
     end 
 
     def check_slug_available(slugVal, newSlugVal, i, download_id)

@@ -157,6 +157,22 @@ ActiveAdmin.register Tutorial do
   end
   
    controller do
+
+   	def get_rendom_password
+			random_password = ([*'A'..'Z'] + [*'a'..'z'] + [*'0'..'9']).shuffle.take(10).join
+   			result 			= Tutorial.where('tutorial_id = ?', random_password).count
+
+            if result == 0
+                return random_password
+            else
+                
+                get_rendom_password
+            end  
+
+
+   		end	
+
+
 	  def create
 	  
 			params[:tutorial][:user_id] = current_admin_user.id.to_s
@@ -165,6 +181,10 @@ ActiveAdmin.register Tutorial do
 			if params[:tutorial][:free] == '1'
 				params[:tutorial][:price] = 0
 			end
+
+			random_password 			    = get_rendom_password
+			params[:tutorial][:tutorial_id] = random_password
+
 			
 			if (params[:tutorial].present? && params[:tutorial][:images_attributes].present?)
 					params[:tutorial][:images_attributes].each do |index,img|

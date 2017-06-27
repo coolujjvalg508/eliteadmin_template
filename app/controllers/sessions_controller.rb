@@ -18,7 +18,7 @@ class SessionsController < DeviseController
   # POST /resource/sign_in  
   def create
     
-    resource = User.find_for_database_authentication(email: params[:user][:email])
+    resource = User.find_for_database_authentication(email: params[:user][:email], is_deleted: 0)
     return invalid_login_attempt unless resource
 
     if resource.valid_password?(params[:user][:password])

@@ -8,7 +8,7 @@
         
         <div class="col-md-3 col-sm-4 col-xs-9 header-search">
         <div class="input-group stylish-input-group">
-            <input type="text" class="form-control"  placeholder="Search 520 000 3D models" >
+            <input type="text" ng-model="searchKey" class="form-control"  placeholder="Search 520 000 3D models" >
             <span class="input-group-addon">
             <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
             </span> </div>
@@ -17,21 +17,12 @@
         <div class="col-md-9 col-sm-8 col-xs-3 downloadpage">
         <div class="navbar-header"> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
         <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">All Tutorials</a></li>
-            <li><a href="#">maya</a></li>
-            <li><a href="#">3ds Max</a></li>
-            <li><a href="#">Blender</a></li>
-            <li><a href="#">ZBrush</a></li>
-            <li><a href="#">Cinema 4D</a></li>
-            <li><a href="#">Houdini</a></li>
-            <li><a href="#">Arnold Render</a></li>
-            <li><a href="#">V-Ray Render</a></li>
-            <li><a href="#">Photoshop</a></li>
-            <li><a href="#">RealFlow</a></li>
-            <li><a href="#">more</a></li>
-          </ul>
-        </div>
+                  <ul class="nav navbar-nav">
+                <li class="active"><a href="/news/all">All News</a></li>
+                <li ng-repeat="topic in TopicsTypeList track by $index"><a href="/news/{{topic.slug}}">{{topic.name}}</a></li>
+              
+              </ul>
+            </div>
         </div>
         
         </div>
@@ -45,40 +36,42 @@
   <div class="download-title text-center">Free News CG, 3D, 2D, VFX, CAD, Games &amp; more</div>
   <div class="download-txt text-center">for <a href="#">Maya<i></i></a>, <a href="#">Blender<i></i></a>, <a href="#">Cinema 4D<i></i></a>, <a href="#">3Ds Max<i></i></a>, <a href="#">Photoshop<i></i></a> and more</div>
   <div class="clearfix download-gallery-wrap">
-  <div class="col-md-3 col-sm-3 col-xs-12 marginB10 ColPad">
+  <div class="col-md-4 col-sm-4 col-xs-12 marginB10 ColPad">
     <div class="input-group stylish-input-group">
-      <input type="text" class="form-control"  placeholder="Enter a keyword..." >
+      <input type="text" class="form-control"  ng-model="searchKey" placeholder="Enter a keyword..." >
       <span class="input-group-addon">
       <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-      </span> </div>
+      </span> 
+    </div>
   </div>
-  <div class="col-md-2 col-sm-3 col-xs-12 marginB10 text-left ColPad">
-    <select class="custom-select">
-      <option>News</option>
-    </select>
+  <div class="col-md-4 col-sm-4 col-xs-12 marginB10 text-left ColPad">
+      <select class="custom-select topic-link" ng-model='selected'>
+        <option value="" ng-click="searchByCategory('all')" class="active category-link"  id="category-link-all">All</option>
+          <% 
+            if @categories.present?
+              @categories.each do |val| %>
+                <option value = "<%= val.id %>" ng-click="searchByCategory('<%= val['id'] %>')" class="category-link"  id="category-link-<%= val['id'] %>"> <%= val['name'] %></option>
+          <% end 
+            end %>
+      </select>
   </div>
-  <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left ColPad">
-    <select class="custom-select">
-      <option>Category</option>
-    </select>
+  <div class="col-md-4 col-sm-4 col-xs-12 marginB10 text-left ColPad">
+    <select class="custom-select topic-link" ng-model='selected'>
+        <option value="" ng-click="searchBySubCategory('all')" class="active sub-category-link"  id="sub-category-link-all">All</option>
+          <% 
+            if @subcategories.present?
+              @subcategories.each do |val| %>
+                <option value = "<%= val.id %>" ng-click="searchBySubCategory('<%= val['id'] %>')" class="sub-category-link"  id="sub-category-link-'<%= val['id'] %>'"> <%= val['name'] %></option>
+          <% end 
+            end %>
+      </select>
   </div>
-  <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left ColPad">
-    <select class="custom-select">
-      <option>Sub Category</option>
-    </select>
-  </div>
-  <strong>
-  <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left ColPad">
-    <select class="custom-select">
-      <option>Filter</option>
-    </select>
-  </div>
-  </strong> </div>
+ </div>
   <div class="showcase-btn-wrap clearfix text-center">
   <button type="button" class="btn btn-success border-radius marginB10">Submit</button>
-  <button type="button" class="btn btn-default border-radius marginB10">Top Viewed</button>
-  <button type="button" class="btn btn-default border-radius marginB10">Top Sold</button>
-  <button type="button" class="btn btn-default border-radius marginB10">Browse Latest News</button>
+  <button type="button" class="btn btn-default border-radius marginB10" ng-click="orderBy('-view_count');">Top Viewed</button>
+ <!--  <button type="button" class="btn btn-default border-radius marginB10">Top Sold</button> -->
+  <a href="/news/all" type="button" class="btn btn-default border-radius marginB10">Browse All Category</a>
   </div>
   </div>
   </section>
@@ -112,9 +105,13 @@
           <a href="javascript:void(0);" ng-click="searchBySubCategory('all')" class="active sub-category-link"  id="sub-category-link-all">All</a>
         </li>
 
-        <li class="clearfix" ng-repeat="x in sub_category_data">
-          <a href="javascript:void(0);" ng-click="searchBySubCategory(x.id)" class="sub-category-link"  id="sub-category-link-{{x.id}}">{{x.name}}</a>
-        </li>
+
+        <% @subcategories.each do |val| %>
+
+          <li class="clearfix">
+              <a href="javascript:void(0);" ng-click="searchBySubCategory('<%= val['id'] %>')" class="sub-category-link"  id="sub-category-link-'<%= val['id'] %>'"> <%= val['name'] %></a>
+          </li>
+        <% end %>
       </ul>
     </li>
 
@@ -137,20 +134,21 @@
   <div class="container-fluid download-indent clearfix">
   <div class="container">
 
-  <div class="clearfix downbox" ng-repeat="x in news_data">
+  <div class="clearfix downbox" dir-paginate="x in news_data | filter:searchKey | itemsPerPage:10 track by $index">
         <div class="clearfix downtop">
           <h2>{{x.Category.name}}</h2>
-            <a href="#" class="text-uppercase pull-right">view all</a> 
+            <a href="/news/{{x.Category.slug}}" class="text-uppercase pull-right">view all</a> 
         </div>
         <div class="clearfix">
         <ul>
-          <li class="clearfix" ng-repeat="y in x.News">
+          <li class="clearfix" ng-repeat="y in x.News | orderBy:setorderBy">
             <div class="downwrap"> <a href="/news/{{y.paramlink}}/show">
               <img lazy-img="<%= root_url %>{{ y.company_logo.tutorial_list.url }}" class="img-responsive tutorial-img-height"></a>
             </div>
             <div class="padding10 clearfix">
               <div class="down-txt">
-                <span>{{y.title}}</span> <a href="/news/{{y.paramlink}}/show" class="pull-right tut-price txt13">View</a>
+                <span>{{y.title}}</span> 
+                <a href="/news/{{y.paramlink}}/show" class="pull-right tut-price txt13">View</a>
               </div>
               <div class="clearfix down-name">
                 <div class="pull-left">by <span class="price-txt1">{{y.is_admin == 'Y' ? 'Admin' : y.user.firstname + ' ' + y.user.lastname}}</span></div>
@@ -161,7 +159,13 @@
         </ul>
         </div>
     </div>
-
+    <div class="pagintionpage clearfix">
+      <dir-pagination-controls
+           max-size="1"
+           direction-links="true"
+           boundary-links="false" >
+      </dir-pagination-controls>
+    </div>
     <div class="clearfix downbox text-center err-msg no-result" ng-hide="news_data.length" >No Result Found!</div>    
 
   </div>
@@ -179,7 +183,7 @@
 <script type="text/javascript">
 
   // main page angular app start
-  var app = angular.module('newsindex', ["angularLazyImg","MainModule"]);
+  var app = angular.module('newsindex', ["angularUtils.directives.dirPagination","angularLazyImg","MainModule"]);
    
 
   app.controller('myCtrl', function($scope, $http) {
@@ -199,7 +203,6 @@
         if(typeof $scope.viewSubCategory !== 'undefined' && $scope.viewSubCategory != '' && $scope.viewSubCategory != 'all'){
           list_url += '&sub_category_id=' + $scope.viewSubCategory
         }
-
         $http.get(list_url).then(function (response) {
           $scope.news_data = response.data;
         });
@@ -252,6 +255,16 @@
       }
         
     };
+     $scope.setorderBy = '+view_count';
+
+    $scope.orderBy = function(val)
+    {
+      $scope.setorderBy= val;
+    }
+
+    $http.get('/news/get_news_category_list').then(function(response){
+      $scope.TopicsTypeList = response.data;
+    });
 
   });
 

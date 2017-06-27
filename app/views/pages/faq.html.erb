@@ -1,0 +1,31 @@
+<div>
+    <section class="clearfix jobpostpage">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row">                
+                <div class="clearfix marginB15 jobs-indent">
+                    <div class="col-md-12">
+                        <span style="text-align:center; color:#00FF00;">
+                        	<p><h1>Frequently asked questions</h1></p>
+                        </span>
+                    </div>
+                    <div class="clearfix marginB15 jobs-indent">
+                    <% @faq_data.each do |faq_data| %>
+	                    <div class="col-md-12" style="color:#FFFFFF; padding-top: 16px;">
+	                    	Question. <%= faq_data.question %>
+	                    </div>
+                        </br>
+                        <div class="col-md-12" style="color:#FFFFFF; padding-top: 16px;">
+                            Anwser. <%= faq_data.answer.html_safe %>
+                        </div>
+                    <% end %>
+                   	</div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>    
+<!-- Footer Start -->
+<footer class="footer clearfix padding">
+ <%= render 'layouts/lastfooter' %>
+</footer>

@@ -1,4 +1,5 @@
 <!-- Submenu Navigation -->
+<div id="myApp2" ng-app="FilterCate" ng-controller="FilterCategoriesCtrl" >
 <section class="wip-navigation-wrap">
   <div class="navbar-default">
     <div class="container-fluid">
@@ -6,31 +7,22 @@
       
       <div class="col-md-3 col-sm-4 col-xs-9 header-search">
       <div class="input-group stylish-input-group">
-          <input type="text" class="form-control"  placeholder="Search 520 000 3D models" >
+          <input type="text" ng-model="search" class="form-control"  placeholder="Search 520 000 3D models" >
           <span class="input-group-addon">
           <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
           </span> </div>
       </div>
       
-      <div class="col-md-9 col-sm-8 col-xs-3 downloadpage">
-      <div class="navbar-header"> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
-      <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">All News</a></li>
-          <li><a href="#">maya</a></li>
-          <li><a href="#">3ds Max</a></li>
-          <li><a href="#">Blender</a></li>
-          <li><a href="#">ZBrush</a></li>
-          <li><a href="#">Cinema 4D</a></li>
-          <li><a href="#">Houdini</a></li>
-          <li><a href="#">Arnold Render</a></li>
-          <li><a href="#">V-Ray Render</a></li>
-          <li><a href="#">Photoshop</a></li>
-          <li><a href="#">RealFlow</a></li>
-          <li><a href="#">more</a></li>
-        </ul>
-      </div>
-      </div>
+       <div class="col-md-9 col-sm-8 col-xs-3 downloadpage">
+        <div class="navbar-header"> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                <li class="active"><a href="/news/all">All News</a></li>
+                <li ng-repeat="topic in TopicsTypeList track by $index"><a href="/news/{{topic.slug}}">{{topic.name}}</a></li>
+              
+              </ul>
+            </div>
+        </div>
       
       </div>
     </div>
@@ -39,167 +31,40 @@
 
 <!--  Download Details Content -->
 <section class="clearfix downloadcategorywrap">
-<div class="container">
-<h2>Maya News</h2>
-<div class="downloadtxt">Browsing this category you will find 3D Models of human, people, <span class="hidden-xs">anatomy, mythical figures, clothing and other things related to characters. To buy or download a free 3D Models, browse the categories below. You can use models for animation or games - some of them are rigged and low poly.</span></div>
-<div class="row">
-<ul>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Anatomy <span class="badge">(594)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Child <span class="badge">(256)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Clothing <span class="badge">(107,615)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Fantasy <span class="badge">(1,096)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Man <span class="badge">(1,632)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Other <span class="badge">(609)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Sci-Fi <span class="badge">(791)</span></a></li>
-<li class="col-md-3 col-sm-4 col-xs-6 marginB10"><a href="#">Women <span class="badge">(1,486)</span></a></li>
-</ul>
-</div>
-</div>
+  <div class="container">
+  <h2>{{categoriesBanner.name}}</h2>
+  <div ng-bind="categoriesBanner.description" class="downloadtxt">
+
+      </div>
+  <div class="row">
+  <ul>
+  <li ng-repeat="subcat in sub_category_list" class="col-md-3 col-sm-4 col-xs-6 marginB10">
+  <a href="/news/{{brodCampB}}/{{subcat.slug}}">{{subcat.name}}
+  <span class="badge">({{subcat.count_news}})</span></a>
+  </li>
+  
+  </ul>
+  </div>
+  </div>
 </section>
 
 <!-- Download Indent Start -->
 <section class="clearfix downpadcategory">
 <div class="container">
-<div class="clearfix hidden-xs hidden-sm">
-<ol class="breadcrumb margin">
-<li class="breadcrumb-item"><a href="#">CGTrader</a></li>
-<li class="breadcrumb-item"><a href="#">3D Models</a></li>
-<li class="breadcrumb-item active">Character / Human 3D Models</li>
-</ol>
-</div>
-<div class="downwrapprice hidden-xs hidden-sm">
-<div class="row">
-<div class="col-md-3 col-sm-4 col-xs-12">
-  <div class="pull-left price-down paddinT5">Price <%= image_tag("price-line.png", :alt=>"price", :class=>"img-responsive marginL5", :style=>"display:inline-block") %></div>
-  <div class="pull-right">
-    <div class="checkbox-btn">
-      <input type="checkbox" value="value-1" id="rc3" name="rc3" />
-      <label for="rc3" onclick></label>
-    </div>
+ <div class="clearfix hidden-xs hidden-sm">
+  <ol class="breadcrumb margin">
+  <li class="breadcrumb-item"><a href="/news">News</a></li>
+  <li class="breadcrumb-item active">{{brodCampB}}</li>
+  </ol>
   </div>
-</div>
-<div class="col-md-2 col-sm-3 col-xs-12">
-  <select class="custom-select">
-    <option>Formats</option>
-  </select>
-</div>
-<div class="col-md-4 col-sm-3 col-xs-12 paddinT10">
-  <div class="checkbox-btn pull-left marginR5">
-    <input type="checkbox" value="value-1" id="rc4" name="rc4" />
-    <label for="rc4" onclick>Animated</label>
-  </div>
-  <div class="checkbox-btn pull-left marginR5 marginL5">
-    <input type="checkbox" value="value-1" id="rc5" name="rc5" />
-    <label for="rc5" onclick>Rigged</label>
-  </div>
-  <div class="checkbox-btn  pull-left marginL5">
-    <input type="checkbox" value="value-1" id="rc6" name="rc6" />
-    <label for="rc6" onclick>Low-poly</label>
-  </div>
-</div>
-<div class="col-md-3 col-sm-3 col-xs-12">
-  <select class="custom-select">
-    <option>Best Match</option>
-  </select>
-</div>
-</div>
-</div>
-<div class="clearfix resetfilterswrap">
-<div class="row">
-<div class="col-md-10 col-sm-9 col-xs-12">
-  <div class="text-select">Character / Human <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-</div>
-<div class="col-md-2 col-sm-3 col-xs-12 text-right reset-btn"> <a href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i> Rest filters</a> </div>
-</div>
-</div>
+
+
 
 <!-- User Followers Start -->
 <div class="download-indent clearfix">
 <div class="container">
 <div class="clearfix downbox row">
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>12 Realistic Male Characters</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-           
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials1.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials2.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials3.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials4.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials5.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials6.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials7.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
+ <!--  <div class="clearfix">
     <ul>
       <li class="clearfix">
         <div class="downwrap"><%= image_tag("database/tutorials8.jpg", :class=>"img-responsive") %></div>
@@ -210,296 +75,98 @@
           </div>
         </div>
       </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials9.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials10.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials11.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">max, obj, 3ds, dxf, c4d and more</div>
-          </div>
-        </div>
-      </li>
     </ul>
-  </div>
+  </div> -->
+
   <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials12.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>12 Realistic Male Characters</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials13.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials14.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials15.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials16.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials17.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials18.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials19.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials20.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials21.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials22.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials23.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">max, obj, 3ds, dxf, c4d and more</div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>12 Realistic Male Characters</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials1.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-            
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials2.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials3.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials4.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials5.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials6.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials7.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="clearfix">
-    <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials8.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials9.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials10.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">by <span class="price-txt1">Matte Agr</span></div>
-          </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials11.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="down-txt"><span>Garvel Hever</span> <a href="#" class="pull-right tut-price txt13">View</a></div>
-          <div class="clearfix down-name">
-            <div class="pull-left">max, obj, 3ds, dxf, c4d and more</div>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
+        <ul>
+          <li dir-paginate="product in products.items | filter:search | itemsPerPage:10"  class="clearfix">
+            <div class="downwrap">
+         
+            <a href="/news/{{product.paramlink}}/show">
+                <img ng-src="{{product.company_logo.tutorial_list.url}}" class="img-responsive">
+            </a>
+            </div>
+            <div class="padding10 clearfix">
+             
+               <div class="down-txt">
+                <span>{{product.title}}</span> <a href="/news/{{product.paramlink}}/show" class="pull-right tut-price txt13">View</a>
+                </div>
+              <div class="clearfix down-name">
+                <div class="pull-left">by 
+                <span ng-if="product.is_admin=='N'" class="price-txt1">{{product.user.firstname}}&nbsp;{{product.user.lastname}}</span>
+                <span ng-if="product.is_admin=='Y'" class="price-txt1">Admin</span>
+                </div>
+              </div>
+            </div>
+          </li>
+          
+        </ul>
+      </div>
 </div>
 <div class="text-center text-uppercase">
-  <ul class="pagination">
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">Next</a></li>
-    <li><a href="#">Last</a></li>
-  </ul>
+  <div class="pagination clearfix">
+            <dir-pagination-controls
+                 max-size="3"
+                 direction-links="true"
+                 boundary-links="false" >
+            </dir-pagination-controls>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </section>
+</div>
 
 <footer class="footer clearfix padding">
   <%= render 'layouts/lastfooter' %>
 </footer>
+<script type="text/javascript">
+  var app = angular.module('FilterCate', ["angularUtils.directives.dirPagination","rzModule","MainModule"]);
+   app.controller('FilterCategoriesCtrl',function($scope,$http,Cart,$rootScope,$location){
+  $http.get('/news/get_news_category_list').then(function(response){
+      $scope.TopicsTypeList = response.data;
+    });
+
+ $scope.finalData = {};
+  $scope.products = {};
+     var Url = window.location.href;
+       var params = Url.split('/').slice(-1)[0];
+
+       $scope.brodCampB =  Url.split('/').slice(-1)[0];
+      
+       var uRI = "/news/get_category_detail/"+params;
+     $http.get(uRI).then(function (response) {
+        $scope.finalData.category_id=response.data.category_data.id;
+                $scope.categoriesBanner = response.data.category_data;
+                $scope.sub_category_list = response.data.sub_category_list;
+                 $scope.displaydata($scope.finalData);
+        });
+
+
+
+$scope.displaydata = function(bodyData) {
+    $scope.products.items = [];
+        $http({
+            method : "GET",
+            url : "/news/get_category_news_list",
+            params:bodyData
+        }).then(function mySucces(response) {
+
+           for(var i = 0; i < response.data.news_data.length; i++) {
+                  $scope.products.items.push(response.data.news_data[i]);
+              }
+            
+        }, function myError(response) {
+            console.log("Error"+JSON.stringify(response));
+
+        });
+};
+//$scope.DisplayList();
+
+       
+
+    });
+         angular.bootstrap(document.getElementById("myApp2"), ['FilterCate']);
+</script>

@@ -7,8 +7,11 @@
 <div class="subscribebox pull-left clearfix hidden-xs hidden-sm">
 <div class="subtext">Subscribe to our newsletter for weekly updates.</div>
 <div class="subscribewrap">
-<input type="email" placeholder="Email" class="subemail">
-<a href="#" class="subbtn pull-right text-center">Subscribe</a> </div>
+  <input type="email" id="sub-email" placeholder="Email" class="subemail">
+  <a id="subscribe-button" class="subbtn pull-right text-center" >Subscribe</a> 
+
+</div>
+<span class="error" id="error_field_name"></span>
 </div>
 </div>
 </div>
@@ -156,7 +159,50 @@
 </nav>
 </section>
 
+# <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+# <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+#   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+#   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+#   <!-- Angular Material Library -->
+#   <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+#  <div id="galleryId" ng-app="myApp" ng-controller="AppCtrl" ng-cloak>
+#   <md-grid-list md-cols="10" md-cols-sm="10" md-cols-md="10" md-cols-gt-md="10" md-row-height-gt-md="1:1" md-row-height="4:3"
+#     md-gutter-gt-md="0px">
+    
+#     <md-grid-tile ng-repeat="image in images" md-rowspan="{{($index===0)?2:1}}" md-colspan="{{($index===0)?2:1}}" md-colspan-sm="1"
+#       md-colspan-xs="1">
+#       <img ng-src="{{image.company_logo.url}}" alt="image" layout-fill/>
+#     </md-grid-tile>
+#   </md-grid-list>
+# </div>
+
+#   <!-- Your application bootstrap  -->
+#   <script type="text/javascript">    
+#     /**
+#      * You must include the dependency on 'ngMaterial' 
+#      */
+
+#     angular.module('myApp', ['ngMaterial'])
+# .controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
+#   alert("controller");
+
+# $http.get("http://192.168.1.41:3000/api/get_community")
+#     .then(function(response) {
+#         $scope.images = response.data.community_data;
+#         $scope.layoutType = response.data.home_layout_type;
+
+#         alert("images "+JSON.stringify($scope.images));
+#         alert("layoutType "+JSON.stringify($scope.layoutType));
+#         alert("image "+$scope.images[0].images[0].image.thumb.url);
+#     });
+# }]);
+# angular.bootstrap(document.getElementById("galleryId"), ['myApp']);
+#   </script>
+
 <!-- Angular Start -->
+
 <section class="angularjswrap clearfix">
 <ul class="margin">
 <li class="lists">
@@ -615,6 +661,8 @@
 </a> </li>
 </ul>
 </section>
+
+
 
 <!-- Content Start -->
 <section class="maincontent clearfix">
@@ -1225,3 +1273,50 @@
 	<%= render "layouts/midfooter" %>
 	<%= render "layouts/lastfooter" %>
 </footer>
+
+<script type="text/javascript">
+  function validateEmail(email) {
+      var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      return expr.test(email);
+  };
+
+  $(document).ready(function(){
+    $("#subscribe-button").click(function() {
+      var email = $('#sub-email').val();
+
+      $("#error_field_name").html("");
+
+      if (validateEmail(email)) {
+        // if email is valid then process further
+        $.ajax({
+          type: "post",
+          dataType: 'json',
+          url: "/newsletters/insert_email" , 
+          data: {'newsletter_subscriber': {'email': email}},   
+
+          success: function(data){
+           $('#sub-email').val(""); 
+           $("#error_field_name").css("color", "green");  
+           $("#error_field_name").html("Successfully subscribed!");  
+          },
+          error: function(data){
+            $("#error_field_name").css("color", "red");
+            $("#error_field_name").html("Email already exists");  
+          }
+        });
+      }
+      else{
+        $("#error_field_name").css("color", "red");
+        var msg = '';
+        if (email.length == 0) 
+          msg = "Email can't be blank";
+        else
+          msg = "Email is not valid"
+        $("#error_field_name").html(msg);  
+
+      }
+    });
+
+});
+
+</script>

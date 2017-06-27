@@ -35,6 +35,7 @@
                         <thead>
                           <tr >
                             <th>Title</th>
+                            <th>Username</th>
                             <th>Email</th>
                             <th>Price</th>
                             <th>Discount</th>
@@ -46,6 +47,7 @@
                         <tbody>
                           <tr dir-paginate="getSale in getlatestsale | itemsPerPage:10"  pagination-id="getLatestSales">
                             <td>{{getSale.download.title}}</td>
+                            <td><a href='/user-profile/{{getSale.user.username}}'>{{getSale.user.firstname}} {{getSale.user.lastname}}</a></td>
                             <td>{{getSale.user.email}}</td>
                             <td>{{getSale.transaction_history.gross_amount | currency}} </td>
                             <td>{{getSale.transaction_history.discount_amount | currency}}</td>
@@ -225,6 +227,7 @@
                         <thead>
                           <tr >
                             <th>Title</th>
+                            <th>Username</th>
                             <th>Email</th>
                             <th>Price</th>
                             <th>Discount</th>
@@ -236,6 +239,7 @@
                         <tbody>
                           <tr dir-paginate="getSale in Latest_tutorialsale | itemsPerPage:10"  pagination-id="get_latest_tutorial_saleDD">
                             <td>{{getSale.tutorial.title}}</td>
+                            <td><a href="/user-profile/{{getSale.user.username}}">{{getSale.user.firstname}} {{getSale.user.lastname}}</a></td>
                             <td>{{getSale.user.email}}</td>
                             <td>{{getSale.transaction_history.gross_amount | currency}} </td>
                             <td>{{getSale.transaction_history.discount_amount | currency}}</td>

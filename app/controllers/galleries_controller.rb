@@ -2,13 +2,25 @@ class GalleriesController < ApplicationController
 
     before_action :authenticate_user!, only: [:index ,:new, :create, :edit, :update, :get_gallery_post_list, :count_user_gallery_post]
  
+    def find_gallery_id(c_id,d_id)
+      collection = CollectionDetail.where("gallery_id = ? and collection_id = ?", d_id,c_id).first
+    end
+    helper_method :find_gallery_id
+
     def index
 
     end 
   
     def gallery
-
-
+      # As there will be only one record 
+      # It requires all the data to be present otherwise it will throw an error
+      
+      setting_data = SiteSetting.first      
+      @fb = { link: setting_data.facebook_link, count: setting_data.facebook_like_count }
+      @gl = { link: setting_data.google_plus_link, count: setting_data.google_plus_like_count }
+      @twtr = { link: setting_data.twitter_link, count: setting_data.twitter_like_count }
+      @yb = { link: setting_data.youtube_link, count: setting_data.youtube_like_count }
+      @im = { link: setting_data.instagram_link, count: setting_data.instagram_like_count }                                     
     end
     
       
@@ -31,6 +43,12 @@ class GalleriesController < ApplicationController
         @report         = Report.new
         @latest_post    = Gallery.where("paramlink != ?",params[:paramlink]).order('id desc').limit(8)
      
+        if(current_user!=nil)
+          @collections = Collection.where('user_id = ?',current_user.id)
+          #abort(@collections.to_json)
+        end
+
+
         #abort(@gallery.post_type_category_id.to_json)
         @blocked_users  = []
         if current_user.present?
@@ -49,29 +67,7 @@ class GalleriesController < ApplicationController
         end 
     end  
 
-    def create_collection
-       # abort(params.to_json)        
-          gallery_id              = params[:collection][:gallery_id] 
-          title                   = params[:collection][:title].strip 
-          is_collection_exist     = Collection.where(title: title)
-
-          if title==''
-             result = {'res' => 0, 'message' => 'Collection name cannot be blank.'}
-
-          elsif is_collection_exist.present?
-              result = {'res' => 0, 'message' => 'Collection name already exist.'}
-             # render json: {'res' => 0, 'message' => 'Title already exist.'}, status: 200
-          else
-              Collection.create(gallery_id: gallery_id, title: title)
-              result = {'res' => 1, 'message' => 'Post has successfully added to collection.'}
-              #flash[:notice] = 'Post has successfully added to collection.'
-             # redirect_to request.referer
-
-          end 
-        render json: result, status: 200
-      #redirect_to request.referer
-         
-    end  
+    
 
     def save_like
           gallery_id     = params[:gallery_id]

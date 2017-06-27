@@ -15,7 +15,7 @@ ActiveAdmin.register Package, as: "Job Package"  do
 
 	 menu label: 'Job Package', parent: 'Package'
 	 permit_params :title, :description, :amount, :image
-	 actions :all, except: [:destroy, :new, :create]
+	 actions :all#, except: [:destroy, :new, :create]
 	controller do 
 		def action_methods
 		 super                                    
@@ -37,6 +37,8 @@ ActiveAdmin.register Package, as: "Job Package"  do
 	  end
 
 
+
+	
 
 
 	  form multipart: true do |f|
@@ -75,6 +77,16 @@ ActiveAdmin.register Package, as: "Job Package"  do
 		column :amount
 		column :created_at
 		actions
+
+		 
+
+		# collection_action :approve, method: [:get,:post] do
+	 #  	if  job.is_approved?
+  #      		button_to  'Disapprove', instructor_deny_user_path(application.user.id), method: :put
+  #    	else
+  #      		button_to  'Approve', instructor_approve_user_path(application.user.id), method: :put
+  #    	end 
+
 	  end
 	  
 	filter :title
@@ -99,5 +111,7 @@ ActiveAdmin.register Package, as: "Job Package"  do
 		  row :created_at
 		end
 	  end
+
+
 
 end

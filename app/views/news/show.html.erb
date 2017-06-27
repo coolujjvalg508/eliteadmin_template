@@ -1,206 +1,24 @@
-<script type="text/javascript">
-  $.fn.raty.defaults.path = '<%= root_url+'assets' %>';
-</script>
-<script type="text/javascript">
- var addthis_config = {"data_track_clickback":true};
- </script> <script type="text/javascript"
- src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=[YOUR PROFILE ID]"></script>
-
-<% if user_signed_in? %>
-<script>
-
-
-
-  
- $(document).ready(function(){
-
-    $.ajax({
-              type: "post",
-              url: "<%= check_mark_spam_news_path %>" ,
-              data:{id: "<%= @news_data.id %>"},
-              success: function(data){
-                 // alert(data.res);
-                  if(data.res == 1)
-                  {
-                      $('.mark_spam').addClass('hidden');
-                      $('.unmark_spam').removeClass('hidden');        
-
-                  }else{
-
-                      $('.mark_spam').removeClass('hidden');
-                      $('.unmark_spam').addClass('hidden');
-
-                  }
-              }
-        });
-
-          
-        $('.mark_spam, .unmark_spam').on('click',function(){
-
-          $.ajax({
-                  type: "post",
-                  url: "<%= mark_spam_news_path %>" ,
-                  data:{id: "<%= @news_data.id %>"},
-                  success: function(data){
-                      if(data.res == 1)
-                      {
-                          $('.mark_spam').addClass('hidden');
-                          $('.unmark_spam').removeClass('hidden');        
-          
-                      }else{
-
-                          $('.mark_spam').removeClass('hidden');
-                          $('.unmark_spam').addClass('hidden');
-
-                      }
-                  }
-          }); 
-        });
-
-
-
-
-        $('#bookmark_form_popup').on('submit',function(){
-             $.ajax({
-              type: "post",
-              url: "<%= create_collection_path %>" ,
-              data: $('#bookmark_form_popup').serialize(),
-              success: function(data){
-                  if(data.res == 0){
-                      $('#bookmark_error_msg').html('');
-                      $('#bookmark_error_msg').html(data.message);
-                  }else{
-                      window.location.reload(true);
-
-                  }
-              }
-            });
-        });
-
-  $.ajax({
-            type: "post",
-            url: "<%= get_news_avg_rating_path %>" ,
-            data: {'news_id': '<%= @news_data.id %>'},
-           success: function(data){
-              //alert(data.res)
-             if(data.res == 1) {
-                  $('#post_like_button').addClass('hidden');
-                  $('#post_dislike_button').removeClass('hidden');
-              }else if(data.res == 0){
-                   $('#post_like_button').removeClass('hidden');
-                   $('#post_dislike_button').addClass('hidden');
-              }else{
-
-              }
-
-            }
-        });
-  
-
-  $('#post_like_button, #post_dislike_button').on('click',function(){
-      //alert('gh');
-            $.ajax({
-                type: "post",
-                url: "<%= save_news_rating_path %>" ,
-                data: {'news_id': '<%= @news_data.id %>','artist_id': '<%= @news_data.user_id %>'},
-                success: function(data){
-                  //alert(data.res)
-                 if(data.res == 1) {
-                      $('#post_like_button').addClass('hidden');
-                      $('#post_dislike_button').removeClass('hidden');
-                  }else if(data.res == 0){
-                       $('#post_like_button').removeClass('hidden');
-                       $('#post_dislike_button').addClass('hidden');
-                  }else{
-
-                  }
-
-                }
-            });
-    });
-
-   $.ajax({
-            type: "post",
-            url: "<%= check_newsfollow_artist_path %>" ,
-            data: {'news_id': '<%= @news_data.id %>','artist_id': '<%= @news_data.user_id %>'},
-            success: function(data){
-               // alert(data.res)
-               if(data.res == 1) {
-                        $('#follow_button').addClass('hidden');
-                        $('#unfollow_button').removeClass('hidden');
-                }else if(data.res == 0) {
-                        $('#follow_button').removeClass('hidden');
-                        $('#unfollow_button').addClass('hidden');
-                }else{
-
-                }
-            }
-    });
-
-    $('#follow_button, #unfollow_button').on('click',function(){
-        $.ajax({
-            type: "post",
-            url: "<%= news_follow_artist_path %>" ,
-            data: {'news_id': '<%= @news_data.id %>','artist_id': '<%= @news_data.user_id %>'},
-            success: function(data){
-              //alert(data.res)
-                if(data.res == 1) {
-                  $('#follow_button').addClass('hidden');
-                  $('#unfollow_button').removeClass('hidden');
-                }else if(data.res == 0){
-                  $('#follow_button').removeClass('hidden');
-                  $('#unfollow_button').addClass('hidden');
-                }else{
-                  
-                }
-            }
-        });
-    });
-
-
-
-
-});
-
-
-</script>
-
-
-<% end %>  
-
-
-
-
+<div id="myApp2" ng-app="myApp"  ng-controller="myCtrl">
 <!-- Submenu Navigation -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
 <section class="wip-navigation-wrap">
 <div class="navbar-default">
 <div class="container-fluid">
 <div class="row">
 <div class="col-md-3 col-sm-4 col-xs-9 header-search">
-  <div class="input-group stylish-input-group">
-    <input type="text" class="form-control"  placeholder="Search 520 000 3D models" >
-    <span class="input-group-addon">
-    <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-    </span> </div>
+ 
+    
+    
 </div>
 <div class="col-md-9 col-sm-8 col-xs-3 downloadpage">
   <div class="navbar-header"> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
   <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">All News</a></li>
-      <li><a href="#">maya</a></li>
-      <li><a href="#">3ds Max</a></li>
-      <li><a href="#">Blender</a></li>
-      <li><a href="#">ZBrush</a></li>
-      <li><a href="#">Cinema 4D</a></li>
-      <li><a href="#">Houdini</a></li>
-      <li><a href="#">Arnold Render</a></li>
-      <li><a href="#">V-Ray Render</a></li>
-      <li><a href="#">Photoshop</a></li>
-      <li><a href="#">RealFlow</a></li>
-      <li><a href="#">more</a></li>
-    </ul>
-  </div>
+                  <ul class="nav navbar-nav">
+                <li class="active"><a href="/news/all">All News</a></li>
+                <li ng-repeat="topic in TopicsTypeList track by $index"><a href="/news/{{topic.slug}}">{{topic.name}}</a></li>
+              
+              </ul>
+            </div>
 </div>
 </div>
 </div>
@@ -208,12 +26,8 @@
 </section>
 <div class="clearfix download-post-bread hidden-xs">
 <ul class="breadcrumb">
-<li><a href="#">CGTrader</a></li>
-<li><a href="#">3D Models</a></li>
-<li><a href="#">Charachter</a></li>
-<li><a href="#">Human</a></li>
-<li><a href="#">Women</a></li>
-<li class="active">Cartoon Sport Girl 2 3D model</li>
+<li><a href="/news">News</a></li>
+<li class="active">{{news_data.title}}</li>
 </ul>
 </div>
 
@@ -221,323 +35,118 @@
 <section class="DownloadPostWrapper clearfix">
 <div class="clearfix DownloadPostLeft">
 <div class="clearfix">
-<div class="youtubewrap">
-<iframe width="100%" height="400" src="https://www.youtube.com/embed/6roIVjov4hw?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen></iframe>
-</div>
 </div>
 <div class="comment-wrap clearfix">
-<div class="gallerycomment">
-<div class="gallery-title">CGI Animated Short Film HD: "Goutte d’Or Short Film" by Happy Flyfish </div>
-<div class="clearfix row">
-  <div class="col-md-6 col-sm-6 col-xs-12">
-    <div class="combox"><%= image_tag("comment.jpg", :alt=>"Comment") %></div>
-    <div class="comleft">The Gnomon Workshop
-      <div class="clearfix">
-        <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
-        <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button></div>
-    </div>
-  </div>
-  <div class="col-md-6 col-sm-6 col-xs-12 text-right"><a href="#" class="view-txt"><i class="fa fa-thumbs-up" aria-hidden="true"></i>{{get_news_info.like_count}}</a> <a href="" class="view-txt"><i class="fa fa-eye" aria-hidden="true"></i>{{get_news_info.view_count}}</a> <a href="#" class="view-txt"><i class="fa fa-comment-o" aria-hidden="true"></i>{{get_news_info.comment_count}}</a> </div>
-</div>
-<div class="bdr"></div>
-<div class="clearfix row">
-  <div class="col-md-6 col-sm-12 col-xs-12 share-txt"> <div class="addthis_toolbox addthis_default_style ">
-<a class="addthis_counter addthis_pill_style"></a>
-<div class="btn-group">
-    <button type="button" class="btn btn-primary btn-xs" id='bookmarkbutton' data-toggle="modal" data-target="#bookmarkModal">Bookmark
-    </button>
-  </div>
 
-  <div class="btn-group">
-    <button type="button" class="btn btn-danger btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      More <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a class="mark_spam" href="#">Mark as spam</a></li>
-      <li><a class="unmark_spam hidden" href="#">Marked as Spam</a></li>
-    </ul>
-  </div>
-</div>  
-  </div>
-  <div class="col-md-6 col-sm-12 col-xs-12 text-right comright">
-   <div class="clearfix">
-      <!-- <button type="button" class="likebtn border-radius marginR5">Download</button> -->
-      <button id='post_like_button' class="greenbtn" type="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i> &nbsp; Like</button>
-      <button id='post_dislike_button' class="greenbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> &nbsp; Liked</button>
-      <span class="likecomment">128</span>
-     <!--  <span class="likecomment">{{get_download_info.like_count}}</span> --></div>
-  </div>
-</div>
-</div>
-<div class="clearfix coursetuotorial">
-<h2>Published on Aug 21, 2014</h2>
-<h3>ZBrush and Maya Rigging Pipeline Course - The Fire Ant!</h3>
-<p>This course is not a training course as such it is a walk through of processes used to create a model in ZBrush and them import and rig it in Maya, this course will be particilary usefull for people trying to understand the work flow used for animatiing in 3D and how with used of Maps be able to again uderstand there use.</p>
-<h3>What are the requirements?</h3>
-<p>As this is instructional you would not necesarily need the software, however it would be good to have a Maya and ZBrush</p>
-<h3>What am I going to get from this course?</h3>
-<p>Main goal of this course is to show you how the pipelin of Maya ZBrush works together<br>
-  Gain insightful knowledge of lots of the tools in ZBrush and Maya<br>
-  As this is instructional you would not necesarily need the software</p>
-<h3>What are the requirements?</h3>
-<p>As this is instructional you would not necesarily need the software, however it would be good to have a Maya and ZBrush</p>
-</div>
+
 <div class="lessonstutorial clearfix">
-<h2>Lessons in this tutorial </h2><div class="addthis_toolbox addthis_default_style ">
-<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-<a class="addthis_button_tweet"></a>
-<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-<a class="addthis_counter addthis_pill_style"></a>
-</div>
-<ul>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 1. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 2. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 3. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 4. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 5. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 6. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 7. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 8. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 9. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 10. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 11. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 12. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 13. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 14. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 15. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 16. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 17. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 18. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 19 Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 20. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 21. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 22. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 23. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 24. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 25. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 26. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 27. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("message-profile4.jpg", :alt=>"img") %> 28. Course Overview</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("user2.jpg", :alt=>"img") %> 29. Intro to Rendr Settings in Renderman RIS</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-  <li class="clearfix">
-    <div class="row">
-      <div class="col-md-8 col-sm-7 col-xs-7 lessonbox"><%= image_tag("noti-profile.jpg", :alt=>"img") %> 30. Intro to TT Window in Renderman</div>
-      <div class="col-md-3 col-sm-3 col-xs-3 text-right watch-txt"><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></div>
-      <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">01:02</div>
-    </div>
-  </li>
-</ul>
 </div>
 <div class="wipdetailtag publishwrap">
-<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Category:</strong> </span> <a href="#">Flim &amp; Animation</a> </div>
-<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Tags:</strong> </span> 3d, model, female, maya, rigged, free download, download, 3d model, obj </div>
-<div class="marginB10 publish-txt"><span class="txt-white"><strong>Software Used: </strong></span> <span class="softb"><img src="images/soft.jpg" class="img-rounded" alt="Software"></span> 3ds Max <span class="softb"><img src="images/ps.jpg" class="img-rounded" alt="Software"></span> Photoshop <span class="softb"><img src="images/Keyshot.jpg" class="img-rounded" alt="Software"></span> Keyshot</div>
+<div class="marginB10 publish-txt">
+   <div ng-repeat="pane in media_contentsNews">
+
+   <h1 style="color: #FFF"  class="marginB15">{{pane.title}}</h1>
+      <div ng-repeat="Mc in pane.media_contents">
+      
+            <div ng-if="Mc.media_type=='Upload Zip'">
+                 <div class="youtubewrap">
+                     <a href="{{Mc.mediacontent.url}}" class="download-new-mar">Download Zip</a>&nbsp;&nbsp;
+                      <span style="color: #FFF;">
+                           {{Mc.mediacontent.url.split("/")[Mc.mediacontent.url.split("/").length-1]}}
+                      </span> 
+                 </div>
+            </div>
+             <div ng-if="Mc.media_type=='Description'">
+                  <div class="youtubewrap" ng-bind-html="Mc.media_description"></div>
+             </div>
+             <div ng-if="Mc.media_type=='Upload Image'">
+                         <div class="youtubewrap">
+                           <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img"> 
+                          </div>
+             </div>
+
+             <div ng-if="Mc.media_type=='Upload Video'">
+                 <div class="youtubewrap">
+                   <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
+                 </div>
+            </div>
+            <div ng-if="Mc.media_type=='Video Url'">
+                        <span ng-if="ifYoutube(Mc.Video_Url);">
+                        <div class="youtubewrap">
+                        <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
+                        </iframe>
+                       </div>
+                        </span>
+                        <span ng-if="!ifYoutube(Mc.Video_Url)">
+
+                          <div class="youtubewrap">
+                        <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
+                        </iframe>
+                        
+                       </div>
+                        </span>
+            </div>
+                      
+            <div ng-if="Mc.media_type=='Sketchfab Url'">
+                          <div class="youtubewrap" ng-init="ScetchFebData(Mc.id,Mc.media_description)">
+                            <div id="sketch_span_{{Mc.id}}"></div>
+                          </div>
+                        
+            </div>
+            <div ng-if="Mc.media_type=='Upload Marmoset'" style="position: relative;">
+                          <div class="youtubewrap" ng-init="MarmosetFebData(Mc.id,Mc.mediacontent.url)">
+                            <div class="video-marmoset" id="marmoset_span_marmoset_span_{{Mc.id}}"></div>
+                      
+                          </div>
+            </div>
+      </div>
+   </div>
+
+</div>
+</div>
+
+
+<div class="lessonstutorial clearfix">
+<div class="addthis_inline_share_toolbox_xe0e">
+      
+    </div>
+</div>
+<div class="wipdetailtag publishwrap">
+<div class="marginB10 publish-txt"> 
+<span class="txt-white"><strong>Category:</strong> </span> 
+<a ng-repeat="cat in category_data" href="#">{{cat.name}} &nbsp;</a> 
+</div>
+<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Tags:</strong> </span>
+&nbsp;<span ng-repeat="tag in tag_data">
+    {{tag.tag}}&nbsp;
+</span>
+ </div>
+<div class="marginB10 publish-txt">
+
+<span class="txt-white"><strong>Software Used: </strong></span> 
+<span ng-repeat="soft in software_used_name" class="softb">
+<img src="{{soft.image.software_used.url}}" class="img-rounded" alt="Software">
+{{soft.name}}
+</span> 
+
+</div>
 </div>
 <div class="clearfix SimilarPost">
 <h2 class="marginB15">Others who watched this also recommend:</h2>
 <div class="clearfix download-post">
   <div class="clearfix">
     <ul>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="watched-txt"><span>Painting Metal Armor fo Production in MARI</span> </div>
-          <div class="clearfix down-name"><span class="marginR5"><i class="fa fa-eye" aria-hidden="true"></i> 12,324 watched</span> <span class="marginL5"><i class="fa fa-bookmark" aria-hidden="true"></i> 90 added</span> </div>
+      <li class="clearfix" ng-repeat="sim in similar_news">
+        <div class="downwrap">
+        <a href="/news/{{sim.paramlink}}/show">
+        <img src="{{sim.company_logo.medium.url}}" class="img-responsive"></a>
         </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials1.jpg", :class=>"img-responsive") %></div>
         <div class="padding10 clearfix">
-          <div class="watched-txt"><span>Painting Metal Armor fo Production in MARI</span> </div>
-          <div class="clearfix down-name"><span class="marginR5"><i class="fa fa-eye" aria-hidden="true"></i> 12,324 watched</span> <span class="marginL5"><i class="fa fa-bookmark" aria-hidden="true"></i> 90 added</span> </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials2.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="watched-txt"><span>Painting Metal Armor fo Production in MARI</span> </div>
-          <div class="clearfix down-name"><span class="marginR5"><i class="fa fa-eye" aria-hidden="true"></i> 12,324 watched</span> <span class="marginL5"><i class="fa fa-bookmark" aria-hidden="true"></i> 90 added</span> </div>
-        </div>
-      </li>
-      <li class="clearfix">
-        <div class="downwrap"><%= image_tag("database/tutorials3.jpg", :class=>"img-responsive") %></div>
-        <div class="padding10 clearfix">
-          <div class="watched-txt"><span>Painting Metal Armor fo Production in MARI</span> </div>
-          <div class="clearfix down-name"><span class="marginR5"><i class="fa fa-eye" aria-hidden="true"></i> 12,324 watched</span> <span class="marginL5"><i class="fa fa-bookmark" aria-hidden="true"></i> 90 added</span> </div>
+          <div class="watched-txt">
+          <a href="/news/{{sim.paramlink}}/show"> <span>{{sim.title}}</span> </a>
+          </div>
+          <div class="clearfix down-name">
+          <span class="marginR5"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;{{sim.view_count}} watched</span> <span class="marginL5"><i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;{{sim.like_count}}</span> </div>
         </div>
       </li>
     </ul>
@@ -547,164 +156,24 @@
 </div>
 </div>
 <div class="DownloadPostRight clearfix">
-<div class="post-price marginB10">$49.00</div>
-<div class="offer-price marginB10"><%= image_tag("hand-icon.png", :class=>"marginR5", :alt=>"Hand") %> Offer your price</div>
-<div class="clearfix marginB15"> <a href="#" class="blue-btn"><i class="fa fa-shopping-cart marginR5" aria-hidden="true"></i> Add to cart</a> <a href="#" class="red-btn border-radius"><i class="fa fa-shopping-bag marginR5" aria-hidden="true"></i> Buy Now</a> </div>
-<div class="product-rating marginB15">Product Rating 
-    <% if user_signed_in? && @has_user_already_given_rating < 1 %>
-         <script>
-            $(function() {
-                $('#p_rating').raty({ score: 0, click: function(score, evt) {
-                     $.ajax({
-                          url: "<%= save_news_rating_path %>",
-                          data: { 'product_id': <%= @news_data.id %>, 'score': score, 'post_type': 'news' },
-                          type: 'post',
-                          success: function(r){
-                            $('#p_rating').raty({ score: r.ratingdata, readOnly: true});
-                          } 
-                      });
-                }});
-             });
-          </script>
-    <% else %>    
-        <script>
-            $(function() {
-                $.ajax({
-                    url: "<%= get_news_avg_rating_path %>",
-                    data: { 'product_id': <%= @news_data.id %>, 'post_type': 'news' },
-                    type: 'post',
-                    success: function(r){
-                      $('#p_rating').raty({ score: r.ratingdata, readOnly: true});
-                    } 
-                });
 
-                
-             });
-        </script> 
-    <% end %> 
-    <div id ="p_rating"></div>
-  </div>
-<div class="clearfix download-cupon">
-<ul>
-<li><a href="#">Redeem a Coupon</a></li>
-<li><a href="#">Start Free Preview</a></li>
-<li class="dropdown"><a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown">More Options <i class="fa fa-caret-down marginL5" aria-hidden="true"></i></a>
-  <ul class="dropdown-menu">
-    <li><a href="#">HTML</a></li>
-    <li><a href="#">CSS</a></li>
-    <li><a href="#">JavaScript</a></li>
-  </ul>
-</li>
-</ul>
-</div>
-<div class="clearfix WishlistHome">
-<ul>
-<li class="row">
-  <div class="col-md-4 col-sm-4 col-xs-4">Lectures</div>
-  <div class="col-md-8 col-sm-8 col-xs-8 wishlist-txt">23</div>
-</li>
-<li class="row">
-  <div class="col-md-4 col-sm-4 col-xs-4">Video</div>
-  <div class="col-md-8 col-sm-8 col-xs-8 wishlist-txt">2 hours</div>
-</li>
-<li class="row">
-  <div class="col-md-4 col-sm-4 col-xs-4">Skill Level</div>
-  <div class="col-md-8 col-sm-8 col-xs-8 wishlist-txt">All Levels</div>
-</li>
-<li class="row">
-  <div class="col-md-4 col-sm-4 col-xs-4">Languages</div>
-  <div class="col-md-8 col-sm-8 col-xs-8 wishlist-txt">English</div>
-</li>
-<li class="row">
-  <div class="col-md-4 col-sm-4 col-xs-4">Includes</div>
-  <div class="col-md-8 col-sm-8 col-xs-8 wishlist-txt">Lifetime access 30 day money back guarantee! Available on iOS and Android Certificate of Completion</div>
-</li>
-</ul>
-</div>
 <div class="clearfix featuredpost">
 <h2>Featured</h2>
 <ul>
-<li class="clearfix">
+<li ng-repeat="Ft in featured_news" class="clearfix">
   <div class="col-md-5 col-sm-5 col-xs-5">
-    <div class="video-timeline">3:11</div>
-    <%= image_tag("video3.jpg", :class=>"img-responsive", :alt=>"Video") %></div>
+   <!--  <div class="video-timeline">3:11</div> -->
+  <a href="/news/{{Ft.paramlink}}/show">  <img src="{{Ft.company_logo.medium.url}}" class="img-responsive" alt="Video"></a>
+  </div>
   <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">PK VFX BREAKDOWN 2015</a></h2>
-    <p>by Riva Animation and VFX</p>
-    <p>71,063 views</p>
+    <h2 class="margin"><a href="/news/{{Ft.paramlink}}/show">{{Ft.title}}</a></h2>
+     <p ng-if="Ft.is_admin=='Y'">Admin</p>
+     <p ng-if="Ft.is_admin=='N'">{{Ft.user.firstname}} {{Ft.user.lastname}}</p>
+    <p>{{Ft.view_count}} views</p>
   </div>
 </li>
-<li class="clearfix">
-  <div class="col-md-5 col-sm-5 col-xs-5">
-    <div class="video-timeline">3:11</div>
-    <%= image_tag("video2.jpg", :class=>"img-responsive", :alt=>"Video") %></div>
-  <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">Iron Man 3 VFX Breakdown by</a></h2>
-    <p>by Riva Animation and VFX</p>
-    <p>71,063 views</p>
-  </div>
-</li>
-<li class="clearfix">
-  <div class="col-md-5 col-sm-5 col-xs-5">
-    <div class="video-timeline">3:11</div>
-    <%= image_tag("video3.jpg", :class=>"img-responsive", :alt=>"Video") %></div>
-  <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">Iron Man 3 VFX Breakdown by</a></h2>
-    <p>by Riva Animation and VFX</p>
-    <p>71,063 views</p>
-  </div>
-</li>
-<li class="clearfix">
-  <div class="col-md-5 col-sm-5 col-xs-5">
-    <div class="video-timeline">3:11</div>
-    <%= image_tag("video2.jpg", :class=>"img-responsive", :alt=>"Video") %></div>
-  <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">Iron Man 3 VFX Breakdown by</a></h2>
-    <p>by Riva Animation and VFX</p>
-    <p>71,063 views</p>
-  </div>
-</li>
-<li class="clearfix">
-  <div class="col-md-5 col-sm-5 col-xs-5">
-    <div class="video-timeline">3:11</div>
-    <%= image_tag("video3.jpg", :class=>"img-responsive", :alt=>"Video") %></div>
-  <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">Iron Man 3 VFX Breakdown by</a></h2>
-    <p>by Riva Animation and VFX</p>
-    <p>71,063 views</p>
-  </div>
-</li>
-<li class="clearfix">
-  <div class="col-md-5 col-sm-5 col-xs-5">
-    <div class="video-timeline">3:11</div>
-    <%= image_tag("video2.jpg", :class=>"img-responsive", :alt=>"Video") %></div>
-  <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">Iron Man 3 VFX Breakdown by</a></h2>
-    <p>by Riva Animation and VFX</p>
-    <p>71,063 views</p>
-  </div>
-</li>
-<li class="clearfix">
-  <div class="col-md-5 col-sm-5 col-xs-5">
-    <div class="video-timeline">3:11</div>
-    <%= image_tag("video3.jpg", :class=>"img-responsive", :alt=>"Video") %></div>
-  <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">Iron Man 3 VFX Breakdown by</a></h2>
-    <p>by Riva Animation and VFX</p>
-    <p>71,063 views</p>
-  </div>
-</li>
-<li class="clearfix">
-  <div class="col-md-5 col-sm-5 col-xs-5">
-    <div class="video-timeline">3:11</div>
-    <%= image_tag("video2.jpg", :class=>"img-responsive", :alt=>"Video") %></div>
-  <div class="col-md-7 col-sm-7 col-xs-7 videopost">
-    <h2 class="margin"><a href="#">Iron Man 3 VFX Breakdown by</a></h2>
-    <p>by Riva Animation and VFX</p>
-    <p>71,063 views</p>
-  </div>
-</li>
-</ul>
+
+</ul> 
 </div>
 <div class="friendsbox"><%= image_tag("google-ad1.jpg", :class=>"img-responsive", :alt=>"Google Ad") %> </div>
 <div class="aside marginB15">
@@ -758,6 +227,140 @@
       </div>
     </div>
 </section>
+</div>
 <footer class="footer clearfix padding">
   <%= render 'layouts/lastfooter' %>
 </footer>
+
+<script type="text/javascript">
+var app = angular.module('myApp', ["angularUtils.directives.dirPagination",
+  "ngSanitize","angularLazyImg","MainModule","vAccordion", "ngAnimate"]);
+ 
+    app.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+    }]);   
+
+app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) {
+
+
+      $scope.ScetchFebData = function(id,data)
+    {
+      var HtmlApi = "https://sketchfab.com/oembed?url="+data+"&maxwidth=700&maxheight=450&dataType=jsonp";
+
+        $.getJSON(HtmlApi,{ajax: 'true'},
+          function(response){
+                $('#sketch_span_'+id).html(response.html);
+        });
+    }
+    $scope.MarmosetFebData =function(id,data)
+    {
+            setTimeout(function() {
+                var myviewer = new marmoset.WebViewer( 890, 650, data );
+                $('#marmoset_span_marmoset_span_'+id).html(myviewer.domRoot);
+            }, 1000);
+    }
+    $scope.ifYoutube = function(url)
+    {
+      try{
+         var video_id = url.split('v=')[1].split('&')[0];
+         if(video_id!=undefined)
+         {
+          return true;
+
+         }
+         else
+         {
+          return false;
+         }
+               
+         }
+      catch(ex)
+      {
+         return false
+      }
+    }
+    $scope.ifVimeo = function(url)
+    {
+      var match = /vimeo.*\/(\d+)/i.exec( url );
+      if ( match ) 
+      {
+        var VideoURI = "https://player.vimeo.com/video/"+match[1];
+        return $sce.trustAsResourceUrl(VideoURI);
+      }
+    }
+    $scope.setTrustUrl = function(data)
+    {
+      return $sce.trustAsResourceUrl(data);
+    }
+
+     $http.get('/news/get_news_category_list').then(function(response){
+      $scope.TopicsTypeList = response.data;
+     });
+
+     download1  = "<%= @paramlink %>"
+     var uRl = '/get_news_info/'+download1;
+         $http.get(uRl).then(function (response) {
+              $scope.news_data = response.data.news_data;
+              $scope.featured_news = response.data.featured_news;
+              $scope.similar_news = response.data.similar_news;
+              $scope.tag_data = response.data.tag_data;
+              $scope.category_data = response.data.category_data;
+              $scope.software_used_name = response.data.software_used_name;
+              $scope.similar_news = response.data.similar_news;
+              $scope.featured_news = response.data.featured_news;
+              $scope.media_contentsNews = response.data.news_content_data;
+
+              angular.forEach($scope.media_contentsNews, function(v, k){ 
+                angular.forEach(v.media_contents, function(value1, key1){ 
+                 
+                  if(value1.media_type=='Video Url')
+                  {
+
+                    value1.Video_Url = value1.media_description;
+
+                  try
+                  {
+                    var video_id = value1.Video_Url.split('v=')[1].split('&')[0];
+                   
+                    if(video_id!=undefined)
+                    {
+
+                    var updateUrl = 'https://www.youtube.com/embed/'+video_id;
+                    value1.media_description = $sce.trustAsResourceUrl(updateUrl);
+                    }
+
+                  }
+                   catch(ex)
+                    {
+                     value1.media_description = $sce.trustAsResourceUrl(value1.media_description);
+
+                     var match = /vimeo.*\/(\d+)/i.exec( value1.Video_Url );
+                      if ( match ) 
+                      {
+                        var VideoURI = "https://player.vimeo.com/video/"+match[1];
+                        value1.media_description = $sce.trustAsResourceUrl(VideoURI);
+                      }
+                    }
+
+                  }
+                });
+              });
+        });
+
+});
+  angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
+</script>
+
+<script type="text/javascript">
+  
+$(document).ready(function(){
+  $.ajax({
+        type: "post",
+        url: "<%= news_save_view_count_path %>" ,
+        data: {'news_id': '<%= @news_data.id %>'},
+        success: function(data){
+        }
+    });
+});
+
+</script>

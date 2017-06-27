@@ -1,30 +1,129 @@
+<script type = "text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+<script>
+	// $(document).ready(function(){
+		
+	// 	function ValidateEmailreg(email) {
+	//         var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+	//         return expr.test(email);
+	//     };
+
+	// 	  $("a#email_subscribe_a").click(function () {
+	// 	  		if (!ValidateEmailreg($("#inputemail").val())) {
+	// 	            alert("Invalid email address.");
+	// 	        }
+	// 	        else {
+
+	// 	        	var emailInput
+	// 	        	$.ajax({
+	// 	                	type: "post",
+	// 	                	url: "<%= get_newsletter_email_path %>" , 
+	// 	                	data: {'email': '<%= @email %>'},		
+	// 	                	success: function(data){
+	// 	                  	alert("email is in the database")}
+	// 	                 //if(data.res == 1) {
+
+	// 			            //alert("Valid email address.");
+	// 		            });
+	// 		        }
+	// 	    });
+
+	// });
+       // binds form submission and fields to the validation engine
+   //     $('#SubscribeForm').validationEngine();
+   // });
+
+	// $(document).ready(function() {
+ //            //option A
+ //            $("#SubscribeForm").unbind('submit');
+ //            // $("#SubscribeForm").submit(function(e){
+ //            //     alert('submit intercepted');
+ //            //     e.preventDefault(e);
+ //            // });
+ //        });
+ // 	function myfunction(param){
+ //  	alert("abcd");
+	// }
+
+
+    // $(document).ready(function(){
+    // 	$("#email_subscribe_input").on('blur',function(){
+    // 		$("#email_subscribe_input").validationEngine('attach');
+        	
+    //     });
+    // });
+
+   function validateEmail(email) {
+      var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      return expr.test(email);
+   };
+
+  $(document).ready(function(){
+    $("#email_subscribe_a").click(function() {
+      var email = $('#inputemail').val();
+
+      $("#error_field_name2").html("");
+
+      if (validateEmail(email)) {
+        // if email is valid then process further
+        $.ajax({
+          type: "post",
+          dataType: 'json',
+          url: "/newsletters/insert_email" , 
+          data: {'newsletter_subscriber': {'email': email}},   
+
+          success: function(data){
+           $('#inputemail').val("");	
+           $("#error_field_name2").css("color", "green");  
+           $("#error_field_name2").html("Successfully subscribed!"); 
+          },
+          error: function(data){  			
+  			$("#error_field_name2").css("color", "red");
+            $("#error_field_name2").html("Email already exists");  
+          }
+        });
+      }
+      else{
+      	$("#error_field_name2").css("color", "red");
+        var msg = '';
+        if (email.length == 0) 
+          msg = "Email can't be blank";
+        else
+          msg = "Email is not valid"
+        $("#error_field_name2").html(msg);  
+      }
+    });
+
+	});
+</script>
+
+
 <div class="container">
 	<div class="col-md-3 col-sm-6 col-xs-6 marginB5">
 	<h2>CGMeetup</h2>
 	<ul class="margin">
-	<li class="lists"><a href="<%= index_gallery_path %>">Gallery</a></li>
+	<li class="lists"><a href="<%= browse_all_gallery_path %>">Gallery</a></li>
 	<li class="lists"><a href="#">Forum</a></li>
-	<li class="lists"><a href="#">Tutorials</a></li>
-	<li class="lists"><a href="#">Downloads / Store</a></li>
-	<li class="lists"><a href="#">Jobs</a></li>
-	<li class="lists"><a href="#">Users</a></li>
-	<li class="lists"><a href="#">News</a></li>
-	<li class="lists"><a href="#">Resource</a></li>
+	<li class="lists"><a href="<%= downloads_path %>">Downloads</a></li>
+	<li class="lists"><a href="<%= tutorials_path %>">Tutorials</a></li>
+	<li class="lists"><a href="<%= jobs_path %>">Jobs</a></li>
+	<li class="lists"><a href="<%= news_path %>">News</a></li>
 	</ul>
 	</div>
 	<div class="col-md-3 col-sm-6 col-xs-6 marginB5">
 	<h2>Features</h2>
 	<ul class="margin">
 	<li class="lists"><a href="#">Trending</a></li>
-	<li class="lists"><a href="#">Editor Picks</a></li>
+	<!-- <li class="lists"><a href="#">Editor Picks</a></li>
 	<li class="lists"><a href="#">Latest</a></li>
 	<li class="lists"><a href="#">Top Artists</a></li>
-	<li class="lists"><a href="#">Top Companies</a></li>
-	<li class="lists"><a href="#">Top Images</a></li>
-	<li class="lists"><a href="#">Top Videos</a></li>
-	<li class="lists"><a href="#">Top Wip / Wants Critique</a></li>
+	<li class="lists"><a href="#">Top Companies</a></li>-->
+	<li class="lists"><a href="#">Top Gallery</a></li>
+	<li class="lists"><a href="#">Top News</a></li> 
+	<!-- <li class="lists"><a href="#">Top Wip / Wants Critique</a></li> -->
 	<li class="lists"><a href="#">Top Downloads</a></li>
-	<li class="lists"><a href="#">Top Pro</a></li>
+	<li class="lists"><a href="#">Top Tutorial</a></li>
 	</ul>
 	</div>
 	<div class="col-md-3 col-sm-6 col-xs-12 marginB5">
@@ -32,20 +131,48 @@
 	<ul class="margin">
 	<li class="lists"><a href="#">Helpdesk &amp; Customer Support</a></li>
 	<li class="lists"><a href="#">Advertise</a></li>
-	<li class="lists"><a href="#">FAQ</a></li>
-	<li class="lists"><a href="#">About</a></li>
+	<li class="lists"><a href="<%= faq_path %>">FAQ</a></li>
+	<li class="lists"><a href="<%= about_path %>">About</a></li>
 	<li class="lists"><a href="#">Sitemap</a></li>
 	<li class="lists"><a href="#">RSS</a></li>
 	<li class="lists"><a href="#">Contact Us</a></li>
 	</ul>
 	</div>
 	<div class="col-md-3 col-sm-6 col-xs-12 marginB5">
-	<div class="facebook"><span class="leftsocial"><i class="fa fa-facebook" aria-hidden="true"></i></span> Facebook <span class="socialwrap pull-right">645,256</span></div>
-	<div class="twitter"><span class="leftsocial"><i class="fa fa-twitter" aria-hidden="true"></i></span> Twitter <span class="socialwrap pull-right">645,256</span></div>
-	<div class="googleplus"><span class="leftsocial"><i class="fa fa-google-plus" aria-hidden="true"></i></span> Google + <span class="socialwrap pull-right">645,256</span></div>
+	<%= link_to @fb[:link], :target => "_blank" do %>
+	  <div class="facebook"><span class="leftsocial"><i class="fa fa-facebook" aria-hidden="true"></i></span> Facebook <span class="socialwrap pull-right"><%=  @fb[:count]%></span></div>		
+	<% end %>
+	
+	<%= link_to @twtr[:link], :target => "_blank" do %>
+	<div class="twitter"><span class="leftsocial"><i class="fa fa-twitter" aria-hidden="true"></i></span> Twitter <span class="socialwrap pull-right"><%= @twtr[:count]%></span></div>
+	<% end %>
+
+
+	<%= link_to  @yb[:link], :target => "_blank" do %>
+	<div class="googleplus"><span class="leftsocial"><i class="fa fa-youtube-square" aria-hidden="true"></i></span> Youtube<span class="socialwrap pull-right"><%= @yb[:count] %></span></div>
+	<% end %>
+
+	<%= link_to  @im[:link], :target => "_blank" do %>
+	<div class="googleplus"><span class="leftsocial"><i class="fa fa-instagram" aria-hidden="true"></i></span>Instagram<span class="socialwrap pull-right"><%= @im[:count] %></span></div>
+	<% end %>
+
+	<%= link_to @gl[:link], :target => "_blank" do %>
+	<div class="googleplus"><span class="leftsocial"><i class="fa fa-google-plus" aria-hidden="true"></i></span> Google + <span class="socialwrap pull-right"><%= @gl[:count] %></span></div>
+	<% end %>
 	<div class="subtext">Subscribe to our newsletter for weekly updates.</div>
 	<div class="subscribewrap">
-	<input type="email" placeholder="Email" class="subemail">
-	<a href="#" class="subbtn pull-right text-center">Subscribe</a> </div>
+	<!-- <form id="SubscribeForm" method="POST" action="">
+	<input type="email" name="email" id="email_subscribe_input" placeholder="Email" data-validation-engine="validate[required,custom[email]]"
+	data-errormessage-value-missing="Email is required!" 
+	data-errormessage-custom-error="Let me give you a hint: someone@nowhere.com" 
+	data-errormessage="please enter a valid email address." class="subemail"/> -->
+	<input type="email" placeholder="Email" id="inputemail" class="subemail">
+
+	<!-- <a class="subbtn pull-right text-center" id="email_subscribe_a">Subscribe </a> -->
+
+	<a class="subbtn pull-right text-center" id="email_subscribe_a">Subscribe</a></div>
+	<span class="error" id="error_field_name2"></span>
 	</div>
+	
 </div>
+

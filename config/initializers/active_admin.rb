@@ -324,17 +324,6 @@ ActiveAdmin.setup do |config|
     menu.add priority: 12, label: "Tags" do |sites|
     end
 
-    menu.add priority: 13, label: "Sales" do |sites|
-       sites.add label: "Latest Sales", priority: 1,   url: "#"
-       sites.add label: "Money Transaction (monthly to user account)", priority: 2,   url: "#"
-       sites.add label: "Coupons", priority: 3,   url: "#"
-       sites.add label: "Gateway settings (paypal & ccavenue)", priority: 4,   url: "#"
-    end
-
-    menu.add priority: 14, label: "Email" do |sites|
-       sites.add label: "Newsletters", priority: 1,   url: "#"       
-    end
-
     menu.add priority: 18, label: "Account" do |sites|
     end
 

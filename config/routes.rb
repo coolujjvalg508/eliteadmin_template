@@ -73,7 +73,8 @@ Rails.application.routes.draw do
   get 'portfolio' => 'user#user_portfolio', as: 'user_portfolio' 
   get 'profile' => 'user#user_profile_info', as: 'my_profile' 
   get 'user-jobs' => 'user#user_jobs', as: 'user_jobs' 
-
+  put 'cancel_account' => 'user#cancel_account', as: 'cancel_account'
+  
   get 'about-us/:id' => 'user#other_user_profile', as: 'user_profile_info' 
 
   get 'edit-profile' => 'user#edit_profile', as: 'edit_profile' 
@@ -124,6 +125,8 @@ Rails.application.routes.draw do
   post 'tutorials/check_mark_spam'                => 'tutorials#check_mark_spam', as: 'check_mark_spam_tutorial' 
 
 
+  get 'tutorials/test_demo'                              => 'tutorials#test_demo', as: 'test_demo'
+
   get 'tutorials/get_topic_type_subject_detail_list/:topic' => 'tutorials#get_topic_type_subject_detail_list', as: 'get_topic_type_subject_detail_list'   
 
   get 'tutorials/get_usertutorial_list'            => 'tutorials#get_usertutorial_list', as: 'get_usertutorial_list'
@@ -157,6 +160,8 @@ Rails.application.routes.draw do
   get 'job/job_post'
   get 'jobs'=> 'job#job_home'
   get 'jobs/:id'=> 'job#apply_job', as: 'apply_job' 
+
+
   get 'company/:id/jobs'=> 'user#apply_job', as: 'user_apply_job' 
   get 'job/job_category' 
   #get 'job/job_company_list_on_map'
@@ -251,6 +256,7 @@ Rails.application.routes.draw do
     get  'bookmark/:paramlink/bookmarks'            => 'collections#show', as: 'collection_detail'
     get  'bookmarkdelete'                           => 'collections#collectiondelete', as: 'collectiondelete'
     get  'get_all_bookmark'                         => 'collections#get_all_collection', as: 'get_all_collection'
+    post 'add_to_bookmark'                          => 'collections#add_collection', as: 'add_collection_detail'
 
     resources :reports
 
@@ -284,26 +290,36 @@ Rails.application.routes.draw do
     post 'contests/check_follow_contest'           => 'contests#check_follow_contest', as: 'check_follow_contest'   
 
 
+    get 'dashboard/news/new'                      => 'news#new', as: 'create_news' 
+    post 'news/create'                            => 'news#create',as: 'save_news'
+    get 'dashboard/news'                          => 'news#listing_index', as: 'index_news'
+    get 'dashboard/news/:paramlink/edit'          => 'news#edit', as: 'modify_news' 
+    patch 'news/:paramlink/update'                => 'news#update', as: 'update_news' 
+    # get 'news/:paramlink/show'                    => 'news#show', as: 'show_news' 
 
-    get 'news/index'
-    get 'news/free_news'
-    get 'news/news_category'
-    get 'news/news_all_category'
+    get 'news'=> 'news#index'
     get 'news/news_post'
     get 'news/get_news_list'
-    get 'news/get_category_list'
-    get 'news/:paramlink/show'            => 'news#show', as: 'show_news' 
-    post 'news/check_save_like'           => 'news#check_save_like', as: 'check_newssave_like' 
-    post 'news/check_follow_artist'       => 'news#check_follow_artist', as: 'check_newsfollow_artist'
-    post 'news/follow_artist'             => 'news#follow_artist', as: 'news_follow_artist'
-    post 'news/save_like'                 => 'news#save_like', as: 'newssave_like' 
- 
-    post 'news/save_news_rating'           => 'news#save_news_rating', as: 'save_news_rating'
-  	post 'news/get_news_avg_rating'        => 'news#get_news_avg_rating', as: 'get_news_avg_rating'
-    post 'news/mark_spam'                  => 'news#mark_spam', as: 'mark_spam_news' 
-    post 'news/check_mark_spam'            => 'news#check_mark_spam', as: 'check_mark_spam_news'
+    get 'news/:paramlink/show'                        => 'news#show', as: 'show_news' 
+    get 'news/get_news_category_list'                 => 'news#get_news_category_list', as: 'get_news_category_list'
+    get 'news/all'                                    => 'news#news_all_category', as: 'news_all_category'
+    get 'news/get_all_category_list'                  => 'news#get_all_category_list', as: 'get_all_category_list' 
+    get 'news/get_category_detail/:category'          => 'news#get_category_detail', as: 'get_category_detail' 
+    get 'news/get_category_news_list'                 => 'news#get_category_news_list', as: 'get_category_news_list'  
+
+    get 'news/:paramlink/make_trash'         => 'news#make_trash', as: 'trash_news'
+    get 'news/:paramlink/delete_from_trash'  => 'news#delete_from_trash', as: 'delete_news_from_trash'
+    get 'news/:paramlink/restore_news'   => 'news#restore_news', as: 'restore_news'
+
+    get 'news/count_user_news_post'         => 'news#count_user_news_post', as: 'count_user_news_post'
+    get 'news/get_usernews_list'            => 'news#get_usernews_list', as: 'get_usernews_list'
+
+    get 'get_news_info/:paramlink'              => 'api#get_news_info', as: 'get_news_info'
+
+    post 'news/delete_news_post'            => 'news#delete_news_post', as: 'delete_news_post'
 
 
+    post 'news/save_view_count'            => 'news#save_view_count', as: 'news_save_view_count'
 
   get 'downloads'=> 'downloads#download'
   
@@ -395,14 +411,34 @@ Rails.application.routes.draw do
   get 'update_read_notification' => 'user#update_read_notification', as: 'update_read_notification' 
 
   post 'save_qb_data' => 'user#save_qb_data'
+
+  get 'api/get_featured_news'            => 'api#get_featured_news', as: 'home_get_featured_news'
+  get 'api/get_site_setting'             => 'api#get_site_setting', as: 'get_site_setting'
+  get 'api/get_community'                => 'api#get_community', as: 'get_community'
+  get 'api/get_downloads'                => 'api#get_downloads', as: 'get_downloads'
+  get 'api/get_news'                     => 'api#get_news', as: 'get_news'
+  get 'api/get_jobs'                     => 'api#get_jobs', as: 'get_jobs'
+  get 'api/get_top_artist'               => 'api#get_top_artist', as: 'get_top_artist'
+
+
+
   
 
   namespace :admin do
-	 post 'images/saveimage' => 'images#saveimages'
+	   post 'images/saveimage'    => 'images#saveimages'
+
   end
 
 
+  get 'news/:category'                                   => 'news#news_category', as: 'news_category'   
+  get 'news/:category/:sub_category'                     => 'news#news_sub_category', as: 'news_sub_category'   
+
+
   get 'tutorials/:topic'                              => 'tutorials#tutorial_detail', as: 'tutorial_detail'   
+  
+   
+  
+
   get 'tutorials/:topic/:subject'                     => 'tutorials#tutorial_subject', as: 'tutorial_subject'   
   get 'tutorials/:topic/:subject/:sub_subject'        => 'tutorials#tutorial_sub_subject', as: 'tutorial_sub_subject'  
 
@@ -413,8 +449,20 @@ Rails.application.routes.draw do
   get 'downloads/:post_type/:category_type'                     => 'downloads#download_category', as: 'download_category'   
   get 'downloads/:post_type/:category_type/:sub_category_type'  => 'downloads#download_sub_category', as: 'download_sub_category'  
 
+
+  get 'newsletters/get_email'              => 'newsletters#get_email', as: 'get_newsletter_email'
   
   
+
+  #get 'about' => 'pages#about', as: 'about'
+
+  get 'about' => 'pages#show', as: 'about', :defaults => { :page_url => "about" }
+  get 'terms' => 'pages#show', as: 'terms', :defaults => { :page_url => "terms" }
+  get 'privacy' => 'pages#show', as: 'privacy', :defaults => { :page_url => "privacy" }
+
+  get 'faq' => 'pages#faq', as: 'faq'
+
+  post 'newsletters/insert_email' => 'newsletters#insert_email', as: 'subscribe_email'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

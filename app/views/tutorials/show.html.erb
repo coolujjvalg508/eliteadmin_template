@@ -2,8 +2,8 @@
 <script type="text/javascript">
   $.fn.raty.defaults.path = '<%= root_url+'assets' %>';
 </script>
-<!-- <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
- -->  
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
+  
  <%#= stylesheet_link_tag "v-accordion" %>
 <div id="myApp2" ng-app="myApp">
 <div ng-controller="myCtrl">
@@ -47,7 +47,6 @@
 
 
 <div ng-repeat="Mc in BigMediaContant">
- <!--  <iframe width="100px" height="400" src="https://www.youtube.com/embed/6roIVjov4hw?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0" frameborder="0" allowfullscreen></iframe> -->
 <div ng-if="Mc.media_type=='Video Url'">
                   <div ng-if="ifYoutube(Mc.Video_Url);">
                   <div class="youtubewrap">
@@ -76,34 +75,27 @@
                      <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
                   </div>
  </div>
- <div ng-if="Mc.media_type=='Description'">
+ <div ng-if="Mc.media_type!='Upload Video' && Mc.media_type!='Upload Image' && Mc.media_type!='Video Url'">
                
                   <div class="youtubewrap">
-                  <img src="/uploads/media_content/mediacontent/71/455922-451515-virat-kohli-outstretched.jpg" class="img-responsive" alt="img"> 
-                   
+                  
+                  <img src="/assets/media-not-found.jpg" class="img-responsive">
                   </div>
  </div>
-  <div ng-if="Mc.media_type=='Sketchfab Url'">
-               
-                  <div class="youtubewrap">
-                  <img src="/uploads/media_content/mediacontent/71/455922-451515-virat-kohli-outstretched.jpg" class="img-responsive" alt="img"> 
-                  </div>
- </div>
-  <div ng-if="Mc.media_type=='Upload Marmoset'">
-               
-                  <div class="youtubewrap">
-                  <img src="/uploads/media_content/mediacontent/71/455922-451515-virat-kohli-outstretched.jpg" class="img-responsive" alt="img"> 
-                  </div>
- </div>
- <div ng-if="Mc.media_type=='Upload Zip'">
-               
-                  <div class="youtubewrap">
-                  <img src="/uploads/media_content/mediacontent/71/455922-451515-virat-kohli-outstretched.jpg" class="img-responsive" alt="img"> 
-                  </div>
- </div>
-
-
 </div>
+
+<div ng-if="!all_chapters_data[0].media_contents.length >0">
+               
+                  <div class="youtubewrap">
+                  <img src="/assets/media-not-found.jpg" class="img-responsive">
+                  </div>
+ </div>
+ <div ng-if="!BigMediaContant.length >0 && all_chapters_data[0].media_contents.length >0">
+               
+                <div class="youtubewrap">
+                <img src="/assets/media-not-found.jpg" class="img-responsive">
+                </div>
+ </div>
  
 </div>
 <div class="comment-wrap clearfix">
@@ -190,7 +182,7 @@
 </div>
   
 <div class="lessonstutorial clearfix marginB15">
-<div class="row">
+<div class="row" ng-if="all_chapters_data.length >0">
   <div class="col-md-4 col-sm-4 col-xs-12"> 
     <h2>Lessons in this tutorial </h2>
   </div>
@@ -219,7 +211,7 @@
                     <div class="col-md-1 col-sm-2 col-xs-2 text-right time-txt">
                      {{pane.video_timing}}
                    </div>
-                      <h5><a href="#">Wath it now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></h5>
+                      <h5><a href="#">Watch it Now <i class="fa fa-angle-double-right" aria-hidden="true"></i></a></h5>
                     </v-pane-header>
 
                     <v-pane-content  id="{{ ::pane.id }}-content" aria-labelledby="{{ ::pane.id }}-header">
@@ -440,7 +432,7 @@
     <a ng-if="tutorial_data.is_admin=='Y'" href="#">Admin</a>
     <a ng-if="tutorial_data.is_admin=='N'" href="#">{{tutorial_data.user.firstname}}&nbsp;{{tutorial_data.user.lastname}}</a>
   </div>
-  <div class="post-price marginB10" ng-if="tutorial_data.free==false">${{tutorial_data.price}}</div>
+  <div class="post-price marginB10" ng-if="tutorial_data.free==false">{{tutorial_data.price | currency}}</div>
   <div class="post-price marginB10" ng-if="tutorial_data.free==true">Free</div>
 
   <div class="offer-price marginB10"><%= image_tag("hand-icon.png", :alt => "Hand", :class => 'marginR5') %> Offer your price</div>
@@ -601,8 +593,37 @@
               <button type="button" class="lightbtn" data-dismiss="modal">Close</button>
               <button type="submit" class="lightbtn">Create</button>
             </div>
-          </div>
+          
         <% end %> 
+
+        <div class="modal-header">
+                  <h4 class="modal-title" id="exampleModalLabel">Saved collections</h4>
+                </div>
+                
+                <div class="modal-body">            
+                  <div class="form-group">
+                    <ul style="width: 570px; height: 250px; overflow: auto">
+                      <% if @collections!=nil %>
+                        <% i=1 %>
+                        <%  @collections.each do |d| %>                   
+                          <li>
+                             <span class="col-sm-2"> <%= i %>.</span>
+                             <span class="col-sm-4"><%= d.title %></span>                              
+                             <% if find_tutorial_id(d.id,@tutorial_data.id) %>
+                              <button class="collection btn btn-primary" id=<%= d.id %> type="button" disabled>Added</button>
+                            <% else %>
+                              <button class="collection btn btn-primary" id=<%= d.id %> type="button">Add to collection</button>
+                            <% end %>
+                          </li>
+                          <br></br>
+                          <% i=i+1 %>     
+                        
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+      </div>          
     </div>
   </div>
 </section>
@@ -669,7 +690,6 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
             $scope.similar_tutorial = response.data.similar_tutorial;
             $scope.all_chapters_data = response.data.all_chapters_data;
             $scope.is_purchasedTutorial = response.data.is_purchased;
-            var keepGoing = true;
             angular.forEach($scope.all_chapters_data, function(v, k){ 
                 angular.forEach(v.media_contents, function(value1, key1){ 
                  
@@ -705,48 +725,43 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
                   }
                 });
                 });
-             angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
 
-              if(keepGoing) {
-                   if(value.media_type=='Upload Video')
-                   {
-                       $scope.BigMediaContant.push(value);
-                        keepGoing = false;
-                   }
-
-                   if(value.media_type=='Video Url')
-                   {
-                       $scope.BigMediaContant.push(value);
-                       keepGoing = false;
-                   }
+var keepGoing1 = true;
+var keepGoing2 = true;
+var keepGoing3 = true;
+angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
+                if(keepGoing1) {
                    if(value.media_type=='Upload Image')
                    {
-                       $scope.BigMediaContant.push(value);
-                        keepGoing = false;
+                      keepGoing1 = false;
+                      $scope.BigMediaContant =[];
+                      $scope.BigMediaContant.push(value);
                    }
-                   if(value.media_type=='Description')
-                   {
-                       $scope.BigMediaContant.push(value);
-                        keepGoing = false;
-                   }
-                   if(value.media_type=='Sketchfab Url')
-                   {
-                       $scope.BigMediaContant.push(value);
-                        keepGoing = false;
-                   }
-                    if(value.media_type=='Upload Marmoset')
-                   {
-                       $scope.BigMediaContant.push(value);
-                        keepGoing = false;
-                   }
-                   if(value.media_type=='Upload Zip')
-                   {
-                       $scope.BigMediaContant.push(value);
-                        keepGoing = false;
-                   }
-                   
                  }
             });
+
+angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
+                if(keepGoing2){
+                   if(value.media_type=='Video Url')
+                   {
+                      keepGoing2 = false;
+                      $scope.BigMediaContant =[];
+                      $scope.BigMediaContant.push(value);
+                   }
+                 }
+            });
+
+angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
+                if(keepGoing3){
+                   if(value.media_type=='Upload Video')
+                   {
+                      keepGoing3 = false;
+                      $scope.BigMediaContant =[];
+                      $scope.BigMediaContant.push(value);
+                   }
+                 }
+            });
+
            
         });
 
@@ -941,6 +956,21 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
 
               }
           }
+        });
+    });
+
+    $(".collection").on('click',function() {
+    var id = $(this).attr("id");  
+    $.ajax({          
+            type: "post",
+            url: "<%= add_collection_detail_path %>",
+            data: {'collection_id': id,'tutorial_id': '<%= @tutorial_data.id %>'},
+            success: function(r){ 
+               if(r.res == 1) {
+                  $("#"+id).html("Added");
+                  $("#"+id).attr("disabled", true);
+                 }              
+            } 
         });
     });
 

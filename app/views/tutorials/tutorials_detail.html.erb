@@ -1,0 +1,96 @@
+<div id="myApp2" ng-app="downloadPost" ng-controller="postDetail" >
+  <!-- Submenu Navigation -->
+  <section class="wip-navigation-wrap" >
+    <div class="navbar-default">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 header-search paddinB10 paddinT10">
+            <div class="input-group stylish-input-group">
+              <input type="text" class="form-control" ng-model="search" placeholder="Search 520 000 3D models" >
+              <span class="input-group-addon">
+              <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+              </span> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--  Download Details Content -->
+  <section class="clearfix downloaddetailwrap">
+    <div class="container">
+      <h2>{{DownloadPosts.post_type_data.type_name}}</h2>
+      <div class="downloadtxt">{{DownloadPosts.post_type_data.description}}</div>
+      <h3 class="text-uppercase">Popular Tags</h3>
+      
+      <ul>
+        <li ng-repeat="tag in tags"><a href="#">{{tag.tag}}</a></li>
+      
+      </ul>
+      
+    </div>
+  </section>
+
+  <!-- Download Indent Start -->
+  <section class="clearfix downloadpageindent">
+    <div class="container" dir-paginate="post in post_type_category_data | filter:search | itemsPerPage:10" >
+      <div class="downcontent clearfix">
+        <div class="clearfix padding15">
+          <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-12">
+              <center>
+              
+              <img class="img-responsive" alt="img" src="{{post.post_type_category.image.tutorial_list.url}}">
+              </center>
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+              <div class="down-title">
+              <a href="{{PageName}}/{{post.post_type_category.slug}}">{{post.post_type_category.name}}</a> 
+              <span>{{DownloadPosts.post_type_data.type_name}}</span></div>
+              <div class="downloads-txt">
+             {{post.post_type_category.description}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix downloadpagelink">
+          <ul>
+            <li ng-repeat="subcat in post.post_type_sub_categories">
+            <a href="/downloads/{{PageName}}/{{post.post_type_category.slug}}/{{subcat.slug}}">{{subcat.name}}</a></li>
+     
+          </ul>
+          <div class="text-center text-uppercase">
+    <div class="pagination clearfix">
+            <dir-pagination-controls
+                 max-size="3"
+                 direction-links="true"
+                 boundary-links="false" >
+            </dir-pagination-controls>
+          </div>
+    </div>
+        </div>
+      </div>
+   
+    </div>
+  </section>
+</div>
+<footer class="footer clearfix">
+  <%= render "layouts/lastfooter" %>
+</footer>
+<script type="text/javascript">
+  var app = angular.module('downloadPost',["angularUtils.directives.dirPagination","rzModule","MainModule"]);
+   app.controller('postDetail',function($scope,$http,$location){
+     var Url = window.location.href;
+
+    var params = Url.split('/').slice(-1)[0];
+   var uRI = "/tutorials/get_topic_type_subject_detail_list/"+params;
+     $http.get(uRI).then(function (response) {
+          $scope.PageName = params;
+
+          $scope.DownloadPosts = response.data;
+          $scope.tags = response.data.tags;
+          $scope.post_type_category_data =response.data.post_type_category_data ;
+        });
+  });
+      angular.bootstrap(document.getElementById("myApp2"), ['downloadPost']);
+</script>
