@@ -5,7 +5,7 @@ ActiveAdmin.register News do
 
     permit_params :title,:paramlink,:topic, :user_id,:is_admin, {:category_id => []},{:sub_category_id => []},:show_on_cgmeetup,:show_on_website, :schedule_time, :description, {:software_used => []} , :tags, :is_featured, :is_urgent, :status, :is_paid, :price, :is_save_to_draft, :visibility, :publish, :company_logo,  {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_marmoset,:marmoset_cache], :lessons_attributes => [:id,:lesson_title, :lesson_video, :lesson_video_link, :lessonable_id,:lessonable_type, :_destroy,:tmp_lesson,:lesson_video_cache, :lesson_description,:lesson_image],:zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption]
 
-/
+
 	collection_action :get_sub_category, method: :get do
 		ids		 =	params[:id]
 		category = NewsCategory.where(parent_id: ids).order('name asc').pluck(:name, :id)
@@ -24,7 +24,7 @@ ActiveAdmin.register News do
 	action_item :change_approve_status, only: :show do
 		lbl = news.is_approved? ? "Disapprove News" : "Approve News"
 		link_to lbl, change_approve_status_admin_news_path(news), method: :put
-	end /
+	end 
 
 	 controller do
 
