@@ -48,11 +48,6 @@ ActiveAdmin.register News do
 	  end
 
 
-
-
-
-
-
 	form multipart: true do |f|
 
 		f.inputs "News" do
@@ -153,6 +148,7 @@ ActiveAdmin.register News do
   end
 
    controller do
+   	defaults :route_collection_name => 'news_index', :route_instance_name => 'news'
 	  def create
 			params[:news][:user_id] = current_admin_user.id.to_s
 			params[:news][:is_admin] = 'Y'
