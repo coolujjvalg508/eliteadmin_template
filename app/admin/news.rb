@@ -11,7 +11,7 @@ ActiveAdmin.register News do
 		category = NewsCategory.where(parent_id: ids).order('name asc').pluck(:name, :id)
 		render json: category, status: 200
 	end
-=begin
+
 	member_action :change_approve_status, method: :put do
 		news = News.find params[:id]
 		news["is_approved"] = !news["is_approved"]
@@ -25,7 +25,7 @@ ActiveAdmin.register News do
 		lbl = news.is_approved? ? "Disapprove News" : "Approve News"
 		link_to lbl, change_approve_status_admin_news_path(news), method: :put
 	end
-=end
+
 	 controller do
 
 		def action_methods
