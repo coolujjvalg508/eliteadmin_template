@@ -18,7 +18,7 @@
             <div class="gallery-slide-wrap clearfix">
               <!-- <div class="slick-prev"><a href="#" class="fa fa-angle-left" aria-hidden="true"></a></div>
               <div class="slick-next"><a href="#" class="fa fa-angle-right" aria-hidden="true"></a></div> -->
-              
+
                 <%
 
                     if @result.images.present?
@@ -26,7 +26,7 @@
 
                         if index > 0
                           break
-                        end  
+                        end
                 %>
                 <div class="text-center lightcolor "></div>
                   <div class="galleryslide">
@@ -34,14 +34,14 @@
                       <center>
                         <%= image_tag(j.image.large_image.url,:alt => "Gallery",:class=>"img-responsive") %>
                       </center>
-                      
+
                   </div>
                 <%
-                      end  
-                  end    
+                      end
+                  end
                 %>
-               
-               
+
+
                 <%
                     if @result.images.present?
                       @result.images.each_with_index do |j, index|
@@ -49,7 +49,7 @@
 
                         if index == 0
                           next
-                        end  
+                        end
                 %>
                  <div class=" text-center lightcolor wip-txt" style="background: none !important"><%= j.caption_image %></div>
                   <div class="galleryslide">
@@ -57,24 +57,24 @@
                       <center>
                         <%= image_tag(j.image.large_image.url,:alt => "Gallery",:class=>"img-responsive") %>
                       </center>
-                      
+
                   </div>
                 <%
-                      end  
-                  end    
+                      end
+                  end
                 %>
 
                  <%
                     if @result.videos.present?
                       @result.videos.each_with_index do |j, index|
-                      
-                      if(j.video.include?('youtube')) 
+
+                      if(j.video.include?('youtube'))
                           if j.video[/youtu\.be\/([^\?]*)/]
                               youtube_id = $1
                           else
                               j.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
                               youtube_id = $5
-                          end 
+                          end
                       %>
                        <div class="text-center lightcolor wip-txt" style="background: none !important"><%= j.caption_video %></div>
                         <div class="galleryslide">
@@ -82,11 +82,11 @@
                             <center>
                              <iframe width="700px" height="450px" src="https://www.youtube.com/embed/<%= youtube_id %>" frameborder="0" allowfullscreen></iframe>
                             </center>
-                          
+
                         </div>
 
-                                  
-                    <% elsif(j.video.include?('vimeo')) 
+
+                    <% elsif(j.video.include?('vimeo'))
                         match = j.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
 
                         if match.present?
@@ -97,11 +97,11 @@
                                 <center>
                                  <iframe width="700px" height="450px"  src="https://player.vimeo.com/video/<%= vimeoid %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                                 </center>
-                          
+
                              </div>
 
-                    <% end 
-                     elsif(j.video.include?('dailymotion'))  
+                    <% end
+                     elsif(j.video.include?('dailymotion'))
                         match =  j.video.gsub('http://www.dailymotion.com/video/', "")
                         match1  = match.index('_')
                         match = match[0...match1]
@@ -113,29 +113,29 @@
                                 <center>
                                  <iframe width="700px" height="450px"  frameborder="0"  src="//www.dailymotion.com/embed/video/<%= dailymotionid %>" allowfullscreen></iframe>
                                 </center>
-                          
+
                              </div>
 
-                    <% end 
+                    <% end
                     end %>
-                <%    
-                  end  
-                  end  
+                <%
+                  end
+                  end
               %>
 
               <%
                     if @result.sketchfebs.present?
                       @result.sketchfebs.each_with_index do |j, index|
-                      
+
                       url = "https://sketchfab.com/oembed?url="+j.sketchfeb+"&maxwidth=700&maxheight=450&dataType=jsonp"
                 %>
 
                   <script type="text/javascript">
                     $(document).ready(function(){
                           $.getJSON("<%= url %>",{ajax: 'true'}, function(response){
-                             // console.log(response);  
+                             // console.log(response);
                               $('#sketch_span_'+"<%= index %>").html(response.html);
-                          }) 
+                          })
 
                     })
                   </script>
@@ -145,11 +145,11 @@
                             <center>
                              <span class="img-responsive"  id='sketch_span_<%= index %>'></span>
                             </center>
-                      
+
                     </div>
                 <%
-                      end  
-                  end    
+                      end
+                  end
                 %>
 
 
@@ -175,12 +175,12 @@
                         <center>
                            <div   id='marmoset_span_<%= index %>'></div>
                         </center>
-                        
+
                     </div>
                 <%
 
-                      end  
-                  end    
+                      end
+                  end
                 %>
 
                  <%
@@ -195,11 +195,11 @@
                         <center>
                             <iframe width="700px" height="450px"  frameborder="0"  src="<%= url %>" allowfullscreen></iframe>
                         </center>
-                        
+
                     </div>
                   <%
-                      end  
-                  end    
+                      end
+                  end
                 %>
               </div>
 
@@ -214,7 +214,7 @@
                         <div class="jobprofilepic">
                         <% if @result.company_logo.present? %>
                             <img lazy-img="<%= @result.company_logo.jobs_home.url %>" class="img-responsive">
-                        <% end %>    
+                        <% end %>
                         </div>
                         <div class="jobprofile clearfix">
                             <h3><%= @result.title %></h3>
@@ -226,19 +226,19 @@
                                 <% else %>
                                     <%= @result.company_name %>
                                 <% end %>
-                                
-                                    
-                                </span> 
+
+
+                                </span>
                                 <i aria-hidden="true" class="fa fa-map-marker marginR5 marginL5"></i> <%=@result.city%><%= @result.city != '' && @result.try(:country).try(:name) != '' ? ', ' : ''%> <%=@result.try(:country).try(:name)%> <i aria-hidden="true" class="fa fa-bookmark marginR5 marginL5"></i> Job Type: <%= @result.job_type %> <i class="fa fa-calendar marginL5 marginR5" aria-hidden="true"></i> Posted: <%= @result.created_at.strftime("%d %B %Y") %>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-12"> 
+                    <div class="col-md-4 col-sm-4 col-xs-12">
                         <span class="price-txt">
                             <%= @result.from_amount != '' ? '$' + @result.from_amount : ''%> <%= @result.from_amount != '' && @result.to_amount != '' ? '-' : ''%> <%= @result.to_amount != '' ? '$' + @result.to_amount : ''%>
                         </span>
-                     <button class="green-btn btn btn-danger mark_spam" type="button">Mark as Spam<i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button> 
-                     <button class="green-btn btn btn-danger unmark_spam hidden" type="button">Marked as Spam  </button> 
+                     <button class="green-btn btn btn-danger mark_spam" type="button">Mark as Spam<i class="fa fa-caret-right marginL5" aria-hidden="true"></i></button>
+                     <button class="green-btn btn btn-danger unmark_spam hidden" type="button">Marked as Spam  </button>
                     </div>
                 </div>
                 <div class="clearfix marginB15">
@@ -247,30 +247,30 @@
                     <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
                     <!-- Go to www.addthis.com/dashboard to customize your tools -->
                          <div class="addthis_inline_share_toolbox_xe0e"></div>
-                        
+
                     </div>
                 </div>
                 <div class="clearfix marginB15 jobs-indent">
                     <div class="col-md-12">
                         <%= @result.description.html_safe %>
-                                             
+
 
                         <% if @result.tags.present? %>
 
                             <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Tag</h3>
                             <ul>
-                                <% 
+                                <%
                                 alltag = ''
                                 @result.tags.each do |i|
-                                    alltag += i.tag+', ' 
+                                    alltag += i.tag+', '
 
-                                 end    
-                                    
+                                 end
+
                                  %>
                                  <li class="text-uppercase"><%= alltag.chomp(', ') %> </li>
-                                
+
                             </ul>
-                        <% end %>     
+                        <% end %>
 
 
                          <% if @job_category.present? %>
@@ -278,13 +278,13 @@
                             <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Job Category</h3>
                             <ul>
                                 <% @job_category.each do |js|
-                                    
+
                                  %>
                                     <li class="text-uppercase"><%= js.name %></li>
                                 <% end %>
                             </ul>
                         <% end %>
-                        
+
                         <% if @software_expertise.present? %>
 
                             <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Software Expertise</h3>
@@ -308,32 +308,32 @@
                         <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Work Remotely</h3>
                         <ul>
                                 <li class="text-uppercase"><%= @result.work_remotely? ? 'Yes' : 'No' %> </li>
-                                
+
                         </ul>
 
                          <h3><i class="fa fa-lightbulb-o" aria-hidden="true"></i> Relocation Assistance</h3>
                         <ul>
                                 <li class="text-uppercase"><%= @result.relocation_asistance? ? 'Yes' : 'No' %> </li>
-                                
+
                         </ul>
 
                         <h3><i class="fa fa-ellipsis-v" aria-hidden="true"></i> How to Apply</h3>
                         <div id="apply_html" class="clearfix marginB15 jobs-indent">
-                          
+
                               <p><%=
                                 if @result.apply_type == 'instruction'
-                                   
+
                                     @result.apply_instruction.html_safe
-                                
+
                                 elsif @result.apply_type == 'email'
                                     "Please send your resume to" +  @result.apply_email + ". if you are intersted"
-                                   
-                               
-                                end    
-                              %></p>  
 
 
-                        </div> 
+                                end
+                              %></p>
+
+
+                        </div>
                         <!--  <p>Please send your resume to <a href="mailto:hr@cgmeetup.net">hr@cgmeetup.net</a>. if you are intersted"</p> -->
                     </div>
                     <div class="clearfix marginB40">
@@ -343,16 +343,16 @@
                         <div class="col-md-8 col-sm-8 col-xs-12 text-right1">
                         <%#= image_tag("sociall-follow.jpg", :alt=>"Sociall") %>
                         <!-- Go to www.addthis.com/dashboard to customize your tools -->
-                       <div class="addthis_inline_share_toolbox_xe0e"></div> 
-                            
+                       <div class="addthis_inline_share_toolbox_xe0e"></div>
+
                         </div>
                     </div>
                     <div class="clearfix youmaylikewrap">
                         <h2>You May Also Like</h2>
                         <div class="youmaylikeindent clearfix">
-                         <% if @similar_jobs.present? %> 
+                         <% if @similar_jobs.present? %>
                              <% @similar_jobs.each do |similar_job| %>
-                            
+
                             <div class="col-md-6 col-sm-6 col-xs-12 marginB25">
                                 <div class="maylikeleft pull-left"> <img lazy-img="<%= similar_job.company_logo.jobs_home.url %>" class="img-responsive"></div>
                                 <div class="maylikeright pull-right clearfix">
@@ -361,11 +361,11 @@
                                     <p class="marginB5"><i aria-hidden="true" class="fa fa-map-marker marginR5"></i><%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%= similar_job.try(:country).try(:name) %></p>
                                 </div>
                             </div>
-                            <% end %>   
-                        <% end %>   
-          
-                            
-           
+                            <% end %>
+                        <% end %>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -382,10 +382,10 @@
                         <%#= abort(@result.company.name.to_json) %>
                               <h3><%= @result.company.present?  ? @result.company.name : '' %></h3>
                               <p><%= @result.city.present?  ? @result.city : '' %>,  <%= @result.country.present?  ? @result.country.name : '' %></p><br/>
-                              
+
                               <button id='follow_button' class="followbtn" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i> Follow</button>
                               <button id='unfollow_button' class="followbtn hidden" type="button"><i class="fa fa-check" aria-hidden="true"></i> Following</button>
-                             
+
 
                         </div>
                     </div>
@@ -393,7 +393,7 @@
                         <h3 class="studio-title">Featured Jobs</h3>
                         <ul>
 
-                            <% if @featured_jobs.present? %> 
+                            <% if @featured_jobs.present? %>
 
                                 <% @featured_jobs.each do |similar_job| %>
 
@@ -407,32 +407,34 @@
                                             <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%= similar_job.city %><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name) %></p>
                                         </div>
                                     </li>
-                                <% end %>    
-                            <% else %>  
+                                <% end %>
+                            <% else %>
                                 <li class="clearfix text-center err-msg no-result" >No Similar Job Found!</li>
-                            <% end %> 
+                            <% end %>
                         </ul>
                     </div>
-                    <div class="marginB15"><%= image_tag("database/googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %></div>
-                    <div class="wiphome marginB15 clearfix">
-                        <h2 class="studio-title" >Wants Critique / Wip</h2>
+                    <div class="marginB15">
+                      <%#= image_tag("database/googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %>
+                      <% if @body_ads[:first].present? %>
+                        <%= @body_ads[:first].html_safe %>
+                      <% end %>
+                    </div>
+                    <br></br>
+                    <% if @wip_gallery.present? %>
+                      <div class="wiphome clearfix marginB15">
+                        <h2>Wip Gallery</h2>
                         <ul class="margin">
-                            <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                            <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                            <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                            <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                            <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                            <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                            <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                            <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
-                            <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt=>"img", :class=>"img-responsive") %></a></li>
+                        <% @wip_gallery.each do |wip_gallery| %>
+                            <li class="lists"><a href="dashboard/projects/<%= wip_gallery.paramlink %>/show"><%= image_tag(wip_gallery.company_logo.thumb.url, :alt => "img",:class=>"img-responsive") %></a></li>
+                        <% end %>
                         </ul>
-                    </div>
+                      </div>
+                    <% end %>
 
                     <div class="FeaturedStudios clearfix marginB15">
                         <h3 class="studio-title">Similar Jobs </h3>
                         <ul>
-                            <% if @similar_jobs.present? %> 
+                            <% if @similar_jobs.present? %>
 
                                 <% @similar_jobs.each do |similar_job| %>
 
@@ -446,15 +448,15 @@
                                             <p><i class="fa fa-map-marker marginR5" aria-hidden="true"></i> <%=similar_job.city%><%= similar_job.city != '' && similar_job.try(:country).try(:name) != '' ? ', ' : ''%> <%=similar_job.try(:country).try(:name)%></p>
                                         </div>
                                     </li>
-                                <% end %>    
-                            <% else %>  
+                                <% end %>
+                            <% else %>
                                 <li class="clearfix text-center err-msg no-result" >No Similar Job Found!</li>
-                            <% end %> 
+                            <% end %>
                         </ul>
                     </div>
                 </div>
     </section>
-</div>    
+</div>
 <!-- Footer Start -->
 <footer class="footer clearfix padding">
  <%= render 'layouts/lastfooter' %>
@@ -462,7 +464,7 @@
 <script>
     function applyJob(job_paramlink){
            // alert(job_paramlink);
-           window.location.href = "<%= root_url %>" + "job/applied-job/"+job_paramlink;  
+           window.location.href = "<%= root_url %>" + "job/applied-job/"+job_paramlink;
 
     }
 </script>
@@ -514,8 +516,8 @@
                     if(data.res == 1)
                     {
                         $('.mark_spam').addClass('hidden');
-                        $('.unmark_spam').removeClass('hidden');        
-        
+                        $('.unmark_spam').removeClass('hidden');
+
                     }else{
 
                         $('.mark_spam').removeClass('hidden');
@@ -525,7 +527,7 @@
                 }
           });
 
-  
+
      $('.mark_spam, .unmark_spam').on('click',function(){
 
             $.ajax({
@@ -536,8 +538,8 @@
                         if(data.res == 1)
                         {
                             $('.mark_spam').addClass('hidden');
-                            $('.unmark_spam').removeClass('hidden');        
-            
+                            $('.unmark_spam').removeClass('hidden');
+
                         }else{
 
                             $('.mark_spam').removeClass('hidden');
@@ -546,9 +548,9 @@
                         }
                     }
             });
-        
 
-     });   
+
+     });
 
    })
 
@@ -578,7 +580,7 @@ $(document).ready(function() {
         success: function(data){
         }
     });
-    
+
 
  $('#apply_html').hide();
 
@@ -586,18 +588,18 @@ $(document).ready(function() {
 
         apply_type               = "<%= @result.apply_type %>"
         if(apply_type == 'instruction'){
-                
+
                 $('#apply_html').show();
 
          }else if(apply_type == 'url'){
                 window.location.href  = "<%= @result.apply_url %>"
-            
+
          }else if(apply_type == 'email'){
 
                 $('#apply_html').show();
-        
-        }    
-      
+
+        }
+
     });
 
 });

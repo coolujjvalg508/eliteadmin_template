@@ -81,6 +81,7 @@ Rails.application.routes.draw do
   get 'user/unfollow_artist' => 'user#unfollow_artist', as: 'unfollow_artist' 
   get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
   get 'connection' => 'user#connection', as: 'connection' 
+  get 'upgrade-account' => 'user#upgrade_account', as: 'upgrade_account' 
 
 
 
@@ -414,11 +415,20 @@ Rails.application.routes.draw do
 
   get 'api/get_featured_news'            => 'api#get_featured_news', as: 'home_get_featured_news'
   get 'api/get_site_setting'             => 'api#get_site_setting', as: 'get_site_setting'
-  get 'api/get_community'                => 'api#get_community', as: 'get_community'
+  get 'api/get_community/:type/:post_type/:category'          => 'api#get_community', as: 'get_community'
   get 'api/get_downloads'                => 'api#get_downloads', as: 'get_downloads'
   get 'api/get_news'                     => 'api#get_news', as: 'get_news'
   get 'api/get_jobs'                     => 'api#get_jobs', as: 'get_jobs'
+  get 'api/get_latest_post'              => 'api#get_latest_post', as: 'get_latest_post'
   get 'api/get_top_artist'               => 'api#get_top_artist', as: 'get_top_artist'
+  get 'api/get_slider_news'              => 'api#get_slider_news', as: 'get_slider_news'
+  get 'api/get_post_type_category'       => 'api#get_post_type_category', as: 'get_post_type_category'
+  get 'api/home_setting_visibility'      => 'api#home_setting_visibility', as: 'home_setting_visibility'
+  get 'api/get_news_behined_scenes'      => 'api#get_news_behined_scenes', as: 'get_news_behined_scenes'
+  get 'api/get_news_press_release'       => 'api#get_news_press_release', as: 'get_news_press_release'
+  get 'api/get_news_movies_film_trailors'=> 'api#get_news_movies_film_trailors', as: 'get_news_movies_film_trailors'
+  get 'api/get_news_tutorials_free_source'=> 'api#get_news_tutorials_free_source', as: 'get_news_tutorials_free_source'
+  get 'api/get_subject_type/:post_id'    => 'api#get_subject_type', as: 'get_subject_type'
 
 
 
@@ -461,6 +471,8 @@ Rails.application.routes.draw do
   get 'privacy' => 'pages#show', as: 'privacy', :defaults => { :page_url => "privacy" }
 
   get 'faq' => 'pages#faq', as: 'faq'
+  get 'contact-us' => 'pages#contact', as: 'contact'
+  post 'post_contact' => 'pages#post_contact', as: 'post_contact'
 
   post 'newsletters/insert_email' => 'newsletters#insert_email', as: 'subscribe_email'
   # The priority is based upon order of creation: first created -> highest priority.

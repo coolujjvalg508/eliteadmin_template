@@ -1,5 +1,5 @@
 class JobController < ApplicationController
-  
+   include AdsForPages
    before_action :authenticate_user!, only: [:new, :listing_index, :create, :edit, :update, :get_job_list, :count_user_job_post]
 
   def index
@@ -9,7 +9,7 @@ class JobController < ApplicationController
   def listing_index
 
       @jobcategory = JobCategory.all
-    
+
   end
 
   def new
@@ -17,7 +17,7 @@ class JobController < ApplicationController
       @jobcategory = JobCategory.all
 
       @package     =  Package.all
-  end  
+  end
 
    def edit
       @jobcategory = JobCategory.all
@@ -25,24 +25,24 @@ class JobController < ApplicationController
       @package     =  Package.all
 
       render 'new'
-  end  
+  end
 
 
   def get_job_list
-    
+
         conditions = "user_id=#{current_user.id} AND is_admin != 'Y'"
 
         if(params[:job_type] && params[:job_type] != '')
           conditions += " AND job_type='" + params[:job_type] + "'"
-        end 
+        end
 
         if(params[:job_category] && params[:job_category] != '')
            conditions += " AND job_category::jsonb ?| array['" + params[:job_category] + "'] "
-        end 
+        end
 
 
 
-        if(params[:view]) 
+        if(params[:view])
           if (params[:view] == 'featured')
             conditions += ' AND is_featured=TRUE  AND is_trash = 0'
           elsif (params[:view] == 'published')
@@ -54,7 +54,7 @@ class JobController < ApplicationController
           end
         end
 
-        
+
        # abort(conditions.to_json)
         result = Job.where(conditions).order('id DESC')
         #abort(result.to_json)
@@ -76,34 +76,34 @@ class JobController < ApplicationController
           if val['is_featured'] == TRUE
                 if val['is_trash'] == 0
                     total_featured = total_featured + 1
-                end    
-          end  
+                end
+          end
 
           if val['publish'] == 1
               if val['is_trash'] == 0
                  total_published = total_published + 1
 
-              end   
-          end  
+              end
+          end
 
           if val['is_save_to_draft'] == 1
                if val['is_trash'] == 0
                     total_draft = total_draft + 1
-               end     
-          end 
+               end
+          end
 
           if val['is_trash'] == 1
                    total_trash = total_trash + 1
-          end   
+          end
 
-        end  
+        end
 
         result = {'total_count' => total_count, 'total_featured' => total_featured, 'total_published' => total_published, 'total_draft' => total_draft, 'total_trash'=> total_trash}
 
-        render json: result, status: 200  
+        render json: result, status: 200
 
         #abort(result.to_json)
-  end  
+  end
 
 
 
@@ -113,12 +113,12 @@ class JobController < ApplicationController
          @is_job_exist     =  Job.where(paramlink: paramlink).first
         # abort(@is_gallery_exist.to_json)
          if @is_job_exist.present?
-            Job.where('id = ?',@is_job_exist.id).update_all(:is_trash => 1)  
+            Job.where('id = ?',@is_job_exist.id).update_all(:is_trash => 1)
             flash[:notice] = 'Job has successfully trashed.'
             redirect_to index_job_path
          end
-          
-    end  
+
+    end
 
 
   def delete_from_trash
@@ -131,21 +131,21 @@ class JobController < ApplicationController
           flash[:notice] = 'Job has successfully deleted.'
           redirect_to index_job_path
        end
-  end  
+  end
 
 
   def restore_job
-       
+
        paramlink             =  params[:paramlink]
        @is_job_exist         =  Job.where(paramlink: paramlink).first
-      
+
        if @is_job_exist.present?
-          Job.where('id = ?',@is_job_exist.id).update_all(:is_trash => 0)  
+          Job.where('id = ?',@is_job_exist.id).update_all(:is_trash => 0)
           flash[:notice] = 'Job has successfully restored.'
           redirect_to index_job_path
        end
 
-  end  
+  end
 
 
 
@@ -168,7 +168,7 @@ class JobController < ApplicationController
 
       if params['job']['country_id'].present?  && params['job']['state'].present? && params['job']['city'].present?
             latlong_result  = get_lat_long(params['job']['country_id'],params['job']['state'],params['job']['city'])
-            
+
 
             if !latlong_result.nil?
                  params['job']['latitude']    =   latlong_result[0]
@@ -179,12 +179,12 @@ class JobController < ApplicationController
                  params['job']['longitude']   =   ''
 
             end
-      end      
+      end
 
      # abort(params['job']['package_id'].to_json)
         params['job']['is_featured'] = false
         params['job']['is_urgent']   = false
-       
+
         if params['job']['package_id'].nil?
             params['job']['is_approved'] = true
         else
@@ -197,23 +197,23 @@ class JobController < ApplicationController
             end
 
 
-        end    
+        end
 
         if params[:job][:company_name].present?
             companyexist = Company.where("name=?", params[:job][:company_name]).first
-           
+
             if !companyexist.present?
                 company_data =  Company.create(name: params[:job][:company_name], user_id: current_user.id)
                 params['job']['company_id']   = company_data.id
                 params['job']['company_name'] = params[:job][:company_name]
             else
- 
+
                 params['job']['company_id']   = companyexist.id
                 params['job']['company_name'] = params[:job][:company_name]
 
-             end    
+             end
 
-        end  
+        end
 
 
 
@@ -222,7 +222,7 @@ class JobController < ApplicationController
 
         elsif params['commit'] == 'SaveDraft'
             params['job']['is_save_to_draft'] = 1
-        end 
+        end
 
      #  caption_image  = params[:gallery][:avatar_caption]
      #  abort(caption_image[2].present?)
@@ -231,29 +231,29 @@ class JobController < ApplicationController
 
         @job = Job.new(job_params)
 
-        
+
 
         if @job.save
 
-            
-           
+
+
             tags_list = params['job']['tag']['tag']
             tags_list.reject!{|a| a==""}
 
             tags_list.each do |tag_val|
 
                 Tag.create(
-                    tag: tag_val, 
-                    tagable_id: @job['id'], 
+                    tag: tag_val,
+                    tagable_id: @job['id'],
                     tagable_type: 'Job'
                 )
 
             end
 
-             #abort(@gallery.to_json)   
+             #abort(@gallery.to_json)
 
             ############################################
-         
+
             if params[:job][:crop_x].present?
                 @job.company_logo = @job.company_logo.resize_and_crop
                 @job.save!
@@ -266,31 +266,31 @@ class JobController < ApplicationController
                   my_array = params[:job][:removedids].split(',')
                  #abort(my_array.inspect)
                  params[:job][:avatar].each.with_index do |a,index|
-                   caption = ''  
+                   caption = ''
                    if caption_image[index].present?
                         caption = caption_image[index]['caption_image']
-                   end        
+                   end
 
 
-                    if !my_array.include?(index.to_s)  
+                    if !my_array.include?(index.to_s)
                          @image = @job.images.create!(:image => a[:image],:caption_image => caption)
                     end
-                   
-                 end
-            end  
 
-           #LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @job['id'], activity_type: 'created', section_type: 'Gallery')  
+                 end
+            end
+
+           #LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @job['id'], activity_type: 'created', section_type: 'Gallery')
             ############################################
             redirect_to index_job_path, notice: 'Job Successfully Created.'
 
         else
             render 'new'
-        end    
+        end
 
       #abort(@gallery.errors.to_json)
-    
 
-    end 
+
+    end
 
     def get_lat_long(country,state,city)
         countrydata  = Country.where("id = ?",country).pluck(:name, :id).first
@@ -299,12 +299,12 @@ class JobController < ApplicationController
         statename    = state
         coordinates  = Geocoder.coordinates(cityname + ' '+ statename + ' ' + countryname)
         #abort(coordinates.to_json)
-        return coordinates  
+        return coordinates
 
-    end  
+    end
 
     def update
-    
+
     #abort(params.inspect)
 
 
@@ -323,7 +323,7 @@ class JobController < ApplicationController
 
         latlong_result  = get_lat_long(params['job']['country_id'],params['job']['state'],params['job']['city'])
        # abort(latlong_result.to_json)
-        
+
         if !latlong_result.nil?
              params['job']['latitude']    =   latlong_result[0]
              params['job']['longitude']   =   latlong_result[1]
@@ -337,27 +337,27 @@ class JobController < ApplicationController
         # if !params['job']['package_id'].nil?
         #   if params['job']['package_id'].include? "2" and params['job']['package_id'].include? "1"
         #     params['job']['is_approved'] = true
-        #   end 
+        #   end
         # end
 
         # if params['job']['package_id'].nil?
         #   params['job']['is_approved'] = false
-        # else 
+        # else
         #     if !params['job']['package_id'].include? "2" or !params['job']['package_id'].include? "1"
         #     params['job']['is_approved'] = false
         #   end
-        # end 
+        # end
 
 
 
         #abort(params['job']['package_id'].inspect.to_json)
         #abort(params['job']['package_id'].to_json)
-        
+
 
 
         # if (!params['job']['package_id'].nil? && params['job']['package_id'].include?('1'))
         #   params['job']['is_featured'] = true
-        # else 
+        # else
         #   params['job']['is_featured'] = false
         # end
 
@@ -365,7 +365,7 @@ class JobController < ApplicationController
         #   params['job']['is_approved'] = true
         # else
         #   params['job']['is_approved'] = false
-        # end 
+        # end
 
         params['job']['is_featured'] =@job.is_featured
         params['job']['is_approved'] =@job.is_approved
@@ -373,7 +373,7 @@ class JobController < ApplicationController
         params['job']['package_id'] = @job.package_id
 
 #abort(params.to_json)
- 
+
         if params['commit'] == 'Publish'
             params['job']['is_save_to_draft'] = 0
 
@@ -383,7 +383,7 @@ class JobController < ApplicationController
 
         if params[:job][:company_name].present?
             companyexist = Company.where("name=?", params[:job][:company_name]).first
-            
+
             if !companyexist.present?
                 company_data =  Company.create(name: params[:job][:company_name], user_id: current_user.id)
                 params['job']['company_id']   = company_data.id
@@ -393,19 +393,19 @@ class JobController < ApplicationController
                 params['job']['company_id']   = companyexist.id
                 params['job']['company_name'] = params[:job][:company_name]
 
-             end    
+             end
 
-        end  
+        end
 
-        
 
-    
+
+
 #abort(params.to_json)
-        
+
         if @job.update(job_params)
 
             ############ Images update start #################
-            #to delete images 
+            #to delete images
             if params['job']['removedimages'].present?
               removedimages_array = params[:job][:removedimages].split(',')
               if removedimages_array.present?
@@ -416,7 +416,7 @@ class JobController < ApplicationController
             #to update caption of existing images
             if params['job']['images_attributes_default'].present?
               params['job']['images_attributes_default'].each do |data_update|
-                Image.where('id = ?', data_update[0]).update_all(:caption_image => data_update[1]['caption_image'])  
+                Image.where('id = ?', data_update[0]).update_all(:caption_image => data_update[1]['caption_image'])
               end
             end
 
@@ -424,7 +424,7 @@ class JobController < ApplicationController
 
             ############ Video url update start #################
 
-            #to delete video url 
+            #to delete video url
             if params['job']['removedvideourl'].present?
               removedvideourl_array = params[:job][:removedvideourl].split(',')
               if removedvideourl_array.present?
@@ -435,7 +435,7 @@ class JobController < ApplicationController
             #to update caption of existing video url
             if params['job']['videos_attributes_default'].present?
               params['job']['videos_attributes_default'].each do |data_update|
-                Video.where('id = ?', data_update[0]).update_all(:caption_video => data_update[1]['caption_video'])  
+                Video.where('id = ?', data_update[0]).update_all(:caption_video => data_update[1]['caption_video'])
               end
             end
 
@@ -454,7 +454,7 @@ class JobController < ApplicationController
             #to update caption of existing sketchfebs url
             if params['job']['sketchfebs_attributes_default'].present?
               params['job']['sketchfebs_attributes_default'].each do |data_update|
-                Sketchfeb.where('id = ?', data_update[0]).update_all(:caption_sketchfeb => data_update[1]['caption_sketchfeb'])  
+                Sketchfeb.where('id = ?', data_update[0]).update_all(:caption_sketchfeb => data_update[1]['caption_sketchfeb'])
               end
             end
 
@@ -462,7 +462,7 @@ class JobController < ApplicationController
 
             ############ upload video update start #################
 
-            #to delete upload video 
+            #to delete upload video
             if params['job']['removedUploadVideo'].present?
               removed_upload_video_array = params[:job][:removedUploadVideo].split(',')
               if removed_upload_video_array.present?
@@ -473,7 +473,7 @@ class JobController < ApplicationController
             #to update caption of existing upload video
             if params['job']['upload_videos_attributes_default'].present?
               params['job']['upload_videos_attributes_default'].each do |data_update|
-                UploadVideo.where('id = ?', data_update[0]).update_all(:caption_upload_video => data_update[1]['caption_upload_video'])  
+                UploadVideo.where('id = ?', data_update[0]).update_all(:caption_upload_video => data_update[1]['caption_upload_video'])
               end
             end
 
@@ -481,7 +481,7 @@ class JobController < ApplicationController
 
             ############ marmoset update start #################
 
-            #to delete upload video 
+            #to delete upload video
             if params['job']['removedMarmoset'].present?
               removed_marmoset_array = params[:job][:removedMarmoset].split(',')
               if removed_marmoset_array.present?
@@ -500,7 +500,7 @@ class JobController < ApplicationController
 
             ############ zip update start #################
 
-            #to delete upload video 
+            #to delete upload video
             if params['job']['removedZip'].present?
               removed_zip_array = params[:job][:removedZip].split(',')
               if removed_zip_array.present?
@@ -529,17 +529,17 @@ class JobController < ApplicationController
             tags_list.each do |tag_val|
 
                Tag.create(
-                    tag: tag_val, 
-                    tagable_id: @job['id'], 
+                    tag: tag_val,
+                    tagable_id: @job['id'],
                     tagable_type: 'Job'
-                ) 
+                )
 
             end
 
-             #abort(@gallery.to_json)   
+             #abort(@gallery.to_json)
 
             ############################################
-          
+
             if params[:job][:crop_x].present?
                 @job.company_logo = @job.company_logo.resize_and_crop
                 @job.save!
@@ -552,96 +552,96 @@ class JobController < ApplicationController
                  my_array = params[:job][:removedids].split(',')
                  #abort(my_array.inspect)
                  params[:job][:avatar].each.with_index do |a,index|
-                   caption = ''  
+                   caption = ''
                    if caption_image[index].present?
                         caption = caption_image[index]['caption_image']
-                   end        
+                   end
 
 
-                    if !my_array.include?(index.to_s)  
+                    if !my_array.include?(index.to_s)
                          @image = @job.images.create!(:image => a[:image],:caption_image => caption)
                     end
-                   
+
                  end
-            end  
+            end
 
             #abort(@job.to_json)
-            #LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'updated', section_type: 'Gallery')  
+            #LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'updated', section_type: 'Gallery')
             ############################################
             redirect_to index_job_path, notice: 'Job Successfully Updated.'
 
         else
             render 'new'
-        end    
+        end
 
       #abort(@gallery.errors.to_json)
-    
-
-    end 
 
 
+    end
 
 
 
-  def job_home    
+
+
+  def job_home
 
     conditions = "visibility = 0 AND status = 1 AND is_approved = TRUE AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
     @result = Job.where(conditions).order('id DESC')
     @final_result = JSON.parse(@result.to_json(:include => [:company, :country]))
     @job_type = JobCategory.all
     @country_detail = Country.all
-    
+
     @contracttype  = JobCategory.all
     @catgorytype   = CategoryType.all
     @featured_jobs = Job.where("is_featured = ?", true).order('id DESC').limit(5)
    # abort( @featured_jobs.to_json)
 
-
+   get_ads("jobs_list")
   end
 
   def get_job_home_list
 
     conditions = "visibility = 0 AND status = 1 AND is_approved = TRUE AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
     #conditions = ""
-   
+
     if(params[:country_id] && params[:country_id] != '')
           conditions += ' AND country_id=' + params[:country_id]
-    end 
+    end
 
     if(params[:job_type] && params[:job_type] != '')
           conditions += " AND job_type='" + params[:job_type] + "'"
-    end 
+    end
 
     if(params[:job_category] && params[:job_category] != '')
-          conditions +=  " AND job_category::jsonb ?| array['" + params[:job_category] + "'] " 
-    end 
+          conditions +=  " AND job_category::jsonb ?| array['" + params[:job_category] + "'] "
+    end
 
     if(params[:work_remotely] && params[:work_remotely] != '')
           conditions += " AND work_remotely=" + params[:work_remotely]
-    end 
+    end
 
     if(params[:relocation_asistance] && params[:relocation_asistance] != '')
           conditions += " AND relocation_asistance=" + params[:relocation_asistance]
-    end 
+    end
 
      if(params[:user_id] && params[:user_id] != '')
           conditions += " AND is_admin='N' AND user_id=" + params[:user_id]
-    end 
+    end
 
 
     #abort(conditions.to_json)
 
     orderby = 'DESC'
-    if(params[:order] && params[:order] != '') 
+    if(params[:order] && params[:order] != '')
               orderby = params[:order]
     end
-    
+
 
 
     @result = Job.where(conditions).order('id '+ orderby)
     #@final_result = JSON.parse(@result.to_json(:include => [:company, :country]))
     render :json =>  @result.to_json(:include => [:company, :country]), status: 200
-  
+
 
   end
 
@@ -650,42 +650,42 @@ class JobController < ApplicationController
 
     conditions = "visibility = 0 AND status = 1 AND is_approved = TRUE AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
     #conditions = ""
-   
+
     if(params[:country_id] && params[:country_id] != '')
           conditions += ' AND country_id=' + params[:country_id]
-    end 
+    end
 
     if(params[:job_type] && params[:job_type] != '')
           conditions += " AND job_type='" + params[:job_type] + "'"
-    end 
+    end
 
     if(params[:job_category] && params[:job_category] != '')
-          conditions +=  " AND job_category::jsonb ?| array['" + params[:job_category] + "'] " 
-    end 
+          conditions +=  " AND job_category::jsonb ?| array['" + params[:job_category] + "'] "
+    end
 
     if(params[:work_remotely] && params[:work_remotely] != '')
           conditions += " AND work_remotely=" + params[:work_remotely]
-    end 
+    end
 
     if(params[:relocation_asistance] && params[:relocation_asistance] != '')
           conditions += " AND relocation_asistance=" + params[:relocation_asistance]
-    end 
+    end
 
      if(params[:user_id] && params[:user_id] != '')
           conditions += " AND is_admin='N' AND user_id=" + params[:user_id]
-    end 
+    end
 
 
     #abort(conditions.to_json)
 
     orderby = 'DESC'
-    if(params[:order] && params[:order] != '') 
+    if(params[:order] && params[:order] != '')
               orderby = params[:order]
     end
 
     @result = Job.where(conditions).order('id '+ orderby)
     render :json =>  @result.to_json(:include => [:company, :country, :images]), status: 200
-  
+
 
   end
 
@@ -697,42 +697,42 @@ class JobController < ApplicationController
       flash[:error] = "Image can't be blank."
     end
     @user = current_user
-    
+
     if @user.update_attributes(user_params)
       if params[:commit] == "UpdateProfilePhoto"
         flash[:notice] = "Profile photo updated successfully."
       elsif params[:commit] == "UpdateCoverArt"
-        flash[:notice] = "Cover art updated successfully."  
+        flash[:notice] = "Cover art updated successfully."
       else
         flash[:notice] = "Successfully updated."
-      end 
+      end
       #redirect_to request.referer
     else
       #render 'index'
     end
 
     redirect_to request.referer
-    
-  end 
+
+  end
 
   def remove_cover_art
 
     authenticate_user!
     @user = current_user
-    
-    @user.remove_cover_art_image! 
+
+    @user.remove_cover_art_image!
     @user.save
 
-    flash[:notice] = "Cover art removed successfully."    
+    flash[:notice] = "Cover art removed successfully."
     redirect_to request.referer
-    
+
   end
-  
-  def job_post    
+
+  def job_post
   end
 
   def applied_job
-     
+
      /  paramlink         = params[:paramlink]
       @result           = Job.where("paramlink = ? ", paramlink).first
       @similar_jobs     = Job.where("paramlink != ? ", paramlink).order('random()').limit(4)
@@ -744,30 +744,30 @@ class JobController < ApplicationController
           receiver_email    = @result.apply_email
           job_title         = @result.title
           UserMailer.job_application_email(sender_email,receiver_email,job_title,current_user).deliver_later
-          @success_message  = "Thank you for applying. We will get back to you shortly"  
+          @success_message  = "Thank you for applying. We will get back to you shortly"
       elsif apply_type == "url"
           redirect_to @result.apply_url
       else
-          @success_message  = @result.apply_instruction  
+          @success_message  = @result.apply_instruction
       end /
 
-  end  
+  end
 
   def save_job_view_count
 
        if params[:paramlink].present?
             paramlink       = params[:paramlink]
             record          = Job.where("paramlink = ?",paramlink).first
-           
+
             prevoius_view_count   = record.view_count
             newview_count         =  prevoius_view_count + 1
-            
-            record.update(view_count: newview_count) 
+
+            record.update(view_count: newview_count)
             render json: {'res' => 1, 'message' => 'success'}, status: 200
-       end     
-    end  
-  
- 
+       end
+    end
+
+
   def apply_job
 
     @job_id = params[:id]
@@ -782,7 +782,7 @@ class JobController < ApplicationController
 
       @software_expertise = SoftwareExpertise.where('id IN (?)', @result.software_expertise)
       @job_skills   = JobSkill.where('id IN (?)', @result.skill)
-      
+
       @result.job_category.reject!{|a| a==""}
       @job_category = CategoryType.where('id IN (?)', @result.job_category)
 
@@ -794,42 +794,43 @@ class JobController < ApplicationController
 
     else
 
-     	if user_signed_in? 
+     	if user_signed_in?
 			redirect_to index_job_path, notice: 'Job not available!'
      	else
   			redirect_to jobs_path, notice: 'Job not available!'
-     	end	
-              
+     	end
+
     end
 
-  end 
-  
+    get_ads("jobs")
+  end
+
   def follow_job
-        
+
           job_id            = params[:job_id]
           company_id        = params[:company_id]
           user_id           = current_user.id
           is_follow_exist   = JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).first
           result = ''
-          
+
           userrecord       = Job.where(id: job_id).first
 
           if is_follow_exist.present?
-                JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).delete_all 
-                
+                JobFollow.where(user_id: user_id, job_id: job_id, company_id: company_id).delete_all
+
                 newfollow_count  =  (userrecord.follow_count == 0) ? 0 : userrecord.follow_count - 1
-                userrecord.update(follow_count: newfollow_count) 
+                userrecord.update(follow_count: newfollow_count)
 
                 result  = {'res' => 0, 'message' => 'Job Not Follow'}
           else
                 JobFollow.create(user_id: user_id, job_id: job_id, company_id: company_id)
                 newfollow_count  =  userrecord.follow_count + 1
-                userrecord.update(follow_count: newfollow_count) 
+                userrecord.update(follow_count: newfollow_count)
 
                 result  = {'res' => 1, 'message' => 'Job Follow'}
-          end 
-          render json: result, status: 200    
-             
+          end
+          render json: result, status: 200
+
   end
   def check_follow_job
           job_id     = params[:job_id]
@@ -841,10 +842,10 @@ class JobController < ApplicationController
                 result  = {'res' => 1, 'message' => 'Job already followed'}
           else
                 result  = {'res' => 0, 'message' => 'Job not followed'}
-          end 
+          end
 
-          render json: result, status: 200       
-    end  
+          render json: result, status: 200
+    end
 
   def job_category
   end
@@ -853,11 +854,11 @@ class JobController < ApplicationController
 
     @job_type        = JobCategory.all
     @country_detail  = Country.all
-    
+
     @contracttype    = JobCategory.all
     @catgorytype     = CategoryType.all
-  
-   
+
+    get_ads("companies_map")
   end
 
   def job_list_on_map
@@ -868,6 +869,7 @@ class JobController < ApplicationController
     @catgorytype    = CategoryType.all
     @featured_jobs  = Job.where("is_featured = ?", true).order('id DESC').limit(5)
 
+    get_ads("jobs_map")
   end
 
   def delete_job_post
@@ -877,24 +879,24 @@ class JobController < ApplicationController
         viewtype             =  params[:viewtype]
         if id.present?
           id.each do |id|
-            
+
             if viewtype != "trash"
                 @is_gallery_exist     =  Job.where(id: id).first
                   if @is_gallery_exist.present?
-                      Job.where(id: id).update_all(:is_trash => 1) 
-                      flash[:notice] = 'Job has successfully trashed.' 
+                      Job.where(id: id).update_all(:is_trash => 1)
+                      flash[:notice] = 'Job has successfully trashed.'
                   end
             else
                 @is_gallery_exist     =  Job.where(id: id).first
                   if @is_gallery_exist.present?
                       Job.where(id: id).delete_all
-                      flash[:notice] = 'Job has successfully deleted.' 
+                      flash[:notice] = 'Job has successfully deleted.'
                   end
 
-            end  
+            end
           end
 
-          render :json => {'res' => 1, 'message' => 'Job has successfully trashed'}, status: 200 
+          render :json => {'res' => 1, 'message' => 'Job has successfully trashed'}, status: 200
         end
     end
 
@@ -902,43 +904,43 @@ class JobController < ApplicationController
     def mark_spam
         job_id_for_mark_spam    = params[:id]
         jobdata  = Job.where(id: job_id_for_mark_spam).first
-        if jobdata.is_spam == true 
-            jobdata.update(is_spam: false) 
+        if jobdata.is_spam == true
+            jobdata.update(is_spam: false)
             Report.where(user_id: current_user.id, post_id: job_id_for_mark_spam, post_type: 'Job', report_issue: 'Spam').delete_all
 
-            render :json => {'res' => 0, 'message' => 'Operation is successfully done'}, status: 200 
+            render :json => {'res' => 0, 'message' => 'Operation is successfully done'}, status: 200
 
-        else  
-            
+        else
+
             Report.create(user_id: current_user.id, post_id: job_id_for_mark_spam, post_type: 'Job', report_issue: 'Spam')
-            jobdata.update(is_spam: true) 
-            render :json => {'res' => 1, 'message' => 'Operation is successfully done'}, status: 200 
+            jobdata.update(is_spam: true)
+            render :json => {'res' => 1, 'message' => 'Operation is successfully done'}, status: 200
         end
 
-         
-    end  
+
+    end
 
 
     def check_mark_spam
-       
+
         job_id_for_mark_spam    = params[:id]
         jobdata                 = Job.where(id: job_id_for_mark_spam).first
         #abort(jobdata.to_json)
-        if jobdata.is_spam == true 
-            render :json => {'res' => 1, 'message' => 'job is spam'}, status: 200 
-        else  
-            render :json => {'res' => 2, 'message' => 'job is not a spam'}, status: 200 
-        end   
+        if jobdata.is_spam == true
+            render :json => {'res' => 1, 'message' => 'job is spam'}, status: 200
+        else
+            render :json => {'res' => 2, 'message' => 'job is not a spam'}, status: 200
+        end
 
-    end  
+    end
 
 
     def job_approve
 
       job = Job.where('id = ?',params[:id])
       #abort(job.to_json)
-      if job.is_approved? 
-        job.update(is_approved: false) 
+      if job.is_approved?
+        job.update(is_approved: false)
       else
         job.update(is_approved: true)
       end
@@ -947,6 +949,11 @@ class JobController < ApplicationController
 
 
   private
+  def user_params
+            params.require(:user).permit(:image,:cover_art_image)
+
+
+   end
    def job_params
             params.require(:job).permit(:company_name,:is_approved, :latitude, :longitude, :is_spam, :title,:user_id,:is_admin, :paramlink,{:package_id => []},:description,:show_on_cgmeetup,:show_on_website,:company_url, :company_id, :schedule_time, :job_type, :from_amount, :to_amount, {:job_category => []} , :application_email_or_url, :country_id, :city, :state,  :work_remotely, :relocation_asistance,:closing_date, {:skill => []} , {:software_expertise => []} , :tags, :use_tag_from_previous_upload, :is_featured, :status, :apply_type,:apply_instruction,:apply_email,:apply_url,:is_save_to_draft,:visibility,:publish,:company_logo, {:where_to_show => []} , :images_attributes => [:id,:image,:caption_image,:imageable_id,:imageable_type, :_destroy,:tmp_image,:image_cache], :videos_attributes => [:id,:video,:caption_video,:videoable_id,:videoable_type, :_destroy,:tmp_image,:video_cache], :upload_videos_attributes => [:id,:uploadvideo,:caption_upload_video,:uploadvideoable_id,:uploadvideoable_type, :_destroy,:tmp_image,:uploadvideo_cache], :sketchfebs_attributes => [:id,:sketchfeb,:sketchfebable_id,:sketchfebable_type, :_destroy,:tmp_sketchfeb,:sketchfeb_cache], :marmo_sets_attributes => [:id,:marmoset,:marmosetable_id,:marmosetable_type, :_destroy,:tmp_image,:marmoset_cache], :company_attributes => [:id,:name], :zip_files_attributes => [:id,:zipfile, :zipfileable_id,:zipfileable_type, :_destroy,:tmp_zipfile,:zipfile_cache,:zip_caption],:tags_attributes => [:id,:tag,:tagable_id,:tagable_type, :_destroy,:tmp_tag,:tag_cache])
 
@@ -963,9 +970,9 @@ class JobController < ApplicationController
                 i = i + 1
                 newSlugVal = slugVal + '-' + i.to_s
                 check_slug_available(slugVal, newSlugVal, i, job_id)
-            end  
+            end
 
-        end 
+        end
 
 
 

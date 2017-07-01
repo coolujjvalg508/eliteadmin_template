@@ -6,9 +6,9 @@
 <div class="container-fluid">
 <div class="row">
 <div class="col-md-3 col-sm-4 col-xs-9 header-search">
- 
-    
-    
+
+
+
 </div>
 <div class="col-md-9 col-sm-8 col-xs-3 downloadpage">
   <div class="navbar-header"> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
@@ -16,7 +16,7 @@
                   <ul class="nav navbar-nav">
                 <li class="active"><a href="/news/all">All News</a></li>
                 <li ng-repeat="topic in TopicsTypeList track by $index"><a href="/news/{{topic.slug}}">{{topic.name}}</a></li>
-              
+
               </ul>
             </div>
 </div>
@@ -47,13 +47,13 @@
 
    <h1 style="color: #FFF"  class="marginB15">{{pane.title}}</h1>
       <div ng-repeat="Mc in pane.media_contents">
-      
+
             <div ng-if="Mc.media_type=='Upload Zip'">
                  <div class="youtubewrap">
                      <a href="{{Mc.mediacontent.url}}" class="download-new-mar">Download Zip</a>&nbsp;&nbsp;
                       <span style="color: #FFF;">
                            {{Mc.mediacontent.url.split("/")[Mc.mediacontent.url.split("/").length-1]}}
-                      </span> 
+                      </span>
                  </div>
             </div>
              <div ng-if="Mc.media_type=='Description'">
@@ -61,7 +61,7 @@
              </div>
              <div ng-if="Mc.media_type=='Upload Image'">
                          <div class="youtubewrap">
-                           <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img"> 
+                           <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img">
                           </div>
              </div>
 
@@ -82,21 +82,21 @@
                           <div class="youtubewrap">
                         <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
                         </iframe>
-                        
+
                        </div>
                         </span>
             </div>
-                      
+
             <div ng-if="Mc.media_type=='Sketchfab Url'">
                           <div class="youtubewrap" ng-init="ScetchFebData(Mc.id,Mc.media_description)">
                             <div id="sketch_span_{{Mc.id}}"></div>
                           </div>
-                        
+
             </div>
             <div ng-if="Mc.media_type=='Upload Marmoset'" style="position: relative;">
                           <div class="youtubewrap" ng-init="MarmosetFebData(Mc.id,Mc.mediacontent.url)">
                             <div class="video-marmoset" id="marmoset_span_marmoset_span_{{Mc.id}}"></div>
-                      
+
                           </div>
             </div>
       </div>
@@ -108,13 +108,13 @@
 
 <div class="lessonstutorial clearfix">
 <div class="addthis_inline_share_toolbox_xe0e">
-      
+
     </div>
 </div>
 <div class="wipdetailtag publishwrap">
-<div class="marginB10 publish-txt"> 
-<span class="txt-white"><strong>Category:</strong> </span> 
-<a ng-repeat="cat in category_data" href="#">{{cat.name}} &nbsp;</a> 
+<div class="marginB10 publish-txt">
+<span class="txt-white"><strong>Category:</strong> </span>
+<a ng-repeat="cat in category_data" href="#">{{cat.name}} &nbsp;</a>
 </div>
 <div class="marginB10 publish-txt"> <span class="txt-white"><strong>Tags:</strong> </span>
 &nbsp;<span ng-repeat="tag in tag_data">
@@ -123,11 +123,11 @@
  </div>
 <div class="marginB10 publish-txt">
 
-<span class="txt-white"><strong>Software Used: </strong></span> 
+<span class="txt-white"><strong>Software Used: </strong></span>
 <span ng-repeat="soft in software_used_name" class="softb">
 <img src="{{soft.image.software_used.url}}" class="img-rounded" alt="Software">
 {{soft.name}}
-</span> 
+</span>
 
 </div>
 </div>
@@ -173,24 +173,25 @@
   </div>
 </li>
 
-</ul> 
-</div>
-<div class="friendsbox"><%= image_tag("google-ad1.jpg", :class=>"img-responsive", :alt=>"Google Ad") %> </div>
-<div class="aside marginB15">
-<div class="wiphome clearfix proswrap">
-<h2>Wants Critique</h2>
-<ul class="margin">
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
 </ul>
 </div>
+<div class="friendsbox">
+  <%#= image_tag("google-ad1.jpg", :class=>"img-responsive", :alt=>"Google Ad") %>
+  <% if @body_ads[:first].present? %>
+    <%= @body_ads[:first].html_safe %>
+  <% end %>
+</div>
+<div class="aside marginB15">
+  <% if @wip_gallery.present? %>
+    <div class="wiphome clearfix marginB15">
+      <h2>Wip Gallery</h2>
+      <ul class="margin">
+      <% @wip_gallery.each do |wip_gallery| %>
+          <li class="lists"><a href="dashboard/projects/<%= wip_gallery.paramlink %>/show"><%= image_tag(wip_gallery.company_logo.thumb.url, :alt => "img",:class=>"img-responsive") %></a></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 </div>
 </div>
 <div class="modal fade default-popup" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="bookmarkModalLabel">
@@ -206,22 +207,22 @@
               <h4 class="modal-title" id="exampleModalLabel">Add product to collection</h4>
             </div>
             <div class="modal-body">
-            
+
                 <div class="form-group">
                   <label for="recipient-name" class="control-label">Collection Name:</label>
                   <%= f.text_field :title, :autofocus => true, :placeholder => "Collection Name", class:"form-control", :type => 'text' %>
                   <span class="err-msg" id='bookmark_error_msg'><%= form_error_msg_for(@collection,:title, "Collection") %></span>
                 </div>
-               
+
                 <div id='get_already_collection'></div>
-    
+
             </div>
             <div class="modal-footer">
               <button type="button" class="lightbtn" data-dismiss="modal">Close</button>
               <button type="submit" class="lightbtn">Create</button>
             </div>
           </div>
-        <% end %>  
+        <% end %>
 
 
       </div>
@@ -235,10 +236,10 @@
 <script type="text/javascript">
 var app = angular.module('myApp', ["angularUtils.directives.dirPagination",
   "ngSanitize","angularLazyImg","MainModule","vAccordion", "ngAnimate"]);
- 
+
     app.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
-    }]);   
+    }]);
 
 app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) {
 
@@ -272,7 +273,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
          {
           return false;
          }
-               
+
          }
       catch(ex)
       {
@@ -282,7 +283,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
     $scope.ifVimeo = function(url)
     {
       var match = /vimeo.*\/(\d+)/i.exec( url );
-      if ( match ) 
+      if ( match )
       {
         var VideoURI = "https://player.vimeo.com/video/"+match[1];
         return $sce.trustAsResourceUrl(VideoURI);
@@ -310,9 +311,9 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
               $scope.featured_news = response.data.featured_news;
               $scope.media_contentsNews = response.data.news_content_data;
 
-              angular.forEach($scope.media_contentsNews, function(v, k){ 
-                angular.forEach(v.media_contents, function(value1, key1){ 
-                 
+              angular.forEach($scope.media_contentsNews, function(v, k){
+                angular.forEach(v.media_contents, function(value1, key1){
+
                   if(value1.media_type=='Video Url')
                   {
 
@@ -321,7 +322,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
                   try
                   {
                     var video_id = value1.Video_Url.split('v=')[1].split('&')[0];
-                   
+
                     if(video_id!=undefined)
                     {
 
@@ -335,7 +336,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
                      value1.media_description = $sce.trustAsResourceUrl(value1.media_description);
 
                      var match = /vimeo.*\/(\d+)/i.exec( value1.Video_Url );
-                      if ( match ) 
+                      if ( match )
                       {
                         var VideoURI = "https://player.vimeo.com/video/"+match[1];
                         value1.media_description = $sce.trustAsResourceUrl(VideoURI);
@@ -352,7 +353,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
 </script>
 
 <script type="text/javascript">
-  
+
 $(document).ready(function(){
   $.ajax({
         type: "post",

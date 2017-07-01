@@ -3,7 +3,7 @@
   $.fn.raty.defaults.path = '<%= root_url+'assets' %>';
 </script>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5895a76640dc4c96"></script>
-  
+
  <%#= stylesheet_link_tag "v-accordion" %>
 <div id="myApp2" ng-app="myApp">
 <div ng-controller="myCtrl">
@@ -24,7 +24,7 @@
               <ul class="nav navbar-nav">
                 <li class="active"><a href="/tutorials/all">All Topic</a></li>
                 <li ng-repeat="topic in TopicsTypeList track by $index"><a href="/tutorials/{{topic.slug}}">{{topic.name}}</a></li>
-              
+
               </ul>
   </div>
 </div>
@@ -43,7 +43,7 @@
 <section class="DownloadPostWrapper clearfix">
 <div class="clearfix DownloadPostLeft">
 <div class="clearfix">
- 
+
 
 
 <div ng-repeat="Mc in BigMediaContant">
@@ -59,44 +59,44 @@
                   <div class="youtubewrap">
                   <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
                   </iframe>
-                  
+
                  </div>
                   </div>
 </div>
 <div ng-if="Mc.media_type=='Upload Image'">
                    <div class="youtubewrap">
-                     <img src="{{Mc.mediacontent.url}}" class="img-responsive youtube-wrap-img-new" alt="img"> 
+                     <img src="{{Mc.mediacontent.url}}" class="img-responsive youtube-wrap-img-new" alt="img">
                      </div>
 </div>
 
 <div ng-if="Mc.media_type=='Upload Video'">
-               
+
                   <div class="youtubewrap">
                      <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
                   </div>
  </div>
  <div ng-if="Mc.media_type!='Upload Video' && Mc.media_type!='Upload Image' && Mc.media_type!='Video Url'">
-               
+
                   <div class="youtubewrap">
-                  
+
                   <img src="/assets/media-not-found.jpg" class="img-responsive">
                   </div>
  </div>
 </div>
 
 <div ng-if="!all_chapters_data[0].media_contents.length >0">
-               
+
                   <div class="youtubewrap">
                   <img src="/assets/media-not-found.jpg" class="img-responsive">
                   </div>
  </div>
  <div ng-if="!BigMediaContant.length >0 && all_chapters_data[0].media_contents.length >0">
-               
+
                 <div class="youtubewrap">
                 <img src="/assets/media-not-found.jpg" class="img-responsive">
                 </div>
  </div>
- 
+
 </div>
 <div class="comment-wrap clearfix">
 <div class="gallerycomment">
@@ -117,7 +117,7 @@
 </div>
 <div class="bdr"></div>
 <div class="clearfix row">
-    <div class="col-md-6 col-sm-12 col-xs-12 share-txt"> 
+    <div class="col-md-6 col-sm-12 col-xs-12 share-txt">
       <div class="addthis_inline_share_toolbox_zdrk btn-group"></div>
       <div class="btn-group">
         <button type="button" class="btn btn-primary btn-xs" id='bookmarkbutton' data-toggle="modal" data-target="#bookmarkModal">Bookmark</button>
@@ -152,7 +152,7 @@
         <!-- <h3>Published on Aug 21, 2014</h3> -->
         <div class="marginB15 publish-txt" ng-bind-html="tutorial_data.description"> </div>
         <!-- <h3>Cartoon Sport Girl</h3> -->
-       
+
       </div>
     </div>
     <div id="comments" class="tab-pane fade in ">
@@ -161,7 +161,7 @@
           <div class="col-md-1 col-sm-2 col-xs-3 padding">
               <% if user_signed_in? %>
                   <%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %>
-              <% end %>  
+              <% end %>
           </div>
           <div class="col-md-11 col-sm-10 col-xs-9 padding">
             <textarea class="form-control" id='post_comments_<%= @tutorial_data.id %>'  style='margin-top:0px !important' ></textarea>
@@ -171,25 +171,25 @@
           </div>
         </div>
         <h3 class="content-heading-title">Comments</h3>
-        <div class="clearfix marginB15 comment-reply"> 
-         
+        <div class="clearfix marginB15 comment-reply">
+
               <div id ='commentslist_dev'></div>
-          
+
         </div>
       </div>
     </div>
   </div>
 </div>
-  
+
 <div class="lessonstutorial clearfix marginB15">
 <div class="row" ng-if="all_chapters_data.length >0">
-  <div class="col-md-4 col-sm-4 col-xs-12"> 
+  <div class="col-md-4 col-sm-4 col-xs-12">
     <h2>Lessons in this tutorial </h2>
   </div>
 
-  <div class="col-md-8 col-sm-8 col-xs-12 text-right1"> 
+  <div class="col-md-8 col-sm-8 col-xs-12 text-right1">
     <div class="addthis_inline_share_toolbox_xe0e">
-      
+
     </div>
   </div>
 </div>
@@ -222,23 +222,23 @@
                     <a href="{{Mc.mediacontent.url}}" class="download-new-mar">Download Zip</a>&nbsp;&nbsp;
                    <span style="color: #FFF;">
                      {{Mc.mediacontent.url.split("/")[Mc.mediacontent.url.split("/").length-1]}}
-                   </span> 
+                   </span>
                           </div>
 
                         </span>
                         <span ng-if="Mc.media_type=='Description'">
                             <p>{{ ::Mc.media_description }}</p>
                         </span>
-                        
+
                         <span ng-if="Mc.media_type=='Upload Image'">
                          <div class="youtubewrap">
-                           <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img"> 
+                           <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img">
                           </div>
                         </span>
-                        
+
 
                       <span ng-if="Mc.media_type=='Upload Video'">
-                     
+
                         <div class="youtubewrap">
                            <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
                         </div>
@@ -256,24 +256,24 @@
                           <div class="youtubewrap">
                         <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
                         </iframe>
-                        
+
                        </div>
                         </span>
                       </span>
-                      
+
                       <span ng-if="Mc.media_type=='Sketchfab Url'">
                           <div class="youtubewrap" ng-init="ScetchFebData(Mc.id,Mc.media_description)">
                             <div id="sketch_span_{{Mc.id}}"></div>
                           </div>
-                        
+
                       </span>
                         <span ng-if="Mc.media_type=='Upload Marmoset'" style="position: relative;">
                           <div class="youtubewrap" ng-init="MarmosetFebData(Mc.id,Mc.mediacontent.url)">
                             <div class="video-marmoset" id="marmoset_span_marmoset_span_{{Mc.id}}"></div>
-                      
+
                           </div>
                         </span>
-                        
+
                       </span>
 
                     </v-pane-content>
@@ -299,7 +299,7 @@
                       </v-pane-header>
 
                       <v-pane-content  id="{{ ::pane.id }}-content" aria-labelledby="{{ ::pane.id }}-header">
-                   
+
                         <span ng-repeat="Mc in pane.media_contents">
 
                         <span ng-if="Mc.media_type=='Upload Zip'">
@@ -308,22 +308,22 @@
                     <a href="{{Mc.mediacontent.url}}" class="download-new-mar">Download Zip</a>&nbsp;&nbsp;
                    <span style="color: #FFF;">
                      {{Mc.mediacontent.url.split("/")[Mc.mediacontent.url.split("/").length-1]}}
-                   </span> 
+                   </span>
                           </div>
 
                         </span>
                           <span ng-if="Mc.media_type=='Description'">
                               <p>{{ ::Mc.media_description }}</p>
                           </span>
-                          
+
                           <span ng-if="Mc.media_type=='Upload Image'">
                            <div class="youtubewrap">
-                             <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img"> 
+                             <img src="{{Mc.mediacontent.url}}" class="img-responsive" alt="img">
                              </div>
                           </span>
 
                         <span ng-if="Mc.media_type=='Upload Video'">
-                       
+
                           <div class="youtubewrap">
                              <iframe width="700px" height="450px"  frameborder="0"  ng-src="{{setTrustUrl(Mc.mediacontent.url)}}" allowfullscreen></iframe>
                           </div>
@@ -341,24 +341,24 @@
                           <div class="youtubewrap">
                           <iframe width="100%" height="400" ng-src="{{Mc.media_description}}" frameborder="0" allowfullscreen>
                           </iframe>
-                          
+
                          </div>
                           </span>
                         </span>
-                        
+
                         <span ng-if="Mc.media_type=='Sketchfab Url'">
                             <div class="youtubewrap" ng-init="ScetchFebData(Mc.id,Mc.media_description)">
                               <div id="sketch_span_{{Mc.id}}"></div>
                             </div>
-                          
+
                         </span>
                           <span ng-if="Mc.media_type=='Upload Marmoset'" style="position: relative;">
                           <div class="youtubewrap" ng-init="MarmosetFebData(Mc.id,Mc.mediacontent.url)">
                             <div class="video-marmoset" id="marmoset_span_marmoset_span_{{Mc.id}}"></div>
-                       
+
                           </div>
                         </span>
-                          
+
                         </span>
                       </v-pane-content>
                     </v-pane>
@@ -377,14 +377,14 @@
                     {{chapters.video_timing}}
                    </div>
                    <h5><a href="#">Purchase tutorial</a></h5>
-                </div> 
-            </div> 
+                </div>
+            </div>
   </li>
 </ul>
 </div>
 <div class="wipdetailtag publishwrap">
-<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Category:</strong> </span> 
-<a ng-repeat="cat in subject_data" href="#">{{cat.name}} &nbsp;</a> 
+<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Category:</strong> </span>
+<a ng-repeat="cat in subject_data" href="#">{{cat.name}} &nbsp;</a>
 </div>
 <div class="marginB10 publish-txt"> <span class="txt-white"><strong>Tags:</strong> </span>
 &nbsp;<span ng-repeat="tag in tag_data">
@@ -393,14 +393,14 @@
  </div>
 <div class="marginB10 publish-txt">
 
-<span class="txt-white"><strong>Software Used: </strong></span> 
+<span class="txt-white"><strong>Software Used: </strong></span>
 <span ng-repeat="soft in software_used_name" class="softb">
 <img src="{{soft.image.software_used.url}}" class="img-rounded" alt="Software">
 {{soft.name}}
-</span> 
+</span>
 
 </div>
- 
+
 </div>
 <div class="clearfix SimilarPost">
 <h2 class="marginB15">Others who watched this also recommend:</h2>
@@ -428,7 +428,7 @@
 </div>
 <div class="DownloadPostRight clearfix">
   <div class="artist-title marginB10">{{tutorial_data.title}}</div>
-  <div class="product-name marginB15">by 
+  <div class="product-name marginB15">by
     <a ng-if="tutorial_data.is_admin=='Y'" href="#">Admin</a>
     <a ng-if="tutorial_data.is_admin=='N'" href="#">{{tutorial_data.user.firstname}}&nbsp;{{tutorial_data.user.lastname}}</a>
   </div>
@@ -436,37 +436,37 @@
   <div class="post-price marginB10" ng-if="tutorial_data.free==true">Free</div>
 
   <div class="offer-price marginB10"><%= image_tag("hand-icon.png", :alt => "Hand", :class => 'marginR5') %> Offer your price</div>
-  <div class="clearfix marginB15"> 
+  <div class="clearfix marginB15">
     <% if !@is_purchased %>
         <a href="#" class="blue-btn" ng-if="tutorial_data.free==false && !checkCart(tutorial_data.tutorial_id)"  ng-click="AddTocart(tutorial_data)">
           <i class="fa fa-shopping-cart marginR5" aria-hidden="true"></i> Add to cart
-        </a> 
+        </a>
         <a ng-if="checkCart(tutorial_data.tutorial_id)" ng-click="RemoveThis(tutorial_data)" href="#" class="red-btn border-radius">
           <i class="fa fa-shopping-bag marginR5" aria-hidden="true"></i>Remove cart
-        </a> 
+        </a>
         <a id="buy_now" ng-if="tutorial_data.free==true" ng-click="BuyThis()" href="#" class="red-btn border-radius">
           <i class="fa fa-shopping-bag marginR5" aria-hidden="true"></i> Buy Now
-        </a>   
+        </a>
     <% end %>
-  </div>  
+  </div>
     <% if @is_purchased || @tutorial_data.free %>
     <div class="offer-price offer-price-new-mar marginB10 hidden" id="download_show">
       <ul>
         <% if @tutorial_data.zip_files.present? %>
           <% @tutorial_data.zip_files.each do |tutorial_data|%>
-         
+
             <li class="row">
               <div class="col-md-8 col-sm-7 col-xs-8"><%= tutorial_data.zip_caption %></div>
-              <div class="col-md-4 col-sm-5 col-xs-4 text-right"><a class="download-new-mar" 
+              <div class="col-md-4 col-sm-5 col-xs-4 text-right"><a class="download-new-mar"
               href="<%= tutorial_data.zipfile.url %>">Download</a></div>
             </li>
-            
+
           <% end %>
         <% end %>
       </ul>
     </div>
   <% end %>
-<div class="product-rating marginB15">Product Rating 
+<div class="product-rating marginB15">Product Rating
     <% if user_signed_in? && @has_user_already_given_rating < 1 %>
          <script>
             $(function() {
@@ -477,12 +477,12 @@
                           type: 'post',
                           success: function(r){
                             $('#p_rating').raty({ score: r.ratingdata, readOnly: true});
-                          } 
+                          }
                       });
                 }});
              });
           </script>
-    <% else  %>    
+    <% else  %>
         <script>
             $(function() {
                 $.ajax({
@@ -491,13 +491,13 @@
                     type: 'post',
                     success: function(r){
                       $('#p_rating').raty({ score: r.ratingdata, readOnly: true});
-                    } 
+                    }
                 });
 
-                
+
              });
-        </script> 
-    <% end %> 
+        </script>
+    <% end %>
     <div id ="p_rating"></div>
   </div>
 <div class="clearfix download-cupon">
@@ -549,22 +549,23 @@
 
 </ul>
 </div>
-<div class="friendsbox"><img alt="Google Ad" class="img-responsive" src="images/google-ad1.jpg"> </div>
-<div class="aside marginB15">
-<div class="wiphome clearfix proswrap">
-<h2>Wants Critique</h2>
-<ul class="margin">
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>  
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>
-  <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "Home",:class =>"img-responsive") %></a></li>
-</ul>
+<div class="friendsbox">
+  <!-- <img alt="Google Ad" class="img-responsive" src="images/google-ad1.jpg">  -->
+  <% if @body_ads[:first].present? %>
+    <%= @body_ads[:first].html_safe %>
+  <% end %>
 </div>
+<div class="aside marginB15">
+  <% if @wip_gallery.present? %>
+    <div class="wiphome clearfix marginB15">
+      <h2>Wip Gallery</h2>
+      <ul class="margin">
+      <% @wip_gallery.each do |wip_gallery| %>
+          <li class="lists"><a href="dashboard/projects/<%= wip_gallery.paramlink %>/show"><%= image_tag(wip_gallery.company_logo.thumb.url, :alt => "img",:class=>"img-responsive") %></a></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 </div>
 </div>
 
@@ -579,36 +580,36 @@
               <h4 class="modal-title" id="exampleModalLabel">Add product to collection</h4>
             </div>
             <div class="modal-body">
-            
+
                 <div class="form-group">
                   <label for="recipient-name" class="control-label">Collection Name:</label>
                   <%= f.text_field :title, :autofocus => true, :placeholder => "Collection Name", class:"form-control", :type => 'text' %>
                   <span class="err-msg" id='bookmark_error_msg'><%= form_error_msg_for(@collection,:title, "Collection") %></span>
                 </div>
-               
+
                 <div id='get_already_collection'></div>
-    
+
             </div>
             <div class="modal-footer">
               <button type="button" class="lightbtn" data-dismiss="modal">Close</button>
               <button type="submit" class="lightbtn">Create</button>
             </div>
-          
-        <% end %> 
+
+        <% end %>
 
         <div class="modal-header">
                   <h4 class="modal-title" id="exampleModalLabel">Saved collections</h4>
                 </div>
-                
-                <div class="modal-body">            
+
+                <div class="modal-body">
                   <div class="form-group">
                     <ul style="width: 570px; height: 250px; overflow: auto">
                       <% if @collections!=nil %>
                         <% i=1 %>
-                        <%  @collections.each do |d| %>                   
+                        <%  @collections.each do |d| %>
                           <li>
                              <span class="col-sm-2"> <%= i %>.</span>
-                             <span class="col-sm-4"><%= d.title %></span>                              
+                             <span class="col-sm-4"><%= d.title %></span>
                              <% if find_tutorial_id(d.id,@tutorial_data.id) %>
                               <button class="collection btn btn-primary" id=<%= d.id %> type="button" disabled>Added</button>
                             <% else %>
@@ -616,14 +617,14 @@
                             <% end %>
                           </li>
                           <br></br>
-                          <% i=i+1 %>     
-                        
+                          <% i=i+1 %>
+
                         <% end %>
                       <% end %>
                     </ul>
                   </div>
                 </div>
-      </div>          
+      </div>
     </div>
   </div>
 </section>
@@ -632,10 +633,10 @@
 <script type="text/javascript">
 var app = angular.module('myApp', ["angularUtils.directives.dirPagination",
   "ngSanitize","angularLazyImg","MainModule","vAccordion", "ngAnimate"]);
- 
+
     app.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
-    }]);   
+    }]);
 
 app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) {
 
@@ -652,7 +653,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
          {
           return false;
          }
-               
+
          }
       catch(ex)
       {
@@ -662,7 +663,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
     $scope.ifVimeo = function(url)
     {
       var match = /vimeo.*\/(\d+)/i.exec( url );
-      if ( match ) 
+      if ( match )
       {
         var VideoURI = "https://player.vimeo.com/video/"+match[1];
         return $sce.trustAsResourceUrl(VideoURI);
@@ -677,7 +678,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
       $scope.TopicsTypeList = response.data;
     });
 
-    
+
     download1  = "<%= @paramlink %>"
      var uRl = '/get_tutorial_info/'+download1;
         $http.get(uRl).then(function (response) {
@@ -690,9 +691,9 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
             $scope.similar_tutorial = response.data.similar_tutorial;
             $scope.all_chapters_data = response.data.all_chapters_data;
             $scope.is_purchasedTutorial = response.data.is_purchased;
-            angular.forEach($scope.all_chapters_data, function(v, k){ 
-                angular.forEach(v.media_contents, function(value1, key1){ 
-                 
+            angular.forEach($scope.all_chapters_data, function(v, k){
+                angular.forEach(v.media_contents, function(value1, key1){
+
                   if(value1.media_type=='Video Url')
                   {
 
@@ -701,7 +702,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
                   try
                   {
                     var video_id = value1.Video_Url.split('v=')[1].split('&')[0];
-                   
+
                     if(video_id!=undefined)
                     {
 
@@ -715,7 +716,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope,$sce,$location, $http) 
                      value1.media_description = $sce.trustAsResourceUrl(value1.media_description);
 
                      var match = /vimeo.*\/(\d+)/i.exec( value1.Video_Url );
-                      if ( match ) 
+                      if ( match )
                       {
                         var VideoURI = "https://player.vimeo.com/video/"+match[1];
                         value1.media_description = $sce.trustAsResourceUrl(VideoURI);
@@ -762,7 +763,7 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
                  }
             });
 
-           
+
         });
 
     $rootScope.checkCart = function(id){
@@ -773,7 +774,7 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
         }
     };
     $scope.RemoveThis = function (product) {
-      
+
         $scope.cart.addItem({ sku: product.tutorial_id}, -10000000);
         window.location.reload();
     };
@@ -798,11 +799,11 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
        $scope.cart.addItem(
         { sku: product.tutorial_id,
           name: product.title,
-          slug:product.paramlink, 
-          mrp: product.price, 
-          price: product.price, 
-          quantity: 1, 
-          image: product.company_logo.thumb.url, 
+          slug:product.paramlink,
+          mrp: product.price,
+          price: product.price,
+          quantity: 1,
+          image: product.company_logo.thumb.url,
           weight: 0 }, true);
        window.location.reload();
     };
@@ -893,7 +894,7 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
                   $('#follow_button').removeClass('hidden');
                   $('#unfollow_button').addClass('hidden');
                 }else{
-                  
+
                 }
             }
         });
@@ -908,7 +909,7 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
             if(data.res == 1)
             {
                 $('.mark_spam').addClass('hidden');
-                $('.unmark_spam').removeClass('hidden');        
+                $('.unmark_spam').removeClass('hidden');
 
             }else{
 
@@ -929,8 +930,8 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
                         if(data.res == 1)
                         {
                             $('.mark_spam').addClass('hidden');
-                            $('.unmark_spam').removeClass('hidden');        
-            
+                            $('.unmark_spam').removeClass('hidden');
+
                         }else{
 
                             $('.mark_spam').removeClass('hidden');
@@ -939,7 +940,7 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
                         }
                     }
             });
-        
+
 
      });
     $('#bookmark_form_popup').on('submit',function(){
@@ -960,17 +961,17 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
     });
 
     $(".collection").on('click',function() {
-    var id = $(this).attr("id");  
-    $.ajax({          
+    var id = $(this).attr("id");
+    $.ajax({
             type: "post",
             url: "<%= add_collection_detail_path %>",
             data: {'collection_id': id,'tutorial_id': '<%= @tutorial_data.id %>'},
-            success: function(r){ 
+            success: function(r){
                if(r.res == 1) {
                   $("#"+id).html("Added");
                   $("#"+id).attr("disabled", true);
-                 }              
-            } 
+                 }
+            }
         });
     });
 
@@ -979,7 +980,7 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
           url: "<%= get_tutorial_comment_path %>" ,
           data: {'tutorial_id': "<%= @tutorial_data.id %>",'section_type': 'Tutorial'},
           success: function(data){
-            
+
             $('#commentslist_dev').html(data.data);
           }
     });
@@ -999,7 +1000,7 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
                       data: {'tutorial_id': tutorial_id,'description': textareavalue,'section_type': 'Tutorial'},
                       success: function(data){
                           $('#post_comments_'+tutorial_id).val('');
-                         
+
                           $.ajax({
                             type: "get",
                             url: "<%= get_tutorial_comment_path %>" ,
@@ -1007,13 +1008,13 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
                             success: function(data){
                               $('#commentslist_dev').html(data.data);
                                //window.location.reload(true);
-                              //return false;  
+                              //return false;
                             }
-                        }); 
+                        });
 
                       }
                   });
-              } 
+              }
 
       });
 
@@ -1024,10 +1025,10 @@ angular.forEach($scope.all_chapters_data[0].media_contents,function(value,key){
 </script>
 
 
-<% end %>  
+<% end %>
 
 <script type="text/javascript">
-  
+
 $(document).ready(function(){
   $.ajax({
         type: "post",

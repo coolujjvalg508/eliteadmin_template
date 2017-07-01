@@ -7,25 +7,25 @@
 		<div class="navbar-default">
 	    	<div class="container-fluid">
 	      		<div class="row">
-	      
+
 	      			<div class="col-md-3 col-sm-4 col-xs-9 header-search">
 	      				<div class="input-group stylish-input-group">
 	          				<input type="text" class="form-control"  ng-model="searchKey"  placeholder="Search 520 000 3D models" >
 	      					<span class="input-group-addon">
 	      						<button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-	      					</span> 
+	      					</span>
 	      				</div>
 	      			</div>
-	      
+
 	      			<div class="col-md-9 col-sm-8 col-xs-3 downloadpage">
-	      				<div class="navbar-header"> 
-	      					<a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
+	      				<div class="navbar-header">
+	      					<a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
 	      				</div>
 	      				<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
 	        				<ul class="nav navbar-nav">
 								<li class="active"><a href="/tutorials/all">All Topic</a></li>
 								<li ng-repeat="topic in TopicsTypeList track by $index"><a href="/tutorials/{{topic.slug}}">{{topic.name}}</a></li>
-							
+
 							</ul>
 						</div>
 					</div>
@@ -46,18 +46,18 @@
 						<input type="text" class="form-control" ng-model="searchKey" placeholder="Enter a keyword..." >
 						<span class="input-group-addon">
 							<button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-						</span> 
+						</span>
 					</div>
 				</div>
 				<div class="col-md-3 col-sm-3 col-xs-12 marginB10 text-left ColPad">
 					 <select class="custom-select topic-link"  ng-change="searchByTopic(selected)" ng-model='selected'>
                 		<option value="" class="active topic-link"  id="topic-link-all">All</option>
-                <% 
+                <%
                    if @topics.present?
                     @topics.each do |val| %>
                       <option value = "<%= val.id %>" class="topic-link"  id="topic-link-<%= val.id %>"> <%= val['name'] %></option>
-                <% 
-                    end 
+                <%
+                    end
                   end
                 %>
             </select>
@@ -70,17 +70,17 @@
 				<div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left ColPad">
 					 <select class="custom-select topic-link"  ng-change="searchBySkillLevel(selected)" ng-model='selected'>
                 		<option value="" class="active skill-level-link"  id="skill-level-link-all">All</option>
-                <% 
+                <%
                 	if @tutorial_skill.present?
 					@tutorial_skill.each do |val| %>
                       <option value = "<%= val.id %>" class="skill-level-link"  id="skill-level-<%= val.id %>"> <%= val['title'] %></option>
-                <% 
-							end 
+                <%
+							end
 							end %>
             </select>
 				</div>
-				
-			 
+
+
 			</div>
 			<div class="showcase-btn-wrap clearfix text-center">
 			<% if user_signed_in? %>
@@ -98,7 +98,7 @@
 		<div class="clearfix wipwrap">
 			<div class="wiptabs clearfix">
 				<ul class="nav nav-pills">
-	  				<li class="dropdown active"> 
+	  				<li class="dropdown active">
 	  					<a href="#" data-toggle="dropdown" class="dropdown-toggle">
 	  						<i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Topic
 	    					<div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
@@ -117,7 +117,7 @@
 	    				</ul>
 	  				</li>
 
-					<li class="dropdown"> 
+					<li class="dropdown">
 						<a href="#" data-toggle="dropdown" class="dropdown-toggle">Subject<div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div></a>
 						<ul class="dropdown-menu">
 							<li>
@@ -129,14 +129,14 @@
 							</li>
 						</ul>
 					</li>
-					<li class="dropdown"> 
+					<li class="dropdown">
 						<a href="#" data-toggle="dropdown" class="dropdown-toggle">Skill Level <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div></a>
 						<ul class="dropdown-menu">
 							<li>
 								<a href="javascript:void(0);" ng-click="searchBySkillLevel('', 'all')" class="active skill-level-link" id="skill-level-link-all">All</a>
 							</li>
-								
-							<% i = 1 
+
+							<% i = 1
 
 							@tutorial_skill.each do |val| %>
 								<li>
@@ -158,7 +158,7 @@
 					</li>
 				</ul>
 			</div>
-		</div>	
+		</div>
 
 		<!-- User Followers Start -->
 		<div class="container-fluid download-indent clearfix">
@@ -166,7 +166,7 @@
 				<div class="clearfix downbox" dir-paginate="x in tutorial_data | filter:searchKey | itemsPerPage:10 track by $index">
 		  			<div class="clearfix downtop">
 		    			<h2>{{x.Topic.name}}</h2>
-		    				<a href="/tutorials/{{x.Topic.slug}}" class="text-uppercase pull-right">view all</a> 
+		    				<a href="/tutorials/{{x.Topic.slug}}" class="text-uppercase pull-right">view all</a>
 		    		</div>
 		  			<div class="clearfix">
 						<ul>
@@ -190,23 +190,23 @@
 					<div ng-if="y.free==false" class="pull-right">
                     <span ng-if="!checkCart(y.tutorial_id)" class="checkbox-btn">
                       <input  type="checkbox" ng-click="AddTocart(y)" value="value-1" id="rc{{y.id}}">
-                    
+
 
                       <label for="rc{{y.id}}" onclick=""></label>
-                    </span> 
+                    </span>
                     <span ng-if="checkCart(y.tutorial_id)" class="checkbox-btn">
                       <input  type="checkbox" ng-checked="true" ng-click="RemoveThis(y)" value="value-1" id="rc{{y.id}}">
-                    
+
 
                       <label for="rc{{y.id}}" onclick=""></label>
-                      </span> 
+                      </span>
                       <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a>
                       </div>
 
 									</div>
 								</div>
 							</li>
-							
+
 						</ul>
 		  			</div>
 				</div>
@@ -217,13 +217,13 @@
 		                 boundary-links="false" >
 		            </dir-pagination-controls>
 	            </div>
-				<div class="clearfix downbox text-center err-msg no-result" ng-hide="tutorial_data.length" >No Result Found!</div>    
+				<div class="clearfix downbox text-center err-msg no-result" ng-hide="tutorial_data.length" >No Result Found!</div>
 
 
 			</div>
 		</div>
 	</section>
-</div>	
+</div>
 </div>
 
 <!-- Footer Start -->
@@ -235,13 +235,20 @@
 
   // main page angular app start
   var app = angular.module('tutorialindex', ["angularUtils.directives.dirPagination","angularLazyImg","MainModule"]);
- 
-  app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
-      
-    $scope.filter = function() {
-        
-        list_url = '/tutorials/get_tutorial_list?';
 
+  app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
+		var url = $(location).attr('search');
+    var params = "";
+    // If parameters are present in URL?
+    // If yes then create params to send to back end
+    var paramsStartIndex = url.indexOf("?");
+    if (paramsStartIndex != -1) {
+      params = "&" + url.substr(paramsStartIndex + 1);
+    }
+    $scope.filter = function() {
+
+        list_url = '/tutorials/get_tutorial_list?';
+				list_url += params;
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != '' && $scope.viewFeaturedType != 'all'){
           list_url += '&is_featured=' + $scope.viewFeaturedType
         }
@@ -260,6 +267,9 @@
 
         $http.get(list_url).then(function (response) {
           $scope.tutorial_data = response.data;
+					// Setting params to blank because we only want to filter the results by URL parameter
+					// first time only when user is comming from the home page
+					params = "";
         });
     };
     $scope.filter();
@@ -268,7 +278,7 @@
 
       angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
-      
+
       $scope.viewFeaturedType = value;
       $scope.filter();
 
@@ -278,7 +288,7 @@
 
       angular.element( document.querySelectorAll( '.skill-level-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#skill-level-link-' + id ) ).addClass('active');
-      
+
       $scope.viewSkillLevel = value;
       $scope.filter();
 
@@ -297,16 +307,16 @@
     };
 
     $scope.searchBySubTopic = function(id) {
-      
+
       angular.element( document.querySelectorAll( '.sub-topic-link' ) ).removeClass('active');
       angular.element( document.querySelectorAll( '#sub-topic-link-' + id ) ).addClass('active');
-      
+
       $scope.viewSubTopic = id;
       $scope.filter();
     };
 
     $scope.getSubTopic = function() {
-        
+
       $scope.sub_topic_data = [];
 
       if(typeof $scope.viewTopic !== 'undefined' && $scope.viewTopic != '' && $scope.viewTopic != 'all'){
@@ -318,9 +328,9 @@
           $scope.sub_topic_data = response.data;
         });
       }
-        
+
     };
-   
+
     $scope.setorderBy = '+view_count';
 
     $scope.orderBy = function(val)
@@ -330,7 +340,7 @@
 
         $rootScope.cart = Cart.cart;
     $rootScope.checkCart = function(id){
-  
+
         if($scope.cart.skuArray.includes(id)){
           debugger;
             return true;
@@ -339,21 +349,21 @@
         }
     };
     $scope.RemoveThis = function (product) {
-      
+
         $scope.cart.addItem({ sku: product.tutorial_id}, -10000000);
         window.location.reload();
     }
     $scope.AddTocart = function (product) {
-     
+
        $scope.cart.addItem(
         { sku: product.tutorial_id,
           type:'tutorial',
           name: product.title,
-          slug:product.paramlink, 
-          mrp: product.price, 
-          price: product.price, 
-          quantity: 1, 
-          image: product.company_logo.thumb.url, 
+          slug:product.paramlink,
+          mrp: product.price,
+          price: product.price,
+          quantity: 1,
+          image: product.company_logo.thumb.url,
           weight: 0 }, true);
        window.location.reload();
     };

@@ -1,7 +1,7 @@
 ActiveAdmin.register SiteSetting do
 
     menu label: 'Site Setting', parent: 'Settings',priority: 1 
-	permit_params :site_title,:site_email, :home_page_layout_type, :site_phone, :show_news, :show_behind_the_scenes ,:instagram_like_count ,:instagram_link ,:youtube_like_count ,:youtube_link ,:google_plus_like_count ,:google_plus_link ,:twitter_like_count ,:twitter_link ,:facebook_like_count ,:facebook_link ,:show_top_categories ,:show_top_artists ,:show_latest_post ,:show_downloads ,:show_job_updates ,:show_movies_film_trailor ,:show_news_press_release ,:show_tutorials , :show_community ,:copyright_text,:no_of_image,:no_of_video,:no_of_marmoset,:no_of_sketchfeb,:licence
+	permit_params :site_title,:site_email,:address , :home_page_layout_type, :site_phone, :show_news, :show_behind_the_scenes ,:instagram_like_count ,:instagram_link ,:youtube_like_count ,:youtube_link ,:google_plus_like_count ,:google_plus_link ,:twitter_like_count ,:twitter_link ,:facebook_like_count ,:facebook_link ,:show_top_categories ,:show_top_artists ,:show_latest_post ,:show_downloads ,:show_job_updates ,:show_movies_film_trailor ,:show_news_press_release ,:show_tutorials , :show_community ,:copyright_text,:no_of_image,:no_of_video,:no_of_marmoset,:no_of_sketchfeb,:licence
 	actions :all, except: [:destroy, :new, :create]
 	config.filters = false
 
@@ -36,6 +36,7 @@ ActiveAdmin.register SiteSetting do
 	      row 'Homepage layout' do |st|
 			st.home_page_layout_type? ? '12 Rows' : '7 Rows'
 		  end
+		  row :address
 	      row :facebook_link
 	      row :facebook_like_count
 	      row :twitter_link
@@ -67,6 +68,7 @@ ActiveAdmin.register SiteSetting do
 			  f.input :site_phone, label:'Site Phone'
 			  f.input :copyright_text, label:'Copyright Text'
 			  f.input :licence, label:'General Licence Content'
+			  f.input :address, label:'Address'
 			  f.input :home_page_layout_type, as: :select, collection: [['12 Rows',1], ['7 Rows', 0]], include_blank: false
 			  f.input :facebook_link, label:'Facebook link'
 			  f.input :facebook_like_count, label:'Facebook like count'

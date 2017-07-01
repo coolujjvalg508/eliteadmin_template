@@ -5,7 +5,7 @@
     <div class="navbar-default">
       <div class="container-fluid">
         <div class="row">
-        
+
         <div class="col-md-3 col-sm-4 col-xs-9 header-search">
         <div class="input-group stylish-input-group">
             <input type="text" ng-model="searchKey" class="form-control"  placeholder="Search 520 000 3D models" >
@@ -13,18 +13,18 @@
             <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
             </span> </div>
         </div>
-        
+
         <div class="col-md-9 col-sm-8 col-xs-3 downloadpage">
         <div class="navbar-header"> <a class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> </div>
         <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
                 <li class="active"><a href="/news/all">All News</a></li>
                 <li ng-repeat="topic in TopicsTypeList track by $index"><a href="/news/{{topic.slug}}">{{topic.name}}</a></li>
-              
+
               </ul>
             </div>
         </div>
-        
+
         </div>
       </div>
     </div>
@@ -41,28 +41,28 @@
       <input type="text" class="form-control"  ng-model="searchKey" placeholder="Enter a keyword..." >
       <span class="input-group-addon">
       <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-      </span> 
+      </span>
     </div>
   </div>
   <div class="col-md-4 col-sm-4 col-xs-12 marginB10 text-left ColPad">
       <select class="custom-select topic-link" ng-model='selected'>
         <option value="" ng-click="searchByCategory('all')" class="active category-link"  id="category-link-all">All</option>
-          <% 
+          <%
             if @categories.present?
               @categories.each do |val| %>
                 <option value = "<%= val.id %>" ng-click="searchByCategory('<%= val['id'] %>')" class="category-link"  id="category-link-<%= val['id'] %>"> <%= val['name'] %></option>
-          <% end 
+          <% end
             end %>
       </select>
   </div>
   <div class="col-md-4 col-sm-4 col-xs-12 marginB10 text-left ColPad">
     <select class="custom-select topic-link" ng-model='selected'>
         <option value="" ng-click="searchBySubCategory('all')" class="active sub-category-link"  id="sub-category-link-all">All</option>
-          <% 
+          <%
             if @subcategories.present?
               @subcategories.each do |val| %>
                 <option value = "<%= val.id %>" ng-click="searchBySubCategory('<%= val['id'] %>')" class="sub-category-link"  id="sub-category-link-'<%= val['id'] %>'"> <%= val['name'] %></option>
-          <% end 
+          <% end
             end %>
       </select>
   </div>
@@ -125,7 +125,7 @@
 
       </ul>
     </li>
-    
+
   </ul>
   </div>
   </div>
@@ -137,7 +137,7 @@
   <div class="clearfix downbox" dir-paginate="x in news_data | filter:searchKey | itemsPerPage:10 track by $index">
         <div class="clearfix downtop">
           <h2>{{x.Category.name}}</h2>
-            <a href="/news/{{x.Category.slug}}" class="text-uppercase pull-right">view all</a> 
+            <a href="/news/{{x.Category.slug}}" class="text-uppercase pull-right">view all</a>
         </div>
         <div class="clearfix">
         <ul>
@@ -147,7 +147,7 @@
             </div>
             <div class="padding10 clearfix">
               <div class="down-txt">
-                <span>{{y.title}}</span> 
+                <span>{{y.title}}</span>
                 <a href="/news/{{y.paramlink}}/show" class="pull-right tut-price txt13">View</a>
               </div>
               <div class="clearfix down-name">
@@ -155,7 +155,7 @@
               </div>
             </div>
           </li>
-          
+
         </ul>
         </div>
     </div>
@@ -166,7 +166,7 @@
            boundary-links="false" >
       </dir-pagination-controls>
     </div>
-    <div class="clearfix downbox text-center err-msg no-result" ng-hide="news_data.length" >No Result Found!</div>    
+    <div class="clearfix downbox text-center err-msg no-result" ng-hide="news_data.length" >No Result Found!</div>
 
   </div>
   </div>
@@ -184,18 +184,26 @@
 
   // main page angular app start
   var app = angular.module('newsindex', ["angularUtils.directives.dirPagination","angularLazyImg","MainModule"]);
-   
+
 
   app.controller('myCtrl', function($scope, $http) {
-      
+    var url = $(location).attr('search');
+    var params = "";
+    // If parameters are present in URL?
+    // If yes then create params to send to back end
+    var paramsStartIndex = url.indexOf("?");
+    if (paramsStartIndex != -1) {
+      params = "&" + url.substr(paramsStartIndex + 1);
+    }
     $scope.filter = function() {
-        
+
         list_url = '/news/get_news_list?';
+        list_url += params;
 
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != '' && $scope.viewFeaturedType != 'all'){
           list_url += '&is_featured=' + $scope.viewFeaturedType
         }
-        
+
         if(typeof $scope.viewCategory !== 'undefined' && $scope.viewCategory != '' && $scope.viewCategory != 'all'){
           list_url += '&category_id=' + $scope.viewCategory
         }
@@ -205,6 +213,9 @@
         }
         $http.get(list_url).then(function (response) {
           $scope.news_data = response.data;
+          // Setting params to blank because we only want to filter the results by URL parameter
+          // first time only when user is comming from the home page
+          params = "";
         });
     };
     $scope.filter();
@@ -213,7 +224,7 @@
 
       angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
-      
+
       $scope.viewFeaturedType = value;
       $scope.filter();
 
@@ -232,16 +243,16 @@
     };
 
     $scope.searchBySubCategory = function(id) {
-      
+
       angular.element( document.querySelectorAll( '.sub-category-link' ) ).removeClass('active');
       angular.element( document.querySelectorAll( '#sub-category-link-' + id ) ).addClass('active');
-      
+
       $scope.viewSubCategory = id;
       $scope.filter();
     };
 
     $scope.getSubCategory = function() {
-        
+
       $scope.sub_category_data = [];
 
       if(typeof $scope.viewCategory !== 'undefined' && $scope.viewCategory != '' && $scope.viewCategory != 'all'){
@@ -253,7 +264,7 @@
           $scope.sub_category_data = response.data;
         });
       }
-        
+
     };
      $scope.setorderBy = '+view_count';
 

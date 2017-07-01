@@ -1,7 +1,7 @@
 class GalleriesController < ApplicationController
-
+    include AdsForPages
     before_action :authenticate_user!, only: [:index ,:new, :create, :edit, :update, :get_gallery_post_list, :count_user_gallery_post]
- 
+
     def find_gallery_id(c_id,d_id)
       collection = CollectionDetail.where("gallery_id = ? and collection_id = ?", d_id,c_id).first
     end
@@ -9,40 +9,44 @@ class GalleriesController < ApplicationController
 
     def index
 
-    end 
-  
+    end
+
     def gallery
-      # As there will be only one record 
+      # As there will be only one record
       # It requires all the data to be present otherwise it will throw an error
-      
-      setting_data = SiteSetting.first      
+
+      setting_data = SiteSetting.first
       @fb = { link: setting_data.facebook_link, count: setting_data.facebook_like_count }
       @gl = { link: setting_data.google_plus_link, count: setting_data.google_plus_like_count }
       @twtr = { link: setting_data.twitter_link, count: setting_data.twitter_like_count }
       @yb = { link: setting_data.youtube_link, count: setting_data.youtube_like_count }
-      @im = { link: setting_data.instagram_link, count: setting_data.instagram_like_count }                                     
+      @im = { link: setting_data.instagram_link, count: setting_data.instagram_like_count }
+
+      get_ads("home")
     end
-    
-      
+
+
     def new
-        #VideoInfo.disable_providers = %w[Wistia Vkontakte] 
+        #VideoInfo.disable_providers = %w[Wistia Vkontakte]
         #video = VideoInfo.new('https://www.youtube.com/watch?v=lvtfD_rJ2hE')
        # video = VideoInfo.new('http://fast.wistia.com/embed/medias/pxonqr42is')
 
         #abort(video.to_json)
-        
-        @gallery = current_user.gallery.new
-        
 
-    end 
+        @gallery = current_user.gallery.new
+
+
+    end
 
     def show
+      get_ads("galleries")
+
         @gallery        = Gallery.find_by(paramlink: params[:paramlink])
-        
+
         @collection     = Collection.new
         @report         = Report.new
         @latest_post    = Gallery.where("paramlink != ?",params[:paramlink]).order('id desc').limit(8)
-     
+
         if(current_user!=nil)
           @collections = Collection.where('user_id = ?',current_user.id)
           #abort(@collections.to_json)
@@ -54,20 +58,20 @@ class GalleriesController < ApplicationController
         if current_user.present?
           @blocked_users    = BlockUser.where("user_id="+@gallery.user_id.to_s+" AND block_user_id::jsonb ?| array['" + current_user.id.to_s + "
             ']")
-       end   
+       end
 
         if @gallery.post_type_category_id == 1
             render 'artshow'
 
           elsif  @gallery.post_type_category_id == 2
             render 'videoshow'
-         
-          else 
-            render 'show'
-        end 
-    end  
 
-    
+          else
+            render 'show'
+        end
+    end
+
+
 
     def save_like
           gallery_id     = params[:gallery_id]
@@ -76,44 +80,44 @@ class GalleriesController < ApplicationController
 
           galleryrecord  = Gallery.where(id: gallery_id).first
           is_admin       = galleryrecord.is_admin.to_s
-         
+
           is_like_exist  = PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin).first
           result         = ''
-         
+
 
           activity_type = ''
           if is_like_exist.present?
                 activity_type = 'disliked'
-                PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin).delete_all 
+                PostLike.where(user_id: user_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin).delete_all
                 Notification.where(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, notification_type: "like", section_type: 'Gallery', is_admin: is_admin).delete_all
 
                 newlike_count  =  (galleryrecord.like_count == 0) ? 0 : galleryrecord.like_count - 1
-                galleryrecord.update(like_count: newlike_count) 
+                galleryrecord.update(like_count: newlike_count)
 
                 result  = {'res' => 0, 'message' => 'Post has disliked'}
 
           else
                 activity_type = 'liked'
-                PostLike.create(user_id: user_id, artist_id: artist_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin)  
-                
+                PostLike.create(user_id: user_id, artist_id: artist_id, post_id: gallery_id, post_type: 'Gallery', is_admin: is_admin)
+
                 newlike_count  =  galleryrecord.like_count + 1
-                galleryrecord.update(like_count: newlike_count) 
+                galleryrecord.update(like_count: newlike_count)
 
                 Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, notification_type: "like", is_read: 0, section_type: 'Gallery', is_admin: is_admin)
-                
+
                 result  = {'res' => 1, 'message' => 'Post has liked'}
 
-          end 
+          end
 
-          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, activity_type: activity_type, section_type: 'Gallery', is_admin: is_admin)  
-            
+          LatestActivity.create(user_id: user_id,  artist_id: artist_id,  post_id: gallery_id, activity_type: activity_type, section_type: 'Gallery', is_admin: is_admin)
 
-          render json: result, status: 200       
-    end  
+
+          render json: result, status: 200
+    end
 
      def check_save_like
           gallery_id     = params[:gallery_id]
-          
+
           galleryrecord  = Gallery.where(id: gallery_id).first
           is_admin       = galleryrecord.is_admin.to_s
 
@@ -124,52 +128,52 @@ class GalleriesController < ApplicationController
                 result  = {'res' => 1, 'message' => 'Post has already liked'}
           else
                 result  = {'res' => 0, 'message' => 'Post has not liked'}
-          end 
-         
-          render json: result, status: 200       
-    end  
+          end
+
+          render json: result, status: 200
+    end
 
 
     def follow_artist
-        
+
           artist_id      = params[:artist_id]
           gallery_id     = params[:gallery_id]
-          
+
           galleryrecord  = Gallery.where(id: gallery_id).first
           is_admin       = galleryrecord.is_admin.to_s
 
           user_id          = current_user.id
           is_follow_exist  = Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).first
           result = ''
-          
+
           if is_admin == 'N'
                userrecord          = User.where(id: artist_id).first
           else
                userrecord          = AdminUser.where(id: artist_id).first
-          end   
+          end
 
           if is_follow_exist.present?
-                Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).delete_all 
-                Notification.where(user_id: user_id,  artist_id: artist_id, notification_type: "follow user", section_type: 'Gallery', is_admin: is_admin).delete_all  
+                Follow.where(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin).delete_all
+                Notification.where(user_id: user_id,  artist_id: artist_id, notification_type: "follow user", section_type: 'Gallery', is_admin: is_admin).delete_all
                 newfollow_count  =  (userrecord.follow_count == 0) ? 0 : userrecord.follow_count - 1
-                userrecord.update(follow_count: newfollow_count) 
+                userrecord.update(follow_count: newfollow_count)
 
                 result  = {'res' => 0, 'message' => 'Artist Not Follow'}
           else
                 Follow.create(user_id: user_id, artist_id: artist_id, post_type: '', is_admin: is_admin)
-                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: "", notification_type: "follow user", is_read: 0, section_type: 'Gallery', is_admin: is_admin)  
+                Notification.create(user_id: user_id,  artist_id: artist_id,  post_id: "", notification_type: "follow user", is_read: 0, section_type: 'Gallery', is_admin: is_admin)
 
                 newfollow_count  =  userrecord.follow_count + 1
-                userrecord.update(follow_count: newfollow_count) 
+                userrecord.update(follow_count: newfollow_count)
 
                 result  = {'res' => 1, 'message' => 'Artist Follow'}
 
-          end 
+          end
 
 
-          render json: result, status: 200    
-             
-    end  
+          render json: result, status: 200
+
+    end
 
      def check_follow_artist
           artist_id      = params[:artist_id]
@@ -185,10 +189,10 @@ class GalleriesController < ApplicationController
                 result  = {'res' => 1, 'message' => 'Artist already followed'}
           else
                 result  = {'res' => 0, 'message' => 'Artist not followed'}
-          end 
+          end
 
-          render json: result, status: 200       
-    end  
+          render json: result, status: 200
+    end
 
 
     def getsubjectmatter
@@ -201,7 +205,7 @@ class GalleriesController < ApplicationController
     def get_video_detail_from_url
         url     =   params[:url]
 
-        VideoInfo.disable_providers = %w[Wistia Vkontakte] 
+        VideoInfo.disable_providers = %w[Wistia Vkontakte]
 
         video = VideoInfo.new(url)
 
@@ -212,14 +216,14 @@ class GalleriesController < ApplicationController
             render :json => data.to_json, status: 200
 
         else
-            render :json => video, status: 300            
+            render :json => video, status: 300
         end
         #abort(video.thumbnail_medium.to_json)
 
-    end    
+    end
 
 
-   
+
     def create
 
 
@@ -239,7 +243,7 @@ class GalleriesController < ApplicationController
 
         elsif params['commit'] == 'SaveDraft'
             params['gallery']['is_save_to_draft'] = 1
-        end 
+        end
 
      #  caption_image  = params[:gallery][:avatar_caption]
      #  abort(caption_image[2].present?)
@@ -250,26 +254,26 @@ class GalleriesController < ApplicationController
 
         if @gallery.save
 
-            
-           
+
+
             tags_list = params['gallery']['tag']['tag']
- 
+
             tags_list.reject!{|a| a==""}
 
             tags_list.each do |tag_val|
 
                 Tag.create(
-                    tag: tag_val, 
-                    tagable_id: @gallery['id'], 
+                    tag: tag_val,
+                    tagable_id: @gallery['id'],
                     tagable_type: 'Gallery'
                 )
 
             end
 
-             #abort(@gallery.to_json)   
+             #abort(@gallery.to_json)
 
             ############################################
-         
+
             if params[:gallery][:crop_x].present?
                 @gallery.company_logo = @gallery.company_logo.resize_and_crop
                 @gallery.save!
@@ -282,39 +286,39 @@ class GalleriesController < ApplicationController
                   my_array = params[:gallery][:removedids].split(',')
                  #abort(my_array.inspect)
                  params[:gallery][:avatar].each.with_index do |a,index|
-                   caption = ''  
+                   caption = ''
                    if caption_image[index].present?
                         caption = caption_image[index]['caption_image']
-                   end        
+                   end
 
 
-                    if !my_array.include?(index.to_s)  
+                    if !my_array.include?(index.to_s)
                          @image = @gallery.images.create!(:image => a[:image],:caption_image => caption)
                     end
-                   
-                 end
-            end  
 
-           LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'created', section_type: 'Gallery')  
+                 end
+            end
+
+           LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'created', section_type: 'Gallery')
             ############################################
             redirect_to index_gallery_path, notice: 'Project Successfully Created.'
 
         else
             render 'new'
-        end    
+        end
 
       #abort(@gallery.errors.to_json)
-    
 
-    end 
-  
+
+    end
+
     def edit
 
         @gallery = Gallery.find_by(paramlink: params[:paramlink])
         #abort(@gallery.tags.to_json)
         render 'new'
-    end 
-  
+    end
+
     def update
 
         title = params['gallery']['title']
@@ -346,7 +350,7 @@ class GalleriesController < ApplicationController
         if @gallery.update(gallery_params)
 
             ############ Images update start #################
-            #to delete images 
+            #to delete images
             if params['gallery']['removedimages'].present?
               removedimages_array = params[:gallery][:removedimages].split(',')
               if removedimages_array.present?
@@ -357,7 +361,7 @@ class GalleriesController < ApplicationController
             #to update caption of existing images
             if params['gallery']['images_attributes_default'].present?
               params['gallery']['images_attributes_default'].each do |data_update|
-                Image.where('id = ?', data_update[0]).update_all(:caption_image => data_update[1]['caption_image'])  
+                Image.where('id = ?', data_update[0]).update_all(:caption_image => data_update[1]['caption_image'])
               end
             end
 
@@ -365,7 +369,7 @@ class GalleriesController < ApplicationController
 
             ############ Video url update start #################
 
-            #to delete video url 
+            #to delete video url
             if params['gallery']['removedvideourl'].present?
               removedvideourl_array = params[:gallery][:removedvideourl].split(',')
               if removedvideourl_array.present?
@@ -376,7 +380,7 @@ class GalleriesController < ApplicationController
             #to update caption of existing video url
             if params['gallery']['videos_attributes_default'].present?
               params['gallery']['videos_attributes_default'].each do |data_update|
-                Video.where('id = ?', data_update[0]).update_all(:caption_video => data_update[1]['caption_video'])  
+                Video.where('id = ?', data_update[0]).update_all(:caption_video => data_update[1]['caption_video'])
               end
             end
 
@@ -395,7 +399,7 @@ class GalleriesController < ApplicationController
             #to update caption of existing sketchfebs url
             if params['gallery']['sketchfebs_attributes_default'].present?
               params['gallery']['sketchfebs_attributes_default'].each do |data_update|
-                Sketchfeb.where('id = ?', data_update[0]).update_all(:caption_sketchfeb => data_update[1]['caption_sketchfeb'])  
+                Sketchfeb.where('id = ?', data_update[0]).update_all(:caption_sketchfeb => data_update[1]['caption_sketchfeb'])
               end
             end
 
@@ -403,7 +407,7 @@ class GalleriesController < ApplicationController
 
             ############ upload video update start #################
 
-            #to delete upload video 
+            #to delete upload video
             if params['gallery']['removedUploadVideo'].present?
               removed_upload_video_array = params[:gallery][:removedUploadVideo].split(',')
               if removed_upload_video_array.present?
@@ -414,7 +418,7 @@ class GalleriesController < ApplicationController
             #to update caption of existing upload video
             if params['gallery']['upload_videos_attributes_default'].present?
               params['gallery']['upload_videos_attributes_default'].each do |data_update|
-                UploadVideo.where('id = ?', data_update[0]).update_all(:caption_upload_video => data_update[1]['caption_upload_video'])  
+                UploadVideo.where('id = ?', data_update[0]).update_all(:caption_upload_video => data_update[1]['caption_upload_video'])
               end
             end
 
@@ -422,7 +426,7 @@ class GalleriesController < ApplicationController
 
             ############ marmoset update start #################
 
-            #to delete upload video 
+            #to delete upload video
             if params['gallery']['removedMarmoset'].present?
               removed_marmoset_array = params[:gallery][:removedMarmoset].split(',')
               if removed_marmoset_array.present?
@@ -451,17 +455,17 @@ class GalleriesController < ApplicationController
             tags_list.each do |tag_val|
 
                Tag.create(
-                    tag: tag_val, 
-                    tagable_id: @gallery['id'], 
+                    tag: tag_val,
+                    tagable_id: @gallery['id'],
                     tagable_type: 'Gallery'
-                ) 
+                )
 
             end
 
-             #abort(@gallery.to_json)   
+             #abort(@gallery.to_json)
 
             ############################################
-         
+
             if params[:gallery][:crop_x].present?
                 @gallery.company_logo = @gallery.company_logo.resize_and_crop
                 @gallery.save!
@@ -474,30 +478,30 @@ class GalleriesController < ApplicationController
                   my_array = params[:gallery][:removedids].split(',')
                  #abort(my_array.inspect)
                  params[:gallery][:avatar].each.with_index do |a,index|
-                   caption = ''  
+                   caption = ''
                    if caption_image[index].present?
                         caption = caption_image[index]['caption_image']
-                   end        
+                   end
 
 
-                    if !my_array.include?(index.to_s)  
+                    if !my_array.include?(index.to_s)
                          @image = @gallery.images.create!(:image => a[:image],:caption_image => caption)
                     end
-                   
+
                  end
-            end  
-            LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'updated', section_type: 'Gallery')  
+            end
+            LatestActivity.create(user_id: current_user.id, artist_id: current_user.id, post_id: @gallery['id'], activity_type: 'updated', section_type: 'Gallery')
             ############################################
             redirect_to index_gallery_path, notice: 'Project Successfully Updated.'
 
         else
             render 'new'
-        end    
+        end
 
       #abort(@gallery.errors.to_json)
-    
 
-    end 
+
+    end
 
     def save_comment
           post_id           = params[:gallery_id]
@@ -507,15 +511,15 @@ class GalleriesController < ApplicationController
           galleryrecord     = Gallery.where("id = ?",post_id).first
           is_admin          = galleryrecord.is_admin.to_s
 
-          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id, section_type: section_type, is_admin: is_admin) 
-         
+          PostComment.create(title: "", description: description, user_id: current_user.id, post_id: post_id, section_type: section_type, is_admin: is_admin)
+
           newcomment_count_count      = galleryrecord.comment_count + 1
-          galleryrecord.update(comment_count: newcomment_count_count) 
-          
-          Notification.create(user_id: current_user.id, post_id: post_id, artist_id: galleryrecord.user_id, section_type: section_type, notification_type: "comment", is_admin: is_admin) 
+          galleryrecord.update(comment_count: newcomment_count_count)
+
+          Notification.create(user_id: current_user.id, post_id: post_id, artist_id: galleryrecord.user_id, section_type: section_type, notification_type: "comment", is_admin: is_admin)
 
           render :json => {'res' => 1, 'message' => 'Comment has successfully sent'}, status: 200
-    end  
+    end
 
 
 
@@ -529,68 +533,68 @@ class GalleriesController < ApplicationController
           is_admin             = gallery_record.is_admin.to_s
 
           commentrecord        = PostComment.where("post_id = ? AND user_id = ? AND section_type=? AND is_admin=?",gallery_id,user_id,section_type,is_admin).order('id DESC')
-          
+
 
           str = ''
           if commentrecord.present?
-             
+
             commentrecord.each_with_index do |value, index|
-    
+
               str += '<div class="customer-wrap clearfix"><div class="customerleft"><img src = ' + value.user.image.user_activity.url + ' alt= "user"></div><div class="customerright"><div class="day-txt"><span>' + value.user.firstname + '</span> '+ DateTime.parse(value.created_at.to_s).strftime("%Y-%m-%d %H:%M:%S").to_s + '</div> <div class="date-txt">' + value.description + ' </div></div></div>'
 ##
-              end  
+              end
 
 
-         end  
-       
-        render :json => {'res' => 1, 'data' => str, 'message' => 'data get successfully'}, status: 200   
+         end
+
+        render :json => {'res' => 1, 'data' => str, 'message' => 'data get successfully'}, status: 200
 
 
 
 
-    end      
+    end
 
 
     def get_like_comment_view_gallery
-          
+
           post_id           = params[:gallery_id]
           gallery_record    = Gallery.where("id= ?",post_id).first
           #gallerylike       = PostLike.where('post_id = ?', post_id).count
           #gallerycomment    = PostComment.where('post_id = ?', post_id).count
-          res               = {'gallerylike': gallery_record.like_count,'gallerycomment': gallery_record.comment_count,'galleryview': gallery_record.view_count} 
+          res               = {'gallerylike': gallery_record.like_count,'gallerycomment': gallery_record.comment_count,'galleryview': gallery_record.view_count}
           render :json => res, status: 200
 
-      
-    end  
+
+    end
 
     def upload_drag_image
          #  abort(params.to_json)
     end
 
     def delete_galleries_post
-       
+
         id                   =  params[:delete_id]
         viewtype             =  params[:viewtype]
         if id.present?
           id.each do |id|
-            
+
             if viewtype != "trash"
                 @is_gallery_exist     =  Gallery.where(id: id).first
                   if @is_gallery_exist.present?
-                      Gallery.where(id: id).update_all(:is_trash => 1) 
-                      flash[:notice] = 'Post has successfully trashed.' 
+                      Gallery.where(id: id).update_all(:is_trash => 1)
+                      flash[:notice] = 'Post has successfully trashed.'
                   end
             else
                 @is_gallery_exist     =  Gallery.where(id: id).first
                   if @is_gallery_exist.present?
                       Gallery.where(id: id).delete_all
-                      flash[:notice] = 'Post has successfully deleted.' 
+                      flash[:notice] = 'Post has successfully deleted.'
                   end
 
-            end  
+            end
           end
 
-          render :json => {'res' => 1, 'message' => 'Post has successfully trashed'}, status: 200 
+          render :json => {'res' => 1, 'message' => 'Post has successfully trashed'}, status: 200
         end
     end
 
@@ -600,12 +604,12 @@ class GalleriesController < ApplicationController
          @is_gallery_exist     =  Gallery.where(paramlink: paramlink).first
         # abort(@is_gallery_exist.to_json)
          if @is_gallery_exist.present?
-            Gallery.where('id = ?',@is_gallery_exist.id).update_all(:is_trash => 1)  
+            Gallery.where('id = ?',@is_gallery_exist.id).update_all(:is_trash => 1)
             flash[:notice] = 'Post has successfully trashed.'
             redirect_to index_gallery_path
          end
-          
-    end   
+
+    end
 
     def delete_from_trash
           #abort(params.to_json)
@@ -618,21 +622,21 @@ class GalleriesController < ApplicationController
             redirect_to index_gallery_path
          end
 
-    end  
+    end
 
 
     def restore_post
-       
+
        #abort(params.to_json)
        paramlink             =  params[:paramlink]
        @is_gallery_exist     =  Gallery.where(paramlink: paramlink).first
        # abort(@is_gallery_exist.to_json)
        if @is_gallery_exist.present?
-          Gallery.where('id = ?',@is_gallery_exist.id).update_all(:is_trash => 0)  
+          Gallery.where('id = ?',@is_gallery_exist.id).update_all(:is_trash => 0)
           flash[:notice] = 'Post has successfully restored.'
           redirect_to index_gallery_path
        end
-  end  
+  end
 
     def get_upload_video_thumbnail
 
@@ -650,13 +654,13 @@ class GalleriesController < ApplicationController
 
         if(params[:post_type_category_id] && params[:post_type_category_id] != '')
           conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
-        end 
+        end
 
         if(params[:medium_category_id] && params[:medium_category_id] != '')
           conditions += ' AND medium_category_id=' + params[:medium_category_id]
-        end 
+        end
 
-        if(params[:view]) 
+        if(params[:view])
           if (params[:view] == 'featured')
             conditions += ' AND is_featured=TRUE AND is_trash=0'
           elsif (params[:view] == 'published')
@@ -678,7 +682,7 @@ class GalleriesController < ApplicationController
 
 
         #abort(data.to_json)
-        #render json: result, status: 200  
+        #render json: result, status: 200
         render :json => result.to_json(:include => [:category, :medium_category]), status: 200
 
   end
@@ -698,32 +702,32 @@ class GalleriesController < ApplicationController
             if val['is_trash'] == 0
               total_featured = total_featured + 1
             end
-          end  
+          end
 
           if val['publish'] == 1
             if val['is_trash'] == 0
               total_published = total_published + 1
             end
-          end  
+          end
 
           if val['is_save_to_draft'] == 1
             if val['is_trash'] == 0
               total_draft = total_draft + 1
             end
-          end 
+          end
 
           if val['is_trash'] == 1
             total_trash = total_trash + 1
-          end   
+          end
 
-        end  
+        end
 
         result = {'total_count' => total_count, 'total_featured' => total_featured, 'total_published' => total_published, 'total_draft' => total_draft, 'total_trash'=> total_trash}
 
-        render json: result, status: 200  
+        render json: result, status: 200
 
         #abort(result.to_json)
-  end  
+  end
 
     #  ******************************************* Browse All Task ******************************************************************* #
 
@@ -733,229 +737,238 @@ class GalleriesController < ApplicationController
 
     def browse_all_awards
     end
-    
+
     def browse_all_challenge
     end
-    
+
     def browse_all_gallery
         @medium_type = SubjectMatter.where("parent_id = 1").order('name ASC')
     end
-    
+
     def browse_all_video
       @medium_type = SubjectMatter.where("parent_id = 2").order('name ASC')
     end
-    
+
     def browse_all_work_in_progress
     end
-    
-   
+
+
     def get_gallery_list
 
         conditions = "is_trash=0"
-         
+
         if(params[:post_type_category_id] != '0')
             if(params[:post_type_category_id] && params[:post_type_category_id] != '')
               conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
-            else 
+            else
               conditions += ' AND post_type_category_id= 1'
-            end 
-        end    
- 
+            end
+        end
+
         if(params[:medium_category_id] && params[:medium_category_id] != '')
           conditions +=  " AND subject_matter_id::jsonb ?| array['" + params[:medium_category_id] + "'] "
           #conditions += ' AND subject_matter_id=' + params[:medium_category_id]
-        end 
+        end
 
 
         #if(params[:is_feature] && params[:is_feature] != '')
-       #   conditions += ' AND is_featured=' + params[:is_feature] 
-       # end 
+       #   conditions += ' AND is_featured=' + params[:is_feature]
+       # end
 
-          orderby = 'id DESC'
+        orderby = 'id DESC'
+
+        if(params[:sort])
+          case params[:sort]
+          when "top"
+            orderby = 'view_count DESC, id DESC'
+          when "trending"
+            orderby = 'like_count DESC, id DESC'
+          end
+        end
 
         if(params[:is_feature] && params[:is_feature] != '')
 
               if params[:is_feature] == 'RECENT'
-                   
+
                    orderby = 'id DESC'
-      
+
               elsif params[:is_feature] == 'POPULAR'
-                   
+
                    orderby = 'view_count DESC, id DESC'
 
              elsif params[:is_feature] == 'AWARDED'
 
 
-              elsif params[:is_feature] == 'TOPLIKED'  
+              elsif params[:is_feature] == 'TOPLIKED'
 
                   orderby = 'like_count DESC, id DESC'
 
-              elsif params[:is_feature] == 'TOPVIEWED'    
+              elsif params[:is_feature] == 'TOPVIEWED'
 
                   orderby = 'view_count DESC, id DESC'
 
-              elsif params[:is_feature] == 'TOPCOMMENTED'  
-                  
+              elsif params[:is_feature] == 'TOPCOMMENTED'
+
                    orderby = 'comment_count DESC, id DESC'
 
              end
-                    
+
         end
 
 
        # abort(orderby.to_json)
         #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
-        
+
         if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
-            
+
               if params[:browse_by] == 'popular'
-                  
+
                   result    = Gallery.where(conditions).order('view_count DESC, id DESC')
-              
+
               elsif params[:browse_by] == 'top'
 
                   result    = Gallery.where(conditions).order('like_count DESC, id DESC')
-              
-              end             
-            
-        else  
+
+              end
+
+        else
            result    = Gallery.where(conditions).order(orderby)
         end
 
         final_data = []
         if result.present?
-          
+
          result.each_with_index do |value, index|
                  video_data    = []
-                  if value.videos.present?  
+                  if value.videos.present?
                         value.videos.each_with_index do |video_value, video_index|
 
-                               if(video_value.video.include?('youtube')) 
+                               if(video_value.video.include?('youtube'))
                                     if video_value.video[/youtu\.be\/([^\?]*)/]
                                       youtube_id = $1
                                     else
                                       video_value.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
                                       youtube_id = $5
                                     end
-                                  
+
                                   video_data[video_index] =   { 'type': 'Youtube', 'videoid': 'https://www.youtube.com/embed/'+ youtube_id }
-                                
-                               elsif(video_value.video.include?('vimeo')) 
+
+                               elsif(video_value.video.include?('vimeo'))
                                     match = video_value.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
 
                                     if match.present?
                                       vimeoid = match[:id]
-                                      video_data[video_index] =   { 'type': 'Vimeo', 'videoid': 'https://player.vimeo.com/video/'+vimeoid }   
-                                   
+                                      video_data[video_index] =   { 'type': 'Vimeo', 'videoid': 'https://player.vimeo.com/video/'+vimeoid }
+
                                     end
-                                
-                                elsif(video_value.video.include?('dailymotion'))  
+
+                                elsif(video_value.video.include?('dailymotion'))
                                     match =  video_value.video.gsub('http://www.dailymotion.com/video/', "")
                                     match1  = match.index('_')
                                     match = match[0...match1]
                                     if match.present?
                                       dailymotionid = match
-                                      video_data[video_index] =   { 'type': 'Dailymotion', 'videoid': '//www.dailymotion.com/embed/video/'+dailymotionid }   
-                                                          
-                                    end 
+                                      video_data[video_index] =   { 'type': 'Dailymotion', 'videoid': '//www.dailymotion.com/embed/video/'+dailymotionid }
+
+                                    end
                                 end
-                        end  
-                  end   
-               
+                        end
+                  end
+
                   final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data}
 
-             end           
-        
-        end            
+             end
 
-          
+        end
+
+
        render :json => final_data.to_json, status: 200
 
-    end 
+    end
 
 
     def get_portfolio_list
 #abort(params.to_json)
-        
+
        artist_id  = ''
-       
+
        if params[:artist_id].present?
              artist_id  = params[:artist_id]
        else
              artist_id  = current_user.id
 
-       end 
+       end
 
       # abort(artist_id.to_json)
 
         conditions = "is_trash=0 AND user_id =" + artist_id.to_s + " AND is_admin = 'N'"
-         
+
         if(params[:post_type_category_id] != '0')
             if(params[:post_type_category_id] && params[:post_type_category_id] != '')
               conditions += ' AND post_type_category_id=' + params[:post_type_category_id]
-            end 
-        end    
- 
+            end
+        end
+
         if(params[:medium_category_id] && params[:medium_category_id] != '')
           conditions +=  " AND subject_matter_id::jsonb ?| array['" + params[:medium_category_id] + "'] "
           #conditions += ' AND subject_matter_id=' + params[:medium_category_id]
-        end 
+        end
 
-  
+
        # abort(conditions.to_json)
 
         #if(params[:is_feature] && params[:is_feature] != '')
-       #   conditions += ' AND is_featured=' + params[:is_feature] 
-       # end 
+       #   conditions += ' AND is_featured=' + params[:is_feature]
+       # end
 
           orderby = 'id DESC'
 
         if(params[:is_feature] && params[:is_feature] != '')
 
               if params[:is_feature] == 'RECENT'
-                   
+
                    orderby = 'id DESC'
-      
+
               elsif params[:is_feature] == 'POPULAR'
-                   
+
                    orderby = 'view_count DESC, id DESC'
 
              elsif params[:is_feature] == 'AWARDED'
 
 
-              elsif params[:is_feature] == 'TOPLIKED'  
+              elsif params[:is_feature] == 'TOPLIKED'
 
                   orderby = 'like_count DESC, id DESC'
 
-              elsif params[:is_feature] == 'TOPVIEWED'    
+              elsif params[:is_feature] == 'TOPVIEWED'
 
                   orderby = 'view_count DESC, id DESC'
 
-              elsif params[:is_feature] == 'TOPCOMMENTED'  
-                  
+              elsif params[:is_feature] == 'TOPCOMMENTED'
+
                    orderby = 'comment_count DESC, id DESC'
 
              end
-                    
+
         end
 
 
        # abort(orderby.to_json)
         #result = Gallery.where(conditions).order('id DESC').page(params[:page]).per(10)
-        
+
         if (params[:browse_by] && (params[:browse_by] == 'popular' || params[:browse_by] == 'top'))
-            
+
               if params[:browse_by] == 'popular'
-                  
+
                   result    = Gallery.where(conditions).order('view_count DESC, id DESC')
-              
+
               elsif params[:browse_by] == 'top'
 
                   result    = Gallery.where(conditions).order('like_count DESC, id DESC')
-              
-              end             
-            
-        else  
+
+              end
+
+        else
            result    = Gallery.where(conditions).order(orderby)
         end
 
@@ -963,94 +976,94 @@ class GalleriesController < ApplicationController
 
         final_data = []
         if result.present?
-          
+
          result.each_with_index do |value, index|
                  video_data    = []
-                  if value.videos.present?  
+                  if value.videos.present?
                         value.videos.each_with_index do |video_value, video_index|
 
-                               if(video_value.video.include?('youtube')) 
+                               if(video_value.video.include?('youtube'))
                                     if video_value.video[/youtu\.be\/([^\?]*)/]
                                       youtube_id = $1
                                     else
                                       video_value.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
                                       youtube_id = $5
                                     end
-                                  
+
                                   video_data[video_index] =   { 'type': 'Youtube', 'videoid': 'https://www.youtube.com/embed/'+ youtube_id }
-                                
-                               elsif(video_value.video.include?('vimeo')) 
+
+                               elsif(video_value.video.include?('vimeo'))
                                     match = video_value.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
 
                                     if match.present?
                                       vimeoid = match[:id]
-                                      video_data[video_index] =   { 'type': 'Vimeo', 'videoid': 'https://player.vimeo.com/video/'+vimeoid }   
-                                   
+                                      video_data[video_index] =   { 'type': 'Vimeo', 'videoid': 'https://player.vimeo.com/video/'+vimeoid }
+
                                     end
-                                
-                                elsif(video_value.video.include?('dailymotion'))  
+
+                                elsif(video_value.video.include?('dailymotion'))
                                     match =  video_value.video.gsub('http://www.dailymotion.com/video/', "")
                                     match1  = match.index('_')
                                     match = match[0...match1]
                                     if match.present?
                                       dailymotionid = match
-                                      video_data[video_index] =   { 'type': 'Dailymotion', 'videoid': '//www.dailymotion.com/embed/video/'+dailymotionid }   
-                                                          
-                                    end 
+                                      video_data[video_index] =   { 'type': 'Dailymotion', 'videoid': '//www.dailymotion.com/embed/video/'+dailymotionid }
+
+                                    end
                                 end
-                        end  
-                  end   
-               
+                        end
+                  end
+
                   final_data[index]  = {'result': value, 'user': value.user, 'category': value.category, 'medium_category': value.medium_category, 'image': value.images,'video': value.videos,'upload_video': value.upload_videos,'sketchfeb': value.sketchfebs,'marmoset': value.marmo_sets,'video_data': video_data}
 
-             end           
-        
-        end            
+             end
 
-          
+        end
+
+
        render :json => final_data.to_json, status: 200
 
-    end 
+    end
 
-    # **************************************************************************************************************# 
+    # **************************************************************************************************************#
 
 
     def get_subject_matter_list
          post_type_category_id     = params[:post_type_category_id]
-         subjectmatter             = SubjectMatter.where("parent_id = ?", post_type_category_id).order('name ASC')  
+         subjectmatter             = SubjectMatter.where("parent_id = ?", post_type_category_id).order('name ASC')
 
          render json: {'res' => 1, 'result' => subjectmatter}, status: 200
 
-    end  
+    end
 
 
     def search
       @type_search=params[:type]
 
-    end  
+    end
 
     def search_all_projects
 
-       
+
        conditions = "is_trash=0"
-         
+
         if(params[:title] && params[:title] != '')
           conditions += " AND title LIKE '%"+ params[:title] +"%'"
-        end 
+        end
 
         order = 'DESC'
          if params[:order].present?
             order = 'ASC'
-         end 
+         end
 
         result    = Gallery.where(conditions).order('id '+order)
-       
+
         render :json => result.to_json(:include => [:user]), status: 200
 
 
-    end  
+    end
 
-    
+
     def save_view_count
 
        if params[:gallery_id].present?
@@ -1059,10 +1072,10 @@ class GalleriesController < ApplicationController
 
             prevoius_view_count   = record.view_count
             newview_count         =  prevoius_view_count + 1
-            
-            record.update(view_count: newview_count) 
-       end     
-    end  
+
+            record.update(view_count: newview_count)
+       end
+    end
 
 
     def get_artist_gallery
@@ -1072,14 +1085,14 @@ class GalleriesController < ApplicationController
 
          str = ''
           if result.present?
-             
+
               result.each_with_index do |value, index|
                  str += '<li class="lists"><a href="/dashboard/projects/' + value.paramlink + '/show"><img src = ' + value.company_logo.event_small.url + ' alt= "img" class="img-responsive"></a></li>'
-              end  
-          end        
-        
-        render :json => {'res' => 1, 'data' => str, 'message' => 'data get successfully'}, status: 200   
-    end  
+              end
+          end
+
+        render :json => {'res' => 1, 'data' => str, 'message' => 'data get successfully'}, status: 200
+    end
 
 
     private
@@ -1097,10 +1110,10 @@ class GalleriesController < ApplicationController
                 i = i + 1
                 newSlugVal = slugVal + '-' + i.to_s
                 check_slug_available(slugVal, newSlugVal, i, gallery_id)
-            end  
+            end
 
-        end 
+        end
 
-    
-  
+
+
 end

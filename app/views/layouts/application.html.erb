@@ -7,9 +7,20 @@
     <%= csrf_meta_tags %>
 	<%= stylesheet_link_tag "bootstrap","font-awesome.min","animate","hover","bootstrap-responsive-tabs","v-accordion","styles","responsive","slick","jquery.mCustomScrollbar.css", "select2","cropper","angularjs-slider/rzslider", :media => "all" %>
 	<%= javascript_include_tag "application" %>
-	
+
  </head>
    <body>
+    <!-- BuySellAds Ad Code -->
+    <script type="text/javascript">
+    (function(){
+      var bsa = document.createElement('script');
+         bsa.type = 'text/javascript';
+         bsa.async = true;
+         bsa.src = '//s3.buysellads.com/ac/bsa.js';
+      (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+    })();
+    </script>
+    <!-- End BuySellAds Ad Code -->
 		<%= render "layouts/header" %>
 		<% if flash[:alert] %>
 				<div class="alert alert-danger marginB text-center">
@@ -31,5 +42,5 @@
 			<% end %>
 			<% flash.discard %>
 		<%= yield %>
-	</body>	
+	</body>
 </html>

@@ -355,7 +355,10 @@
     </div>
     <div class="google-ad">
       <center>
-        <%= image_tag("database/Google-ad.jpg", :class=>"img-responsive", :alT=>"gooGle Ad") %>
+        <%#= image_tag("database/Google-ad.jpg", :class=>"img-responsive", :alT=>"gooGle Ad") %>
+        <% if @footer_ads[:first].present? %>
+          <%= @footer_ads[:first].html_safe %>
+        <% end %>
       </center>
     </div>
     <div class="botmargingallery"></div>

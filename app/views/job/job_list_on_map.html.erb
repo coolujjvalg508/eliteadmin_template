@@ -1,5 +1,5 @@
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEFPWdTCFDD4tc2P0P8KeMR5uEJD43DTo"></script> -->
-<%= javascript_include_tag "map/api","map/markerclusterer","map/ng-map" %>   
+<%= javascript_include_tag "map/api","map/markerclusterer","map/ng-map" %>
 <div id="JobListMap" ng-app="JobListMap" >
 <div ng-controller="myCtrl">
   <!-- Submenu Navigation -->
@@ -274,20 +274,20 @@
  <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
     <select class="custom-select" ng-change="searchByCategoryType(selected)" ng-model='selected'>
       <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">Select Category Type</option>
-      <% if @catgorytype.present? %>  
+      <% if @catgorytype.present? %>
        <% @catgorytype.each do |cat_type| %>
           <option value="<%= cat_type.id %>"><%= cat_type.name %></option>
       <% end %>
       <% end %>
 
     </select>
-  </div> 
+  </div>
 
    <div class="col-md-2 col-sm-4 col-xs-12 marginB10 text-left jobs-padding">
   <div class="clearfix"><div class="checkbox-btn">
       <input type="checkbox" value="true" id="rc101" name="job[work_remotely]" ng-change="searchByWorkRemote(selected1)" ng-model='selected1'/><label for="rc101" onclick>Work Remotely</label></div></div>
   <div class="clearfix"><div class="checkbox-btn">
-      
+
       <input ng-change="searchByRelocationAssistance(selected)" ng-model='selected' type="checkbox" value="true" id="rc102" name="job[relocation_assistance]"/><label for="rc102" onclick>Relocation Assistance</label></div></div>
   </div>
 
@@ -302,8 +302,8 @@
   <button  onclick="redirect_to_company_on_map();" type="button" class="btn btn-default border-radius marginB10">Companies</button>
   </div>
   </div>
-  </section>   
-        
+  </section>
+
   <section class="clearfix worldmap">
      <ng-map zoom="6" style="height:500px" center="20.5937, 78.9629">
         <info-window id="myInfoWindow">
@@ -329,18 +329,18 @@
 
 
   </div>
-  </section> 
-   
-   
+  </section>
+
+
   <!-- Jobs Content Start -->
 
   <section class="clearfix jobshomepage">
 
     <div class="col-md-9 col-sm-12 col-xs-12">
       <ul>
-      
+
           <li class="clearfix" dir-paginate="x in final_result | filter:search | itemsPerPage:10">
-      
+
             <div class="row">
               <div class="col-md-2 col-sm-3 col-xs-3">
                 <center><img lazy-img="<%= root_url %>{{ x.company_logo.jobs_home.url }}" class="img-responsive"> </center>
@@ -348,13 +348,13 @@
               <div class="col-md-7 col-sm-6 col-xs-9 jobshomepagecontent">
                 <h2><a href="<%= root_url %>jobs/{{x.paramlink}}">{{x.title}}</a></h2>
                 <p>{{x.company.name}}</p>
-                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}} 
+                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> {{x.job_type}}
                 <span class="price-freelance marginL5">{{x.from_amount ? '$' + x.from_amount : ''}} {{x.from_amount && x.to_amount ? '-' : ''}} {{x.to_amount ? '$' + x.to_amount : ''}}</span></div>
 
-               <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Work Remotely: 
+               <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Work Remotely:
                 <span class="price-freelance marginL5">{{ (x.work_remotely == true) ? 'Yes' : 'No'  }}</span></div>
-                
-                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Relocation Assistance: 
+
+                <div class="jobshomecompany blue marginB15"><i class="fa fa-bookmark marginR5" aria-hidden="true"></i> Relocation Assistance:
                 <span class="price-freelance marginL5">{{ (x.relocation_asistance == true) ? 'Yes' : 'No'  }}</span></div>
                 <div class="clearfix"><span class="jobshometime">{{x.created_at | date:'dd MMMM yyyy'}} - {{x.view_count}} views</span></div>
               </div>
@@ -363,9 +363,9 @@
               </div>
             </div>
           </li>
-          
+
             <li class="clearfix text-center err-msg no-result" ng-hide="final_result.length" >No Result Found!</li>
-         
+
       </ul>
      <div class="pagintionpage clearfix">
           <dir-pagination-controls
@@ -375,7 +375,7 @@
           </dir-pagination-controls>
 
       </div>
-     
+
     </div>
 
 
@@ -397,60 +397,61 @@
           </li>
         <%
               end
-           end  
-        %>  
-         
-        </ul> 
-      </div>
+           end
+        %>
 
-      <div class="marginB15"><%= image_tag("googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %> </div>
-
-      <div class="wiphome marginB15 clearfix">
-        <h2>Popular Today</h2>
-        <ul class="margin">
-          <li class="lists"><a href="#"><%= image_tag("database/1.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/2.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/3.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/4.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/5.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/6.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/7.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/8.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/9.jpg", :alt=>"img", :class=>"img-responsive") %> </a></li>
         </ul>
       </div>
+
+      <div class="marginB15">
+        <%#= image_tag("googlead-new.jpg", :alt=>"Google Ad", :class=>"img-responsive") %>
+        <% if @body_ads[:first].present? %>
+          <%= @body_ads[:first].html_safe %>
+        <% end %>
+      </div>
+
+      <% if @popular_gallery.present? %>
+          <div class="wiphome marginB15 clearfix">
+            <h2>Popular Today</h2>
+            <ul class="margin">
+              <% @popular_gallery.each do |popular_gallery| %>
+                <li class="lists"><a href="dashboard/projects/<%= popular_gallery.paramlink %>/show"><%= image_tag(popular_gallery.company_logo.thumb.url, :alt => "img",:class=>"img-responsive") %></a></li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
 
       <div class="contractwrap clearfix">
         <h2>contract type</h2>
         <ul>
-          <% if @contracttype.present? 
+          <% if @contracttype.present?
               @contracttype.each_with_index do |value, index|
           %>
           <li class="clearfix">
             <div class="pull-left"><%= value.name %></div>
             <div class="pull-right gray-txt marginR5"><!-- <i aria-hidden="true" class="fa fa-bookmark txt16"></i> --></div>
           </li>
-          <%  
+          <%
               end
           end %>
 
-          
+
         </ul>
       </div>
 
       <div class="contractwrap clearfix">
         <h2>Job Categories</h2>
         <ul>
-          <% if @catgorytype.present? 
+          <% if @catgorytype.present?
               @catgorytype.each_with_index do |value, index|
           %>
 
           <li class="clearfix"><span class="pull-left"><%= value.name %></span><span class="pull-right gray-txt marginR5"></span></li>
-        
-         <% end 
+
+         <% end
           end
-         %>  
-         
+         %>
+
         </ul>
       </div>
 
@@ -468,7 +469,7 @@
 
       </div>
     </div>
-    
+
   </section>
 
 </div>
@@ -501,18 +502,18 @@
          .replace("&#039;", /'/g);
  }
 
-  
+
 </script>
 
 <script type="text/javascript">
   var app = angular.module('JobListMap',  ["angularUtils.directives.dirPagination", "angularLazyImg", "ngMap","MainModule"]);
-  app.controller('myCtrl', function($sce, $scope, $http, NgMap) {  
+  app.controller('myCtrl', function($sce, $scope, $http, NgMap) {
 //alert('jghj');
 
     $scope.filter = function() {
-          
-          list_url = '/job/get_job_home_list?'; 
-          
+
+          list_url = '/job/get_job_home_list?';
+
           if(typeof $scope.country_id !== 'undefined' && $scope.country_id != ''){
             list_url += '&country_id=' + $scope.country_id
           }
@@ -533,7 +534,7 @@
             list_url += '&relocation_asistance=' + $scope.relocation_asistance
           }
 
-         
+
           $http.get(list_url).then(function (response) {
                $scope.final_result   = response.data;
                $scope.cities = [];
@@ -541,16 +542,16 @@
                //alert(response.data);
                angular.forEach(response.data, function(value, key) {
                   $scope.cities.push({ id: value.id, name: value.title, pos: [value.latitude, value.longitude] });
-            
+
                 });
-                  
+
                 if(response.data != ''){
                    $scope.initMarkerClusterer();
                 }else{
                   $scope.clearMarkerClusterer();
                 }
 
-              
+
           });
       };
       $scope.filter();
@@ -587,13 +588,13 @@
             $scope.map = map;
             $scope.initMarkerClusterer();
         });
-           
-    
+
+
 
        $scope.clearMarkerClusterer = function () {
                  markerClusterer.clearMarkers();
        };
-       
+
         $scope.initMarkerClusterer = function () {
            //alert($scope.cities);
             var markers = $scope.cities.map(function (city) {
@@ -616,7 +617,7 @@
             return marker;
         }
 
-     /***********************************************************************************************/   
+     /***********************************************************************************************/
 
 
 

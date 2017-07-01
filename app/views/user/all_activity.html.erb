@@ -270,16 +270,18 @@
   
     <div class="aside col-sm-12 col-xs-12 padding">
     <% if @featured_job1.present?  %>
-      <div class="marginB15 clearfix">
-        <h2>Featured</h2>
+      <div class="marginB15 clearfix new-add-class ">
+        <h3>Featured</h3>
         <% 
               @featured_job1.each do |featured_job|
                 if featured_job.company_logo.present? %>
                 <a href="jobs/<%= featured_job.paramlink %>"><img src="<%= featured_job.company_logo.job_featured_activity.url %>" class="img-responsive" alt="ILM"></a> 
 
                 
-                    <h2><a href="jobs/<%= featured_job.paramlink %>"><%= featured_job.title %></a></h2>
-                    <span><%= featured_job.company_name %></span>
+                    <h2><a href="jobs/<%= featured_job.paramlink %>"><%= featured_job.title %></a>
+						<span><%= featured_job.company_name %></span>
+					</h2>
+                    
                 
               <% end 
             end

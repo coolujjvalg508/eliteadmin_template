@@ -17,15 +17,15 @@
             </span> </div>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12 marginB10 text-left ColPad">
-           
+
             <select class="custom-select post-type-link"  ng-change="searchByPostType(selected)" ng-model='selected'>
                 <option value="" class="post-type-link"  id="post-type-link-all" selected="selected">All</option>
-                <% 
+                <%
                    if @post_types.present?
                      @post_types.each_with_index do |value,index| #abort(value.to_json) %>
                       <option value = "<%= value.id %>" class="post-type-link"  id="post-type-link-<%= value.id %>"> <%= value['type_name'] %></option>
-                <% 
-                    end 
+                <%
+                    end
                   end
                 %>
             </select>
@@ -37,23 +37,23 @@
             <select class="custom-select post-type-category-link"  ng-change="searchByPostTypeCategory(selected)" ng-model='selected'>
                 <option value="" class="post-type-category-link"  id="post-type-category-link-all" selected="selected">All</option>
                 <option ng-repeat="x in post_type_category_data"  ng-click="searchByPostTypeCategory(x.id)" class="post-type-category-link"  id="post-type-category-link-{{x.id}}">{{x.name}}</option>
-               
+
             </select>
         </div>
 
         <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left ColPad">
-            
+
             <select class="custom-select post-type-subcategory-link"  ng-change="searchByPostTypeSubCategory(selected)" ng-model='selected'>
                 <option value="" class="post-type-subcategory-link"  id="post-type-subcategory-link" selected="selected">All</option>
                 <option ng-repeat="x in post_type_subcategory_data"  ng-click="searchByPostTypeSubCategory(x.id)" class="post-type-category-link"  id="post-type-subcategory-link-{{x.id}}">{{x.name}}</option>
-               
+
             </select>
         </div>
          </div>
       <div class="showcase-btn-wrap clearfix text-center">
-        <button type="button" class="btn btn-default border-radius marginB10" 
+        <button type="button" class="btn btn-default border-radius marginB10"
         ng-click="orderBy('-number_of_download');" >Top Downloaded</button>
-        <button type="button" class="btn btn-default border-radius marginB10" 
+        <button type="button" class="btn btn-default border-radius marginB10"
         ng-click="orderBy('-number_of_sold');">Top Sold</button>
         <button type="button" class="btn btn-default border-radius marginB10"
          ng-click="orderBy('-id');">Browse Latest Items</button>
@@ -100,7 +100,7 @@
                 <a href="javascript:void(0);" ng-click="searchByPostTypeCategory(x.id)" class="post-type-category-link"  id="post-type-category-link-{{x.id}}">{{x.name}}</a>
               </li>
 
-             
+
             </ul>
           </li>
           <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Sub Category
@@ -143,7 +143,7 @@
       </div>
     </div>
 
-    
+
     <!-- User Followers Start -->
     <div class="container-fluid download-indent clearfix">
       <div class="container">
@@ -158,8 +158,8 @@
           <div class="clearfix">
             <ul>
               <li class="clearfix" ng-repeat="y in x.Download | orderBy:setorderBy">
-              
-                <div class="downwrap"> 
+
+                <div class="downwrap">
                 <a href="/downloads/{{y.paramlink}}/show">  <img lazy-img="<%= root_url %>{{ y.company_logo.download_list.url }}" class="img-responsive download-img-height">
                 </div>
                 <div class="padding10 clearfix">
@@ -169,16 +169,16 @@
                     <div ng-if="y.free==false" class="pull-right">
                     <span ng-if="!checkCart(y.product_id)" class="checkbox-btn">
                       <input  type="checkbox" ng-click="AddTocart(y)" value="value-1" id="rc{{y.id}}">
-                    
+
 
                       <label for="rc{{y.id}}" onclick=""></label>
-                    </span> 
+                    </span>
                     <span ng-if="checkCart(y.product_id)" class="checkbox-btn">
                       <input  type="checkbox" ng-checked="true" ng-click="RemoveThis(y)" value="value-1" id="rc{{y.id}}">
-                    
+
 
                       <label for="rc{{y.id}}" onclick=""></label>
-                      </span> 
+                      </span>
                       <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a>
                       </div>
                   </div>
@@ -186,10 +186,10 @@
               </li>
 
             </ul>
-            
+
           </div>
 
-        </div>  
+        </div>
           <div class="pagintionpage clearfix">
             <dir-pagination-controls
                  max-size="1"
@@ -197,8 +197,8 @@
                  boundary-links="false" >
             </dir-pagination-controls>
           </div>
-        <div class="clearfix downbox text-center err-msg no-result" ng-hide="download_data.length" >No Result Found!</div>      
-      
+        <div class="clearfix downbox text-center err-msg no-result" ng-hide="download_data.length" >No Result Found!</div>
+
       </div>
     </div>
   </section>
@@ -215,13 +215,21 @@
 
   // main page angular app start
   var app = angular.module('myApp', ["angularUtils.directives.dirPagination","angularLazyImg","MainModule"]);
-   
+
 
 app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
-      
+    var url = $(location).attr('search');
+    var params = "";
+    // If parameters are present in URL?
+    // If yes then create params to send to back end
+    var paramsStartIndex = url.indexOf("?");
+    if (paramsStartIndex != -1) {
+      params = "&" + url.substr(paramsStartIndex + 1);
+    }
     $scope.filter = function() {
-        
+
         list_url = '/downloads/get_download_list?';
+        list_url += params;
 
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != '' && $scope.viewFeaturedType != 'all'){
           list_url += '&is_feature=' + $scope.viewFeaturedType
@@ -241,7 +249,10 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
 
         $http.get(list_url).then(function (response) {
           $scope.download_data = response.data;
-          console.log(JSON.stringify($scope.download_data));
+          // Setting params to blank because we only want to filter the results by URL parameter
+          // first time only when user is comming from the home page
+          params = "";
+          // console.log(JSON.stringify($scope.download_data));
         });
     };
     $scope.filter();
@@ -250,7 +261,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
 
       angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
-      
+
       $scope.viewFeaturedType = value;
       $scope.filter();
 
@@ -270,10 +281,10 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
     };
 
     $scope.searchByPostTypeCategory = function(id) {
-      
+
       angular.element( document.querySelectorAll( '.post-type-category-link, .post-type-subcategory-link' ) ).removeClass('active');
       angular.element( document.querySelectorAll( '#post-type-category-link-' + id + ', #post-type-subcategory-link-all') ).addClass('active');
-      
+
       $scope.viewPostTypeCategory = id;
       $scope.viewPostTypeSubCategory = '';
       $scope.filter();
@@ -281,22 +292,22 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
     };
 
     $scope.searchByPostTypeSubCategory = function(id) {
-      
+
       angular.element( document.querySelectorAll( '.post-type-subcategory-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#post-type-subcategory-link-' + id ) ).addClass('active');
-      
+
       $scope.viewPostTypeSubCategory = id;
       $scope.filter();
     };
     $scope.setorderBy = '-number_of_download';
     $scope.orderBy = function(val)
     {
-     
+
       $scope.setorderBy= val;
     }
 
     $scope.getPostTypeCategory = function() {
-        
+
       $scope.post_type_category_data = [];
       $scope.post_type_subcategory_data = [];
 
@@ -309,11 +320,11 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
           $scope.post_type_category_data = response.data;
         });
       }
-        
+
     };
 
     $scope.getPostTypeSubCategory = function() {
-        
+
         $scope.post_type_subcategory_data = [];
 
         if(typeof $scope.viewPostTypeCategory !== 'undefined' && $scope.viewPostTypeCategory != '' && $scope.viewPostTypeCategory != 'all'){
@@ -326,7 +337,7 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
     };
     $rootScope.cart = Cart.cart;
         $rootScope.checkCart = function(id){
-  
+
         if($scope.cart.skuArray.includes(id)){
             return true;
         }else{
@@ -334,21 +345,21 @@ app.controller('myCtrl', function($scope,Cart,$rootScope, $http) {
         }
     };
     $scope.RemoveThis = function (product) {
-      
+
         $scope.cart.addItem({ sku: product.product_id}, -10000000);
         window.location.reload();
     }
     $scope.AddTocart = function (product) {
-     
+
        $scope.cart.addItem(
         { sku: product.product_id,
           type:'download',
           name: product.title,
-          slug:product.paramlink, 
-          mrp: product.price, 
-          price: product.price, 
-          quantity: 1, 
-          image: product.company_logo.thumb.url, 
+          slug:product.paramlink,
+          mrp: product.price,
+          price: product.price,
+          quantity: 1,
+          image: product.company_logo.thumb.url,
           weight: 0 }, true);
        window.location.reload();
     };
@@ -358,11 +369,11 @@ app.controller('downloadHead', function($scope, $http) {
         var uRl = 'downloads/get_post_type_list';
         $http.get(uRl).then(function (response) {
           $scope.download_Heads = response.data;
-          
+
         });
   });
 
- 
+
     angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 
 </script>

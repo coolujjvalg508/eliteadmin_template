@@ -9,7 +9,7 @@
       <div class="submenutabs-dashboard clearfix margin">
         <%= render 'layouts/dashboard_feed' %>
       </div>
-      
+
       <!-- User Followers Start -->
       <section class="clearfix connectionfollowingwrap">
         <div class="usernavivation clearfix marginB15">
@@ -26,9 +26,9 @@
           </ul>
         </div>
         <div class="clearfix">
-          
+
           <div class="innerleft clearfix col-sm-12 col-xs-12">
-            <ul>              
+            <ul>
                     <li class="clearfix" dir-paginate="x in following_data|filter:search|itemsPerPage:10" >
 
                       <div class="connect-following-profile pull-left"><a href="/user-profile/{{x.user.username}}"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt='User' class="img-responsive"></a></div>
@@ -36,11 +36,11 @@
                         <div class="user-title"><a href="/user-profile/{{x.user.username}}">{{ x.user.firstname }} {{ x.user.lastname }}</a></div>
                         <div class="user-position-txt"><i class="fa fa-briefcase marginR5" aria-hidden="true"></i> {{ x.user.professional_headline }}</div>
                         <div class="user-position-txt"><i class="fa fa-map-marker marginR5" aria-hidden="true"></i>  {{ x.user.city }}, {{ x.country_name }}</div>
-                   
+
                         <button ng-click="unfollowuser(x.user.id)"  type="button" class="red-btn border-radius marginR5"><i class="fa fa-times marginR5" aria-hidden="true"></i>  Remove</button>
 
                         <span class="follow-companies">
-                        {{ x.like_res.user_follow_me}}</span> <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{ x.like_res.user_like_me}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 0</span> 
+                        {{ x.like_res.user_follow_me}}</span> <span class="white-txt txt13 marginR5"> <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{ x.like_res.user_like_me}}</span> <span class="white-txt txt13 marginR5"><i class="fa fa-eye marginR5" aria-hidden="true"></i> 0</span>
                          </div>
                       <!-- <div class="connection-followers-indent clearfix pull-right">
                         <div class="col-md-3 col-sm-3 col-xs-3">
@@ -67,7 +67,7 @@
                     </li>
                    <li ng-hide="following_data.length" class="text-center err-msg no-result">No Result Found!</li>
 
-             
+
             </ul>
             <div class="text-center col-md-12 col-sm-12 col-xs-12 text-uppercase">
                   <%#= paginate @follower %>
@@ -81,27 +81,26 @@
                   </div>
             </div>
           </div>
-    
+
     <div class="aside col-sm-12 col-xs-12 padding">
             <div class="marginB15">
               <center>
-                <%= image_tag("google-ad.jpg", :alt => "Google Ad",:class=>"img-responsive") %>
+                <%#= image_tag("google-ad.jpg", :alt => "Google Ad",:class=>"img-responsive") %>
+                <% if @body_ads[:first].present? %>
+              		<%= @body_ads[:first].html_safe %>
+              	<% end %>
               </center>
             </div>
-            <div class="wiphome clearfix marginB15">
-              <h2>Wip/Wants Critique</h2>
-              <ul class="margin">
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-              </ul>
-            </div>
+            <% if @wip_gallery.present? %>
+              <div class="wiphome clearfix marginB15">
+                <h2>Wip Gallery</h2>
+                <ul class="margin">
+                <% @wip_gallery.each do |wip_gallery| %>
+                    <li class="lists"><a href="dashboard/projects/<%= wip_gallery.paramlink %>/show"><%= image_tag(wip_gallery.company_logo.thumb.url, :alt => "img",:class=>"img-responsive") %></a></li>
+                <% end %>
+                </ul>
+              </div>
+            <% end %>
             <div class="wiphome marginB15 clearfix">
               <h2>New From Pros <span>Go Pro!</span></h2>
               <ul class="margin">
@@ -116,20 +115,16 @@
                 <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
               </ul>
             </div>
-            <div class="wiphome marginB15 clearfix">
-              <h2>Popular Today</h2>
-              <ul class="margin">
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-              </ul>
-            </div>
+            <% if @popular_gallery.present? %>
+              <div class="wiphome marginB15 clearfix">
+                <h2>Popular Today</h2>
+                <ul class="margin">
+                  <% @popular_gallery.each do |popular_gallery| %>
+                    <li class="lists"><a href="dashboard/projects/<%= popular_gallery.paramlink %>/show"><%= image_tag(popular_gallery.company_logo.thumb.url, :alt => "img",:class=>"img-responsive") %></a></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
           </div>
        </div>
       </section>
@@ -145,9 +140,9 @@
 <script>
 var app = angular.module('myApp', ["angularUtils.directives.dirPagination", "angularLazyImg"]);
 app.controller('followingCtrl', function($scope, $http) {
-    
+
     $scope.filter = function() {
-        
+
         list_url = '/user/get_connection_following?';
 
         if(typeof $scope.order !== 'undefined' && $scope.order != ''){
@@ -164,7 +159,7 @@ app.controller('followingCtrl', function($scope, $http) {
 
       angular.element( document.querySelectorAll( '.sort-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#sort-link-' + id ) ).addClass('active');
-      
+
       $scope.order = value;
       $scope.filter();
 
@@ -177,8 +172,8 @@ app.controller('followingCtrl', function($scope, $http) {
               });
           }
      $scope.filter();
-    
-    };  
+
+    };
 });
 angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>

@@ -380,14 +380,222 @@ class ApiController < ApplicationController
   end
 
   def get_community
+
+      filter_type = params[:type]
       home_layout_type = SiteSetting.first
       if home_layout_type.home_page_layout_type == 0
-        community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+        if filter_type == 'community'
+          if params[:post_type]!='null'
+            if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
+              post_data = Category.find_by(name: params[:post_type])
+              if params[:category]!='null'
+                category_data = SubjectMatter.find_by(name: params[:category])   
+                community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
+              else
+                community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
+              end
+            else
+              medium_category_data = MediumCategory.find_by(name: params[:post_type])
+              community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
+            end
+          else 
+              community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
+          end
+        elsif filter_type == 'latest'
+          if params[:post_type]!='null'
+            if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
+              post_data = Category.find_by(name: params[:post_type])
+              if params[:category]!='null'
+                category_data = SubjectMatter.find_by(name: params[:category])   
+                community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+              else
+                community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+              end
+            else
+              medium_category_data = MediumCategory.find_by(name: params[:post_type])
+              community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+            end
+          else 
+              community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+          end
+        elsif filter_type == 'featured'
+
+          if params[:post_type]!='null'
+            if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
+              post_data = Category.find_by(name: params[:post_type])
+              if params[:category]!='null'
+                category_data = SubjectMatter.find_by(name: params[:category])   
+                community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+              else
+                community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+              end
+            else
+              medium_category_data = MediumCategory.find_by(name: params[:post_type])
+              community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+            end
+          else 
+              community_data = Gallery.where("is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+          end
+        elsif filter_type == 'wip'
+
+          community_data = Gallery.where("post_type_category_id = 3 AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+        elsif filter_type == 'contest'
+
+          community_data = Contest.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+        elsif filter_type == 'trending'
+          if params[:post_type]!='null'
+            if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
+              post_data = Category.find_by(name: params[:post_type])
+              if params[:category]!='null'
+                category_data = SubjectMatter.find_by(name: params[:category])   
+                community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(61)
+              else
+                community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(61)
+              end
+            else
+              medium_category_data = MediumCategory.find_by(name: params[:post_type])
+              community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(61)
+            end
+          else 
+              community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(61)
+          end
+        elsif filter_type == 'following'
+          follow_data = Follow.select(:artist_id).where(user_id: current_user.id)
+          follow_user_data = User.where('id IN (?)', follow_data).order('id DESC').limit(61)
+        end
       else
-        community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
+        if filter_type == 'community'
+          if params[:post_type]!='null'
+            if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
+              post_data = Category.find_by(name: params[:post_type])
+              if params[:category]!='null'
+                category_data = SubjectMatter.find_by(name: params[:category])   
+                community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
+              else
+                community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
+              end
+            else
+              medium_category_data = MediumCategory.find_by(name: params[:post_type])
+              community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
+            end
+          else 
+              community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
+          end
+        elsif filter_type == 'latest'
+          if params[:post_type]!='null'
+            if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
+              post_data = Category.find_by(name: params[:post_type])
+              if params[:category]!='null'
+                category_data = SubjectMatter.find_by(name: params[:category])   
+                community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+              else
+                community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+              end
+            else
+              medium_category_data = MediumCategory.find_by(name: params[:post_type])
+              community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+            end
+          else 
+              community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
+          end
+        elsif filter_type == 'featured'
+
+          if params[:post_type]!='null'
+            if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
+              post_data = Category.find_by(name: params[:post_type])
+              if params[:category]!='null'
+                category_data = SubjectMatter.find_by(name: params[:category])   
+                community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
+              else
+                community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
+              end
+            else
+              medium_category_data = MediumCategory.find_by(name: params[:post_type])
+              community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
+            end
+          else 
+              community_data = Gallery.where("is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
+          end
+        elsif filter_type == 'wip'
+
+          community_data = Gallery.where("post_type_category_id = 3 AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
+        elsif filter_type == 'contest'
+
+          community_data = Contest.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
+        elsif filter_type == 'trending'
+          if params[:post_type]!='null'
+            if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
+              post_data = Category.find_by(name: params[:post_type])
+              if params[:category]!='null'
+                category_data = SubjectMatter.find_by(name: params[:category])   
+                community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(102)
+              else
+                community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(102)
+              end
+            else
+              medium_category_data = MediumCategory.find_by(name: params[:post_type])
+              community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(102)
+            end
+          else 
+              community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(102)
+          end
+        elsif filter_type == 'following'
+          follow_data = Follow.select(:artist_id).where(user_id: current_user.id)
+          follow_user_data = User.where('id IN (?)', follow_data).order('id DESC').limit(102)
+        end
       end
-      all_community_data = JSON.parse(community_data.to_json(:include => [:images]))
-      render json: {'community_data': all_community_data ,'home_layout_type': home_layout_type.home_page_layout_type }, status: 200  
+      if community_data.present?
+        all_community_data = JSON.parse(community_data.to_json(:include => [:images]))
+      end
+      render json: {'community_data': all_community_data ,'follow_user_data': follow_user_data, 'home_layout_type': home_layout_type.home_page_layout_type }, status: 200 
+  end
+  def get_slider_news
+      slider_news_data = News.where("is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(8)
+
+      render json: slider_news_data, status: 200  
+  end
+
+  def get_news_behined_scenes
+      news_category = NewsCategory.find_by(name: 'Production Coverage')
+      #abort(news_category.id.to_json)
+     
+      news_data = News.where("category_id::jsonb ?| array['" + news_category.id.to_s + "'] AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
+      #news_content_data = JSON.parse(news_data.to_json(:include => [:user]))
+      render json: {'news_data': news_data ,'news_category': news_category }, status: 200  
+  end
+
+  def get_news_press_release
+      news_category = NewsCategory.find_by(name: 'Industry News')
+      #abort(news_category.id.to_json)
+     
+      news_data = News.where("category_id::jsonb ?| array['" + news_category.id.to_s + "'] AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(3)
+      news_content_data = JSON.parse(news_data.to_json(:include => [:user]))
+      render json: {'news_content_data': news_content_data ,'news_category': news_category }, status: 200  
+  end
+
+  def get_news_movies_film_trailors
+      news_category = NewsCategory.find_by(name: 'Trailers')
+      #abort(news_category.id.to_json)
+     
+      news_data = News.where("category_id::jsonb ?| array['" + news_category.id.to_s + "'] AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
+      
+      render json: {'news_data': news_data ,'news_category': news_category }, status: 200  
+  end
+
+  def get_news_tutorials_free_source
+      news_category = NewsCategory.find_by(name: 'Tutorials')
+      #abort(news_category.id.to_json)
+     
+      news_data = News.where("category_id::jsonb ?| array['" + news_category.id.to_s + "'] AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
+      
+      render json: {'news_data': news_data ,'news_category': news_category }, status: 200  
+  end
+
+  def get_jobs
+      jobs_detail = Job.where("is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(6)
+      jobs_data = JSON.parse(jobs_detail.to_json(:include => [:country]))
+      
+      render json: jobs_data, status: 200  
   end
 
   def get_downloads
@@ -396,25 +604,47 @@ class ApiController < ApplicationController
       render json: download_data, status: 200  
   end
 
-  def get_news
-      news_data = News.where("is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(3)
+  def get_latest_post
+      latest_post_data = Gallery.where("visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(8)
       
-      render json: news_data, status: 200  
-  end
-
-  def get_jobs
-      jobs_data = Job.where("is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(6)
-      
-      render json: jobs_data, status: 200  
-  end
+      render json: latest_post_data, status: 200  
+  end  
 
   def get_top_artist
-      artist_data = User.where("profile_type = ?", 'Artist').order('like_count DESC').limit(6)
+      artist_data = User.where("profile_type = ?", 'Artist').order('like_count DESC').limit(20)
       
       render json: artist_data, status: 200  
   end
 
-  
+  def get_post_type_category
+      post_type = Category.all
+
+      media_category = MediumCategory.all
+      
+      post_type_id = params[:post_id]
+      #post_type_id = '1'
+        if post_type_id.present?
+           subject_data = SubjectMatter.where(parent_id: post_type_id) 
+           
+        end
+
+      render json: {'post_type': post_type ,'media_category': media_category }, status: 200  
+  end
+  def get_subject_type
+      
+      post_type_id = params[:post_id]
+      #post_type_id = '1'
+        if post_type_id.present?
+           subject_data = SubjectMatter.where(parent_id: post_type_id) 
+           
+        end
+
+      render json: {'subject_data': subject_data }, status: 200  
+  end
+  def home_setting_visibility
+    visibality = SiteSetting.first
+    render json: {'visibality': visibality }, status: 200 
+  end
 
   ########### API for home page end ###################
 

@@ -42,6 +42,16 @@ class UserMailer < Devise::Mailer
       mail( :to => @receiveremail, :from => @senderemail, :subject => subject)
   end
 
+  def send_contact_mail(contactname,contactemail,contactsubject,contactmessage,to_email)
+      
+      @contactname           = contactname
+      @contactemail          = contactemail
+      @contactsubject        = contactsubject
+      @contactmessage        = contactmessage
+
+      mail( :to => to_email, :from => @contactemail, :subject => @contactsubject)
+  end
+
   private
 
    def add_inline_attachment!

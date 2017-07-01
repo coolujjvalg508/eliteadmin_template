@@ -1,100 +1,94 @@
 ActiveAdmin.register Widget do
+	menu label: 'Widget', priority: 15
+	permit_params :title, :section_name, :ad_code, :position, :show_on_home_page,
+								:show_on_news_page, :show_on_downloads_page, :show_on_tutorials_page,
+						 		:show_on_jobs_page, :show_on_galleries_page, :show_on_jobs_map_page,
+								:show_on_companies_map_page, :show_on_jobs_list_page,
+								:show_on_companies_list_page, :show_on_followings_page,
+								:show_on_followers_page, :page_values
 
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
-# permit_params :list, :of, :attributes, :on, :model
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
-
-	 menu label: 'Widget',priority: 15
-	 permit_params :title, :sectionname, :widgetcode, :position, :status,:sort_order
-
-	controller do 
+	controller do
 		def action_methods
-		 super                                    
+		 	super
 			if current_admin_user.id.to_s == '1'
-			super
+				super
 		  else
-			usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
-			disallowed = []
-			disallowed << 'index' if (!usergroup.has_permission('widget_read') && !usergroup.has_permission('widget_write') && !usergroup.has_permission('widget_delete'))
-			disallowed << 'delete' unless (usergroup.has_permission('widget_delete'))
-			disallowed << 'create' unless (usergroup.has_permission('widget_write'))
-			disallowed << 'new' unless (usergroup.has_permission('widget_write'))
-			disallowed << 'edit' unless (usergroup.has_permission('widget_write'))
-			disallowed << 'destroy' unless (usergroup.has_permission('widget_delete'))
-			
-			super - disallowed
+				usergroup = UserGroup.where(:id => current_admin_user.group_id.to_s).first
+				disallowed = []
+				disallowed << 'index' if (!usergroup.has_permission('widget_read') && !usergroup.has_permission('widget_write') && !usergroup.has_permission('widget_delete'))
+				disallowed << 'delete' unless (usergroup.has_permission('widget_delete'))
+				disallowed << 'create' unless (usergroup.has_permission('widget_write'))
+				disallowed << 'new' unless (usergroup.has_permission('widget_write'))
+				disallowed << 'edit' unless (usergroup.has_permission('widget_write'))
+				disallowed << 'destroy' unless (usergroup.has_permission('widget_delete'))
+				super - disallowed
 		  end
-		end 
+		end
+	end
+
+  form multipart: true do |f|
+	  f.inputs "Widget" do
+		  f.input :title
+		  f.input :section_name, as: :select, collection: Widget.sections, include_blank: 'Select Widget Section', label: 'Widget Section'
+		  f.input :position, as: :select, collection: Widget.positions, include_blank: 'Select Position', label: 'Position'
+			f.input :ad_code, label: 'Ad Code'
+			f.inputs "Show On" do
+				f.input :show_on_home_page, as: :boolean, label: "Home"
+				f.input :show_on_galleries_page, as: :boolean, label: "Galleries Detail"
+				f.input :show_on_news_page, as: :boolean, label: "News Detail"
+				f.input :show_on_downloads_page, as: :boolean, label: "Downloads Detail"
+				f.input :show_on_tutorials_page, as: :boolean, label: "Tutorials Detail"
+				f.input :show_on_jobs_page, as: :boolean, label: "Jobs Detail"
+				f.input :show_on_jobs_list_page, as: :boolean, label: "Jobs Listing"
+				f.input :show_on_jobs_map_page, as: :boolean, label: "Jobs Map"
+				f.input :show_on_companies_map_page, as: :boolean, label: "Companies Map"
+				f.input :show_on_followers_page, as: :boolean, label: "Connection Followers"
+				f.input :show_on_followings_page, as: :boolean, label: "Connection Following"
+			end
 	  end
-
-
-	  form multipart: true do |f|
-		  f.inputs "Widget" do
-			  f.input :title
-			  f.input :sectionname, as: :select, collection: [['Gallery','Gallery'],['Challenges','Challenges'],['User','User'],['Downloads','Downloads'],['Tutorial','Tutorial'],['Jobs','Jobs'],['News','News'],['Forum','Forum']], include_blank: 'Select Widget Section', label: 'Widget Section'
-			  f.input :widgetcode, label: 'Widget Code'
-			  f.input :position, as: :select, collection: [['Top','Top'],['Left','Left'],['Right','Right'],['Bottom','Bottom']], include_blank: 'Select Position', label: 'Position'
-			  f.input :status, as: :select, collection: [['Active',1],['Inactive',0]], include_blank: 'Status', label: 'Status'
-			  f.input :sort_order, label: 'Order'
-		  end
-
-			f.actions
-	  end
-
-
+		f.actions
+  end
 
 	index :download_links => ['csv'] do
 		 selectable_column
-	
 		 column :title
-		   column :section_name do |sn|
-				sn.sectionname
-		   end
-		  column :position
-		  column :status do |sn|
-				(sn.status == 1) ? 'Active' :'Inactive'
-		   end
-	
-		  column :sort_order
-		  column :created_at
-		actions
-	  end
-	  
+	   column :section_name do |sn|
+			sn.section_name.capitalize
+	   end
+	   column :position do |p|
+			 p.position.capitalize
+		end
+		 actions
+	end
+
 	filter :title
-	filter :sectionname, as: :select, collection: [['Gallery','Gallery'],['Challenges','Challenges'],['User','User'],['Downloads','Downloads'],['Tutorial','Tutorial'],['Jobs','Jobs'],['News','News'],['Forum','Forum']], label: 'Widget Section'
-	filter :position, as: :select, collection: [['Top','Top'],['Left','Left'],['Right','Right'],['Bottom','Bottom']], label: 'Position'
-	filter :status, as: :select, collection: [['Active',1],['Inactive',0]], label: 'Status'
-	filter :created_at  
-	  
+	filter :section_name, as: :select, collection: Widget.sections, label: 'Widget Section'
+	filter :position, as: :select, collection: Widget.positions, label: 'Position'
+	filter :created_at
 
 	# Show Page
-	  show do
+  show do
 		attributes_table do
-
 		  row :title
-		   row :section_name do |sn|
-				sn.sectionname
-		   end
-		  row :widgetcode
-		  row :position
-		  row :status do |sn|
-				(sn.status == 1) ? 'Active' :'Inactive'
-		   end
-	
-		  row :sort_order
+		  row :section_name do |s|
+				s.section_name.capitalize
+			end
+			row :position do |p|
+				p.position.capitalize
+			end
+		  row :ad_code
+			row :show_on_home_page
+			row :show_on_news_page
+			row :show_on_downloads_page
+			row :show_on_tutorials_page
+			row :show_on_jobs_page
+			row :show_on_jobs_list_page
+			row :show_on_galleries_page
+			row :show_on_jobs_map_page
+			row :show_on_companies_map_page
+			row :show_on_followers_page
+			row :show_on_followings_page
 		  row :created_at
 		end
-	  end
-
-
-
+  end
 end

@@ -34,6 +34,7 @@
 //= require angular-animate.min
 //= require angular-material.min
 //= require angular-aria.min
+//= require angular-messages.min
 //= require v-accordion
 
 

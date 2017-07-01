@@ -1992,3 +1992,135 @@ a.lightbtn-new-bor{ border:none;}
 	color: #008000;
 	font-weight: 600;
 }
+
+.imageNotFound
+{
+background: image-url('imageNotFound.png');
+background-size: 100% 100%;
+background-repeat: no-repeat;
+}
+
+
+
+
+
+
+.faq-acco .panel-default .panel-heading {
+  background: #000000 none repeat scroll 0 0;
+  padding: 15px;
+}
+.faq-acco .panel.panel-default {
+  border: 1px solid #575757;
+  margin-bottom: 25px;
+}
+.faq-acco .panel-title a {
+  color: #FFF;
+}
+.faq-acco .panel-title a i{ float:right;}
+.faq-acco .panel { background:transparent;}
+
+
+.faq-acco .panel-default > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #575757;
+  color: #ffffff;
+    line-height: 28px;
+}
+.contact-us label {
+  color: #ffffff;
+  margin-bottom: 12px;
+  font-weight:bold;
+  font-size:16px;
+}
+.form-group input.form-control {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: 1px solid;
+}
+.form-group textarea.form-control {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: 1px solid;
+}
+.contact-us .form-group {
+  margin-bottom: 25px;
+}
+.contact-address h2 {
+  color: #FFF;
+  font-size: 26px;
+}
+.contact-address p {
+  color: #FFF;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.contact-address p strong{ display:inline-block; width:100%; margin-bottom:8px; font-size: 16px;}
+
+.footer-social-new a {
+  display: inline-block;
+  margin-right: 1%;
+  width: 18%;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.footer-social-new a div{ margin:0;}
+.footer-social-new a:last-child {
+  margin: 0;
+}
+.footer-social-new {
+  display: inline-block;
+  margin: 25px 0 14px;
+  width: 100%;
+}
+.subscribe-new-set .subtext {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 15px;
+  display: inline-block;
+  width: 100%;
+}
+.insta-new {
+  background: #9c35b8 !important;
+}
+.error {
+  display: inline-block;
+  margin-top: 10px;
+}
+.topartists li {
+  margin-right: 7px;
+}
+.new-add-class{position:relative;}
+.new-add-class h3 {
+  color: #FFF;
+  margin-bottom: 15px;
+}
+.new-add-class > h2 {
+  bottom: 0;
+  padding: 0 15px;
+  position: absolute;
+  width: 92%;
+}
+.new-add-class h2 a {
+  display: inline-block;
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+#succ_field_name {
+  margin-bottom: 15px;
+}
+.addthis_inline_share_toolbox_zdrk a{ margin-right:0 !important;}
+
+
+.profile-headding {
+  color: #FFF;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.text-uppercase.view-txt > a {
+  background: #393939;
+  padding: 7px 15px;
+  display: inline-block;
+  font-size: 13px;
+  color: #FFF;
+  border-radius: 3px;
+}
+
+.loading_contact{ position: absolute; left: 579px; bottom: 406px; }

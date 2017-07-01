@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170627061917) do
+ActiveRecord::Schema.define(version: 20170630120033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -948,6 +948,7 @@ ActiveRecord::Schema.define(version: 20170627061917) do
     t.string   "instagram_link"
     t.string   "instagram_like_count"
     t.integer  "home_page_layout_type"
+    t.text     "address"
   end
 
   create_table "sketchfebs", force: :cascade do |t|
@@ -1153,6 +1154,17 @@ ActiveRecord::Schema.define(version: 20170627061917) do
     t.datetime "updated_at",                    null: false
   end
 
+  create_table "user_packages", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "amount"
+    t.string   "image"
+    t.integer  "duration"
+    t.string   "duration_unit"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "user_settings", force: :cascade do |t|
     t.integer  "user_id"
     t.boolean  "emailnotify_like_myartwork",                        default: false
@@ -1268,13 +1280,23 @@ ActiveRecord::Schema.define(version: 20170627061917) do
 
   create_table "widgets", force: :cascade do |t|
     t.string   "title"
-    t.string   "sectionname"
-    t.text     "widgetcode"
+    t.string   "section_name"
+    t.text     "ad_code"
     t.string   "position"
-    t.integer  "status",      default: 1
-    t.integer  "sort_order",  default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "show_on_home_page"
+    t.boolean  "show_on_news_page"
+    t.boolean  "show_on_downloads_page"
+    t.boolean  "show_on_tutorials_page"
+    t.boolean  "show_on_jobs_page"
+    t.boolean  "show_on_galleries_page"
+    t.boolean  "show_on_jobs_map_page"
+    t.boolean  "show_on_companies_map_page"
+    t.boolean  "show_on_jobs_list_page"
+    t.boolean  "show_on_companies_list_page"
+    t.boolean  "show_on_followers_page"
+    t.boolean  "show_on_followings_page"
   end
 
   create_table "zip_files", force: :cascade do |t|

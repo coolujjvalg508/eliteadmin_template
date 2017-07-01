@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   	before_action :configure_permitted_parameters, if: :devise_controller?
   	before_action :set_message, if: -> { controller_name == 'sessions' && action_name == 'new'}
   	#before_action :check_admin, if: -> { controller_path =~ /admin/ && controller_name != 'sessions' && controller_name != 'passwords'}
-  	before_action :site_url
+  	before_action :site_url,:wip_gallery
 
     
     before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
@@ -34,6 +34,12 @@ class ApplicationController < ActionController::Base
     	if params[:guest_user] == "true"
     		flash[:error] = "Please login to access this area."
     	end
+  	end
+
+  	def wip_gallery
+  		@wip_gallery = Gallery.where("post_type_category_id = 3 AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(9)
+  		@popular_gallery = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(9)
+  		
   	end
 
 

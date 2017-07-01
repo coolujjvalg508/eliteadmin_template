@@ -12,60 +12,60 @@
 
     %>
         <li class="lists"><a href="#">
-         <img src="<%= j.image.large_image.url %>" class="img-responsive" alt="img"> 
+         <img src="<%= j.image.large_image.url %>" class="img-responsive" alt="img">
          <div class="wip-count"><%= i  %></div></a></li>
     <%
       i = i + 1
-          end  
-      end    
+          end
+      end
     %>
- </ul>    
+ </ul>
  <div class="clearfix">&nbsp;</div>
 
        <%
         if @gallery.videos.present?
           @gallery.videos.each_with_index do |j, index|
-          
-          if(j.video.include?('youtube')) 
+
+          if(j.video.include?('youtube'))
               if j.video[/youtu\.be\/([^\?]*)/]
                   youtube_id = $1
               else
                   j.video[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
                   youtube_id = $5
-              end 
+              end
           %>
             <div class="slidervideos">
              <a href="#"> <iframe width="700px" height="450px" src="https://www.youtube.com/embed/<%= youtube_id %>" frameborder="0" allowfullscreen></iframe></a>
-            </div>  
+            </div>
           <div class="clearfix"></div>
-                      
-        <% elsif(j.video.include?('vimeo')) 
+
+        <% elsif(j.video.include?('vimeo'))
             match = j.video.match(/https?:\/\/(?:[\w]+\.)*vimeo\.com(?:[\/\w]*\/?)?\/(?<id>[0-9]+)[^\s]*/)
 
             if match.present?
                 vimeoid = match[:id] %>
-               <div class="slidervideos">     
+               <div class="slidervideos">
                   <a href="#"><iframe width="700px" height="450px"  src="https://player.vimeo.com/video/<%= vimeoid %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></a>
-               </div> 
+               </div>
                <div class="clearfix"></div>
-        <% end 
-         elsif(j.video.include?('dailymotion'))  
+        <% end
+         elsif(j.video.include?('dailymotion'))
             match =  j.video.gsub('http://www.dailymotion.com/video/', "")
             match1  = match.index('_')
             match = match[0...match1]
             if match.present?
                 dailymotionid = match %>
-                <div class="slidervideos"> <a href="#">   
+                <div class="slidervideos"> <a href="#">
                   <iframe width="700px" height="450px"  frameborder="0"  src="//www.dailymotion.com/embed/video/<%= dailymotionid %>" allowfullscreen></iframe></a>
-                </div> 
-                <div class="clearfix"></div> 
-        <% end 
+                </div>
+                <div class="clearfix"></div>
+        <% end
         end %>
-    <%    
+    <%
       i = i + 1
-      
-      end  
-      end  
+
+      end
+      end
   %>
   <div class="clearfix"></div>
 
@@ -73,27 +73,27 @@
     <%
         if @gallery.sketchfebs.present?
           @gallery.sketchfebs.each_with_index do |j, index|
-          
+
           url = "https://sketchfab.com/oembed?url="+j.sketchfeb+"&maxwidth=700&maxheight=450&dataType=jsonp"
     %>
 
       <script type="text/javascript">
         $(document).ready(function(){
               $.getJSON("<%= url%>",{ajax: 'true'}, function(response){
-                 // console.log(response);  
+                 // console.log(response);
                   $('#sketch_span_'+"<%= index %>").html(response.html);
-              }) 
+              })
 
         })
       </script>
        <div class="slidervideos"><a href="#">
         <span class="img-responsive"  id='sketch_span_<%= index %>'></span>
-        </a></div> 
+        </a></div>
         <div class="clearfix"></div>
     <%
       i = i + 1
-          end  
-      end    
+          end
+      end
     %>
      <div class="clearfix"></div>
     <%
@@ -108,8 +108,8 @@
              var myviewer = new marmoset.WebViewer( 700, 450, "<%= url %>" );
                 $('#marmoset_span_'+"<%= index %>").html(myviewer.domRoot);
             }, 1000);
-           
-           // var myviewer = marmoset.embed( "<%= url %>", params ); 
+
+           // var myviewer = marmoset.embed( "<%= url %>", params );
           //   console.log(myviewer);
            // $('#marmoset_span_'+"<%#= index %>").html(myviewer);
 
@@ -118,12 +118,12 @@
       </script>
        <div class="slidervideos">
         <div   id='marmoset_span_<%= index %>'></div>
-      </div> 
+      </div>
         <div class="clearfix"></div>
     <%
       i = i + 1
-          end  
-      end    
+          end
+      end
     %>
      <div class="clearfix"></div>
     <%
@@ -133,45 +133,45 @@
     %>
        <div class="slidervideos"><a href="#">
          <iframe width="700px" height="450px"  frameborder="0"  src="<%= url %>" allowfullscreen></iframe>
-       </a></div> 
+       </a></div>
         <div class="clearfix"></div>
     <%
       i = i + 1
-          end  
-      end    
+          end
+      end
     %>
 
 </div>
 
 <div class="wipdetailtag publishwrap">
 <div class="marginB10 publish-txt"> <span class="txt-white"><strong>Category:</strong> </span> <a href="#"><%= @gallery.category.present? ? @gallery.category.name : '' %></a> </div>
-<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Tags:</strong> </span> 
-  <% 
+<div class="marginB10 publish-txt"> <span class="txt-white"><strong>Tags:</strong> </span>
+  <%
    alltag = ''
-   if @gallery.tags.present? 
-      @gallery.tags.each do |i|  
-        alltag += i.tag+', '  
-      end 
-  end   
- %> 
+   if @gallery.tags.present?
+      @gallery.tags.each do |i|
+        alltag += i.tag+', '
+      end
+  end
+ %>
  <%= alltag.chomp(', ') %>
 
  </div>
-<div class="marginB10 publish-txt"><span class="txt-white"><strong>Software Used: </strong></span> 
- <% 
+<div class="marginB10 publish-txt"><span class="txt-white"><strong>Software Used: </strong></span>
+ <%
    software  = ''
    if @gallery.software_used.present?
      software_used = @gallery.software_used
      software_used.reject!{|a| a==""}
-      software_used.each do |i|  
+      software_used.each do |i|
            software_name =  SoftwareExpertise.where("id = ?", i).first
            # abort(software_name.to_json)
   %>
            <span class="softb"><%= image_tag(software_name.image.software_used.url,:class=>"img-rounded" ,:alt => software_name.name) %></span><%= software_name.name %>
-  <%    
-      end  
-  end  
- %> 
+  <%
+      end
+  end
+ %>
 </div>
 </div>
 </div>
@@ -184,7 +184,7 @@
         </ul>
       </div>
     </div> -->
-    <a href='<%= index_gallery_path %>'><span class="close-wip"><i class="fa fa-times" aria-hidden="true"></i></span></a> 
+    <a href='<%= index_gallery_path %>'><span class="close-wip"><i class="fa fa-times" aria-hidden="true"></i></span></a>
 </div>
 <div class="wip-profile row">
 <div class="col-md-3 col-sm-2 col-xs-3"><%= image_tag("user2.jpg",:alt => "user") %></div>
@@ -215,7 +215,7 @@
   <%
     @gallery.collection.each do |i|
   %>
-  <a href='<%= collection_detail_path(i.id) %>'><%= i.title %></a> 
+  <a href='<%= collection_detail_path(i.id) %>'><%= i.title %></a>
   <%
     end
   %>
@@ -226,7 +226,7 @@
 <div class="post-txt">Posted a month ago</div>
 </div>
 <div class="clearfix row wip-social">
-<!-- 
+<!--
     <div class="col-md-4 col-sm-4 col-xs-4">
       <div><a href="#"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 995 Like</a></div>
       <div class="fbshare text-center"><i class="fa fa-facebook" aria-hidden="true"></i> Share</div>
@@ -244,7 +244,7 @@
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
  <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="addthis_inline_share_toolbox"></div>
- </div>   
+ </div>
 
 
 </div>
@@ -265,7 +265,7 @@
 <div class="wipreplyleft">
 <% if user_signed_in? %>
     <%= image_tag(current_user.image.user_activity.url,:alt => "img",:class=>"img-responsive") %>
-<% end %>    
+<% end %>
 </div>
 <div class="wipreplyright clearfix">
 <!--   <div class="wipreply-title marginB5">Henrik Evensen</div>
@@ -275,7 +275,7 @@
   <% if !@blocked_users.present? %>
     <div class="wip-comment-box marginB10">
      <textarea class="form-control" id='post_comments_<%= @gallery.id %>'  style='margin-top:0px !important' ></textarea>
-    
+
     </div>
     <div class="clearfix">
      <button id='post_comments_submit_<%= @gallery.id %>' type="button" class="bluebtn"><i class="fa fa-comments" aria-hidden="true"></i> Post Comment</button>
@@ -310,8 +310,11 @@
 </div> -->
 </div>
 <div class="friendsbox">
- 
-<%= image_tag("database/Google-ad.jpg",:alt => "Google Ad",:class=>"img-responsive") %> </div>
+  <% if @body_ads[:first].present? %>
+    <%= @body_ads[:first].html_safe %>
+  <% end %>
+  <%#= image_tag("database/Google-ad.jpg",:alt => "Google Ad",:class=>"img-responsive") %>
+</div>
 <div class="aside marginB15">
 <div class="wiphome clearfix proswrap">
   <h2>More by <span><%= @gallery.user.present? ? @gallery.user.firstname + ' ' + @gallery.user.lastname  : '' %></span></h2>
@@ -342,50 +345,50 @@
               <h4 class="modal-title" id="exampleModalLabel">Add project to collection</h4>
             </div>
             <div class="modal-body">
-            
+
                 <div class="form-group">
                   <label for="recipient-name" class="control-label">Collection Name:</label>
                   <%= f.text_field :title, :autofocus => true, :placeholder => "Collection Name", class:"form-control", :type => 'text' %>
                   <span class="err-msg" id='bookmark_error_msg'><%= form_error_msg_for(@collection,:title, "Collection") %></span>
                 </div>
-               
+
                 <div id='get_already_collection'></div>
-    
+
             </div>
             <div class="modal-footer">
               <button type="button" class="lightbtn" data-dismiss="modal">Close</button>
               <button type="submit" class="lightbtn">Create</button>
             </div>
-         
-        <% end %> 
+
+        <% end %>
 
                 <div class="modal-header">
                   <h4 class="modal-title" id="exampleModalLabel">Saved collections</h4>
                 </div>
-                
-                <div class="modal-body">            
+
+                <div class="modal-body">
                   <div class="form-group">
                     <ul style="width: 570px; height: 250px; overflow: auto">
                       <% if @collections!=nil %>
                         <% i=1 %>
-                        <%  @collections.each do |d| %>                   
+                        <%  @collections.each do |d| %>
                           <li>
                              <span class="col-sm-2"> <%= i %>.</span>
                              <span class="col-sm-4"><%= d.title %></span>
                              <% if find_gallery_id(d.id,@gallery.id) %>
-                              <button class="collection btn btn-primary" id=<%= d.id %> type="button">Added</button>
+                              <button class="collection btn btn-primary" id=<%= d.id %> type="button" disabled>Added</button>
                             <% else %>
                               <button class="collection btn btn-primary" id=<%= d.id %> type="button">Add to collection</button>
                             <% end %>
                           </li>
                           <br></br>
-                          <% i=i+1 %>     
-                        
+                          <% i=i+1 %>
+
                         <% end %>
                       <% end %>
                     </ul>
                   </div>
-                </div> 
+                </div>
                </div>
 
       </div>
@@ -426,11 +429,11 @@
               <button type="submit" class="lightbtn">Report abuse</button>
             </div>
           </div>
-        <% end %> 
+        <% end %>
 
-        
 
-      
+
+
     </div>
 
 
@@ -495,11 +498,11 @@ $(document).ready(function() {
               success: function(data){
                     $('#report_abuse_succ_msg').html(data.message);
               }
-          
+
             });
     });
 
-     
+
 
 
 });
@@ -520,7 +523,7 @@ $(document).ready(function() {
           success: function(data){
             $('#commentslist_dev').html(data.data);
           }
-      }); 
+      });
 
 
       $('[id^= post_comments_submit_]').on('click',function(){
@@ -538,34 +541,35 @@ $(document).ready(function() {
                       data: {'gallery_id': gallery_id,'description': textareavalue,'section_type': 'gallery_detail'},
                       success: function(data){
                           $('#post_comments_'+gallery_id).val('');
-                         
+
                           $.ajax({
                             type: "get",
                             url: "<%= get_comment_path %>" ,
                             data: {'gallery_id': "<%= @gallery.id %>",'user_id': "<%= current_user.id %>",'section_type': 'gallery_detail'},
                             success: function(data){
                               $('#commentslist_dev').html(data.data);
-                              //return false;  
+                              //return false;
                             }
-                        }); 
+                        });
 
                       }
                   });
-              } 
+              }
 
       });
 
       $(".collection").on('click',function() {
-        var id = $(this).attr("id");  
-          $.ajax({          
+        var id = $(this).attr("id");
+          $.ajax({
             type: "post",
             url: "<%= add_collection_detail_path %>",
             data: {'collection_id': id,'gallery_id': '<%= @gallery.id %>'},
-            success: function(r){ 
+            success: function(r){
                if(r.res == 1) {
                   $("#"+id).html("Added");
-                 }              
-              } 
+                  $("#"+id).attr("disabled", true);
+                 }
+              }
           });
       });
 
@@ -645,7 +649,7 @@ $(document).ready(function() {
             });
     });
 
-    
+
 
 
 
@@ -654,4 +658,4 @@ $(document).ready(function() {
 </script>
 
 
-<% end %>  
+<% end %>
