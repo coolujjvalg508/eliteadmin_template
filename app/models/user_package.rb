@@ -1,4 +1,4 @@
 class UserPackage < ActiveRecord::Base
   mount_uploader :image, ImageUploader
-	validates :title, :amount, :duration, presence: true
+	validates :title, :amount, presence: true
 end
