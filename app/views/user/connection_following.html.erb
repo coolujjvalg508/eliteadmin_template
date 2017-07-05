@@ -101,20 +101,17 @@
                 </ul>
               </div>
             <% end %>
-            <div class="wiphome marginB15 clearfix">
-              <h2>New From Pros <span>Go Pro!</span></h2>
-              <ul class="margin">
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-                <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :alt => "img",:class=>"img-responsive") %></a></li>
-              </ul>
-            </div>
+            <% if @pro_gallery_data.present? %>
+              <div class="wiphome marginB15 clearfix">
+                <h2>New From Pros <span>Go Pro!</span></h2>
+                <ul class="margin">
+                  <% @pro_gallery_data.each do |subscribed_data| %>
+
+                    <li class="lists"><a href="dashboard/projects/<%= subscribed_data.paramlink %>/show"><%= image_tag(subscribed_data.company_logo.thumb.url, :class=>"img-responsive",:alt =>'img') %></a></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
             <% if @popular_gallery.present? %>
               <div class="wiphome marginB15 clearfix">
                 <h2>Popular Today</h2>

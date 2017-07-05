@@ -52,6 +52,7 @@ $(document).ready(function() {
 	  $('#job_apply_instruction_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
 	  $('#system_email_content_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
 	  $('#contest_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
+	  $('#user_package_description_input').parent('div').css({'margin-top': '15px','margin-bottom': '15px'});
 
 	   $('.mediatype_value').each(function(index){
 				mediatype = $(this).val();

@@ -22,50 +22,22 @@
 
 
 <!-- User Statistics Start -->
-<section class="clearfix userstatisticswrap">
+<section class="upgradewrap clearfix">
   <div class="container">
-    <div class="clearfix marginB15">
-      <div class="userstat-indent clearfix">
-        <div class="col-md-3 col-sm-3 col-xs-6">
-          <div class="viewbdr upgrade-profile clearfix">
-            <div class="profile-headding"> Lorem Ipsum </div>
-            <div class="userview-title blue-txt">140608</div>
-            <div class="text-uppercase view-txt"><a href="#">Upgrade</a></div>
-          </div>
+    <div class="col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
+      <div class="panel panel-black">
+        <div class="panel-body text-center">
+          <p class="small">Introductory pricing<br>
+            Subscribe now to lock in at this great price!</p>
+          <div class="price">$<%= @package_data.amount/12 %><span class="per-month">/month</span></div>
+          Billed at $<%= @package_data.amount %>/year USD
+          <div class="separator"></div>
+          <p class="text-center"><a class="btn btn-success btn-lg" href="<%= subscription_new_path %>"><i class="fa fa-pad-right fa-arrow-up"></i> Upgrade to PRO</a></p>
+          <div class="separator"></div>
+          
         </div>
-        
-     <!--   <div class="col-md-3 col-sm-3 col-xs-6">
-          <div class="viewbdr upgrade-profile clearfix">
-            <div class="profile-headding"> Lorem Ipsum </div>
-            <div class="userview-title blue-txt">140608</div>
-            <div class="text-uppercase view-txt"><a href="#">project views</a></div>
-          </div>
-        </div>
-        
-        <div class="col-md-3 col-sm-3 col-xs-6">
-          <div class="viewbdr upgrade-profile clearfix">
-            <div class="profile-headding"> Lorem Ipsum </div>
-            <div class="userview-title blue-txt">140608</div>
-            <div class="text-uppercase view-txt"><a href="#">project views</a></div>
-          </div>
-        </div>
-        
-        <div class="col-md-3 col-sm-3 col-xs-6">
-          <div class="viewbdr upgrade-profile clearfix">
-            <div class="profile-headding"> Lorem Ipsum </div>
-            <div class="userview-title blue-txt">140608</div>
-            <div class="text-uppercase view-txt"><a href="#">project views</a></div>
-          </div>
-        </div> -->
-        
-        
-        
       </div>
     </div>
-    
-    
-    
-    
-    
   </div>
 </section>
+</div>

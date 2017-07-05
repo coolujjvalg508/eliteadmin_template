@@ -549,11 +549,7 @@ class ApiController < ApplicationController
       end
       render json: {'community_data': all_community_data ,'follow_user_data': follow_user_data, 'home_layout_type': home_layout_type.home_page_layout_type }, status: 200 
   end
-  def get_slider_news
-      slider_news_data = News.where("is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(8)
-
-      render json: slider_news_data, status: 200  
-  end
+  
 
   def get_news_behined_scenes
       news_category = NewsCategory.find_by(name: 'Production Coverage')

@@ -6,7 +6,7 @@ class DownloadsController < ApplicationController
 
 
   def find_download_id(c_id,d_id)
-   collection = CollectionDetail.where("download_id = ? and collection_id = ?", d_id,c_id).first
+   collection = CollectionDetail.where("download_id = ? AND collection_id = ?", d_id,c_id).first
 
   end
   helper_method :find_download_id

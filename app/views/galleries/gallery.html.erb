@@ -1,4 +1,5 @@
-<%= stylesheet_link_tag "angular-material.min", :media => "all" %>
+<%= stylesheet_link_tag "angular-material.min","ninja-slider","thumbnail-slider", :media => "all" %>
+<%= javascript_include_tag "ninja-slider","thumbnail-slider", :media => "all" %>
 <!-- Google Ad start -->
 <div class="googlehomead clearfix">
 <div class="container">
@@ -58,71 +59,69 @@
   </div> -->
 
 
-    <!-- Slider Home Page  -->
-<div class="clearfix homeslider">
-    <div class="container">
-
-    <div class="HomeSlideLeft clearfix slider-for">
-          <div class="HomeSlideTitle">Making of Army Rage</div>
-          <%= image_tag('database/slider-1.jpg',class: 'img-responsive') %>
-          <!-- <img src="images/database/slider-1.jpg" class="img-responsive" alt="Home Sllide">  -->
-    </div>
 
 
-    <div class="HomeSlideRight clearfix">
-          <ul class="slider slider-nav">
-           <li class="clearfix">
-             <div class="HomeRightPic">
-             <%= image_tag('database/homeslideright1.jpg',class: 'img-responsive') %>
-             <!-- <img src="images/database/homeslideright1.jpg" class="img-responsive" alt="Home"> --></div>
-             <div class="HomeRightContent">
-               <div class="slide-title marginB10">Making of Army Rage</div>
-               <div class="lightcolor">2 hours ago</div>
-             </div>
-           </li>
-           <li class="clearfix">
-             <div class="HomeRightPic">
-             <%= image_tag('database/homeslideright2.jpg',class: 'img-responsive') %>
-             </div>
-             <div class="HomeRightContent">
-               <div class="slide-title marginB10">Making of Audi R8 The Eye</div>
-               <div class="lightcolor">2 hours ago</div>
-             </div>
-           </li>
 
-           <li class="clearfix">
-             <div class="HomeRightPic">
-                <%= image_tag('database/homeslideright3.jpg',class: 'img-responsive') %>
-             </div>
-             <div class="HomeRightContent">
-               <div class="slide-title marginB10">Making of Army Rage</div>
-               <div class="lightcolor">2 hours ago</div>
-             </div>
-           </li>
-           <li class="clearfix">
-             <div class="HomeRightPic">
-             <%= image_tag('database/homeslideright4.jpg',class: 'img-responsive') %>
-             </div>
-             <div class="HomeRightContent">
-               <div class="slide-title marginB10">Making of Audi R8 The Eye</div>
-               <div class="lightcolor">2 hours ago</div>
-             </div>
-           </li>
 
-          </ul>
-        <div class="ArrowHomeSlide">
+<!-- Slider Home Page  -->
+<!-- <div ng-if="visibility.show_news" class="clearfix homeslider">
+  <div class="container">
+      <div class="HomeSlideLeft clearfix" id="ninja-slider">
+        <div class="slider-inner">
           <ul>
-            <li><a href="#"><i class="fa fa-angle-up" aria-hidden="true"></i></a></li>
-            <li><a href="#"><i class="fa fa-angle-down" aria-hidden="true"></i></a></li>
+              <li ng-repeat="slider in sliderNews">
+              <a ng-if="slider.company_logo.jobs_home.url" class="ns-img" href="img/1.jpg">
+              <img ng-src="{{slider.company_logo.jobs_home.url}}" layout-fill/></a>
+              <a ng-if="!slider.company_logo.jobs_home.url" class="ns-img" href="img/1.jpg">
+              <img ng-src="assets/imageNotFound.png" layout-fill/></a>
+              </li>
+          </ul>
+          <div class="fs-icon" title="Expand/Close"></div>
+        </div>
+      </div>
+    <div class="HomeSlideRight clearfix" id="thumbnail-slider">
+        <div class="inner">
+          <ul>
+              <li ng-repeat="slider in sliderNews">
+                  <a ng-if="slider.company_logo.jobs_home.url" class="thumb" href="img/1.jpg">
+                  <img ng-src="{{slider.company_logo.jobs_home.url}}" layout-fill/></a>
+                  <a ng-if="!slider.company_logo.jobs_home.url" class="thumb" href="img/1.jpg">
+                  <img ng-src="assets/imageNotFound.png" layout-fill/></a>
+              </li>
           </ul>
         </div>
-
-
     </div>
+  </div>
+</div> -->
+<% if @slider_news_data.present? %>
+  <div class="clearfix homeslider">
+      <div class="container">
+        <div class="HomeSlideLeft clearfix" id="ninja-slider">
 
-
-    </div>
-</div>
+            <div class="slider-inner">
+              <ul>
+                <% @slider_news_data.each do |slider_data| %>
+                  <li><a class="" href="news/<%= slider_data.paramlink %>/show"><image class="ns-img" src="<%= slider_data.company_logo.large_image.url %>"></image></a></li>
+                <% end %>
+                  
+              </ul>
+              <div class="fs-icon" title="Expand/Close"></div>
+            </div>
+        </div>
+        <div class="HomeSlideRight clearfix" id="thumbnail-slider">
+            <div class="inner">
+              <ul>
+              <% @slider_news_data.each do |slider_data| %>
+                  <li>
+                      <li><a class="" href="news/<%= slider_data.paramlink %>/show"><image class="thumb" src="<%= slider_data.company_logo.tutorial_list.url %>"></image></a></li>
+                  </li>
+              <% end %>
+              </ul>
+            </div>
+        </div>
+      </div>
+  </div>
+<% end %>
 
 <div ng-if="visibility.show_community">
 <section class="communitywrap clearfix">
@@ -362,20 +361,17 @@
     </ul>
   </div>
 <% end %>
-<div class="wiphome marginB15 clearfix">
-  <h2>New From Pros <span>Go Pro!</span></h2>
-  <ul class="margin">
-    <li class="lists"><a href="#"><%= image_tag("database/10.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/11.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/12.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/13.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/14.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/15.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/16.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/17.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-    <li class="lists"><a href="#"><%= image_tag("database/18.jpg", :class=>"img-responsive",:alt =>'img') %></a></li>
-  </ul>
-</div>
+<% if @pro_gallery_data.present? %>
+  <div class="wiphome marginB15 clearfix">
+    <h2>New From Pros <span>Go Pro!</span></h2>
+    <ul class="margin">
+      <% @pro_gallery_data.each do |subscribed_data| %>
+
+        <li class="lists"><a href="dashboard/projects/<%= subscribed_data.paramlink %>/show"><%= image_tag(subscribed_data.company_logo.thumb.url, :class=>"img-responsive",:alt =>'img') %></a></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <% if @popular_gallery.present? %>
   <div class="wiphome marginB15 clearfix">
     <h2>Popular Today</h2>
@@ -394,40 +390,40 @@
     <li class="lists"><a href="/wips">Wip </a></li>
     <li class="lists"><a href="/gallery?sort=trending">Trending</a></li>
     <li class="lists"><a href="/gallery">Featured</a></li>
-    <li class="lists"><a href="#">Character</a></li>
-    <li class="lists"><a href="#">Concept art</a></li>
-    <li class="lists"><a href="#">Creatures</a></li>
-    <li class="lists"><a href="#">Illustration</a></li>
-    <li class="lists"><a href="#">Enviroments</a></li>
-    <li class="lists"><a href="#">Matte Painting</a></li>
-    <li class="lists"><a href="#">ShowreelB33</a></li>
-    <li class="lists"><a href="#">Shortfilm</a></li>
-    <li class="lists"><a href="#">Making of</a></li>
-    <li class="lists"><a href="#">Jobs</a></li>
-    <li class="lists"><a href="#">Companies</a></li>
+    <li class="lists"><a href="/downloads/character">Character</a></li>
+    <li class="lists"><a href="/downloads/concept-art">Concept art</a></li>
+    <li class="lists"><a href="/downloads/creatures">Creatures</a></li>
+    <li class="lists"><a href="/downloads/illustration">Illustration</a></li>
+    <li class="lists"><a href="/downloads/enviroments">Enviroments</a></li>
+    <li class="lists"><a href="/downloads/matte-painting">Matte Painting</a></li>
+    <li class="lists"><a href="/downloads/showreelB33">ShowreelB33</a></li>
+    <li class="lists"><a href="/news/shortfilm">Shortfilm</a></li>
+    <li class="lists"><a href="/news/making-of">Making of</a></li>
+    <li class="lists"><a href="/jobs">Jobs</a></li>
+    <li class="lists"><a href="/companies/map">Companies</a></li>
     <li class="lists"><a href="#">Schools</a></li>
-    <li class="lists"><a href="#">Artists</a></li>
-    <li class="lists"><a href="#">Downloads</a></li>
-    <li class="lists"><a href="#">Free Downloads</a></li>
-    <li class="lists"><a href="#">3D Models</a></li>
-    <li class="lists"><a href="#">3D Printing Models</a></li>
-    <li class="lists"><a href="#">Character Rigs</a></li>
-    <li class="lists"><a href="#">Low-poly 3D Models</a></li>
-    <li class="lists"><a href="#">Scripts and Plugins</a></li>
-    <li class="lists"><a href="#">Tutorials</a></li>
-    <li class="lists"><a href="#">Free Tutorials</a></li>
-    <li class="lists"><a href="#">Maya Tutorials</a></li>
-    <li class="lists"><a href="#">3ds Max Tutorials</a></li>
-    <li class="lists"><a href="#">ZBrush Tutorials</a></li>
-    <li class="lists"><a href="#">News</a></li>
-    <li class="lists"><a href="#">Industry News</a></li>
-    <li class="lists"><a href="#">Making of</a></li>
-    <li class="lists"><a href="#">Behind the Scence</a></li>
-    <li class="lists"><a href="#">Shortfilm</a></li>
-    <li class="lists"><a href="#">Showreels</a></li>
-    <li class="lists"><a href="#">Movies Trailers</a></li>
-    <li class="lists"><a href="#">Games Trailers</a></li>
-    <li class="lists"><a href="#">Events</a></li>
+    <li class="lists"><a href="/search">Artists</a></li>
+    <li class="lists"><a href="/downloads">Downloads</a></li>
+    <li class="lists"><a href="/downloads/free">Free Downloads</a></li>
+    <li class="lists"><a href="/downloads/3d-model">3D Models</a></li>
+    <li class="lists"><a href="/downloads/3d-printing-models">3D Printing Models</a></li>
+    <li class="lists"><a href="/downloads/character-rings">Character Rigs</a></li>
+    <li class="lists"><a href="/downloads/low-poly-3d-models">Low-poly 3D Models</a></li>
+    <li class="lists"><a href="/downloads/scripts-and-plugins">Scripts and Plugins</a></li>
+    <li class="lists"><a href="/tutorials">Tutorials</a></li>
+    <li class="lists"><a href="/tutorials/free">Free Tutorials</a></li>
+    <li class="lists"><a href="/tutorials/maya">Maya Tutorials</a></li>
+    <li class="lists"><a href="/tutorials/3ds-max">3ds Max Tutorials</a></li>
+    <li class="lists"><a href="/tutorials/zbrush">ZBrush Tutorials</a></li>
+    <li class="lists"><a href="/news">News</a></li>
+    <li class="lists"><a href="/news/industry-news">Industry News</a></li>
+    <li class="lists"><a href="/news/making-of">Making of</a></li>
+    <li class="lists"><a href="/news/behind-the-scene">Behind the Scence</a></li>
+    <li class="lists"><a href="/news/shortfilm">Shortfilm</a></li>
+    <li class="lists"><a href="/news/showreels">Showreels</a></li>
+    <li class="lists"><a href="/news/movies-trailor">Movies Trailers</a></li>
+    <li class="lists"><a href="/news/game-trailor">Games Trailers</a></li>
+    <li class="lists"><a href="/news/event">Events</a></li>
   </ul>
 </div>
 </div>

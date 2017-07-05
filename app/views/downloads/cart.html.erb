@@ -207,33 +207,28 @@
             <div class="creadiy-card-apy">
               <h4> Pay with a credit card </h4>
               <div class="card-under-fields">
+                  <div class="card-fields-one">
+                      <p> Name on card </p>
+                      <!--  <input type="text" placeholder="Enter your Name"> -->
+                      <input type="text" name="name" ng-model="card.name" required placeholder="Enter your Name" />
+                      <p style="color: red;" ng-show="ccForm.name.$error.required && submitted">
+                        Name is required.
+                      </p>
+                  </div>
                 <div class="card-fields-one">
-                  <p> Name on card </p>
-                  <!--  <input type="text" placeholder="Enter your Name"> -->
-                  <input type="text" name="name" ng-model="card.name" required placeholder="Enter your Name" />
-                  <p style="color: red;" ng-show="ccForm.name.$error.required && submitted">
-                    Name is required.
-                  </p>
-                </div>
-                <div class="card-fields-one">
-                  <p> Card number </p>
-
-                  <input type="text" placeholder="0123 456 789 XXX" id="cardNumber" cc-number cc-eager-type name="ccNumber" ng-model="card.number"
-                    required maxlength="19">
-                  <p style="color: red;" ng-show="ccForm.ccNumber.$error.required && submitted">
-                    Please enter your credit card number.
-                  </p>
-                  <p style="color: red;" ng-show="ccForm.ccNumber.$invalid && submitted && !ccForm.ccNumber.$error.required">
-                    Invalid Card
-                  </p>
-                  <p style="color: red;">{{ccForm.ccNumber.$ccEagerType}}</p>
-
-
-
+                    <p> Card number </p>
+                    <input type="text" placeholder="0123 456 789 XXX" id="cardNumber" cc-number cc-eager-type name="ccNumber" ng-model="card.number"
+                      required maxlength="19">
+                    <p style="color: red;" ng-show="ccForm.ccNumber.$error.required && submitted">
+                      Please enter your credit card number.
+                    </p>
+                    <p style="color: red;" ng-show="ccForm.ccNumber.$invalid && submitted && !ccForm.ccNumber.$error.required">
+                      Invalid Card
+                    </p>
+                    <p style="color: red;">{{ccForm.ccNumber.$ccEagerType}}</p>
                 </div>
                 <div class="card-fields-one card-fields-one-half ">
                   <p> Expiry date </p>
-
                   <div class="col-xs-6">
                     <input placeholder="MM" type="text" required="" class="form-control" cc-exp-month name="ccExpMonth" ng-model="card.month">
                     <p style="color: red;" ng-show="ccForm.ccExpMonth.$error.required && submitted">
@@ -426,7 +421,6 @@
              'is_company': $scope.check 
         }};
 
-debugger;
           $http({
               method: "POST",
               url: "/checkout_credit_card_paypal",

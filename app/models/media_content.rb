@@ -5,4 +5,8 @@ class MediaContent < ActiveRecord::Base
 		attr_accessor :tmp_mediacontent
 
  		MEDIA_CONTENT_TYPE = ['Upload Image', 'Upload Video', 'Upload Zip', 'Upload Marmoset', 'Video Url', 'Sketchfab Url', 'Description']
+
+		def self.filtered_types
+			 MEDIA_CONTENT_TYPE - ['Upload Video', 'Video Url']
+		end
 end

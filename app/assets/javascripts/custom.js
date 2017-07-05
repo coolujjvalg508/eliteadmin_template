@@ -43,7 +43,7 @@
 	}
 
 
-	/* $('.responsive').slick({
+	 $('.responsive').slick({
 		  dots: true,
 		  infinite: false,
 		  speed: 300,
@@ -74,7 +74,7 @@
 			  }
 			}
 		  ]
-	}); */
+	}); 
 		
 		
 })

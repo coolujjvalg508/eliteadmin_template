@@ -82,6 +82,7 @@ Rails.application.routes.draw do
   get 'user/unfollow_user' => 'user#unfollow_user', as: 'unfollow_user' 
   get 'connection' => 'user#connection', as: 'connection' 
   get 'upgrade-account' => 'user#upgrade_account', as: 'upgrade_account' 
+  get 'subscription/new' => 'user#subscription_new', as: 'subscription_new' 
 
 
 
@@ -395,9 +396,11 @@ Rails.application.routes.draw do
 
     post 'checkout_paypal'                    => 'orders#checkout_paypal', as: 'checkout_paypal'
     post 'checkout_credit_card_paypal'        => 'orders#checkout_credit_card_paypal', as: 'checkout_credit_card_paypal'
+    post 'checkout_subscription_credit_card_paypal' => 'orders#checkout_subcription_credit_card_paypal', as: 'checkout_subcription_credit_card_paypal'
     get 'paypal-success'                      => 'orders#paypal_success', as: 'paypal_success'    
-    post '/hook', to: 'orders#hook', as: 'hook'   
-
+    post '/hook', to: 'orders#hook', as: 'hook' 
+    post 'checkout_paypal_for_subscription'   => 'orders#checkout_paypal_for_subscription', as: 'checkout_paypal_for_subscription'  
+    get 'paypal-subscription-success'         => 'orders#paypal_subscription_success', as: 'paypal_subscription_success'
 
   get  'coupons/new'                          => 'store#new_coupon', as: 'create_coupon'
   post 'coupons/create'                       => 'store#create_coupon',as: 'save_coupon'

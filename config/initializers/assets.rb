@@ -51,6 +51,10 @@ Rails.application.config.assets.version = '1.0'
  Rails.application.config.assets.precompile += %w(angularjs-slider/rzslider.css)
  Rails.application.config.assets.precompile += %w(v-accordion.css)
  Rails.application.config.assets.precompile += %w(angular-material.min.css)
+ Rails.application.config.assets.precompile += %w(ninja-slider.css)
+ Rails.application.config.assets.precompile += %w(ninja-slider.js)
+ Rails.application.config.assets.precompile += %w(thumbnail-slider.css)
+ Rails.application.config.assets.precompile += %w(thumbnail-slider.js)
 
 
  

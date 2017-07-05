@@ -2124,3 +2124,33 @@ background-repeat: no-repeat;
 }
 
 .loading_contact{ position: absolute; left: 579px; bottom: 406px; }
+
+/* Payment Details Page Css */
+.paymentpage { padding: 50px 0 10px; position: relative; }
+.paymentpage h2 { color: rgb(255, 255, 255); font-size: 38px; font-weight: 700; padding-bottom: 60px; text-align: center; }
+.paymentpage .panel{ background:#222; box-shadow:0 1px 1px rgba(0,0,0,0.05); border-radius:2px; border:1px solid #222;}
+.paymentpage .panel-body{ padding:20px;}
+.paymentpage .table { width: 100%;  max-width: 100%; margin-bottom: 25px;}
+.paymentpage .table>thead>tr>th { vertical-align: bottom; border-bottom: 1px solid #747474;}
+.paymentpage .table>thead>tr>th, .paymentpage .table>thead>tr>td, .paymentpage .table>tbody>tr>th, .paymentpage .table>tbody>tr>td, .paymentpage .table>tfoot>tr>th, .paymentpage .table>tfoot>tr>td { padding: 8px; line-height: 1.8; vertical-align: top; border-top: 1px solid #747474; color:#ccc;}
+.paymentpage .small{ font-size:85%; color:#fff;}
+.paymentpage hr { margin-top: 25px; margin-bottom: 25px; border: 0; border-top: 1px solid #5d5d5d;}
+.paymentpage h3{ color:#f1f1f1; font-size:24px; margin-bottom:25px; font-weight:300;}
+.paymentpage h3 i{ color:#13aff0;}
+
+.paymentpage label{ font-size:15px; font-weight:600; color:#bbb; margin-bottom:8px; display:block;}
+.paymentpage .from-input{ height:40px;}
+.paymentpage .select-wrapper, .paymentpage .select-wrapper select { width:100%; background-color:#171717;}
+.paymentpage a{ display:inline-block; vertical-align:middle;}
+.paymentpage .bluebtn{ padding:8px 15px;}
+
+
+.upgradewrap{ padding:50px 0; font-size: 14px; color: #BBB;}
+.upgradewrap h2 { color: rgb(255, 255, 255); font-size: 38px; font-weight: 700; padding-bottom: 15px; text-align: center; }
+.upgradewrap h3 { color:#BBB; font-size:130%; padding-bottom: 20px; text-align: center; }
+.upgradewrap .panel{ background:black; box-shadow:0 1px 1px rgba(0,0,0,0.05); border-radius:2px; border:1px solid #222;}
+.upgradewrap .panel-body{ padding:20px;}
+.upgradewrap .small{ font-size:15px; color:#bbb; margin-bottom:20px; line-height:26px;}
+.upgradewrap .price { font-size: 42px; color: #f1f1f1; margin-bottom:25px;}
+.upgradewrap .price .per-month { font-size: 14px; color: #BBB;}
+.separator { height: 1.8em;}

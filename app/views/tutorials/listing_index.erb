@@ -49,10 +49,7 @@
       <option value="delete" >Delete</option>
     </select>
     <button type="button" id="delete_button" class="blue-btn" ng-click="deleteAll()">Apply</button>
-      
   </div>
-          
-
 
 
 
@@ -67,28 +64,6 @@
     <!-- <div class="clearfix pull-left marginR10">    
       <button type="button" class="blue-btn" ng-click="filter()">Filter</button>
     </div> -->
-
-    <div class="gallerytype clearfix">
-      <select class="custom-select topic-link"  ng-change="" ng-model='selected'>
-                    <option value="" class="active topic-link"  id="topic-link-all">All</option>
-                <% 
-                   if @topics.present?
-                    @topics.each do |val| %>
-                      <option value = "<%= val.id %>" class="topic-link"  id="topic-link-<%= val.id %>"> <%= val['name'] %></option>
-                <% 
-                    end 
-                  end
-                %>
-            </select>
-  </div>
-  <div class="gallerytype clearfix">
-   <select class="custom-select">
-            <option>Sub Category</option>
-    </select>
-  </div>
-  <div class="clearfix pull-left marginR10">    
-    <button type="button" class="blue-btn" ng-click="searchByTopic()">Filter</button>
-  </div>
 
   <% end %>  
 
@@ -222,28 +197,35 @@ app.controller('tutorialCtrl', function($scope, $http) {
     //function to get user gallery data on the basis of search
     $scope.filter = function() {
         
-        list_url = '/tutorials/get_tutorial_list?';        
-       
-        if(typeof $scope.viewTopic !== 'undefined' && $scope.viewTopic != '' && $scope.viewTopic != 'all'){
-          list_url += '&topic=' + $scope.viewTopic
-        }
+        list_url = '/tutorials/get_usertutorial_list?';
 
-        if(typeof $scope.viewSubTopic !== 'undefined' && $scope.viewSubTopic != '' && $scope.viewSubTopic != 'all'){
-          list_url += '&sub_topic=' + $scope.viewSubTopic
+        if(typeof $scope.viewTypeValue !== 'undefined' && $scope.viewTypeValue != '' && $scope.viewTypeValue != 'all'){
+          list_url += '&view=' + $scope.viewTypeValue
         }
+/*
+        if(typeof $scope.post_type !== 'undefined' && $scope.post_type != ''){
+          list_url += '&post_type=' + $scope.post_type
+        }*/
+/*
+        if(typeof $scope.job_category !== 'undefined' && $scope.job_category != ''){
+          list_url += '&job_category=' + $scope.job_category
+        }*/
 
+        //console.log(list_url);
         $http.get(list_url).then(function (response) {
           $scope.tutorial_data = response.data;
         });
     };
     $scope.filter();
-
-    $scope.searchByFeatured = function(value, id) {
-
-      angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
-      angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
+    
+    $scope.viewType = function(value) {
       
-      $scope.viewFeaturedType = value;
+      angular.element( document.querySelectorAll( '.view-type-link' ) ).removeClass('white-txt');
+      angular.element( document.querySelector( '#' + value + '-link' ) ).addClass('white-txt');
+
+      $scope.post_type =  $scope.search = '';
+//alert(value);
+      $scope.viewTypeValue = value;
       $scope.filter();
 
     };
@@ -299,38 +281,9 @@ app.controller('tutorialCtrl', function($scope, $http) {
 
     };
 
-    $scope.searchByTopic = function() {
-      var id =$scope.selected;      
-      angular.element( document.querySelectorAll( '.topic-link, .sub-topic-link' ) ).removeClass('active');
-      angular.element( document.querySelectorAll( '#topic-link-' + id + ', #sub-topic-link-all' ) ).addClass('active');
-
-      $scope.viewTopic = id;
-      $scope.viewSubTopic = '';
-      $scope.filter();
-      $scope.getSubTopic();
-      
-    };
-
-    $scope.getSubTopic = function() {
-        
-      $scope.sub_topic_data = [];
-
-      if(typeof $scope.viewTopic !== 'undefined' && $scope.viewTopic != '' && $scope.viewTopic != 'all'){
-
-        list_url = '/tutorials/get_subject_list?';
-        list_url += '&parent_id=' + $scope.viewTopic;
-
-        $http.get(list_url).then(function (response) {
-          $scope.sub_topic_data = response.data;
-        });
-      }
-        
-    };
-
 });
 
 angular.bootstrap(document.getElementById("tutorial_list"), ['tutorial_list']);
 
 </script>
-
 

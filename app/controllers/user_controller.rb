@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   include AdsForPages
     before_action :find_associated_data, only: [:edit_profile, :update]
-    before_action :authenticate_user!, only: [:save_qb_data, :user_setting, :user_portfolio, :notification, :dashboard, :bookmark, :edit_profile, :user_jobs,:update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
+    before_action :authenticate_user!, only: [:save_qb_data, :subscription_new, :user_setting, :user_portfolio, :notification, :dashboard, :bookmark, :edit_profile, :user_jobs,:update, :user_profile_info, :user_like, :get_user_likes,:connection_followers,:get_connection_followers, :connection_following, :get_connection_following,:all_activity]
 
 
     def dashboard
@@ -27,27 +27,28 @@ class UserController < ApplicationController
 
    def apply_job
 
-            @job_id = params[:id]
+      @job_id = params[:id]
 
-            #conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
-            @result = Job.where("paramlink = ?", @job_id).first
+      #conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))"
+      @result = Job.where("paramlink = ?", @job_id).first
 
-            if @result.present?
+      if @result.present?
 
-              @result.software_expertise.reject!{|a| a==""}
-              @result.skill.reject!{|a| a==""}
+        @result.software_expertise.reject!{|a| a==""}
+        @result.skill.reject!{|a| a==""}
 
-              @software_expertise = SoftwareExpertise.where('id IN (?)', @result.software_expertise)
-              @job_skills = JobSkill.where('id IN (?)', @result.skill)
+        @software_expertise = SoftwareExpertise.where('id IN (?)', @result.software_expertise)
+        @job_skills = JobSkill.where('id IN (?)', @result.skill)
 
-              similar_job_conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) AND paramlink !='" + @job_id  + "'  AND user_id = #{current_user.id} AND is_admin = 'N' "
+        similar_job_conditions = "visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) AND paramlink !='" + @job_id  + "'  AND user_id = #{current_user.id} AND is_admin = 'N' "
 
-              @similar_jobs = Job.where(similar_job_conditions).order('random()').limit(4)
+        @similar_jobs = Job.where(similar_job_conditions).order('random()').limit(4)
 
-            else
-                redirect_to jobs_path, notice: 'Job not available !'
-            end
-
+      else
+          redirect_to jobs_path, notice: 'Job not available !'
+      end
+      # As this is same as other jobs page 
+      get_ads("jobs")
     end
 
 
@@ -496,17 +497,20 @@ class UserController < ApplicationController
 
     def blocked_users
         @blockuserdata = BlockUser.find_by(user_id: current_user.id)
-
-        if params[:user][:username].present?
+        params[:user][:username].reject!{|a| a==""}
+       # abort(params[:user][:username].to_json)
+        if params[:user][:username].present? && !params[:user][:username].nil? && params[:user][:username] != '[]'
+           # abort('hi')
             if !@blockuserdata.present?
-                BlockUser.create(user_id: current_user.id, block_user_id: params[:user][:username])
-                flash[:notice] = "Users successfully blocked."
-                redirect_to user_setting_path
+                    BlockUser.create(user_id: current_user.id, block_user_id: params[:user][:username])
+                    flash[:notice] = "Users successfully blocked."
+                    redirect_to user_setting_path
             elsif @blockuserdata.present?
-                BlockUser.where(id: @blockuserdata.id).update_all(user_id: current_user.id, block_user_id: params[:user][:username])
+             # abort('hello')
+                    BlockUser.where(id: @blockuserdata.id).update_all(user_id: current_user.id, block_user_id: params[:user][:username]).
 
-                flash[:notice] = "Users successfully blocked."
-                redirect_to user_setting_path
+                    flash[:notice] = "Users successfully blocked."
+                    redirect_to user_setting_path
             end
 
         else
@@ -565,8 +569,9 @@ class UserController < ApplicationController
          if params[:order].present?
             order = 'ASC'
          end
-
-        result    = User.where(conditions).order('id '+order)
+        #  If order recenet is selected in front end then "latest subscribed users"
+        #  comes first
+        result = User.where(conditions).order("is_subscribed DESC, created_at #{order}")
 
         final_data = []
          result.each_with_index do |data, index|
@@ -662,7 +667,13 @@ class UserController < ApplicationController
 
     def upgrade_account
          #   abort(params.to_json)
-    end    
+        @package_data = UserPackage.first
+        #abort(@package_data.to_json)
+
+    end
+    def subscription_new
+         @package_data = UserPackage.first
+    end
 
 
     private

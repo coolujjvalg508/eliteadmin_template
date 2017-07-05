@@ -74,41 +74,40 @@ class TutorialsController < ApplicationController
 
 		    condition_inner = "topic::jsonb ?| array['" + d.id.to_s + "'] AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
 
-		    if(params[:is_featured] && params[:is_featured] != '' && params[:is_featured] != 'all')
+		      if(params[:is_featured] && params[:is_featured] != '' && params[:is_featured] != 'all')
 	         	condition_inner += " AND is_featured=" + params[:is_featured]
 	      	end
 
-		    if(params[:skill_level] && params[:skill_level] != '')
+		      if(params[:skill_level] && params[:skill_level] != '')
 	         	condition_inner += " AND skill_level='" + params[:skill_level] + "'"
 	      	end
 
 	      	if(params[:topic] && params[:topic] != '' && params[:topic] != 'all')
-				condition_inner += " AND topic::jsonb ?| array['" + params[:topic] + "'] "
-			end
+				    condition_inner += " AND topic::jsonb ?| array['" + params[:topic] + "'] "
+			    end
 
-			if(params[:sub_topic] && params[:sub_topic] != '' && params[:sub_topic] != 'all')
-				condition_inner += " AND sub_topic::jsonb ?| array['" + params[:sub_topic] + "'] "
-			end
-			# For sorting data when user vists from Features section on Home page
-			cols_for_order = 'id DESC'
-			if params[:sort]
-				case params[:sort]
-				when "top"
-					cols_for_order = 'view_count DESC, id DESC'
-				end
-			end
-			# condition for ordering data ends here
-			tutorial_data = Tutorial.where(condition_inner).order(cols_for_order).limit(4)
+    			if(params[:sub_topic] && params[:sub_topic] != '' && params[:sub_topic] != 'all')
+    				condition_inner += " AND sub_topic::jsonb ?| array['" + params[:sub_topic] + "'] "
+    			end
+			   # For sorting data when user vists from Features section on Home page
+    			cols_for_order = 'id DESC'
+    			if params[:sort]
+    				case params[:sort]
+    				when "top"
+    					cols_for_order = 'view_count DESC, id DESC'
+    				end
+    			end
+    			# condition for ordering data ends here
+    			tutorial_data = Tutorial.where(condition_inner).order(cols_for_order).limit(4)
+          #abort(tutorial_data.to_json)
+    			tutorial = JSON.parse(tutorial_data.to_json(:include => [:images, :user]))
 
-			tutorial = JSON.parse(tutorial_data.to_json(:include => [:images, :user]))
+			     # abort("#{tutorial.length}")
 
-			#abort(tutorial.to_json)
-
-			if tutorial_data.present?
-				final_data[i] = {'Topic' => d, 'Tutorial' => tutorial}
-				i = i + 1
-			end
-
+    			if tutorial_data.present?
+    				final_data[i] = {'Topic' => d, 'Tutorial' => tutorial}
+    				i = i + 1
+    			end
 	    end
 
 	    #abort(final_data.to_json)

@@ -22,33 +22,35 @@
                     </li>
                 </ul>
             </div>
-      
+
             <!-- User Followers Start -->
             <section class="clearfix jobswrap">
 <%= form_for( @gallery, html: { id: 'gallery_post_form',  role: "form" }) do |f| %>
-    <%= f.hidden_field :user_id, value: current_user.id %>   
-    <%= f.hidden_field :is_admin, value: 'N' %>      
-    <%= f.hidden_field :removedids, value: '' %>      
-    <%= f.hidden_field :removedimages, value: '' %>      
-    <%= f.hidden_field :removedvideourl, value: '' %>      
-    <%= f.hidden_field :removedsketchfab, value: '' %>      
-    <%= f.hidden_field :removedUploadVideo, value: '' %>      
-    <%= f.hidden_field :removedMarmoset, value: '' %>      
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.hidden_field :is_admin, value: 'N' %>
+    <%= f.hidden_field :removedids, value: '' %>
+    <%= f.hidden_field :removedimages, value: '' %>
+    <%= f.hidden_field :removedvideourl, value: '' %>
+    <%= f.hidden_field :removedsketchfab, value: '' %>
+    <%= f.hidden_field :removedUploadVideo, value: '' %>
+    <%= f.hidden_field :removedMarmoset, value: '' %>
 <div id="hiddendata"></div>
                 <div class="clearfix notification-heading">
-                    <span class="noti-title" style="border:none;"> 
+                    <span class="noti-title" style="border:none;">
                         <% if 'edit' == params[:action] || 'update' == params[:action] %>
                             <%= @gallery.title %>
                         <% else %>
                             Untitled Project
                         <% end %>
-                    </span> 
+                    </span>
                 </div>
                 <div class="jobpostindent clearfix col-sm-12 col-xs-12 padding">
                     <div class="clearfix marginB15 jobpostbox border-radius">
                         <ul>
                             <li><a href="javascript:void(0);" ng-click="addNewImages()"><i class="fa fa-upload marginR5 blue-txt" aria-hidden="true"></i> Add Images</a></li>
-                            <li><a data-toggle="modal" href="#add-video-popup" ><i class="fa fa-film marginR5 blue-txt" aria-hidden="true"></i> Add Video</a></li>
+                            <% if current_user.is_pro_user? %>
+                              <li><a data-toggle="modal" href="#add-video-popup" ><i class="fa fa-film marginR5 blue-txt" aria-hidden="true"></i> Add Video</a></li>
+                            <% end %>
                             <li class="dropdown-toggle">
                                 <a href="javascript:void(0);" data-toggle="dropdown"><i class="fa fa-codepen marginR5 blue-txt" aria-hidden="true"></i> Add 3D Model <i class="fa fa-caret-down blue-txt pull-right marginL5" aria-hidden="true"></i></a>
                                 <ul class="dropdown-menu">
@@ -62,10 +64,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li>
-                                <!-- <a href="javascript:void(0);"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a> -->
-                                <a href="javascript:void(0);" ng-click="addNewUploadVideos()"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a>
-                            </li>
+                            <% if current_user.is_pro_user? %>
+                              <li>
+                                  <!-- <a href="javascript:void(0);"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a> -->
+                                  <a href="javascript:void(0);" ng-click="addNewUploadVideos()"><i class="fa fa-file-video-o marginR5 blue-txt" aria-hidden="true"></i> Upload Video</a>
+                              </li>
+                            <% end %>  
                         </ul>
                     </div>
                  <!--    <div class="marginB15 dragdrop text-center hidden-sm hidden-xs" id='dragimage'>   -->
@@ -74,10 +78,10 @@
                     <div class="marginB15 dragdrop text-center hidden-sm hidden-xs" >
                         <input accept="image/*" id='gallery_image_image_999' name='gallery[avatar][][image]' type='file' multiple="multiple" class='dragdrop-gallery'>
                         <div class="marginB15"><i class="fa fa-files-o fa-2x" aria-hidden="true"></i></div>
-                         <div class="marginB15">Drag and drop your images here</div> 
+                         <div class="marginB15">Drag and drop your images here</div>
                         <button class="lightbtn padding10 lightcolor" type="button" ng-click="addNewImages()">Select Files</button>
                     </div>
-                    
+
                     <div class="clearfix marginB15 selectgallery">
                         <ul>
 
@@ -89,7 +93,7 @@
                                     <center>
                                         <img src="{{x.image.large_image.url}}" alt="image" class="img-responsive img-preview" id="gallery_image_view_default_{{$index}}" >
                                     </center>
-                                    
+
                                     <div class="clearfix padding10">
                                         <textarea class="form-control reel-txt" name="gallery[images_attributes_default][{{x.id}}][caption_image]" id="gallery_image_caption_image_default_{{$index}}" placeholder="Enter caption">{{x.caption_image}}</textarea>
                                     </div>
@@ -176,7 +180,7 @@
                                         <img src="" alt="Sketchfab" class="img-responsive img-preview" id="gallery_sketchfab_url_image_view_{{$index}}" >
                                     </center>
 
-                                    <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][sketchfeb]" id="gallery_sketchfebs_sketchfeb_{{$index}}" /> 
+                                    <input type="hidden" name="gallery[sketchfebs_attributes][{{$index}}][sketchfeb]" id="gallery_sketchfebs_sketchfeb_{{$index}}" />
 
                                     <div class="clearfix padding10">
                                         <textarea class="form-control reel-txt" name="gallery[sketchfebs_attributes][{{$index}}][caption_sketchfeb]" id="gallery_sketchfebs_caption_sketchfeb_{{$index}}" placeholder="Enter caption"></textarea>
@@ -227,7 +231,7 @@
                                     <center>
                                         <img src="" alt="Marmoset" class="img-responsive img-preview" id="gallery_marmo_set_view_default_{{$index}}" >
                                     </center>
-                                    
+
                                     <div class="clearfix padding10">
                                         <textarea class="form-control reel-txt" name="gallery[marmo_sets_attributes_default][{{x.id}}][caption_marmoset]" id="gallery_marmo_sets_caption_marmoset_default_{{$index}}" placeholder="Enter caption">{{x.caption_marmoset}}</textarea>
                                     </div>
@@ -244,7 +248,7 @@
                                         <img src="" alt="Marmoset" class="img-responsive img-preview" id="gallery_marmo_set_view_{{$index}}" >
                                     </center>
                                     <input type="file" name="gallery[marmo_sets_attributes][{{$index}}][marmoset]" id="gallery_marmo_sets_marmoset_{{$index}}" ng-show="false" accept=".mview" onchange="angular.element(this).scope().newMarmoSet(this)" >
-                                    
+
                                     <div class="clearfix padding10">
                                         <textarea class="form-control reel-txt" name="gallery[marmo_sets_attributes][{{$index}}][caption_marmoset]" id="gallery_marmo_sets_caption_marmoset_{{$index}}" placeholder="Enter caption"></textarea>
                                     </div>
@@ -269,7 +273,7 @@
                                 <label>Description</label>
                                 <%= f.text_area :description, class: 'form-control from-input message-form1', id: 'description', placeholder: 'Artwork Description', :value => params[:gallery].present? ? params[:gallery][:description] : @gallery[:description] %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:description, "Description") %></span>
-                                
+
                             </div>
                              <div class="form-group clearfix createpost">
                                 <label>Medium</label>
@@ -281,7 +285,7 @@
                                 <%= f.select(:post_type_category_id, options_for_select(Category.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:post_type_category_id] :  @gallery[:post_type_category_id]), {:include_blank => "-- Please select --"}, {'class' => 'custom-select', 'id' => 'post_type_category_id'})  %>
                                 <span class="err-msg"><%= form_error_msg_for(@gallery,:post_type_category_id, "Post type") %></span>
                             </div>
-                           
+
                             <div class="form-group clearfix createpost">
                                 <label>Subject Matter</label>
                                 <%= f.select(:subject_matter_id, options_for_select(MediumCategory.order('name ASC').pluck(:name, :id), params[:gallery].present? ? params[:gallery][:subject_matter_id] : @gallery[:subject_matter_id]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi input', 'id' => 'subject_matter_id', multiple: true})  %>
@@ -316,7 +320,7 @@
                             </div>
 
     <%= f.fields_for :tag do |tag_form| %>
-        <% tag_options = [] 
+        <% tag_options = []
         if params[:gallery].present?
             tag_options = params[:gallery][:tag][:tag]
             tag_options.reject!{|a| a==""}
@@ -378,21 +382,21 @@
                                     <% elsif @gallery.publish %>
                                         Published
                                     <% else %>
-                                        Not Published 
-                                    <% end %>    
-                                        
+                                        Not Published
+                                    <% end %>
+
                                     </strong>
                                 </div>
                             <% end %>
-                            
-            <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a> 
-                                <div class="form-group clearfix createpost marginT10" ng-show="show_visibility_option">        
+
+            <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a>
+                                <div class="form-group clearfix createpost marginT10" ng-show="show_visibility_option">
                                     <select id="visibility" name="gallery[visibility]" class="custom-select" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption" ng-change="view_visibility_edit_option()"></select>
                                 </div>
                             </div>
 
-                            <div class="clearfix marginB15 status-link"> 
-                                <i class="fa fa-calendar marginR5 lightcolor" aria-hidden="true"></i> Publish : <strong>{{dataPublish.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_publish_option()" ng-show="show_publish_edit_option">Edit</a> 
+                            <div class="clearfix marginB15 status-link">
+                                <i class="fa fa-calendar marginR5 lightcolor" aria-hidden="true"></i> Publish : <strong>{{dataPublish.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_publish_option()" ng-show="show_publish_edit_option">Edit</a>
 
 
                                 <div class='form-group clearfix marginT10' ng-show="show_publish_option">
@@ -402,8 +406,8 @@
                                      <div class='clearfix input-group date marginT10 right-panel-datetime-picker' id='datetimepicker1' ng-show="show_schedule_time" >
                                         <%= f.text_field :schedule_time, class: 'form-control from-input', id: 'schedule_time', placeholder: '', "ng-model" => "ctrl.schedule_time.date", "is-open" => "ctrl.schedule_time.open", "datetime-picker" => "yyyy-MM-dd HH:mm", 'readonly' => 'readonly' %>
                                         <span class="input-group-addon" ng-click="ctrl.openCalendar($event, 'schedule_time')"> <span class="glyphicon glyphicon-calendar"></span> </span>
-                                    </div>    
-                                                         
+                                    </div>
+
                                 </div>
 
 
@@ -436,7 +440,7 @@
                              <!--  <div id='crop_container'></div>   -->
                            <% for attribute in [:zoom_w, :zoom_h, :zoom_x, :zoom_y, :drag_x, :drag_y, :rotation_angle, :crop_x, :crop_y, :crop_w, :crop_h] %>
                                 <%= f.hidden_field attribute, :id => attribute %>
-                            <% end %>  
+                            <% end %>
                             <div class="clearfix marginB15 text-center project-btn">
                                <!--  <div class="lightbtn"><i class="fa fa-crop marginR5 blue-txt" aria-hidden="true"></i> Crop</div> -->
                                <button id="cropbutton" type="button" class="lightbtn hidden" data-target="#modal_crop" data-toggle="modal"> <i class="fa fa-crop marginR5 blue-txt" aria-hidden="true"></i> Crop</button>
@@ -471,11 +475,11 @@
                     </div> -->
                 </div>
 
-<% end %>   
+<% end %>
             </section>
             <!-- Model Add Video URL Start-->
             <div class="modal fade default-popup" id="add-video-popup" role="dialog">
-                <div class="modal-dialog"> 
+                <div class="modal-dialog">
 
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -484,9 +488,9 @@
                             <h4 class="modal-title text-uppercase">Add Video</h4>
                         </div>
 
-                        <div class="modal-body"> 
-                            <form id='test' action="javascript:void(0);" ng-submit="getVideoDetailFromURL()">   
-                                <div class="col-md-12 add-video-alert err-msg padding text-center">{{addVideoErr}}</div>  
+                        <div class="modal-body">
+                            <form id='test' action="javascript:void(0);" ng-submit="getVideoDetailFromURL()">
+                                <div class="col-md-12 add-video-alert err-msg padding text-center">{{addVideoErr}}</div>
                                 <div class="form-group clearfix">
                                     <label>Paste a Vimeo or YouTube video URL here</label>
                                     <input type="url" placeholder="Video URL" value="" ng-model="videoURL" id="videoURL" class="form-control from-input" />
@@ -507,7 +511,7 @@
                   <div class="modal-header">
                    <button type="button" class="close" data-dismiss="modal"></button>
                     <h5 class="modal-title" id="modalLabel">Crop the image</h5>
-                  
+
                   </div>
                   <div class="modal-body">
                     <div>
@@ -524,7 +528,7 @@
 
             <!-- Modal sketchfeb Start-->
             <div class="modal fade default-popup" id="add-sketchfab-popup" role="dialog">
-                <div class="modal-dialog"> 
+                <div class="modal-dialog">
 
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -533,10 +537,10 @@
                             <h4 class="modal-title text-uppercase">Add Sketchfab ED Model</h4>
                         </div>
 
-                        <div class="modal-body"> 
-                            <form id='test' action="javascript:void(0);" ng-submit="getSketchfabDetailFromURL()">   
+                        <div class="modal-body">
+                            <form id='test' action="javascript:void(0);" ng-submit="getSketchfabDetailFromURL()">
                                 <input ng-model="sketchfabThumbnail" id="sketchfabThumbnail" value="" type="hidden" />
-                                <div class="col-md-12 add-sketchfab-alert err-msg padding text-center">{{addSketchfabErr}}</div>  
+                                <div class="col-md-12 add-sketchfab-alert err-msg padding text-center">{{addSketchfabErr}}</div>
                                 <div class="form-group clearfix">
                                     <label>Paste a <a href="http://www.sketchfab.com" target="_blank">Sketchfab</a> URL here</label>
                                     <input type="url" placeholder="Sketchfab URL" value="" ng-model="sketchfabURL" id="sketchfabURL" class="form-control from-input" />
@@ -545,7 +549,7 @@
                                 </div>
                                 <div class="clearfix" id="sketchfabView">
                                 </div>
-                                <input type="text" placeholder="Enter Caption" ng-model="caption_sketchfeb" value=""  id="caption_sketchfeb" class="hidden form-control from-input" /> 
+                                <input type="text" placeholder="Enter Caption" ng-model="caption_sketchfeb" value=""  id="caption_sketchfeb" class="hidden form-control from-input" />
                             </form>
                         </div>
 
@@ -589,7 +593,7 @@
         $scope.companyLogoImage = '';
         <% if @gallery.try(:company_logo).try(:large_image).try(:url).present? %>
             $scope.companyLogoImage = "<%= @gallery.company_logo.large_image.url %>";
-        <% end %>    
+        <% end %>
 
         $scope.imageUpload = function(element){
 
@@ -647,7 +651,7 @@
         this.schedule_time = {
             date: new Date()
         };
-        
+
 
         <% if params['gallery'].present? %>
 
@@ -671,14 +675,14 @@
                     };
                 <% else %>
                     this.schedule_time = {
-                    };   
+                    };
                 <% end %>
             <% end %>
 
         <% elsif 'edit' == params[:action] || 'update' == params[:action] %>
                 <% if @gallery.visibility == 1 %>
                     visibility_sel_id = '1';
-                    visibility_sel_name = 'Private'; 
+                    visibility_sel_name = 'Private';
                 <% end %>
 
                 <% if @gallery.publish == 0 %>
@@ -696,7 +700,7 @@
                         };
                     <% else %>
                         this.schedule_time = {
-                        };   
+                        };
                     <% end %>
                 <% end %>
 
@@ -714,8 +718,8 @@
         $scope.view_visibility_option = function(){
             $scope.show_visibility_option = true;
             $scope.show_visibility_edit_option = false;
-        } 
-       
+        }
+
         $scope.view_visibility_edit_option = function(){
             $scope.show_visibility_option = false;
             $scope.show_visibility_edit_option = true;
@@ -733,18 +737,18 @@
         $scope.view_publish_option = function(){
             $scope.show_publish_option = true;
             $scope.show_publish_edit_option = false;
-        } 
-       
+        }
+
         $scope.update_publish_type = function(){
-            
+
             if ($scope.dataPublish.selectedOption.id == 0){
                 $scope.show_schedule_time = true;
             }else{
-                $scope.show_schedule_time = false;    
+                $scope.show_schedule_time = false;
             }
 
         }
-        
+
         this.openCalendar = function(e, picker) {
             that[picker].open = true;
         };
@@ -752,7 +756,7 @@
 /***** for edit page section start*******/
         //To get saved images and update them
         $scope.add_images_default = <%= @gallery.images.to_json.html_safe %>;
-        $scope.removeImageDefault = function (x, id) {   
+        $scope.removeImageDefault = function (x, id) {
             var removedid = angular.element('#gallery_removedimages').attr('value');
 
             if(removedid == ''){
@@ -770,7 +774,7 @@
 
         //To get saved video_url and update them
         $scope.add_video_url_default = <%= @gallery.videos.to_json.html_safe %>;
-        $scope.removeVideoURLDefault = function (x, id) {   
+        $scope.removeVideoURLDefault = function (x, id) {
             var removedid = angular.element('#gallery_removedvideourl').attr('value');
 
             if(removedid == ''){
@@ -786,7 +790,7 @@
         }
 
         angular.forEach($scope.add_video_url_default, function(value, key) {
-            
+
             url = '/get_video_detail_from_url?url=' + value['video'];
 
             $http.get(url)
@@ -796,13 +800,13 @@
             .catch(function(response) {
             })
             .finally(function() {
-                
+
             });
         });
 
         //To get saved sketchfab and update them
         $scope.add_sketchfab_url_default = <%= @gallery.sketchfebs.to_json.html_safe %>;
-        $scope.removeSketchfabURLDefault = function (x, id) {   
+        $scope.removeSketchfabURLDefault = function (x, id) {
             var removedid = angular.element('#gallery_removedsketchfab').attr('value');
 
             if(removedid == ''){
@@ -818,23 +822,23 @@
         }
 
         angular.forEach($scope.add_sketchfab_url_default, function(value, key) {
-            
+
             url = 'https://sketchfab.com/oembed?url=' + value['sketchfeb'] + '&maxwidth=568&dataType=jsonp';
 
             $http.get(url)
-            .then(function(response) {       
-                angular.element( document.querySelector( '#gallery_sketchfab_url_image_view_default_' + key ) ).attr('src', response.data.thumbnail_url);               
+            .then(function(response) {
+                angular.element( document.querySelector( '#gallery_sketchfab_url_image_view_default_' + key ) ).attr('src', response.data.thumbnail_url);
             })
             .catch(function(response) {
             })
             .finally(function() {
-                
+
             });
         });
 
         //To get saved upload video and update them
         $scope.add_upload_videos_default = <%= @gallery.upload_videos.to_json.html_safe %>;
-        $scope.removeUploadVideoDefault = function (x, id) {   
+        $scope.removeUploadVideoDefault = function (x, id) {
             var removedid = angular.element('#gallery_removedUploadVideo').attr('value');
 
             if(removedid == ''){
@@ -854,19 +858,19 @@
             url = '/get_upload_video_thumbnail?url=' + value['uploadvideo']['url'];
 
             $http.get(url)
-            .then(function(response) {       
-                angular.element( document.querySelector( '#gallery_upload_video_view_default_' + key ) ).attr('src', response.data.thumbnail);               
+            .then(function(response) {
+                angular.element( document.querySelector( '#gallery_upload_video_view_default_' + key ) ).attr('src', response.data.thumbnail);
             })
             .catch(function(response) {
             })
             .finally(function() {
-                
+
             });
         });
 
         //To get saved marmoset and update them
         $scope.add_marmo_sets_default = <%= @gallery.marmo_sets.to_json.html_safe %>;
-        $scope.removeMarmoSetDefault = function (x, id) {   
+        $scope.removeMarmoSetDefault = function (x, id) {
             var removedid = angular.element('#gallery_removedMarmoset').attr('value');
 
             if(removedid == ''){
@@ -889,7 +893,7 @@
 /********* add new images ***************/
         var add_images_count = 0;
         $scope.add_images = [];
-        
+
         console.log($scope.add_images);
 
         $scope.addNewImages = function () {
@@ -899,14 +903,14 @@
 
             setTimeout(function() {
 
-               add_images_count_test = add_images_count - 1; 
+               add_images_count_test = add_images_count - 1;
                angular.element('#gallery_image_image_' + add_images_count_test).trigger('click');
-               
+
             }, 200);
 
         }
 
-        $scope.removeImage = function (x) {   
+        $scope.removeImage = function (x) {
             //angular.element( document.querySelectorAll( '#gallery_image_caption_image_' + x ) ).remove();
             //angular.element( document.querySelectorAll( '#gallery_image_image_' + x ) ).remove();
             angular.element( document.querySelector( '#li' + x ) ).addClass('hidden');
@@ -940,13 +944,13 @@
 
             setTimeout(function() {
 
-               add_video_url_count_test = add_video_url_count - 1; 
+               add_video_url_count_test = add_video_url_count - 1;
                angular.element( document.querySelector( '#gallery_video_url_image_view_' + add_video_url_count_test ) ).attr('src', response.data.thumbnail);
                angular.element('#gallery_videos_video_' + add_video_url_count_test).attr('value', $scope.videoURL);
                angular.element('#gallery_videos_caption_video_' + add_video_url_count_test).html(response.data.title);
 
                angular.element('#close-btn-add-video-popup').trigger('click');
-               
+
             }, 200);
         }
 
@@ -974,7 +978,7 @@
                 $scope.addVideoErr = 'Invalid Url';
             })
             .finally(function() {
-                
+
             });
         };
 
@@ -991,18 +995,18 @@
 
 
             setTimeout(function() {
-               add_sketchfab_url_count_test = add_sketchfab_url_count - 1; 
+               add_sketchfab_url_count_test = add_sketchfab_url_count - 1;
 
                sketchfabThumbnailuRL = angular.element('#sketchfabThumbnail').val();
                sketchfabCaption = angular.element('#caption_sketchfeb').val();
 
                angular.element( document.querySelector( '#gallery_sketchfab_url_image_view_' + add_sketchfab_url_count_test ) ).attr('src', sketchfabThumbnailuRL);
                angular.element('#gallery_sketchfebs_sketchfeb_' + add_sketchfab_url_count_test).attr('value', $scope.sketchfabURL);
-               
+
                angular.element('#gallery_sketchfebs_caption_sketchfeb_' + add_sketchfab_url_count_test).val(sketchfabCaption);
 
                angular.element('#close-btn-add-sketchfab-popup').trigger('click');
-               
+
             }, 200);
         }
 
@@ -1027,10 +1031,10 @@
 //console.log(response.data.thumbnail_url);
 
                 angular.element( document.querySelector( '#sketchfabView') ).html(response.data.html);
-               
+
                 angular.element('#sketchfabThumbnail').val(response.data.thumbnail_url);
 
-                
+
                 angular.element( document.querySelector( '#footerSketchfabPopup') ).removeClass('hidden');
                 angular.element( document.querySelector( '#caption_sketchfeb') ).removeClass('hidden');
 
@@ -1048,7 +1052,7 @@
                 $scope.addSketchfabErr = 'Invalid Url';
             })
             .finally(function() {
-                
+
             });
         };
 
@@ -1064,22 +1068,22 @@
 
             setTimeout(function() {
 
-               add_marmo_set_count_test = add_marmo_set_count - 1; 
+               add_marmo_set_count_test = add_marmo_set_count - 1;
                angular.element('#gallery_marmo_sets_marmoset_' + add_marmo_set_count_test).trigger('click');
                angular.element('#gallery_marmo_sets_caption_marmoset_' + add_marmo_set_count_test).html(response.data.title);
-               
+
             }, 200);
 
         }
 
-        $scope.removeMarmoSet = function (x) {  
+        $scope.removeMarmoSet = function (x) {
             angular.element( document.querySelector( '#limarmoset' + x ) ).addClass('hidden');
             angular.element( document.querySelector( '#limarmoset' + x ) ).html('');
             //$scope.add_marmo_sets.splice(x, 1);
         }
 
         $scope.newMarmoSet = function(element){
-        
+
             var reader = new FileReader();
             reader.onload = $scope.newMarmoSetIsLoaded;
             reader.readAsDataURL(element.files[0]);
@@ -1105,14 +1109,14 @@
 
             setTimeout(function() {
 
-               add_upload_video_count_test = add_upload_video_count - 1; 
+               add_upload_video_count_test = add_upload_video_count - 1;
                angular.element('#gallery_upload_videos_uploadvideo_' + add_upload_video_count_test).trigger('click');
-               
+
             }, 200);
 
         }
 
-        $scope.removeUploadVideo = function (x) {  
+        $scope.removeUploadVideo = function (x) {
             angular.element( document.querySelector( '#liuploadvideo' + x ) ).addClass('hidden');
             angular.element( document.querySelector( '#liuploadvideo' + x ) ).html('');
             //$scope.add_upload_videos.splice(x, 1);
@@ -1131,7 +1135,7 @@
                 angular.element( document.querySelector( '#liuploadvideo' + add_upload_video_count_test ) ).removeClass('hidden');
             });
         }
-        
+
 
     });
  angular.bootstrap(document.getElementById("GalleryNew"), ['GalleryNew']);
@@ -1141,7 +1145,7 @@
         $('#gallery_use_tag_from_previous_upload').click(function(){
 
             var previous_tags = <%= previous_tags.to_json.html_safe %>;
-            
+
             if($(this). prop("checked") === true){
                 $( previous_tags ).each(function( index ) {
                     $("#tag").append($('<option>', {value: this, text: this}));
@@ -1168,7 +1172,7 @@
 
 /*****************Crop image code**********************/
      var flag = 0;
-        $('#companylogoimage').on('load',function(){ 
+        $('#companylogoimage').on('load',function(){
              $('#cropimage').attr('src',$('#companylogoimage').attr('src'));
              var $image = $('#cropimage').attr('src');
 
@@ -1184,29 +1188,29 @@
                             }
                     });
               }).on('hidden.bs.modal', function () {
-                    
+
                     cropBoxData = $('#cropimage').cropper('getCropBoxData');
                     canvasData  = $('#cropimage').cropper('getCanvasData');
 
-                    var crop_w = '';   
-                    var crop_h = '';   
-                    var crop_x = '';   
-                    var crop_y = '';   
-                    var zoom_w = '';   
-                    var zoom_h = '';   
-                    var zoom_x = '';   
-                    var zoom_y = '';   
+                    var crop_w = '';
+                    var crop_h = '';
+                    var crop_x = '';
+                    var crop_y = '';
+                    var zoom_w = '';
+                    var zoom_h = '';
+                    var zoom_x = '';
+                    var zoom_y = '';
 
                     if(flag == 0){
-                        
-                        zoom_w = canvasData.width;   
-                        zoom_h = canvasData.height;   
-                        zoom_x = canvasData.left;   
-                        zoom_y = canvasData.top;  
-                        crop_w = cropBoxData.width;   
-                        crop_h = cropBoxData.height;   
-                        crop_x = cropBoxData.left;   
-                        crop_y = cropBoxData.top;  
+
+                        zoom_w = canvasData.width;
+                        zoom_h = canvasData.height;
+                        zoom_x = canvasData.left;
+                        zoom_y = canvasData.top;
+                        crop_w = cropBoxData.width;
+                        crop_h = cropBoxData.height;
+                        crop_x = cropBoxData.left;
+                        crop_y = cropBoxData.top;
 
                         $('#crop_w').val(crop_w);
                         $('#crop_h').val(crop_h);
@@ -1215,9 +1219,9 @@
                         $('#zoom_w').val(zoom_w);
                         $('#zoom_h').val(zoom_h);
                         $('#zoom_x').val(zoom_x);
-                        $('#zoom_y').val(zoom_y);    
+                        $('#zoom_y').val(zoom_y);
 
-                    }   
+                    }
 
                     flag = 1;
                     $('#cropimage').cropper('destroy');
@@ -1236,22 +1240,22 @@
                       for (var i = 0; i < data.length; i++) {
                         options += '<option value="' + data[i][1]+ '">' + data[i][0] + '</option>';
                       }
-                    
+
                  $("select#subject_matter_id").html(options);
                 }
             });
 
-      }); 
+      });
 
     $("#gallery_image_image_999").on('change',function(){
        $('#gallery_removedids').val('')
-       var outputhtml  =   '';  
-       var j = 999;    
-       var k = 0;    
+       var outputhtml  =   '';
+       var j = 999;
+       var k = 0;
 
         for(i=0; i< this.files.length; i++){
-             
-            reader = new FileReader();  
+
+            reader = new FileReader();
             reader.readAsDataURL(this.files[i]);
             var ext = this.files[i].name.split('.').pop().toLowerCase();
             if($.inArray(ext, ['gif','png','jpg','jpeg','tif','tiff','bmp']) == -1) {
@@ -1260,18 +1264,18 @@
             }
            reader.onload = function(event){
                 outputhtml  +=   '<li class="clearfix col-md-3 col-sm-3 col-xs-6 marginB15" id="li'+j+'"><div class="galleryselect clearfix"><div class="gallery-select-top clearfix"> <span class="pull-left"><i class="fa fa-upload" aria-hidden="true"></i></span> <span class="pull-right"><a  href="javascript:void(0);" onclick="removethumb('+j+','+k+')" id="remove_'+j+'" class="fa fa-times" aria-hidden="true"></a></span> </div><center><img src="'+event.target.result+'" alt="img" class="img-responsive img-preview" id="gallery_image_view_'+j+'" ></center><div class="clearfix padding10"><textarea class="form-control reel-txt" name="gallery[avatar_caption][][caption_image]" id="gallery_image_caption_image_'+j+'" placeholder="Enter caption"></textarea></div></div></li>';
-                
+
                 j = j +1;
                 k = k +1;
             };
-         }   
-       
+         }
+
         setTimeout(function() {
             $('#output').html(outputhtml);
-        }, 500); 
-             
+        }, 500);
+
     });
-     
+
 
  });
 

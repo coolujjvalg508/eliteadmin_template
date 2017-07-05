@@ -22,6 +22,8 @@
 //= require custom
 //= require marmoset
 //= require dropzone
+//= require ninja-slider
+//= require thumbnail-slider
 
 //= require tether.min
 //= require cropper

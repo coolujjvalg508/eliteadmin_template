@@ -1,9 +1,9 @@
     <!-- <button type="submit" id="saveCoverArtPic" value="UpdateCoverArt" ng-show="false" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button> -->
-       
+
 <%  res = connection_like_count_by_artist_id(@artist_data.id) %>
 <div class="artist-profile">
   <div style="background-image: url(<%= @artist_data.cover_art_image.full.url  %>);" class="artist-masthead">
-    
+
 <%= form_for(@artist_data, url: update_user_image_path(@artist_data), html: { method: :put, id: 'cover_art_image_form' }) do |f| %>
 
     <div class="change-cover-image hidden-xs">
@@ -13,19 +13,19 @@
     <% if (!@artist_data.cover_art_image.blank? && !@artist_data.cover_art_image.try(:full).blank?) %>
       <div class="remove-cover-image hidden-xs">
         <%#= link_to '<i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Remove Cover Art</span>'.html_safe, remove_cover_art_path(@artist_data),method: :delete, data: { confirm: 'Are you sure?' }, title: "Remove Cover Art" %>
-      </div>    
+      </div>
     <% end %>
 
     <%#= f.file_field(:cover_art_image, accept: "image/*", id: "covertArtPicUpload", "ng-model" => "covertArtPicUpload", onchange: "angular.element(this).scope().coverArtUpload(this)", style: "display: none;")%>
-    
-<% end %>    
+
+<% end %>
 
 
     <div class="container artist-info clearfix">
       <div class="row">
         <div class="col-sm-9 col-md-8 col-xs-12">
 <%= form_for(@artist_data, url: update_user_image_path(@artist_data), html: { method: :put, id: 'image_form' }) do |f| %>
- 
+
           <div class="avatar">
             <center>
 
@@ -33,7 +33,7 @@
                 <img src="/assets/profile-noimage.jpg" alt="User" class="img-thumbnail img-responsive" ng-src="{{stepsModel}}">
               <% else %>
                 <%= image_tag(@artist_data.image.try(:event_small).try(:url), alt: "User Image", class: "img-thumbnail img-responsive", "ng-src"=>"{{stepsModel}}") %>
-              <% end %>  
+              <% end %>
               <span class="user-pro-pic">
                 <!-- <a href="javascript:void(0);" ng-click="clickUpload()">
                   <i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Update Profile <span class="hidden-xs">Picture</span></span>
@@ -50,10 +50,14 @@
 
             </center>
           </div>
-<% end %>          
+<% end %>
 
           <div class="artist-info-texts pull-left">
-            <h2 class="artist-name ng-binding"><%= @artist_data.firstname + ' ' + @artist_data.lastname %> <i class="fa fa-check-circle"></i></h2>
+            <h2 class="artist-name ng-binding"><%= @artist_data.firstname + ' ' + @artist_data.lastname %>
+              <% if @artist_data.is_pro_user?  %>
+                <i class="fa fa-check-circle"></i>
+              <% end %>
+              </h2>
             <div class="artist-additional-info">
               <ul>
                 <li class="ng-binding"> <i class="fa fa-briefcase"></i> <%= @artist_data.profile_type %> </li>
@@ -75,7 +79,7 @@
         </div>
         <div class="col-sm-3 col-md-4 col-xs-12 artist-social-info">
           <ul class="list-inline pull-right">
-            
+
        <!--      <li ng-if="artistCanContact" class="ng-scope">
               <button href="" class="btn btn-success btn-sm"> <i class="fa fa-pad-right fa-envelope"></i>Message </button>
             </li>
@@ -85,14 +89,14 @@
  -->
 
  <% if user_signed_in? %>
-            
+
             <li class="ng-scope">
               <div aria-label="..." role="group" class="btn-group">
                 <button id='follow_button' type="button" title="Follow this user" class="btn btn-primary btn-sm ng-binding ng-scope"> <i class="fa fa fa-plus-circle fa-pad-right"></i>Follow </button>
                 <button id='follow_button_count' class="btn btn-sm user-follow" type="button"><%= @artist_data.follow_count %></button>
 
                 <button id='unfollow_button' type="button" title="Follow this user" class="btn btn-primary btn-sm ng-binding ng-scope hidden"> <i class="fa fa-check fa-pad-right"></i>Following </button>
-                <button id='unfollow_button_count' class="btn btn-sm user-follow hidden" type="button"><%= @artist_data.follow_count %></button>  
+                <button id='unfollow_button_count' class="btn btn-sm user-follow hidden" type="button"><%= @artist_data.follow_count %></button>
               </div>
             </li>
 
@@ -112,7 +116,7 @@
                 </div>
             </li>
 
-  <% end %>          
+  <% end %>
 
 
           </ul>
@@ -148,8 +152,8 @@
     <li><a href="javascript:void(0);"  ng-click="searchByPostType(1)" class="post-type-link"  id="post-type-link-1" >Artwork</a></li>
     <li><a href="javascript:void(0);"  ng-click="searchByPostType(2)" class="post-type-link"  id="post-type-link-2" >Video</a></li>
     <li><a href="javascript:void(0);"  ng-click="searchByPostType(3)" class="post-type-link"  id="post-type-link-3" >WIP</a></li>
-    <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
-    <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li>
+    <!-- <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
+    <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li> -->
 
     </ul>
   </li>
@@ -162,14 +166,14 @@
     <ul class="dropdown-menu">
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('RECENT', 'recent')" class="featured-type-link"  id="featured-type-link-recent">Recent</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('POPULAR', 'popular')" class="featured-type-link"  id="featured-type-link-popular">Popular</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('AWARDED', 'awarded')" class="featured-type-link"  id="featured-type-link-awarded">Awarded</a></li>
+           <!--  <li><a href="javascript:void(0);" ng-click="searchByFeatured('AWARDED', 'awarded')" class="featured-type-link"  id="featured-type-link-awarded">Awarded</a></li> -->
              <li class="divider" role="separator"></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPLIKED', 'top_liked')" class="featured-type-link"  id="featured-type-link-top_liked">Top Liked</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPVIEWED', 'top_viewed')" class="featured-type-link"  id="featured-type-link-top_viewed">Top viewed</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li> 
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li>
     </ul>
   </li>
-        <li class="dropdown pull-right recentdrop hidden-sm" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Categories <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a> 
+        <li class="dropdown pull-right recentdrop hidden-sm" role="presentation"> <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Categories <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
           <ul class="dropdown-menu" id="categoryli">
              <li ng-repeat = 'olist in optionlist'>
                   <a href="javascript:void(0);" ng-click="searchByMediumType(olist.id)" class="medium-type-link"  id="medium-type-link-"+olist.id > {{olist.name}} </a>
@@ -187,7 +191,7 @@
   <li class="lists clearfix" dir-paginate="x in artwork_data | filter:search | itemsPerPage:20">
 
        <div class="user-wrap">
-          <a ng-show = 'x.image.length > 0' href="#" class="fa fa-picture-o" aria-hidden="true"></a> 
+          <a ng-show = 'x.image.length > 0' href="#" class="fa fa-picture-o" aria-hidden="true"></a>
           <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#" class="fa fa-video-camera" aria-hidden="true"></a>
           <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#" class="fa fa fa-cube" aria-hidden="true"></a>
        </div>
@@ -199,7 +203,7 @@
              {{x.user.firstname}} {{x.user.lastname}} </div>
         </div>
       </div>
-      <a href="/dashboard/projects/{{x.result.paramlink}}/show">  
+      <a href="/dashboard/projects/{{x.result.paramlink}}/show">
         <img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
  </li>
 
@@ -224,7 +228,7 @@
 <% if user_signed_in? %>
 <script type="text/javascript">
   $(document).ready(function(){
-   
+
     $.ajax({
         type: "post",
         url: "<%= save_view_count_user_path %>" ,
@@ -242,16 +246,16 @@
                if(data.res == 1) {
                         $('#follow_button').addClass('hidden');
                         $('#follow_button_count').addClass('hidden');
-                     
+
 
                         $('#unfollow_button').removeClass('hidden');
                         $('#unfollow_button_count').removeClass('hidden');
 
                 }else{
-                        
+
                        $('#follow_button').removeClass('hidden');
                        $('#follow_button_count').removeClass('hidden');
-                       
+
                        $('#unfollow_button').addClass('hidden');
                        $('#unfollow_button_count').addClass('hidden');
                 }
@@ -266,18 +270,18 @@
                 success: function(data){
                   //alert(data.res)
                  if(data.res == 1) {
-                      
+
                       $('#follow_button').addClass('hidden');
                       $('#follow_button_count').addClass('hidden');
-                   
+
                       $('#unfollow_button').removeClass('hidden');
                       $('#unfollow_button_count').removeClass('hidden');
-                  
+
                   }else{
-                       
+
                        $('#follow_button').removeClass('hidden');
                        $('#follow_button_count').removeClass('hidden');
-                       
+
                        $('#unfollow_button').addClass('hidden');
                        $('#unfollow_button_count').addClass('hidden');
                   }
@@ -295,12 +299,12 @@
   var myAppHeader = angular.module('myApp',["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
 
   myAppHeader.controller('browseAllArtworkCtrl', function($sce, $scope, $http) {
-      
+
     artist_id  = "<%= @artist_data.id %>"
     $scope.filter = function() {
-          
-        list_url = '/dashboard/projects/get_portfolio_list?artist_id='+ artist_id; 
-        
+
+        list_url = '/dashboard/projects/get_portfolio_list?artist_id='+ artist_id;
+
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
           list_url += '&is_feature=' + $scope.viewFeaturedType
         }
@@ -311,7 +315,7 @@
 
         if(typeof $scope.post_type_id !== 'undefined' && $scope.post_type_id != ''  && $scope.post_type_id != 'all'){
           list_url += '&post_type_category_id=' + $scope.post_type_id
-         
+
           $.ajax({
                     type: "post",
                     url: "<%= get_subject_matter_list_path %>" ,
@@ -323,34 +327,34 @@
           }
 
        $http.get(list_url).then(function (response) {
-          
+
             resultdata            = [];
             angular.forEach(response.data, function(value, key){
                 resultdata.push(value);
             });
 
-            $scope.artwork_data              = resultdata;          
+            $scope.artwork_data              = resultdata;
 
           });
     };
-    
+
     $scope.filter();
 
     $scope.searchByFeatured = function(value, id) {
 
       angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
-      
+
       $scope.viewFeaturedType = value;
       $scope.filter();
 
     };
 
     $scope.searchByPostType = function(id) {
-        
+
       angular.element( document.querySelectorAll( '.post-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#post-type-link-' + id ) ).addClass('active');
-      
+
       $scope.post_type_id = id;
       $scope.filter();
 
@@ -363,7 +367,7 @@
 
       $scope.medium_category_id = id;
       $scope.filter();
-    };   
+    };
   });
 angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 </script>
@@ -372,19 +376,19 @@ angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
 
 <script type="text/javascript">
   var Config = {
-    
+
       'LOGGINED_USER_LOGIN': "<%=  current_user.email %>",
       'LOGGINED_USER_ID': "<%=  current_user.qb_id %>",
       'LOGGINED_USER_PASS': "<%=  current_user.qb_password %>",
       'LOGGINED_FULL_NAME': "<%=  current_user.username %>",
 
-    };          
+    };
 </script>
 <%= javascript_include_tag "quickblox/quickblox.min","quickblox/jquery.nicescroll.min","quickblox/config", "quickblox/main" %>
-<script type="text/javascript">  
- 
+<script type="text/javascript">
+
  function create_current_user_quickblox(current_user_qb_id, current_user_qb_password){
-       
+
       if(current_user_qb_id == '' || current_user_qb_password == ''){
 
            random_password = "<%=  rand(11111111..99999999).to_s %>";
@@ -396,41 +400,41 @@ angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
                            $.ajax({
                                 url: "/save_qb_data",
                                 data: {qb_id:result1.id, qb_password: random_password  ,user_id: "<%=  current_user.id %>"},
-                                type:'post', 
+                                type:'post',
                                 success: function(r){
                                  }
                             });
                       }
                    });
-              });   
+              });
 
-          }   
+          }
     }
 
   function create_other_user_quickblox(other_user_qb_id, other_user_qb_password){
-       
-      if(other_user_qb_id == '' || other_user_qb_password == ''){  
+
+      if(other_user_qb_id == '' || other_user_qb_password == ''){
 
          random_password1 = "<%=  rand(11111111..99999999).to_s %>";
          var params = { login: "<%=  @artist_data.email %>", password:  random_password1 , email: "<%=  @artist_data.email %>", full_name: "<%=  @artist_data.username %>" };
 
                   QB.createSession(function (err, result) {
                     QB.users.create(params, function (err, result1) {
-                          
+
                           if(result1){
                                $.ajax({
                                     url: "/save_qb_data",
                                     data: {qb_id:result1.id, qb_password: random_password1 ,user_id: "<%=  @artist_data.id %>"},
-                                    type:'post', 
+                                    type:'post',
                                     success: function(r){
                                       return true;
                                     }
                                 });
                               }
                          });
-                }); 
+                });
 
-           }          
+           }
      }
 
   $(document).ready(function(){
@@ -439,19 +443,19 @@ angular.bootstrap(document.getElementById("myApp2"), ['myApp']);
             $('#loading_div').show();
              current_user_qb_id        = "<%=  current_user.qb_id  %>";
              current_user_qb_password  = "<%=  current_user.qb_password  %>";
-             
+
              other_user_qb_id          = "<%=  @artist_data.qb_id  %>";
              other_user_qb_password    = "<%=  @artist_data.qb_password  %>";
-                        
+
             create_current_user_quickblox(current_user_qb_id, current_user_qb_password);
-            setTimeout(function(){  }, 1000); 
+            setTimeout(function(){  }, 1000);
             create_other_user_quickblox(other_user_qb_id, other_user_qb_password);
-            
-            setTimeout(function(){  redirectToMessage(); }, 10000); 
-           
+
+            setTimeout(function(){  redirectToMessage(); }, 10000);
+
       });
 
-  });   
+  });
 
   function redirectToMessage(){
       $('#loading_div').hide();

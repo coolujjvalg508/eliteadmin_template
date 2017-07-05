@@ -2,7 +2,7 @@ ActiveAdmin.register UserPackage do
 
 	menu label: 'User Package', parent: 'Package'
 	permit_params :title, :description, :amount, :image, :duration, :duration_unit
-
+	actions :all, except: [:new, :destroy]
 	controller do
 		def action_methods
 		 super
@@ -27,9 +27,9 @@ ActiveAdmin.register UserPackage do
 		f.inputs "User Package" do
 			f.input :image
 			f.input :title
-			f.input :description
+		
+			#f.input :description
 			f.input :amount
-			f.input :duration, as: :select, collection: [["1 month", 1], ["3 months", 3]], include_blank: "Select Duration"
 		end
 		f.actions
 	  end
@@ -37,7 +37,6 @@ ActiveAdmin.register UserPackage do
 	  controller do
 		def create
 			# change this when duration unit changes
-			params[:user_package][:duration_unit] = "month"
 		  unless params[:user_package][:image].present?
 			params[:user_package][:image] = params[:user_package][:image_cache]
 			super
@@ -54,14 +53,9 @@ ActiveAdmin.register UserPackage do
 		  image_tag img.try(:image).try(:url, :thumb), height: 50, width: 50
 		end
 		column :title
-		column :description do |description|
-		   tr_con = description.description.first(45)
-		end
+	
 
 		column :amount
-		column :duration do |d|
-			pluralize(d.duration, "month")
-		end
 		column :created_at
 		actions
 	  end
@@ -81,13 +75,9 @@ ActiveAdmin.register UserPackage do
   			end
 		  end
 		  row :title
-		  row :description do |description|
-				tr_con = description.description.first(45)
-		   end
+	
 		  row :amount
-		  row :duration do |d|
-		  	pluralize(d.duration, "month")
-		  end
+		  
 		  row :created_at
 		end
 	end

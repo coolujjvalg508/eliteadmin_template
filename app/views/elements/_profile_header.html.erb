@@ -3,7 +3,7 @@
 <div class="artist-profile ng-scope" id="myAppHeader" ng-app="myAppHeader" ng-controller="myCtrlHeader">
 
   <div style="background-image: url({{cover_art_image}});" class="artist-masthead">
-    
+
 <%= form_for(current_user, url: update_user_image_path(current_user), html: { method: :put, id: 'cover_art_image_form' }) do |f| %>
 
     <div class="change-cover-image hidden-xs">
@@ -13,21 +13,21 @@
     <% if (!current_user.cover_art_image.blank? && !current_user.cover_art_image.try(:full).blank?) %>
       <div class="remove-cover-image hidden-xs">
         <%= link_to '<i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Remove Cover Art</span>'.html_safe, remove_cover_art_path(current_user),method: :delete, data: { confirm: 'Are you sure?' }, title: "Remove Cover Art" %>
-      </div>    
+      </div>
     <% end %>
 
     <%= f.file_field(:cover_art_image, accept: "image/*", id: "covertArtPicUpload", "ng-model" => "covertArtPicUpload", onchange: "angular.element(this).scope().coverArtUpload(this)", style: "display: none;")%>
-    
+
     <button type="submit" id="saveCoverArtPic" value="UpdateCoverArt" ng-show="false" name="commit"><i class="fa fa-pad-right fa-check"></i><span class="text ng-binding">Save <span class="hidden-xs">Picture</span></span></button>
-       
-<% end %>    
+
+<% end %>
 
 
     <div class="container artist-info clearfix">
       <div class="row">
         <div class="col-sm-9 col-md-8 col-xs-12">
 <%= form_for(current_user, url: update_user_image_path(current_user), html: { method: :put, id: 'image_form' }) do |f| %>
- 
+
           <div class="avatar">
             <center>
 
@@ -35,7 +35,7 @@
                 <img src="/assets/profile-noimage.jpg" alt="User" class="img-thumbnail img-responsive" ng-src="{{stepsModel}}">
               <% else %>
                 <%= image_tag(current_user.image.try(:event_small).try(:url), alt: "User Image", class: "img-thumbnail img-responsive", "ng-src"=>"{{stepsModel}}") %>
-              <% end %>  
+              <% end %>
               <span class="user-pro-pic">
                 <a href="javascript:void(0);" ng-click="clickUpload()">
                   <i class="fa fa-pad-right fa-remove"></i><span class="text ng-binding">Update Profile <span class="hidden-xs">Picture</span></span>
@@ -52,10 +52,14 @@
 
             </center>
           </div>
-<% end %>          
+<% end %>
 
           <div class="artist-info-texts pull-left">
-            <h2 class="artist-name ng-binding"><%= current_user.firstname + ' ' + current_user.lastname %> <i class="fa fa-check-circle"></i></h2>
+            <h2 class="artist-name ng-binding"><%= current_user.firstname + ' ' + current_user.lastname %>
+              <% if current_user.is_pro_user? %>
+                <i class="fa fa-check-circle"></i>
+              <% end %>  
+            </h2>
             <div class="artist-additional-info">
               <ul>
                 <li class="ng-binding"> <i class="fa fa-briefcase"></i> <%= current_user.profile_type %> </li>
@@ -145,7 +149,7 @@
     $scope.coverArtUpload = function(element){
         angular.element('#saveCoverArtPic').trigger('click');
     }
-   
+
   });
   angular.bootstrap(document.getElementById("myAppHeader"), ['myAppHeader']);
   // header angular app end
@@ -153,37 +157,37 @@
 
 <script type="text/javascript">
   var Config = {
-    
+
     'LOGGINED_USER_LOGIN': "<%=  current_user.email %>",
     'LOGGINED_USER_ID': "<%=  current_user.qb_id %>",
     'LOGGINED_USER_PASS': "<%=  current_user.qb_password %>",
     'LOGGINED_FULL_NAME': "<%=  current_user.username %>",
 
-  };          
+  };
 </script>
 <%= javascript_include_tag "quickblox/quickblox.min","quickblox/jquery.nicescroll.min","quickblox/config","quickblox/main" %>
 
-<script type="text/javascript">  
+<script type="text/javascript">
   $(document).ready(function(){
       $('#message_button').on('click',function(){
 
 
              current_user_qb_id        = "<%=  current_user.qb_id  %>";
              current_user_qb_password  = "<%=  current_user.qb_password  %>";
-            
+
             if(current_user_qb_id == '' || current_user_qb_password == ''){
-                 
+
                   random_password = "<%=  rand(11111111..99999999).to_s %>";
                   var params = { login: "<%=  current_user.email %>", password:  random_password , email: "<%=  current_user.email %>", full_name: "<%=  current_user.username %>" };
                   QB.createSession(function (err, result) {
 
                       QB.users.create(params, function (err, result1) {
-                          
+
                           if(result1){
                                $.ajax({
                                     url: "/save_qb_data",
                                     data: {qb_id:result1.id, qb_password: random_password  ,user_id: "<%=  current_user.id %>"},
-                                    type:'post', 
+                                    type:'post',
                                     success: function(r){
                                         window.location.href = "<%= message_path %>"
                                     }
@@ -193,10 +197,10 @@
 
 
                           }
-                         
-                       
+
+
                        });
-                  });   
+                  });
             }else{
                       window.location.href = "<%= message_path %>"
 
@@ -204,5 +208,5 @@
 
       });
 
-  });        
+  });
 </script>

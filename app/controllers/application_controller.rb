@@ -39,7 +39,10 @@ class ApplicationController < ActionController::Base
   	def wip_gallery
   		@wip_gallery = Gallery.where("post_type_category_id = 3 AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(9)
   		@popular_gallery = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(9)
+  		@subscribed_user = User.where("is_subscribed = true AND to_timestamp(subscription_end_date, 'YYYY-MM-DD hh24:mi')::timestamp without time zone >= CURRENT_TIMESTAMP::timestamp without time zone").pluck(:id)
   		
+  		@pro_gallery_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) AND user_id IN (?)",@subscribed_user).order('like_count DESC').limit(9)
+  		#abort(@subscribed_user.to_json)
   	end
 
 
@@ -64,5 +67,6 @@ class ApplicationController < ActionController::Base
 		def create_slug(value)
 			return value.downcase.gsub(/[^a-z0-9]+/, '-').chomp('-')
 		end
+
   
 end

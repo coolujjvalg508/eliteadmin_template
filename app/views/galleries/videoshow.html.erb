@@ -381,48 +381,37 @@
           <li class="lists"><a href="#"><%#= image_tag("database/ignatius-tan-lunar-diana-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li> -->
         </ul>
       </div>
-      <div class="wiphome clearfix critiqueright">
-        <h2>Wip/Wants Critique</h2>
-        <ul class="margin">
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-        </ul>
-      </div>
-      <div class="wiphome clearfix proswrap">
-        <h2>New From Pros <span>Go Pro!</span></h2>
-        <ul class="margin">
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-exiles-end.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-ignatius-tan-terra-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-fiora-for-print.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-facecloseuprender.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-one-smoking-hot-fairy-tail-resized.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-mononoke-final-merged.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-phantom-assassin-merged.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-yuna-final-edited.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/ignatius-tan-lunar-diana-final.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-        </ul>
-      </div>
-      <div class="wiphome clearfix proswrap">
-        <h2>Popular Today</h2>
-        <ul class="margin">
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-riven-2016.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-3f71e1d9e907c6965bd7e7485e27e145-d7nmi4l.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-sailor-moon-2016-recovered.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-satsuki-the-queen-by-pieder-d7i0no4.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-child-of-light-becoming-by-pieder-d7isd6a.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-meg-2016-for-amethylia.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-snape.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-ana.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-          <li class="lists"><a href="#"><%= image_tag("database/mioree-silas-sall.jpg", :class=>"img-responsive", :alt=>"img") %></a></li>
-        </ul>
-      </div>
+      <% if @wip_gallery.present? %>
+        <div class="wiphome clearfix marginB15">
+          <h2>Wip Gallery</h2>
+          <ul class="margin">
+          <% @wip_gallery.each do |wip_gallery| %>
+              <li class="lists"><a href="dashboard/projects/<%= wip_gallery.paramlink %>/show"><%= image_tag(wip_gallery.company_logo.thumb.url, :alt => "img",:class=>"img-responsive") %></a></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @pro_gallery_data.present? %>
+        <div class="wiphome marginB15 clearfix">
+          <h2>New From Pros <span>Go Pro!</span></h2>
+          <ul class="margin">
+            <% @pro_gallery_data.each do |subscribed_data| %>
+
+              <li class="lists"><a href="dashboard/projects/<%= subscribed_data.paramlink %>/show"><%= image_tag(subscribed_data.company_logo.thumb.url, :class=>"img-responsive",:alt =>'img') %></a></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @popular_gallery.present? %>
+        <div class="wiphome marginB15 clearfix">
+          <h2>Popular Today</h2>
+          <ul class="margin">
+            <% @popular_gallery.each do |popular_gallery| %>
+              <li class="lists"><a href="dashboard/projects/<%= popular_gallery.paramlink %>/show"><%= image_tag(popular_gallery.company_logo.thumb.url, :alt => "img",:class=>"img-responsive") %></a></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 <!--       <div class="neverpost clearfix">
         <div class="tophead">Never miss a post <i class="fa fa-times pull-right" aria-hidden="true"></i></div>
         <div class="nevercontent clearfix"> <%#= image_tag("anmit.jpg", :class=>"pull-left", :alt=>"anim") %> <span class="anmitext pull-left">animationtidbits<i>Animation Tidbits</i></span>

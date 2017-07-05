@@ -13,7 +13,7 @@
           <li><%= link_to 'Tutorials', index_tutorial_path %></li>
             <li class="active">
                <% actiontype = '' %>
-                <% if 'edit' == params[:action] || 'update' == params[:action] 
+                <% if 'edit' == params[:action] || 'update' == params[:action]
                         actiontype = update_tutorial_path
                 %>
                     Edit Tutorial
@@ -26,17 +26,17 @@
             </li>
         </ul>
       </div>
-      
+
       <!-- User Followers Start -->
       <section class="clearfix jobswrap">
       <%= form_for( @tutorial, url: actiontype, html: { id: 'tutorial_post_form',  role: "form" }) do |f| %>
-        <%= f.hidden_field :user_id, value: current_user.id, id: 'tutorial_user_id' %>   
+        <%= f.hidden_field :user_id, value: current_user.id, id: 'tutorial_user_id' %>
         <%= f.hidden_field :is_admin, value: 'N', id: 'tutorial_is_admin' %>
-        <%= f.hidden_field :removedChapter, value: '', id: 'tutorial_removed_chapter' %>   
-        <%= f.hidden_field :removedMediaContent, value: '', id: 'tutorial_removed_media_content' %>   
+        <%= f.hidden_field :removedChapter, value: '', id: 'tutorial_removed_chapter' %>
+        <%= f.hidden_field :removedMediaContent, value: '', id: 'tutorial_removed_media_content' %>
          <div id="hiddendata"></div>
-        <div class="clearfix notification-heading">  
-            <span class="noti-title" style="border:none;"> 
+        <div class="clearfix notification-heading">
+            <span class="noti-title" style="border:none;">
                 <% if 'edit' == params[:action] || 'update' == params[:action] %>
                     <%= @tutorial.title %>
                 <% else %>
@@ -68,8 +68,8 @@
                         <div class="col-md-12 col-sm-12 col-xs-10">
 
                            <select class="form-control multi-select js-chosen-select-multi" multiple="multiple" name="tutorial[topic][]" id="topic">
-                                <% if @topic.present? 
-                                  @topic.each_with_index do |value, index|  
+                                <% if @topic.present?
+                                  @topic.each_with_index do |value, index|
                                 %>
 
                                     <% selected_topic = ''
@@ -82,7 +82,7 @@
                                         <option value="<%= value.id %>" <%= selected_topic %> ><%= value.name %></option>
 
                                 <% end
-                                end %> 
+                                end %>
                             </select>
                          </div>
                     </div>
@@ -106,7 +106,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
 
                         <%= f.select(:software_used, options_for_select(@software_expertise, params[:tutorial].present? ? params[:tutorial][:software_used] : @tutorial[:software_used]), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-multi', 'id' => 'tutorial_software_used', multiple: true})  %>
-    
+
                         </div>
                     </div>
 
@@ -115,7 +115,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
 
                         <%= f.select(:skill_level, options_for_select(TutorialSkill.order('title ASC').pluck(:title, :id), params[:tutorial].present? ? params[:tutorial][:skill_level] : @tutorial[:skill_level]), {:include_blank => false}, {'class' => 'custom-select', 'id' => 'tutorial_skill_level'})  %>
-    
+
                         </div>
                     </div>
 
@@ -154,13 +154,13 @@
                         <button class="lightbtn padding5 lightcolor addMoreBtn" type="button" ng-click="addChapter()" title="Add More Chapter">Add Chapter<span class="fa fa-plus marginL10" aria-hidden="true"></span></button>
                     </div>
 
-                    <div ng-repeat="x in add_chapter_default" id="lichapter_default{{$index}}" class="col-md-12 col-sm-12 col-xs-12 marginB10 paddinB10 border-bottom-bold"> 
-                    	<div class="col-md-12 col-sm-12 col-xs-12 marginB10">  
+                    <div ng-repeat="x in add_chapter_default" id="lichapter_default{{$index}}" class="col-md-12 col-sm-12 col-xs-12 marginB10 paddinB10 border-bottom-bold">
+                    	<div class="col-md-12 col-sm-12 col-xs-12 marginB10">
                         	<button class="lightbtn padding5 lightcolor pull-right addMoreBtn" type="button" ng-click="removeChapterDefault($index, x.id)" title="Remove Chapter">Remove Chapter<span class="fa fa-times marginL10" aria-hidden="true"></span></button>
                         </div>
 
                         <div class="form-group clearfix">
-                        	
+
                         	<label class="col-md-12 col-sm-12 col-xs-12">Chapter Title:</label>
                         	<div class="col-md-12 col-sm-12 col-xs-12">
                         		<input type="text" name="chapter_default[{{x.id}}][title]" id="chapter_title_{{$index}}" placeholder="Enter Chapter Title" class="form-control from-input" value="{{x.title}}">
@@ -180,7 +180,7 @@
 
 
                         <div class="form-group clearfix">
-                          
+
                           <label class="col-md-12 col-sm-12 col-xs-12">Video Duration</label>
                           <div class="col-md-12 col-sm-12 col-xs-12">
                             <input type="text" name="chapter_default[{{x.id}}][video_timing]" id="chapter_video_timing_{{$index}}" placeholder="Enter video duration" class="form-control from-input" value="{{x.video_timing}}">
@@ -198,35 +198,35 @@
                                 <div class="form-group clearfix">
 	                                <label class="col-md-4 col-sm-6 col-xs-12 marginT10">Select Media Content Type : </label>
 	                                <div class="col-md-8 col-sm-6 col-xs-12">
-	                                   <!--  <select class="custom-select" 
-                                      name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_type]" 
+	                                   <!--  <select class="custom-select"
+                                      name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_type]"
                                       id="chapter_media_content_media_type_default_{{$parent.$index}}_{{$index}}"
                                       onchange="angular.element(this).scope().changeMediaContentTypeDefault(this)"
 	                                     >
-	                                    	
+
 	                                    	<option value="">Select Media Content Type</option>
-	                                        <option  ng-repeat="m in media_content_type_options" 
+	                                        <option  ng-repeat="m in media_content_type_options"
 	                                         value="{{m}}" ng-selected="m == y.media_type ? true : false">
                                            {{m}}
-                                        </option> 
+                                        </option>
 
 	                                    </select> -->
-                                      
+
 
 <select
-  class="custom-select" 
+  class="custom-select"
   ng-model="chapter_media_content_media_type_default_$parent.$index_$index"
   ng-init="chapter_media_content_media_type_default_$parent.$index_$index = y.media_type"
-  ng-change="changeMediaContentTypeDefault(this);" 
-  name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_type]" 
+  ng-change="changeMediaContentTypeDefault(this);"
+  name="chapter_default[{{x.id}}][media_contents_attributes][{{$index}}][media_type]"
   id="chapter_media_content_media_type_default_{{$parent.$index}}_{{$index}}"
   data-ng-options="blisterPackTemplate as blisterPackTemplate for blisterPackTemplate in media_content_type_options track by blisterPackTemplate"
 
   >
       <option value="">Select Media Content Type</option>
-</select> 
-	                       
-    
+</select>
+
+
 	                                </div>
                                 </div>
 
@@ -243,9 +243,9 @@
 		                    		</div>
 
   	                        		<div class="col-md-6 col-sm-12 col-xs-12">
-  	                        		
+
   	                        			<img ng-show="y.media_type == 'Upload Image'" ng-src="{{y.mediacontent.url}}" width="50" id="chapter_media_image_default_old_{{$parent.$index}}_{{$index}}">
-   	                        			
+
   	                        			<label ng-show="y.media_type == 'Upload Video' || y.media_type == 'Upload Zip' || y.media_type == 'Upload Marmoset'" id="chapter_media_file_default_old_{{$parent.$index}}_{{$index}}">
   		                        			{{y.mediacontent.url.split("/")[y.mediacontent.url.split("/").length-1]}}
   	                        			</label>
@@ -276,13 +276,13 @@
 
                     </div>
 
-                    <div ng-repeat="x in add_chapter" id="lichapter{{$index}}" class="hidden col-md-12 col-sm-12 col-xs-12 marginB10 paddinB10 border-bottom-bold"> 
-                    	<div class="col-md-12 col-sm-12 col-xs-12 marginB10">  
+                    <div ng-repeat="x in add_chapter" id="lichapter{{$index}}" class="hidden col-md-12 col-sm-12 col-xs-12 marginB10 paddinB10 border-bottom-bold">
+                    	<div class="col-md-12 col-sm-12 col-xs-12 marginB10">
                         	<button class="lightbtn padding5 lightcolor pull-right addMoreBtn" type="button" ng-click="removeChapter($index)" title="Remove Chapter">Remove Chapter<span class="fa fa-times marginL10" aria-hidden="true"></span></button>
                         </div>
 
                         <div class="form-group clearfix">
-                        	
+
                         	<label class="col-md-12 col-sm-12 col-xs-12">Chapter Title:</label>
                         	<div class="col-md-12 col-sm-12 col-xs-12">
                         		<input type="text" name="chapter[{{$index}}][title]" id="chapter_title_{{$index}}" placeholder="Enter Chapter Title" class="form-control from-input">
@@ -301,7 +301,7 @@
                     		</div>
                     	</div>
                        <div class="form-group clearfix">
-                          
+
                           <label class="col-md-12 col-sm-12 col-xs-12">Video Duration</label>
                           <div class="col-md-12 col-sm-12 col-xs-12">
                             <input type="text" name="chapter[{{$index}}][video_timing]" id="chapter_video_duration_{{$index}}" placeholder="Enter video duration" class="form-control from-input">
@@ -321,11 +321,11 @@
 	                                <div class="col-md-8 col-sm-6 col-xs-12">
 	                                    <select class="custom-select" name="chapter[{{$parent.$index}}][media_contents_attributes][{{$index}}][media_type]" id="chapter_media_content_media_type_{{$parent.$index}}_{{$index}}" ng-change="changeMediaContentType(chapter_media_content_media_type_$parent.$index_$index, $parent.$index, $index, '')" ng-model="chapter_media_content_media_type_$parent.$index_$index">
 	                                    	<option value="">Select Media Content Type</option>
-	                                        <% 
-	                                          MediaContent::MEDIA_CONTENT_TYPE.each_with_index do |value, index|  
+	                                        <%
+	                                          MediaContent.filtered_types.each_with_index do |value, index|
 	                                        %>
 	                                            <option value="<%= value %>"><%= value %></option>
-	                                        <% end %> 
+	                                        <% end %>
 	                                    </select>
 	                                </div>
                                 </div>
@@ -366,7 +366,7 @@
 
                     <div class="form-group clearfix">
                         <%= f.fields_for :tag do |tag_form| %>
-                            <% tag_options = [] 
+                            <% tag_options = []
                             if params[:tutorial].present?
                                 tag_options  = params[:tutorial][:tag][:tag]
                                 tag_options.reject!{|a| a==""}
@@ -382,11 +382,11 @@
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <%= tag_form.select(:tag, options_for_select(tag_options, params[:tutorial].present? ? params[:tutorial][:tag][:tag] : tag_options), {:include_blank => false}, {'class' => 'form-control multi-select js-chosen-select-tags', 'id' => 'tag', multiple: true})  %>
                             </div>
-                        <% end %> 
+                        <% end %>
 
                         <div class="white-txt marginB15 col-md-12 col-sm-12 col-xs-12"><em>Separate tags with commas</em></div>
 			            <div class="blue-txt marginB15 col-md-12 col-sm-12 col-xs-12">Choose from the most used tags</div>
-			             
+
 
 			            <% if previous_tags.present? && 'edit' != params[:action] && 'update' != params[:action] %>
 			                <div class="col-md-12 col-sm-12 col-xs-12">
@@ -408,11 +408,11 @@
                     </div>
 
                 </div>
-           
+
             </div>
           </div>
-          
-          
+
+
         </div>
 
 
@@ -440,21 +440,21 @@
                                     <% elsif @tutorial.publish %>
                                         Published
                                     <% else %>
-                                        Not Published 
-                                    <% end %>    
-                                        
+                                        Not Published
+                                    <% end %>
+
                                     </strong>
                                 </div>
                             <% end %>
-                            
-                            <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a> 
-                                <div class="form-group clearfix createpost marginT10" ng-show="show_visibility_option">        
+
+                            <div class="clearfix marginB15 status-link"> <i class="fa fa-eye marginR5 lightcolor" aria-hidden="true"></i> Visibility  : <strong>{{data.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_visibility_option()" ng-show="show_visibility_edit_option">Edit</a>
+                                <div class="form-group clearfix createpost marginT10" ng-show="show_visibility_option">
                                     <select id="visibility" name="tutorial[visibility]" class="custom-select" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption" ng-change="view_visibility_edit_option()"></select>
                                 </div>
                             </div>
 
-                            <div class="clearfix marginB15 status-link"> 
-                                <i class="fa fa-calendar marginR5 lightcolor" aria-hidden="true"></i> Publish : <strong>{{dataPublish.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_publish_option()" ng-show="show_publish_edit_option">Edit</a> 
+                            <div class="clearfix marginB15 status-link">
+                                <i class="fa fa-calendar marginR5 lightcolor" aria-hidden="true"></i> Publish : <strong>{{dataPublish.selectedOption.name}}</strong> <a href="javascript:void(0);" ng-click="view_publish_option()" ng-show="show_publish_edit_option">Edit</a>
 
 
                                 <div class='form-group clearfix marginT10' ng-show="show_publish_option">
@@ -464,8 +464,8 @@
                                       <div class='clearfix input-group date marginT10 right-panel-datetime-picker' id='datetimepicker1' ng-show="show_schedule_time" >
                                         <%= f.text_field :schedule_time, class: 'form-control from-input', id: 'schedule_time', placeholder: '', "ng-model" => "ctrl.schedule_time.date", "is-open" => "ctrl.schedule_time.open", "datetime-picker" => "yyyy-MM-dd HH:mm", 'readonly' => 'readonly' %>
                                         <span class="input-group-addon" ng-click="ctrl.openCalendar($event, 'schedule_time')"> <span class="glyphicon glyphicon-calendar"></span> </span>
-                                    </div>      
-                                                         
+                                    </div>
+
                                 </div>
 
 
@@ -498,7 +498,7 @@
                              <!--  <div id='crop_container'></div>   -->
                            <% for attribute in [:zoom_w, :zoom_h, :zoom_x, :zoom_y, :drag_x, :drag_y, :rotation_angle, :crop_x, :crop_y, :crop_w, :crop_h] %>
                                 <%= f.hidden_field attribute, :id => attribute %>
-                            <% end %>  
+                            <% end %>
                             <div class="clearfix marginB15 text-center project-btn">
                                <!--  <div class="lightbtn"><i class="fa fa-crop marginR5 blue-txt" aria-hidden="true"></i> Crop</div> -->
                                <button id="cropbutton" type="button" class="lightbtn hidden" data-target="#modal_crop" data-toggle="modal"> <i class="fa fa-crop marginR5 blue-txt" aria-hidden="true"></i> Crop</button>
@@ -533,9 +533,9 @@
                     </div> -->
                 </div>
 
-        <% end %> 
+        <% end %>
       </section>
-            
+
             <div  class="modal fade default-popup" id="modal_crop" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -543,7 +543,7 @@
                   <div class="modal-header">
                    <button type="button" class="close" data-dismiss="modal"></button>
                     <h5 class="modal-title" id="modalLabel">Crop the image</h5>
-                  
+
                   </div>
                   <div class="modal-body">
                     <div>
@@ -566,7 +566,7 @@
 </div>
 
 <script type="text/javascript">
-    
+
     function preview(paramlink){
       window.location.href = '<%= root_url %>tutorials/' + paramlink + '/show';
     }
@@ -587,7 +587,7 @@
         $scope.companyLogoImage = '';
         <% if @tutorial.try(:company_logo).try(:large_image).try(:url).present? %>
             $scope.companyLogoImage = "<%= @tutorial.company_logo.large_image.url %>";
-        <% end %>    
+        <% end %>
 
         $scope.imageUpload = function(element){
 
@@ -644,9 +644,9 @@
 
         this.schedule_time = {
             date: new Date()
-          
+
         };
-        
+
         <% if params['tutorial'].present? %>
 
             <% if params['tutorial']['visibility'] == '1' %>
@@ -670,14 +670,14 @@
                     };
                 <% else %>
                     this.schedule_time = {
-                    };   
+                    };
                 <% end %>
             <% end %>
 
         <% elsif 'edit' == params[:action] || 'update' == params[:action] %>
                 <% if @tutorial.visibility == 1 %>
                     visibility_sel_id = '1';
-                    visibility_sel_name = 'Private'; 
+                    visibility_sel_name = 'Private';
                 <% end %>
 
                 <% if @tutorial.publish == 0 %>
@@ -695,7 +695,7 @@
                         };
                     <% else %>
                         this.schedule_time = {
-                        };   
+                        };
                     <% end %>
                 <% end %>
 
@@ -713,8 +713,8 @@
         $scope.view_visibility_option = function(){
             $scope.show_visibility_option = true;
             $scope.show_visibility_edit_option = false;
-        } 
-       
+        }
+
         $scope.view_visibility_edit_option = function(){
             $scope.show_visibility_option = false;
             $scope.show_visibility_edit_option = true;
@@ -732,14 +732,14 @@
         $scope.view_publish_option = function(){
             $scope.show_publish_option = true;
             $scope.show_publish_edit_option = false;
-        } 
-       
+        }
+
         $scope.update_publish_type = function(){
-            
+
             if ($scope.dataPublish.selectedOption.id == 0){
                 $scope.show_schedule_time = true;
             }else{
-                $scope.show_schedule_time = false;    
+                $scope.show_schedule_time = false;
             }
 
         }
@@ -760,17 +760,17 @@
             add_chapter_count++;
 
             setTimeout(function() {
-                add_chapter_count_test = add_chapter_count - 1; 
+                add_chapter_count_test = add_chapter_count - 1;
                 angular.element( document.querySelector( '#lichapter' + add_chapter_count_test ) ).removeClass('hidden');
-               
+
             }, 200);
-				
-			      add_chapter_count_new = add_chapter_count - 1; 
+
+			      add_chapter_count_new = add_chapter_count - 1;
             $scope.chapter_media_count[add_chapter_count_new] = [0];
 
         }
 
-        $scope.removeChapter = function (x) {   
+        $scope.removeChapter = function (x) {
             angular.element( document.querySelector( '#lichapter' + x ) ).addClass('hidden');
             angular.element( document.querySelector( '#lichapter' + x ) ).html('');
         }
@@ -780,7 +780,7 @@
             angular.element( document.querySelector( '#lichapter_child' + parent_key + '_' + child_key) ).html('');
         }
 
-        $scope.removeChapterDefault = function (x, id) {   
+        $scope.removeChapterDefault = function (x, id) {
             angular.element( document.querySelector( '#lichapter_default' + x ) ).addClass('hidden');
             angular.element( document.querySelector( '#lichapter_default' + x ) ).html('');
 
@@ -809,7 +809,7 @@
         }
 
         $scope.addMoreMedia = function (parent_key) {
-            
+
             var arr_len = $scope.chapter_media_count[parent_key].length;
 
             new_child_val = 0;
@@ -824,17 +824,17 @@
         }
 
         $scope.addMoreMediaDefault = function (parent_key) {
-            
+
             var arr_len = $scope.add_chapter_default[parent_key]['media_contents'].length;
 
             new_child_val = arr_len + 1;
-            
+
             $scope.add_chapter_default[parent_key]['media_contents'].push(new_child_val);
 
         }
 
         $scope.changeMediaContentType = function (media_type, parent_key, child_key, default_txt){
-       
+
         	angular.element( document.querySelector( '#chapter_media_content_mediacontent_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
         	angular.element( document.querySelector( '#chapter_media_content_media_description_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
         	//angular.element( document.querySelector( '#chapter_media_content_video_duration_div_' + default_txt + parent_key + '_' + child_key ) ).addClass('hidden');
@@ -887,9 +887,9 @@
 
         $scope.changeMediaContentTypeDefault = function (){
 
-        	var media_type = angular.element( document.querySelector( '#chapter_media_content_media_type_default_' + 
+        	var media_type = angular.element( document.querySelector( '#chapter_media_content_media_type_default_' +
         		this.$parent.$index + '_' + this.$index ) ).val();
-        	
+
         	$scope.changeMediaContentType(media_type, this.$parent.$index, this.$index, 'default_');
         }
 
@@ -898,7 +898,7 @@
         }, function(n, o) {
           if(n != o){
             $scope.searchRecords();
-          }   
+          }
         }, true);
 
         $scope.newChapterImageUpload = function(element, default_txt){
@@ -939,7 +939,7 @@
 
 
 
-    				}else{ 
+    				}else{
     					angular.element( document.querySelector( '#chapter_media_file_' + default_txt + this.$parent.$index + '_' + this.$index ) ).html(element.files.item(0).name);
     					angular.element( document.querySelector( '#chapter_media_image_' + default_txt + this.$parent.$index + '_' + this.$index ) ).attr('src', '');
     					angular.element( document.querySelector( '#chapter_media_image_' + default_txt + this.$parent.$index + '_' + this.$index ) ).addClass('hidden');
@@ -975,20 +975,20 @@
         <% @tutorial_chapter_data   = JSON.parse(@tutorial.chapters.to_json(:include => [:media_contents])) %>
 
     		$scope.add_chapter_default = <%= @tutorial_chapter_data.to_json.html_safe %>;
-    		$scope.media_content_type_options = <%= MediaContent::MEDIA_CONTENT_TYPE.to_json.html_safe %>;
-        
+    		$scope.media_content_type_options = <%= MediaContent.filtered_types.to_json.html_safe %>;
+
     		/***** for edit page section end*********/
 
     });
 
-        
+
     angular.bootstrap(document.getElementById("New_Tutorial"), ['New_Tutorial']);
 
     $(document).ready(function(){
 
 /*****************Crop image code**********************/
      var flag = 0;
-        $('#companylogoimage').on('load',function(){ 
+        $('#companylogoimage').on('load',function(){
              $('#cropimage').attr('src',$('#companylogoimage').attr('src'));
              var $image = $('#cropimage').attr('src');
 
@@ -1004,29 +1004,29 @@
                             }
                     });
               }).on('hidden.bs.modal', function () {
-                    
+
                     cropBoxData = $('#cropimage').cropper('getCropBoxData');
                     canvasData  = $('#cropimage').cropper('getCanvasData');
 
-                    var crop_w = '';   
-                    var crop_h = '';   
-                    var crop_x = '';   
-                    var crop_y = '';   
-                    var zoom_w = '';   
-                    var zoom_h = '';   
-                    var zoom_x = '';   
-                    var zoom_y = '';   
+                    var crop_w = '';
+                    var crop_h = '';
+                    var crop_x = '';
+                    var crop_y = '';
+                    var zoom_w = '';
+                    var zoom_h = '';
+                    var zoom_x = '';
+                    var zoom_y = '';
 
                     if(flag == 0){
-                        
-                        zoom_w = canvasData.width;   
-                        zoom_h = canvasData.height;   
-                        zoom_x = canvasData.left;   
-                        zoom_y = canvasData.top;  
-                        crop_w = cropBoxData.width;   
-                        crop_h = cropBoxData.height;   
-                        crop_x = cropBoxData.left;   
-                        crop_y = cropBoxData.top;  
+
+                        zoom_w = canvasData.width;
+                        zoom_h = canvasData.height;
+                        zoom_x = canvasData.left;
+                        zoom_y = canvasData.top;
+                        crop_w = cropBoxData.width;
+                        crop_h = cropBoxData.height;
+                        crop_x = cropBoxData.left;
+                        crop_y = cropBoxData.top;
 
                         $('#crop_w').val(crop_w);
                         $('#crop_h').val(crop_h);
@@ -1035,9 +1035,9 @@
                         $('#zoom_w').val(zoom_w);
                         $('#zoom_h').val(zoom_h);
                         $('#zoom_x').val(zoom_x);
-                        $('#zoom_y').val(zoom_y);    
+                        $('#zoom_y').val(zoom_y);
 
-                    }   
+                    }
 
                     flag = 1;
                     $('#cropimage').cropper('destroy');
@@ -1045,8 +1045,8 @@
         });
 
     <% topic_arr = []
-       sub_topic_arr = [] 
-       sub_sub_topic_arr = [] 
+       sub_topic_arr = []
+       sub_sub_topic_arr = []
     if params[:tutorial].present?
 
         topic_arr = params[:tutorial][:topic]
@@ -1059,7 +1059,7 @@
         sub_topic_arr = @tutorial[:sub_topic]
         sub_sub_topic_arr = @tutorial[:sub_sub_topic]
 
-    end 
+    end
         if !topic_arr.nil?
             topic_arr.reject!{|a| a==""}
         end
@@ -1088,7 +1088,7 @@
         $('#sub_topic').on('change',function(){
             sub_topic = $(this).val();
             get_sub_subject_list(sub_topic, []);
-        }); 
+        });
 
         function get_subject_list(topic, selected_val){
 
@@ -1102,24 +1102,24 @@
                           for (var i = 0; i < data.length; i++) {
 
                             var selected = '';
-                            
-                            if ($.inArray(data[i]['id'].toString(),selected_val) != -1){    
+
+                            if ($.inArray(data[i]['id'].toString(),selected_val) != -1){
                                 selected = 'selected="selected"';
                             }
 
                             options += '<option value="' + data[i]['id'] + '" ' + selected + '>' + data[i]['name'] + '</option>';
                           }
-                        
+
                      $("select#sub_topic").html(options);
                     }
                 });
             }else{
                 $("select#sub_topic").html('');
-            } 
+            }
         }
 
         function get_sub_subject_list(sub_topic, selected_val){
-            
+
             if (sub_topic !== null && sub_topic != ''){
                 $.ajax({
                     type: "GET",
@@ -1130,13 +1130,13 @@
                           for (var i = 0; i < data.length; i++) {
 
                             var selected = '';
-                            if ($.inArray(data[i]['id'].toString(), selected_val) != -1){ 
+                            if ($.inArray(data[i]['id'].toString(), selected_val) != -1){
                                 selected = 'selected="selected"';
                             }
 
                             options += '<option value="' + data[i]['id'] + '" ' + selected + '>' + data[i]['name'] + '</option>';
                           }
-                        
+
                      $("select#sub_sub_topic").html(options);
                     }
                 });
@@ -1147,7 +1147,7 @@
 
 
         check_free();
-        $('#rcfree').click(function(){  
+        $('#rcfree').click(function(){
             check_free();
         });
 
@@ -1157,7 +1157,7 @@
                 $("#price").prop('disabled',true);
             }else{
                 $("#price").prop('disabled',false);
-            } 
+            }
         }
 
     });
@@ -1189,7 +1189,7 @@
             startView: 2,
             minView: 2,
             forceParse: 0,
-            dateFormat: 'mm-dd-yy', 
+            dateFormat: 'mm-dd-yy',
             changeMonth: true,
             changeYear: true,
             yearRange: '-70:+10'
