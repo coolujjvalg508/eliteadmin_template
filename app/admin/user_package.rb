@@ -2,7 +2,7 @@ ActiveAdmin.register UserPackage do
 
 	menu label: 'User Package', parent: 'Package'
 	permit_params :title, :description, :amount, :image, :duration, :duration_unit
-	actions :all, except: [:new, :destroy]
+	#actions :all, except: [:new, :destroy]
 	controller do
 		def action_methods
 		 super
