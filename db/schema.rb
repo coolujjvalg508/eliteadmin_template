@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170630120033) do
+ActiveRecord::Schema.define(version: 20170704090604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -997,6 +997,28 @@ ActiveRecord::Schema.define(version: 20170630120033) do
 
   add_index "subject_matters", ["parent_id"], name: "index_subject_matters_on_parent_id", using: :btree
 
+  create_table "subscription_transactions", force: :cascade do |t|
+    t.integer  "user_id",        default: 0
+    t.string   "payment_method"
+    t.string   "txn_id"
+    t.string   "payer_id"
+    t.float    "net_amount"
+    t.boolean  "is_company",     default: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "company_name"
+    t.string   "email"
+    t.string   "city"
+    t.string   "country"
+    t.string   "state"
+    t.text     "response"
+    t.string   "zip_code"
+    t.text     "address1"
+    t.text     "address2"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
   create_table "system_emails", force: :cascade do |t|
     t.string   "title"
     t.string   "subject"
@@ -1207,18 +1229,18 @@ ActiveRecord::Schema.define(version: 20170630120033) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "firstname"
     t.string   "lastname"
     t.string   "professional_headline"
@@ -1261,6 +1283,8 @@ ActiveRecord::Schema.define(version: 20170630120033) do
     t.integer  "like_count",             default: 0
     t.string   "qb_id"
     t.string   "qb_password"
+    t.boolean  "is_subscribed",          default: false
+    t.string   "subscription_end_date"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

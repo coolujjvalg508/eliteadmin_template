@@ -190,14 +190,14 @@ class OrdersController < ApplicationController
                 company_name     = value['company_name'].present? ? value['company_name'] : ''
                 email            = value['email'].present? ? value['email'] : ''
                 city             = value['city'].present? ? value['city'] : ''
-                countrty         = value['countrty'].present? ? value['countrty'] : ''
+                country         = value['country'].present? ? value['country'] : ''
                 state            = value['state'].present? ? value['state'] : ''
                 zip_code         = value['zip_code'].present? ? value['zip_code'] : ''
                 address1         = value['address1'].present? ? value['address1'] : ''
                 address2         = value['address2'].present? ? value['address2'] : ''
 
 
-                SubscriptionTransactions.create(user_id: value['user_id'].to_i, payment_method: 'Paypal', txn_id: params['txn_id'].to_s, payer_id: params['payer_id'].to_s, net_amount: value['net_amount'].to_f, first_name: first_name, last_name: last_name, company_name: company_name, email: email, city: city, countrty: countrty, state: state, zip_code: zip_code, address1: address1, address2: address2, response: params)
+                SubscriptionTransaction.create(user_id: value['user_id'].to_i, payment_method: 'Paypal', txn_id: params['txn_id'].to_s, payer_id: params['payer_id'].to_s, net_amount: value['net_amount'].to_f, first_name: first_name, last_name: last_name, company_name: company_name, email: email, city: city, country: country, state: state, zip_code: zip_code, address1: address1, address2: address2, response: params)
 
               ######################################
               update_subscription_detail value['user_id'].to_i
@@ -336,7 +336,7 @@ class OrdersController < ApplicationController
             address2        = data[:data][:address2].present? ? data[:data][:address2] : false
 
 
-          SubscriptionTransactions.create(user_id: data[:data][:user_id].to_i, payment_method: payment_method, txn_id: txn_id.to_s, payer_id: payer_id.to_s, net_amount: net_amount.to_f, first_name: first_name, last_name: last_name, company_name: company_name, email: email, city: city, country: country, state: state, zip_code: zip_code, address1: address1, address2: address2, response: response_data)
+          SubscriptionTransaction.create(user_id: data[:data][:user_id].to_i, payment_method: payment_method, txn_id: txn_id.to_s, payer_id: payer_id.to_s, net_amount: net_amount.to_f, first_name: first_name, last_name: last_name, company_name: company_name, email: email, city: city, country: country, state: state, zip_code: zip_code, address1: address1, address2: address2, response: response_data)
 
 
           #######################################################

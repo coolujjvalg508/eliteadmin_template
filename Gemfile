@@ -49,6 +49,7 @@ gem 'chosen-rails'
 gem 'tinymce-rails'
 #gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'
 
+gem 'sitemap_generator', '~> 5.3', '>= 5.3.1'
 
  gem 'omniauth'
  gem 'omniauth-facebook'
@@ -61,10 +62,9 @@ gem 'tinymce-rails'
  gem 'groupdate', '~> 2.1.1'
  gem 'active_median', '~> 0.1.0'
 
-
  gem 'geocoder'
  gem 'paypal-sdk-rest'
-
+ 
  #gem 'streamio-ffmpeg'
 
 # Use ActiveModel has_secure_password

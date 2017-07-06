@@ -19,7 +19,7 @@
                       <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                           <label>* First name</label>
-                          <input class="form-control from-input" value="" name="first_name" ng-model="person.first_name" type="text" required>
+                          <input class="form-control from-input" value="" name="first_name" ng-model="person.first_name" type="text" placeholder="First name" required>
                           <p style="color: red;" ng-show="subscriptionForm.first_name.$error.required && submitted">
                             First name is required.
                           </p>
@@ -28,7 +28,7 @@
                       <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                           <label>* Last name</label>
-                          <input class="form-control from-input" value="" name="last_name" ng-model="person.last_name" type="text" required>
+                          <input class="form-control from-input" value="" name="last_name" ng-model="person.last_name" type="text" placeholder="Last name" required>
                           <p style="color: red;" ng-show="subscriptionForm.last_name.$error.required && submitted">
                             Last name is required.
                           </p>
@@ -38,20 +38,23 @@
                     
                     <div class="form-group">
                         <label>Company</label>
-                        <input class="form-control from-input" value="" ng-model="person.company_name" type="text">
+                        <input class="form-control from-input" value="" ng-model="person.company_name" placeholder="Company" type="text">
                     </div>
                     
                     <div class="form-group">
                         <label>* Email</label>
-                        <input class="form-control from-input" value="" name="email" ng-model="person.email" type="email" required>
+                        <input class="form-control from-input" value="" name="email" ng-model="person.email" type="email" placeholder="Email" required>
                         <p style="color: red;" ng-show="subscriptionForm.email.$error.required && submitted">
+                            Email is required.
+                          </p>
+                          <p style="color: red;" ng-show="subscriptionForm.email.$invalid && submitted && !subscriptionForm.email.$error.required">
                             Valid email is required.
                           </p>
                     </div>
                     
                     <div class="form-group">
                         <label>* Address</label>
-                        <input class="form-control from-input" value="" name="address1" ng-model="person.address1" type="text" required>
+                        <input class="form-control from-input" value="" name="address1" ng-model="person.address1" type="text" placeholder="Address" required>
                         <p style="color: red;" ng-show="subscriptionForm.address1.$error.required && submitted">
                             Address is required.
                           </p>
@@ -59,14 +62,14 @@
                     
                     <div class="form-group">
                         <label>Address Line 2 - Suite number / apt</label>
-                        <input class="form-control from-input" value="" ng-model="person.address2" type="text">
+                        <input class="form-control from-input" value="" ng-model="person.address2" type="text" placeholder="Address Line 2">
                     </div>
                     
                     <div class="row">
                       <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                           <label>* City</label>
-                          <input class="form-control from-input" value="" name="city" ng-model="person.city" type="text" required>
+                          <input class="form-control from-input" value="" name="city" ng-model="person.city" type="text" placeholder="City" required>
                           <p style="color: red;" ng-show="subscriptionForm.city.$error.required && submitted">
                             City is required.
                           </p>
@@ -75,7 +78,7 @@
                       <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                           <label>* Country</label>
-                          <input class="form-control from-input" value="" name="country" ng-model="person.countrty" type="text" required>
+                          <input class="form-control from-input" value="" name="country" ng-model="person.countrty" type="text" placeholder="Country" required>
                           <p style="color: red;" ng-show="subscriptionForm.country.$error.required && submitted">
                             Country is required.
                           </p>
@@ -87,13 +90,13 @@
                       <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                           <label>State / Province</label>
-                          <input class="form-control from-input" value="" ng-model="person.state" type="text">
+                          <input class="form-control from-input" value="" ng-model="person.state" type="text" placeholder="State / Province">
                         </div>
                       </div>
                       <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                           <label>* Zip / Postal Code</label>
-                          <input class="form-control from-input" value="" name="zip_code" ng-model="person.zip_code" type="text" required>
+                          <input class="form-control from-input" value="" name="zip_code" ng-model="person.zip_code" type="text" placeholder="Zip / Postal Code" required>
                           <p style="color: red;" ng-show="subscriptionForm.zip_code.$error.required && submitted">
                               Zip / Postal Code is required.
                             </p>
@@ -103,9 +106,8 @@
                     <hr>
                     <h3><i class="fa fa-credit-card fa-pad-right"></i> Payment</h3>
                     <div class="clearfix">
-                      <a href="#" class="bluebtn" ng-click="cardDetail(subscriptionForm)">Pay with Credit Card</a>    &nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp; 
-                      <a href="#"   ng-click="pay_with_paypal(subscriptionForm)"><%= image_tag('paypal_checkout_button.png', width: '142', height: '27', alt: 'paypal') %><!-- <img src="assets/paypal_checkout_button.png" width="142" height="27" alt="Paypal"> --></a> 
-                      <!-- <a href="#" class="purchase-paypal" ng-click="pay_with_paypal(subscriptionForm)"> Purchase with Paypal </a> -->
+                      <a href="" class="bluebtn" style="padding: 5px;" ng-click="cardDetail(subscriptionForm)">Pay with Credit Card</a>    &nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp; 
+                      <a href="" ng-click="pay_with_paypal(subscriptionForm)"><%= image_tag('paypal_checkout_button.png', width: '142', height: '27', alt: 'paypal') %><!-- <img src="assets/paypal_checkout_button.png" width="142" height="27" alt="Paypal"> --></a> 
                     </div>
                     <div class="clearfix row">&nbsp;</div>
                     <div ng-if="cardDetails" class="row">
@@ -117,7 +119,7 @@
                             <p style="color: red;" ng-show="subscriptionForm.ccNumber.$error.required && submitted">
                               Please enter your credit card number.
                             </p>
-                            <p style="color: red;" ng-show="subscriptionForm.ccNumber.$invalid && submitted && !ccForm.ccNumber.$error.required">
+                            <p style="color: red;" ng-show="subscriptionForm.ccNumber.$invalid && submitted && !subscriptionForm.ccNumber.$error.required">
                               Invalid Card
                             </p>
                             <p style="color: red;">{{subscriptionForm.ccNumber.$ccEagerType}}</p>
@@ -130,13 +132,12 @@
                           <p style="color: red;" ng-show="subscriptionForm.ccExpMonth.$error.required && submitted">
                               Enter Month.
                           </p>
-                          <p style="color: red;" ng-show="subscriptionForm.ccExpMonth.$invalid && submitted && !ccForm.ccExpMonth.$error.required">
+                          <p style="color: red;" ng-show="subscriptionForm.ccExpMonth.$invalid && submitted && !subscriptionForm.ccExpMonth.$error.required">
                               Invalid month
                           </p>
                         </div>
                       </div>
                     </div>
-
 
                     <div ng-if="cardDetails" class="row">
                       <div class="col-md-6 col-sm-6">
@@ -146,7 +147,7 @@
                             <p style="color: red;" ng-show="subscriptionForm.ccExpYear.$error.required && submitted">
                               Enter Year.
                             </p>
-                            <p style="color: red;" ng-show="subscriptionForm.ccExpYear.$invalid && submitted && !ccForm.ccExpYear.$error.required">
+                            <p style="color: red;" ng-show="subscriptionForm.ccExpYear.$invalid && submitted && !subscriptionForm.ccExpYear.$error.required">
                               Invalid Year
                             </p>
                         </div>
@@ -161,11 +162,10 @@
                         </div>
                       </div>
                     </div>
+
                     <div ng-if="cardDetails" class="clearfix">
-                      <a href="#" class="bluebtn"><input style="background: #14aff1; border: #14aff1" type="submit" id="submit" value="Purchase"></a>
+                      <a href="#" class="bluebtn" style="padding: 5px;"><input style="background: #14aff1; border: #14aff1" type="submit" id="submit" value="Purchase"></a>
                     </div>
-
-
                 </div>
               </div>
           </div>
@@ -177,14 +177,19 @@
 
   <script type="text/javascript">
   
-  angular.module('subscriptionModule', [])
+  angular.module('subscriptionModule', ['MainModule'])
   .controller('subscriptionCtrl', ['$scope', '$http', function($scope, $http) {
 
     $scope.person = {};
 
     $scope.cardDetail = function (form) {
-      $scope.cardDetails = true;
-     
+      $scope.submitted = true;
+      if (form.$valid) {
+        $scope.cardDetails = true;
+        $scope.submitted = false;
+      } else {
+        $scope.cardDetails = false;
+      }
     }
 
     $scope.PaywithCC = function (form) {
@@ -201,7 +206,7 @@
             'address1': $scope.person.address1,
             'address2': $scope.person.address2,
             'city': $scope.person.city,
-            'countrty': $scope.person.countrty,
+            'country': $scope.person.countrty,
             'state': $scope.person.state,
             'zip_code': $scope.person.zip_code,
             'type': $scope.subscriptionForm.ccNumber.$ccEagerType,
@@ -213,18 +218,25 @@
             'net_amount':  "<%= @package_data.amount %>"
         }};
 
-        alert("data "+JSON.stringify(data));
-
-               $http({
+            $http({
               method: "POST",
               url: "/checkout_subscription_credit_card_paypal",
               data:data ,
             }).then(function mySucces(response) {
-                 unloading();
-                 alert("success");
+                  if(response.data.success == 1){
+                  unloading();
+                      return false;
+                      window.location.href='<%= root_path %>';
+                 }else if(response.data.success == 2){
+                  unloading();
+                      window.location.href='<%= root_path %>';
+                 }
+                 else{
+                  unloading();
+                 }
             }, function myError(response) {
                   unloading();
-                  alert("failure");
+                  console.log("Error" + JSON.stringify(response));
            });
       }
     };
@@ -233,6 +245,7 @@
 
     $scope.pay_with_paypal = function (form) {
       $scope.submitted = true;
+      $scope.cardDetails = false;
       if (form.$valid) {
       loading();
 
@@ -246,31 +259,31 @@
             'address1': $scope.person.address1,
             'address2': $scope.person.address2,
             'city': $scope.person.city,
-            'countrty': $scope.person.countrty,
+            'country': $scope.person.countrty,
             'state': $scope.person.state,
             'zip_code': $scope.person.zip_code,
             'user_id': "<%= user_signed_in? ? current_user.id : '' %>",
             'net_amount':  "<%= @package_data.amount %>"
            }};
 
-
-           alert("data "+JSON.stringify(data));
-
-
-
           $http({
               method: "POST",
               url: "/checkout_paypal_for_subscription",
               data:data ,
             }).then(function mySucces(response) {
-                 unloading();
-                 alert("success");
+                 if(response.data.success == 1){
+                     window.location.href = response.data.url;
+                 }else if(response.data.success == 2){
+                      unloading();
+                      window.location.href='<%= root_path %>';
+                 }
+                 else{
+                  unloading();
+                 }
             }, function myError(response) {
               unloading();
-              alert("failure");
-
+              console.log("Error" + JSON.stringify(response));
            });
-
       }
     };
 

@@ -12,9 +12,9 @@ class CreateSubscriptionTransactions < ActiveRecord::Migration
 	  t.string :company_name	
 	  t.string :email
 	  t.string :city	
-	  t.string :countrty	
+	  t.string :country	
 	  t.string :state	
-	  t.text :responce	
+	  t.text :response	
 	  t.string :zip_code	
 	  t.text   :address1
 	  t.text   :address2

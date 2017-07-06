@@ -7,7 +7,7 @@
     <%= csrf_meta_tags %>
 	<%= stylesheet_link_tag "bootstrap","font-awesome.min","animate","hover","bootstrap-responsive-tabs","v-accordion","styles","responsive","slick","jquery.mCustomScrollbar.css", "select2","cropper","angularjs-slider/rzslider", :media => "all" %>
 	<%= javascript_include_tag "application" %>
-
+  <%= auto_discovery_link_tag :rss, rss_feeds_url(format: :rss) %>
  </head>
    <body>
     <!-- BuySellAds Ad Code -->

@@ -281,6 +281,8 @@ GEM
       rdoc (~> 4.0)
     simple_captcha2 (0.4.2)
       rails (>= 4.1)
+    sitemap_generator (5.3.1)
+      builder (~> 3.0)
     sixarm_ruby_unaccent (1.1.1)
     sort_alphabetical (1.1.0)
       unicode_utils (>= 1.2.2)
@@ -363,6 +365,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_captcha2
+  sitemap_generator (~> 5.3, >= 5.3.1)
   spring
   time_diff
   tinymce-rails
