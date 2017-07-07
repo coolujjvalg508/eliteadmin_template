@@ -50,6 +50,7 @@ gem 'tinymce-rails'
 #gem 'tinymce-rails-imageupload', '~> 4.0.0.beta'
 
 gem 'sitemap_generator', '~> 5.3', '>= 5.3.1'
+gem 'meta-tags', '~> 2.4', '>= 2.4.1'
 
  gem 'omniauth'
  gem 'omniauth-facebook'

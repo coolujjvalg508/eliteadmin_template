@@ -17,9 +17,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #abort(params['q_id'].to_json)
 
     #["vfx1","vfx2","vfx3"]
-    question_data = Questionaire.where('questionaires.id = ?', params['q_id']).first
-    answer_data = question_data[:answer]
-    answer_arr = answer_data.split(",")
+    if params['q_id'] != ""
+	    question_data = Questionaire.where('questionaires.id = ?', params['q_id']).first
+	    answer_data = question_data[:answer]
+	    answer_arr = answer_data.split(",")	
+    end
+    
 
     captcha_value = params['g-recaptcha-response']
 
@@ -42,7 +45,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @captcha_error = ''
     @question_error = ''
 
-    if !answer_arr.include?(params['answer'])
+    if answer_arr && !answer_arr.include?(params['answer'])
        @question_error = 'Please enter correct answer'
     end
 
