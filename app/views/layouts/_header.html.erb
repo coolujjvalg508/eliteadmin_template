@@ -16,7 +16,7 @@
 		<input type="text" class="form-control" placeholder="Search" data-toggle="dropdown">
 			<ul class="dropdown-menu ng-scope">
       			<li><%= link_to "Search Artists", search_path(:type =>"artists") %></li>
-      			<li><%= link_to "Search Projects", search_path(:type =>"projects") %></li> 			
+      			<li><%= link_to "Search Projects", search_path(:type =>"projects") %></li>
     		</ul>
 	  </div>
 	</form>
@@ -40,8 +40,8 @@
 	  <li><%= link_to 'downloads'.html_safe, downloads_path %></li>
 	  <li><%= link_to 'Tutorials'.html_safe, tutorials_path %></li>
 	  <li><%= link_to 'Jobs'.html_safe, jobs_path %></li>
-	  <li><a href="#">forum</a></li>
-	  
+	  <li><%= link_to 'Forum', '/forum', target: :_blank %></li>
+
 	  <li>
 	<% if user_signed_in? %>
 		<li>
@@ -56,8 +56,8 @@
               <li><a href="#">Separated link</a></li> -->
             </ul>
           </li>
-	 	
-	<% end %>  
+
+	<% end %>
 
 	<!--  <button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button>
 		<ul class="dropdown-menu">
@@ -73,20 +73,20 @@
 	</ul>
 	<ul class="nav navbar-nav navbar-right" ng-controller="NavbarCtrl" >
 
-		<% if user_signed_in? 
+		<% if user_signed_in?
 			result_notification = notification_data
-			noti_count  = result_notification[1].present? ? result_notification[1] : 0 
+			noti_count  = result_notification[1].present? ? result_notification[1] : 0
 		%>
 
 	    <li class="hidden-xs hidden-sm userprofile-rightside" ><a id="update_is_read_notipopup" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-bell fa-lg" aria-hidden="true" ></i>
 	    		<% if noti_count > 0 %>
 		    		<span class="noti-box" id="noti_read_count">
-		    			<%=  noti_count %> 	    			
+		    			<%=  noti_count %>
 		    		</span>
 	    		<% end %>
 	     </a>
 			<ul class="dropdown-menu  text-uppercase" style="width:325px">
-			<% 
+			<%
 				if result_notification[0].present?
 				result_notification[0].each do |notification_detail|
 			%>
@@ -99,7 +99,7 @@
 			 	<% elsif notification_detail.section_type == 'Tutorial'%>
 			 		<li><a href="/tutorials/<%= notification_detail.tutorial.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %> <%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has liked post <br /><%= notification_detail.tutorial.present? ? notification_detail.tutorial.title : 0 %></a></li>
 			 	<% end %>
-			  
+
 
 
 			  <% elsif notification_detail.notification_type == 'follow user' %>
@@ -116,21 +116,21 @@
 			 	<% else %>
 			  		<li><a href="/dashboard/projects/<%= notification_detail.gallery.paramlink %>/show"><%= image_tag(notification_detail.user.image.user_activity.url, :alt => "Notification",  :class =>"notification_popup_li" ) %></i><%= notification_detail.user.present? ? notification_detail.user.firstname : 0 %> has commented on post <br/><%= notification_detail.gallery.present? ? notification_detail.gallery.title : 0 %></a></li>
 			  	<% end %>
-			  <% end 
+			  <% end
 			  		end
 			   %>
 			<% end %>
 			  <!-- <li><a href="#"><i class="fa fa-star" aria-hidden="true"></i> Advertise</a></li>
 			  <li class="divider"></li> -->
 			  <li style="text-align:center"><a href="<%= user_notification_path %>"></i> See all</a></li>
-			 		  
+
 			</ul>
-			
+
 		</li>
 
-	
+
         <li class="hidden-xs hidden-sm userprofile-rightside"><a href="#"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i> <span class="noti-box">25</span></a></li>
-        <% end %>  
+        <% end %>
           <!-- <li class="hidden-xs hidden-sm userprofile-rightside">
           <a href="#"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i><span class="noti-box">{{cart.getTotalCount()}}</span></a>
           </li> -->
@@ -144,7 +144,7 @@
 		      <div class="product-list-containe clearfix">
 		      <ul>
 		      <li ng-repeat="item in cart.items" class="product-list__item clearfix">
-				
+
 		      <div class="product-list__item-preview">
 					<img alt=""
 					 src="{{item.image}}"></div>
@@ -154,13 +154,13 @@
 					</div>
 		      <div class="product-list__item-price">{{item.price | currency}}</div>
 		      <div class="product-list__item-remove has-tooltip tooltipstered">
-					
+
 					<a title="Remove this item" class="remove" href="" ng-click="cart.addItem({sku:item.sku}, -10000000);reload()">
                         <i class="fa fa-times-circle-o fa-lg"></i>
           </a>
 					</div>
 		      </li>
-		      
+
 		      </ul>
 		      </div>
 		      </div>
@@ -172,18 +172,18 @@
 		      </div>
 
 		     <!--  <div class="popover-box__bonus-credits-info text-center">Add more models to cart<span class="js-bonus-credits-tooltip u-ml10 tooltipstered"><i class="fa fa-question-circle"></i></span></div> -->
-		         
+
 		      <div class="popover-box__actions clearfix">
 		      <a href="/cart"><i class="fa fa-shopping-cart fa-lg"></i> View cart </a>
 		      <a class="blue-btn pull-right" href="/cart"><i class="fa fa-shopping-bag"></i>  Proceed to checkout </a>
-		      </div>   
-		         
+		      </div>
+
 		      </div>
 		 </li>
 
-		
 
-		  <% if user_signed_in? %>  
+
+		  <% if user_signed_in? %>
           <li class="profile hidden-sm text-center"><a href="#" class="dropdown-toggle padding" data-toggle="dropdown" ><span class="hidden-xs"> <span class="pull-left">
           <%#= abort(current_user.to_json) %>
           <%= image_tag current_user.image? ? current_user.image.software_used.url : 'user-profile.jpg'  , border: 1, alt:"user profile" %>
@@ -209,16 +209,16 @@
             </ul>
           </li>
 			<!-- <li><%= link_to('<i class="fa fa-sign-out marginR5"></i> Signout'.html_safe, destroy_user_session_path, :method => :get) %></li> -->
-		
+
 
 		<% else %>
-			
+
 			<li> <%= link_to '<i class="fa fa-users marginR5"></i> Signup'.html_safe, new_user_registration_path %>
 			<!-- <a href="signup.html"><span class="fa fa-users marginR5"></span> Signup</a></li> -->
-		  	<li><a data-toggle="modal" href="#login-popup"><span class="glyphicon glyphicon-log-in marginR5 "></span> SignIn</a></li>	
-		
-		<% end %>	
-	  
+		  	<li><a data-toggle="modal" href="#login-popup"><span class="glyphicon glyphicon-log-in marginR5 "></span> SignIn</a></li>
+
+		<% end %>
+
 
 
 	  <li class="hidden-xs userprofile-rightside"><a href="#" class="dropdown-toggle threedots" data-toggle="dropdown" ><i class="fa fa-ellipsis-v fa-lg" aria-hidden="true"></i></a>
@@ -252,7 +252,7 @@
 <% if !user_signed_in? %>
 	<!-- Login Popup -->
 	<div class="modal fade" id="login-popup" role="dialog">
-		<div class="modal-dialog"> 
+		<div class="modal-dialog">
 
 		<!-- Modal content-->
 		<div class="modal-content">
@@ -260,9 +260,9 @@
 		<button type="button" class="close" data-dismiss="modal"></button>
 		<h4 class="modal-title text-uppercase">Sign In</h4>
 		</div>
-		<div class="modal-body">	
+		<div class="modal-body">
 
-		  <div class="col-md-12 signin-alert err-msg padding text-center"></div>	
+		  <div class="col-md-12 signin-alert err-msg padding text-center"></div>
 		<%= form_for(resource, :as => resource_name, :html => {:id => 'log_in_form_popup'}, :url => user_session_path, :remote => :true, :format => :json) do |f| %>
 		  <div class="form-group">
 			<label for="email">Your email</label>
@@ -275,7 +275,7 @@
 		  <div class="checkbox">
 			<div class="checkbox-btn">
 				<%= f.check_box :remember_me %>
-				<%= f.label :remember_me, 'Stay signed in' %>	
+				<%= f.label :remember_me, 'Stay signed in' %>
 				<%= link_to "Forgot password?", new_user_password_path(resource_name), class: "pull-right blue-txt" %>
 			</div>
 		  </div>
@@ -285,9 +285,9 @@
 		<div class="follow-loginwrap clearfix text-center">
 		  <div class="or-txt">or</div>
 
-		  <a href="<%= omniauth_authorize_path(:user, :facebook) %>" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a> 
+		  <a href="<%= omniauth_authorize_path(:user, :facebook) %>" class="lightbtn"><i class="fa fa-facebook blue-txt" aria-hidden="true"></i> Sign in using Facebook</a>
 
-		  <a href="<%= omniauth_authorize_path(:user, :twitter) %>" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a> 
+		  <a href="<%= omniauth_authorize_path(:user, :twitter) %>" class="lightbtn"><i class="fa fa-twitter blue-txt" aria-hidden="true"></i> Sign in using Twitter</a>
 		 </div>
 		</div>
 		</div>
@@ -296,12 +296,13 @@
 
 
 <script type="text/javascript">
-				
+
+
 		$(document).on('submit', '#log_in_form_popup', function(e) {
 
 			//do stuff here
 		}).on('ajax:success', '#log_in_form_popup', function(e, data, status, xhr) {
-			
+
 			if(status == 'success'){
 				<% if params[:controller] == 'downloads' && params[:action] == 'cart' %>
 					window.location.href = '<%= cart_path %>';
@@ -312,29 +313,29 @@
 				$('.signin-alert').html('Invalid email or password.');
 				$('.signin-alert').show();
 			}
-		
+
 		}).on('ajax:error', '#log_in_form_popup', function(e, data, status, xhr) {
-			
+
 			$('.signin-alert').html('Invalid email or password.');
 			$('.signin-alert').show();
-			
+
 		});
-		
+
 		$(document).ready(function(){
-			
+
 			$('#login-popup-link').click(function(){
 				$('.signin-alert').html('');
 				$('.signin-alert').hide();
 			});
 
 		});
-				
+
 	</script>
 <% else %>
 
 <script>
 	$(document).ready(function(){
-
+		// unreadMessageCount();
 		$('#update_is_read_notipopup').on('click',function(){
 				$.ajax({
                     type: "get",
@@ -342,20 +343,20 @@
                     success: function(data){
                      	if(data.result == 1){
                      		$('#noti_read_count').hide();
-                     	}   	
+                     	}
                     }
-                });		
+                });
 
-		});	
+		});
 	});
 
 </script>
 
-<% end %>	
+<% end %>
 
 <script type="text/javascript">
 	var app = angular.module('ShopNav',['MainModule']);
-  
+
 //Controller For Navbar
 app.controller('NavbarCtrl', function($scope, $http,Cart,$rootScope) {
 	$scope.reload = function()

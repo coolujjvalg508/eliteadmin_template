@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+ruby '2.3.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use postgresql as the database for Active Record
@@ -52,20 +52,21 @@ gem 'tinymce-rails'
 gem 'sitemap_generator', '~> 5.3', '>= 5.3.1'
 gem 'meta-tags', '~> 2.4', '>= 2.4.1'
 
- gem 'omniauth'
- gem 'omniauth-facebook'
- gem 'omniauth-twitter'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
- gem 'video_info'
- gem 'time_diff'
+gem 'video_info'
+gem 'time_diff'
 
- gem 'chartkick', '~> 1.2.4'
- gem 'groupdate', '~> 2.1.1'
- gem 'active_median', '~> 0.1.0'
+gem 'chartkick', '~> 1.2.4'
+gem 'groupdate', '~> 2.1.1'
+gem 'active_median', '~> 0.1.0'
 
- gem 'geocoder'
- gem 'paypal-sdk-rest'
- 
+gem 'geocoder'
+gem 'paypal-sdk-rest'
+gem 'thredded', '~> 0.13.2'
+gem 'rails-ujs', '~> 0.1.0'
  #gem 'streamio-ffmpeg'
 
 # Use ActiveModel has_secure_password
@@ -89,4 +90,3 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
-

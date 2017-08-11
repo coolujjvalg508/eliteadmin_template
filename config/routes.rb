@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   #mount Bootsy::Engine => '/bootsy', as: 'bootsy'
-
+  mount Thredded::Engine => '/forum'
   devise_for :admin_users, ActiveAdmin::Devise.config
   # ActiveAdmin.routes(self)
   begin
