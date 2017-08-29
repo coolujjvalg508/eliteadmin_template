@@ -47,10 +47,12 @@
 		<li>
             <button class="border-radius uploadbtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-upload fa-lg"></i> Upload <span class="caret"></span></button>
             <ul class="dropdown-menu">
-              <li><a href="<%= create_gallery_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Portfolio</a></li>
+              <li><a href="<%= create_gallery_path %>" class="border-radius" ><i class="fa fa-picture-o fa-lg"></i>Portfolio</a></li>
               <li><a href="<%= create_download_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Product</a></li>
-              <li><a href="<%= create_tutorial_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>Tutorial</a></li>
-              <li><a href="<%= create_news_path %>" class="border-radius" ><i class="fa fa-upload fa-lg"></i>News</a></li>
+              <li><a href="<%= create_tutorial_path %>" class="border-radius" ><i class="fa fa-laptop fa-lg"></i>Tutorial</a></li>
+              <li><a href="<%= create_news_path %>" class="border-radius" ><i class="fa fa-clipboard fa-lg"></i>News</a></li>
+              <li><a href="<%= create_job_path %>" class="border-radius" ><i class="fa fa-at fa-lg"></i>Jobs</a></li>
+
              <!--  <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Separated link</a></li> -->
@@ -189,21 +191,27 @@
           <%= image_tag current_user.image? ? current_user.image.software_used.url : 'user-profile.jpg'  , border: 1, alt:"user profile" %>
           <!-- <img src="user-profile.jpg" alt="user" style="border:1px solid #616262;"> --></span> <span class="fa fa-chevron-down pull-left"></span></span> <span class="hidden-lg hidden-md hidden-sm">My CGMeetup <span class="fa fa-chevron-down"></span></span></a>
             <ul class="dropdown-menu text-uppercase">
-              <li>
-				<%= link_to('<i class="fa fa-user" aria-hidden="true"></i> My Profile'.html_safe, user_portfolio_path ) %></li>
-
+              <li><%= link_to('<i class="fa fa-user" aria-hidden="true"></i> My Profile'.html_safe, user_portfolio_path ) %></li>
               <li><%= link_to('<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile'.html_safe, edit_profile_path) %></li>
               <li><%= link_to('<i class="fa fa-picture-o" aria-hidden="true"></i> Manage Portfolio'.html_safe, index_gallery_path) %></li>
-               <li><%= link_to('<i class="fa fa-users" aria-hidden="true"></i> Upgrade Account'.html_safe, upgrade_account_path) %></li>
-
-              <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Website Builder</a></li>
+              <li><%= link_to('<i class="fa fa-upload" aria-hidden="true"></i> Manage Products'.html_safe, index_download_path) %></li>
+              <li><%= link_to('<i class="fa fa-laptop" aria-hidden="true"></i> Manage Tutorials'.html_safe, index_tutorial_path) %></li>
+              <li><%= link_to('<i class="fa fa-at" aria-hidden="true"></i> Manage Jobs'.html_safe, index_job_path) %></li>
+              <li><%= link_to('<i class="fa fa-clipboard" aria-hidden="true"></i> Manage News'.html_safe, index_news_path) %></li>
+              <li class="divider"></li>
+              <li><%= link_to('<span class=""> Pro </span> Subscription'.html_safe, upgrade_account_path) %></li>
+              <!-- <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Website Builder</a></li> -->
               <li class="divider"></li>
               <li><%#= link_to('<i class="fa fa-users" aria-hidden="true"></i> Connections'.html_safe, connection_path) %>
 
              <!--  <a href="#"><i class="fa fa-users" aria-hidden="true"></i> Connections</a> --></li>
               <li><%= link_to('<i class="fa fa-clipboard" aria-hidden="true"></i> Bookmarks'.html_safe, index_collection_path ) %></li>
+              <li><%= link_to('<i class="fa fa-users" aria-hidden="true"></i> Connections'.html_safe, connection_following_path ) %></li>
+
               <li class="divider"></li>
               <li><%= link_to('<i class="fa fa-cog" aria-hidden="true"></i> Settings'.html_safe, user_setting_path ) %></li>
+              <li><%= link_to '<i class="fa fa-usd" aria-hidden="true"></i> Purchases'.html_safe, controller: 'store',action:'index' %></li>
+              <li><%= link_to '<i class="fa fa-usd" aria-hidden="true"></i> Sales'.html_safe, controller: 'store',action:'index' %></li>
               <li><%= link_to '<i class="fa fa-usd" aria-hidden="true"></i> Invoices'.html_safe, controller: 'store',action:'index' %></li>
               <li><%= link_to('<i class="fa fa-sign-out"></i> Signout'.html_safe, destroy_user_session_path, :method => :get) %></li>
             </ul>
