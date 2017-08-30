@@ -1,5 +1,5 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = ENV['HOST_URL']
+SitemapGenerator::Sitemap.default_host = "http://cgmeetupdev.herokuapp.com"
 SitemapGenerator::Sitemap.compress = false
 SitemapGenerator::Sitemap.create do
   add '/gallery'
