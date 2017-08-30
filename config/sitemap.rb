@@ -11,3 +11,7 @@ SitemapGenerator::Sitemap.create do
   add('/', images: Image.sitemap_images)
   add('/', videos: UploadVideo.sitemap_videos + Video.sitemap_videos )
 end
+
+
+#######################################
+# Add cron job for updating sitemap daily
