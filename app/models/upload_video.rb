@@ -3,13 +3,13 @@ class UploadVideo < ActiveRecord::Base
 	attr_accessor :tmp_uploadvideo
 	#belongs_to :uploadvideoable, polymorphic: false
 
-	
-	#after_save :create_thumbnail 
 
-	
+	#after_save :create_thumbnail
+
+
 
 	#def create_thumbnail
-	
+
 	#	data = self
 	#	require 'streamio-ffmpeg'
 
@@ -18,7 +18,23 @@ class UploadVideo < ActiveRecord::Base
 
 	#	movie = FFMPEG::Movie.new(path)
 	#	a = movie.screenshot("#{dir_path}/thumbnail.jpg", :seek_time => 2)
-		
+
 	#end
+
+	def self.sitemap_videos
+		result = []
+		videos = self.all
+		if videos.present?
+			videos.each do |v|
+				if v.uploadvideo.present?
+					result << {
+				    title: v.caption_upload_video,
+				    content_loc: ENV['HOST_URL'] + v.uploadvideo.url
+				  }
+				end
+			end
+		end
+		result
+	end
 
 end

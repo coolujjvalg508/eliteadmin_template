@@ -23,3 +23,7 @@ SUPER_ADMIN_EMAIL: 'nitin.singh@brsoftech.org'
 DEFAULT_FROM_EMAIL: 'info@cgmeetup.com'
 FB_APP_ID: "594255860733170"
 
+development:
+  HOST_URL: "http://192.168.1.41:3000"
+production:
+  HOST_URL: "http://cgmeetupdev.herokuapp.com"
