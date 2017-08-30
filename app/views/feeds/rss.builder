@@ -1,7 +1,7 @@
 #encoding: UTF-8
 
 xml.instruct! :xml, :version => "1.0"
-xml.rss :version => "2.0" do
+xml.rss version: "2.0", "xmlns:media" => "http://search.yahoo.com/mrss/", "xmlns:atom" => "http://www.w3.org/2005/Atom" do
   xml.channel do
     xml.title "CGMeetup"
     xml.author "Joh Warner"
@@ -20,6 +20,9 @@ xml.rss :version => "2.0" do
         xml.totalComments post.comment_count
         xml.totalViews post.view_count
         xml.author post.user.username
+        if post.company_logo.present?
+          xml.media(:thumbnail, url: root_url + post.company_logo.url(:thumb), type: "image/jpeg")
+        end
       end
     end
 
@@ -38,6 +41,9 @@ xml.rss :version => "2.0" do
         if job.city
           xml.city job.city
         end
+        if job.company_logo.present?
+          xml.media(:thumbnail, url: root_url + job.company_logo.url(:thumb), type: "image/jpeg")
+        end
       end
     end
 
@@ -50,18 +56,24 @@ xml.rss :version => "2.0" do
         xml.totalLikes download.like_count
         xml.totalComments download.comment_count
         xml.totalViews download.view_count
+        if download.company_logo.present?
+          xml.media(:thumbnail, url: root_url + download.company_logo.url(:thumb), type: "image/jpeg")
+        end
       end
     end
 
     for artist in @artists
       xml.item do
         xml.category 'artists'
-        xml.name artist.username
-        xml.link artist_profile_url(artist)
+        xml.title artist.username
+        xml.link artist_profile_url(artist.username)
         xml.type artist.profile_type
         xml.totalLikes artist.like_count
         xml.totalViews artist.view_count
         xml.totalFollowers artist.follow_count
+        if artist.image.present?
+          xml.media(:thumbnail, url: root_url + artist.image.url(:thumb), type: "image/jpeg")
+        end
       end
     end
 
@@ -73,7 +85,9 @@ xml.rss :version => "2.0" do
         xml.description n.description
         xml.totalLikes n.like_count
         xml.totalViews n.view_count
-
+        if n.company_logo.present?
+          xml.media(:thumbnail, url: root_url + n.company_logo.url(:thumb), type: "image/jpeg")
+        end
       end
     end
 
@@ -85,6 +99,9 @@ xml.rss :version => "2.0" do
         xml.description n.description
         xml.totalLikes n.like_count
         xml.totalViews n.view_count
+        if n.company_logo.present?
+          xml.media(:thumbnail, url: root_url + n.company_logo.url(:thumb), type: "image/jpeg")
+        end
       end
     end
 
@@ -96,6 +113,9 @@ xml.rss :version => "2.0" do
         xml.description n.description
         xml.totalLikes n.like_count
         xml.totalViews n.view_count
+        if n.company_logo.present?
+          xml.media(:thumbnail, url: root_url + n.company_logo.url(:thumb), type: "image/jpeg")
+        end
       end
     end
 
@@ -107,6 +127,9 @@ xml.rss :version => "2.0" do
         xml.description n.description
         xml.totalLikes n.like_count
         xml.totalViews n.view_count
+        if n.company_logo.present?
+          xml.media(:thumbnail, url: root_url + n.company_logo.url(:thumb), type: "image/jpeg")
+        end
       end
     end
   end
