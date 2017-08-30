@@ -12,7 +12,7 @@ class ApiController < ApplicationController
 
       data =  SoftwareExpertise.where(conditions).order('name ASC')
 
-      render json: {'data': data}, status: 200  
+      render json: {'data': data}, status: 200
 
   end
 
@@ -28,18 +28,18 @@ class ApiController < ApplicationController
 
       data =  Renderer.where(conditions).order('id ASC')
 
-      render json: {'data': data}, status: 200  
+      render json: {'data': data}, status: 200
 
   end
 
   def get_free_download_category_detail
 
          file_formats = FileFormat.select('id, name').where("status = true").order('id ASC')
-        
+
          result =  PostTypeCategory.where("parent_id IS NULL ").select("post_type_categories.*, (SELECT COUNT(*) FROM downloads WHERE   post_type_category_id::jsonb ?| array[cast(post_type_categories.id as text)] AND status=1 AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))) AS count_downloads, (SELECT slug FROM post_types WHERE  post_types.id= post_type_categories.post_type_id limit 1) AS post_type_slug").order('name ASC')
-          
-         render json: {'category_list': result, 'file_formats': file_formats}, status: 200  
-  end 
+
+         render json: {'category_list': result, 'file_formats': file_formats}, status: 200
+  end
 
 
   def get_latest_download
@@ -67,12 +67,12 @@ class ApiController < ApplicationController
   def get_monthly_summary
 
     @user_id = params[:user_id]
-    
+
     @monthly_summary = []
-    if @user_id 
+    if @user_id
       @monthly_summary = PurchasedProduct.joins(:download).where("downloads.user_id = ? AND downloads.is_admin = 'N' AND purchased_products.created_at IS NOT NULL", @user_id).select("SUM(purchased_products.price) AS total_price, (DATE_TRUNC('month', (purchased_products.created_at::timestamptz - INTERVAL '0 hour') AT TIME ZONE 'Etc/UTC') + INTERVAL '0 hour') AT TIME ZONE 'Etc/UTC' AS month").group('month').order('month DESC')
     end
-     
+
     render json: {'monthly_summary': @monthly_summary}, status: 200
 
   end
@@ -105,12 +105,12 @@ class ApiController < ApplicationController
   def get_monthly_tutorial_summary
 
     @user_id = params[:user_id]
-    
+
     @monthly_summary = []
-    if @user_id 
+    if @user_id
       @tutorial_summary = PurchasedTutorial.joins(:tutorial).where("tutorials.user_id = ? AND tutorials.is_admin = 'N' AND purchased_tutorials.created_at IS NOT NULL", @user_id).select("SUM(purchased_tutorials.price) AS total_price, (DATE_TRUNC('month', (purchased_tutorials.created_at::timestamptz - INTERVAL '0 hour') AT TIME ZONE 'Etc/UTC') + INTERVAL '0 hour') AT TIME ZONE 'Etc/UTC' AS month").group('month').order('month DESC')
     end
-     
+
     render json: {'tutorial_summary': @tutorial_summary}, status: 200
 
   end
@@ -127,16 +127,16 @@ class ApiController < ApplicationController
       if download_data.post_type_category_id.present?
           download_data.post_type_category_id.reject!{|a| a==""}
         data  = PostTypeCategory.find(download_data.post_type_category_id)
-      end 
+      end
 
       if download_data.software_used.present?
           download_data.software_used.reject!{|a| a==""}
           data1  = SoftwareExpertise.find(download_data.software_used)
-      end  
+      end
 
    # srdata1 = []
      srdata  = []
-     
+
       if download_data.zip_files.present?
           download_data.zip_files.each_with_index do |value, index|
             #abort(number_to_human_size(+File.size("#{value.zipfile.url}")).to_json)
@@ -147,22 +147,22 @@ class ApiController < ApplicationController
                value.renderer_version.reject!{|a| a==""}
                 sdata   = Hash.new
                value.software.each_with_index do |value1, index1|
-                   
+
                    sedata  = SoftwareExpertise.where("id = ?", value1).first
                    redata  = Renderer.where("id = ?", value.renderer[index1]).first
                    string[index1]  = { 'software_name': "#{sedata.name}", 'software_version': "#{value.software_version[index1]}",'renderer': "#{redata.name}",'renderer_version': "#{value.renderer_version[index1]}", 'file_size':  number_to_human_size("#{value.zipfile.url}".size) }
-              end 
+              end
                # sdata[index]      =  string
                 srdata.push string
-            end  
+            end
 
 
-        end  
+        end
 
       similar_download            = Download.where("paramlink !='" + paramlink  + "' AND is_featured = 0 AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
-      render json: {'download_data': download,'post_type_category_data': data, 'software_used_name': data1, 'similar_download': similar_download, 'zip_file_info': srdata}, status: 200  
+      render json: {'download_data': download,'post_type_category_data': data, 'software_used_name': data1, 'similar_download': similar_download, 'zip_file_info': srdata}, status: 200
 
-  end 
+  end
 
 
   def get_tutorial_info
@@ -178,23 +178,23 @@ class ApiController < ApplicationController
       if tutorial_data.sub_sub_topic.present?
           tutorial_data.sub_sub_topic.reject!{|a| a==""}
         data  = TutorialSubject.find(tutorial_data.sub_sub_topic)
-      end 
+      end
 
       if tutorial_data.software_used.present?
           tutorial_data.software_used.reject!{|a| a==""}
           data1  = SoftwareExpertise.find(tutorial_data.software_used)
-      end  
+      end
 
       topic_data = []
 
       if tutorial_data.topic.present?
           tutorial_data.topic.reject!{|a| a==""}
           topic_data  = Topic.find(tutorial_data.topic)
-      end 
+      end
 
    # srdata1 = []
      #srdata  = []
-     
+
       # if download_data.zip_files.present?
       #     download_data.zip_files.each_with_index do |value, index|
       #       #abort(number_to_human_size(+File.size("#{value.zipfile.url}")).to_json)
@@ -205,19 +205,19 @@ class ApiController < ApplicationController
       #          value.renderer_version.reject!{|a| a==""}
       #           sdata   = Hash.new
       #          value.software.each_with_index do |value1, index1|
-                   
+
       #              sedata  = SoftwareExpertise.where("id = ?", value1).first
       #              redata  = Renderer.where("id = ?", value.renderer[index1]).first
       #              string[index1]  = { 'software_name': "#{sedata.name}", 'software_version': "#{value.software_version[index1]}",'renderer': "#{redata.name}",'renderer_version': "#{value.renderer_version[index1]}", 'file_size':  number_to_human_size("#{value.zipfile.url}".size) }
-      #         end 
+      #         end
       #          # sdata[index]      =  string
       #           srdata.push string
-      #       end  
+      #       end
 
 
-      #   end  
+      #   end
       featured_tutorials            = Tutorial.where("is_featured = 1 AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
-     
+
       similar_tutorial            = Tutorial.where("paramlink !='" + paramlink  + "' AND is_featured = 0 AND visibility = 1 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
       tutorial_data_final = JSON.parse(tutorial_data.to_json(:include => [:user]))
       featured_tutorials_final = JSON.parse(featured_tutorials.to_json(:include => [:user]))
@@ -227,47 +227,47 @@ class ApiController < ApplicationController
       @is_purchased = false
 
       if current_user.present?
-       
+
         purchased_product = PurchasedTutorial.where('user_id = ? AND tutorial_id = ?', current_user.id, tutorial_data_final['id']).limit(1).count
 
         if purchased_product > 0
           @is_purchased = true
-        end  
-      end 
+        end
+      end
 
-      render json: {'tutorial_data': tutorial_data_final , 'all_chapters_data': all_chapters_data ,'similar_tutorial': similar_tutorial, 'topic_data': topic_data   , 'tag_data': tutorial_data.tags ,'subject_data': data, 'software_used_name': data1, 'featured_tutorials': featured_tutorials_final, 'is_purchased': @is_purchased}, status: 200  
+      render json: {'tutorial_data': tutorial_data_final , 'all_chapters_data': all_chapters_data ,'similar_tutorial': similar_tutorial, 'topic_data': topic_data   , 'tag_data': tutorial_data.tags ,'subject_data': data, 'software_used_name': data1, 'featured_tutorials': featured_tutorials_final, 'is_purchased': @is_purchased}, status: 200
 
-  end 
+  end
 
   def get_news_info
 
       paramlink     =   params[:paramlink]
 
       news_data = News.where("paramlink=? AND is_approved = ?",paramlink,'TRUE').first
-      
+
       data   = []
       data1  = []
      # abort(download_data.to_json)
       if news_data.category_id.present?
         news_data.category_id.reject!{|a| a==""}
         data  = NewsCategory.find(news_data.category_id)
-      end 
+      end
 
       if news_data.software_used.present?
         news_data.software_used.reject!{|a| a==""}
         data1  = SoftwareExpertise.find(news_data.software_used)
-      end  
+      end
 
       # topic_data = []
 
       # if tutorial_data.topic.present?
       #     tutorial_data.topic.reject!{|a| a==""}
       #     topic_data  = Topic.find(tutorial_data.topic)
-      # end 
+      # end
 
       #condition_inner = "is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone)) "
       featured_news            = News.where("is_featured = 1 AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
-     
+
       similar_news            = News.where("paramlink !='" + paramlink  + "' AND is_featured = 0 AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
       news_data_final = JSON.parse(news_data.to_json(:include => [:user]))
       featured_news_final = JSON.parse(featured_news.to_json(:include => [:user]))
@@ -277,18 +277,18 @@ class ApiController < ApplicationController
       # @is_purchased = false
 
       # if current_user.present?
-       
+
       #   purchased_product = PurchasedTutorial.where('user_id = ? AND tutorial_id = ?', current_user.id, tutorial_data_final['id']).limit(1).count
 
       #   if purchased_product > 0
       #     @is_purchased = true
-      #   end  
-      # end 
+      #   end
+      # end
 
-      render json: {'news_data': news_data_final ,'similar_news': similar_news , 'news_content_data': all_news_media_data ,'category_data': data , 'tag_data': news_data.tags, 'software_used_name': data1, 'featured_news': featured_news_final}, status: 200  
+      render json: {'news_data': news_data_final ,'similar_news': similar_news , 'news_content_data': all_news_media_data ,'category_data': data , 'tag_data': news_data.tags, 'software_used_name': data1, 'featured_news': featured_news_final}, status: 200
 
-  end 
-  
+  end
+
   protect_from_forgery except: [:check_valid_coupon_code]
 
   def check_valid_coupon_code
@@ -317,13 +317,13 @@ class ApiController < ApplicationController
                     if  is_applied < is_code_exist.no_of_use
 
                         cartdata.each_with_index do |value, index|
-                                   
+
                             if value[:type] == 'download'
 
                                 download_data   = Download.where("product_id=?", value[:sku]).first
 
                                 if (download_data.user_id == is_code_exist.user_id) && ((download_data.is_admin == 'Y' && is_code_exist.is_admin == 'Y') || (download_data.is_admin == 'N' && is_code_exist.is_admin == 'N'))
-                                    
+
                                     is_success = true
                                     applied_products.push value[:sku]
                                 end
@@ -333,22 +333,22 @@ class ApiController < ApplicationController
                                 tutorial_data   = Tutorial.where("tutorial_id=?", value[:sku]).first
 
                                 if (tutorial_data.user_id == is_code_exist.user_id) && ((tutorial_data.is_admin == 'Y' && is_code_exist.is_admin == 'Y') || (tutorial_data.is_admin == 'N' && is_code_exist.is_admin == 'N'))
-                                    
+
                                     is_success = true
                                     applied_tutorials.push value[:sku]
                                 end
 
                             end
-                                
-                        end  
+
+                        end
                     else
                         resultcode  =  3
-                    end 
+                    end
                 else
                     resultcode  =  2
                 end
-            end 
-        end 
+            end
+        end
 
         if is_success
             result =    {'res': 1, 'message': 'Coupon code appied successfully', 'data': is_code_exist, 'applied_products': applied_products, 'applied_tutorials': applied_tutorials}
@@ -358,9 +358,9 @@ class ApiController < ApplicationController
             result =    {'res': 3, 'message': 'Coupon has already used', 'data': '', 'applied_products': applied_products, 'applied_tutorials': applied_tutorials}
         else
             result =    {'res': 0, 'message': 'Invalid Coupon', 'data': '', 'applied_products': applied_products, 'applied_tutorials': applied_tutorials}
-        end  
+        end
 
-        render json: result, status: 200  
+        render json: result, status: 200
   end
 
 
@@ -369,14 +369,14 @@ class ApiController < ApplicationController
   def get_featured_news
 
       featured_news = News.where("is_featured = 1 AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(8)
-      
-      render json: featured_news, status: 200  
+
+      render json: featured_news, status: 200
 
   end
 
   def get_site_setting
       data = SiteSetting.first
-      render json: data, status: 200  
+      render json: data, status: 200
   end
 
   def get_community
@@ -389,7 +389,7 @@ class ApiController < ApplicationController
             if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
               post_data = Category.find_by(name: params[:post_type])
               if params[:category]!='null'
-                category_data = SubjectMatter.find_by(name: params[:category])   
+                category_data = SubjectMatter.find_by(name: params[:category])
                 community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
               else
                 community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
@@ -398,7 +398,7 @@ class ApiController < ApplicationController
               medium_category_data = MediumCategory.find_by(name: params[:post_type])
               community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
             end
-          else 
+          else
               community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
           end
         elsif filter_type == 'latest'
@@ -406,7 +406,7 @@ class ApiController < ApplicationController
             if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
               post_data = Category.find_by(name: params[:post_type])
               if params[:category]!='null'
-                category_data = SubjectMatter.find_by(name: params[:category])   
+                category_data = SubjectMatter.find_by(name: params[:category])
                 community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
               else
                 community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
@@ -415,7 +415,7 @@ class ApiController < ApplicationController
               medium_category_data = MediumCategory.find_by(name: params[:post_type])
               community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
             end
-          else 
+          else
               community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
           end
         elsif filter_type == 'featured'
@@ -424,7 +424,7 @@ class ApiController < ApplicationController
             if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
               post_data = Category.find_by(name: params[:post_type])
               if params[:category]!='null'
-                category_data = SubjectMatter.find_by(name: params[:category])   
+                category_data = SubjectMatter.find_by(name: params[:category])
                 community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
               else
                 community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
@@ -433,7 +433,7 @@ class ApiController < ApplicationController
               medium_category_data = MediumCategory.find_by(name: params[:post_type])
               community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
             end
-          else 
+          else
               community_data = Gallery.where("is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
           end
         elsif filter_type == 'wip'
@@ -447,7 +447,7 @@ class ApiController < ApplicationController
             if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
               post_data = Category.find_by(name: params[:post_type])
               if params[:category]!='null'
-                category_data = SubjectMatter.find_by(name: params[:category])   
+                category_data = SubjectMatter.find_by(name: params[:category])
                 community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(61)
               else
                 community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(61)
@@ -456,7 +456,7 @@ class ApiController < ApplicationController
               medium_category_data = MediumCategory.find_by(name: params[:post_type])
               community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(61)
             end
-          else 
+          else
               community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(61)
           end
         elsif filter_type == 'following'
@@ -469,7 +469,7 @@ class ApiController < ApplicationController
             if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
               post_data = Category.find_by(name: params[:post_type])
               if params[:category]!='null'
-                category_data = SubjectMatter.find_by(name: params[:category])   
+                category_data = SubjectMatter.find_by(name: params[:category])
                 community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
               else
                 community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
@@ -478,7 +478,7 @@ class ApiController < ApplicationController
               medium_category_data = MediumCategory.find_by(name: params[:post_type])
               community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
             end
-          else 
+          else
               community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(61)
           end
         elsif filter_type == 'latest'
@@ -486,7 +486,7 @@ class ApiController < ApplicationController
             if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
               post_data = Category.find_by(name: params[:post_type])
               if params[:category]!='null'
-                category_data = SubjectMatter.find_by(name: params[:category])   
+                category_data = SubjectMatter.find_by(name: params[:category])
                 community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
               else
                 community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
@@ -495,7 +495,7 @@ class ApiController < ApplicationController
               medium_category_data = MediumCategory.find_by(name: params[:post_type])
               community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
             end
-          else 
+          else
               community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(61)
           end
         elsif filter_type == 'featured'
@@ -504,7 +504,7 @@ class ApiController < ApplicationController
             if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
               post_data = Category.find_by(name: params[:post_type])
               if params[:category]!='null'
-                category_data = SubjectMatter.find_by(name: params[:category])   
+                category_data = SubjectMatter.find_by(name: params[:category])
                 community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
               else
                 community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
@@ -513,7 +513,7 @@ class ApiController < ApplicationController
               medium_category_data = MediumCategory.find_by(name: params[:post_type])
               community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
             end
-          else 
+          else
               community_data = Gallery.where("is_featured = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(102)
           end
         elsif filter_type == 'wip'
@@ -527,7 +527,7 @@ class ApiController < ApplicationController
             if params[:post_type] == 'Wip' || params[:post_type] == 'Artwork' || params[:post_type] == 'Video'
               post_data = Category.find_by(name: params[:post_type])
               if params[:category]!='null'
-                category_data = SubjectMatter.find_by(name: params[:category])   
+                category_data = SubjectMatter.find_by(name: params[:category])
                 community_data = Gallery.where("subject_matter_id::jsonb ?| array['" + category_data.id.to_s + "'] AND post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(102)
               else
                 community_data = Gallery.where("post_type_category_id = "+post_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(102)
@@ -536,7 +536,7 @@ class ApiController < ApplicationController
               medium_category_data = MediumCategory.find_by(name: params[:post_type])
               community_data = Gallery.where("medium_category_id = "+medium_category_data.id.to_s+" AND is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(102)
             end
-          else 
+          else
               community_data = Gallery.where("is_featured = FALSE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('like_count DESC').limit(102)
           end
         elsif filter_type == 'following'
@@ -545,101 +545,101 @@ class ApiController < ApplicationController
         end
       end
       if community_data.present?
-        all_community_data = JSON.parse(community_data.to_json(:include => [:images]))
+        all_community_data = JSON.parse(community_data.to_json(:include => [:images, :videos, :upload_videos, :sketchfebs, :marmo_sets]))
       end
-      render json: {'community_data': all_community_data ,'follow_user_data': follow_user_data, 'home_layout_type': home_layout_type.home_page_layout_type }, status: 200 
+      render json: {'community_data': all_community_data ,'follow_user_data': follow_user_data, 'home_layout_type': home_layout_type.home_page_layout_type }, status: 200
   end
-  
+
 
   def get_news_behined_scenes
       news_category = NewsCategory.find_by(name: 'Production Coverage')
       #abort(news_category.id.to_json)
-     
+
       news_data = News.where("category_id::jsonb ?| array['" + news_category.id.to_s + "'] AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
       #news_content_data = JSON.parse(news_data.to_json(:include => [:user]))
-      render json: {'news_data': news_data ,'news_category': news_category }, status: 200  
+      render json: {'news_data': news_data ,'news_category': news_category }, status: 200
   end
 
   def get_news_press_release
       news_category = NewsCategory.find_by(name: 'Industry News')
       #abort(news_category.id.to_json)
-     
+
       news_data = News.where("category_id::jsonb ?| array['" + news_category.id.to_s + "'] AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(3)
       news_content_data = JSON.parse(news_data.to_json(:include => [:user]))
-      render json: {'news_content_data': news_content_data ,'news_category': news_category }, status: 200  
+      render json: {'news_content_data': news_content_data ,'news_category': news_category }, status: 200
   end
 
   def get_news_movies_film_trailors
       news_category = NewsCategory.find_by(name: 'Trailers')
       #abort(news_category.id.to_json)
-     
+
       news_data = News.where("category_id::jsonb ?| array['" + news_category.id.to_s + "'] AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
-      
-      render json: {'news_data': news_data ,'news_category': news_category }, status: 200  
+
+      render json: {'news_data': news_data ,'news_category': news_category }, status: 200
   end
 
   def get_news_tutorials_free_source
       news_category = NewsCategory.find_by(name: 'Tutorials')
       #abort(news_category.id.to_json)
-     
+
       news_data = News.where("category_id::jsonb ?| array['" + news_category.id.to_s + "'] AND is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
-      
-      render json: {'news_data': news_data ,'news_category': news_category }, status: 200  
+
+      render json: {'news_data': news_data ,'news_category': news_category }, status: 200
   end
 
   def get_jobs
       jobs_detail = Job.where("is_approved = TRUE AND visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(6)
       jobs_data = JSON.parse(jobs_detail.to_json(:include => [:country]))
-      
-      render json: jobs_data, status: 200  
+
+      render json: jobs_data, status: 200
   end
 
   def get_downloads
       download_data = Download.where("visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('random()').limit(4)
-      
-      render json: download_data, status: 200  
+
+      render json: download_data, status: 200
   end
 
   def get_latest_post
       latest_post_data = Gallery.where("visibility = 0 AND status = 1 AND show_on_cgmeetup = TRUE AND (publish = 1 OR (publish = 0 AND to_timestamp(schedule_time, 'YYYY-MM-DD hh24:mi')::timestamp without time zone <= CURRENT_TIMESTAMP::timestamp without time zone))").order('id DESC').limit(8)
-      
-      render json: latest_post_data, status: 200  
-  end  
+
+      render json: latest_post_data, status: 200
+  end
 
   def get_top_artist
       artist_data = User.where("profile_type = ?", 'Artist').order('like_count DESC').limit(20)
-      
-      render json: artist_data, status: 200  
+
+      render json: artist_data, status: 200
   end
 
   def get_post_type_category
       post_type = Category.all
 
       media_category = MediumCategory.all
-      
+
       post_type_id = params[:post_id]
       #post_type_id = '1'
         if post_type_id.present?
-           subject_data = SubjectMatter.where(parent_id: post_type_id) 
-           
+           subject_data = SubjectMatter.where(parent_id: post_type_id)
+
         end
 
-      render json: {'post_type': post_type ,'media_category': media_category }, status: 200  
+      render json: {'post_type': post_type ,'media_category': media_category }, status: 200
   end
   def get_subject_type
-      
+
       post_type_id = params[:post_id]
       #post_type_id = '1'
         if post_type_id.present?
-           subject_data = SubjectMatter.where(parent_id: post_type_id) 
-           
+           subject_data = SubjectMatter.where(parent_id: post_type_id)
+
         end
 
-      render json: {'subject_data': subject_data }, status: 200  
+      render json: {'subject_data': subject_data }, status: 200
   end
   def home_setting_visibility
     visibality = SiteSetting.first
-    render json: {'visibality': visibality }, status: 200 
+    render json: {'visibality': visibality }, status: 200
   end
 
   ########### API for home page end ###################

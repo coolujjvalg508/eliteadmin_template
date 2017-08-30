@@ -96,18 +96,18 @@
 <% if @slider_news_data.present? %>
   <div class="clearfix homeslider">
       <div class="container">
-        <div class="HomeSlideLeft clearfix" id="ninja-slider">
+	        <div class="HomeSlideLeft clearfix" id="ninja-slider">
 
-            <div class="slider-inner">
-              <ul>
-                <% @slider_news_data.each do |slider_data| %>
-                  <li><a class="" href="news/<%= slider_data.paramlink %>/show"><image class="ns-img" src="<%= slider_data.company_logo.large_image.url %>"></image></a></li>
-                <% end %>
-                  
-              </ul>
-              <div class="fs-icon" title="Expand/Close"></div>
-            </div>
-        </div>
+	            <div class="slider-inner">
+	              <ul>
+	                <% @slider_news_data.each do |slider_data| %>
+	                  <li><a class="" href="news/<%= slider_data.paramlink %>/show"><image class="ns-img" src="<%= slider_data.company_logo.large_image.url %>"></image></a></li>
+	                <% end %>
+
+	              </ul>
+	              <div class="fs-icon" title="Expand/Close"></div>
+	            </div>
+	        </div>
         <div class="HomeSlideRight clearfix" id="thumbnail-slider">
             <div class="inner">
               <ul>
@@ -169,22 +169,48 @@
 </nav>
 </section>
 
+	<span ng-if="type == 'community'">
+	  <md-grid-list style="background: #171717;" md-cols="10" md-cols-sm="10" md-cols-md="10" md-cols-gt-md="10" md-row-height-gt-md="1:1" md-row-height="4:3"
+	    md-gutter-gt-md="0px">
 
-  <md-grid-list style="background: #171717;" md-cols="10" md-cols-sm="10" md-cols-md="10" md-cols-gt-md="10" md-row-height-gt-md="1:1" md-row-height="4:3"
-    md-gutter-gt-md="0px">
+	    <md-grid-tile ng-repeat="image in images" md-rowspan="{{($index===11 || $index===33 || $index===46 || $index===67 || $index===79 || $index===92)?2:1}}" md-colspan="{{($index===11 || $index===33 || $index===46 || $index===67 || $index===79 || $index===92)?2:1}}" md-colspan-sm="1"
+	      md-colspan-xs="1">
+	      <a ng-if="type !== 'following' && type !== 'contest' && image.company_logo.url" style="height: inherit;width: 100%;" href="/dashboard/projects/{{image.paramlink}}/show">
+					<!-- <div class="photowrap">
+							 <a ng-show = 'x.image.length > 0' href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a>
+							 <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a>
+							 <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#"><%= image_tag("3d-icon.png", :alt => "Video") %></a>
+					</div> -->
+					<img ng-src="{{image.company_logo.url}}" layout-fill/>
+				</a>
 
-    <md-grid-tile ng-repeat="image in images" md-rowspan="{{($index===11 || $index===33 || $index===46 || $index===67 || $index===79 || $index===92)?2:1}}" md-colspan="{{($index===11 || $index===33 || $index===46 || $index===67 || $index===79 || $index===92)?2:1}}" md-colspan-sm="1"
-      md-colspan-xs="1">
-      <a ng-if="type !== 'following' && type !== 'contest' && image.company_logo.url" style="height: inherit;width: 100%;" href="/dashboard/projects/{{image.paramlink}}/show"><img ng-src="{{image.company_logo.url}}" layout-fill/></a>
-      <a ng-if="type !== 'following' && type !== 'contest' && !image.company_logo.url" style="height: inherit;width: 100%;" href="/dashboard/projects/{{image.paramlink}}/show"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
+	      <a ng-if="type !== 'following' && type !== 'contest' && !image.company_logo.url" style="height: inherit;width: 100%;" href="/dashboard/projects/{{image.paramlink}}/show"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
 
-      <a ng-if="type === 'contest' && image.company_logo.url" style="height: inherit;width: 100%;" href="/contest/{{image.id}}/show"><img ng-src="{{image.company_logo.url}}" layout-fill/></a>
-      <a ng-if="type === 'contest' && !image.company_logo.url" style="height: inherit;width: 100%;" href="/contest/{{image.id}}/show"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
+	      <a ng-if="type === 'contest' && image.company_logo.url" style="height: inherit;width: 100%;" href="/contest/{{image.id}}/show"><img ng-src="{{image.company_logo.url}}" layout-fill/></a>
+	      <a ng-if="type === 'contest' && !image.company_logo.url" style="height: inherit;width: 100%;" href="/contest/{{image.id}}/show"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
 
-      <a ng-if="type === 'following' && image.image.url" style="height: inherit;width: 100%;" href="/user-profile/{{image.username}}"><img ng-src="{{image.image.url}}" layout-fill/></a>
-      <a ng-if="type === 'following' && !image.image.url" style="height: inherit;width: 100%;" href="/user-profile/{{image.username}}"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
-    </md-grid-tile>
-  </md-grid-list>
+	      <a ng-if="type === 'following' && image.image.url" style="height: inherit;width: 100%;" href="/user-profile/{{image.username}}"><img ng-src="{{image.image.url}}" layout-fill/></a>
+	      <a ng-if="type === 'following' && !image.image.url" style="height: inherit;width: 100%;" href="/user-profile/{{image.username}}"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
+	    </md-grid-tile>
+	  </md-grid-list>
+	</span>
+	<span ng-if="type != 'community'">
+		<md-grid-list  style="background: #171717;" md-cols="6" md-cols-sm="6" md-cols-md="6" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="4:3"
+			md-gutter-gt-md="0px">
+
+			<md-grid-tile ng-repeat="image in images" md-rowspan="{{($index===11 || $index===33 || $index===46 || $index===67 || $index===79 || $index===92)?2:1}}" md-colspan="{{($index===11 || $index===33 || $index===46 || $index===67 || $index===79 || $index===92)?2:1}}" md-colspan-sm="1"
+				md-colspan-xs="1">
+				<a ng-if="type !== 'following' && type !== 'contest' && image.company_logo.url" style="height: inherit;width: 100%;" href="/dashboard/projects/{{image.paramlink}}/show"><img ng-src="{{image.company_logo.url}}" layout-fill/></a>
+				<a ng-if="type !== 'following' && type !== 'contest' && !image.company_logo.url" style="height: inherit;width: 100%;" href="/dashboard/projects/{{image.paramlink}}/show"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
+
+				<a ng-if="type === 'contest' && image.company_logo.url" style="height: inherit;width: 100%;" href="/contest/{{image.id}}/show"><img ng-src="{{image.company_logo.url}}" layout-fill/></a>
+				<a ng-if="type === 'contest' && !image.company_logo.url" style="height: inherit;width: 100%;" href="/contest/{{image.id}}/show"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
+
+				<a ng-if="type === 'following' && image.image.url" style="height: inherit;width: 100%;" href="/user-profile/{{image.username}}"><img ng-src="{{image.image.url}}" layout-fill/></a>
+				<a ng-if="type === 'following' && !image.image.url" style="height: inherit;width: 100%;" href="/user-profile/{{image.username}}"><img ng-src="assets/imageNotFound.png" layout-fill/></a>
+			</md-grid-tile>
+		</md-grid-list>
+	</span>
 </div>
 
 <!-- Content Start -->
