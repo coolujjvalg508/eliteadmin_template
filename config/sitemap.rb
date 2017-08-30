@@ -8,7 +8,7 @@ SitemapGenerator::Sitemap.create do
   add '/tutorials'
   add '/jobs'
   add '/contest'
-  add('/', images: Image.sitemap_images)
+  add('/', images: Image.sitemap_images + Gallery.sitemap_images)
   add('/', videos: UploadVideo.sitemap_videos + Video.sitemap_videos )
 end
 
