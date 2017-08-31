@@ -238,8 +238,10 @@
     };
 
         $scope.searchByPostType1 = function(id) {
-       // alert(id);
-        if(id == 1){
+        if (String(id) == '0') {
+           window.location.href='<%= browse_all_gallery_path %>';
+         }
+        else if(id == 1){
            window.location.href='<%= browse_all_artwork_path %>';
         }else if(id == 2){
           window.location.href='<%= browse_all_video_path %>';

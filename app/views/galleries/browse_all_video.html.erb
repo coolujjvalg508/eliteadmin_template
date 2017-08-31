@@ -14,7 +14,7 @@
       <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
         <div class="input-group stylish-input-group">
         <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
-  
+
           <span class="input-group-addon">
           <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
           </span> </div>
@@ -36,12 +36,12 @@
 
       <select class="custom-select medium-type-link"  ng-change="searchByMediumType(selected)" ng-model='selected'>
           <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">All</option>
-          <% 
+          <%
              if @medium_type.present?
                @medium_type.each_with_index do |value,index| #abort(value.to_json) %>
                 <option value = "<%= value.id %>" class="medium-type-link"  id="medium-type-link-<%= value.id %>"> <%= value['name'] %></option>
-          <% 
-              end 
+          <%
+              end
             end
           %>
       </select>
@@ -73,14 +73,14 @@
            <!--    <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li> -->
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(6)" class="post-type-link"  id="post-type-link-6" >Users</a></li>
-          
+
           </ul>
         </li>
        <li ng-if="post_type_category_value != 'Wip'" class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Category
             <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
             </a>
             <ul class="dropdown-menu">
-              <% 
+              <%
               if @medium_type.present?
               %>
               <li>
@@ -88,14 +88,14 @@
                     All
                   </a>
               </li>
-              <%  
+              <%
                     @medium_type.each do |val| %>
                       <li>
                         <a href="javascript:void(0);" ng-click="searchByMediumType('<%= val['id'] %>')" class="medium-type-link"  id="medium-type-link-<%= val['id'] %>">
                           <%= val['name'] %>
                         </a>
                       </li>
-                    <% end 
+                    <% end
                 end
               %>
 
@@ -124,23 +124,24 @@
     </div>
   </div>
     <div class=" videowrap clearfix">
-        <ul class="margin">
-
-          <li class="lists clearfix" dir-paginate="x in artwork_data | filter:search | itemsPerPage:20">
-             <div ng-repeat="y in videoinfo">
-                <div class="video-box1"> 
-                    <iframe title="Video" width="300" height="200" ng-src="{{ y }}" frameborder="0" allowfullscreen></iframe> 
-                </div>
-                <div class="video-title"><a href="/dashboard/projects/{{x.result.paramlink}}/show">{{ x.user.professional_headline }}</a></div>
-                <div class="clearfix">
+      <ul class="margin">
+        <li class="lists clearfix" dir-paginate="x in artwork_data | filter:search | itemsPerPage:20">
+           <div ng-repeat="y in videoinfo">
+              <div class="video-box1">
+                  <iframe title="Video" width="300" height="200" ng-src="{{ y }}" frameborder="0" allowfullscreen></iframe>
+              </div>
+              <div class="video-title">
+                <a href="/dashboard/projects/{{x.result.paramlink}}/show">{{ x.user.professional_headline }}</a>
+              </div>
+              <div class="clearfix">
                 <div class="video-by-txt pull-left">by <a href="#">{{x.user.firstname}} {{x.user.lastname}}</a></div>
                 <div class="like-video pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.result.like_count}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> {{x.result.view_count}}</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> {{x.result.comment_count}}</span> </div>
-                </div>
-            </div>   
-          </li>
-           <li style='width:100%; margin-top:2%; margin-bottom:2%;background: none;' ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li> 
-        </ul>
-    </div>   
+              </div>
+           </div>
+        </li>
+        <li style='width:100%; margin-top:2%; margin-bottom:2%;background: none;' ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li>
+      </ul>
+    </div>
    <div class="pagintionpage clearfix">
       <dir-pagination-controls
            max-size="1"
@@ -167,13 +168,13 @@
 
   // main page angular app start
   var app = angular.module('Browse_allvideo', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
- 
+
   app.controller('Browse_allvideoCtrl', function($sce, $scope, $http) {
-      
+
     $scope.filter = function() {
-        
-        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=2'; 
-        
+
+        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=2';
+
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
           list_url += '&is_feature=' + $scope.viewFeaturedType
         }
@@ -185,20 +186,19 @@
         if(typeof $scope.browse_by !== 'undefined' && $scope.browse_by != ''  && $scope.browse_by != 'all'){
           list_url += '&browse_by=' + $scope.browse_by
         }
-   
+
         $http.get(list_url).then(function (response) {
-          
-            resultdata            = [];
+
+            resultdata = [];
             angular.forEach(response.data, function(value, key){
                 resultdata.push(value);
-                videoinfo      = [];
-                angular.forEach(value.video_data, function(value1, key1){ 
-                      videoinfo[key1] = $sce.trustAsResourceUrl(value1.videoid); 
+                videoinfo = [];
+                angular.forEach(value.video_data, function(value1, key1){
+                      videoinfo[key1] = $sce.trustAsResourceUrl(value1.videoid);
                 });
             });
-
-            $scope.artwork_data              = resultdata; 
-            $scope.videoinfo                 = videoinfo;         
+            $scope.artwork_data = resultdata;
+            $scope.videoinfo = videoinfo;
           });
     };
     $scope.filter();
@@ -207,18 +207,18 @@
 
       angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
-      
+
       $scope.viewFeaturedType = value;
       $scope.filter();
 
     };
 
     $scope.searchByPostType = function(id) {
-        
+
         if(id == 1){
            window.location.href='<%= browse_all_artwork_path %>';
         }else if(id == 2){
-          
+
         }else if(id == 3){
           window.location.href='<%= browse_all_work_in_progress_path %>';
         }else if(id == 4){
@@ -234,7 +234,9 @@
     };
 
         $scope.searchByPostType1 = function(id) {
-       // alert(id);
+       if (String(id) == '0') {
+          window.location.href='<%= browse_all_gallery_path %>';
+        }
         if(id == 1){
            window.location.href='<%= browse_all_artwork_path %>';
         }else if(id == 2){
@@ -248,7 +250,7 @@
         }else if(id == 6){
           window.location.href='<%= browse_all_artist_path %>';
         }else{
-         
+
         }
 
     };
