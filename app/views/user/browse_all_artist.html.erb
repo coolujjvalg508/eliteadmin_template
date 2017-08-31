@@ -13,10 +13,10 @@
       <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
         <div class="input-group stylish-input-group">
           <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
-    
+
             <span class="input-group-addon">
             <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-            </span> 
+            </span>
         </div>
       </div>
       <div class="col-md-3 col-sm-4 col-xs-12 marginB10 text-left">
@@ -38,9 +38,9 @@
               <option value="" selected="selected">Select Profile Type</option>
               <option value="All" class="profile-type-link"  id="profile-type-link-all" selected="selected" >All</option>
               <option value="Artist" class="profile-type-link"  id="profile-type-link-Artist">Artist</option>
-              <option value="Recruiter" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</option>
+              <!-- <option value="Recruiter" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</option> -->
               <option value="Studio" class="profile-type-link"  id="profile-type-link-Studio">Companies</option>
-              
+
         </select>
 
       </div>
@@ -71,7 +71,7 @@
           <!--     <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li> -->
               <li class='active'><a href="javascript:void(0);"  ng-click="searchByPostType(6)" class="post-type-link"  id="post-type-link-6" >Users</a></li>
-          
+
           </ul>
         </li>
        <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"> {{ profile_type_value }}
@@ -80,8 +80,8 @@
           <ul class="dropdown-menu">
               <li><a href="javascript:void(0);"  ng-click="searchByProfileType('All')" class="profile-type-link"  id="profile-type-link-All">All</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByProfileType('Artist')" class="profile-type-link"  id="profile-type-link-Artist">Artist</a></li>
-              <li><a href="javascript:void(0);" ng-click="searchByProfileType('Recruiter')" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</a></li>
-              <li><a href="javascript:void(0);" ng-click="searchByProfileType('Studio')" class="profile-type-link"  id="profile-type-link-Studio">Studio</a></li>
+              <!-- <li><a href="javascript:void(0);" ng-click="searchByProfileType('Recruiter')" class="profile-type-link"  id="profile-type-link-Recruiter">Recruiter</a></li> -->
+              <li><a href="javascript:void(0);" ng-click="searchByProfileType('Studio')" class="profile-type-link"  id="profile-type-link-Studio">Companies</a></li>
           </ul>
         </li>
 
@@ -94,7 +94,7 @@
                 <li class="paddinT10 paddinB10">
                 <input type="text" placeholder="Search" class="form-control from-input"  ng-model="search.firstname">
                 </li>
-                <li class="dropdown pull-right recentdrop" role="presentation"> 
+                <li class="dropdown pull-right recentdrop" role="presentation">
                     <a aria-expanded="false" aria-haspopup="true" role="button" href="#" data-toggle="dropdown" class="dropdown-toggle">Recent <i class="fa fa-chevron-down fa-pad-left  blue-txt"></i> </a>
                          <ul class="dropdown-menu">
                         <li><a href="javascript:void(0);" id="sort-link-older" ng-click="searchByCreated('ASC', 'older')" class="sort-link" >Older</a></li>
@@ -112,7 +112,7 @@
 
                         <li class="clearfix" dir-paginate="x in user_data | filter:search | itemsPerPage:10">
                             <div class="row">
-                                <div class="col-md-2 col-sm-2 col-xs-4"> 
+                                <div class="col-md-2 col-sm-2 col-xs-4">
                                    <a href="/user-profile/{{x.username}}"><img lazy-img="<%= root_url %>{{ x.image.thumb.url }}" alt='User' class="img-responsive"></a>
                                 </div>
                                 <div class="col-md-5 col-sm-6 col-xs-8">
@@ -127,13 +127,13 @@
                                             {{ x.city }} , {{ x.country.name}}
                                     </div>
                                     <button type="button" class="btn-default"><i class="fa fa-check-circle" aria-hidden="true"></i> Following</button>
-                                    <span class="follow-companies">{{x.follow_count}}</span> 
-                                    <span class="white-txt txt13 marginR5"> 
+                                    <span class="follow-companies">{{x.follow_count}}</span>
+                                    <span class="white-txt txt13 marginR5">
                                         <i class="fa fa-thumbs-up marginR5" aria-hidden="true"></i> {{x.like_count}}
-                                    </span> 
+                                    </span>
                                     <span class="white-txt txt13 marginR5">
                                         <i class="fa fa-eye marginR5" aria-hidden="true"></i> {{x.view_count}}
-                                    </span> 
+                                    </span>
                                 </div>
                                 <div class="col-md-5 col-sm-4 col-xs-12" ng-show = "x.images.length > 0">
                                     <div class="border-radius followers-indent">
@@ -141,7 +141,7 @@
                                            <li ng-repeat="y in x.images | limitTo: 4">
                                                 <center><img src="{{y.image.thumb.url}}" class="img-responsive" alt="img"></center>
                                             </li>
-                                            
+
                                         </ul>
                                     </div>
                                 </div>
@@ -170,16 +170,16 @@
                                  <option value="">Select Country</option>
                                 <%  country.each_with_index do |value,index| #abort(value.to_json) %>
                                     <option id="country_<%= value.id %>" value = "<%= value.id %>" ><%= value.name %></option>
-                                <% end %>    
+                                <% end %>
                                 </select>
-                                 
+
 
                             </div>
                             <div class="form-group clearfix">
                                 <label for="City">City</label>
                                     <input type="text" class="form-control from-input" placeholder="Search" id="searchterms" ng-model='search.city'>
                             </div>
-                           
+
                          <!--    <div class="form-group">
                                 <label for="skills">Skills</label>
                                 <input type="text" class="form-control from-input" placeholder="Enter skill here" id="skills">
@@ -278,7 +278,7 @@
   // main page angular app start
   var app = angular.module('Browse_allartist', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
   app.controller('BrowseallartistCtrl', function($sce, $scope, $http) {
-      
+
     $scope.filter = function() {
 
             profiliname = ''
@@ -287,11 +287,11 @@
         }else{
                profiliname = 'Artist';
                $scope.profile_type_value  =  profiliname;
-        }     
+        }
 
 
-         list_url = '/user/get_artist_list?profile_type=Artist';     
-         angular.element( document.querySelectorAll( '#profile-type-link-'+profiliname) ).addClass('active');    
+         list_url = '/user/get_artist_list?profile_type=Artist';
+         angular.element( document.querySelectorAll( '#profile-type-link-'+profiliname) ).addClass('active');
 
         if(typeof $scope.order !== 'undefined' && $scope.order != ''){
           list_url += '&order=' + $scope.order
@@ -338,7 +338,7 @@
 
       angular.element( document.querySelectorAll( '.sort-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#sort-link-' + id ) ).addClass('active');
-      
+
       $scope.order = value;
       $scope.filter();
 
@@ -346,7 +346,7 @@
 
 
     $scope.searchByPostType = function(id) {
-        
+
         if(id == 1){
           window.location.href='<%= browse_all_artwork_path %>';
         }else if(id == 2){
@@ -358,7 +358,7 @@
         }else if(id == 5){
          /* window.location.href='<%= browse_all_awards_path %>';*/
         }else if(id == 6){
-          
+
         }else{
            window.location.href='<%= browse_all_gallery_path %>';
         }
@@ -380,13 +380,13 @@
         }else if(id == 6){
           window.location.href='<%= browse_all_artist_path %>';
         }else{
-         
+
         }
 
     };
 
      $scope.searchByCountry = function(value, id) {
-            
+
       $scope.country_id = value;
       $scope.filter();
 
@@ -407,18 +407,18 @@
           $scope.filter();
     };
 
-   
+
     $scope.unfollowuser = function(user_id) {
-       
+
       if(confirm('Are you sure?')){
            list_url = '/user/unfollow_user?user_id='+user_id;
              $http.get(list_url).then(function (response) {
            });
-      }    
-     
+      }
+
      $scope.filter();
-    
-    }; 
+
+    };
 
     $scope.browseBy = function(browse_by) {
 
@@ -436,4 +436,3 @@
   // main page angular app end
 angular.bootstrap(document.getElementById("Browse_allartist"), ['Browse_allartist']);
 </script>
-
