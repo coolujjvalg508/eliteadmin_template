@@ -13,7 +13,7 @@
       <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
         <div class="input-group stylish-input-group">
         <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
-  
+
           <span class="input-group-addon">
           <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
           </span> </div>
@@ -35,12 +35,12 @@
 
       <select class="custom-select medium-type-link"  ng-change="searchByMediumType(selected)" ng-model='selected'>
           <option value="" class="medium-type-link"  id="medium-type-link-all" selected="selected">All</option>
-          <% 
+          <%
              if @medium_type.present?
                @medium_type.each_with_index do |value,index| #abort(value.to_json) %>
                 <option value = "<%= value.id %>" class="medium-type-link"  id="medium-type-link-<%= value.id %>"> <%= value['name'] %></option>
-          <% 
-              end 
+          <%
+              end
             end
           %>
       </select>
@@ -74,14 +74,14 @@
             <!--   <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li> -->
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(6)" class="post-type-link"  id="post-type-link-6" >Users</a></li>
-          
+
           </ul>
         </li>
        <li ng-if="post_type_category_value != 'Wip'" class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-th txt15 marginR5" aria-hidden="true"></i> Category
             <div class="wip-down"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
             </a>
             <ul class="dropdown-menu">
-              <% 
+              <%
               if @medium_type.present?
               %>
               <li>
@@ -89,14 +89,14 @@
                     All
                   </a>
               </li>
-              <%  
+              <%
                     @medium_type.each do |val| %>
                       <li>
                         <a href="javascript:void(0);" ng-click="searchByMediumType('<%= val['id'] %>')" class="medium-type-link"  id="medium-type-link-<%= val['id'] %>">
                           <%= val['name'] %>
                         </a>
                       </li>
-                    <% end 
+                    <% end
                 end
               %>
 
@@ -110,14 +110,14 @@
               <!-- <li><a href="javascript:void(0);" ng-click="searchByFeatured('', 'all')" class="active featured-type-link"  id="featured-type-link-all">All</a></li>
               <li><a href="javascript:void(0);" ng-click="searchByFeatured('TRUE', 'yes')" class="featured-type-link"  id="featured-type-link-yes">Show Only Featured</a></li>
               <li><a href="javascript:void(0);" ng-click="searchByFeatured('FALSE', 'no')" class="featured-type-link"  id="featured-type-link-no">Show Without Featured</a></li>  -->
-            
+
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('RECENT', 'recent')" class="featured-type-link"  id="featured-type-link-recent">Recent</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('POPULAR', 'popular')" class="featured-type-link"  id="featured-type-link-popular">Popular</a></li>
             <!-- <li><a href="javascript:void(0);" ng-click="searchByFeatured('AWARDED', 'awarded')" class="featured-type-link"  id="featured-type-link-awarded">Awarded</a></li> -->
              <li class="divider" role="separator"></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPLIKED', 'top_liked')" class="featured-type-link"  id="featured-type-link-top_liked">Top Liked</a></li>
             <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPVIEWED', 'top_viewed')" class="featured-type-link"  id="featured-type-link-top_viewed">Top viewed</a></li>
-            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li> 
+            <li><a href="javascript:void(0);" ng-click="searchByFeatured('TOPCOMMENTED', 'top_commented')" class="featured-type-link"  id="featured-type-link-top_commented">Top Commented</a></li>
 
           </ul>
         </li>
@@ -129,24 +129,25 @@
 <div class=" artworkwrap clearfix">
     <ul class="margin">
        <li class="lists clearfix" dir-paginate="x in artwork_data | filter:search | itemsPerPage:50">
-                <div class="artcamera">   
-                  <a ng-show = 'x.image.length > 0' href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a> 
-                  <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a>
-                  <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#"><%= image_tag("3d-icon.png", :alt => "Video") %></a>
-                </div>
-                     <div class="clearfix userprowrap">
-                        <div class="userprofile-content clearfix">
-                          <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"><%#= image_tag("userpro-img.jpg", :alt => "User Profile",:class=>"img-responsive") %></div>
-                          <div class="userproright">
-                            <h2>{{x.user.professional_headline}} </h2>
-                           {{x.user.firstname}} {{x.user.lastname}} </div>
-                        </div>
-                      </div>
-               <a href="/dashboard/projects/{{x.result.paramlink}}/show">  
-                <img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height"></a>
-            </li> 
+          <div class="artcamera">
+            <a ng-show = 'x.image.length > 0' href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a>
+            <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a>
+            <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#"><%= image_tag("3d-icon.png", :alt => "Video") %></a>
+          </div>
+          <div class="clearfix userprowrap">
+            <div class="userprofile-content clearfix">
+              <div class="userproleft"><img lazy-img="<%= root_url %>{{ x.user.image.thumb.url }}" alt="User Profile" class="img-responsive"><%#= image_tag("userpro-img.jpg", :alt => "User Profile",:class=>"img-responsive") %></div>
+              <div class="userproright">
+                <h2>{{x.user.professional_headline}} </h2>
+               {{x.user.firstname}} {{x.user.lastname}} </div>
+            </div>
+          </div>
+          <a href="/dashboard/projects/{{x.result.paramlink}}/show">
+            <img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="Artwork" class="img-responsive download-img-height">
+          </a>
+       </li>
     </ul>
-</div> 
+</div>
 
   <div class="pagintionpage clearfix">
       <dir-pagination-controls
@@ -177,11 +178,11 @@
   var app = angular.module('Browse_allartwork', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
  // var app = angular.module('myApp', []);
   app.controller('Browse_allartworkCtrl', function($sce, $scope, $http) {
-      
+
     $scope.filter = function() {
-        
-        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=1'; 
-        
+
+        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=1';
+
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
           list_url += '&is_feature=' + $scope.viewFeaturedType
         }
@@ -193,15 +194,15 @@
         if(typeof $scope.browse_by !== 'undefined' && $scope.browse_by != ''  && $scope.browse_by != 'all'){
           list_url += '&browse_by=' + $scope.browse_by
         }
-   
+
         $http.get(list_url).then(function (response) {
-          
+
             resultdata            = [];
             angular.forEach(response.data, function(value, key){
                 resultdata.push(value);
             });
 
-            $scope.artwork_data              = resultdata;          
+            $scope.artwork_data              = resultdata;
           });
     };
     $scope.filter();
@@ -210,16 +211,16 @@
 
       angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
-      
+
       $scope.viewFeaturedType = value;
       $scope.filter();
 
     };
 
     $scope.searchByPostType = function(id) {
-        
+
         if(id == 1){
-          
+
         }else if(id == 2){
           window.location.href='<%= browse_all_video_path %>';
         }else if(id == 3){
@@ -251,7 +252,7 @@
         }else if(id == 6){
           window.location.href='<%= browse_all_artist_path %>';
         }else{
-         
+
         }
 
     };
