@@ -16,7 +16,7 @@
       <div class="col-md-4 col-sm-4 col-xs-12 marginB10">
         <div class="input-group stylish-input-group">
         <input type="text" class="form-control" maxlength="64" placeholder="Enter a keyword..." ng-model="search" />
-  
+
           <span class="input-group-addon">
           <button type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
           </span> </div>
@@ -62,7 +62,7 @@
             <!--   <li><a href="javascript:void(0);"  ng-click="searchByPostType(4)" class="post-type-link"  id="post-type-link-4" >Challenge</a></li>
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(5)" class="post-type-link"  id="post-type-link-5" >Awards</a></li> -->
               <li><a href="javascript:void(0);"  ng-click="searchByPostType(6)" class="post-type-link"  id="post-type-link-6" >Users</a></li>
-          
+
           </ul>
         </li>
         <li class="dropdown"> <a href="#" data-toggle="dropdown" class="dropdown-toggle">Featured
@@ -90,23 +90,29 @@
 
 <div class="wip-indent clearfix">
 <ul class="margin">
-          <li class="lists clearfix" dir-paginate="x in artwork_data| filter:search |itemsPerPage:10">
-              <div class="wip-pic">
-                <a href="/dashboard/projects/{{x.result.paramlink}}/show"><img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="WIP" class="img-responsive"></a>
-              </div>
-              <div class="wip-title"><a href="#">{{x.result.title}}</a></div>
-              <div class="clearfix">
-               <div class="wip-by-txt pull-left">by <a href="#">{{x.user.firstname}} {{x.user.lastname}}</a></div> <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.result.like_count}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> {{x.result.view_count}}</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> {{x.result.comment_count}}</span> </div>
-              </div>
-              <div class="wip-small clearfix">
-                <ul class="margin">
-                    <li class="lists" ng-repeat="y in x.image | limitTo: 5">
-                        <img src="{{y.image.thumb.url}}" class="img-responsive" alt="img">
-                    </li> 
-                </ul>
-              </div>
-            </li>
-             <li style='width:100%; margin-top:2%; margin-bottom:2%;background: none;' ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li> 
+  <li class="lists clearfix" dir-paginate="x in artwork_data| filter:search |itemsPerPage:10">
+    <div class="artcamera">
+      <a ng-show = 'x.image.length > 0' href="#"><%= image_tag("gallery-icon.png", :alt => "Gallery") %></a>
+      <a ng-show = 'x.video.length > 0 || x.upload_video.length > 0' href="#"><%= image_tag("video-icon.png", :alt => "Video") %></a>
+      <a ng-show = 'x.sketchfeb.length > 0 || x.marmoset.length > 0' href="#"><%= image_tag("3d-icon.png", :alt => "Video") %></a>
+    </div>
+    <div class="wip-pic">
+      <a href="/dashboard/projects/{{x.result.paramlink}}/show"><img lazy-img="<%= root_url %>{{ x.result.company_logo.browse_art_work.url }}" alt="WIP" class="img-responsive"></a>
+    </div>
+
+    <div class="wip-title"><a href="#">{{x.result.title}}</a></div>
+    <div class="clearfix">
+     <div class="wip-by-txt pull-left">by <a href="#">{{x.user.firstname}} {{x.user.lastname}}</a></div> <div class="like-wrap pull-right"> <span class="likeb"><i class="fa fa-thumbs-up" aria-hidden="true"></i> {{x.result.like_count}}</span> <span class="likeb"><i class="fa fa-eye" aria-hidden="true"></i> {{x.result.view_count}}</span> <span class="likeb"><i class="fa fa-comments" aria-hidden="true"></i> {{x.result.comment_count}}</span> </div>
+    </div>
+    <div class="wip-small clearfix">
+      <ul class="margin">
+          <li class="lists" ng-repeat="y in x.image | limitTo: 5">
+              <img src="{{y.image.thumb.url}}" class="img-responsive" alt="img">
+          </li>
+      </ul>
+    </div>
+  </li>
+  <li style='width:100%; margin-top:2%; margin-bottom:2%;background: none;' ng-hide="artwork_data.length" class="text-center err-msg no-result downbox">No Result Found!</li>
 </ul>
 </div>
    <div class="pagintionpage clearfix">
@@ -137,11 +143,11 @@
   // main page angular app start
   var app = angular.module('Browse_wip', ["angularUtils.directives.dirPagination", "angularLazyImg","MainModule"]);
   app.controller('Browse_wipCtrl', function($sce, $scope, $http) {
-      
+
     $scope.filter = function() {
-        
-        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=3'; 
-        
+
+        list_url = '/dashboard/projects/get_gallery_list?post_type_category_id=3';
+
         if(typeof $scope.viewFeaturedType !== 'undefined' && $scope.viewFeaturedType != ''){
           list_url += '&is_feature=' + $scope.viewFeaturedType
         }
@@ -149,15 +155,15 @@
         if(typeof $scope.browse_by !== 'undefined' && $scope.browse_by != ''  && $scope.browse_by != 'all'){
           list_url += '&browse_by=' + $scope.browse_by
         }
-   
+
         $http.get(list_url).then(function (response) {
-          
+
             resultdata            = [];
             angular.forEach(response.data, function(value, key){
                 resultdata.push(value);
             });
 
-            $scope.artwork_data              = resultdata;    
+            $scope.artwork_data              = resultdata;
           });
     };
     $scope.filter();
@@ -166,20 +172,20 @@
 
       angular.element( document.querySelectorAll( '.featured-type-link' ) ).removeClass('active');
       angular.element( document.querySelector( '#featured-type-link-' + id ) ).addClass('active');
-      
+
       $scope.viewFeaturedType = value;
       $scope.filter();
 
     };
 
     $scope.searchByPostType = function(id) {
-        
+
         if(id == 1){
            window.location.href='<%= browse_all_artwork_path %>';
         }else if(id == 2){
            window.location.href='<%= browse_all_video_path %>';
         }else if(id == 3){
-         
+
         }else if(id == 4){
           /*window.location.href='<%= browse_all_challenge_path %>';*/
         }else if(id == 5){
@@ -207,7 +213,7 @@
         }else if(id == 6){
           window.location.href='<%= browse_all_artist_path %>';
         }else{
-         
+
         }
 
     };
