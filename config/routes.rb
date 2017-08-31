@@ -241,7 +241,7 @@ Rails.application.routes.draw do
 
 
     get 'artwork'               => 'galleries#browse_all_artwork', as: 'browse_all_artwork'
-    get 'gallery'               => 'galleries#browse_all_gallery', as: 'browse_all_gallery'
+    get 'portfolios'               => 'galleries#browse_all_gallery', as: 'browse_all_gallery'
     get 'videos'                => 'galleries#browse_all_video', as: 'browse_all_video'
     get 'wips'                  => 'galleries#browse_all_work_in_progress', as: 'browse_all_work_in_progress'
     get 'users'                 => 'user#browse_all_artist', as: 'browse_all_artist'
