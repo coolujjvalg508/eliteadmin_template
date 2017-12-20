@@ -1,9 +1,0 @@
-<%= form_for( @lesson, url: create_test_path, html: { id: 'tutorial_post_form',  role: "form", multipart: true }) do |f| %>
-
- <%= f.text_field :title , class: 'form-control from-input skill-input', id: 'media' %>
- <input type="file" name="chapter[media_contents_attributes][0][mediacontent]">
- <input type="text" name="chapter[media_contents_attributes][0][media_caption]">
- 
- <button type="submit" class="lightbtn" value="SaveDraft" name="commit">Save</button>
-<% end %>
-
